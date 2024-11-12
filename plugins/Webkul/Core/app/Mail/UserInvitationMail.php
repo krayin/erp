@@ -2,13 +2,13 @@
 
 namespace Webkul\Core\Mail;
 
-use Webkul\Core\Models\Invitation;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\URL;
+use Webkul\Core\Models\Invitation;
 
 class UserInvitationMail extends Mailable
 {

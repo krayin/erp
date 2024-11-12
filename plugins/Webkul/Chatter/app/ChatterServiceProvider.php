@@ -2,11 +2,9 @@
 
 namespace Webkul\Chatter;
 
+use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Illuminate\Support\Facades\Gate;
-use Spatie\Permission\Models\Role;
-use Livewire\Livewire;
 use Webkul\Chatter\Livewire\ChatterPanel;
 
 class ChatterServiceProvider extends PackageServiceProvider

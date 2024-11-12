@@ -1,10 +1,10 @@
 <?php
- 
+
 namespace Webkul\Chatter;
- 
+
 use Filament\Contracts\Plugin;
 use Filament\Panel;
- 
+
 class ChatterPlugin implements Plugin
 {
     public function getId(): string
@@ -16,7 +16,7 @@ class ChatterPlugin implements Plugin
     {
         return app(static::class);
     }
- 
+
     public function register(Panel $panel): void
     {
         $panel
@@ -25,7 +25,7 @@ class ChatterPlugin implements Plugin
             ->discoverClusters(in: $this->getPluginBasePath('/Filament/Clusters'), for: 'Webkul\\Chatter\\Filament\\Clusters')
             ->discoverClusters(in: $this->getPluginBasePath('/Filament/Widgets'), for: 'Webkul\\Chatter\\Filament\\Widgets');
     }
- 
+
     public function boot(Panel $panel): void
     {
         //
@@ -35,6 +35,6 @@ class ChatterPlugin implements Plugin
     {
         $reflector = new \ReflectionClass(get_class($this));
 
-        return dirname($reflector->getFileName()) . ($path ?? '');
+        return dirname($reflector->getFileName()).($path ?? '');
     }
 }

@@ -6,13 +6,13 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
 use Spatie\Permission\Models\Role;
-use Webkul\Core\Settings\UserSettings;
 use Webkul\Core\Filament\Clusters\Settings;
+use Webkul\Core\Settings\UserSettings;
 
 class ManageUsers extends SettingsPage
 {
     protected static ?string $cluster = Settings::class;
-    
+
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     protected static string $settings = UserSettings::class;
@@ -33,7 +33,7 @@ class ManageUsers extends SettingsPage
                     ->label('Default Role')
                     ->helperText('Role assigned to users upon registration via invitation.')
                     ->options(Role::all()->pluck('name', 'id'))
-                    ->searchable()
+                    ->searchable(),
             ]);
     }
 }

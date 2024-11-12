@@ -2,13 +2,13 @@
 
 namespace Webkul\Core;
 
+use Illuminate\Support\Facades\Gate;
+use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Role;
-use Livewire\Livewire;
-use Webkul\Core\Policies\RolePolicy;
 use Webkul\Core\Livewire\AcceptInvitation;
+use Webkul\Core\Policies\RolePolicy;
 
 class CoreServiceProvider extends PackageServiceProvider
 {
@@ -23,6 +23,8 @@ class CoreServiceProvider extends PackageServiceProvider
             ->hasRoute('web')
             ->hasMigrations([
                 '2024_11_11_112529_create_user_invitations_table',
+                '2024_11_12_125715_create_teams_table',
+                '2024_11_12_130019_create_user_team_table',
             ])
             ->runsMigrations();
     }

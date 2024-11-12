@@ -2,28 +2,36 @@
 
 namespace Webkul\Chatter\Livewire;
 
+use App\Models\User;
+use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
-use Filament\Forms;
+use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Contracts\View\View;
 
 class ChatterPanel extends Component implements HasForms
 {
-    use WithFileUploads, InteractsWithForms;
+    use InteractsWithForms, WithFileUploads;
 
     public $activeTab = 'send';
+
     public $message;
+
     public $selectedFollowers = [];
+
     public $attachments = [];
+
     public $logEntry;
+
     public $activity;
+
     public $files = [];
+
     public $users;
+
     public Model $record;
 
     protected $rules = [
@@ -113,7 +121,7 @@ class ChatterPanel extends Component implements HasForms
 
         foreach ($this->files as $file) {
             $path = $file->store('communications');
-            
+
             Communication::create([
                 'type' => 'file',
                 'content' => $path,

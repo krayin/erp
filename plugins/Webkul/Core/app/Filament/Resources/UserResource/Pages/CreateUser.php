@@ -2,8 +2,8 @@
 
 namespace Webkul\Core\Filament\Resources\UserResource\Pages;
 
-use Webkul\Core\Filament\Resources\UserResource;
 use Filament\Resources\Pages\CreateRecord;
+use Webkul\Core\Filament\Resources\UserResource;
 
 class CreateUser extends CreateRecord
 {

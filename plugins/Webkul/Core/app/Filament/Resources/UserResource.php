@@ -3,8 +3,8 @@
 namespace Webkul\Core\Filament\Resources;
 
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -45,7 +45,7 @@ class UserResource extends Resource
                             ->multiple()
                             ->preload(),
                     ])
-                    ->columns(2)
+                    ->columns(2),
             ]);
     }
 
@@ -68,12 +68,12 @@ class UserResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('roles') 
+                Tables\Filters\SelectFilter::make('roles')
                     ->relationship('roles', 'name')
                     ->options(fn (): array => Role::query()->pluck('name', 'id')->all())
                     ->multiple()
                     ->searchable()
-                    ->preload(), 
+                    ->preload(),
             ])
             ->filtersFormColumns(2)
             ->actions([

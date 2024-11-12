@@ -3,11 +3,10 @@
 namespace Webkul\Core\Filament\Resources\UserResource\Pages;
 
 use Filament\Actions;
-use Filament\Resources\Pages\ListRecords;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Resources\Components\Tab;
-use Illuminate\Database\Eloquent\Builder;
+use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\Mail;
 use Webkul\Core\Filament\Resources\UserResource;
 use Webkul\Core\Mail\UserInvitationMail;

@@ -75,7 +75,6 @@ class AcceptInvitation extends SimplePage
             'email' => $this->invitationModel->email,
         ]);
 
-
         $user->assignRole(app(UserSettings::class)->default_role_id);
 
         $this->invitationModel->delete();

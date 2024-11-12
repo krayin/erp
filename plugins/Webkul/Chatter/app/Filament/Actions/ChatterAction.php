@@ -2,11 +2,10 @@
 
 namespace Webkul\Chatter\Filament\Actions;
 
+use App\Models\Chat;
 use Filament\Actions\Action;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Contracts\View\View;
-use Parallax\FilamentComments\Models\FilamentComment;
-use App\Models\Chat;
 
 class ChatterAction extends Action
 {
@@ -31,6 +30,6 @@ class ChatterAction extends Action
             ->modalWidth(MaxWidth::Medium)
             ->modalSubmitAction(false)
             ->modalCancelAction(false);
-            // ->visible(fn (): bool => auth()->user()->can('viewAny', Chat::class));
+        // ->visible(fn (): bool => auth()->user()->can('viewAny', Chat::class));
     }
 }

@@ -3,15 +3,14 @@
 namespace Webkul\Chatter\Filament\Widgets;
 
 use Filament\Widgets\Widget;
-use Livewire\Component;
 
 class ChatterWidget extends Widget
 {
     protected static string $view = 'chatter::filament.widgets.chatter';
-    
+
     // Set this to true to make it span the full width
-    protected int | string | array $columnSpan = 'full';
-    
+    protected int|string|array $columnSpan = 'full';
+
     // Make it appear in the footer
     protected static string $type = 'footer';
 
