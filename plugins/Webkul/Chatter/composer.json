@@ -1,0 +1,30 @@
+{
+    "name": "webkul/chatter",
+    "description": "",
+    "authors": [
+        {
+            "name": "Jitendra Singh",
+            "email": "jitendra@webkul.in"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webkul\\Chatter\\Providers\\ChatterServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Webkul\\Chatter\\": "app/",
+            "Webkul\\Chatter\\Database\\Factories\\": "database/factories/",
+            "Webkul\\Chatter\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webkul\\Chatter\\Tests\\": "tests/"
+        }
+    }
+}
