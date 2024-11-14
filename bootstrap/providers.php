@@ -5,4 +5,5 @@ return [
     App\Providers\Filament\AdminPanelProvider::class,
     Webkul\Chatter\ChatterServiceProvider::class,
     Webkul\Core\CoreServiceProvider::class,
+    Webkul\Field\FieldServiceProvider::class,
 ];

@@ -3,9 +3,9 @@
 namespace Webkul\Chatter;
 
 use Livewire\Livewire;
-use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Webkul\Chatter\Livewire\ChatterPanel;
+use Webkul\Core\Package;
+use Webkul\Core\PackageServiceProvider;
 
 class ChatterServiceProvider extends PackageServiceProvider
 {
@@ -13,7 +13,7 @@ class ChatterServiceProvider extends PackageServiceProvider
 
     public static string $viewNamespace = 'chatter';
 
-    public function configurePackage(Package $package): void
+    public function configureCustomPackage(Package $package): void
     {
         $package->name(static::$name)
             ->hasViews()

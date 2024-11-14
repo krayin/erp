@@ -4,8 +4,6 @@ namespace Webkul\Core;
 
 use Illuminate\Support\Facades\Gate;
 use Livewire\Livewire;
-use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\Permission\Models\Role;
 use Webkul\Core\Livewire\AcceptInvitation;
 use Webkul\Core\Policies\RolePolicy;
@@ -16,7 +14,7 @@ class CoreServiceProvider extends PackageServiceProvider
 
     public static string $viewNamespace = 'core';
 
-    public function configurePackage(Package $package): void
+    public function configureCustomPackage(Package $package): void
     {
         $package->name(static::$name)
             ->hasViews()
@@ -26,7 +24,11 @@ class CoreServiceProvider extends PackageServiceProvider
                 '2024_11_12_125715_create_teams_table',
                 '2024_11_12_130019_create_user_team_table',
             ])
-            ->runsMigrations();
+            ->runsMigrations()
+            ->hasSettings([
+                '2024_11_05_042358_create_user_settings',
+            ])
+            ->runsSettings();
     }
 
     public function packageBooted(): void

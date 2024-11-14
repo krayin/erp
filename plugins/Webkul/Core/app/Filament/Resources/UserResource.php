@@ -26,7 +26,7 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('User Details')
+                Section::make('General')
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->required()
@@ -40,12 +40,25 @@ class UserResource extends Resource
                             ->required()
                             ->hiddenOn('edit')
                             ->maxLength(255),
+                        Forms\Components\TextInput::make('password_confirmation')
+                            ->password()
+                            ->label('Confirm New Password')
+                            ->hiddenOn('edit')
+                            ->rule('required', fn ($get) => (bool) $get('password'))
+                            ->same('password'),
+                    ])
+                    ->columns(2),
+                Section::make('Permissions')->schema([
                         Forms\Components\Select::make('roles')
                             ->relationship('roles', 'name')
                             ->multiple()
                             ->preload(),
+                        Forms\Components\Select::make('teams')
+                            ->relationship('teams', 'name')
+                            ->multiple()
+                            ->preload(),
                     ])
-                    ->columns(2),
+                    ->columns(2)
             ]);
     }
 
@@ -57,6 +70,7 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('teams.name'),
                 Tables\Columns\TextColumn::make('roles.name'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -68,6 +82,12 @@ class UserResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                Tables\Filters\SelectFilter::make('teams')
+                    ->relationship('teams', 'name')
+                    ->options(fn (): array => Role::query()->pluck('name', 'id')->all())
+                    ->multiple()
+                    ->searchable()
+                    ->preload(),
                 Tables\Filters\SelectFilter::make('roles')
                     ->relationship('roles', 'name')
                     ->options(fn (): array => Role::query()->pluck('name', 'id')->all())

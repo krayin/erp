@@ -24,6 +24,6 @@ class User extends BaseUser implements FilamentUser
      */
     public function teams(): BelongsToMany
     {
-        return $this->belongsToMany(Team::class);
+        return $this->belongsToMany(Team::class, 'user_team', 'user_id', 'team_id');
     }
 }
