@@ -18,6 +18,8 @@ class ChatterServiceProvider extends PackageServiceProvider
         $package->name(static::$name)
             ->hasViews()
             ->hasMigrations([
+                '2024_11_18_081018_create_tasks_table',
+                '2024_11_18_081030_create_chats_table',
             ])
             ->runsMigrations();
     }
