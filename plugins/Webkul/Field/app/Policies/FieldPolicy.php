@@ -63,7 +63,7 @@ class FieldPolicy
      */
     public function forceDelete(User $user, Field $field): bool
     {
-        return $user->can('{{ ForceDelete }}');
+        return $user->can('force_delete_field');
     }
 
     /**
@@ -71,7 +71,7 @@ class FieldPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('{{ ForceDeleteAny }}');
+        return $user->can('force_delete_any_field');
     }
 
     /**
@@ -79,7 +79,7 @@ class FieldPolicy
      */
     public function restore(User $user, Field $field): bool
     {
-        return $user->can('{{ Restore }}');
+        return $user->can('restore_field');
     }
 
     /**
@@ -87,7 +87,7 @@ class FieldPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('{{ RestoreAny }}');
+        return $user->can('restore_any_field');
     }
 
     /**
@@ -95,7 +95,7 @@ class FieldPolicy
      */
     public function replicate(User $user, Field $field): bool
     {
-        return $user->can('{{ Replicate }}');
+        return $user->can('replicate_field');
     }
 
     /**
@@ -103,6 +103,6 @@ class FieldPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('{{ Reorder }}');
+        return $user->can('reorder_field');
     }
 }

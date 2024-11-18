@@ -3,15 +3,17 @@
 namespace Webkul\Field\Filament\Resources;
 
 use Webkul\Field\Filament\Resources\FieldResource\Pages;
-use Webkul\Field\Filament\Resources\FieldResource\RelationManagers;
 use Webkul\Field\Models\Field;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Support\Enums\Alignment;
+use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\IconPosition;
+use Filament\Tables\Columns\TextColumn;
 
 class FieldResource extends Resource
 {
@@ -32,7 +34,6 @@ class FieldResource extends Resource
                         Forms\Components\Section::make()
                             ->schema([
                                 Forms\Components\TextInput::make('name')
-                                    ->email()
                                     ->required()
                                     ->maxLength(255),
                                 Forms\Components\TextInput::make('code')
@@ -45,7 +46,6 @@ class FieldResource extends Resource
                         Forms\Components\Section::make('Options')
                             ->visible(fn (Forms\Get $get): bool => in_array($get('type'), [
                                 'select',
-                                'checkbox',
                                 'checkbox_list',
                                 'radio',
                             ]))
@@ -114,6 +114,18 @@ class FieldResource extends Resource
                                     ->required()
                                     ->maxLength(255),
                             ]),
+                        
+                        Forms\Components\Section::make('Resource')
+                            ->schema([
+                                Forms\Components\Select::make('customizable_type')
+                                    ->required()
+                                    ->disabledOn('edit')
+                                    ->options(fn () => collect(Filament::getResources())->filter(fn($resource) => $resource !== self::class)->mapWithKeys(fn ($resource) => [
+                                        $resource::getModel() => str($resource)->afterLast('\\')->toString(),
+                                    ]))
+                                    ->searchable()
+                                    ->native(false)
+                            ]),
                     ])
                     ->columnSpan(['lg' => 1]),
             ])
@@ -124,26 +136,58 @@ class FieldResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('code')
+                    ->label('Code')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('type')
+                    ->label('Type'),
+                Tables\Columns\TextColumn::make('customizable_type')
+                    ->label('Resource')
+                    ->description(fn (Field $record): string => str($record->customizable_type)->afterLast('\\')->toString().'Resource'),
+                Tables\Columns\TextColumn::make('created_at')
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('type')
+                    ->label('Type')
+                    ->options([
+                        'text' => 'Text Input',
+                        'textarea' => 'Textarea',
+                        'select' => 'Select',
+                        'checkbox' => 'Checkbox',
+                        'radio' => 'Radio',
+                        'toggle' => 'Toggle',
+                        'checkbox_list' => 'Checkbox List',
+                        'datetime' => 'Date Time Picker',
+                        'editor' => 'Rich Text Editor',
+                        'markdown' => 'Markdown Editor',
+                        'color' => 'Color Picker',
+                    ]),
+                Tables\Filters\SelectFilter::make('customizable_type')
+                    ->label('Resource')
+                    ->options(fn () => collect(Filament::getResources())->filter(fn($resource) => $resource !== self::class)->mapWithKeys(fn ($resource) => [
+                        $resource::getModel() => str($resource)->afterLast('\\')->toString(),
+                    ])),
             ])
+            ->filtersFormColumns(2)
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make()
+                        ->hidden(fn ($record) => $record->trashed()),
+                    Tables\Actions\DeleteAction::make(),
+                    Tables\Actions\RestoreAction::make(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\ForceDeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
                 ]),
-            ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
+            ])
+            ->defaultSort('created_at', 'desc');
     }
 
     public static function getPages(): array
@@ -309,7 +353,7 @@ class FieldResource extends Resource
                                 ])
                                 ->required(),
                             Forms\Components\Select::make('value')
-                                ->label('Color')
+                                ->label('Value')
                                 ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                                     'gridDirection',
                                 ]))
@@ -355,35 +399,7 @@ class FieldResource extends Resource
         ];
     }
 
-    public static function getTableSettingsSchema(): array
-    {
-        return [
-            Forms\Components\Repeater::make('table_settings')
-                ->hiddenLabel()
-                ->schema([
-                    Forms\Components\Select::make('setting')
-                        ->options(fn (Forms\Get $get): array => static::getTypeTableSettings($get('../../type')))
-                        ->searchable()
-                        ->required()
-                        ->live(),
-                ])
-                ->addActionLabel('Add Setting')
-                ->columns(2)
-                ->collapsible()
-                ->itemLabel(function (array $state, Forms\Get $get): ?string {
-                    $settings = static::getTypeTableSettings($get('type'));
-                    
-                    return $settings[$state['setting']] ?? null;
-                }),
-        ];
-    }
-
-    public static function getInfolistConfigurationSchema(): array
-    {
-        return [];
-    }
-
-    public static function getTypeFormValidations($type): array
+    public static function getTypeFormValidations(?string $type): array
     {
         if (is_null($type)) {
             return [];
@@ -501,7 +517,7 @@ class FieldResource extends Resource
         return array_merge($typeValidations, $commonValidations);
     }
 
-    public static function getTypeFormSettings($type): array
+    public static function getTypeFormSettings(?string $type): array
     {
         if (is_null($type)) {
             return [];
@@ -718,7 +734,135 @@ class FieldResource extends Resource
         };
     }
 
-    public static function getTypeTableSettings($type): array
+    public static function getTableSettingsSchema(): array
+    {
+        return [
+            Forms\Components\Toggle::make('use_in_table')
+                ->required()
+                ->live(),
+            Forms\Components\Repeater::make('table_settings')
+                ->hiddenLabel()
+                ->visible(fn (Forms\Get $get): bool => $get('use_in_table'))
+                ->schema([
+                    Forms\Components\Select::make('setting')
+                        ->options(fn (Forms\Get $get): array => static::getTypeTableSettings($get('../../type')))
+                        ->searchable()
+                        ->required()
+                        ->live(),
+                    Forms\Components\TextInput::make('value')
+                        ->label('Value')
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
+                            'label',
+                            'default',
+                            'placeholder',
+                            'tooltip',
+                            'width',
+                            'money',
+                            'prefix',
+                            'suffix',
+                            'icon',
+                            'copyMessage',
+                            'dateTimeTooltip'
+                        ]))
+                        ->required(),
+                    
+                    Forms\Components\Select::make('value')
+                        ->label('Color')
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
+                            'iconColor',
+                        ]))
+                        ->options([
+                            'danger' => 'Danger',
+                            'info' => 'Info',
+                            'primary' => 'Primary',
+                            'secondary' => 'Secondary',
+                            'warning' => 'Warning',
+                            'success' => 'Success',
+                        ])
+                        ->required(),
+                    
+                    Forms\Components\Select::make('value')
+                        ->label('Alignment')
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
+                            'alignment',
+                            'verticalAlignment',
+                        ]))
+                        ->options([
+                            Alignment::Start->value => 'Start',
+                            Alignment::Left->value => 'Left',
+                            Alignment::Center->value => 'Center',
+                            Alignment::End->value => 'End',
+                            Alignment::Right->value => 'Right',
+                            Alignment::Justify->value => 'Justify',
+                            Alignment::Between->value => 'Between',
+                        ])
+                        ->required(),
+                    
+                    Forms\Components\Select::make('value')
+                        ->label('Font Weight')
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
+                            'weight',
+                        ]))
+                        ->options([
+                            FontWeight::Thin->name => 'Thin',
+                            FontWeight::ExtraLight->name => 'Extra Light',
+                            FontWeight::Light->name => 'Light',
+                            FontWeight::Normal->name => 'Normal',
+                            FontWeight::Medium->name => 'Medium',
+                            FontWeight::SemiBold->name => 'Semi Bold',
+                            FontWeight::Bold->name => 'Bold',
+                            FontWeight::ExtraBold->name => 'Extra Bold',
+                            FontWeight::Black->name => 'Black',
+                        ])
+                        ->required(),
+                    
+                    Forms\Components\Select::make('value')
+                        ->label('Icon Position')
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
+                            'iconPosition',
+                        ]))
+                        ->options([
+                            IconPosition::Before->value => 'Before',
+                            IconPosition::After->value => 'After',
+                        ])
+                        ->required(),
+                    
+                    Forms\Components\Select::make('value')
+                        ->label('Size')
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
+                            'size',
+                        ]))
+                        ->options([
+                            TextColumn\TextColumnSize::Small->name => 'Small',
+                            TextColumn\TextColumnSize::Medium->name => 'Medium',
+                            TextColumn\TextColumnSize::Large->name => 'Large',
+                        ])
+                        ->required(),
+                    
+                    Forms\Components\TextInput::make('value')
+                        ->label('Value')
+                        ->numeric()
+                        ->minValue(0)
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
+                            'limit',
+                            'words',
+                            'lineClamp',
+                            'copyMessageDuration',
+                        ]))
+                        ->required(),
+                ])
+                ->addActionLabel('Add Setting')
+                ->columns(2)
+                ->collapsible()
+                ->itemLabel(function (array $state, Forms\Get $get): ?string {
+                    $settings = static::getTypeTableSettings($get('type'));
+                    
+                    return $settings[$state['setting']] ?? null;
+                }),
+        ];
+    }
+
+    public static function getTypeTableSettings(?string $type): array
     {
         if (is_null($type)) {
             return [];
@@ -744,7 +888,7 @@ class FieldResource extends Resource
             'boolean' => 'Boolean',
             'width' => 'Width',
             'badge' => 'Badge',
-            'color' => 'Color',
+            'color' => 'Color', // TODO:
             'money' => 'Money',
             'limit' => 'Limit',
             'words' => 'Words',
@@ -771,7 +915,11 @@ class FieldResource extends Resource
             default => [],
         };
 
-
         return array_merge($typeSettings, $commonSettings);
+    }
+
+    public static function getInfolistSettingsSchema(): array
+    {
+        return [];
     }
 }

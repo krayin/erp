@@ -25,8 +25,11 @@ class TeamResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('Name')
                     ->required()
                     ->maxLength(255),
+                ...\Webkul\Field\Filament\Forms\Components\CustomFields::make(static::class)
+                    ->getSchema(),
             ]);
     }
 
@@ -35,7 +38,11 @@ class TeamResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->label('Name')
+                    ->searchable()
+                    ->sortable(),
+                ...\Webkul\Field\Filament\Tables\Columns\CustomColumns::make(static::class)
+                    ->getColumns(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

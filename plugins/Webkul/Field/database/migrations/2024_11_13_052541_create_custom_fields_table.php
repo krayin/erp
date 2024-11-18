@@ -20,11 +20,13 @@ return new class extends Migration
             $table->json('datalist')->nullable();
             $table->json('options')->nullable();
             $table->json('form_settings')->nullable();
+            $table->boolean('use_in_table')->default(0);
             $table->json('table_settings')->nullable();
             $table->json('infolist_settings')->nullable();
             $table->integer('sort_order')->nullable();
             $table->string('customizable_type');
             $table->unique(['code', 'customizable_type']);
+            $table->softDeletes();
             $table->timestamps();
 
             $table->index('code');
