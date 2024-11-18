@@ -7,11 +7,11 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
-use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
-use Webkul\Chatter\Models\Task;
+use Webkul\Chatter\Mail\SendMessage;
 
 class ChatterPanel extends Component implements HasForms
 {
@@ -21,8 +21,10 @@ class ChatterPanel extends Component implements HasForms
 
     public ?array $data = [];
 
-    public function mount(): void
+    public function mount(Model $record): void
     {
+        $this->record = $record;
+
         $this->form->fill([]);
     }
 
@@ -40,9 +42,7 @@ class ChatterPanel extends Component implements HasForms
                             ]),
                         Forms\Components\Tabs\Tab::make('Log')
                             ->schema([
-                                // Forms\Components\RichEditor::make('content')
-                                //     ->hiddenLabel()
-                                //     ->required(),
+                                // Logs or other components
                             ]),
                     ]),
             ])
@@ -53,14 +53,27 @@ class ChatterPanel extends Component implements HasForms
     {
         $data = $this->form->getState();
 
-        $task = Task::find(1);
+        $chat = $this->record->addChat($data['content'], auth()->user()->id);
 
-        $task->addChat($data['content'], auth()->user()->id);
+        try {
+            Mail::to($this->record->user->email)
+                ->send(new SendMessage($this->record, $data['content']));
 
-        Notification::make()
-            ->title('Message send successfully.')
-            ->success()
-            ->send();
+            $chat->update(['notified' => true]);
+
+            Notification::make()
+                ->title('Message sent successfully.')
+                ->success()
+                ->send();
+        } catch (\Exception $e) {
+            Notification::make()
+                ->title('Failed to send message.')
+                ->body($e->getMessage())
+                ->danger()
+                ->send();
+        }
+
+        $this->form->fill([]);
     }
 
     public function render(): View

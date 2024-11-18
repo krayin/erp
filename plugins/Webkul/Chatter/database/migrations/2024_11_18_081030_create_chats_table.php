@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('chats', function (Blueprint $table) {
             $table->id();
+            $table->boolean('notified')->default(false);
             $table->text('message');
             $table->morphs('chattable');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');

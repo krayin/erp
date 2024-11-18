@@ -6,6 +6,6 @@
             </h3>
         </div>
         
-        <livewire:chatter-panel />
+        <livewire:chatter-panel :record="$this->record" />
     </div>
 </div>
