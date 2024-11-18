@@ -3,15 +3,13 @@
 namespace Webkul\Chatter\Filament\Resources;
 
 use Webkul\Chatter\Filament\Resources\TaskResource\Pages;
-use Webkul\Chatter\Filament\Resources\TaskResource\RelationManagers;
 use Webkul\Chatter\Models\Task;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Webkul\Chatter\Enums\TaskStatus;
 
 class TaskResource extends Resource
 {
@@ -23,23 +21,40 @@ class TaskResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('description')
-                    ->columnSpanFull(),
-                Forms\Components\Select::make('status')
-                    ->options([
-                        'pending'     => 'Pending',
-                        'in_progress' => 'In Progress',
-                        'completed'   => 'Completed',
-                    ])
-                    ->default('pending')
-                    ->required(),
-                Forms\Components\DatePicker::make('due_date'),
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->required(),
+                Forms\Components\Section::make('Task Details')
+                    ->description('Provide the basic details about the task')
+                    ->schema([
+                        Forms\Components\TextInput::make('title')
+                            ->label('Task Title')
+                            ->required(),
+                        Forms\Components\Textarea::make('description')
+                            ->label('Task Description')
+                            ->rows(4),
+                    ]),
+    
+                Forms\Components\Section::make('Task Status')
+                    ->description('Specify the status and due date of the task')
+                    ->schema([
+                        Forms\Components\Select::make('status')
+                            ->label('Task Status')
+                            ->options(TaskStatus::options())
+                            ->default(TaskStatus::Pending->value)
+                            ->required(),
+                        Forms\Components\DatePicker::make('due_date')
+                            ->native(false)
+                            ->label('Due Date'),
+                    ]),
+    
+                Forms\Components\Section::make('Assignment')
+                    ->description('Assign this task to a user')
+                    ->schema([
+                        Forms\Components\Select::make('user_id')
+                            ->searchable()
+                            ->preload()
+                            ->relationship('user', 'name')
+                            ->label('Assigned To')
+                            ->required(),
+                    ]),
             ]);
     }
 
@@ -54,7 +69,7 @@ class TaskResource extends Resource
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
-                    ->numeric()
+                    ->label('Assigned To')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
