@@ -97,6 +97,7 @@ class ChatterPanel extends Component implements HasForms
                     ->tabs([
                         Forms\Components\Tabs\Tab::make('Send')
                             ->icon('heroicon-o-chat-bubble-oval-left-ellipsis')
+                            ->badge(fn () => $this->record->chats()->where('notified', 1)->count())
                             ->schema([
                                 Forms\Components\RichEditor::make('content')
                                     ->hiddenLabel()
@@ -112,8 +113,18 @@ class ChatterPanel extends Component implements HasForms
                             ]),
                         Forms\Components\Tabs\Tab::make('Log')
                             ->icon('heroicon-o-chat-bubble-oval-left')
+                            ->badge(fn () => $this->record->chats()->where('notified', 0)->count())
                             ->schema([
-                                // Logs or other components
+                                Forms\Components\RichEditor::make('log_content')
+                                    ->hiddenLabel()
+                                    ->placeholder('Type your message here...')
+                                    ->toolbarButtons([
+                                        'bold',
+                                        'italic',   
+                                        'link',
+                                        'orderedList',
+                                        'unorderedList',
+                                    ]),
                             ]),
                     ]),
             ])

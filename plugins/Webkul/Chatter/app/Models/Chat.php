@@ -11,7 +11,8 @@ class Chat extends Model
 {
     protected $fillable = [
         'message',
-        'user_id'
+        'user_id',
+        'notified',
     ];
 
     public function chattable(): MorphTo
