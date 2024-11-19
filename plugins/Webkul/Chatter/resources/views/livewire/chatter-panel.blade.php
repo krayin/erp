@@ -69,7 +69,11 @@
         <div class="space-y-6">
             @foreach($this->record->getLatestChats() as $chat)
                 <div class="group relative">
-                    <div class="flex gap-4 rounded-xl bg-gray-50 p-4 transition-all duration-200 hover:bg-gray-100/80">
+                    {{-- TODO: Handle this inline style. --}}
+                    <div 
+                        class="flex gap-4 rounded-xl bg-gray-50 p-4 transition-all duration-200 hover:bg-gray-100/80"
+                        style="word-break: break-all;"
+                    >
                         <!-- Profile Section -->
                         <div class="flex-shrink-0">
                             <img 

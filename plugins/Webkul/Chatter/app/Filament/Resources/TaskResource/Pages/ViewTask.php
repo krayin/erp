@@ -3,9 +3,9 @@
 namespace Webkul\Chatter\Filament\Resources\TaskResource\Pages;
 
 use Webkul\Chatter\Filament\Resources\TaskResource;
-use Filament\Actions\EditAction;
+use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
-use Webkul\Chatter\Filament\Actions\ChatterAction;
+use Webkul\Chatter\Filament\Actions as ChatterActions;
 
 class ViewTask extends ViewRecord
 {
@@ -14,8 +14,8 @@ class ViewTask extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            ChatterAction::make(),
-            EditAction::make(),
+            ChatterActions\ChatterAction::make(),
+            Actions\EditAction::make(),
         ];
     }
 }

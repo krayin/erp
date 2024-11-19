@@ -25,7 +25,7 @@ class ChatterAction extends Action
             ->slideOver()
             ->modalContentFooter(fn (): View => view('chatter::filament.widgets.chatter'))
             ->modalHeading('Chatter')
-            ->modalWidth(MaxWidth::FitContent)
+            ->modalWidth(MaxWidth::Large)
             ->modalSubmitAction(false)
             ->modalCancelAction(false);
     }
