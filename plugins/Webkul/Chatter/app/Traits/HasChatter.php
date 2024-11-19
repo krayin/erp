@@ -15,13 +15,6 @@ trait HasChatter
         return $this->morphMany(Chat::class, 'chattable');
     }
 
-    // public function followers(): MorphToMany
-    // {
-    //     return $this->morphToMany(User::class, 'followable', 'followers', 'followable_id', 'user_id')
-    //         ->withTimestamps()
-    //         ->withPivot('followed_at');
-    // }
-
     public function followers(): MorphToMany
     {
         return $this->morphToMany(User::class, 'followable', 'followers')

@@ -80,8 +80,6 @@ class ChatterPanel extends Component implements HasForms
                                         'link',
                                         'orderedList',
                                         'unorderedList',
-                                        'undo',
-                                        'redo',
                                     ])
                                     ->required(),
                             ]),
@@ -136,13 +134,16 @@ class ChatterPanel extends Component implements HasForms
         }
 
         try {
+            // Create the chat message
             $chat = $this->record->addChat($data['content'], auth()->id());
 
+            // Get all followers including the task owner
             $followers = collect([$this->record->user])
                 ->merge($this->followers)
                 ->unique('id')
-                ->filter(fn($user) => $user->id !== auth()->id());
+                ->filter(fn($user) => $user->id !== auth()->id()); // Exclude the sender
 
+            // Send emails to all followers
             foreach ($followers as $follower) {
                 Mail::to($follower->email)
                     ->queue(new SendMessage(

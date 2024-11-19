@@ -78,6 +78,7 @@ class TaskResource extends Resource
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('Assigned To')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('followers_count')->counts('followers'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
