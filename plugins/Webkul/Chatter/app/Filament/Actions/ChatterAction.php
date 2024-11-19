@@ -22,11 +22,10 @@ class ChatterAction extends Action
             ->hiddenLabel()
             ->icon('heroicon-s-chat-bubble-left-right')
             ->color('gray')
-            ->badge($this->record->chats->count())
             ->slideOver()
             ->modalContentFooter(fn (): View => view('chatter::filament.widgets.chatter'))
             ->modalHeading('Chatter')
-            ->modalWidth(MaxWidth::Medium)
+            ->modalWidth(MaxWidth::FitContent)
             ->modalSubmitAction(false)
             ->modalCancelAction(false);
     }

@@ -20,6 +20,7 @@ class ChatterServiceProvider extends PackageServiceProvider
             ->hasMigrations([
                 '2024_11_18_081018_create_tasks_table',
                 '2024_11_18_081030_create_chats_table',
+                '2024_11_18_124832_create_followers_table',
             ])
             ->runsMigrations();
     }

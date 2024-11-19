@@ -9,6 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Webkul\Chatter\Filament\Resources\TaskResource\Pages\ViewTask;
+use Webkul\Core\Models\User;
 
 class SendMessage extends Mailable
 {
@@ -20,6 +21,7 @@ class SendMessage extends Mailable
     public function __construct(
         public mixed $record,
         public string $content,
+        public User $sender,
     ) {}
 
     /**

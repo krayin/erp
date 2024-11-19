@@ -9,7 +9,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Webkul\Chatter\Enums\TaskStatus;
+use Webkul\Core\Models\User;
 
 class TaskResource extends Resource
 {
@@ -54,7 +56,12 @@ class TaskResource extends Resource
                             ->relationship('user', 'name')
                             ->label('Assigned To')
                             ->required(),
-                    ]),
+                        Forms\Components\Select::make('followers')
+                            ->label('Assign Followers')
+                            ->multiple()
+                            ->relationship('followers', 'name')
+                            ->preload()
+                    ])->columns(2),
             ]);
     }
 
