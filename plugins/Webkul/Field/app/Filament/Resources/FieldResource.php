@@ -14,6 +14,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Webkul\Field\Filament\Resources\FieldResource\Pages;
 use Webkul\Field\Models\Field;
+use Webkul\Field\FieldColumnManager;
 
 class FieldResource extends Resource
 {
@@ -182,13 +183,22 @@ class FieldResource extends Resource
                     Tables\Actions\EditAction::make()
                         ->hidden(fn ($record) => $record->trashed()),
                     Tables\Actions\DeleteAction::make(),
+                    Tables\Actions\ForceDeleteAction::make()
+                        ->before(function ($record) {
+                            FieldColumnManager::deleteColumn($record);
+                        }),
                     Tables\Actions\RestoreAction::make(),
                 ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
+                    Tables\Actions\ForceDeleteBulkAction::make()
+                        ->before(function ($records) {
+                            foreach ($records as $record) {
+                                FieldColumnManager::deleteColumn($record);
+                            }
+                        }),
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ])

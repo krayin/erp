@@ -14,4 +14,9 @@ class CreateField extends CreateRecord
     {
         FieldColumnManager::createColumn($this->record);
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->previousUrl ?? $this->getResource()::getUrl('index');
+    }
 }
