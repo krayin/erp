@@ -2,12 +2,10 @@
 
 namespace Webkul\Field\Filament\Resources\FieldResource\Pages;
 
-use Webkul\Field\Filament\Resources\FieldResource;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Webkul\Field\FieldColumnManager;
+use Webkul\Field\Filament\Resources\FieldResource;
 
 class EditField extends EditRecord
 {
@@ -19,7 +17,7 @@ class EditField extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
- 
+
     protected function afterSave(): void
     {
         FieldColumnManager::updateColumn($this->record);

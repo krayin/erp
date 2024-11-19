@@ -38,7 +38,7 @@ trait HasCustomFields
 
     /**
      * Add custom fields to fillable
-     * 
+     *
      * @param  array  $casts
      * @return $this
      */

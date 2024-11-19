@@ -3,8 +3,8 @@
 namespace Webkul\Field\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Webkul\Field\Models\Field;
 use Webkul\Core\Models\User;
+use Webkul\Field\Models\Field;
 
 class FieldPolicy
 {

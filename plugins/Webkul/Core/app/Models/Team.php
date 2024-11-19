@@ -9,7 +9,7 @@ use Webkul\Field\Traits\HasCustomFields;
 class Team extends Model
 {
     use HasCustomFields;
-    
+
     /**
      * Fillable.
      *

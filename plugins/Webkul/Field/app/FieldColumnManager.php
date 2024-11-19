@@ -14,7 +14,7 @@ class FieldColumnManager
     public static function createColumn(Field $field): void
     {
         $table = static::getTableName($field);
-        
+
         if (! Schema::hasTable($table)) {
             return;
         }
@@ -74,7 +74,7 @@ class FieldColumnManager
     protected static function addColumn(Blueprint $table, Field $field): void
     {
         $typeMethod = static::getColumnType($field);
-        
+
         // Create the column
         $column = $table->$typeMethod($field->code);
 
@@ -139,7 +139,7 @@ class FieldColumnManager
     protected static function getTableName(Field $field): string
     {
         $model = app($field->customizable_type);
-        
+
         return $model->getTable();
     }
 }

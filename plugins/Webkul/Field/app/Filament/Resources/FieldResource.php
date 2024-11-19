@@ -2,18 +2,18 @@
 
 namespace Webkul\Field\Filament\Resources;
 
-use Webkul\Field\Filament\Resources\FieldResource\Pages;
-use Webkul\Field\Models\Field;
 use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Table;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconPosition;
+use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
+use Webkul\Field\Filament\Resources\FieldResource\Pages;
+use Webkul\Field\Models\Field;
 
 class FieldResource extends Resource
 {
@@ -59,19 +59,19 @@ class FieldResource extends Resource
                                     )
                                     ->addActionLabel('Add Option'),
                             ]),
-                        
+
                         Forms\Components\Section::make('Form Settings')
                             ->schema([
                                 Forms\Components\Group::make()
                                     ->schema(static::getFormSettingsSchema())
                                     ->statePath('form_settings'),
                             ]),
-                        
+
                         Forms\Components\Section::make('Table Settings')
                             ->schema(static::getTableSettingsSchema()),
                     ])
                     ->columnSpan(['lg' => 2]),
-                        
+
                 Forms\Components\Group::make()
                     ->schema([
                         Forms\Components\Section::make('Settings')
@@ -118,7 +118,7 @@ class FieldResource extends Resource
                                     ->integer()
                                     ->maxLength(255),
                             ]),
-                        
+
                         Forms\Components\Section::make('Resource')
                             ->schema([
                                 Forms\Components\Select::make('customizable_type')
@@ -127,9 +127,9 @@ class FieldResource extends Resource
                                     ->searchable()
                                     ->native(false)
                                     ->disabledOn('edit')
-                                    ->options(fn () => collect(Filament::getResources())->filter(fn($resource) => $resource !== self::class)->mapWithKeys(fn ($resource) => [
+                                    ->options(fn () => collect(Filament::getResources())->filter(fn ($resource) => $resource !== self::class)->mapWithKeys(fn ($resource) => [
                                         $resource::getModel() => str($resource)->afterLast('\\')->toString(),
-                                    ]))
+                                    ])),
                             ]),
                     ])
                     ->columnSpan(['lg' => 1]),
@@ -152,7 +152,7 @@ class FieldResource extends Resource
                 Tables\Columns\TextColumn::make('customizable_type')
                     ->label('Resource')
                     ->description(fn (Field $record): string => str($record->customizable_type)->afterLast('\\')->toString().'Resource'),
-                Tables\Columns\TextColumn::make('created_at')
+                Tables\Columns\TextColumn::make('created_at'),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('type')
@@ -172,7 +172,7 @@ class FieldResource extends Resource
                     ]),
                 Tables\Filters\SelectFilter::make('customizable_type')
                     ->label('Resource')
-                    ->options(fn () => collect(Filament::getResources())->filter(fn($resource) => $resource !== self::class)->mapWithKeys(fn ($resource) => [
+                    ->options(fn () => collect(Filament::getResources())->filter(fn ($resource) => $resource !== self::class)->mapWithKeys(fn ($resource) => [
                         $resource::getModel() => str($resource)->afterLast('\\')->toString(),
                     ])),
             ])
@@ -273,12 +273,12 @@ class FieldResource extends Resource
                         ->collapsible()
                         ->itemLabel(function (array $state, Forms\Get $get): ?string {
                             $validations = static::getTypeFormValidations($get('../type'));
-                            
+
                             return $validations[$state['validation']] ?? null;
                         }),
                 ])
                 ->columns(1),
-            
+
             Forms\Components\Fieldset::make('Additional Settings')
                 ->schema([
                     Forms\Components\Repeater::make('settings')
@@ -396,7 +396,7 @@ class FieldResource extends Resource
                         ->collapsible()
                         ->itemLabel(function (array $state, Forms\Get $get): ?string {
                             $settings = static::getTypeFormSettings($get('../type'));
-                            
+
                             return $settings[$state['setting']] ?? null;
                         }),
                 ])
@@ -409,7 +409,7 @@ class FieldResource extends Resource
         if (is_null($type)) {
             return [];
         }
-        
+
         $commonValidations = [
             'gt' => 'Greater Than',
             'gte' => 'Greater Than or Equal',
@@ -424,6 +424,8 @@ class FieldResource extends Resource
             'prohibitedUnless' => 'Prohibited Unless',
             'prohibits' => 'Prohibits',
             'required' => 'Required',
+            'requiredIf' => 'Required If',
+            'requiredIfAccepted' => 'Required If Accepted',
             'requiredUnless' => 'Required Unless',
             'requiredWith' => 'Required With',
             'requiredWithAll' => 'Required With All',
@@ -432,7 +434,7 @@ class FieldResource extends Resource
             'rules' => 'Custom Rules',
             'unique' => 'Unique',
         ];
-        
+
         $typeValidations = match ($type) {
             'text' => [
                 'alphaDash' => 'Alpha Dash',
@@ -475,22 +477,17 @@ class FieldResource extends Resource
             'checkbox' => [
                 'accepted' => 'Accepted',
                 'declined' => 'Declined',
-                'required' => 'Required',
-                'requiredIf' => 'Required If',
-                'requiredIfAccepted' => 'Required If Accepted',
             ],
 
             'toggle' => [
                 'accepted' => 'Accepted',
                 'declined' => 'Declined',
-                'required' => 'Required',
             ],
 
             'checkbox_list' => [
                 'in' => 'In',
                 'maxItems' => 'Max Items',
                 'minItems' => 'Min Items',
-                'required' => 'Required',
             ],
 
             'datetime' => [
@@ -528,7 +525,7 @@ class FieldResource extends Resource
             return [];
         }
 
-        return match($type) {
+        return match ($type) {
             'text' => [
                 'autocapitalize' => 'Autocapitalize',
                 'autocomplete' => 'Autocomplete',
@@ -771,7 +768,7 @@ class FieldResource extends Resource
                             'tooltip',
                             'width',
                         ])),
-                    
+
                     Forms\Components\Select::make('value')
                         ->label('Color')
                         ->required()
@@ -786,7 +783,7 @@ class FieldResource extends Resource
                             'warning' => 'Warning',
                             'success' => 'Success',
                         ]),
-                    
+
                     Forms\Components\Select::make('value')
                         ->label('Alignment')
                         ->required()
@@ -803,7 +800,7 @@ class FieldResource extends Resource
                             Alignment::Justify->value => 'Justify',
                             Alignment::Between->value => 'Between',
                         ]),
-                    
+
                     Forms\Components\Select::make('value')
                         ->label('Font Weight')
                         ->required()
@@ -821,7 +818,7 @@ class FieldResource extends Resource
                             FontWeight::ExtraBold->name => 'Extra Bold',
                             FontWeight::Black->name => 'Black',
                         ]),
-                    
+
                     Forms\Components\Select::make('value')
                         ->label('Icon Position')
                         ->required()
@@ -832,7 +829,7 @@ class FieldResource extends Resource
                             IconPosition::Before->value => 'Before',
                             IconPosition::After->value => 'After',
                         ]),
-                    
+
                     Forms\Components\Select::make('value')
                         ->label('Size')
                         ->required()
@@ -844,7 +841,7 @@ class FieldResource extends Resource
                             TextColumn\TextColumnSize::Medium->name => 'Medium',
                             TextColumn\TextColumnSize::Large->name => 'Large',
                         ]),
-                    
+
                     Forms\Components\TextInput::make('value')
                         ->label('Value')
                         ->required()
@@ -862,7 +859,7 @@ class FieldResource extends Resource
                 ->collapsible()
                 ->itemLabel(function (array $state, Forms\Get $get): ?string {
                     $settings = static::getTypeTableSettings($get('type'));
-                    
+
                     return $settings[$state['setting']] ?? null;
                 }),
         ];
