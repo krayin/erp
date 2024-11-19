@@ -9,15 +9,13 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Model;
 use Webkul\Chatter\Enums\TaskStatus;
-use Webkul\Core\Models\User;
 
 class TaskResource extends Resource
 {
     protected static ?string $model = Task::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-briefcase';
 
     public static function form(Form $form): Form
     {
@@ -57,7 +55,7 @@ class TaskResource extends Resource
                             ->label('Assigned To')
                             ->required(),
                         Forms\Components\Select::make('followers')
-                            ->label('Assign Followers')
+                            ->label('Followers')
                             ->multiple()
                             ->relationship('followers', 'name')
                             ->preload()
@@ -71,7 +69,9 @@ class TaskResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('status'),
+                Tables\Columns\TextColumn::make('status')
+                    ->formatStateUsing(fn ($state) => TaskStatus::options()[$state])
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('due_date')
                     ->date()
                     ->sortable(),
