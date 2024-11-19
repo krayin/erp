@@ -5,7 +5,6 @@
             <!-- Followers Count -->
             <h2 class="text-lg font-semibold text-gray-800">Followers ({{ $this->followers->count() }})</h2>
 
-            <!-- Followers Toggle Modal -->
             <x-filament::button
                 wire:click="$toggle('showFollowerModal')"
                 icon="heroicon-o-user-plus"
@@ -16,26 +15,24 @@
         </div>
 
         <div class="flex flex-wrap gap-2">
-            <!-- Followers Chips -->
             @forelse($this->followers as $follower)
                 <div class="group relative inline-flex items-center break-words rounded-full bg-gray-100 px-3 py-1.5 transition-all duration-200 hover:bg-gray-200">
-                    <img
-                        src="{{ $follower->profile_photo_url ?? 'https://static.thenounproject.com/png/5034901-200.png' }}"
-                        alt="{{ $follower->name }}"
-                        class="mr-2 h-6 w-6 rounded-full object-cover ring-2 ring-white"
-                    >
+                    <div class="flex items-center gap-2">
+                        <x-filament-panels::avatar.user
+                            size="sm"
+                            :user="$follower"
+                        />
 
-                    <span class="text-sm font-medium text-gray-900">{{ $follower->name }}</span>
+                        <span class="text-sm font-medium text-gray-900">{{ $follower->name }}</span>
+                    </div>
 
-                    <!-- Remove Follower -->
-                    <button
-                        type="button"
+                    <x-filament::icon-button
                         wire:click="toggleFollower({{ $follower->id }})"
-                        class="ml-2 rounded-full p-1 text-gray-500 hover:bg-gray-300 hover:text-gray-700 group-hover:inline-flex"
-                        title="Remove follower"
-                    >
-                        <x-heroicon-m-x-mark class="h-4 w-4" />
-                    </button>
+                        icon="heroicon-m-x-mark"
+                        color="danger"
+                        class="text-gray-500"
+                        tooltip="Remove Follower"
+                    />
                 </div>
             @empty
                 <p class="text-sm text-gray-500">No followers yet. Add followers to keep them updated.</p>
@@ -58,69 +55,62 @@
     </div>
 
     <!-- Messages Section -->
-    <div class="rounded-xl bg-white p-4 shadow-lg">
-        <div class="mb-6 flex items-center justify-between">
-            <h2 class="text-xl font-semibold text-gray-800">Messages</h2>
-            <span class="rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-600">
-                {{ $this->record->chats()->count() }} messages
-            </span>
-        </div>
+    <x-filament::grid class="gap-4">
+        @foreach ($this->record->getLatestChats() as $chat)
+            <div 
+                class="block break-all rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-950/5 dark:bg-white/5 dark:ring-white/10"
+                style="word-break: break-all;"
+            >
+                <div class="flex gap-x-3">
+                    <x-filament-panels::avatar.user
+                        size="md"
+                        :user="$chat->user"
+                    />
 
-        <div class="space-y-6">
-            @foreach($this->record->getLatestChats() as $chat)
-                <div class="group relative">
-                    {{-- TODO: Handle this inline style. --}}
-                    <div 
-                        class="flex gap-4 rounded-xl bg-gray-50 p-4 transition-all duration-200 hover:bg-gray-100/80"
-                        style="word-break: break-all;"
-                    >
-                        <!-- Profile Section -->
-                        <div class="flex-shrink-0">
-                            <img 
-                                src="{{ $chat->user->profile_photo_url ?? 'https://static.thenounproject.com/png/5034901-200.png' }}"
-                                alt="{{ $chat->user->name }}"
-                                class="h-8 w-8 rounded-full object-cover shadow-sm ring-2 ring-white"
-                            >
-                        </div>
-
-                        <!-- Content Section -->
-                        <div class="min-w-0 flex-1">
-                            <div class="mb-1 flex items-center justify-between">
-                                <div class="flex items-center gap-2">
-                                    <h3 class="text-sm font-semibold text-gray-900">
-                                        {{ $chat->user->name }}
-                                    </h3>
-                                    <time class="text-sm text-gray-500" datetime="{{ $chat->created_at->toISOString() }}">
-                                        {{ $chat->created_at->format('g:i A') }}
-                                    </time>
+                    <div class="flex-grow space-y-2 pt-[6px]">
+                        <div class="flex items-center justify-between gap-x-2">
+                            <div class="flex items-center gap-x-2">
+                                <div class="text-sm font-medium text-gray-950 dark:text-white">
+                                    {{ $chat->user->name }}
                                 </div>
+
+                                <div class="text-xs font-medium text-gray-400 dark:text-gray-500">
+                                    {{ $chat->created_at->diffForHumans() }}
+                                </div>
+
                                 @if($chat->notified)
-                                    <span class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
-                                        <x-heroicon-m-check-circle class="mr-1 h-3 w-3" />
+                                    <span class="flex items-center justify-center gap-0.5 text-xs">
+                                        <x-filament::icon
+                                            icon="heroicon-m-check-circle"
+                                            class="mr-1 h-3 w-3"
+                                        />
+
                                         Notified
                                     </span>
                                 @endif
                             </div>
 
-                            <!-- Message Section -->
-                            <div class="prose mt-2 max-w-none break-words text-sm text-gray-700">
-                                {!! $chat->message !!}
-                            </div>
+                            {{-- TODO: Handle when role and permission will done. --}}
+                            @if (true)
+                                <div class="flex-shrink-0">
+                                    <x-filament::icon-button
+                                        wire:click="delete({{ $chat->id }})"
+                                        icon="heroicon-s-trash"
+                                        color="danger"
+                                        tooltip="Delete comment"
+                                    />
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="prose dark:prose-invert [&>*]:mb-2 [&>*]:mt-0 [&>*:last-child]:mb-0 prose-sm text-sm leading-6 text-gray-950 dark:text-white">
+                            {{ Str::of($chat->message)->toHtmlString() }}
                         </div>
                     </div>
                 </div>
-            @endforeach
-
-            <!-- No Message Section -->
-            @if($this->record->getLatestChats()->isEmpty())
-                <div class="flex flex-col items-center justify-center py-12 text-center">
-                    <x-heroicon-o-chat-bubble-left-right class="h-16 w-16 text-gray-400" />
-                    <h3 class="mt-4 text-sm font-medium text-gray-900">No messages yet</h3>
-                    <p class="mt-1 text-sm text-gray-500">Start the conversation when you're ready.</p>
-                </div>
-            @endif
-        </div>
-    </div>
+            </div>
+        @endforeach
+    </x-filament::grid>
 
     <!-- Add Follower Modal -->
     <div

@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Webkul\Chatter\Mail\SendMessage;
+use Webkul\Chatter\Models\Chat;
 use Webkul\Core\Models\User;
 
 class ChatterPanel extends Component implements HasForms
@@ -89,6 +90,35 @@ class ChatterPanel extends Component implements HasForms
         }
     }
 
+    private function notifyToFollowers($chat): void
+    {
+        try {
+            foreach ($this->followers as $follower) {
+                Mail::queue(new SendMessage($this->record, $follower, $chat));
+            }
+
+            $chat->update(['notified' => true]);
+        } catch (\Exception $e) {
+            report($e);
+        }
+    }
+
+    public function delete($chatId)
+    {
+        $chat = Chat::find($chatId);
+
+        if (! $chat) {
+            return;
+        }
+
+        $chat->delete();
+
+        Notification::make()
+            ->title('Chat is deleted successfully.')
+            ->success()
+            ->send();
+    }
+
     public function form(Form $form): Form
     {
         return $form
@@ -102,13 +132,6 @@ class ChatterPanel extends Component implements HasForms
                                 Forms\Components\RichEditor::make('content')
                                     ->hiddenLabel()
                                     ->placeholder('Type your message here...')
-                                    ->toolbarButtons([
-                                        'bold',
-                                        'italic',   
-                                        'link',
-                                        'orderedList',
-                                        'unorderedList',
-                                    ])
                                     ->required(),
                             ]),
                         Forms\Components\Tabs\Tab::make('Log')
@@ -157,19 +180,6 @@ class ChatterPanel extends Component implements HasForms
                 ->danger()
                 ->send();
 
-            report($e);
-        }
-    }
-
-    private function notifyToFollowers($chat): void
-    {
-        try {
-            foreach ($this->followers as $follower) {
-                Mail::queue(new SendMessage($this->record, $follower, $chat));
-            }
-
-            $chat->update(['notified' => true]);
-        } catch (\Exception $e) {
             report($e);
         }
     }
