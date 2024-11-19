@@ -43,7 +43,7 @@ class TaskResource extends Resource
                         Forms\Components\DatePicker::make('due_date')
                             ->native(false)
                             ->label('Due Date'),
-                    ]),
+                    ])->columns(2),
     
                 Forms\Components\Section::make('Assignment')
                     ->description('Assign this task to a user')
