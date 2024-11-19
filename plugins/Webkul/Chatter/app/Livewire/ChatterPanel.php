@@ -62,42 +62,6 @@ class ChatterPanel extends Component implements HasForms
             ->get();
     }
 
-    public function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                Forms\Components\Tabs::make('Tabs')
-                    ->tabs([
-                        Forms\Components\Tabs\Tab::make('Send')
-                            ->icon('heroicon-o-chat-bubble-oval-left-ellipsis')
-                            ->schema([
-                                Forms\Components\RichEditor::make('content')
-                                    ->hiddenLabel()
-                                    ->placeholder('Type your message here...')
-                                    ->toolbarButtons([
-                                        'bold',
-                                        'italic',   
-                                        'link',
-                                        'orderedList',
-                                        'unorderedList',
-                                    ])
-                                    ->required(),
-                            ]),
-                        Forms\Components\Tabs\Tab::make('Log')
-                            ->icon('heroicon-o-chat-bubble-oval-left')
-                            ->schema([
-                                // Logs or other components
-                            ]),
-                        Forms\Components\Tabs\Tab::make('Activity Log')
-                            ->icon('heroicon-o-clock')
-                            ->schema([
-                                // Logs or other components
-                            ]),
-                    ]),
-            ])
-            ->statePath('data');
-    }
-
     public function toggleFollower($userId): void
     {
         try {
@@ -125,6 +89,37 @@ class ChatterPanel extends Component implements HasForms
         }
     }
 
+    public function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Forms\Components\Tabs::make('Tabs')
+                    ->tabs([
+                        Forms\Components\Tabs\Tab::make('Send')
+                            ->icon('heroicon-o-chat-bubble-oval-left-ellipsis')
+                            ->schema([
+                                Forms\Components\RichEditor::make('content')
+                                    ->hiddenLabel()
+                                    ->placeholder('Type your message here...')
+                                    ->toolbarButtons([
+                                        'bold',
+                                        'italic',   
+                                        'link',
+                                        'orderedList',
+                                        'unorderedList',
+                                    ])
+                                    ->required(),
+                            ]),
+                        Forms\Components\Tabs\Tab::make('Log')
+                            ->icon('heroicon-o-chat-bubble-oval-left')
+                            ->schema([
+                                // Logs or other components
+                            ]),
+                    ]),
+            ])
+            ->statePath('data');
+    }
+
     public function create(): void
     {
         $data = $this->form->getState();
@@ -134,26 +129,9 @@ class ChatterPanel extends Component implements HasForms
         }
 
         try {
-            // Create the chat message
             $chat = $this->record->addChat($data['content'], auth()->id());
 
-            // Get all followers including the task owner
-            $followers = collect([$this->record->user])
-                ->merge($this->followers)
-                ->unique('id')
-                ->filter(fn($user) => $user->id !== auth()->id()); // Exclude the sender
-
-            // Send emails to all followers
-            foreach ($followers as $follower) {
-                Mail::to($follower->email)
-                    ->queue(new SendMessage(
-                        record: $this->record,
-                        content: $data['content'],
-                        sender: auth()->user()
-                    ));
-            }
-
-            $chat->update(['notified' => true]);
+            $this->notifyToFollowers($chat, $data);
 
             $this->form->fill();
 
@@ -161,7 +139,6 @@ class ChatterPanel extends Component implements HasForms
                 ->title('Message sent successfully.')
                 ->success()
                 ->send();
-
         } catch (\Exception $e) {
             Notification::make()
                 ->title('Failed to send message.')
@@ -169,6 +146,19 @@ class ChatterPanel extends Component implements HasForms
                 ->danger()
                 ->send();
 
+            report($e);
+        }
+    }
+
+    private function notifyToFollowers($chat): void
+    {
+        try {
+            foreach ($this->followers as $follower) {
+                Mail::queue(new SendMessage($this->record, $follower, $chat));
+            }
+
+            $chat->update(['notified' => true]);
+        } catch (\Exception $e) {
             report($e);
         }
     }

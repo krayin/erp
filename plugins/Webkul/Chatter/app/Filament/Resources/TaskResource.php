@@ -99,7 +99,21 @@ class TaskResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])->modifyQueryUsing(function ($query) {
+                $user = auth()->user();
+
+                // TODO: Implement a more robust way to handle this
+                if ($user->id == 1) {
+                    return;
+                }
+                
+                $query->where(function ($query) use ($user) {
+                    $query->where('user_id', $user->id)
+                          ->orWhereHas('followers', function ($query) use ($user) {
+                              $query->where('user_id', $user->id);
+                          });
+                });
+            });
     }
 
     public static function getRelations(): array

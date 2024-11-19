@@ -3,48 +3,45 @@
 namespace Webkul\Chatter\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Webkul\Chatter\Filament\Resources\TaskResource\Pages\ViewTask;
+use Webkul\Chatter\Models\Chat;
 use Webkul\Core\Models\User;
+use Illuminate\Mail\Mailables\Address;
 
 class SendMessage extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     */
     public function __construct(
         public mixed $record,
-        public string $content,
-        public User $sender,
+        public User $follower,
+        public Chat $chat
     ) {}
 
-    /**
-     * Get the message envelope.
-     */
     public function envelope(): Envelope
     {
         return new Envelope(
+            from: new Address($this->record->user->email, $this->record->user->name),
+            to: [
+                new Address(
+                    $this->follower->email,
+                    $this->follower->name
+                )
+            ],
             subject: 'New Message from ' . $this->record->user->name,
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
     public function content(): Content
     {
         return new Content(
-            markdown: 'chatter::mail.send-message',
+            view: 'chatter::emails.send-message',
             with: [
-                'url'     => ViewTask::getUrl([
-                    'record' => $this->record,
-                ]),
+                'content' => $this->chat->message,
+                'senderName' => $this->record->user->name,
             ],
         );
     }

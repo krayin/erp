@@ -29,6 +29,7 @@
 
                     <!-- Remove Follower -->
                     <button
+                        type="button"
                         wire:click="toggleFollower({{ $follower->id }})"
                         class="ml-2 rounded-full p-1 text-gray-500 hover:bg-gray-300 hover:text-gray-700 group-hover:inline-flex"
                         title="Remove follower"
@@ -148,6 +149,7 @@
                 <div class="flex items-center justify-between border-b p-4">
                     <h2 class="text-xl font-semibold text-gray-900">Add Followers</h2>
                     <button 
+                        type="button"
                         wire:click="$toggle('showFollowerModal')"
                         class="rounded-full p-1.5 transition-colors hover:bg-gray-100"
                     >
@@ -193,6 +195,7 @@
                                     </div>
                                 </div>
                                 <button
+                                    type="button"
                                     wire:click="toggleFollower({{ $user->id }})"
                                     wire:loading.attr="disabled"
                                     wire:target="toggleFollower({{ $user->id }})"
