@@ -97,7 +97,8 @@ class FieldColumnManager
         return match ($field->type) {
             'text' => static::getTextColumnType($field),
             'textarea', 'editor', 'markdown' => 'text',
-            'select', 'radio' => 'string',
+            'radio' => 'string',
+            'select' => $field->is_multiselect ? 'json' : 'string',
             'checkbox', 'toggle' => 'boolean',
             'checkbox_list' => 'json',
             'datetime' => 'datetime',
@@ -137,7 +138,7 @@ class FieldColumnManager
      */
     protected static function getTableName(Field $field): string
     {
-        $model = app($field->customizable_type::getModel());
+        $model = app($field->customizable_type);
         
         return $model->getTable();
     }

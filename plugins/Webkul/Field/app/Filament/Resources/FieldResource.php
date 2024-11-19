@@ -34,6 +34,7 @@ class FieldResource extends Resource
                         Forms\Components\Section::make()
                             ->schema([
                                 Forms\Components\TextInput::make('name')
+                                    ->label('Name')
                                     ->required()
                                     ->maxLength(255),
                                 Forms\Components\TextInput::make('code')
@@ -76,8 +77,12 @@ class FieldResource extends Resource
                         Forms\Components\Section::make('Settings')
                             ->schema([
                                 Forms\Components\Select::make('type')
+                                    ->label('Type')
                                     ->required()
                                     ->disabledOn('edit')
+                                    ->searchable()
+                                    ->native(false)
+                                    ->live()
                                     ->options([
                                         'text' => 'Text Input',
                                         'textarea' => 'Textarea',
@@ -90,13 +95,13 @@ class FieldResource extends Resource
                                         'editor' => 'Rich Text Editor',
                                         'markdown' => 'Markdown Editor',
                                         'color' => 'Color Picker',
-                                    ])
-                                    ->searchable()
-                                    ->native(false)
-                                    ->live(),
+                                    ]),
                                 Forms\Components\Select::make('input_type')
+                                    ->label('Input Type')
                                     ->required()
                                     ->disabledOn('edit')
+                                    ->native(false)
+                                    ->visible(fn (Forms\Get $get): bool => $get('type') == 'text')
                                     ->options([
                                         'text' => 'Text',
                                         'email' => 'Email',
@@ -106,25 +111,25 @@ class FieldResource extends Resource
                                         'tel' => 'Telephone',
                                         'url' => 'URL',
                                         'color' => 'Color',
-                                    ])
-                                    ->native(false)
-                                    ->visible(fn (Forms\Get $get): bool => $get('type') == 'text'),
+                                    ]),
                                 Forms\Components\TextInput::make('sort_order')
-                                    ->integer()
+                                    ->label('Sort Order')
                                     ->required()
+                                    ->integer()
                                     ->maxLength(255),
                             ]),
                         
                         Forms\Components\Section::make('Resource')
                             ->schema([
                                 Forms\Components\Select::make('customizable_type')
+                                    ->label('Resource')
                                     ->required()
+                                    ->searchable()
+                                    ->native(false)
                                     ->disabledOn('edit')
                                     ->options(fn () => collect(Filament::getResources())->filter(fn($resource) => $resource !== self::class)->mapWithKeys(fn ($resource) => [
                                         $resource::getModel() => str($resource)->afterLast('\\')->toString(),
                                     ]))
-                                    ->searchable()
-                                    ->native(false)
                             ]),
                     ])
                     ->columnSpan(['lg' => 1]),
@@ -208,21 +213,23 @@ class FieldResource extends Resource
                         ->hiddenLabel()
                         ->schema([
                             Forms\Components\Select::make('validation')
-                                ->options(fn (Forms\Get $get): array => static::getTypeFormValidations($get('../../../type')))
+                                ->label('validation')
                                 ->searchable()
                                 ->required()
-                                ->live(),
+                                ->live()
+                                ->options(fn (Forms\Get $get): array => static::getTypeFormValidations($get('../../../type'))),
                             Forms\Components\TextInput::make('field')
                                 ->label('Field')
+                                ->required()
                                 ->visible(fn (Forms\Get $get): bool => in_array($get('validation'), [
                                     'prohibitedIf',
                                     'prohibitedUnless',
                                     'requiredIf',
                                     'requiredUnless',
-                                ]))
-                                ->required(),
+                                ])),
                             Forms\Components\TextInput::make('value')
                                 ->label('Value / Field')
+                                ->required()
                                 ->visible(fn (Forms\Get $get): bool => in_array($get('validation'), [
                                     'after',
                                     'afterOrEqual',
@@ -238,9 +245,9 @@ class FieldResource extends Resource
                                     'in',
                                     'lt',
                                     'lte',
-                                    'multipleOf',
-                                    'minSize',
                                     'maxSize',
+                                    'minSize',
+                                    'multipleOf',
                                     'notIn',
                                     'notRegex',
                                     'prohibitedIf',
@@ -259,8 +266,7 @@ class FieldResource extends Resource
                                     'rules',
                                     'same',
                                     'startsWith',
-                                ]))
-                                ->required(),
+                                ])),
                         ])
                         ->addActionLabel('Add Option')
                         ->columns(3)
@@ -280,62 +286,62 @@ class FieldResource extends Resource
                         ->schema([
                             Forms\Components\Select::make('setting')
                                 ->label('Setting')
-                                ->options(fn (Forms\Get $get): array => static::getTypeFormSettings($get('../../../type')))
                                 ->required()
                                 ->searchable()
-                                ->preload()
-                                ->live(),
+                                ->live()
+                                ->options(fn (Forms\Get $get): array => static::getTypeFormSettings($get('../../../type'))),
                             Forms\Components\TextInput::make('value')
                                 ->label('Value')
+                                ->required()
                                 ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
-                                    'id',
+                                    'autocapitalize',
+                                    'autocomplete',
                                     'default',
+                                    'disabledDates',
+                                    'displayFormat',
+                                    'format',
                                     'helperText',
                                     'hint',
                                     'hintIcon',
+                                    'id',
+                                    'loadingMessage',
+                                    'locale',
+                                    'mask',
+                                    'noSearchResultsMessage',
+                                    'offIcon',
+                                    'onIcon',
                                     'placeholder',
-                                    'autocomplete',
-                                    'autocapitalize',
                                     'prefix',
                                     'prefixIcon',
+                                    'searchingMessage',
+                                    'searchPrompt',
                                     'suffix',
                                     'suffixIcon',
-                                    'mask',
-                                    'loadingMessage',
-                                    'noSearchResultsMessage',
-                                    'searchPrompt',
-                                    'searchingMessage',
-                                    'onIcon',
-                                    'offIcon',
-                                    'format',
-                                    'displayFormat',
                                     'timezone',
-                                    'locale',
-                                    'disabledDates',
-                                ]))
-                                ->required(),
+                                ])),
                             Forms\Components\TextInput::make('value')
                                 ->label('Value')
+                                ->required()
                                 ->numeric()
                                 ->minValue(0)
                                 ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
-                                    'rows',
                                     'cols',
                                     'columns',
-                                    'searchDebounce',
-                                    'step',
-                                    'optionsLimit',
-                                    'minItems',
-                                    'maxItems',
                                     'firstDayOfWeek',
                                     'hoursStep',
+                                    'maxItems',
+                                    'minItems',
                                     'minutesStep',
-                                    'secondsStep',
+                                    'optionsLimit',
+                                    'rows',
+                                    'searchDebounce',
                                     'seconds',
-                                ]))
-                                ->required(),
+                                    'secondsStep',
+                                    'step',
+                                ])),
                             Forms\Components\Select::make('value')
                                 ->label('Color')
+                                ->required()
                                 ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                                     'hintColor',
                                     'prefixIconColor',
@@ -350,27 +356,27 @@ class FieldResource extends Resource
                                     'secondary' => 'Secondary',
                                     'warning' => 'Warning',
                                     'success' => 'Success',
-                                ])
-                                ->required(),
+                                ]),
                             Forms\Components\Select::make('value')
                                 ->label('Value')
+                                ->required()
                                 ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                                     'gridDirection',
                                 ]))
                                 ->options([
                                     'row' => 'Row',
                                     'column' => 'Column',
-                                ])
-                                ->required(),
+                                ]),
                             Forms\Components\Toggle::make('value')
                                 ->label('Value')
+                                ->required()
+                                ->inline(false)
                                 ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                                     'native',
-                                ]))
-                                ->inline(false)
-                                ->required(),
+                                ])),
                             Forms\Components\Select::make('value')
                                 ->label('Value')
+                                ->required()
                                 ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                                     'inputMode',
                                 ]))
@@ -383,8 +389,7 @@ class FieldResource extends Resource
                                     'search' => 'Search',
                                     'email' => 'Email',
                                     'url' => 'URL',
-                                ])
-                                ->required(),
+                                ]),
                         ])
                         ->addActionLabel('Add Setting')
                         ->columns(2)
@@ -406,6 +411,13 @@ class FieldResource extends Resource
         }
         
         $commonValidations = [
+            'gt' => 'Greater Than',
+            'gte' => 'Greater Than or Equal',
+            'lt' => 'Less Than',
+            'lte' => 'Less Than or Equal',
+            'maxSize' => 'Max Size',
+            'minSize' => 'Min Size',
+            'multipleOf' => 'Multiple Of',
             'nullable' => 'Nullable',
             'prohibited' => 'Prohibited',
             'prohibitedIf' => 'Prohibited If',
@@ -419,19 +431,12 @@ class FieldResource extends Resource
             'requiredWithoutAll' => 'Required Without All',
             'rules' => 'Custom Rules',
             'unique' => 'Unique',
-            'gt' => 'Greater Than',
-            'gte' => 'Greater Than or Equal',
-            'lt' => 'Less Than',
-            'lte' => 'Less Than or Equal',
-            'multipleOf' => 'Multiple Of',
-            'minSize' => 'Min Size',
-            'maxSize' => 'Max Size',
         ];
         
         $typeValidations = match ($type) {
             'text' => [
-                'alphaNum' => 'After Number',
                 'alphaDash' => 'Alpha Dash',
+                'alphaNum' => 'After Number',
                 'ascii' => 'Ascii',
                 'doesntEndWith' => 'Doesn\'t End With',
                 'doesntStartWith' => 'Doesn\'t Start With',
@@ -451,16 +456,16 @@ class FieldResource extends Resource
             ],
 
             'textarea' => [
+                'filled' => 'Filled',
                 'maxLength' => 'Max Length',
                 'minLength' => 'Min Length',
-                'filled' => 'Filled',
             ],
 
             'select' => [
+                'different' => 'Different',
                 'exists' => 'Exists',
                 'in' => 'In',
                 'notIn' => 'Not In',
-                'different' => 'Different',
                 'same' => 'Same',
             ],
 
@@ -482,10 +487,10 @@ class FieldResource extends Resource
             ],
 
             'checkbox_list' => [
+                'in' => 'In',
                 'maxItems' => 'Max Items',
                 'minItems' => 'Min Items',
                 'required' => 'Required',
-                'in' => 'In',
             ],
 
             'datetime' => [
@@ -496,15 +501,15 @@ class FieldResource extends Resource
             ],
 
             'editor' => [
+                'filled' => 'Filled',
                 'maxLength' => 'Max Length',
                 'minLength' => 'Min Length',
-                'filled' => 'Filled',
             ],
 
             'markdown' => [
+                'filled' => 'Filled',
                 'maxLength' => 'Max Length',
                 'minLength' => 'Min Length',
-                'filled' => 'Filled',
             ],
 
             'color' => [
@@ -525,211 +530,212 @@ class FieldResource extends Resource
 
         return match($type) {
             'text' => [
-                'id' => 'Id',
+                'autocapitalize' => 'Autocapitalize',
+                'autocomplete' => 'Autocomplete',
+                'autofocus' => 'Autofocus',
                 'default' => 'Default Value',
+                'disabled' => 'Disabled',
                 'helperText' => 'Helper Text',
                 'hint' => 'Hint',
                 'hintColor' => 'Hint Color',
                 'hintIcon' => 'Hint Icon',
-                'disabled' => 'Disabled',
-                'autofocus' => 'Autofocus',
-                'placeholder' => 'Placeholder',
+                'id' => 'Id',
                 'inputMode' => 'Input Mode',
-                'step' => 'Step',
-                'autocomplete' => 'Autocomplete',
-                'autocapitalize' => 'Autocapitalize',
+                'mask' => 'Mask',
+                'placeholder' => 'Placeholder',
                 'prefix' => 'Prefix',
                 'prefixIcon' => 'Prefix Icon',
                 'prefixIconColor' => 'Prefix Icon Color',
+                'readOnly' => 'Read Only',
+                'step' => 'Step',
                 'suffix' => 'Suffix',
                 'suffixIcon' => 'Suffix Icon',
                 'suffixIconColor' => 'Suffix Icon Color',
-                'mask' => 'Mask',
-                'readOnly' => 'Read Only',
             ],
 
             'textarea' => [
-                'id' => 'Id',
+                'autofocus' => 'Autofocus',
+                'autosize' => 'Autosize',
+                'cols' => 'Columns',
                 'default' => 'Default Value',
+                'disabled' => 'Disabled',
                 'helperText' => 'Helper Text',
                 'hint' => 'Hint',
                 'hintColor' => 'Hint Color',
                 'hintIcon' => 'Hint Icon',
-                'disabled' => 'Disabled',
-                'autofocus' => 'Autofocus',
+                'id' => 'Id',
                 'placeholder' => 'Placeholder',
-                'rows' => 'Rows',
-                'cols' => 'Columns',
-                'autosize' => 'Autosize',
                 'readOnly' => 'Read Only',
+                'rows' => 'Rows',
             ],
 
             'select' => [
-                'id' => 'Id',
                 'default' => 'Default Value',
+                'disabled' => 'Disabled',
                 'helperText' => 'Helper Text',
                 'hint' => 'Hint',
                 'hintColor' => 'Hint Color',
                 'hintIcon' => 'Hint Icon',
-                'disabled' => 'Disabled',
-                'searchable' => 'Searchable',
+                'id' => 'Id',
+                'loadingMessage' => 'Loading Message',
                 'multiple' => 'Multiple',
                 'native' => 'Native',
-                'preload' => 'Preload',
-                'loadingMessage' => 'Loading Message',
                 'noSearchResultsMessage' => 'No Search Results Message',
-                'searchPrompt' => 'Search Prompt',
-                'searchingMessage' => 'Searching Message',
-                'searchDebounce' => 'Search Debounce',
                 'optionsLimit' => 'Options Limit',
+                'preload' => 'Preload',
+                'searchable' => 'Searchable',
+                'searchDebounce' => 'Search Debounce',
+                'searchingMessage' => 'Searching Message',
+                'searchPrompt' => 'Search Prompt',
             ],
 
             'radio' => [
-                'id' => 'Id',
                 'default' => 'Default Value',
+                'disabled' => 'Disabled',
                 'helperText' => 'Helper Text',
                 'hint' => 'Hint',
                 'hintColor' => 'Hint Color',
                 'hintIcon' => 'Hint Icon',
-                'disabled' => 'Disabled',
+                'id' => 'Id',
             ],
 
             'checkbox' => [
-                'id' => 'Id',
                 'default' => 'Default Value',
+                'disabled' => 'Disabled',
                 'helperText' => 'Helper Text',
                 'hint' => 'Hint',
                 'hintColor' => 'Hint Color',
                 'hintIcon' => 'Hint Icon',
-                'disabled' => 'Disabled',
+                'id' => 'Id',
                 'inline' => 'Inline',
             ],
 
             'toggle' => [
-                'id' => 'Id',
                 'default' => 'Default Value',
+                'disabled' => 'Disabled',
                 'helperText' => 'Helper Text',
                 'hint' => 'Hint',
                 'hintColor' => 'Hint Color',
                 'hintIcon' => 'Hint Icon',
-                'disabled' => 'Disabled',
-                'onIcon' => 'On Icon',
+                'id' => 'Id',
+                'offColor' => 'Off Color',
                 'offIcon' => 'Off Icon',
                 'onColor' => 'On Color',
-                'offColor' => 'Off Color',
+                'onIcon' => 'On Icon',
             ],
 
             'checkbox_list' => [
-                'id' => 'Id',
+                'bulkToggleable' => 'Bulk Toggleable',
+                'columns' => 'Columns',
                 'default' => 'Default Value',
+                'disabled' => 'Disabled',
+                'gridDirection' => 'Grid Direction',
                 'helperText' => 'Helper Text',
                 'hint' => 'Hint',
                 'hintColor' => 'Hint Color',
                 'hintIcon' => 'Hint Icon',
-                'disabled' => 'Disabled',
-                'columns' => 'Columns',
-                'gridDirection' => 'Grid Direction',
-                'bulkToggleable' => 'Bulk Toggleable',
-                'searchable' => 'Searchable',
-                'noSearchResultsMessage' => 'No Search Results Message',
-                'minItems' => 'Min Items',
+                'id' => 'Id',
                 'maxItems' => 'Max Items',
+                'minItems' => 'Min Items',
+                'noSearchResultsMessage' => 'No Search Results Message',
+                'searchable' => 'Searchable',
             ],
 
             'datetime' => [
-                'id' => 'Id',
+                'closeOnDateSelection' => 'Close on Date Selection',
                 'default' => 'Default Value',
+                'disabled' => 'Disabled',
+                'disabledDates' => 'Disabled Dates',
+                'displayFormat' => 'Display Format',
+                'firstDayOfWeek' => 'First Day of Week',
+                'format' => 'Format',
                 'helperText' => 'Helper Text',
                 'hint' => 'Hint',
                 'hintColor' => 'Hint Color',
                 'hintIcon' => 'Hint Icon',
-                'disabled' => 'Disabled',
-                'format' => 'Format',
-                'displayFormat' => 'Display Format',
-                'timezone' => 'Timezone',
+                'hoursStep' => 'Hours Step',
+                'id' => 'Id',
                 'locale' => 'Locale',
-                'firstDayOfWeek' => 'First Day of Week',
+                'minutesStep' => 'Minutes Step',
+                'native' => 'Native',
+                'seconds' => 'Seconds',
+                'secondsStep' => 'Seconds Step',
+                'timezone' => 'Timezone',
                 'weekStartsOnMonday' => 'Week Starts on Monday',
                 'weekStartsOnSunday' => 'Week Starts on Sunday',
-                'disabledDates' => 'Disabled Dates',
-                'closeOnDateSelection' => 'Close on Date Selection',
-                'hoursStep' => 'Hours Step',
-                'minutesStep' => 'Minutes Step',
-                'secondsStep' => 'Seconds Step',
-                'seconds' => 'Seconds',
             ],
 
             'editor' => [
-                'id' => 'Id',
                 'default' => 'Default Value',
+                'disabled' => 'Disabled',
                 'helperText' => 'Helper Text',
                 'hint' => 'Hint',
                 'hintColor' => 'Hint Color',
                 'hintIcon' => 'Hint Icon',
-                'disabled' => 'Disabled',
+                'id' => 'Id',
                 'placeholder' => 'Placeholder',
                 'readOnly' => 'Read Only',
             ],
 
             'markdown' => [
-                'id' => 'Id',
                 'default' => 'Default Value',
+                'disabled' => 'Disabled',
                 'helperText' => 'Helper Text',
                 'hint' => 'Hint',
                 'hintColor' => 'Hint Color',
                 'hintIcon' => 'Hint Icon',
-                'disabled' => 'Disabled',
+                'id' => 'Id',
                 'placeholder' => 'Placeholder',
                 'readOnly' => 'Read Only',
             ],
 
             'color' => [
-                'id' => 'Id',
                 'default' => 'Default Value',
+                'disabled' => 'Disabled',
                 'helperText' => 'Helper Text',
                 'hint' => 'Hint',
                 'hintColor' => 'Hint Color',
                 'hintIcon' => 'Hint Icon',
-                'disabled' => 'Disabled',
                 'hsl' => 'HSL',
+                'id' => 'Id',
                 'rgb' => 'RGB',
                 'rgba' => 'RGBA',
             ],
 
             // File-specific settings that weren't clearly associated with the given field types
             'file' => [
-                'directory' => 'Directory',
-                'visibility' => 'Visibility',
-                'image' => 'Image',
-                'imageEditor' => 'Image Editor',
-                'imageEditorAspectRatios' => 'Image Editor Aspect Ratios',
-                'imageEditorMode' => 'Image Editor Mode',
-                'imageEditorEmptyFillColor' => 'Image Editor Empty Fill Color',
-                'imageResizeMode' => 'Image Resize Mode',
-                'imageCropAspectRatio' => 'Image Crop Aspect Ratio',
-                'imageResizeTargetWidth' => 'Image Resize Target Width',
-                'imageResizeTargetHeight' => 'Image Resize Target Height',
-                'imagePreviewHeight' => 'Image Preview Height',
-                'loadingIndicatorPosition' => 'Loading Indicator Position',
-                'panelAspectRatio' => 'Panel Aspect Ratio',
-                'panelLayout' => 'Panel Layout',
-                'removeUploadedFileButtonPosition' => 'Remove Uploaded File Button Position',
-                'uploadButtonPosition' => 'Upload Button Position',
-                'uploadProgressIndicatorPosition' => 'Upload Progress Indicator Position',
-                'reorderable' => 'Reorderable',
-                'appendFiles' => 'Append Files',
-                'openable' => 'Openable',
-                'downloadable' => 'Downloadable',
-                'previewable' => 'Previewable',
-                'moveFiles' => 'Move Files',
-                'storeFiles' => 'Store Files',
-                'orientImagesFromExif' => 'Orient Images from EXIF',
-                'deletable' => 'Deletable',
-                'fetchFileInformation' => 'Fetch File Information',
-                'uploadingMessage' => 'Uploading Message',
                 'acceptedFileTypes' => 'Accepted File Types',
+                'appendFiles' => 'Append Files',
+                'deletable' => 'Deletable',
+                'directory' => 'Directory',
+                'downloadable' => 'Downloadable',
+                'fetchFileInformation' => 'Fetch File Information',
                 'fileAttachmentsDirectory' => 'File Attachments Directory',
                 'fileAttachmentsVisibility' => 'File Attachments Visibility',
+                'image' => 'Image',
+                'imageCropAspectRatio' => 'Image Crop Aspect Ratio',
+                'imageEditor' => 'Image Editor',
+                'imageEditorAspectRatios' => 'Image Editor Aspect Ratios',
+                'imageEditorEmptyFillColor' => 'Image Editor Empty Fill Color',
+                'imageEditorMode' => 'Image Editor Mode',
+                'imagePreviewHeight' => 'Image Preview Height',
+                'imageResizeMode' => 'Image Resize Mode',
+                'imageResizeTargetHeight' => 'Image Resize Target Height',
+                'imageResizeTargetWidth' => 'Image Resize Target Width',
+                'loadingIndicatorPosition' => 'Loading Indicator Position',
+                'moveFiles' => 'Move Files',
+                'openable' => 'Openable',
+                'orientImagesFromExif' => 'Orient Images from EXIF',
+                'panelAspectRatio' => 'Panel Aspect Ratio',
+                'panelLayout' => 'Panel Layout',
+                'previewable' => 'Previewable',
+                'removeUploadedFileButtonPosition' => 'Remove Uploaded File Button Position',
+                'reorderable' => 'Reorderable',
+                'storeFiles' => 'Store Files',
+                'uploadButtonPosition' => 'Upload Button Position',
+                'uploadingMessage' => 'Uploading Message',
+                'uploadProgressIndicatorPosition' => 'Upload Progress Indicator Position',
+                'visibility' => 'Visibility',
             ],
         };
     }
@@ -745,29 +751,30 @@ class FieldResource extends Resource
                 ->visible(fn (Forms\Get $get): bool => $get('use_in_table'))
                 ->schema([
                     Forms\Components\Select::make('setting')
-                        ->options(fn (Forms\Get $get): array => static::getTypeTableSettings($get('../../type')))
                         ->searchable()
                         ->required()
-                        ->live(),
+                        ->live()
+                        ->options(fn (Forms\Get $get): array => static::getTypeTableSettings($get('../../type'))),
                     Forms\Components\TextInput::make('value')
                         ->label('Value')
+                        ->required()
                         ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
-                            'label',
+                            'copyMessage',
+                            'dateTimeTooltip',
                             'default',
-                            'placeholder',
-                            'tooltip',
-                            'width',
+                            'icon',
+                            'label',
                             'money',
+                            'placeholder',
                             'prefix',
                             'suffix',
-                            'icon',
-                            'copyMessage',
-                            'dateTimeTooltip'
-                        ]))
-                        ->required(),
+                            'tooltip',
+                            'width',
+                        ])),
                     
                     Forms\Components\Select::make('value')
                         ->label('Color')
+                        ->required()
                         ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'iconColor',
                         ]))
@@ -778,11 +785,11 @@ class FieldResource extends Resource
                             'secondary' => 'Secondary',
                             'warning' => 'Warning',
                             'success' => 'Success',
-                        ])
-                        ->required(),
+                        ]),
                     
                     Forms\Components\Select::make('value')
                         ->label('Alignment')
+                        ->required()
                         ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'alignment',
                             'verticalAlignment',
@@ -795,11 +802,11 @@ class FieldResource extends Resource
                             Alignment::Right->value => 'Right',
                             Alignment::Justify->value => 'Justify',
                             Alignment::Between->value => 'Between',
-                        ])
-                        ->required(),
+                        ]),
                     
                     Forms\Components\Select::make('value')
                         ->label('Font Weight')
+                        ->required()
                         ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'weight',
                         ]))
@@ -813,22 +820,22 @@ class FieldResource extends Resource
                             FontWeight::Bold->name => 'Bold',
                             FontWeight::ExtraBold->name => 'Extra Bold',
                             FontWeight::Black->name => 'Black',
-                        ])
-                        ->required(),
+                        ]),
                     
                     Forms\Components\Select::make('value')
                         ->label('Icon Position')
+                        ->required()
                         ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'iconPosition',
                         ]))
                         ->options([
                             IconPosition::Before->value => 'Before',
                             IconPosition::After->value => 'After',
-                        ])
-                        ->required(),
+                        ]),
                     
                     Forms\Components\Select::make('value')
                         ->label('Size')
+                        ->required()
                         ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'size',
                         ]))
@@ -836,11 +843,11 @@ class FieldResource extends Resource
                             TextColumn\TextColumnSize::Small->name => 'Small',
                             TextColumn\TextColumnSize::Medium->name => 'Medium',
                             TextColumn\TextColumnSize::Large->name => 'Large',
-                        ])
-                        ->required(),
+                        ]),
                     
                     Forms\Components\TextInput::make('value')
                         ->label('Value')
+                        ->required()
                         ->numeric()
                         ->minValue(0)
                         ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
@@ -848,8 +855,7 @@ class FieldResource extends Resource
                             'words',
                             'lineClamp',
                             'copyMessageDuration',
-                        ]))
-                        ->required(),
+                        ])),
                 ])
                 ->addActionLabel('Add Setting')
                 ->columns(2)
@@ -869,47 +875,47 @@ class FieldResource extends Resource
         }
 
         $commonSettings = [
-            'searchable' => 'Searchable',
-            'filterable' => 'Filterable',
-            'sortable' => 'Sortable',
-            'groupable' => 'Groupable',
-            'label' => 'Label',
-            'default' => 'Default',
-            'placeholder' => 'Placeholder',
-            'toggleable' => 'Toggleable',
-            'tooltip' => 'Tooltip',
-            'alignment' => 'Alignment',
             'alignEnd' => 'Align End',
+            'alignment' => 'Alignment',
             'alignStart' => 'Align Start',
-            'verticalAlignment' => 'Vertical Alignment',
-            'verticallyAlignStart' => 'Vertically Align Start',
-            'wrapHeader' => 'Wrap Header',
-            'grow' => 'Grow',
-            'boolean' => 'Boolean',
-            'width' => 'Width',
             'badge' => 'Badge',
+            'boolean' => 'Boolean',
             'color' => 'Color', // TODO:
-            'money' => 'Money',
-            'limit' => 'Limit',
-            'words' => 'Words',
-            'lineClamp' => 'Line Clamp',
-            'prefix' => 'Prefix',
-            'suffix' => 'Suffix',
-            'icon' => 'Icon',
-            'iconPosition' => 'Icon Position',
-            'iconColor' => 'Icon Color',
-            'size' => 'Size',
-            'weight' => 'Weight',
             'copyable' => 'Copyable',
             'copyMessage' => 'Copy Message',
             'copyMessageDuration' => 'Copy Message Duration',
+            'default' => 'Default',
+            'filterable' => 'Filterable',
+            'groupable' => 'Groupable',
+            'grow' => 'Grow',
+            'icon' => 'Icon',
+            'iconColor' => 'Icon Color',
+            'iconPosition' => 'Icon Position',
+            'label' => 'Label',
+            'limit' => 'Limit',
+            'lineClamp' => 'Line Clamp',
+            'money' => 'Money',
+            'placeholder' => 'Placeholder',
+            'prefix' => 'Prefix',
+            'searchable' => 'Searchable',
+            'size' => 'Size',
+            'sortable' => 'Sortable',
+            'suffix' => 'Suffix',
+            'toggleable' => 'Toggleable',
+            'tooltip' => 'Tooltip',
+            'verticalAlignment' => 'Vertical Alignment',
+            'verticallyAlignStart' => 'Vertically Align Start',
+            'weight' => 'Weight',
+            'width' => 'Width',
+            'words' => 'Words',
+            'wrapHeader' => 'Wrap Header',
         ];
 
         $typeSettings = match ($type) {
             'datetime' => [
                 'dateTime' => 'Date Time',
-                'since' => 'Since',
                 'dateTimeTooltip' => 'Date Time Tooltip',
+                'since' => 'Since',
             ],
 
             default => [],

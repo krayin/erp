@@ -11,9 +11,9 @@ use Filament\Tables\Columns\TextColumn\TextColumnSize;
 
 class CustomColumns extends Component
 {
-    protected ?array $include = null;
+    protected array $include = [];
     
-    protected ?array $exclude = null;
+    protected array $exclude = [];
     
     protected ?string $resourceClass = null;
 
@@ -60,11 +60,11 @@ class CustomColumns extends Component
             ->where('customizable_type', $this->getResourceClass()::getModel())
             ->where('use_in_table', true);
             
-        if ($this->include) {
+        if (! empty($this->include)) {
             $query->whereIn('code', $this->include);
         }
         
-        if ($this->exclude) {
+        if (! empty($this->exclude)) {
             $query->whereNotIn('code', $this->exclude);
         }
         
@@ -91,7 +91,6 @@ class CustomColumns extends Component
         $column = $columnClass::make($field->code)
             ->label($field->name);
             
-        // Apply table settings
         if (! empty($field->table_settings)) {
             foreach ($field->table_settings as $setting) {
                 $this->applySetting($column, $setting);

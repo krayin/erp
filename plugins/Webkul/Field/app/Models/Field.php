@@ -22,6 +22,7 @@ class Field extends Model
      * @var string
      */
     protected $casts = [
+        'is_multiselect' => 'boolean',
         'options' => 'array',
         'form_settings' => 'array',
         'table_settings' => 'array',
@@ -37,6 +38,7 @@ class Field extends Model
         'name',
         'type',
         'input_type',
+        'is_multiselect',
         'datalist',
         'options',
         'form_settings',

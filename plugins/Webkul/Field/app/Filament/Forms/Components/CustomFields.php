@@ -9,11 +9,9 @@ use Illuminate\Support\Collection;
 
 class CustomFields extends Component
 {
-    protected string $view = 'field::filament.components.custom-fields';
+    protected array $include = [];
     
-    protected ?array $include = null;
-    
-    protected ?array $exclude = null;
+    protected array $exclude = [];
     
     protected ?string $resourceClass = null;
 
@@ -45,6 +43,11 @@ class CustomFields extends Component
         return $this;
     }
     
+    protected function getResourceClass(): string
+    {
+        return $this->resourceClass;
+    }
+    
     public function getSchema(): array
     {
         $fields = $this->getFields();
@@ -59,24 +62,15 @@ class CustomFields extends Component
         $query = Field::query()
             ->where('customizable_type', $this->getResourceClass()::getModel());
             
-        if ($this->include) {
+        if (! empty($this->include)) {
             $query->whereIn('code', $this->include);
         }
         
-        if ($this->exclude) {
+        if (! empty($this->exclude)) {
             $query->whereNotIn('code', $this->exclude);
         }
         
         return $query->orderBy('sort_order')->get();
-    }
-    
-    protected function getResourceClass(): string
-    {
-        if (! $this->resourceClass) {
-            $this->resourceClass = get_class($this->getRecord());
-        }
-        
-        return $this->resourceClass;
     }
     
     protected function createField(Field $field): Forms\Components\Component
@@ -99,25 +93,32 @@ class CustomFields extends Component
         $component = $componentClass::make($field->code)
             ->label($field->name);
         
-        // Apply field validations
         if (! empty($field->form_settings['validations'])) {
             foreach ($field->form_settings['validations'] as $validation) {
                 $this->applyValidation($component, $validation);
             }
         }
         
-        // Apply field settings
         if (! empty($field->form_settings['settings'])) {
             foreach ($field->form_settings['settings'] as $setting) {
                 $this->applySetting($component, $setting);
             }
         }
         
-        // Handle select/radio/checkbox options
+        if ($field->type == 'text' && $field->input_type != 'text') {
+            $component->{$field->input_type}();
+        }
+        
         if (in_array($field->type, ['select', 'radio', 'checkbox_list']) && ! empty($field->options)) {
-            $options = collect($field->options)->toArray();
-            $options = array_combine($options, $options);
-            $component->options($options);
+            $component->options(function() use ($field) {
+                return collect($field->options)
+                    ->mapWithKeys(fn ($option) => [$option => $option])
+                    ->toArray();
+            });
+
+            if ($field->is_multiselect) {
+                $component->multiple();
+            }
         }
         
         return $component;
@@ -126,6 +127,9 @@ class CustomFields extends Component
     protected function applyValidation(Forms\Components\Component $component, array $validation): void
     {
         $rule = $validation['validation'];
+
+        $field = $validation['field'] ?? null;
+
         $value = $validation['value'] ?? null;
         
         if (method_exists($component, $rule)) {
@@ -140,7 +144,6 @@ class CustomFields extends Component
     protected function applySetting(Forms\Components\Component $component, array $setting): void
     {
         $name = $setting['setting'];
-        $field = $setting['field'] ?? null;
         $value = $setting['value'] ?? null;
         
         if (method_exists($component, $name)) {
