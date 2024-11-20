@@ -2,17 +2,16 @@
 
 namespace Webkul\Chatter\Filament\Actions;
 
-use App\Models\Chat;
 use Filament\Actions\Action;
 use Filament\Support\Enums\MaxWidth;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 
-class ChatterAction extends Action
+class FollowerAction extends Action
 {
     public static function getDefaultName(): ?string
     {
-        return 'chatter.action';
+        return 'follower.action';
     }
 
     protected function setUp(): void
@@ -21,11 +20,12 @@ class ChatterAction extends Action
 
         $this
             ->hiddenLabel()
-            ->icon('heroicon-s-chat-bubble-left-right')
+            ->icon('heroicon-s-user-plus')
             ->color('gray')
-            ->slideOver()
-            ->modalContentFooter(fn(Model $record): View => view('chatter::filament.widgets.chatter', compact('record')))
-            ->modalHeading('Chatter')
+            ->modal()
+            ->badge(fn(Model $record): int => $record->followers()->count())
+            ->modalContentFooter(fn(Model $record): View => view('chatter::filament.widgets.followers', compact('record')))
+            ->modalHeading('Followers')
             ->modalWidth(MaxWidth::Large)
             ->modalSubmitAction(false)
             ->modalCancelAction(false);
