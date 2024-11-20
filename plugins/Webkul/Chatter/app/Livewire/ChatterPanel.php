@@ -138,6 +138,7 @@ class ChatterPanel extends Component implements HasForms, HasActions
         return [
             'createMessageForm',
             'createLogForm',
+            'createScheduleActivityForm'
         ];
     }
 
@@ -172,6 +173,49 @@ class ChatterPanel extends Component implements HasForms, HasActions
                     ->default('note'),
             ])
             ->statePath('logForm');
+    }
+
+    public function createScheduleActivityForm(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\Select::make('type')
+                            ->label('Type')
+                            ->options([
+                                'todo'   => 'To Do',
+                                'email'   => 'Email',
+                                'call'    => 'Call',
+                                'meeting' => 'Meeting',
+                            ])
+                            ->default('todo')
+                            ->required(),
+                        Forms\Components\DateTimePicker::make('due_date')
+                            ->label('Due Date')
+                            ->required(),
+                    ])->columns(2),
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\TextInput::make('summary')
+                            ->label('Summary')
+                            ->required(),
+                        Forms\Components\Select::make('assigned_to')
+                            ->label('Assigned To')
+                            ->searchable()
+                            ->live()
+                            ->options(User::all()->pluck('name', 'id')->toArray())
+                            ->required(),
+                    ])->columns(2),
+                Forms\Components\RichEditor::make('content')
+                    ->hiddenLabel()
+                    ->placeholder('Type your message here...')
+                    ->required(),
+                Forms\Components\Hidden::make('type')
+                    ->default('log'),
+                Forms\Components\Hidden::make('sub_type')
+                    ->default('schedule'),
+            ]);
     }
 
     public function create(): void

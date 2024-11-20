@@ -22,8 +22,11 @@
 
             <x-filament::tabs.item
                 :active="$activeTab === 'activity'"
+                wire:click="$set('activeTab', 'activity')"
+                icon="heroicon-o-chat-bubble-oval-left"
+                badge="{{ $this->record->chats()->where('notified', 0)->count() }}"
             >
-                Schedule Activity
+                Activity
             </x-filament::tabs.item>
 
             <div class="ml-auto flex items-center">
@@ -180,22 +183,16 @@
 
     @if($activeTab === 'activity')
         <div class="space-y-4">
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Activity Details</label>
-                <textarea
-                    wire:model="activity"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-                    rows="4"
-                ></textarea>
-                @error('activity') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
-            </div>
+            {{ $this->createScheduleActivityForm }}
 
-            <button
-                wire:click="saveActivity"
-                class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+            <x-filament::button
+                wire:click="create"
+                icon="heroicon-m-paper-airplane"
+                wire:loading.attr="disabled"
+                class="inline-flex items-center gap-2"
             >
-                Record Activity
-            </button>
+                Send Message
+            </x-filament::button>
         </div>
     @endif
 
