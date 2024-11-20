@@ -26,7 +26,8 @@ class ChatterAction extends Action
             ->slideOver()
             ->modalContentFooter(fn(Model $record): View => view('chatter::filament.widgets.chatter', compact('record')))
             ->modalHeading('Chatter')
-            ->modalWidth(MaxWidth::Large)
+            ->badge(fn(Model $record): int => $record->chats()->count())
+            ->modalWidth(MaxWidth::ThreeExtraLarge)
             ->modalSubmitAction(false)
             ->modalCancelAction(false);
     }

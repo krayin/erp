@@ -2,7 +2,6 @@
 
 namespace Webkul\Chatter\Livewire;
 
-use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
 use Filament\Forms;
@@ -14,6 +13,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
+use Webkul\Chatter\Enums\ActivityType;
 use Webkul\Chatter\Filament\Actions\FollowerAction;
 use Webkul\Chatter\Mail\SendMessage;
 use Webkul\Chatter\Models\Chat;
@@ -29,11 +29,13 @@ class ChatterPanel extends Component implements HasForms, HasActions
 
     public ?array $logForm = [];
 
+    public ?array $scheduleActivityForm = [];
+
     public bool $showFollowerModal = false;
 
     public string $searchQuery = '';
 
-    public string $activeTab = 'message';
+    public string $activeTab = '';
 
     protected $listeners = ['refreshFollowers' => '$refresh'];
 
@@ -44,6 +46,13 @@ class ChatterPanel extends Component implements HasForms, HasActions
         $this->createMessageForm->fill();
 
         $this->createLogForm->fill();
+
+        $this->createScheduleActivityForm->fill();
+    }
+
+    public function toggleTab(string $tab): void
+    {
+        $this->activeTab = $this->activeTab === $tab ? '' : $tab;
     }
 
     public function followerAction(): FollowerAction
@@ -110,14 +119,12 @@ class ChatterPanel extends Component implements HasForms, HasActions
             foreach ($this->followers as $follower) {
                 Mail::queue(new SendMessage($this->record, $follower, $chat));
             }
-
-            $chat->update(['notified' => true]);
         } catch (\Exception $e) {
             report($e);
         }
     }
 
-    public function delete($chatId)
+    public function deleteChat($chatId)
     {
         $chat = Chat::find($chatId);
 
@@ -138,7 +145,7 @@ class ChatterPanel extends Component implements HasForms, HasActions
         return [
             'createMessageForm',
             'createLogForm',
-            'createScheduleActivityForm'
+            'createScheduleActivityForm',
         ];
     }
 
@@ -151,8 +158,6 @@ class ChatterPanel extends Component implements HasForms, HasActions
                     ->placeholder('Type your message here...')
                     ->required(),
                 Forms\Components\Hidden::make('type')
-                    ->default('message'),
-                Forms\Components\Hidden::make('sub_type')
                     ->default('message'),
             ])
             ->statePath('messageForm');
@@ -169,8 +174,6 @@ class ChatterPanel extends Component implements HasForms, HasActions
                     ->required(),
                 Forms\Components\Hidden::make('type')
                     ->default('log'),
-                Forms\Components\Hidden::make('sub_type')
-                    ->default('note'),
             ])
             ->statePath('logForm');
     }
@@ -181,18 +184,13 @@ class ChatterPanel extends Component implements HasForms, HasActions
             ->schema([
                 Forms\Components\Group::make()
                     ->schema([
-                        Forms\Components\Select::make('type')
-                            ->label('Type')
-                            ->options([
-                                'todo'   => 'To Do',
-                                'email'   => 'Email',
-                                'call'    => 'Call',
-                                'meeting' => 'Meeting',
-                            ])
-                            ->default('todo')
+                        Forms\Components\Select::make('activity_type')
+                            ->label('Activity Type')
+                            ->options(ActivityType::options())
                             ->required(),
-                        Forms\Components\DateTimePicker::make('due_date')
+                        Forms\Components\DatePicker::make('due_date')
                             ->label('Due Date')
+                            ->native(false)
                             ->required(),
                     ])->columns(2),
                 Forms\Components\Group::make()
@@ -212,15 +210,29 @@ class ChatterPanel extends Component implements HasForms, HasActions
                     ->placeholder('Type your message here...')
                     ->required(),
                 Forms\Components\Hidden::make('type')
-                    ->default('log'),
-                Forms\Components\Hidden::make('sub_type')
-                    ->default('schedule'),
-            ]);
+                    ->default('activity'),
+            ])
+            ->statePath('scheduleActivityForm');
+    }
+
+    public function getFormType(): string
+    {
+        if ($this->activeTab === 'message') {
+            return 'createMessageForm';
+        }
+
+        if ($this->activeTab === 'log') {
+            return 'createLogForm';
+        }
+
+        if ($this->activeTab === 'activity') {
+            return 'createScheduleActivityForm';
+        }
     }
 
     public function create(): void
     {
-        $formType = $this->activeTab === 'message' ? 'createMessageForm' : 'createLogForm';
+        $formType = $this->getFormType();
 
         $data = $this->{$formType}->getState();
 

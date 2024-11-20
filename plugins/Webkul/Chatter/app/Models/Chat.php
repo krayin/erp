@@ -11,12 +11,13 @@ class Chat extends Model
 {
     protected $fillable = [
         'content',
-        'notified',
         'type',
-        'sub_type',
         'activity_type',
         'pinned',
         'user_id',
+        'due_date',
+        'summary',
+        'assigned_to',
     ];
 
     public function chattable(): MorphTo
@@ -29,27 +30,13 @@ class Chat extends Model
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * Scope to get pinned chats.
-     */
-    public function scopePinned($query)
+    public function assignedTo(): BelongsTo
     {
-        return $query->where('pinned', true);
+        return $this->belongsTo(User::class, 'assigned_to');
     }
 
-    /**
-     * Pin a chat message.
-     */
-    public function pin()
+    public function attachments()
     {
-        $this->update(['pinned' => true]);
-    }
-
-    /**
-     * Unpin a chat message.
-     */
-    public function unpin()
-    {
-        $this->update(['pinned' => false]);
+        return $this->hasMany(ChatAttachment::class);
     }
 }

@@ -10,9 +10,6 @@ enum TaskStatus: string
 
     case Completed = 'completed';
 
-    /**
-     * Get all task status options for forms or dropdowns.
-     */
     public static function options(): array
     {
         return [
