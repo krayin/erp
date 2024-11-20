@@ -2,6 +2,7 @@
 
 namespace Webkul\Field\Filament\Traits;
 
+use Filament\Widgets\StatsOverviewWidget\Stat;
 use Webkul\Field\Filament\Forms\Components\CustomFields;
 use Webkul\Field\Filament\Tables\Columns\CustomColumns;
 use Webkul\Field\Filament\Tables\Filters\CustomFilters;

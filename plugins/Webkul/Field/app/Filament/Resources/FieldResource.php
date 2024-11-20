@@ -128,7 +128,7 @@ class FieldResource extends Resource
                                     ->searchable()
                                     ->native(false)
                                     ->disabledOn('edit')
-                                    ->options(fn () => collect(Filament::getResources())->filter(fn ($resource) => $resource !== self::class)->mapWithKeys(fn ($resource) => [
+                                    ->options(fn () => collect(Filament::getResources())->filter(fn ($resource) => in_array('Webkul\Field\Filament\Traits\HasCustomFields', class_uses($resource)))->mapWithKeys(fn ($resource) => [
                                         $resource::getModel() => str($resource)->afterLast('\\')->toString(),
                                     ])),
                             ]),
@@ -173,7 +173,7 @@ class FieldResource extends Resource
                     ]),
                 Tables\Filters\SelectFilter::make('customizable_type')
                     ->label('Resource')
-                    ->options(fn () => collect(Filament::getResources())->filter(fn ($resource) => $resource !== self::class)->mapWithKeys(fn ($resource) => [
+                    ->options(fn () => collect(Filament::getResources())->filter(fn ($resource) => in_array('Webkul\Field\Filament\Traits\HasCustomFields', class_uses($resource)))->mapWithKeys(fn ($resource) => [
                         $resource::getModel() => str($resource)->afterLast('\\')->toString(),
                     ])),
             ])
@@ -377,13 +377,13 @@ class FieldResource extends Resource
                                     'row' => 'Row',
                                     'column' => 'Column',
                                 ]),
-                            Forms\Components\Toggle::make('value')
-                                ->label('Value')
-                                ->required()
-                                ->inline(false)
-                                ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
-                                    'native',
-                                ])),
+                            // Forms\Components\Toggle::make('value')
+                            //     ->label('Value')
+                            //     ->required()
+                            //     ->inline(false)
+                            //     ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
+                            //         'native',
+                            //     ])),
                             Forms\Components\Select::make('value')
                                 ->label('Value')
                                 ->required()
