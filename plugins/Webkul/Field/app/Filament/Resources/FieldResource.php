@@ -223,7 +223,7 @@ class FieldResource extends Resource
                         ->hiddenLabel()
                         ->schema([
                             Forms\Components\Select::make('validation')
-                                ->label('validation')
+                                ->label('Validation')
                                 ->searchable()
                                 ->required()
                                 ->live()
