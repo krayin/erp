@@ -191,7 +191,7 @@
                 wire:loading.attr="disabled"
                 class="inline-flex items-center gap-2"
             >
-                Send Message
+                Save Activity
             </x-filament::button>
         </div>
     @endif
