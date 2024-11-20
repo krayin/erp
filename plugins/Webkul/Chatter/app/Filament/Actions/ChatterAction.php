@@ -24,7 +24,7 @@ class ChatterAction extends Action
             ->icon('heroicon-s-chat-bubble-left-right')
             ->color('gray')
             ->slideOver()
-            ->modalContentFooter(fn (Model $record): View => view('chatter::filament.widgets.chatter', compact('record')))
+            ->modalContentFooter(fn(Model $record): View => view('chatter::filament.widgets.chatter', compact('record')))
             ->modalHeading('Chatter')
             ->modalWidth(MaxWidth::Large)
             ->modalSubmitAction(false)

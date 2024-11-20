@@ -40,77 +40,211 @@
         </div>
     </div>
 
-    <!-- Message Form Section -->
-    <div class="space-y-4">
-        {{ $this->form }}
+    <!-- Tabs -->
+    <div class="w-full">
+        <x-filament::tabs>
+            <x-filament::tabs.item
+                :active="$activeTab === 'message'"
+                wire:click="$set('activeTab', 'message')"
+                icon="heroicon-o-chat-bubble-oval-left-ellipsis"
+                badge="{{ $this->record->getLatestChats()->count() }}"
+            >
+                Send
+            </x-filament::tabs.item>
 
-        <x-filament::button
-            wire:click="create"
-            icon="heroicon-m-paper-airplane"
-            wire:loading.attr="disabled"
-            class="inline-flex items-center gap-2"
-        >
-            Send Message
-        </x-filament::button>
+            <x-filament::tabs.item
+                :active="$activeTab === 'log'"
+                wire:click="$set('activeTab', 'log')"
+                icon="heroicon-o-chat-bubble-oval-left"
+                badge="{{ $this->record->chats()->where('notified', 0)->count() }}"
+            >
+                Log
+            </x-filament::tabs.item>
+
+            <x-filament::tabs.item
+                :active="$activeTab === 'activity'"
+            >
+                Schedule Activity
+            </x-filament::tabs.item>
+
+            <div class="ml-auto flex items-center">
+                <x-filament::button
+                    type="button"
+                    class="bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-400 text-white"
+                >
+                    <x-filament::icon
+                        icon="heroicon-m-user-plus"
+                        class="mr-2 h-5 w-5"
+                    />
+                </x-filament::button>
+            </div>
+        </x-filament::tabs>
     </div>
 
-    <!-- Messages Section -->
-    <x-filament::grid class="gap-4">
-        @foreach ($this->record->getLatestChats() as $chat)
-            <div 
-                class="block break-all rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-950/5 dark:bg-white/5 dark:ring-white/10"
-                style="word-break: break-all;"
+    @if($activeTab === 'message')
+        <div class="space-y-4">
+            {{ $this->createMessageForm }}
+
+            <x-filament::button
+                wire:click="create"
+                icon="heroicon-m-paper-airplane"
+                wire:loading.attr="disabled"
+                class="inline-flex items-center gap-2"
             >
-                <div class="flex gap-x-3">
-                    <x-filament-panels::avatar.user
-                        size="md"
-                        :user="$chat->user"
-                    />
+                Send Message
+            </x-filament::button>
+        </div>
 
-                    <div class="flex-grow space-y-2 pt-[6px]">
-                        <div class="flex items-center justify-between gap-x-2">
-                            <div class="flex items-center gap-x-2">
-                                <div class="text-sm font-medium text-gray-950 dark:text-white">
-                                    {{ $chat->user->name }}
+        <x-filament::grid class="gap-4">
+            @foreach ($this->record->getLatestChats() as $chat)
+                <div
+                    class="block break-all rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-950/5 dark:bg-white/5 dark:ring-white/10"
+                    style="word-break: break-all;"
+                >
+                    <div class="flex gap-x-3">
+                        <x-filament-panels::avatar.user
+                            size="md"
+                            :user="$chat->user"
+                        />
+
+                        <div class="flex-grow space-y-2 pt-[6px]">
+                            <div class="flex items-center justify-between gap-x-2">
+                                <div class="flex items-center gap-x-2">
+                                    <div class="text-sm font-medium text-gray-950 dark:text-white">
+                                        {{ $chat->user->name }}
+                                    </div>
+
+                                    <div class="text-xs font-medium text-gray-400 dark:text-gray-500">
+                                        {{ $chat->created_at->diffForHumans() }}
+                                    </div>
+
+                                    @if($chat->notified)
+                                        <span class="flex items-center justify-center gap-0.5 text-xs">
+                                            <x-filament::icon
+                                                icon="heroicon-m-check-circle"
+                                                class="mr-1 h-3 w-3"
+                                            />
+
+                                            Notified
+                                        </span>
+                                    @endif
                                 </div>
 
-                                <div class="text-xs font-medium text-gray-400 dark:text-gray-500">
-                                    {{ $chat->created_at->diffForHumans() }}
-                                </div>
-
-                                @if($chat->notified)
-                                    <span class="flex items-center justify-center gap-0.5 text-xs">
-                                        <x-filament::icon
-                                            icon="heroicon-m-check-circle"
-                                            class="mr-1 h-3 w-3"
+                                {{-- TODO: Handle when role and permission will done. --}}
+                                @if (true)
+                                    <div class="flex-shrink-0">
+                                        <x-filament::icon-button
+                                            wire:click="delete({{ $chat->id }})"
+                                            icon="heroicon-s-trash"
+                                            color="danger"
+                                            tooltip="Delete comment"
                                         />
-
-                                        Notified
-                                    </span>
+                                    </div>
                                 @endif
                             </div>
 
-                            {{-- TODO: Handle when role and permission will done. --}}
-                            @if (true)
-                                <div class="flex-shrink-0">
-                                    <x-filament::icon-button
-                                        wire:click="delete({{ $chat->id }})"
-                                        icon="heroicon-s-trash"
-                                        color="danger"
-                                        tooltip="Delete comment"
-                                    />
-                                </div>
-                            @endif
-                        </div>
-
-                        <div class="prose dark:prose-invert [&>*]:mb-2 [&>*]:mt-0 [&>*:last-child]:mb-0 prose-sm text-sm leading-6 text-gray-950 dark:text-white">
-                            {{ Str::of($chat->message)->toHtmlString() }}
+                            <div class="prose dark:prose-invert [&>*]:mb-2 [&>*]:mt-0 [&>*:last-child]:mb-0 prose-sm text-sm leading-6 text-gray-950 dark:text-white">
+                                {{ Str::of($chat->content)->toHtmlString() }}
+                            </div>
                         </div>
                     </div>
                 </div>
+            @endforeach
+        </x-filament::grid>
+    @endif
+
+    @if($activeTab === 'log')
+        <div class="space-y-4">
+            {{ $this->createLogForm }}
+
+            <x-filament::button
+                wire:click="create"
+                icon="heroicon-m-paper-airplane"
+                wire:loading.attr="disabled"
+                class="inline-flex items-center gap-2"
+            >
+                Send Message
+            </x-filament::button>
+        </div>
+
+        <x-filament::grid class="gap-4">
+            @foreach ($this->record->getLatestLog() as $chat)
+                <div
+                    class="block break-all rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-950/5 dark:bg-white/5 dark:ring-white/10"
+                    style="word-break: break-all;"
+                >
+                    <div class="flex gap-x-3">
+                        <x-filament-panels::avatar.user
+                            size="md"
+                            :user="$chat->user"
+                        />
+
+                        <div class="flex-grow space-y-2 pt-[6px]">
+                            <div class="flex items-center justify-between gap-x-2">
+                                <div class="flex items-center gap-x-2">
+                                    <div class="text-sm font-medium text-gray-950 dark:text-white">
+                                        {{ $chat->user->name }}
+                                    </div>
+
+                                    <div class="text-xs font-medium text-gray-400 dark:text-gray-500">
+                                        {{ $chat->created_at->diffForHumans() }}
+                                    </div>
+
+                                    @if($chat->notified)
+                                        <span class="flex items-center justify-center gap-0.5 text-xs">
+                                            <x-filament::icon
+                                                icon="heroicon-m-check-circle"
+                                                class="mr-1 h-3 w-3"
+                                            />
+
+                                            Notified
+                                        </span>
+                                    @endif
+                                </div>
+
+                                {{-- TODO: Handle when role and permission will done. --}}
+                                @if (true)
+                                    <div class="flex-shrink-0">
+                                        <x-filament::icon-button
+                                            wire:click="delete({{ $chat->id }})"
+                                            icon="heroicon-s-trash"
+                                            color="danger"
+                                            tooltip="Delete comment"
+                                        />
+                                    </div>
+                                @endif
+                            </div>
+
+                            <div class="prose dark:prose-invert [&>*]:mb-2 [&>*]:mt-0 [&>*:last-child]:mb-0 prose-sm text-sm leading-6 text-gray-950 dark:text-white">
+                                {{ Str::of($chat->content)->toHtmlString() }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </x-filament::grid>
+    @endif
+
+    @if($activeTab === 'activity')
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Activity Details</label>
+                <textarea
+                    wire:model="activity"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+                    rows="4"
+                ></textarea>
+                @error('activity') <span class="text-sm text-red-500">{{ $message }}</span> @enderror
             </div>
-        @endforeach
-    </x-filament::grid>
+
+            <button
+                wire:click="saveActivity"
+                class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+            >
+                Record Activity
+            </button>
+        </div>
+    @endif
 
     <!-- Add Follower Modal -->
     <div
@@ -142,7 +276,7 @@
                 <!-- Header -->
                 <div class="flex items-center justify-between border-b p-4">
                     <h2 class="text-xl font-semibold text-gray-900">Add Followers</h2>
-                    <button 
+                    <button
                         type="button"
                         wire:click="$toggle('showFollowerModal')"
                         class="rounded-full p-1.5 transition-colors hover:bg-gray-100"

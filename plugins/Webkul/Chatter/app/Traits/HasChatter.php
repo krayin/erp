@@ -23,11 +23,13 @@ trait HasChatter
             ->select('users.*');
     }
 
-    public function addChat($message, $userId): Model
+    public function addChat($data, $userId): Model
     {
         return $this->chats()->create([
-            'message' => $message,
-            'user_id' => $userId
+            'content'  => $data['content'],
+            'user_id'  => $userId,
+            'type'     => $data['type'],
+            'sub_type' => $data['sub_type'],
         ]);
     }
 
@@ -40,6 +42,17 @@ trait HasChatter
     {
         return $this->chats()
             ->with('user')
+            ->where('type', 'message')
+            ->latest()
+            ->limit($limit)
+            ->get();
+    }
+
+    public function getLatestLog($limit = 10)
+    {
+        return $this->chats()
+            ->with('user')
+            ->where('type', 'log')
             ->latest()
             ->limit($limit)
             ->get();

@@ -21,7 +21,9 @@ class ChatterPanel extends Component implements HasForms
 
     public Model $record;
 
-    public ?array $data = [];
+    public ?array $messageForm = [];
+
+    public ?array $logForm = [];
 
     public bool $showFollowerModal = false;
 
@@ -34,7 +36,10 @@ class ChatterPanel extends Component implements HasForms
     public function mount(Model $record): void
     {
         $this->record = $record;
-        $this->form->fill();
+
+        $this->createMessageForm->fill();
+
+        $this->createLogForm->fill();
     }
 
     public function getFollowersProperty()
@@ -51,7 +56,7 @@ class ChatterPanel extends Component implements HasForms
             ->select('users.id')
             ->pluck('users.id')
             ->toArray();
-        
+
         return User::query()
             ->whereNotIn('users.id', array_merge($followerIds, [$this->record->user_id]))
             ->when($this->searchQuery, function ($query) {
@@ -80,7 +85,6 @@ class ChatterPanel extends Component implements HasForms
                 ->title($message)
                 ->success()
                 ->send();
-
         } catch (\Exception $e) {
             Notification::make()
                 ->title('Error managing follower.')
@@ -119,55 +123,65 @@ class ChatterPanel extends Component implements HasForms
             ->send();
     }
 
-    public function form(Form $form): Form
+    protected function getForms(): array
+    {
+        return [
+            'createMessageForm',
+            'createLogForm',
+        ];
+    }
+
+    public function createMessageForm(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Tabs::make('Tabs')
-                    ->tabs([
-                        Forms\Components\Tabs\Tab::make('Send')
-                            ->icon('heroicon-o-chat-bubble-oval-left-ellipsis')
-                            ->badge(fn () => $this->record->chats()->where('notified', 1)->count())
-                            ->schema([
-                                Forms\Components\RichEditor::make('content')
-                                    ->hiddenLabel()
-                                    ->placeholder('Type your message here...')
-                                    ->required(),
-                            ]),
-                        Forms\Components\Tabs\Tab::make('Log')
-                            ->icon('heroicon-o-chat-bubble-oval-left')
-                            ->badge(fn () => $this->record->chats()->where('notified', 0)->count())
-                            ->schema([
-                                Forms\Components\RichEditor::make('log_content')
-                                    ->hiddenLabel()
-                                    ->placeholder('Type your message here...')
-                                    ->toolbarButtons([
-                                        'bold',
-                                        'italic',   
-                                        'link',
-                                        'orderedList',
-                                        'unorderedList',
-                                    ]),
-                            ]),
-                    ]),
+                Forms\Components\RichEditor::make('content')
+                    ->hiddenLabel()
+                    ->placeholder('Type your message here...')
+                    ->required(),
+                Forms\Components\Hidden::make('type')
+                    ->default('message'),
+                Forms\Components\Hidden::make('sub_type')
+                    ->default('message'),
             ])
-            ->statePath('data');
+            ->statePath('messageForm');
+    }
+
+
+    public function createLogForm(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Forms\Components\RichEditor::make('content')
+                    ->hiddenLabel()
+                    ->placeholder('Type your message here...')
+                    ->required(),
+                Forms\Components\Hidden::make('type')
+                    ->default('log'),
+                Forms\Components\Hidden::make('sub_type')
+                    ->default('note'),
+            ])
+            ->statePath('logForm');
     }
 
     public function create(): void
     {
-        $data = $this->form->getState();
+        $formType = $this->activeTab === 'message' ? 'createMessageForm' : 'createLogForm';
+
+        $data = $this->{$formType}->getState();
 
         if (empty(trim($data['content']))) {
             return;
         }
 
         try {
-            $chat = $this->record->addChat($data['content'], auth()->id());
+            $chat = $this->record->addChat($data, auth()->id());
 
-            $this->notifyToFollowers($chat, $data);
+            if ($data['type'] === 'message') {
+                $this->notifyToFollowers($chat, $data);
+            }
 
-            $this->form->fill();
+            $this->{$formType}->fill();
 
             Notification::make()
                 ->title('Message sent successfully.')
