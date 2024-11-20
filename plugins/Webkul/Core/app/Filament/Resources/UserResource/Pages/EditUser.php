@@ -17,7 +17,6 @@ class EditUser extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            \Webkul\Chatter\Filament\Actions\ChatterAction::make(),
             Actions\Action::make('changePassword')
                 ->action(function (User $record, array $data): void {
                     $record->update([
@@ -38,7 +37,7 @@ class EditUser extends EditRecord
                     Forms\Components\TextInput::make('new_password_confirmation')
                         ->password()
                         ->label('Confirm New Password')
-                        ->rule('required', fn ($get) => (bool) $get('new_password'))
+                        ->rule('required', fn($get) => (bool) $get('new_password'))
                         ->same('new_password'),
                 ])
                 ->icon('heroicon-o-key'),
