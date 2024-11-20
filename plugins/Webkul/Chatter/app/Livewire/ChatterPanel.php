@@ -2,6 +2,9 @@
 
 namespace Webkul\Chatter\Livewire;
 
+use Filament\Actions\Action;
+use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
 use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -11,13 +14,14 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
+use Webkul\Chatter\Filament\Actions\FollowerAction;
 use Webkul\Chatter\Mail\SendMessage;
 use Webkul\Chatter\Models\Chat;
 use Webkul\Core\Models\User;
 
-class ChatterPanel extends Component implements HasForms
+class ChatterPanel extends Component implements HasForms, HasActions
 {
-    use InteractsWithForms;
+    use InteractsWithForms, InteractsWithActions;
 
     public Model $record;
 
@@ -40,6 +44,12 @@ class ChatterPanel extends Component implements HasForms
         $this->createMessageForm->fill();
 
         $this->createLogForm->fill();
+    }
+
+    public function followerAction(): FollowerAction
+    {
+        return FollowerAction::make('follower')
+            ->record($this->record);
     }
 
     public function getFollowersProperty()

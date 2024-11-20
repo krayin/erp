@@ -1,45 +1,4 @@
 <div class="flex h-full flex-col space-y-4">
-    <!-- Followers Section -->
-    <div class="rounded-xl border border-gray-200 bg-white p-4 shadow-md">
-        <div class="mb-4 flex items-center justify-between">
-            <!-- Followers Count -->
-            <h2 class="text-lg font-semibold text-gray-800">Followers ({{ $this->followers->count() }})</h2>
-
-            <x-filament::button
-                wire:click="$toggle('showFollowerModal')"
-                icon="heroicon-o-user-plus"
-                class="inline-flex items-center gap-1"
-            >
-                Add Follower
-            </x-filament::button>
-        </div>
-
-        <div class="flex flex-wrap gap-2">
-            @forelse($this->followers as $follower)
-                <div class="group relative inline-flex items-center break-words rounded-full bg-gray-100 px-3 py-1.5 transition-all duration-200 hover:bg-gray-200">
-                    <div class="flex items-center gap-2">
-                        <x-filament-panels::avatar.user
-                            size="sm"
-                            :user="$follower"
-                        />
-
-                        <span class="text-sm font-medium text-gray-900">{{ $follower->name }}</span>
-                    </div>
-
-                    <x-filament::icon-button
-                        wire:click="toggleFollower({{ $follower->id }})"
-                        icon="heroicon-m-x-mark"
-                        color="danger"
-                        class="text-gray-500"
-                        tooltip="Remove Follower"
-                    />
-                </div>
-            @empty
-                <p class="text-sm text-gray-500">No followers yet. Add followers to keep them updated.</p>
-            @endforelse
-        </div>
-    </div>
-
     <!-- Tabs -->
     <div class="w-full">
         <x-filament::tabs>
@@ -68,15 +27,9 @@
             </x-filament::tabs.item>
 
             <div class="ml-auto flex items-center">
-                <x-filament::button
-                    type="button"
-                    class="bg-primary-600 hover:bg-primary-700 focus:ring-primary-500 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-400 text-white"
-                >
-                    <x-filament::icon
-                        icon="heroicon-m-user-plus"
-                        class="mr-2 h-5 w-5"
-                    />
-                </x-filament::button>
+                {{ $this->followerAction }}
+
+                <x-filament-actions::modals />
             </div>
         </x-filament::tabs>
     </div>
