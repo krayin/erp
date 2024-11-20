@@ -49,16 +49,16 @@ class UserResource extends Resource
                     ])
                     ->columns(2),
                 Section::make('Permissions')->schema([
-                        Forms\Components\Select::make('roles')
-                            ->relationship('roles', 'name')
-                            ->multiple()
-                            ->preload(),
-                        Forms\Components\Select::make('teams')
-                            ->relationship('teams', 'name')
-                            ->multiple()
-                            ->preload(),
-                    ])
-                    ->columns(2)
+                    Forms\Components\Select::make('roles')
+                        ->relationship('roles', 'name')
+                        ->multiple()
+                        ->preload(),
+                    Forms\Components\Select::make('teams')
+                        ->relationship('teams', 'name')
+                        ->multiple()
+                        ->preload(),
+                ])
+                    ->columns(2),
             ]);
     }
 

@@ -13,4 +13,9 @@ class CreateUser extends CreateRecord
     {
         return 'User registered';
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->previousUrl ?? $this->getResource()::getUrl('index');
+    }
 }

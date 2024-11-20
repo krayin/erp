@@ -4,9 +4,9 @@ namespace Webkul\Core;
 
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Spatie\LaravelPackageTools\Exceptions\InvalidPackage;
 use Spatie\LaravelPackageTools\Package as BasePackage;
 use Spatie\LaravelPackageTools\PackageServiceProvider as BasePackageServiceProvider;
-use Spatie\LaravelPackageTools\Exceptions\InvalidPackage;
 
 abstract class PackageServiceProvider extends BasePackageServiceProvider
 {
@@ -39,23 +39,21 @@ abstract class PackageServiceProvider extends BasePackageServiceProvider
 
     public function newPackage(): Package
     {
-        return new Package();
+        return new Package;
     }
 
-    public function configurePackage(BasePackage $package): void
-    {
-    }
+    public function configurePackage(BasePackage $package): void {}
 
     public function boot()
     {
         $this->bootingPackage();
 
         if ($this->package->hasTranslations) {
-            $langPath = 'vendor/' . $this->package->shortName();
+            $langPath = 'vendor/'.$this->package->shortName();
 
             $langPath = (function_exists('lang_path'))
                 ? lang_path($langPath)
-                : resource_path('lang/' . $langPath);
+                : resource_path('lang/'.$langPath);
         }
 
         if ($this->app->runningInConsole()) {
@@ -97,7 +95,7 @@ abstract class PackageServiceProvider extends BasePackageServiceProvider
                     $this->loadMigrationsFrom($filePath);
                 }
             }
-            
+
             foreach ($this->package->settingFileNames as $settingFileName) {
                 $filePath = $this->package->basePath("/../database/settings/{$settingFileName}.php");
                 if (! file_exists($filePath)) {
@@ -156,7 +154,6 @@ abstract class PackageServiceProvider extends BasePackageServiceProvider
             ], "{$this->package->shortName()}-provider");
         }
 
-
         foreach ($this->package->routeFileNames as $routeFileName) {
             $this->loadRoutesFrom("{$this->package->basePath('/../routes/')}{$routeFileName}.php");
         }
@@ -176,7 +173,7 @@ abstract class PackageServiceProvider extends BasePackageServiceProvider
 
     public static function generateSettingName(string $settingFileName, Carbon $now): string
     {
-        $settingsPath = 'settings/' . dirname($settingFileName) . '/';
+        $settingsPath = 'settings/'.dirname($settingFileName).'/';
         $settingFileName = basename($settingFileName);
 
         $len = strlen($settingFileName) + 4;
@@ -188,11 +185,11 @@ abstract class PackageServiceProvider extends BasePackageServiceProvider
         }
 
         foreach (glob(database_path("{$settingsPath}*.php")) as $filename) {
-            if ((substr($filename, -$len) === $settingFileName . '.php')) {
+            if ((substr($filename, -$len) === $settingFileName.'.php')) {
                 return $filename;
             }
         }
 
-        return database_path($settingsPath . $now->format('Y_m_d_His') . '_' . Str::of($settingFileName)->snake()->finish('.php'));
+        return database_path($settingsPath.$now->format('Y_m_d_His').'_'.Str::of($settingFileName)->snake()->finish('.php'));
     }
 }

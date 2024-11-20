@@ -4,9 +4,12 @@ namespace Webkul\Core\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Webkul\Field\Traits\HasCustomFields;
 
 class Team extends Model
 {
+    use HasCustomFields;
+
     /**
      * Fillable.
      *
