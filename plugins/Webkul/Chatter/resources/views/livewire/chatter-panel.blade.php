@@ -158,12 +158,10 @@
                             </div>
                         </div>
 
-                        {{-- Activity Content --}}
                         <div class="prose dark:prose-invert prose-sm text-sm leading-6 text-gray-800 dark:text-gray-300">
                             {{ Str::of($activity->content)->toHtmlString() }}
                         </div>
 
-                        {{-- Activity Additional Details --}}
                         <div class="mt-3 space-y-1 text-sm text-gray-600 dark:text-gray-400">
                             @if ($activity->type)
                                 <div>
@@ -213,6 +211,50 @@
                     style="word-break: break-word;"
                 >
                     @if ($chat->type === 'file')
+                        <div class="flex flex-col gap-2">
+                            <div class="flex items-center gap-3">
+                                <x-filament-panels::avatar.user
+                                    size="md"
+                                    :user="$chat->user"
+                                />
+
+                                <div class="flex items-center justify-between gap-x-2">
+                                    <div class="flex items-center gap-x-2">
+                                        <div class="text-sm font-medium text-gray-950 dark:text-white">
+                                            {{ $chat->user->name }}
+                                        </div>
+
+                                        <div class="text-xs font-medium text-gray-400 dark:text-gray-500">
+                                            {{ $chat->created_at->diffForHumans() }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @foreach($chat->attachments as $attachment)
+                                <div class="flex-grow space-y-2 pt-[6px]">
+                                    <a
+                                        href="{{ $attachment->url }}"
+                                        target="_blank"
+                                        download="{{ $attachment->original_file_name }}"
+                                        class="flex items-center gap-3 space-x-3 rounded-md p-2 transition-colors hover:bg-gray-100"
+                                    >
+                                        <div class="flex items-center justify-center rounded-md bg-gray-200 p-2">
+                                            <x-filament::icon
+                                                icon="heroicon-m-document"
+                                                class="h-5 w-5 text-gray-500 dark:text-gray-400"
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <p class="max-w-[200px] truncate font-medium text-gray-800">{{ $attachment->original_file_name }}</p>
+
+                                            <p class="max-w-[200px] truncate text-sm text-gray-500">{{ $attachment->size }}</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
                     @else
                         <div class="flex gap-x-3">
                             <x-filament-panels::avatar.user
