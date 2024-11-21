@@ -11,8 +11,7 @@ use Webkul\Field\Traits\HasCustomFields;
 
 class Task extends Model
 {
-    use HasChatter;
-    use HasCustomFields;
+    use HasChatter, HasCustomFields, HasLogActivity;
 
     protected $fillable = [
         'title',

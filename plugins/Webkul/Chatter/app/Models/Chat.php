@@ -10,14 +10,21 @@ use Webkul\Core\Models\User;
 class Chat extends Model
 {
     protected $fillable = [
-        'content',
+        'chattable_type',
+        'chattable_id',
         'type',
         'activity_type',
-        'pinned',
+        'content',
+        'changes',
         'user_id',
-        'due_date',
-        'summary',
         'assigned_to',
+        'due_date',
+        'summary'
+    ];
+
+    protected $casts = [
+        'changes'  => 'array',
+        'due_date' => 'date',
     ];
 
     public function chattable(): MorphTo

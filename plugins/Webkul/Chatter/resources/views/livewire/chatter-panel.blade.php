@@ -19,7 +19,7 @@
                 icon="heroicon-o-chat-bubble-oval-left"
                 :badge="$this->record->chats()->where('type', 'log')->count()"
             >
-                Log
+                Log Note
             </x-filament::tabs.item>
 
             <!-- Activity Tab -->

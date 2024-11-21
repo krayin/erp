@@ -134,13 +134,7 @@ class ChatterPanel extends Component implements HasForms, HasActions, HasInfolis
 
     public function deleteChat($chatId)
     {
-        $chat = Chat::find($chatId);
-
-        if (! $chat) {
-            return;
-        }
-
-        $chat->delete();
+        $this->record->removeChat($chatId);
 
         Notification::make()
             ->title('Chat is deleted successfully.')
@@ -182,7 +176,7 @@ class ChatterPanel extends Component implements HasForms, HasActions, HasInfolis
                     ->placeholder('Type your message here...')
                     ->required(),
                 Forms\Components\Hidden::make('type')
-                    ->default('log'),
+                    ->default('note'),
             ])
             ->statePath('logForm');
     }
