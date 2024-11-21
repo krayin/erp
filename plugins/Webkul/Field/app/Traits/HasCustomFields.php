@@ -44,6 +44,10 @@ trait HasCustomFields
      */
     public function mergeCasts($attributes)
     {
+        if (is_array($attributes)) {
+            return $attributes;
+        }
+        
         foreach ($attributes as $attribute) {
             match ($attribute->type) {
                 'select' => $this->casts[$attribute->code] = $attribute->is_multiselect ? 'array' : 'string',

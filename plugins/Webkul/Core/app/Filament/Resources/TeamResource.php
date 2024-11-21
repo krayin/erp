@@ -9,12 +9,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Webkul\Core\Filament\Resources\TeamResource\Pages;
 use Webkul\Core\Models\Team;
-use Webkul\Field\Filament\Traits\HasCustomFields;
 
 class TeamResource extends Resource
 {
-    use HasCustomFields;
-
     protected static ?string $model = Team::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
@@ -26,28 +23,23 @@ class TeamResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema(static::mergeCustomFormFields([
+            ->schema([
                 Forms\Components\TextInput::make('name')
                     ->label('Name')
                     ->required()
                     ->maxLength(255),
-            ]));
+            ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->columns(static::mergeCustomTableColumns([
+            ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('Name')
                     ->searchable()
                     ->sortable(),
-            ]))
-            ->filters(self::getCustomTableFilters())
-            // ->filters([
-            //     \Filament\Tables\Filters\QueryBuilder::make()
-            //         ->constraints(static::getTableQueryBuilderConstraints()),
-            // ])
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),

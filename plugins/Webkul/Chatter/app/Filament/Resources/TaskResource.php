@@ -10,9 +10,12 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Webkul\Chatter\Enums\TaskStatus;
+use Webkul\Field\Filament\Traits\HasCustomFields;
 
 class TaskResource extends Resource
 {
+    use HasCustomFields;
+
     protected static ?string $model = Task::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
@@ -60,13 +63,18 @@ class TaskResource extends Resource
                             ->relationship('followers', 'name')
                             ->preload()
                     ])->columns(2),
+    
+                Forms\Components\Section::make('Additional Information')
+                    ->description('This is the customer fields information')
+                    ->schema(static::getCustomFormFields())
+                    ->columns(2),
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
+            ->columns(static::mergeCustomTableColumns([
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
@@ -87,10 +95,12 @@ class TaskResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])
+            ]))
             ->filters([
-                //
+                Tables\Filters\QueryBuilder::make()
+                    ->constraints(static::getTableQueryBuilderConstraints()),
             ])
+            ->filtersFormColumns(2)
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
