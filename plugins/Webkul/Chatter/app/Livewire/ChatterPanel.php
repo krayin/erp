@@ -158,29 +158,6 @@ class ChatterPanel extends Component implements HasForms, HasActions, HasInfolis
         ];
     }
 
-    // create infolist for chat
-    public function getInfolists(): array
-    {
-        return [
-            'chats' => [
-                'query' => $this->record->chats()
-                    ->with('user')
-                    ->with('attachments')
-                    ->latest()
-                    ->paginate(10),
-                'columns' => [
-                    'content' => 'Content',
-                    'user.name' => 'User',
-                    'created_at' => 'Created At',
-                ],
-                'actions' => [
-                    'deleteChat' => 'Delete',
-                ],
-            ],
-        ];
-    }
-
-
     public function createMessageForm(Form $form): Form
     {
         return $form
