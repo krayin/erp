@@ -5,6 +5,7 @@ namespace Webkul\Chatter\Traits;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Webkul\Chatter\Models\ActivityLog;
 
 trait HasLogActivity
@@ -37,7 +38,7 @@ trait HasLogActivity
         $changes = $this->determineChanges($event);
 
         return $this->createActivityLog([
-            'event' => $event,
+            'event'   => $event,
             'changes' => $changes
         ]);
     }
@@ -67,7 +68,7 @@ trait HasLogActivity
                 'user_agent'  => request()->userAgent(),
             ]);
         } catch (\Exception $e) {
-            \Log::error('Activity Log Creation Failed: ' . $e->getMessage());
+            Log::error('Activity Log Creation Failed: ' . $e->getMessage());
 
             return;
         }
