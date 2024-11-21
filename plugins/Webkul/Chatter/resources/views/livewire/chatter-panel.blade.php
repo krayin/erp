@@ -100,7 +100,7 @@
                 {{ $this->createFileForm }}
 
                 <x-filament::button
-                    wire:click="uploadFiles"
+                    wire:click="create"
                     icon="heroicon-m-paper-airplane"
                     wire:loading.attr="disabled"
                     class="inline-flex items-center gap-2"
@@ -212,41 +212,44 @@
                     class="block w-full rounded-xl p-4 shadow-sm ring-1 ring-gray-950/5 dark:ring-white/10 {{ $chat->type === 'log' ? 'bg-gray-100 dark:bg-gray-800' : 'bg-white dark:bg-white/5' }}"
                     style="word-break: break-word;"
                 >
-                    <div class="flex gap-x-3">
-                        <x-filament-panels::avatar.user
-                            size="md"
-                            :user="$chat->user"
-                        />
+                    @if ($chat->type === 'file')
+                    @else
+                        <div class="flex gap-x-3">
+                            <x-filament-panels::avatar.user
+                                size="md"
+                                :user="$chat->user"
+                            />
 
-                        <div class="flex-grow space-y-2 pt-[6px]">
-                            <div class="flex items-center justify-between gap-x-2">
-                                <div class="flex items-center gap-x-2">
-                                    <div class="text-sm font-medium text-gray-950 dark:text-white">
-                                        {{ $chat->user->name }}
+                            <div class="flex-grow space-y-2 pt-[6px]">
+                                <div class="flex items-center justify-between gap-x-2">
+                                    <div class="flex items-center gap-x-2">
+                                        <div class="text-sm font-medium text-gray-950 dark:text-white">
+                                            {{ $chat->user->name }}
+                                        </div>
+
+                                        <div class="text-xs font-medium text-gray-400 dark:text-gray-500">
+                                            {{ $chat->created_at->diffForHumans() }}
+                                        </div>
                                     </div>
 
-                                    <div class="text-xs font-medium text-gray-400 dark:text-gray-500">
-                                        {{ $chat->created_at->diffForHumans() }}
-                                    </div>
+                                    @if (true)
+                                        <div class="flex-shrink-0">
+                                            <x-filament::icon-button
+                                                wire:click="deleteChat({{ $chat->id }})"
+                                                icon="heroicon-s-trash"
+                                                color="danger"
+                                                tooltip="Delete comment"
+                                            />
+                                        </div>
+                                    @endif
                                 </div>
 
-                                @if (true)
-                                    <div class="flex-shrink-0">
-                                        <x-filament::icon-button
-                                            wire:click="deleteChat({{ $chat->id }})"
-                                            icon="heroicon-s-trash"
-                                            color="danger"
-                                            tooltip="Delete comment"
-                                        />
-                                    </div>
-                                @endif
-                            </div>
-
-                            <div class="prose dark:prose-invert prose-sm text-sm leading-6 text-gray-950 dark:text-white">
-                                {{ Str::of($chat->content)->toHtmlString() }}
+                                <div class="prose dark:prose-invert prose-sm text-sm leading-6 text-gray-950 dark:text-white">
+                                    {{ Str::of($chat->content)->toHtmlString() }}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             @endforeach
         @empty

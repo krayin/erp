@@ -5,29 +5,35 @@ namespace Webkul\Chatter\Livewire;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
 use Filament\Forms;
+use Filament\Forms\Components\Contracts\HasFileAttachments;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
+use Filament\Infolists\Concerns\InteractsWithInfolists;
+use Filament\Infolists\Contracts\HasInfolists;
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Webkul\Chatter\Enums\ActivityType;
 use Webkul\Chatter\Filament\Actions\FollowerAction;
 use Webkul\Chatter\Mail\SendMessage;
 use Webkul\Chatter\Models\Chat;
 use Webkul\Core\Models\User;
 
-class ChatterPanel extends Component implements HasForms, HasActions
+class ChatterPanel extends Component implements HasForms, HasActions, HasInfolists
 {
-    use InteractsWithForms, InteractsWithActions;
+    use InteractsWithForms, InteractsWithActions, WithFileUploads, InteractsWithInfolists;
 
     public Model $record;
 
     public ?array $messageForm = [];
 
     public ?array $logForm = [];
+
+    public ?array $fileForm = [];
 
     public ?array $scheduleActivityForm = [];
 
@@ -48,6 +54,8 @@ class ChatterPanel extends Component implements HasForms, HasActions
         $this->createLogForm->fill();
 
         $this->createScheduleActivityForm->fill();
+
+        $this->createFileForm->fill();
     }
 
     public function toggleTab(string $tab): void
@@ -146,8 +154,32 @@ class ChatterPanel extends Component implements HasForms, HasActions
             'createMessageForm',
             'createLogForm',
             'createScheduleActivityForm',
+            'createFileForm',
         ];
     }
+
+    // create infolist for chat
+    public function getInfolists(): array
+    {
+        return [
+            'chats' => [
+                'query' => $this->record->chats()
+                    ->with('user')
+                    ->with('attachments')
+                    ->latest()
+                    ->paginate(10),
+                'columns' => [
+                    'content' => 'Content',
+                    'user.name' => 'User',
+                    'created_at' => 'Created At',
+                ],
+                'actions' => [
+                    'deleteChat' => 'Delete',
+                ],
+            ],
+        ];
+    }
+
 
     public function createMessageForm(Form $form): Form
     {
@@ -215,6 +247,22 @@ class ChatterPanel extends Component implements HasForms, HasActions
             ->statePath('scheduleActivityForm');
     }
 
+    public function createFileForm(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Forms\Components\FileUpload::make('file')
+                    ->label('File')
+                    ->multiple()
+                    ->directory('chats-attachments')
+                    ->panelLayout('grid')
+                    ->required(),
+                Forms\Components\Hidden::make('type')
+                    ->default('file'),
+            ])
+            ->statePath('fileForm');
+    }
+
     public function getFormType(): string
     {
         if ($this->activeTab === 'message') {
@@ -228,6 +276,10 @@ class ChatterPanel extends Component implements HasForms, HasActions
         if ($this->activeTab === 'activity') {
             return 'createScheduleActivityForm';
         }
+
+        if ($this->activeTab === 'file') {
+            return 'createFileForm';
+        }
     }
 
     public function create(): void
@@ -236,12 +288,25 @@ class ChatterPanel extends Component implements HasForms, HasActions
 
         $data = $this->{$formType}->getState();
 
-        if (empty(trim($data['content']))) {
-            return;
-        }
-
         try {
             $chat = $this->record->addChat($data, auth()->id());
+
+            if ($formType === 'createFileForm') {
+                $chat->attachments()
+                    ->createMany(
+                        collect($data['file'] ?? [])
+                            ->map(function ($filePath) {
+                                return [
+                                    'file_path'          => $filePath,
+                                    'original_file_name' => basename($filePath),
+                                    'mime_type'          => mime_content_type($storagePath = storage_path('app/public/' . $filePath)) ?: 'application/octet-stream',
+                                    'file_size'          => filesize($storagePath) ?: 0,
+                                ];
+                            })
+                            ->filter()
+                            ->toArray()
+                    );
+            }
 
             if ($data['type'] === 'message') {
                 $this->notifyToFollowers($chat, $data);

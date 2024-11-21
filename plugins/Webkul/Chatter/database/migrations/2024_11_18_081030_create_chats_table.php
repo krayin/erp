@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('chats', function (Blueprint $table) {
             $table->id();
-            $table->text('content');
+            $table->text('content')->nullable();
             $table->morphs('chattable');
             $table->string('type');
             $table->string('activity_type')->nullable()->default(null);
