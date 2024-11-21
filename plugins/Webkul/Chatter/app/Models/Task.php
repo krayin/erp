@@ -13,7 +13,6 @@ class Task extends Model
 {
     use HasChatter;
     use HasCustomFields;
-    use HasLogActivity;
 
     protected $fillable = [
         'title',
