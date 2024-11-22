@@ -1,0 +1,30 @@
+{
+    "name": "webkul/table-views",
+    "description": "",
+    "authors": [
+        {
+            "name": "Jitendra Singh",
+            "email": "jitendra@webkul.in"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webkul\\TableViews\\Providers\\TableViewsServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Webkul\\TableViews\\": "app/",
+            "Webkul\\TableViews\\Database\\Factories\\": "database/factories/",
+            "Webkul\\TableViews\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webkul\\TableViews\\Tests\\": "tests/"
+        }
+    }
+}

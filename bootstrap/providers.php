@@ -6,5 +6,5 @@ return [
     Webkul\Chatter\ChatterServiceProvider::class,
     Webkul\Core\CoreServiceProvider::class,
     Webkul\Field\FieldServiceProvider::class,
-    Webkul\SavedFilters\SavedFiltersServiceProvider::class,
+    Webkul\TableViews\TableViewsServiceProvider::class,
 ];
