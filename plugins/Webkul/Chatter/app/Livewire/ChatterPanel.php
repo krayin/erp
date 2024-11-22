@@ -22,6 +22,10 @@ use Webkul\Chatter\Filament\Actions\FollowerAction;
 use Webkul\Chatter\Mail\SendMessage;
 use Webkul\Chatter\Models\Chat;
 use Webkul\Core\Models\User;
+use Filament\Infolists\Infolist;
+use Webkul\Chatter\Filament\Infolists\Components\ChatsRepeatableEntry;
+use Webkul\Chatter\Filament\Infolists\Components\ContentTextEntry;
+use Webkul\Chatter\Filament\Infolists\Components\TitleTextEntry;
 
 class ChatterPanel extends Component implements HasForms, HasActions, HasInfolists
 {
@@ -300,8 +304,27 @@ class ChatterPanel extends Component implements HasForms, HasActions, HasInfolis
         }
     }
 
+    public function chatInfolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->record($this->record)
+            ->schema([
+                ChatsRepeatableEntry::make('chats')
+                    ->hiddenLabel()
+                    ->schema([
+                        TitleTextEntry::make('user')
+                            ->extraAttributes(['class' => 'text-sm'])
+                            ->hiddenLabel(),
+                        ContentTextEntry::make('content')
+                            ->hiddenLabel()
+                    ]),
+            ]);
+    }
+
     public function render(): View
     {
-        return view('chatter::livewire.chatter-panel');
+        return view('chatter::livewire.chatter-panel', [
+            'chatInfolist' => $this->chatInfolist,
+        ]);
     }
 }

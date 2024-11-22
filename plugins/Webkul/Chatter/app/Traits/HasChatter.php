@@ -13,14 +13,6 @@ trait HasChatter
     public function chats(): MorphMany
     {
         return $this->morphMany(Chat::class, 'chattable')
-            ->where('type', '!=', 'activity')
-            ->latest();
-    }
-
-    public function activities(): MorphMany
-    {
-        return $this->morphMany(Chat::class, 'chattable')
-            ->where('type', 'activity')
             ->latest();
     }
 
