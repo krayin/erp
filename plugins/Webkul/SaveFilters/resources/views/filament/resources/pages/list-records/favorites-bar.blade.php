@@ -26,7 +26,6 @@
                     :icon-position="$tab->getIconPosition()"
                     :wire:click="'$call(\'loadFilter\', ' . (filled($tabKey) ? ('\'' . $tabKey . '\'') : 'null') . ')'"
                     :attributes="$tab->getExtraAttributeBag()"
-                    class="fi-color-{{ $color }}"
                     @style([
                         'border-bottom: 2px solid transparent; border-radius: 0',
                         'border-bottom: 2px solid rgb(var(--'.$color.'-500))' => $activeSavedFilter === $tabKey,
@@ -39,6 +38,18 @@
 
         <div class="flex gap-2">
             <x-filament-actions::modals />
+
+            <x-filament::loading-indicator
+                :attributes="
+                    \Filament\Support\prepare_inherited_attributes(
+                        new \Illuminate\View\ComponentAttributeBag([
+                            'wire:loading.delay.' . config('filament.livewire_loading_delay', 'default') => '',
+                            'wire:loading' => 'wire:loading',
+                            'wire:target' => 'loadFilter',
+                        ])
+                    )->class(['h-5 w-5 text-gray-400 dark:text-gray-500'])
+                "
+            />
 
             {{ $this->saveFilterAction }}
         </div>

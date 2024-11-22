@@ -14,13 +14,14 @@ use Illuminate\Contracts\View\View;
 
 class SavedFiltersServiceProvider extends PackageServiceProvider
 {
-    public static string $name = 'saved_filters';
+    public static string $name = 'saved-filters';
 
-    public static string $viewNamespace = 'saved_filters';
+    public static string $viewNamespace = 'saved-filters';
 
     public function configureCustomPackage(Package $package): void
     {
-        $package->name(static::$name)
+        $package
+            ->name('saved-filters')
             ->hasViews()
             ->hasMigrations([
                 '2024_11_19_142134_create_saved_filters_table',
@@ -37,12 +38,12 @@ class SavedFiltersServiceProvider extends PackageServiceProvider
     {
         FilamentView::registerRenderHook(
             PanelsRenderHook::RESOURCE_PAGES_LIST_RECORDS_TABLE_BEFORE,
-            fn (): View => view('saved_filters::filament.resources.pages.list-records.favorites-bar'),
+            fn (): View => view('saved-filters::filament.resources.pages.list-records.favorites-bar'),
         );
 
         FilamentView::registerRenderHook(
             TablesRenderHook::TOOLBAR_SEARCH_AFTER,
-            fn (): View => view('saved_filters::filament.table.saved-filters'),
+            fn (): View => view('saved-filters::filament.tables.saved-filters'),
         );
     }
 }

@@ -20,6 +20,7 @@ class ListTasks extends ListRecords
         return [
             'my_tasks' => PresetFilter::make('My Tasks')
                 ->icon('heroicon-m-numbered-list')
+                ->favorite()
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('user_id', auth()->user()->id)),
         ];
     }

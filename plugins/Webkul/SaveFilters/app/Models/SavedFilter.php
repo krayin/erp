@@ -19,6 +19,7 @@ class SavedFilter extends Model
         'is_favorite',
         'is_public',
         'filters',
+        'filterable_type',
         'user_id',
     ];
 

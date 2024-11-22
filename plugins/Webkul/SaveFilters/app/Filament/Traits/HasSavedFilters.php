@@ -2,15 +2,23 @@
 
 namespace Webkul\SavedFilters\Filament\Traits;
 
+use \Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Url;
 use Webkul\SavedFilters\Components\PresetFilter;
 use Webkul\SavedFilters\Components\SavedFilter;
 use Webkul\SavedFilters\Models\SavedFilter as SavedFilterModel;
-use Webkul\SavedFilters\Filament\Actions\SaveFilterAction;
+use Webkul\SavedFilters\Filament\Actions\CreateFilterAction;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\Action;
+use Webkul\SavedFilters\Enums\SavedFiltersLayout;
+use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Concerns\EvaluatesClosures;
 
 trait HasSavedFilters
 {
+    use EvaluatesClosures;
+
     #[Url]
     public ?string $activeSavedFilter = null;
 
@@ -23,6 +31,12 @@ trait HasSavedFilters
      * @var array<string | int, PresetFilter | SavedFilter>
      */
     protected array $cachedFavoriteSavedFilters;
+
+    protected string | Closure | null $savedFiltersFormMaxHeight = null;
+
+    protected MaxWidth | string | Closure | null $savedFiltersFormWidth = null;
+
+    protected SavedFiltersLayout | Closure | null $savedFiltersLayout = null;
 
     public function mount(): void
     {
@@ -42,6 +56,17 @@ trait HasSavedFilters
 
     public function loadFilter($tabKey): void
     {
+        if ($this->activeSavedFilter === $tabKey) {
+            return;
+        }
+
+        $this->resetSavedFilters();
+
+        $this->activeSavedFilter = $tabKey;
+    }
+
+    public function resetSavedFilters()
+    {
         $this->resetTable();
 
         $this->resetPage();
@@ -52,7 +77,7 @@ trait HasSavedFilters
 
         $this->resetTableGrouping();
 
-        $this->activeSavedFilter = $tabKey;
+        $this->activeSavedFilter = $this->getDefaultActiveSavedFilter();
     }
 
     public function resetTableSort()
@@ -82,7 +107,12 @@ trait HasSavedFilters
      */
     public function getSavedFilters(): array
     {
-        return SavedFilterModel::all()
+        return SavedFilterModel::where('filterable_type', static::class)
+            ->where(function ($query) {
+                $query->where('user_id', auth()->id())
+                    ->orWhere('is_public', true);
+            })
+            ->get()
             ->mapWithKeys(function (SavedFilterModel $savedFilter) {
                 return [
                     $savedFilter->id => SavedFilter::make($savedFilter->getKey())
@@ -121,8 +151,8 @@ trait HasSavedFilters
     public function getFavoriteSavedFilters(): array
     {
         return collect($this->getAllFilters())
-            ->map(function (PresetFilter $presetFilter, string | int $key) {
-                return $presetFilter->favorite($presetFilter->isFavorite());
+            ->filter(function (PresetFilter $presetFilter) {
+                return $presetFilter->isFavorite();
             })
             ->all();
     }
@@ -176,9 +206,11 @@ trait HasSavedFilters
     }
     public function saveFilterAction(): \Filament\Actions\Action
     {
-        return SaveFilterAction::make('saveFilter')
+        return CreateFilterAction::make('saveFilter')
           ->mutateFormDataUsing(function (array $data): array {
                 $data['user_id'] = auth()->id();
+
+                $data['filterable_type'] = static::class;
 
                 $data['filters'] = [
                     'tableFilters' => $this->tableFilters,
@@ -192,7 +224,7 @@ trait HasSavedFilters
         
                 return $data;
             })
-            ->after(function (): void {
+            ->after(function (SavedFilterModel $saveFilter): void {
                 unset($this->cachedSavedFilters);
                 unset($this->cachedFavoriteSavedFilters);
                 
@@ -200,6 +232,67 @@ trait HasSavedFilters
                 $this->getCachedFavoriteSavedFilters();
                 
                 $this->dispatch('filtered-list-updated');
+
+                $this->activeSavedFilter = $saveFilter->id;
             });
+    }
+
+
+    public function setSavedFiltersFormMaxHeight(string | Closure | null $height): static
+    {
+        $this->savedFiltersFormMaxHeight = $height;
+
+        return $this;
+    }
+
+    public function setSavedFiltersFormWidth(MaxWidth | string | Closure | null $width): static
+    {
+        $this->savedFiltersFormWidth = $width;
+
+        return $this;
+    }
+
+    public function setSavedFiltersLayout(SavedFiltersLayout | Closure | null $savedFiltersLayout): static
+    {
+        $this->savedFiltersLayout = $savedFiltersLayout;
+
+        return $this;
+    }
+
+    public function getSavedFiltersFormMaxHeight(): ?string
+    {
+        return $this->evaluate($this->savedFiltersFormMaxHeight);
+    }
+
+    public function getSavedFiltersFormWidth(): MaxWidth | string | null
+    {
+        return $this->evaluate($this->savedFiltersFormWidth) ?? MaxWidth::Small;
+    }
+
+    public function getSavedFiltersLayout(): SavedFiltersLayout
+    {
+        return $this->evaluate($this->savedFiltersLayout) ?? SavedFiltersLayout::Dropdown;
+    }
+
+    public function getActiveSavedFiltersCount()
+    {
+        return count($this->getCachedSavedFilters());
+    }
+
+    public function getSavedFilterActions(): ActionGroup
+    {
+        return ActionGroup::make([
+        ]);
+    }
+
+    public function getSavedFiltersTriggerAction(): Action
+    {
+        return Action::make('openFilters')
+            ->label('Saved Filters')
+            ->iconButton()
+            ->icon('heroicon-m-queue-list')
+            ->color('gray')
+            ->livewireClickHandlerEnabled(false)
+            ->modalSubmitAction(false);
     }
 }

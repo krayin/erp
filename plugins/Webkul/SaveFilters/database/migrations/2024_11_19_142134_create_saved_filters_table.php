@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('is_favorite')->default(0);
             $table->string('is_public')->default(0);
             $table->string('filters')->nullable();
+            $table->string('filterable_type');
             $table->unsignedBigInteger('user_id');
 
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();

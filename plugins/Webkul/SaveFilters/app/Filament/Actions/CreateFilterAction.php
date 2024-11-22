@@ -8,7 +8,7 @@ use Filament\Support\Enums\MaxWidth;
 use Filament\Forms;
 use Webkul\SavedFilters\Models\SavedFilter;
 
-class SaveFilterAction extends Action
+class CreateFilterAction extends Action
 {
     use CanCustomizeProcess;
 
@@ -44,13 +44,12 @@ class SaveFilterAction extends Action
                             ];
                         });
                     })
-                    ->required()
                     ->native(false)
                     ->allowHtml(),
                 \Guava\FilamentIconPicker\Forms\IconPicker::make('icon')
                     ->label('Icon')
                     ->sets(['heroicons'])
-                    ->columns(5)
+                    ->columns(4)
                     ->preload()
                     ->optionsLimit(50),
                 Forms\Components\Toggle::make('is_favorite')
