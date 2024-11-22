@@ -1,0 +1,36 @@
+<x-dynamic-component
+    :component="$getEntryWrapperView()"
+    :entry="$entry"
+>
+    <div class="flex items-center justify-center gap-x-3">
+        <x-filament-panels::avatar.user
+            size="md"
+            :user="$getRecord()->user"
+        />
+
+        <div class="flex-grow space-y-2 pt-[6px]">
+            <div class="flex items-center justify-between gap-x-2">
+                <div class="flex items-center gap-x-2">
+                    <div class="text-sm font-medium text-gray-950 dark:text-white">
+                        {{ $getRecord()->user->name }}
+                    </div>
+
+                    <div class="text-xs font-medium text-gray-400 dark:text-gray-500">
+                        {{ $getRecord()->created_at->diffForHumans() }}
+                    </div>
+                </div>
+
+                @if (true)
+                    <div class="flex-shrink-0">
+                        <x-filament::icon-button
+                            wire:click="deleteChat({{ $getRecord()->id }})"
+                            icon="heroicon-s-trash"
+                            color="danger"
+                            tooltip="Delete comment"
+                        />
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
+</x-dynamic-component>

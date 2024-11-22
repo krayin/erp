@@ -40,7 +40,7 @@ class ListUsers extends ListRecords
                 ->icon('heroicon-o-envelope')
                 ->modalIcon('heroicon-o-envelope')
                 ->modalSubmitActionLabel('Invite User')
-                ->visible(fn (UserSettings $userSettings) => $userSettings->enable_user_invitation)
+                ->visible(fn(UserSettings $userSettings) => $userSettings->enable_user_invitation)
                 ->form([
                     TextInput::make('email')
                         ->email()

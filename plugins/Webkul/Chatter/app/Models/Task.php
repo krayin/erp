@@ -5,13 +5,13 @@ namespace Webkul\Chatter\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Webkul\Chatter\Traits\HasChatter;
+use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Core\Models\User;
 use Webkul\Field\Traits\HasCustomFields;
 
 class Task extends Model
 {
-    use HasChatter;
-    use HasCustomFields;
+    use HasChatter, HasCustomFields, HasLogActivity;
 
     protected $fillable = [
         'title',

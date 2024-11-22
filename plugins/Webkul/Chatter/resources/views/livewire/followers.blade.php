@@ -81,10 +81,10 @@
                                 size="sm"
                             >
                                 <span wire:loading.remove wire:target="toggleFollower({{ $user->id }})">
-                                    Follow
+                                    Add
                                 </span>
                                 <span wire:loading wire:target="toggleFollower({{ $user->id }})">
-                                    Following...
+                                    Adding...
                                 </span>
                             </x-filament::button>
                         </div>

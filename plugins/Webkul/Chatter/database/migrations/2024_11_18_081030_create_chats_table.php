@@ -13,13 +13,16 @@ return new class extends Migration
     {
         Schema::create('chats', function (Blueprint $table) {
             $table->id();
-            $table->boolean('notified')->default(false);
-            $table->text('content');
+            $table->text('content')->nullable();
+            $table->json('changes')->nullable();
             $table->morphs('chattable');
             $table->string('type');
-            $table->string('sub_type');
             $table->string('activity_type')->nullable()->default(null);
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+
+            $table->date('due_date')->nullable();
+            $table->text('summary')->nullable();
+            $table->foreignId('assigned_to')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
         });
     }
