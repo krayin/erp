@@ -5,7 +5,6 @@ namespace Webkul\Chatter\Livewire;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
 use Filament\Forms;
-use Filament\Forms\Components\Contracts\HasFileAttachments;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
@@ -20,7 +19,6 @@ use Livewire\WithFileUploads;
 use Webkul\Chatter\Enums\ActivityType;
 use Webkul\Chatter\Filament\Actions\FollowerAction;
 use Webkul\Chatter\Mail\SendMessage;
-use Webkul\Chatter\Models\Chat;
 use Webkul\Core\Models\User;
 use Filament\Infolists\Infolist;
 use Webkul\Chatter\Filament\Infolists\Components\ChatsRepeatableEntry;
@@ -317,7 +315,8 @@ class ChatterPanel extends Component implements HasForms, HasActions, HasInfolis
                             ->hiddenLabel(),
                         ContentTextEntry::make('content')
                             ->hiddenLabel()
-                    ]),
+                    ])
+                    ->placeholder('No record found.'),
             ]);
     }
 
