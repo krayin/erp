@@ -121,6 +121,10 @@ class CustomFields extends Component
             }
         }
 
+        if (in_array($field->type, ['select', 'datetime'])) {
+            $component->native(false);
+        }
+
         return $component;
     }
 

@@ -37,7 +37,7 @@ class SavedFiltersServiceProvider extends PackageServiceProvider
     {
         FilamentView::registerRenderHook(
             PanelsRenderHook::RESOURCE_PAGES_LIST_RECORDS_TABLE_BEFORE,
-            fn (): View => view('saved_filters::filament.table.favorites'),
+            fn (): View => view('saved_filters::filament.resources.pages.list-records.favorites-bar'),
         );
 
         FilamentView::registerRenderHook(

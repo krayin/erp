@@ -226,6 +226,7 @@ class FieldResource extends Resource
                                 ->label('Validation')
                                 ->searchable()
                                 ->required()
+                                ->distinct()
                                 ->live()
                                 ->options(fn (Forms\Get $get): array => static::getTypeFormValidations($get('../../../type'))),
                             Forms\Components\TextInput::make('field')
@@ -297,6 +298,7 @@ class FieldResource extends Resource
                             Forms\Components\Select::make('setting')
                                 ->label('Setting')
                                 ->required()
+                                ->distinct()
                                 ->searchable()
                                 ->live()
                                 ->options(fn (Forms\Get $get): array => static::getTypeFormSettings($get('../../../type'))),
@@ -586,7 +588,7 @@ class FieldResource extends Resource
                 'id' => 'Id',
                 'loadingMessage' => 'Loading Message',
                 'multiple' => 'Multiple',
-                'native' => 'Native',
+                // 'native' => 'Native',
                 'noSearchResultsMessage' => 'No Search Results Message',
                 'optionsLimit' => 'Options Limit',
                 'preload' => 'Preload',
@@ -664,7 +666,7 @@ class FieldResource extends Resource
                 'id' => 'Id',
                 'locale' => 'Locale',
                 'minutesStep' => 'Minutes Step',
-                'native' => 'Native',
+                // 'native' => 'Native',
                 'seconds' => 'Seconds',
                 'secondsStep' => 'Seconds Step',
                 'timezone' => 'Timezone',
@@ -760,6 +762,7 @@ class FieldResource extends Resource
                     Forms\Components\Select::make('setting')
                         ->searchable()
                         ->required()
+                        ->distinct()
                         ->live()
                         ->options(fn (Forms\Get $get): array => static::getTypeTableSettings($get('../../type'))),
                     Forms\Components\TextInput::make('value')

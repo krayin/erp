@@ -3,6 +3,7 @@
 namespace Webkul\SavedFilters\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Webkul\Core\Models\User;
 
 class SavedFilter extends Model
 {
@@ -18,6 +19,7 @@ class SavedFilter extends Model
         'is_favorite',
         'is_public',
         'filters',
+        'user_id',
     ];
 
     /**
@@ -28,4 +30,12 @@ class SavedFilter extends Model
     protected $casts = [
         'filters' => 'array',
     ];
+
+    /**
+     * Get the user that owns the saved filter.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

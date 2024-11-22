@@ -96,10 +96,21 @@ class TaskResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ]))
-            ->filters([
-                Tables\Filters\QueryBuilder::make()
-                    ->constraints(static::getTableQueryBuilderConstraints()),
+            ->filters(static::mergeCustomTableFilters([
+                Tables\Filters\SelectFilter::make('status')
+                    ->options(TaskStatus::options())
+                    ->label('Task Status'),
+                Tables\Filters\SelectFilter::make('user_id')
+                    ->relationship('user', 'name')
+                    ->label('Assigned To'),
+            ]))
+            ->groups([
+                'status',
             ])
+            // ->filters([
+            //     Tables\Filters\QueryBuilder::make()
+            //         ->constraints(static::getTableQueryBuilderConstraints()),
+            // ])
             ->filtersFormColumns(2)
             ->actions([
                 Tables\Actions\ViewAction::make(),

@@ -16,13 +16,11 @@ use Webkul\Core\Settings\UserSettings;
 
 class ListUsers extends ListRecords
 {
-    use \Webkul\SavedFilters\Filament\Traits\HasSavedFilters;
-
     protected static string $resource = UserResource::class;
-
+    
     public function getTabs(): array
     {
-        return static::mergeSavedFilters([
+        return [
             'all' => Tab::make('All Users')
                 ->badge(User::count()),
             'archived' => Tab::make('Archived')
@@ -30,7 +28,7 @@ class ListUsers extends ListRecords
                 ->modifyQueryUsing(function ($query) {
                     return $query->onlyTrashed();
                 }),
-        ]);
+        ];
     }
 
     protected function getHeaderActions(): array
