@@ -20,5 +20,5 @@ class ChatsRepeatableEntry extends RepeatableEntry
             ->hiddenLabel();
     }
 
-    protected string $view = 'chatter::filament.infolists.components.comments-repeatable-entry';
+    protected string $view = 'chatter::filament.infolists.components.chats-repeatable-entry';
 }

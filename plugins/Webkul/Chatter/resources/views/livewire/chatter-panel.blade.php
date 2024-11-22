@@ -111,6 +111,6 @@
         @endif
     </div>
 
-    <!-- Responsive Grid -->
-    {{ $chatInfolist }}
+    <!-- Chats -->
+    {{ $this->chatInfolist }}
 </div>

@@ -323,8 +323,6 @@ class ChatterPanel extends Component implements HasForms, HasActions, HasInfolis
 
     public function render(): View
     {
-        return view('chatter::livewire.chatter-panel', [
-            'chatInfolist' => $this->chatInfolist,
-        ]);
+        return view('chatter::livewire.chatter-panel');
     }
 }
