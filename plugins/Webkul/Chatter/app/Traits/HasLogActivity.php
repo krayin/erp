@@ -85,7 +85,7 @@ trait HasLogActivity
     protected function getUpdatedAttributes(): array
     {
         $original = $this->getOriginal();
-        $current = $this->getAttributes();
+        $current = $this->getDirty();
         $changes = [];
 
         foreach ($current as $key => $value) {
