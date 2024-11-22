@@ -33,7 +33,7 @@
                                 href="{{ $attachment->url }}"
                                 target="_blank"
                                 download="{{ $attachment->original_file_name }}"
-                                class="hover:border-primary-200 dark:hover:border-primary-800 group flex items-center gap-3 rounded-lg border border-gray-200 p-3 transition-all duration-200 hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-700/50"
+                                class="hover:border-primary-200 dark:hover:border-primary-800 group flex items-center gap-3 rounded-lg border border-gray-200 p-3 transition-all duration-200 dark:border-gray-700 dark:hover:bg-gray-700/50"
                             >
                                 <!-- File Icon Container -->
                                 <div class="group-hover:bg-primary-50 dark:group-hover:bg-primary-900/50 flex items-center justify-center rounded-lg bg-gray-100 p-2.5 transition-colors dark:bg-gray-800">
@@ -140,7 +140,10 @@
         @endif
 
         <!-- Changes Section -->
-        @if(!empty($changes))
+        @if(
+            !empty($changes)
+            && $record->activity_type !== 'created'
+        )
             <div class="rounded-lg bg-white shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-800 dark:ring-white/10">
                 <div class="border-b border-gray-200 px-4 py-3 dark:border-gray-700">
                     <div class="flex items-center gap-2">
@@ -181,7 +184,7 @@
                                             <span class="mt-1 flex-shrink-0">
                                                 <x-heroicon-m-minus-circle class="h-4 w-4 text-red-500"/>
                                             </span>
-                                            <span class="text-sm text-gray-500 transition-colors group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-300">
+                                            <span class="text-sm text-gray-500 transition-colors dark:text-gray-400">
                                                 @if($field === 'due_date')
                                                     {{ \Carbon\Carbon::parse($change['old_value'])->format('F j, Y') }}
                                                 @else
@@ -196,7 +199,7 @@
                                             <span class="mt-1 flex-shrink-0">
                                                 <x-heroicon-m-plus-circle class="h-4 w-4 text-green-500"/>
                                             </span>
-                                            <span class="text-sm font-medium text-gray-900 transition-colors group-hover:text-gray-700 dark:text-gray-100 dark:group-hover:text-gray-300">
+                                            <span class="text-sm font-medium text-gray-900 transition-colors dark:text-gray-100">
                                                 @if($field === 'due_date')
                                                     {{ \Carbon\Carbon::parse($change['new_value'])->format('F j, Y') }}
                                                 @else
