@@ -40,7 +40,7 @@ class SendMessage extends Mailable
         return new Content(
             view: 'chatter::emails.send-message',
             with: [
-                'content' => $this->chat->message,
+                'content'    => $this->chat->content,
                 'senderName' => $this->record->user->name,
             ],
         );
