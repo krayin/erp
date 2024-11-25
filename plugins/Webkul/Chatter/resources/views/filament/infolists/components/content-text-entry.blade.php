@@ -83,9 +83,6 @@
                 <div class="grid grid-cols-1 gap-4 p-4 md:grid-cols-2">
                     <!-- Left Column -->
                     <div class="space-y-3">
-                        <!-- Content -->
-
-
                         <!-- Created By -->
                         @if($record->user)
                             <div class="flex items-center gap-3">
