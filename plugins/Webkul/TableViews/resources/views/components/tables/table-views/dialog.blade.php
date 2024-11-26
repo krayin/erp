@@ -3,7 +3,6 @@
 @endphp
 
 @props([
-    'actions',
     'activeTableViewsCount' => 0,
     'layout' => TableViewsLayout::Dropdown,
     'triggerAction',
@@ -35,6 +34,13 @@
             {{ $triggerAction->badge($activeTableViewsCount) }}
         </x-slot>
 
+        <x-table-views::tables.table-views
+            :favorite-views="$favoriteViews"
+            :preset-views="$presetViews"
+            :saved-views="$savedViews"
+            class="p-6"
+        />
+
         {{ $triggerAction->getModalContent() }}
 
         {{ $triggerAction->getModalContentFooter() }}
@@ -51,7 +57,6 @@
         </x-slot>
 
         <x-table-views::tables.table-views
-            :actions="$actions"
             :favorite-views="$favoriteViews"
             :preset-views="$presetViews"
             :saved-views="$savedViews"

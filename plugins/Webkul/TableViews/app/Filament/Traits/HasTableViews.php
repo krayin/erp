@@ -9,9 +9,8 @@ use Webkul\TableViews\Components\PresetView;
 use Webkul\TableViews\Components\SavedView;
 use Webkul\TableViews\Models\TableView as TableViewModel;
 use Webkul\TableViews\Filament\Actions\CreateViewAction;
-use Webkul\TableViews\Filament\Actions\DeleteViewAction;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Actions\Action;
+use Webkul\TableViews\Filament\Actions\EditViewAction;
+use Filament\Actions\Action;
 use Webkul\TableViews\Enums\TableViewsLayout;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Support\Concerns\EvaluatesClosures;
@@ -117,6 +116,7 @@ trait HasTableViews
             ->mapWithKeys(function (TableViewModel $tableView) {
                 return [
                     $tableView->id => SavedView::make($tableView->getKey())
+                        ->model($tableView)
                         ->label($tableView->name)
                         ->icon($tableView->icon)
                         ->color($tableView->color)
@@ -205,10 +205,10 @@ trait HasTableViews
 
         return $tableViews[$this->activeTableView]->modifyQuery($query);
     }
-    public function saveFilterAction(): \Filament\Actions\Action
+    public function saveFilterAction(): Action
     {
         return CreateViewAction::make('saveFilter')
-          ->mutateFormDataUsing(function (array $data): array {
+            ->mutateFormDataUsing(function (array $data): array {
                 $data['user_id'] = auth()->id();
 
                 $data['filterable_type'] = static::class;
@@ -280,25 +280,6 @@ trait HasTableViews
         return count($this->getCachedTableViews());
     }
 
-    public function getTableViewActions(): ActionGroup
-    {
-        return ActionGroup::make([
-            \Filament\Actions\Action::make('Apply View')
-                ->icon('heroicon-s-arrow-small-right'),
-            \Filament\Actions\Action::make('Remove From Favorites')
-                ->icon('heroicon-o-minus-circle'),
-            \Filament\Actions\Action::make('Edit View') 
-                ->icon('heroicon-s-pencil-square'),
-
-            ActionGroup::make([
-                \Filament\Actions\Action::make('Delete View')
-                    ->icon('heroicon-m-trash')
-                    ->color('danger')
-            ])->dropdown(false),
-        ])
-        ->dropdownPlacement('bottom-end');
-    }
-
     public function getTableViewsTriggerAction(): Action
     {
         return Action::make('openTableViews')
@@ -308,5 +289,74 @@ trait HasTableViews
             ->color('gray')
             ->livewireClickHandlerEnabled(false)
             ->modalSubmitAction(false);
+    }
+
+    public function applyTableViewAction(): Action
+    {
+        return Action::make('applyTableView')
+            ->label('Apply View')
+            ->icon('heroicon-s-arrow-small-right')
+            ->action(function(array $arguments) {
+                $this->resetTableViews();
+
+                $this->activeTableView = $arguments['view'];
+            });
+    }
+
+    public function addTableViewToFavoritesAction(): Action
+    {
+        return Action::make('addTableViewToFavorites')
+            ->label('Add To Favorites')
+            ->icon('heroicon-o-star')
+            ->action(function(array $arguments) {
+                TableViewModel::find($arguments['view'])->update([
+                    'is_favorite' => true,
+                ]);
+
+                unset($this->cachedTableViews);
+                unset($this->cachedFavoriteTableViews);
+            });
+    }
+
+    public function removeTableViewFromFavoritesAction(): Action
+    {
+        return Action::make('removeTableViewFromFavorites')
+            ->label('Remove From Favorites')
+            ->icon('heroicon-o-minus-circle')
+            ->action(function(array $arguments) {
+                TableViewModel::find($arguments['view'])->update([
+                    'is_favorite' => false,
+                ]);
+
+                unset($this->cachedTableViews);
+                unset($this->cachedFavoriteTableViews);
+            });
+    }
+
+    public function editTableViewAction(): Action
+    {
+        return EditViewAction::make('editTableView')
+            ->after(function (TableViewModel $saveFilter): void {
+                unset($this->cachedTableViews);
+                unset($this->cachedFavoriteTableViews);
+                
+                $this->getCachedTableViews();
+                $this->getCachedFavoriteTableViews();
+            });
+    }
+
+    public function deleteTableViewAction(): Action
+    {
+        return Action::make('deleteTableView')
+            ->label('Delete View')
+            ->icon('heroicon-m-trash')
+            ->color('danger')
+            ->requiresConfirmation()
+            ->action(function(array $arguments) {
+                TableViewModel::find($arguments['view'])->delete();
+
+                unset($this->cachedTableViews);
+                unset($this->cachedFavoriteTableViews);
+            });
     }
 }
