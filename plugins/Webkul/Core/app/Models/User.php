@@ -9,6 +9,7 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
+use Webkul\Core\Factories\UserFactory;
 
 class User extends BaseUser implements FilamentUser
 {
@@ -25,5 +26,13 @@ class User extends BaseUser implements FilamentUser
     public function teams(): BelongsToMany
     {
         return $this->belongsToMany(Team::class, 'user_team', 'user_id', 'team_id');
+    }
+
+    /**
+     * Create a new factory instance for the model.
+     */
+    protected static function newFactory(): UserFactory
+    {
+        return UserFactory::new();
     }
 }

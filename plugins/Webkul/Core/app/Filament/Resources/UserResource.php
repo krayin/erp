@@ -9,6 +9,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Spatie\Permission\Models\Role;
+use Webkul\Core\Enums\UserResourcePermission;
 use Webkul\Core\Filament\Resources\UserResource\Pages;
 use Webkul\Core\Models\User;
 
@@ -44,7 +45,7 @@ class UserResource extends Resource
                             ->password()
                             ->label('Confirm New Password')
                             ->hiddenOn('edit')
-                            ->rule('required', fn ($get) => (bool) $get('password'))
+                            ->rule('required', fn($get) => (bool) $get('password'))
                             ->same('password'),
                     ])
                     ->columns(2),
@@ -52,6 +53,9 @@ class UserResource extends Resource
                     Forms\Components\Select::make('roles')
                         ->relationship('roles', 'name')
                         ->multiple()
+                        ->preload(),
+                    Forms\Components\Select::make('resource_permission')
+                        ->options(UserResourcePermission::options())
                         ->preload(),
                     Forms\Components\Select::make('teams')
                         ->relationship('teams', 'name')
@@ -86,13 +90,13 @@ class UserResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('teams')
                     ->relationship('teams', 'name')
-                    ->options(fn (): array => Role::query()->pluck('name', 'id')->all())
+                    ->options(fn(): array => Role::query()->pluck('name', 'id')->all())
                     ->multiple()
                     ->searchable()
                     ->preload(),
                 Tables\Filters\SelectFilter::make('roles')
                     ->relationship('roles', 'name')
-                    ->options(fn (): array => Role::query()->pluck('name', 'id')->all())
+                    ->options(fn(): array => Role::query()->pluck('name', 'id')->all())
                     ->multiple()
                     ->searchable()
                     ->preload(),
@@ -101,9 +105,9 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make()
-                        ->hidden(fn ($record) => $record->trashed()),
+                        ->hidden(fn($record) => $record->trashed()),
                     Tables\Actions\EditAction::make()
-                        ->hidden(fn ($record) => $record->trashed()),
+                        ->hidden(fn($record) => $record->trashed()),
                     Tables\Actions\DeleteAction::make(),
                     Tables\Actions\RestoreAction::make(),
                 ]),
