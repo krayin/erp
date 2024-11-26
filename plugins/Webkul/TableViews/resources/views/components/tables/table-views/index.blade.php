@@ -1,17 +1,8 @@
 @props([
-    'actions',
     'favoriteViews' => [],
     'savedViews' => [],
     'presetViews' => [],
 ])
-@php
-    $tableViewsTriggerAction = $this->getTableViewsTriggerAction();
-    $savedFilterActions = $this->getTableViewActions();
-    $activeTableViewsCount = $this->getActiveTableViewsCount();
-    $tableViewsLayout = $this->getTableViewsLayout();
-    $tableViewsFormMaxHeight = $this->getTableViewsFormMaxHeight();
-    $tableViewsFormWidth = $this->getTableViewsFormWidth();
-@endphp
 
 <div {{ $attributes->class(['fi-ta-filters grid gap-y-4']) }}>
     <div class="flex items-center justify-between">
@@ -53,7 +44,7 @@
 
     <div class="flex flex-col gap-y-6">
         @foreach ([
-            'User Favorites' => $favoriteViews,
+            'Favorites Views' => $favoriteViews,
             'Saved Views' => $savedViews,
             'Preset Views' => $presetViews,
         ] as $label => $views)
@@ -65,7 +56,7 @@
                 </div>
 
                 <div class="flex flex-col gap-y-1">
-                    @foreach ($views as $view)
+                    @foreach ($views as $key => $view)
                         <div class="flex items-center justify-between px-3 py-1 -mx-3 gap-x-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-white/5 hover:rounded-lg">
                             <div class="flex w-full gap-x-2 truncate justify-between items-center">
                                 <div class="flex flex-1 h-9 items-center truncate">
@@ -86,7 +77,22 @@
                                 </div>
                             </div>
 
-                            {{ $actions }}
+                            <x-filament-actions::group
+                                :actions="[
+                                    ($this->applyTableViewAction)(['view' => $key]),
+                                    ($this->addTableViewToFavoritesAction)(['view' => $key])
+                                        ->visible(fn () => $view instanceof \Webkul\TableViews\Components\SavedView && ! $view->isFavorite()),
+                                    ($this->removeTableViewFromFavoritesAction)(['view' => $key])
+                                        ->visible(fn () => $view instanceof \Webkul\TableViews\Components\SavedView && $view->isFavorite()),
+                                    ($this->editTableViewAction)(['view' => $view->getModel()])
+                                        ->visible(fn () => $view instanceof \Webkul\TableViews\Components\SavedView),
+                                    \Filament\Actions\ActionGroup::make([
+                                        ($this->deleteTableViewAction)(['view' => $key])
+                                    ])->dropdown(false)
+                                    ->visible(fn () => $view instanceof \Webkul\TableViews\Components\SavedView),
+                                ]"
+                                dropdown-placement="bottom-end"
+                            />
                         </div>
                     @endforeach
                 </div>

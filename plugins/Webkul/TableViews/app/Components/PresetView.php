@@ -20,6 +20,11 @@ class PresetView extends Tab
         return $this;
     }
 
+    public function getModel()
+    {
+        return null;
+    }
+
     public function favorite(bool | Closure $condition = true): static
     {
         $this->isFavorite = $condition;
