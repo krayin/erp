@@ -78,6 +78,8 @@ class UserResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('teams.name'),
                 Tables\Columns\TextColumn::make('roles.name'),
+                Tables\Columns\TextColumn::make('resource_permission')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -88,6 +90,10 @@ class UserResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                Tables\Filters\SelectFilter::make('resource_permission')
+                    ->searchable()
+                    ->options(UserResourcePermission::options())
+                    ->preload(),
                 Tables\Filters\SelectFilter::make('teams')
                     ->relationship('teams', 'name')
                     ->options(fn(): array => Role::query()->pluck('name', 'id')->all())
