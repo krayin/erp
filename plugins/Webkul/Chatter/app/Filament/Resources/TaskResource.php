@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Webkul\Chatter\Enums\TaskStatus;
 use Webkul\Core\Enums\UserResourcePermission;
 use Webkul\Field\Filament\Traits\HasCustomFields;
+use Illuminate\Support\Facades\Auth;
 
 class TaskResource extends Resource
 {
@@ -113,10 +114,6 @@ class TaskResource extends Resource
             ->groups([
                 'status',
             ])
-            // ->filters([
-            //     Tables\Filters\QueryBuilder::make()
-            //         ->constraints(static::getTableQueryBuilderConstraints()),
-            // ])
             ->filtersFormColumns(2)
             ->actions([
                 Tables\Actions\ActionGroup::make([
@@ -130,19 +127,41 @@ class TaskResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])->modifyQueryUsing(function ($query) {
-                $user = auth()->user();
+                $user = Auth::user();
 
-                // TODO: Implement a more robust way to handle this
-                if ($user->id == 1) {
-                    return;
+                switch ($user->resource_permission) {
+                    case UserResourcePermission::GLOBAL->value:
+                        break;
+
+                    case UserResourcePermission::GROUP->value:
+                        $teamIds = $user->teams()->pluck('id');
+
+                        $query->where(function (Builder $query) use ($teamIds, $user) {
+                            $query
+                                ->whereHas('user', function (Builder $subQuery) use ($teamIds) {
+                                    $subQuery->whereHas('teams', function (Builder $teamQuery) use ($teamIds) {
+                                        $teamQuery->whereIn('teams.id', $teamIds);
+                                    });
+                                })
+                                ->orWhereHas('followers', function (Builder $followerQuery) use ($user) {
+                                    $followerQuery->where('user_id', $user->id);
+                                })
+                                ->orWhere('user_id', $user->id);
+                        });
+
+                        break;
+
+                    case UserResourcePermission::INDIVIDUAL->value:
+                        $query->where(function (Builder $query) use ($user) {
+                            $query
+                                ->where('user_id', $user->id)
+                                ->orWhereHas('followers', function (Builder $followerQuery) use ($user) {
+                                    $followerQuery->where('user_id', $user->id);
+                                });
+                        });
+
+                        break;
                 }
-
-                $query->where(function ($query) use ($user) {
-                    $query->where('user_id', $user->id)
-                          ->orWhereHas('followers', function ($query) use ($user) {
-                              $query->where('user_id', $user->id);
-                          });
-                });
             });
     }
 
