@@ -9,9 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Webkul\Chatter\Enums\TaskStatus;
-use Webkul\Core\Enums\UserResourcePermission;
 use Webkul\Field\Filament\Traits\HasCustomFields;
 use Illuminate\Support\Facades\Auth;
 
@@ -50,15 +48,18 @@ class TaskResource extends Resource
                         ->label('Due Date'),
                 ])->columns(2),
 
-            Forms\Components\Section::make('Assignment')
-                ->description('Assign this task to a user')
+            Forms\Components\Section::make('Task Assignment')
+                ->description('Manage task creation and assignment')
                 ->schema([
-                    Forms\Components\Select::make('user_id')
+                    Forms\Components\Hidden::make('created_by')
+                        ->default(Auth::user()->id)
+                        ->required(),
+                    Forms\Components\Select::make('assigned_to')
                         ->searchable()
                         ->preload()
-                        ->relationship('user', 'name')
+                        ->relationship('assignedTo', 'name')
                         ->label('Assigned To')
-                        ->required(),
+                        ->nullable(),
                     Forms\Components\Select::make('followers')
                         ->label('Followers')
                         ->multiple()
@@ -90,8 +91,11 @@ class TaskResource extends Resource
                 Tables\Columns\TextColumn::make('due_date')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('user.name')
+                Tables\Columns\TextColumn::make('assignedTo.name')
                     ->label('Assigned To')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('createdBy.name')
+                    ->label('Created By')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('followers_count')->counts('followers'),
                 Tables\Columns\TextColumn::make('created_at')
@@ -107,9 +111,12 @@ class TaskResource extends Resource
                 Tables\Filters\SelectFilter::make('status')
                     ->options(TaskStatus::options())
                     ->label('Task Status'),
-                Tables\Filters\SelectFilter::make('user_id')
-                    ->relationship('user', 'name')
+                Tables\Filters\SelectFilter::make('assigned_to')
+                    ->relationship('assignedTo', 'name')
                     ->label('Assigned To'),
+                Tables\Filters\SelectFilter::make('created_by')
+                    ->relationship('createdBy', 'name')
+                    ->label('Created By'),
             ]))
             ->groups([
                 'status',
@@ -126,43 +133,7 @@ class TaskResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ])->modifyQueryUsing(function ($query) {
-                $user = Auth::user();
-
-                switch ($user->resource_permission) {
-                    case UserResourcePermission::GLOBAL->value:
-                        break;
-
-                    case UserResourcePermission::GROUP->value:
-                        $teamIds = $user->teams()->pluck('id');
-
-                        $query->where(function (Builder $query) use ($teamIds, $user) {
-                            $query
-                                ->whereHas('user', function (Builder $subQuery) use ($teamIds) {
-                                    $subQuery->whereHas('teams', function (Builder $teamQuery) use ($teamIds) {
-                                        $teamQuery->whereIn('teams.id', $teamIds);
-                                    });
-                                })
-                                ->orWhereHas('followers', function (Builder $followerQuery) use ($user) {
-                                    $followerQuery->where('user_id', $user->id);
-                                })
-                                ->orWhere('user_id', $user->id);
-                        });
-
-                        break;
-
-                    case UserResourcePermission::INDIVIDUAL->value:
-                        $query->where(function (Builder $query) use ($user) {
-                            $query
-                                ->where('user_id', $user->id)
-                                ->orWhereHas('followers', function (Builder $followerQuery) use ($user) {
-                                    $followerQuery->where('user_id', $user->id);
-                                });
-                        });
-
-                        break;
-                }
-            });
+            ])->modifyQueryUsing(function ($query) {});
     }
 
     public static function getRelations(): array

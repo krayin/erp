@@ -58,7 +58,7 @@ class Follower extends Component implements HasForms
             ->toArray();
 
         return User::query()
-            ->whereNotIn('users.id', array_merge($followerIds, [$this->record->user_id]))
+            ->whereNotIn('users.id', array_merge($followerIds, [$this->record->created_by]))
             ->where(function ($query) {
                 $query->where('users.name', 'like', '%' . $this->searchQuery . '%')
                     ->orWhere('users.email', 'like', '%' . $this->searchQuery . '%');
