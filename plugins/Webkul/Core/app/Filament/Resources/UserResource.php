@@ -56,6 +56,7 @@ class UserResource extends Resource
                         ->preload(),
                     Forms\Components\Select::make('resource_permission')
                         ->options(UserResourcePermission::options())
+                        ->required()
                         ->preload(),
                     Forms\Components\Select::make('teams')
                         ->relationship('teams', 'name')

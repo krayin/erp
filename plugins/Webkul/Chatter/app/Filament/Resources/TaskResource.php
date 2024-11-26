@@ -9,7 +9,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Webkul\Chatter\Enums\TaskStatus;
+use Webkul\Core\Enums\UserResourcePermission;
 use Webkul\Field\Filament\Traits\HasCustomFields;
 
 class TaskResource extends Resource
@@ -22,53 +24,57 @@ class TaskResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $formSchema = [
+            Forms\Components\Section::make('Task Details')
+                ->description('Provide the basic details about the task')
+                ->schema([
+                    Forms\Components\TextInput::make('title')
+                        ->label('Task Title')
+                        ->required(),
+                    Forms\Components\Textarea::make('description')
+                        ->label('Task Description')
+                        ->rows(4),
+                ]),
+
+            Forms\Components\Section::make('Task Status')
+                ->description('Specify the status and due date of the task')
+                ->schema([
+                    Forms\Components\Select::make('status')
+                        ->label('Task Status')
+                        ->options(TaskStatus::options())
+                        ->default(TaskStatus::Pending->value)
+                        ->required(),
+                    Forms\Components\DatePicker::make('due_date')
+                        ->native(false)
+                        ->label('Due Date'),
+                ])->columns(2),
+
+            Forms\Components\Section::make('Assignment')
+                ->description('Assign this task to a user')
+                ->schema([
+                    Forms\Components\Select::make('user_id')
+                        ->searchable()
+                        ->preload()
+                        ->relationship('user', 'name')
+                        ->label('Assigned To')
+                        ->required(),
+                    Forms\Components\Select::make('followers')
+                        ->label('Followers')
+                        ->multiple()
+                        ->relationship('followers', 'name')
+                        ->preload()
+                ])->columns(2),
+        ];
+
+        if (count(static::getCustomFormFields())) {
+            $formSchema[] = Forms\Components\Section::make('Additional Information')
+                ->description('This is the customer fields information')
+                ->schema(static::getCustomFormFields())
+                ->columns(2);
+        }
+
         return $form
-            ->schema([
-                Forms\Components\Section::make('Task Details')
-                    ->description('Provide the basic details about the task')
-                    ->schema([
-                        Forms\Components\TextInput::make('title')
-                            ->label('Task Title')
-                            ->required(),
-                        Forms\Components\Textarea::make('description')
-                            ->label('Task Description')
-                            ->rows(4),
-                    ]),
-    
-                Forms\Components\Section::make('Task Status')
-                    ->description('Specify the status and due date of the task')
-                    ->schema([
-                        Forms\Components\Select::make('status')
-                            ->label('Task Status')
-                            ->options(TaskStatus::options())
-                            ->default(TaskStatus::Pending->value)
-                            ->required(),
-                        Forms\Components\DatePicker::make('due_date')
-                            ->native(false)
-                            ->label('Due Date'),
-                    ])->columns(2),
-    
-                Forms\Components\Section::make('Assignment')
-                    ->description('Assign this task to a user')
-                    ->schema([
-                        Forms\Components\Select::make('user_id')
-                            ->searchable()
-                            ->preload()
-                            ->relationship('user', 'name')
-                            ->label('Assigned To')
-                            ->required(),
-                        Forms\Components\Select::make('followers')
-                            ->label('Followers')
-                            ->multiple()
-                            ->relationship('followers', 'name')
-                            ->preload()
-                    ])->columns(2),
-    
-                Forms\Components\Section::make('Additional Information')
-                    ->description('This is the customer fields information')
-                    ->schema(static::getCustomFormFields())
-                    ->columns(2),
-            ]);
+            ->schema($formSchema);
     }
 
     public static function table(Table $table): Table
@@ -78,7 +84,7 @@ class TaskResource extends Resource
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
-                    ->formatStateUsing(fn ($state) => TaskStatus::options()[$state])
+                    ->formatStateUsing(fn($state) => TaskStatus::options()[$state])
                     ->sortable(),
                 Tables\Columns\TextColumn::make('due_date')
                     ->date()
@@ -113,8 +119,11 @@ class TaskResource extends Resource
             // ])
             ->filtersFormColumns(2)
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -127,7 +136,7 @@ class TaskResource extends Resource
                 if ($user->id == 1) {
                     return;
                 }
-                
+
                 $query->where(function ($query) use ($user) {
                     $query->where('user_id', $user->id)
                           ->orWhereHas('followers', function ($query) use ($user) {
