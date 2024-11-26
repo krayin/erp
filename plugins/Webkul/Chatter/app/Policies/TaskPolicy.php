@@ -5,10 +5,12 @@ namespace Webkul\Chatter\Policies;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Webkul\Chatter\Models\Task;
 use Webkul\Core\Models\User;
+use Webkul\Core\Traits\HasGroupPermissions;
 
 class TaskPolicy
 {
     use HandlesAuthorization;
+    use HasGroupPermissions;
 
     /**
      * Determine whether the user can view any models.
