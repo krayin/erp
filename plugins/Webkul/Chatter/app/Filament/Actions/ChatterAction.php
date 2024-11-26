@@ -26,7 +26,7 @@ class ChatterAction extends Action
             ->slideOver()
             ->modalContentFooter(fn(Model $record): View => view('chatter::filament.widgets.chatter', compact('record')))
             ->modalHeading('Chatter')
-            ->modalDescription('Messages, logs/notes, activities, file attachments, and more.')
+            ->modalDescription('Add messages, notes, activities, file attachments, and more.')
             ->badge(fn(Model $record): int => $record->chats()->count())
             ->modalWidth(MaxWidth::ThreeExtraLarge)
             ->modalSubmitAction(false)

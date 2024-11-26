@@ -127,6 +127,10 @@ class ChatterPanel extends Component implements HasForms, HasActions, HasInfolis
     {
         try {
             foreach ($this->followers as $follower) {
+                if ($follower->id === auth()->id()) {
+                    continue;
+                }
+
                 Mail::queue(new SendMessage($this->record, $follower, $chat));
             }
         } catch (\Exception $e) {
