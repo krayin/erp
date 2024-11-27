@@ -18,15 +18,21 @@ class Task extends Model
         'description',
         'status',
         'due_date',
-        'user_id'
+        'created_by',
+        'assigned_to'
     ];
 
     protected $casts = [
         'due_date' => 'date'
     ];
 
-    public function user(): BelongsTo
+    public function createdBy(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function assignedTo(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'assigned_to');
     }
 }

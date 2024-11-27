@@ -11,6 +11,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Webkul\Chatter\Enums\TaskStatus;
 use Webkul\Field\Filament\Traits\HasCustomFields;
+use Illuminate\Support\Facades\Auth;
+use Webkul\Chatter\Policies\TaskPolicy;
+use Webkul\Core\Enums\PermissionType;
 
 class TaskResource extends Resource
 {
@@ -22,69 +25,75 @@ class TaskResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\Section::make('Task Details')
-                    ->description('Provide the basic details about the task')
-                    ->schema([
-                        Forms\Components\TextInput::make('title')
-                            ->label('Task Title')
-                            ->required(),
-                        Forms\Components\Textarea::make('description')
-                            ->label('Task Description')
-                            ->rows(4),
-                    ]),
-    
-                Forms\Components\Section::make('Task Status')
-                    ->description('Specify the status and due date of the task')
-                    ->schema([
-                        Forms\Components\Select::make('status')
-                            ->label('Task Status')
-                            ->options(TaskStatus::options())
-                            ->default(TaskStatus::Pending->value)
-                            ->required(),
-                        Forms\Components\DatePicker::make('due_date')
-                            ->native(false)
-                            ->label('Due Date'),
-                    ])->columns(2),
-    
-                Forms\Components\Section::make('Assignment')
-                    ->description('Assign this task to a user')
-                    ->schema([
-                        Forms\Components\Select::make('user_id')
-                            ->searchable()
-                            ->preload()
-                            ->relationship('user', 'name')
-                            ->label('Assigned To')
-                            ->required(),
-                        Forms\Components\Select::make('followers')
-                            ->label('Followers')
-                            ->multiple()
-                            ->relationship('followers', 'name')
-                            ->preload()
-                    ])->columns(2),
-    
-                Forms\Components\Section::make('Additional Information')
-                    ->description('This is the customer fields information')
-                    ->schema(static::getCustomFormFields())
-                    ->columns(2),
-            ]);
+        $formSchema = [
+            Forms\Components\Section::make('Task Details')
+                ->description('Provide the basic details about the task')
+                ->schema([
+                    Forms\Components\TextInput::make('title')
+                        ->label('Task Title')
+                        ->required(),
+                    Forms\Components\Textarea::make('description')
+                        ->label('Task Description')
+                        ->rows(4),
+                ]),
+
+            Forms\Components\Section::make('Task Status')
+                ->description('Specify the status and due date of the task')
+                ->schema([
+                    Forms\Components\Select::make('status')
+                        ->label('Task Status')
+                        ->options(TaskStatus::options())
+                        ->default(TaskStatus::Pending->value)
+                        ->required(),
+                    Forms\Components\DatePicker::make('due_date')
+                        ->native(false)
+                        ->label('Due Date'),
+                ])->columns(2),
+
+            Forms\Components\Section::make('Task Assignment')
+                ->description('Manage task creation and assignment')
+                ->schema([
+                    Forms\Components\Hidden::make('created_by')
+                        ->default(Auth::id())
+                        ->required(),
+                    Forms\Components\Select::make('assigned_to')
+                        ->searchable()
+                        ->preload()
+                        ->relationship('assignedTo', 'name')
+                        ->label('Assigned To')
+                        ->nullable(),
+                    Forms\Components\Select::make('followers')
+                        ->label('Followers')
+                        ->multiple()
+                        ->relationship('followers', 'name')
+                        ->preload()
+                ])->columns(2),
+        ];
+
+        if (count(static::getCustomFormFields())) {
+            $formSchema[] = Forms\Components\Section::make('Additional Information')
+                ->description('This is the custom fields information')
+                ->schema(static::getCustomFormFields())
+                ->columns(2);
+        }
+
+        return $form->schema($formSchema);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns(static::mergeCustomTableColumns([
-                Tables\Columns\TextColumn::make('title')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('title')->searchable(),
                 Tables\Columns\TextColumn::make('status')
-                    ->formatStateUsing(fn ($state) => TaskStatus::options()[$state])
+                    ->formatStateUsing(fn($state) => TaskStatus::options()[$state])
                     ->sortable(),
-                Tables\Columns\TextColumn::make('due_date')
-                    ->date()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('user.name')
+                Tables\Columns\TextColumn::make('due_date')->date()->sortable(),
+                Tables\Columns\TextColumn::make('assignedTo.name')
                     ->label('Assigned To')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('createdBy.name')
+                    ->label('Created By')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('followers_count')->counts('followers'),
                 Tables\Columns\TextColumn::make('created_at')
@@ -100,49 +109,63 @@ class TaskResource extends Resource
                 Tables\Filters\SelectFilter::make('status')
                     ->options(TaskStatus::options())
                     ->label('Task Status'),
-                Tables\Filters\SelectFilter::make('user_id')
-                    ->relationship('user', 'name')
+                Tables\Filters\SelectFilter::make('assigned_to')
+                    ->relationship('assignedTo', 'name')
                     ->label('Assigned To'),
+                Tables\Filters\SelectFilter::make('created_by')
+                    ->relationship('createdBy', 'name')
+                    ->label('Created By'),
             ]))
-            ->groups([
-                'status',
-            ])
-            // ->filters([
-            //     Tables\Filters\QueryBuilder::make()
-            //         ->constraints(static::getTableQueryBuilderConstraints()),
-            // ])
+            ->groups(['status'])
             ->filtersFormColumns(2)
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ])->modifyQueryUsing(function ($query) {
-                $user = auth()->user();
+            ])
+            ->modifyQueryUsing(function ($query) {
+                /**
+                 * @var \Webkul\Core\Models\User $user
+                 */
+                $user = Auth::user();
 
-                // TODO: Implement a more robust way to handle this
-                if ($user->id == 1) {
+                if ($user->resource_permission === PermissionType::GLOBAL->value) {
                     return;
                 }
-                
-                $query->where(function ($query) use ($user) {
-                    $query->where('user_id', $user->id)
-                          ->orWhereHas('followers', function ($query) use ($user) {
-                              $query->where('user_id', $user->id);
-                          });
-                });
+
+                if ($user->resource_permission === PermissionType::INDIVIDUAL->value) {
+                    $query->where('created_by', $user->id)
+                        ->orWhereHas('followers', function ($followerQuery) use ($user) {
+                            $followerQuery->where('user_id', $user->id);
+                        });
+                }
+
+                if ($user->resource_permission === PermissionType::GROUP->value) {
+                    $teamIds = $user->teams()->pluck('id');
+
+                    $query->where(function ($query) use ($teamIds, $user) {
+                        $query->whereHas('createdBy.teams', function ($teamQuery) use ($teamIds) {
+                            $teamQuery->whereIn('teams.id', $teamIds);
+                        })->orWhereHas('assignedTo.teams', function ($teamQuery) use ($teamIds) {
+                            $teamQuery->whereIn('teams.id', $teamIds);
+                        })->orWhereHas('followers', function ($followerQuery) use ($user) {
+                            $followerQuery->where('user_id', $user->id);
+                        });
+                    });
+                }
             });
     }
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array

@@ -29,7 +29,7 @@ trait HasGroupPermissions
         $owner = $model->{$ownerAttribute};
 
         return $user->roles->permissions->contains('type', 'group') &&
-               $owner && $user->group_id === $owner->group_id;
+            $owner && $user->group_id === $owner->group_id;
     }
 
     /**
@@ -45,7 +45,7 @@ trait HasGroupPermissions
         $owner = $model->{$ownerAttribute};
 
         return $user->roles->permissions->contains('type', 'individual') &&
-               $owner && $owner->id === $user->id;
+            $owner && $owner->id === $user->id;
     }
 
     /**
@@ -59,7 +59,7 @@ trait HasGroupPermissions
     protected function hasAccess($user, $model, $ownerAttribute = 'user')
     {
         return $this->hasGlobalAccess($user) ||
-               $this->hasGroupAccess($user, $model, $ownerAttribute) ||
-               $this->hasIndividualAccess($user, $model, $ownerAttribute);
+            $this->hasGroupAccess($user, $model, $ownerAttribute) ||
+            $this->hasIndividualAccess($user, $model, $ownerAttribute);
     }
 }

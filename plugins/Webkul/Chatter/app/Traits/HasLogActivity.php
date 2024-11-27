@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Webkul\Core\Models\User;
 
 trait HasLogActivity
 {
@@ -79,6 +80,7 @@ trait HasLogActivity
     {
         return collect($this->getAttributes())
             ->except($this->getExcludedAttributes())
+            ->map(fn($value, $key) => $this->formatAttributeValue($key, $value))
             ->toArray();
     }
 
@@ -99,13 +101,42 @@ trait HasLogActivity
             ) {
                 $changes[$key] = [
                     'type'      => array_key_exists($key, $original) ? 'modified' : 'added',
-                    'old_value' => $original[$key] ?? null,
-                    'new_value' => $value
+                    'old_value' => $this->formatAttributeValue($key, $original[$key] ?? null),
+                    'new_value' => $this->formatAttributeValue($key, $value)
                 ];
             }
         }
 
         return $changes;
+    }
+
+    protected function formatAttributeValue(string $key, $value): mixed
+    {
+        $userFields = [
+            'created_by',
+            'assigned_to',
+            'user_id'
+        ];
+
+        if (
+            in_array($key, $userFields)
+            && $value !== null
+        ) {
+            try {
+                $user = User::find($value);
+
+                return $user ? $user->name : 'Unassigned';
+            } catch (\Exception $e) {
+                Log::error("Failed to fetch user for field {$key}: " . $e->getMessage());
+                return $value;
+            }
+        }
+
+        if (in_array($key, ['due_date', 'created_at', 'updated_at'])) {
+            return $value ? \Carbon\Carbon::parse($value)->format('F j, Y') : null;
+        }
+
+        return $value;
     }
 
     protected function getExcludedAttributes(): array
