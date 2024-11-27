@@ -2,30 +2,24 @@
 
 namespace Webkul\Core\Traits;
 
+use Illuminate\Database\Eloquent\Model;
 use Webkul\Core\Enums\PermissionType;
+use Webkul\Core\Models\User;
 
 trait HasGroupPermissions
 {
     /**
      * Check if the user has global access to any resource.
-     *
-     * @param  \Webkul\Core\Models\User  $user
-     * @return bool
      */
-    protected function hasGlobalAccess($user)
+    protected function hasGlobalAccess(User $user): bool
     {
         return $user->resource_permission === PermissionType::GLOBAL->value;
     }
 
     /**
      * Check if the user has group access to resources of users in the same group.
-     *
-     * @param  \Webkul\Core\Models\User  $user
-     * @param  mixed  $model
-     * @param  string  $ownerAttribute
-     * @return bool
      */
-    protected function hasGroupAccess($user, $model, $ownerAttribute = 'user')
+    protected function hasGroupAccess(User $user, Model $model, string $ownerAttribute = 'user'): bool
     {
         $owner = $model->{$ownerAttribute};
 
@@ -35,13 +29,8 @@ trait HasGroupPermissions
 
     /**
      * Check if the user has individual access to their own resources only.
-     *
-     * @param  \Webkul\Core\Models\User  $user
-     * @param  mixed  $model
-     * @param  string  $ownerAttribute
-     * @return bool
      */
-    protected function hasIndividualAccess($user, $model, $ownerAttribute = 'user')
+    protected function hasIndividualAccess(User $user, Model $model, $ownerAttribute = 'user'): bool
     {
         $owner = $model->{$ownerAttribute};
 
@@ -50,13 +39,8 @@ trait HasGroupPermissions
 
     /**
      * Main access method that combines all permissions.
-     *
-     * @param  \Webkul\Core\Models\User  $user
-     * @param  mixed  $model
-     * @param  string  $ownerAttribute
-     * @return bool
      */
-    protected function hasAccess($user, $model, $ownerAttribute = 'user')
+    protected function hasAccess(User $user, Model $model, string $ownerAttribute = 'user'): bool
     {
         return $this->hasGlobalAccess($user) ||
             $this->hasGroupAccess($user, $model, $ownerAttribute) ||
