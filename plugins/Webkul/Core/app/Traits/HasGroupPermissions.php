@@ -23,8 +23,9 @@ trait HasGroupPermissions
     {
         $owner = $model->{$ownerAttribute};
 
-        return $user->resource_permission === PermissionType::GROUP->value &&
-            $owner && $user->group_id === $owner->group_id;
+        return $user->resource_permission === PermissionType::GROUP->value
+            && $owner
+            && $user->group_id === $owner->group_id;
     }
 
     /**
@@ -34,7 +35,9 @@ trait HasGroupPermissions
     {
         $owner = $model->{$ownerAttribute};
 
-        return $user->resource_permission === PermissionType::INDIVIDUAL->value && $owner && $owner->id === $user->id;
+        return $user->resource_permission === PermissionType::INDIVIDUAL->value
+            && $owner
+            && $owner->id === $user->id;
     }
 
     /**
@@ -42,8 +45,8 @@ trait HasGroupPermissions
      */
     protected function hasAccess(User $user, Model $model, string $ownerAttribute = 'user'): bool
     {
-        return $this->hasGlobalAccess($user) ||
-            $this->hasGroupAccess($user, $model, $ownerAttribute) ||
-            $this->hasIndividualAccess($user, $model, $ownerAttribute);
+        return $this->hasGlobalAccess($user)
+            || $this->hasGroupAccess($user, $model, $ownerAttribute)
+            || $this->hasIndividualAccess($user, $model, $ownerAttribute);
     }
 }

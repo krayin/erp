@@ -45,7 +45,11 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
-        return $user->can('update_task');
+        if (! $user->can('update_task')) {
+            return false;
+        }
+
+        return $this->hasAccess($user, $task, 'assignedTo');
     }
 
     /**
@@ -53,11 +57,15 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task): bool
     {
-        return $user->can('delete_task');
+        if (! $user->can('delete_task')) {
+            return false;
+        }
+
+        return $this->hasAccess($user, $task, 'assignedTo');
     }
 
     /**
-     * Determine whether the user can bulk delete.
+     * Determine whether the user can bulk delete models.
      */
     public function deleteAny(User $user): bool
     {
@@ -65,15 +73,19 @@ class TaskPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete.
+     * Determine whether the user can permanently delete the model.
      */
     public function forceDelete(User $user, Task $task): bool
     {
-        return $user->can('force_delete_task');
+        if (! $user->can('force_delete_task')) {
+            return false;
+        }
+
+        return $this->hasAccess($user, $task, 'assignedTo');
     }
 
     /**
-     * Determine whether the user can permanently bulk delete.
+     * Determine whether the user can permanently bulk delete models.
      */
     public function forceDeleteAny(User $user): bool
     {
@@ -81,15 +93,19 @@ class TaskPolicy
     }
 
     /**
-     * Determine whether the user can restore.
+     * Determine whether the user can restore the model.
      */
     public function restore(User $user, Task $task): bool
     {
-        return $user->can('restore_task');
+        if (! $user->can('restore_task')) {
+            return false;
+        }
+
+        return $this->hasAccess($user, $task, 'assignedTo');
     }
 
     /**
-     * Determine whether the user can bulk restore.
+     * Determine whether the user can bulk restore models.
      */
     public function restoreAny(User $user): bool
     {
@@ -97,15 +113,19 @@ class TaskPolicy
     }
 
     /**
-     * Determine whether the user can replicate.
+     * Determine whether the user can replicate the model.
      */
     public function replicate(User $user, Task $task): bool
     {
-        return $user->can('replicate_task');
+        if (! $user->can('replicate_task')) {
+            return false;
+        }
+
+        return $this->hasAccess($user, $task, 'assignedTo');
     }
 
     /**
-     * Determine whether the user can reorder.
+     * Determine whether the user can reorder tasks.
      */
     public function reorder(User $user): bool
     {
