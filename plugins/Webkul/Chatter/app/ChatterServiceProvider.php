@@ -25,6 +25,7 @@ class ChatterServiceProvider extends PackageServiceProvider
                 '2024_11_18_124832_create_followers_table',
                 '2024_11_20_082431_create_chat_attachments_table',
                 '2024_11_21_071905_create_activity_logs_table',
+                '2024_11_26_140329_alter_tasks_table',
             ])
             ->runsMigrations();
     }

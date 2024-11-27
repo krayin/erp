@@ -11,7 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // TODO: need to ask jitendra sir regarding to make new migrations or update existing one
         Schema::table('tasks', function (Blueprint $table) {
             $table->renameColumn('user_id', 'created_by');
 
