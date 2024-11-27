@@ -21,11 +21,17 @@ trait HasGroupPermissions
      */
     protected function hasGroupAccess(User $user, Model $model, string $ownerAttribute = 'user'): bool
     {
+        $hasGroupAccess = $user->resource_permission === PermissionType::GROUP->value;
+
+        if (! $hasGroupAccess) {
+            return false;
+        }
+
         $owner = $model->{$ownerAttribute};
 
         if (
             $owner
-            && $user->resource_permission === PermissionType::GROUP->value
+            && $hasGroupAccess
         ) {
             return $owner->teams->intersect($user->teams)->isNotEmpty();
         }
@@ -38,9 +44,15 @@ trait HasGroupPermissions
      */
     protected function hasIndividualAccess(User $user, Model $model, $ownerAttribute = 'user'): bool
     {
+        $hasIndividualAccess = $user->resource_permission === PermissionType::INDIVIDUAL->value;
+
+        if (! $hasIndividualAccess) {
+            return false;
+        }
+
         $owner = $model->{$ownerAttribute};
 
-        return $user->resource_permission === PermissionType::INDIVIDUAL->value
+        return $hasIndividualAccess
             && $owner
             && $owner->id === $user->id;
     }
