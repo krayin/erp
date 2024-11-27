@@ -131,6 +131,9 @@ class TaskResource extends Resource
                 ]),
             ])
             ->modifyQueryUsing(function ($query) {
+                /**
+                 * @var \Webkul\Core\Models\User $user
+                 */
                 $user = Auth::user();
 
                 if ($user->resource_permission === PermissionType::GLOBAL->value) {
