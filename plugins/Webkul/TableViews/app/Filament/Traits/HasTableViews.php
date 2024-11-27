@@ -351,6 +351,8 @@ trait HasTableViews
                 $this->resetTableViews();
 
                 $this->activeTableView = $arguments['view'];
+
+                $this->applyTableViewFilters();
             });
     }
 
