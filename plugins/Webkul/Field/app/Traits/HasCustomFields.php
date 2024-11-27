@@ -11,13 +11,33 @@ trait HasCustomFields
      */
     protected static function bootHasCustomFields()
     {
-        static::retrieved(function ($model) {
-            $customFields = $model->getCustomFields();
+        static::retrieved(fn($model) => $model->loadCustomFields());
 
-            $model->mergeFillable($customFields->pluck('code')->toArray());
+        static::creating(fn($model) => $model->loadCustomFields());
 
-            $model->mergeCasts($customFields->select('code', 'type', 'is_multiselect')->get());
-        });
+        static::updating(fn($model) => $model->loadCustomFields());
+    }
+
+    /**
+     * Fill the model with an array of attributes.
+     */
+    public function fill(array $attributes): static
+    {
+        $this->loadCustomFields();
+
+        return parent::fill($attributes);
+    }
+
+    /**
+     * Load and merge custom fields into the model.
+     */
+    protected function loadCustomFields()
+    {
+        $customFields = $this->getCustomFields();
+
+        $this->mergeFillable($customFields->pluck('code')->toArray());
+
+        $this->mergeCasts($customFields->select('code', 'type', 'is_multiselect')->get());
     }
 
     /**
@@ -47,7 +67,7 @@ trait HasCustomFields
         if (is_array($attributes)) {
             return $attributes;
         }
-        
+
         foreach ($attributes as $attribute) {
             match ($attribute->type) {
                 'select' => $this->casts[$attribute->code] = $attribute->is_multiselect ? 'array' : 'string',
