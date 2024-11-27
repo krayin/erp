@@ -12,6 +12,8 @@ use Filament\Tables\Table;
 use Webkul\Chatter\Enums\TaskStatus;
 use Webkul\Field\Filament\Traits\HasCustomFields;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Chatter\Policies\TaskPolicy;
+use Webkul\Core\Enums\PermissionType;
 
 class TaskResource extends Resource
 {
@@ -52,7 +54,7 @@ class TaskResource extends Resource
                 ->description('Manage task creation and assignment')
                 ->schema([
                     Forms\Components\Hidden::make('created_by')
-                        ->default(Auth::user()->id)
+                        ->default(Auth::id())
                         ->required(),
                     Forms\Components\Select::make('assigned_to')
                         ->searchable()
@@ -70,27 +72,23 @@ class TaskResource extends Resource
 
         if (count(static::getCustomFormFields())) {
             $formSchema[] = Forms\Components\Section::make('Additional Information')
-                ->description('This is the customer fields information')
+                ->description('This is the custom fields information')
                 ->schema(static::getCustomFormFields())
                 ->columns(2);
         }
 
-        return $form
-            ->schema($formSchema);
+        return $form->schema($formSchema);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns(static::mergeCustomTableColumns([
-                Tables\Columns\TextColumn::make('title')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('title')->searchable(),
                 Tables\Columns\TextColumn::make('status')
                     ->formatStateUsing(fn($state) => TaskStatus::options()[$state])
                     ->sortable(),
-                Tables\Columns\TextColumn::make('due_date')
-                    ->date()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('due_date')->date()->sortable(),
                 Tables\Columns\TextColumn::make('assignedTo.name')
                     ->label('Assigned To')
                     ->sortable(),
@@ -118,9 +116,7 @@ class TaskResource extends Resource
                     ->relationship('createdBy', 'name')
                     ->label('Created By'),
             ]))
-            ->groups([
-                'status',
-            ])
+            ->groups(['status'])
             ->filtersFormColumns(2)
             ->actions([
                 Tables\Actions\ActionGroup::make([
@@ -133,14 +129,40 @@ class TaskResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ])->modifyQueryUsing(function ($query) {});
+            ])
+            ->modifyQueryUsing(function ($query) {
+                $user = Auth::user();
+
+                if ($user->resource_permission === PermissionType::GLOBAL->value) {
+                    return;
+                }
+
+                if ($user->resource_permission === PermissionType::INDIVIDUAL->value) {
+                    $query->where('created_by', $user->id)
+                        ->orWhereHas('followers', function ($followerQuery) use ($user) {
+                            $followerQuery->where('user_id', $user->id);
+                        });
+                }
+
+                if ($user->resource_permission === PermissionType::GROUP->value) {
+                    $teamIds = $user->teams()->pluck('id');
+
+                    $query->where(function ($query) use ($teamIds, $user) {
+                        $query->whereHas('createdBy.teams', function ($teamQuery) use ($teamIds) {
+                            $teamQuery->whereIn('teams.id', $teamIds);
+                        })->orWhereHas('assignedTo.teams', function ($teamQuery) use ($teamIds) {
+                            $teamQuery->whereIn('teams.id', $teamIds);
+                        })->orWhereHas('followers', function ($followerQuery) use ($user) {
+                            $followerQuery->where('user_id', $user->id);
+                        });
+                    });
+                }
+            });
     }
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
