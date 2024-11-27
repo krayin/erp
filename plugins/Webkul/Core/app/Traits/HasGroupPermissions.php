@@ -23,9 +23,14 @@ trait HasGroupPermissions
     {
         $owner = $model->{$ownerAttribute};
 
-        return $user->resource_permission === PermissionType::GROUP->value
-            && $owner
-            && $user->group_id === $owner->group_id;
+        if (
+            $owner
+            && $user->resource_permission === PermissionType::GROUP->value
+        ) {
+            return $owner->teams->intersect($user->teams)->isNotEmpty();
+        }
+
+        return false;
     }
 
     /**
