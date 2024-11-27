@@ -129,38 +129,38 @@ class TaskResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ])
-            ->modifyQueryUsing(function ($query) {
-                /**
-                 * @var \Webkul\Core\Models\User $user
-                 */
-                $user = Auth::user();
+            ]);
+            // ->modifyQueryUsing(function ($query) {
+            //     /**
+            //      * @var \Webkul\Core\Models\User $user
+            //      */
+            //     $user = Auth::user();
 
-                if ($user->resource_permission === PermissionType::GLOBAL->value) {
-                    return;
-                }
+            //     if ($user->resource_permission === PermissionType::GLOBAL->value) {
+            //         return;
+            //     }
 
-                if ($user->resource_permission === PermissionType::INDIVIDUAL->value) {
-                    $query->where('created_by', $user->id)
-                        ->orWhereHas('followers', function ($followerQuery) use ($user) {
-                            $followerQuery->where('user_id', $user->id);
-                        });
-                }
+            //     if ($user->resource_permission === PermissionType::INDIVIDUAL->value) {
+            //         $query->where('created_by', $user->id)
+            //             ->orWhereHas('followers', function ($followerQuery) use ($user) {
+            //                 $followerQuery->where('user_id', $user->id);
+            //             });
+            //     }
 
-                if ($user->resource_permission === PermissionType::GROUP->value) {
-                    $teamIds = $user->teams()->pluck('id');
+            //     if ($user->resource_permission === PermissionType::GROUP->value) {
+            //         $teamIds = $user->teams()->pluck('id');
 
-                    $query->where(function ($query) use ($teamIds, $user) {
-                        $query->whereHas('createdBy.teams', function ($teamQuery) use ($teamIds) {
-                            $teamQuery->whereIn('teams.id', $teamIds);
-                        })->orWhereHas('assignedTo.teams', function ($teamQuery) use ($teamIds) {
-                            $teamQuery->whereIn('teams.id', $teamIds);
-                        })->orWhereHas('followers', function ($followerQuery) use ($user) {
-                            $followerQuery->where('user_id', $user->id);
-                        });
-                    });
-                }
-            });
+            //         $query->where(function ($query) use ($teamIds, $user) {
+            //             $query->whereHas('createdBy.teams', function ($teamQuery) use ($teamIds) {
+            //                 $teamQuery->whereIn('teams.id', $teamIds);
+            //             })->orWhereHas('assignedTo.teams', function ($teamQuery) use ($teamIds) {
+            //                 $teamQuery->whereIn('teams.id', $teamIds);
+            //             })->orWhereHas('followers', function ($followerQuery) use ($user) {
+            //                 $followerQuery->where('user_id', $user->id);
+            //             });
+            //         });
+            //     }
+            // });
     }
 
     public static function getRelations(): array

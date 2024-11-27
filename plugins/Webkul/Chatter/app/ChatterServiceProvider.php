@@ -2,6 +2,7 @@
 
 namespace Webkul\Chatter;
 
+use Illuminate\Support\Facades\Gate;
 use Livewire\Livewire;
 use Webkul\Chatter\Livewire\ChatterPanel;
 use Webkul\Chatter\Livewire\Follower;

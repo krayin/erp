@@ -2,6 +2,8 @@
 
 namespace Webkul\Core\Traits;
 
+use Webkul\Core\Enums\PermissionType;
+
 trait HasGroupPermissions
 {
     /**
@@ -12,7 +14,7 @@ trait HasGroupPermissions
      */
     protected function hasGlobalAccess($user)
     {
-        return $user->roles->permissions->contains('type', 'global');
+        return $user->resource_permission === PermissionType::GLOBAL->value;
     }
 
     /**
@@ -25,10 +27,9 @@ trait HasGroupPermissions
      */
     protected function hasGroupAccess($user, $model, $ownerAttribute = 'user')
     {
-        // Dynamically fetch the owner based on the specified attribute
         $owner = $model->{$ownerAttribute};
 
-        return $user->roles->permissions->contains('type', 'group') &&
+        return $user->resource_permission === PermissionType::GROUP->value &&
             $owner && $user->group_id === $owner->group_id;
     }
 
@@ -44,8 +45,7 @@ trait HasGroupPermissions
     {
         $owner = $model->{$ownerAttribute};
 
-        return $user->roles->permissions->contains('type', 'individual') &&
-            $owner && $owner->id === $user->id;
+        return $user->resource_permission === PermissionType::INDIVIDUAL->value && $owner && $owner->id === $user->id;
     }
 
     /**

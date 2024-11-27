@@ -205,6 +205,7 @@ trait HasTableViews
 
         return $tableViews[$this->activeTableView]->modifyQuery($query);
     }
+
     public function saveFilterAction(): Action
     {
         return CreateViewAction::make('saveFilter')

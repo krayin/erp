@@ -2,9 +2,9 @@
 
 namespace Webkul\Chatter\Policies;
 
-use Illuminate\Auth\Access\HandlesAuthorization;
-use Webkul\Chatter\Models\Task;
 use Webkul\Core\Models\User;
+use Webkul\Chatter\Models\Task;
+use Illuminate\Auth\Access\HandlesAuthorization;
 use Webkul\Core\Traits\HasGroupPermissions;
 
 class TaskPolicy
@@ -25,7 +25,11 @@ class TaskPolicy
      */
     public function view(User $user, Task $task): bool
     {
-        return $user->can('view_task');
+        if (! $user->can('view_task')) {
+            return false;
+        }
+
+        return $this->hasAccess($user, $task, 'assignedTo');
     }
 
     /**
