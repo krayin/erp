@@ -1,6 +1,7 @@
 @if (method_exists($this, 'getCachedFavoriteTableViews') && count($tabs = $this->getCachedFavoriteTableViews()))
     @php
         $activeTableView = strval($this->activeTableView);
+        $isActiveTableViewModified = $this->isActiveTableViewModified();
     @endphp
 
     <div
@@ -29,6 +30,7 @@
                     @style([
                         'border-bottom: 2px solid transparent; border-radius: 0',
                         'border-bottom: 2px solid rgb(var(--'.$color.'-500))' => $activeTableView === $tabKey,
+                        'border-bottom: 2px solid rgb(var(--gray-300))' => $activeTableView === $tabKey && $isActiveTableViewModified,
                     ])
                 >
                     {{ $tab->getLabel() ?? $this->generateTabLabel($tabKey) }}
