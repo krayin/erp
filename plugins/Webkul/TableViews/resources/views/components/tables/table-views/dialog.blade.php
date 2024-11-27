@@ -3,6 +3,7 @@
 @endphp
 
 @props([
+    'activeTableView' => null,
     'activeTableViewsCount' => 0,
     'layout' => TableViewsLayout::Dropdown,
     'triggerAction',
@@ -31,10 +32,11 @@
         {{ $attributes->class(['fi-ta-filters-modal']) }}
     >
         <x-slot name="trigger">
-            {{ $triggerAction->badge($activeTableViewsCount) }}
+            {{ $triggerAction->badge($activeTableViewsCount ?: null) }}
         </x-slot>
 
         <x-table-views::tables.table-views
+            :active-table-view="$activeTableView"
             :favorite-views="$favoriteViews"
             :preset-views="$presetViews"
             :saved-views="$savedViews"
@@ -53,10 +55,11 @@
         {{ $attributes->class(['fi-ta-filters-dropdown']) }}
     >
         <x-slot name="trigger">
-            {{ $triggerAction->badge($activeTableViewsCount) }}
+            {{ $triggerAction->badge($activeTableViewsCount ?: null) }}
         </x-slot>
 
         <x-table-views::tables.table-views
+            :active-table-view="$activeTableView"
             :favorite-views="$favoriteViews"
             :preset-views="$presetViews"
             :saved-views="$savedViews"

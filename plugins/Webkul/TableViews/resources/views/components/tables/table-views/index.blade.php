@@ -1,4 +1,5 @@
 @props([
+    'activeTableView' => null,
     'favoriteViews' => [],
     'savedViews' => [],
     'presetViews' => [],
@@ -58,7 +59,10 @@
                 <div class="flex flex-col gap-y-1">
                     @foreach ($views as $key => $view)
                         <div class="flex items-center justify-between px-3 py-1 -mx-3 gap-x-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-white/5 hover:rounded-lg">
-                            <div class="flex w-full gap-x-2 truncate justify-between items-center">
+                            <div
+                                class="flex w-full gap-x-2 truncate justify-between items-center"
+                                wire:click="mountAction('applyTableView', JSON.parse('{\u0022view\u0022:\u0022{{$key}}\u0022}'))"
+                            >
                                 <div class="flex flex-1 h-9 items-center truncate">
                                     <div class="flex w-full items-center gap-x-3 truncate">
                                         <x-filament::icon
@@ -71,7 +75,9 @@
                                                 {{ $view->getLabel() }}
                                             </span>
 
-                                            <span class="text-primary-500">•</span>
+                                            @if ($key == $activeTableView)
+                                                <span class="text-primary-500">•</span>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

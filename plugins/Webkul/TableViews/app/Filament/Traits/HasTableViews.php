@@ -221,6 +221,7 @@ trait HasTableViews
                     'tableSortColumn' => $this->tableSortColumn,
                     'tableSortDirection' => $this->tableSortDirection,
                     'tableRecordsPerPage' => $this->tableRecordsPerPage,
+                    // 'toggledTableColumns' => $this->toggledTableColumns,
                 ];
         
                 return $data;
@@ -275,9 +276,20 @@ trait HasTableViews
         return $this->evaluate($this->tableViewsLayout) ?? TableViewsLayout::Dropdown;
     }
 
+    public function getActiveTableView()
+    {
+        return $this->activeTableView;
+    }
+
     public function getActiveTableViewsCount()
     {
-        return count($this->getCachedTableViews());
+        $tableViews = $this->getAllTableViews();
+
+        if (isset($tableViews[$this->activeTableView])) {
+            return 1;
+        }
+        
+        return 0;
     }
 
     public function getTableViewsTriggerAction(): Action
@@ -336,7 +348,7 @@ trait HasTableViews
     public function editTableViewAction(): Action
     {
         return EditViewAction::make('editTableView')
-            ->after(function (TableViewModel $saveFilter): void {
+            ->after(function (): void {
                 unset($this->cachedTableViews);
                 unset($this->cachedFavoriteTableViews);
                 

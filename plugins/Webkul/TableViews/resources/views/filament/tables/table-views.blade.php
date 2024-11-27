@@ -1,5 +1,6 @@
 @if (method_exists($this, 'getTableViewsTriggerAction') && $tableViewsTriggerAction = $this->getTableViewsTriggerAction())
     @php
+        $activeTableView = $this->getActiveTableView();
         $activeTableViewsCount = $this->getActiveTableViewsCount();
         $tableViewsLayout = $this->getTableViewsLayout();
         $tableViewsFormMaxHeight = $this->getTableViewsFormMaxHeight();
@@ -11,7 +12,8 @@
     @endphp
 
     <x-table-views::tables.table-views.dialog
-        :active-filters-count="$activeTableViewsCount"
+        :active-table-view="$activeTableView"
+        :active-table-views-count="$activeTableViewsCount"
         :layout="$tableViewsLayout"
         :trigger-action="$tableViewsTriggerAction"
         :favorite-views="$tableFavoriteViews"
