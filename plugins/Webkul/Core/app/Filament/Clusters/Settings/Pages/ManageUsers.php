@@ -8,9 +8,12 @@ use Filament\Pages\SettingsPage;
 use Spatie\Permission\Models\Role;
 use Webkul\Core\Filament\Clusters\Settings;
 use Webkul\Core\Settings\UserSettings;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
 class ManageUsers extends SettingsPage
 {
+    use HasPageShield;
+
     protected static ?string $cluster = Settings::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';

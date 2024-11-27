@@ -35,7 +35,6 @@ class CreateViewAction extends Action
                             'danger' => 'Danger',
                             'gray' => 'Gray',
                             'info' => 'Information',
-                            'primary' => 'Primary',
                             'success' => 'Success',
                             'warning' => 'Warning',
                         ])->mapWithKeys(function ($value, $key) {

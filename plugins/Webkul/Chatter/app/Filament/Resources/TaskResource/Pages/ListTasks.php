@@ -22,7 +22,7 @@ class ListTasks extends ListRecords
             'my_tasks' => PresetView::make('My Tasks')
                 ->icon('heroicon-m-numbered-list')
                 ->favorite()
-                ->modifyQueryUsing(fn(Builder $query) => $query->where('created_by', Auth::user()->id)),
+                ->modifyQueryUsing(fn(Builder $query) => $query->where('assigned_to', Auth::user()->id)),
         ];
     }
 

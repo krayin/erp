@@ -48,6 +48,8 @@ trait HasTableViews
     protected function loadDefaultActiveTableView(): void
     {
         if (filled($this->activeTableView)) {
+            $this->applyTableViewFilters();
+            
             return;
         }
 
@@ -63,9 +65,11 @@ trait HasTableViews
         $this->resetTableViews();
 
         $this->activeTableView = $tabKey;
+
+        $this->applyTableViewFilters();
     }
 
-    public function resetTableViews()
+    public function resetTableViews(): void
     {
         $this->resetTable();
 
@@ -77,21 +81,49 @@ trait HasTableViews
 
         $this->resetTableGrouping();
 
+        $this->resetToggledTableColumns();
+
         $this->activeTableView = $this->getDefaultActiveTableView();
     }
 
-    public function resetTableSort()
+    public function resetTableSort(): void
     {
         $this->tableSortColumn = null;
 
         $this->tableSortDirection = null;
     }
 
-    public function resetTableGrouping()
+    public function resetTableGrouping(): void
     {
         $this->tableGrouping = null;
 
         $this->tableGroupingDirection = null;
+    }
+
+    public function resetToggledTableColumns(): void
+    {
+        $this->toggledTableColumns = $this->getDefaultTableColumnToggleState();
+    }
+
+    public function applyTableViewFilters(): void
+    {
+        $tableViews = $this->getAllTableViews();
+
+        if (! array_key_exists($this->activeTableView, $tableViews)) {
+            return;
+        }
+
+        if (! $tableViews[$this->activeTableView] instanceof SavedView) {
+            return;
+        }
+
+        foreach ($tableViews[$this->activeTableView]->getModel()->filters as $key => $filter) {
+            if (! $filter) {
+                continue;
+            }
+
+            $this->{$key} = $filter;
+        }
     }
 
     /**
@@ -121,19 +153,6 @@ trait HasTableViews
                         ->icon($tableView->icon)
                         ->color($tableView->color)
                         ->favorite($tableView->is_favorite)
-                        ->modifyQueryUsing(function () use ($tableView) {
-                            if (! $tableView->filters) {
-                                return;
-                            }
-
-                            foreach ($tableView->filters as $key => $filter) {
-                                if (! $filter) {
-                                    continue;
-                                }
-
-                                $this->{$key} = $filter;
-                            }
-                        }),
                 ];
             })->all();
     }

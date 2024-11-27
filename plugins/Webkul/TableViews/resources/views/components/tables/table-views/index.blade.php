@@ -49,6 +49,10 @@
             'Saved Views' => $savedViews,
             'Preset Views' => $presetViews,
         ] as $label => $views)
+            @if (empty($views))
+                @continue
+            @endif
+            
             <div class="flex flex-col">
                 <div class="flex items-center justify-between min-h-[36px]" style="min-height: 36px">
                     <h3 class="font-medium text-gray-400 dark:text-gray-500">
