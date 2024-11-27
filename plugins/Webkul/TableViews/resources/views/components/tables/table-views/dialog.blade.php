@@ -5,6 +5,7 @@
 @props([
     'activeTableView' => null,
     'activeTableViewsCount' => 0,
+    'isActiveTableViewModified' => false,
     'layout' => TableViewsLayout::Dropdown,
     'triggerAction',
     'favoriteViews' => [],
@@ -37,6 +38,7 @@
 
         <x-table-views::tables.table-views
             :active-table-view="$activeTableView"
+            :is-active-table-view-modified="$isActiveTableViewModified"
             :favorite-views="$favoriteViews"
             :preset-views="$presetViews"
             :saved-views="$savedViews"
@@ -60,6 +62,7 @@
 
         <x-table-views::tables.table-views
             :active-table-view="$activeTableView"
+            :is-active-table-view-modified="$isActiveTableViewModified"
             :favorite-views="$favoriteViews"
             :preset-views="$presetViews"
             :saved-views="$savedViews"

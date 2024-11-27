@@ -1,5 +1,6 @@
 @props([
-    'activeTableView' => null,
+    'activeTableView',
+    'isActiveTableViewModified',
     'favoriteViews' => [],
     'savedViews' => [],
     'presetViews' => [],
@@ -97,9 +98,12 @@
                                     ($this->editTableViewAction)(['view' => $view->getModel()])
                                         ->visible(fn () => $view instanceof \Webkul\TableViews\Components\SavedView),
                                     \Filament\Actions\ActionGroup::make([
-                                        ($this->deleteTableViewAction)(['view' => $key])
-                                    ])->dropdown(false)
-                                    ->visible(fn () => $view instanceof \Webkul\TableViews\Components\SavedView),
+                                        ($this->replaceTableViewAction)(['view' => $key])
+                                            ->visible(fn () => $key == $activeTableView && $isActiveTableViewModified),
+                                        ($this->deleteTableViewAction)(['view' => $key]),
+                                    ])
+                                        ->dropdown(false)
+                                        ->visible(fn () => $view instanceof \Webkul\TableViews\Components\SavedView),
                                 ]"
                                 dropdown-placement="bottom-end"
                             />

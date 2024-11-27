@@ -49,7 +49,7 @@ trait HasTableViews
     {
         if (filled($this->activeTableView)) {
             $this->applyTableViewFilters();
-            
+
             return;
         }
 
@@ -58,10 +58,6 @@ trait HasTableViews
 
     public function loadView($tabKey): void
     {
-        if ($this->activeTableView === $tabKey) {
-            return;
-        }
-
         $this->resetTableViews();
 
         $this->activeTableView = $tabKey;
@@ -209,6 +205,29 @@ trait HasTableViews
         $this->resetPage();
     }
 
+    public function isActiveTableViewModified(): bool
+    {
+        $tableViews = $this->getAllTableViews();
+
+        if (! array_key_exists($this->activeTableView, $tableViews)) {
+            return false;
+        }
+
+        if (! $tableViews[$this->activeTableView] instanceof SavedView) {
+            return false;
+        }
+
+        return [
+            'tableFilters' => $this->tableFilters,
+            'tableGrouping' => $this->tableGrouping,
+            'tableSearch' => $this->tableSearch,
+            'tableColumnSearches' => $this->tableColumnSearches,
+            'tableSortColumn' => $this->tableSortColumn,
+            'tableSortDirection' => $this->tableSortDirection,
+            'tableRecordsPerPage' => $this->tableRecordsPerPage,
+            'toggledTableColumns' => $this->toggledTableColumns,
+        ] != $tableViews[$this->activeTableView]->getModel()->filters;
+    }
 
     protected function modifyQueryWithActiveTab(Builder $query): Builder
     {
@@ -241,7 +260,7 @@ trait HasTableViews
                     'tableSortColumn' => $this->tableSortColumn,
                     'tableSortDirection' => $this->tableSortDirection,
                     'tableRecordsPerPage' => $this->tableRecordsPerPage,
-                    // 'toggledTableColumns' => $this->toggledTableColumns,
+                    'toggledTableColumns' => $this->toggledTableColumns,
                 ];
         
                 return $data;
@@ -386,6 +405,32 @@ trait HasTableViews
             ->requiresConfirmation()
             ->action(function(array $arguments) {
                 TableViewModel::find($arguments['view'])->delete();
+
+                unset($this->cachedTableViews);
+                unset($this->cachedFavoriteTableViews);
+            });
+    }
+
+    public function replaceTableViewAction(): Action
+    {
+        return Action::make('replaceTableView')
+            ->label('Replace View')
+            ->icon('heroicon-m-arrows-right-left')
+            ->color('danger')
+            ->requiresConfirmation()
+            ->action(function(array $arguments) {
+                TableViewModel::find($arguments['view'])->update([
+                    'filters' => [
+                        'tableFilters' => $this->tableFilters,
+                        'tableGrouping' => $this->tableGrouping,
+                        'tableSearch' => $this->tableSearch,
+                        'tableColumnSearches' => $this->tableColumnSearches,
+                        'tableSortColumn' => $this->tableSortColumn,
+                        'tableSortDirection' => $this->tableSortDirection,
+                        'tableRecordsPerPage' => $this->tableRecordsPerPage,
+                        'toggledTableColumns' => $this->toggledTableColumns,
+                    ],
+                ]);
 
                 unset($this->cachedTableViews);
                 unset($this->cachedFavoriteTableViews);
