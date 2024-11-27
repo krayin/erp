@@ -9,7 +9,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Spatie\Permission\Models\Role;
-use Webkul\Core\Enums\UserResourcePermission;
+use Webkul\Core\Enums\PermissionType;
 use Webkul\Core\Filament\Resources\UserResource\Pages;
 use Webkul\Core\Models\User;
 
@@ -55,7 +55,7 @@ class UserResource extends Resource
                         ->multiple()
                         ->preload(),
                     Forms\Components\Select::make('resource_permission')
-                        ->options(UserResourcePermission::options())
+                        ->options(PermissionType::options())
                         ->required()
                         ->preload(),
                     Forms\Components\Select::make('teams')
@@ -93,7 +93,7 @@ class UserResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('resource_permission')
                     ->searchable()
-                    ->options(UserResourcePermission::options())
+                    ->options(PermissionType::options())
                     ->preload(),
                 Tables\Filters\SelectFilter::make('teams')
                     ->relationship('teams', 'name')

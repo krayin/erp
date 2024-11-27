@@ -2,7 +2,7 @@
 
 namespace Webkul\Core\Enums;
 
-enum UserResourcePermission: string
+enum PermissionType: string
 {
     case GROUP = 'group';
 
