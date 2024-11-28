@@ -16,7 +16,10 @@ trait HasPanelShield
         if (Utils::isPanelUserRoleEnabled()) {
             $panelUserRoleName = Utils::getPanelUserRoleName();
 
-            $role = Role::firstOrCreate(['name' => $panelUserRoleName]);
+            $role = Role::firstOrCreate([
+                'name'       => $panelUserRoleName,
+                'guard_name' => Utils::getFilamentAuthGuard(),
+            ]);
 
             $permissions = Permission::all();
 
