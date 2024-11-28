@@ -4,6 +4,14 @@ namespace Webkul\Core\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use BezhanSalleh\FilamentShield\Support\Utils;
+use Illuminate\Database\Eloquent\Model;
+
+use function Laravel\Prompts\password;
+use function Laravel\Prompts\text;
 
 class InstallERP extends Command
 {
@@ -30,11 +38,9 @@ class InstallERP extends Command
 
         $this->runMigrations();
 
-        $this->seedDatabase();
+        $this->generateRolesAndPermissions();
 
-        $this->generatePermissions();
-
-        $this->createSuperAdmin();
+        $this->createAdminUser();
 
         $this->info('🎉 ERP System installation completed successfully!');
     }
@@ -52,41 +58,87 @@ class InstallERP extends Command
     }
 
     /**
-     * Seed the database.
+     * Generate roles and permissions using Filament Shield.
      */
-    protected function seedDatabase(): void
+    protected function generateRolesAndPermissions(): void
     {
-        $this->info('🌱 Seeding the database...');
+        $this->info('🛡 Generating roles and permissions...');
 
-        Artisan::call('db:seed', [], $this->getOutput());
+        $adminRole = Role::firstOrCreate(['name' => $this->getAdminRoleName()]);
 
-        $this->info('✅ Database seeding completed.');
+        Artisan::call('shield:generate', ['--all' => true, '--option' => 'permissions'], $this->getOutput());
+
+        $permissions = Permission::all();
+        $adminRole->syncPermissions($permissions);
+
+        $this->info('✅ Roles and permissions generated and assigned successfully.');
     }
 
     /**
-     * Generate permissions without creating policies.
+     * Create the initial Admin user with the Super Admin role.
      */
-    protected function generatePermissions()
+    protected function createAdminUser(): void
     {
-        $this->info('🛡️ Generating permissions...');
+        $this->info('👤 Creating an Admin user...');
 
-        Artisan::call('shield:generate', [
-            '--all' => true,
-            '--option' => 'permissions',
-        ], $this->getOutput());
+        $userModel = app(config('filament-shield.auth_provider_model.fqcn'));
 
-        $this->info('✅ Permissions generated successfully.');
+        $adminData = [
+            'name' => text('Name', required: true),
+            'email' => text(
+                'Email address',
+                required: true,
+                validate: fn($email) => $this->validateAdminEmail($email, $userModel)
+            ),
+            'password' => Hash::make(
+                password(
+                    'Password',
+                    required: true,
+                    validate: fn($value) => $this->validateAdminPassword($value)
+                )
+            ),
+        ];
+
+        $adminUser = $userModel::updateOrCreate(['email' => $adminData['email']], $adminData);
+
+        $adminRoleName = $this->getAdminRoleName();
+
+        if (! $adminUser->hasRole($adminRoleName)) {
+            $adminUser->assignRole($adminRoleName);
+        }
+
+        $this->info("✅ Admin user '{$adminUser->name}' created and assigned the Super Admin role successfully.");
     }
 
     /**
-     * Create and assign a Super Admin user.
+     * Retrieve the Super Admin role name from the configuration.
      */
-    protected function createSuperAdmin()
+    protected function getAdminRoleName(): string
     {
-        $this->info('👤 Creating a Super Admin user...');
+        return Utils::getPanelUserRoleName();
+    }
 
-        Artisan::call('shield:super-admin', [], $this->getOutput());
+    /**
+     * Validate the provided admin email.
+     */
+    protected function validateAdminEmail(string $email, Model $userModel): ?string
+    {
+        if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return 'The email address must be valid.';
+        }
 
-        $this->info('✅ Super Admin created and assigned successfully.');
+        if ($userModel::where('email', $email)->exists()) {
+            return 'A user with this email address already exists.';
+        }
+
+        return null;
+    }
+
+    /**
+     * Validate the provided admin password.
+     */
+    protected function validateAdminPassword(string $password): ?string
+    {
+        return strlen($password) >= 8 ? null : 'The password must be at least 8 characters long.';
     }
 }
