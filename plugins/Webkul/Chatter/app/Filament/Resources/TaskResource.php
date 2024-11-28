@@ -5,6 +5,8 @@ namespace Webkul\Chatter\Filament\Resources;
 use Webkul\Chatter\Filament\Resources\TaskResource\Pages;
 use Webkul\Chatter\Models\Task;
 use Filament\Forms;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -14,6 +16,7 @@ use Webkul\Field\Filament\Traits\HasCustomFields;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Chatter\Policies\TaskPolicy;
 use Webkul\Core\Enums\PermissionType;
+use Illuminate\Support\Str;
 
 class TaskResource extends Resource
 {
@@ -161,6 +164,52 @@ class TaskResource extends Resource
             //         });
             //     }
             // });
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        $schema = [
+            Infolists\Components\Section::make('Task Details')
+                ->description('Provide the basic details about the task')
+                ->schema([
+                    Infolists\Components\TextEntry::make('title')
+                        ->label('Task Title'),
+                    Infolists\Components\TextEntry::make('description')
+                        ->label('Task Description')
+                        ->columns(2),
+                ]),
+
+            Infolists\Components\Section::make('Task Status')
+                ->description('Specify the status and due date of the task')
+                ->schema([
+                    Infolists\Components\TextEntry::make('status')
+                        ->label('Task Status')
+                        ->formatStateUsing(fn ($state): string => Str::headline($state)),
+                    Infolists\Components\TextEntry::make('due_date')
+                        ->label('Due Date')
+                        ->date(),
+                ])->columns(2),
+
+            Infolists\Components\Section::make('Task Assignment')
+                ->description('Manage task creation and assignment')
+                ->schema([
+                    Infolists\Components\TextEntry::make('createdBy.name'),
+                    Infolists\Components\TextEntry::make('assignedTo.name')
+                        ->label('Assigned To'),
+                    Infolists\Components\TextEntry::make('followers.name')
+                        ->label('Followers')
+                        ->listWithLineBreaks()
+                ])->columns(2),
+        ];
+
+        if (count($entries = static::getCustomInfolistEntries())) {
+            $schema[] = Infolists\Components\Section::make('Additional Information')
+                ->description('This is the custom fields information')
+                ->schema($entries)
+                ->columns(2);
+        }
+
+        return $infolist->schema($schema);
     }
 
     public static function getRelations(): array

@@ -26,6 +26,7 @@ class Field extends Model
         'options' => 'array',
         'form_settings' => 'array',
         'table_settings' => 'array',
+        'infolist_settings' => 'array',
     ];
 
     /**
@@ -44,6 +45,7 @@ class Field extends Model
         'form_settings',
         'use_in_table',
         'table_settings',
+        'infolist_settings',
         'sort_order',
         'customizable_type',
     ];

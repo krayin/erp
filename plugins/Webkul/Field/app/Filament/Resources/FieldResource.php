@@ -70,6 +70,9 @@ class FieldResource extends Resource
 
                         Forms\Components\Section::make('Table Settings')
                             ->schema(static::getTableSettingsSchema()),
+
+                        Forms\Components\Section::make('Infolist Settings')
+                            ->schema(static::getInfolistSettingsSchema()),
                     ])
                     ->columnSpan(['lg' => 2]),
 
@@ -786,6 +789,7 @@ class FieldResource extends Resource
                         ->label('Color')
                         ->required()
                         ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
+                            'color',
                             'iconColor',
                         ]))
                         ->options([
@@ -923,6 +927,7 @@ class FieldResource extends Resource
 
         $typeSettings = match ($type) {
             'datetime' => [
+                'date' => 'Date',
                 'dateTime' => 'Date Time',
                 'dateTimeTooltip' => 'Date Time Tooltip',
                 'since' => 'Since',
@@ -936,6 +941,171 @@ class FieldResource extends Resource
 
     public static function getInfolistSettingsSchema(): array
     {
-        return [];
+        return [
+            Forms\Components\Repeater::make('infolist_settings')
+                ->hiddenLabel()
+                ->schema([
+                    Forms\Components\Select::make('setting')
+                        ->searchable()
+                        ->required()
+                        ->distinct()
+                        ->live()
+                        ->options(fn (Forms\Get $get): array => static::getTypeInfolistSettings($get('../../type'))),
+                    Forms\Components\TextInput::make('value')
+                        ->label('Value')
+                        ->required()
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
+                            'copyMessage',
+                            'dateTimeTooltip',
+                            'default',
+                            'icon',
+                            'label',
+                            'money',
+                            'placeholder',
+                            'tooltip',
+                            'helperText',
+                            'hint',
+                            'separator',
+                        ])),
+
+                    Forms\Components\Select::make('value')
+                        ->label('Color')
+                        ->required()
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
+                            'color',
+                            'iconColor',
+                            'hintColor',
+                        ]))
+                        ->options([
+                            'danger' => 'Danger',
+                            'info' => 'Info',
+                            'primary' => 'Primary',
+                            'secondary' => 'Secondary',
+                            'warning' => 'Warning',
+                            'success' => 'Success',
+                        ]),
+
+                    Forms\Components\Select::make('value')
+                        ->label('Font Weight')
+                        ->required()
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
+                            'weight',
+                        ]))
+                        ->options([
+                            FontWeight::Thin->name => 'Thin',
+                            FontWeight::ExtraLight->name => 'Extra Light',
+                            FontWeight::Light->name => 'Light',
+                            FontWeight::Normal->name => 'Normal',
+                            FontWeight::Medium->name => 'Medium',
+                            FontWeight::SemiBold->name => 'Semi Bold',
+                            FontWeight::Bold->name => 'Bold',
+                            FontWeight::ExtraBold->name => 'Extra Bold',
+                            FontWeight::Black->name => 'Black',
+                        ]),
+
+                    Forms\Components\Select::make('value')
+                        ->label('Icon Position')
+                        ->required()
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
+                            'iconPosition',
+                        ]))
+                        ->options([
+                            IconPosition::Before->value => 'Before',
+                            IconPosition::After->value => 'After',
+                        ]),
+
+                    Forms\Components\Select::make('value')
+                        ->label('Size')
+                        ->required()
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
+                            'size',
+                        ]))
+                        ->options([
+                            TextColumn\TextColumnSize::Small->name => 'Small',
+                            TextColumn\TextColumnSize::Medium->name => 'Medium',
+                            TextColumn\TextColumnSize::Large->name => 'Large',
+                        ]),
+
+                    Forms\Components\TextInput::make('value')
+                        ->label('Value')
+                        ->required()
+                        ->numeric()
+                        ->minValue(0)
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
+                            'limit',
+                            'words',
+                            'lineClamp',
+                            'copyMessageDuration',
+                            'columnSpan',
+                        ])),
+                ])
+                ->addActionLabel('Add Setting')
+                ->columns(2)
+                ->collapsible()
+                ->itemLabel(function (array $state, Forms\Get $get): ?string {
+                    $settings = static::getTypeInfolistSettings($get('type'));
+
+                    return $settings[$state['setting']] ?? null;
+                }),
+        ];
+    }
+
+    public static function getTypeInfolistSettings(?string $type): array
+    {
+        if (is_null($type)) {
+            return [];
+        }
+
+        $commonSettings = [
+            'badge' => 'Badge',
+            'boolean' => 'Boolean',
+            'color' => 'Color', // TODO:
+            'copyable' => 'Copyable',
+            'copyMessage' => 'Copy Message',
+            'copyMessageDuration' => 'Copy Message Duration',
+            'default' => 'Default',
+            'icon' => 'Icon',
+            'iconColor' => 'Icon Color',
+            'iconPosition' => 'Icon Position',
+            'label' => 'Label',
+            'limit' => 'Limit',
+            'lineClamp' => 'Line Clamp',
+            'money' => 'Money',
+            'placeholder' => 'Placeholder',
+            'size' => 'Size',
+            'tooltip' => 'Tooltip',
+            'weight' => 'Weight',
+            'words' => 'Words',
+            'columnSpan' => 'Column Span',
+            'helperText' => 'Helper Text',
+            'hint' => 'Hint',
+            'hintColor' => 'Hint Color',
+            'hintIcon' => 'Hint Icon',
+        ];
+
+        $typeSettings = match ($type) {
+            'datetime' => [
+                'date' => 'Date',
+                'dateTime' => 'Date Time',
+                'dateTimeTooltip' => 'Date Time Tooltip',
+                'since' => 'Since',
+            ],
+
+            'checkbox_list' => [
+                'separator' => 'Separator',
+                'listWithLineBreaks' => 'List with Line Breaks',
+                'bulleted' => 'Bulleted',
+            ],
+
+            'select' => [
+                'separator' => 'Separator',
+                'listWithLineBreaks' => 'List with Line Breaks',
+                'bulleted' => 'Bulleted',
+            ],
+
+            default => [],
+        };
+
+        return array_merge($typeSettings, $commonSettings);
     }
 }

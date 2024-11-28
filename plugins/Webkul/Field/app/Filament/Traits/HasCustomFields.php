@@ -2,10 +2,10 @@
 
 namespace Webkul\Field\Filament\Traits;
 
-use Filament\Widgets\StatsOverviewWidget\Stat;
 use Webkul\Field\Filament\Forms\Components\CustomFields;
 use Webkul\Field\Filament\Tables\Columns\CustomColumns;
 use Webkul\Field\Filament\Tables\Filters\CustomFilters;
+use Webkul\Field\Filament\Infolists\Components\CustomEntries;
 
 trait HasCustomFields
 {
@@ -27,6 +27,11 @@ trait HasCustomFields
     protected static function mergeCustomTableQueryBuilderConstraints(array $baseConstraints, array $include = [], array $exclude = []): array
     {
         return array_merge($baseConstraints, static::getTableQueryBuilderConstraints($include, $exclude));
+    }
+
+    protected static function mergeCustomInfolistEntries(array $baseSchema, array $include = [], array $exclude = []): array
+    {
+        return array_merge($baseSchema, static::getCustomInfolistEntries($include, $exclude));
     }
 
     protected static function getCustomFormFields(array $include = [], array $exclude = []): array
@@ -59,5 +64,13 @@ trait HasCustomFields
             ->include($include)
             ->exclude($exclude)
             ->getQueryBuilderConstraints();
+    }
+
+    protected static function getCustomInfolistEntries(array $include = [], array $exclude = []): array
+    {
+        return CustomEntries::make(static::class)
+            ->include($include)
+            ->exclude($exclude)
+            ->getSchema();
     }
 }
