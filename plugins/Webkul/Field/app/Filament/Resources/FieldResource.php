@@ -965,7 +965,10 @@ class FieldResource extends Resource
                             'tooltip',
                             'helperText',
                             'hint',
+                            'hintIcon',
                             'separator',
+                            'trueIcon',
+                            'falseIcon',
                         ])),
 
                     Forms\Components\Select::make('value')
@@ -975,6 +978,8 @@ class FieldResource extends Resource
                             'color',
                             'iconColor',
                             'hintColor',
+                            'trueColor',
+                            'falseColor',
                         ]))
                         ->options([
                             'danger' => 'Danger',
@@ -1037,6 +1042,7 @@ class FieldResource extends Resource
                             'lineClamp',
                             'copyMessageDuration',
                             'columnSpan',
+                            'limitList',
                         ])),
                 ])
                 ->addActionLabel('Add Setting')
@@ -1058,7 +1064,6 @@ class FieldResource extends Resource
 
         $commonSettings = [
             'badge' => 'Badge',
-            'boolean' => 'Boolean',
             'color' => 'Color', // TODO:
             'copyable' => 'Copyable',
             'copyMessage' => 'Copy Message',
@@ -1095,12 +1100,32 @@ class FieldResource extends Resource
                 'separator' => 'Separator',
                 'listWithLineBreaks' => 'List with Line Breaks',
                 'bulleted' => 'Bulleted',
+                'limitList' => 'Limit List',
+                'expandableLimitedList' => 'Expandable Limited List',
             ],
 
             'select' => [
                 'separator' => 'Separator',
                 'listWithLineBreaks' => 'List with Line Breaks',
                 'bulleted' => 'Bulleted',
+                'limitList' => 'Limit List',
+                'expandableLimitedList' => 'Expandable Limited List',
+            ],
+
+            'checkbox' => [
+                'boolean' => 'Boolean',
+                'falseIcon' => 'False Icon',
+                'trueIcon' => 'True Icon',
+                'trueColor' => 'True Color',
+                'falseColor' => 'False Color',
+            ],
+
+            'toggle' => [
+                'boolean' => 'Boolean',
+                'falseIcon' => 'False Icon',
+                'trueIcon' => 'True Icon',
+                'trueColor' => 'True Color',
+                'falseColor' => 'False Color',
             ],
 
             default => [],
