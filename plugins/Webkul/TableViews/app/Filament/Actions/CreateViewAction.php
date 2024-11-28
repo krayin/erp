@@ -7,6 +7,7 @@ use Filament\Actions\Action;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Forms;
 use Webkul\TableViews\Models\TableView;
+use Webkul\TableViews\Models\TableViewFavorite;
 
 class CreateViewAction extends Action
 {
@@ -65,6 +66,13 @@ class CreateViewAction extends Action
                     $record->fill($data);
 
                     $record->save();
+
+                    TableViewFavorite::create([
+                        'view_type' => 'saved',
+                        'view_key' => $record->id,
+                        'user_id' => auth()->id(),
+                        'is_favorite' => $data['is_favorite'],
+                    ]);
 
                     return $record;
                 });

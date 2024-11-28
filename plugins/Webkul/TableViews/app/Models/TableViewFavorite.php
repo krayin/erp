@@ -5,7 +5,7 @@ namespace Webkul\TableViews\Models;
 use Illuminate\Database\Eloquent\Model;
 use Webkul\Core\Models\User;
 
-class TableView extends Model
+class TableViewFavorite extends Model
 {
     /**
      * Fillable.
@@ -13,22 +13,10 @@ class TableView extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'icon',
-        'color',
-        'is_public',
-        'filters',
-        'filterable_type',
+        'is_favorite',
+        'view_type',
+        'view_key',
         'user_id',
-    ];
-
-    /**
-     * Table name.
-     *
-     * @var string
-     */
-    protected $casts = [
-        'filters' => 'array',
     ];
 
     /**

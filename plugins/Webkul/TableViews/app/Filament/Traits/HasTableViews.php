@@ -8,6 +8,7 @@ use Livewire\Attributes\Url;
 use Webkul\TableViews\Components\PresetView;
 use Webkul\TableViews\Components\SavedView;
 use Webkul\TableViews\Models\TableView as TableViewModel;
+use Webkul\TableViews\Models\TableViewFavorite as TableViewFavoriteModel;
 use Webkul\TableViews\Filament\Actions\CreateViewAction;
 use Webkul\TableViews\Filament\Actions\EditViewAction;
 use Filament\Actions\Action;
@@ -147,8 +148,7 @@ trait HasTableViews
                         ->model($tableView)
                         ->label($tableView->name)
                         ->icon($tableView->icon)
-                        ->color($tableView->color)
-                        ->favorite($tableView->is_favorite)
+                        ->color($tableView->color),
                 ];
             })->all();
     }
@@ -167,8 +167,8 @@ trait HasTableViews
     public function getFavoriteTableViews(): array
     {
         return collect($this->getAllTableViews())
-            ->filter(function (PresetView $presetView) {
-                return $presetView->isFavorite();
+            ->filter(function (PresetView $presetView, string | int $id) {
+                return $presetView->isFavorite($id);
             })
             ->all();
     }
@@ -350,7 +350,7 @@ trait HasTableViews
             ->action(function(array $arguments) {
                 $this->resetTableViews();
 
-                $this->activeTableView = $arguments['view'];
+                $this->activeTableView = $arguments['view_key'];
 
                 $this->applyTableViewFilters();
             });
@@ -362,9 +362,10 @@ trait HasTableViews
             ->label('Add To Favorites')
             ->icon('heroicon-o-star')
             ->action(function(array $arguments) {
-                TableViewModel::find($arguments['view'])->update([
-                    'is_favorite' => true,
-                ]);
+                TableViewFavoriteModel::updateOrCreate(
+                    ['view_type' => $arguments['view_type'], 'view_key' => $arguments['view_key'], 'user_id' => auth()->id()],
+                    ['is_favorite' => true]
+                );
 
                 unset($this->cachedTableViews);
                 unset($this->cachedFavoriteTableViews);
@@ -377,9 +378,10 @@ trait HasTableViews
             ->label('Remove From Favorites')
             ->icon('heroicon-o-minus-circle')
             ->action(function(array $arguments) {
-                TableViewModel::find($arguments['view'])->update([
-                    'is_favorite' => false,
-                ]);
+                TableViewFavoriteModel::updateOrCreate(
+                    ['view_type' => $arguments['view_type'], 'view_key' => $arguments['view_key'], 'user_id' => auth()->id()],
+                    ['is_favorite' => false]
+                );
 
                 unset($this->cachedTableViews);
                 unset($this->cachedFavoriteTableViews);
@@ -406,7 +408,7 @@ trait HasTableViews
             ->color('danger')
             ->requiresConfirmation()
             ->action(function(array $arguments) {
-                TableViewModel::find($arguments['view'])->delete();
+                TableViewModel::find($arguments['view_key'])->delete();
 
                 unset($this->cachedTableViews);
                 unset($this->cachedFavoriteTableViews);
@@ -421,7 +423,7 @@ trait HasTableViews
             ->color('danger')
             ->requiresConfirmation()
             ->action(function(array $arguments) {
-                TableViewModel::find($arguments['view'])->update([
+                TableViewModel::find($arguments['view_key'])->update([
                     'filters' => [
                         'tableFilters' => $this->tableFilters,
                         'tableGrouping' => $this->tableGrouping,

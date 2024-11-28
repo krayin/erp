@@ -11,18 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('table_views', function (Blueprint $table) {
+        Schema::create('table_view_favorites', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('icon')->nullable();
-            $table->string('color')->nullable();
-            $table->boolean('is_public')->default(0);
-            $table->string('filters')->nullable();
-            $table->string('filterable_type');
+            $table->boolean('is_favorite')->default(1);
+            $table->string('view_type');
+            $table->string('view_key');
             $table->unsignedBigInteger('user_id');
+            $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->timestamps();
+            $table->unique(['view_type', 'view_key', 'user_id']);
         });
     }
 
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('table_views');
+        Schema::dropIfExists('table_view_favorites');
     }
 };

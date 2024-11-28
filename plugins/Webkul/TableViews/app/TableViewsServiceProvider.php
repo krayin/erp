@@ -21,6 +21,7 @@ class TableViewsServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasMigrations([
                 '2024_11_19_142134_create_table_views_table',
+                '2024_11_21_142134_create_table_view_favorites_table',
             ])
             ->runsMigrations();
     }

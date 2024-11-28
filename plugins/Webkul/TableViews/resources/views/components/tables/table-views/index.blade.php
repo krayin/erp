@@ -63,10 +63,14 @@
 
                 <div class="flex flex-col gap-y-1">
                     @foreach ($views as $key => $view)
+                        @php
+                            $type = $view instanceof \Webkul\TableViews\Components\SavedView ? 'saved' : 'preset';
+                        @endphp
+
                         <div class="flex items-center justify-between px-3 py-1 -mx-3 gap-x-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-white/5 hover:rounded-lg">
                             <div
                                 class="flex w-full gap-x-2 truncate justify-between items-center"
-                                wire:click="mountAction('applyTableView', JSON.parse('{\u0022view\u0022:\u0022{{$key}}\u0022}'))"
+                                wire:click="mountAction('applyTableView', JSON.parse('{\u0022view_key\u0022:\u0022{{$key}}\u0022, \u0022view_type\u0022:\u0022{{$type}}\u0022}'))"
                             >
                                 <div class="flex flex-1 h-9 items-center truncate">
                                     <div class="flex w-full items-center gap-x-3 truncate">
@@ -90,20 +94,21 @@
 
                             <x-filament-actions::group
                                 :actions="[
-                                    ($this->applyTableViewAction)(['view' => $key]),
-                                    ($this->addTableViewToFavoritesAction)(['view' => $key])
-                                        ->visible(fn () => $view instanceof \Webkul\TableViews\Components\SavedView && ! $view->isFavorite()),
-                                    ($this->removeTableViewFromFavoritesAction)(['view' => $key])
-                                        ->visible(fn () => $view instanceof \Webkul\TableViews\Components\SavedView && $view->isFavorite()),
-                                    ($this->editTableViewAction)(['view' => $view->getModel()])
-                                        ->visible(fn () => $view instanceof \Webkul\TableViews\Components\SavedView),
+                                    ($this->applyTableViewAction)(['view_key' => $key, 'view_type' => $type])
+                                        ->visible(fn () => $key != $activeTableView),
+                                    ($this->addTableViewToFavoritesAction)(['view_key' => $key, 'view_type' => $type])
+                                        ->visible(fn () => ! $view->isFavorite($key)),
+                                    ($this->removeTableViewFromFavoritesAction)(['view_key' => $key, 'view_type' => $type])
+                                        ->visible(fn () => $view->isFavorite($key)),
+                                    ($this->editTableViewAction)(['view_model' => $view->getModel()])
+                                        ->visible(fn () => $view->isEditable()),
                                     \Filament\Actions\ActionGroup::make([
-                                        ($this->replaceTableViewAction)(['view' => $key])
-                                            ->visible(fn () => $key == $activeTableView && $isActiveTableViewModified),
-                                        ($this->deleteTableViewAction)(['view' => $key]),
+                                        ($this->replaceTableViewAction)(['view_key' => $key, 'view_type' => $type])
+                                            ->visible(fn () => $view->isReplaceable() && $key == $activeTableView && $isActiveTableViewModified),
+                                        ($this->deleteTableViewAction)(['view_key' => $key, 'view_type' => $type])
+                                            ->visible(fn () => $key == $view->isDeletable()),
                                     ])
-                                        ->dropdown(false)
-                                        ->visible(fn () => $view instanceof \Webkul\TableViews\Components\SavedView),
+                                        ->dropdown(false),
                                 ]"
                                 dropdown-placement="bottom-end"
                             />

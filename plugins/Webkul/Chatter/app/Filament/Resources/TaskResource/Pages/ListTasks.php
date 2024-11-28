@@ -23,6 +23,10 @@ class ListTasks extends ListRecords
                 ->icon('heroicon-m-numbered-list')
                 ->favorite()
                 ->modifyQueryUsing(fn(Builder $query) => $query->where('assigned_to', Auth::user()->id)),
+
+            'pending_tasks' => PresetView::make('Pending Tasks')
+                ->icon('heroicon-m-numbered-list')
+                ->modifyQueryUsing(fn(Builder $query) => $query->where('status', 'pending')),
         ];
     }
 
