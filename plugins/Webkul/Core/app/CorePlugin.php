@@ -27,7 +27,10 @@ class CorePlugin implements Plugin
             ->discoverClusters(in: $this->getPluginBasePath('/Filament/Clusters'), for: 'Webkul\\Core\\Filament\\Clusters')
             ->discoverClusters(in: $this->getPluginBasePath('/Filament/Widgets'), for: 'Webkul\\Core\\Filament\\Widgets');
 
-        if (! app(UserSettings::class)->enable_reset_password) {
+        if (
+            ! app()->runningInConsole() &&
+            ! app(UserSettings::class)?->enable_reset_password
+        ) {
             $panel->passwordReset(false);
         }
     }
@@ -41,6 +44,6 @@ class CorePlugin implements Plugin
     {
         $reflector = new \ReflectionClass(get_class($this));
 
-        return dirname($reflector->getFileName()).($path ?? '');
+        return dirname($reflector->getFileName()) . ($path ?? '');
     }
 }

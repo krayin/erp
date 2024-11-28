@@ -5,6 +5,7 @@ namespace Webkul\Core;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Livewire;
 use Spatie\Permission\Models\Role;
+use Webkul\Core\Console\Commands\InstallERP;
 use Webkul\Core\Livewire\AcceptInvitation;
 use Webkul\Core\Policies\RolePolicy;
 
@@ -36,5 +37,19 @@ class CoreServiceProvider extends PackageServiceProvider
         Livewire::component('accept-invitation', AcceptInvitation::class);
 
         Gate::policy(Role::class, RolePolicy::class);
+    }
+
+    public function packageRegistered(): void
+    {
+        $this->registerCommands();
+    }
+
+    private function registerCommands(): void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                InstallERP::class,
+            ]);
+        }
     }
 }
