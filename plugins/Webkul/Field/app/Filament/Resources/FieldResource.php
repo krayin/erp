@@ -116,6 +116,10 @@ class FieldResource extends Resource
                                         'url' => 'URL',
                                         'color' => 'Color',
                                     ]),
+                                Forms\Components\Toggle::make('is_multiselect')
+                                    ->required()
+                                    ->visible(fn(Forms\Get $get): bool => $get('type') == 'select')
+                                    ->live(),
                                 Forms\Components\TextInput::make('sort_order')
                                     ->label('Sort Order')
                                     ->required()
@@ -590,7 +594,6 @@ class FieldResource extends Resource
                 'hintIcon' => 'Hint Icon',
                 'id' => 'Id',
                 'loadingMessage' => 'Loading Message',
-                'multiple' => 'Multiple',
                 // 'native' => 'Native',
                 'noSearchResultsMessage' => 'No Search Results Message',
                 'optionsLimit' => 'Options Limit',
