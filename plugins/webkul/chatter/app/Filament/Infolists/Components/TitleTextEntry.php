@@ -13,7 +13,6 @@ class TitleTextEntry extends Entry
 
     protected string $view = 'chatter::filament.infolists.components.title-text-entry';
 
-
     protected function setUp(): void
     {
         parent::setUp();

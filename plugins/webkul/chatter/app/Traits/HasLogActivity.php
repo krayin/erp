@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use Webkul\Support\Models\User;
+use Webkul\Security\Models\User;
 
 trait HasLogActivity
 {
     public static function bootHasLogActivity()
     {
-        static::created(fn(Model $model) => $model->logModelActivity('created'));
+        static::created(fn (Model $model) => $model->logModelActivity('created'));
 
-        static::updated(fn(Model $model) => $model->logModelActivity('updated'));
+        static::updated(fn (Model $model) => $model->logModelActivity('updated'));
 
         if (method_exists(static::class, 'bootSoftDeletes')) {
             static::deleted(function (Model $model) {
@@ -25,9 +25,9 @@ trait HasLogActivity
                 }
             });
 
-            static::restored(fn(Model $model) => $model->logModelActivity('restored'));
+            static::restored(fn (Model $model) => $model->logModelActivity('restored'));
         } else {
-            static::deleting(fn(Model $model) => $model->logModelActivity('deleted'));
+            static::deleting(fn (Model $model) => $model->logModelActivity('deleted'));
         }
     }
 
@@ -39,14 +39,14 @@ trait HasLogActivity
 
         try {
             return $this->chats()->create([
-                'type'          => 'log',
+                'type' => 'log',
                 'activity_type' => $event,
-                'user_id'       => Auth::id(),
-                'content'       => $this->generateActivityDescription($event),
-                'changes'       => $this->determineChanges($event)
+                'user_id' => Auth::id(),
+                'content' => $this->generateActivityDescription($event),
+                'changes' => $this->determineChanges($event),
             ]);
         } catch (\Exception $e) {
-            Log::error('Activity Log Creation Failed: ' . $e->getMessage());
+            Log::error('Activity Log Creation Failed: '.$e->getMessage());
 
             return null;
         }
@@ -57,7 +57,7 @@ trait HasLogActivity
         return match ($event) {
             'created' => $this->getModelAttributes(),
             'updated' => $this->getUpdatedAttributes(),
-            default   => null
+            default => null
         };
     }
 
@@ -66,13 +66,13 @@ trait HasLogActivity
         $modelName = Str::headline(class_basename(static::class));
 
         return match ($event) {
-            'created'      => "A new {$modelName} was created",
-            'updated'      => "The {$modelName} was updated",
-            'deleted'      => "The {$modelName} was deleted",
+            'created' => "A new {$modelName} was created",
+            'updated' => "The {$modelName} was updated",
+            'deleted' => "The {$modelName} was deleted",
             'soft_deleted' => "The {$modelName} was soft deleted",
             'hard_deleted' => "The {$modelName} was permanently deleted",
-            'restored'     => "The {$modelName} was restored",
-            default        => $event
+            'restored' => "The {$modelName} was restored",
+            default => $event
         };
     }
 
@@ -80,7 +80,7 @@ trait HasLogActivity
     {
         return collect($this->getAttributes())
             ->except($this->getExcludedAttributes())
-            ->map(fn($value, $key) => $this->formatAttributeValue($key, $value))
+            ->map(fn ($value, $key) => $this->formatAttributeValue($key, $value))
             ->toArray();
     }
 
@@ -100,9 +100,9 @@ trait HasLogActivity
                 || $original[$key] !== $value
             ) {
                 $changes[$key] = [
-                    'type'      => array_key_exists($key, $original) ? 'modified' : 'added',
+                    'type' => array_key_exists($key, $original) ? 'modified' : 'added',
                     'old_value' => $this->formatAttributeValue($key, $original[$key] ?? null),
-                    'new_value' => $this->formatAttributeValue($key, $value)
+                    'new_value' => $this->formatAttributeValue($key, $value),
                 ];
             }
         }
@@ -115,7 +115,7 @@ trait HasLogActivity
         $userFields = [
             'created_by',
             'assigned_to',
-            'user_id'
+            'user_id',
         ];
 
         if (
@@ -127,7 +127,8 @@ trait HasLogActivity
 
                 return $user ? $user->name : 'Unassigned';
             } catch (\Exception $e) {
-                Log::error("Failed to fetch user for field {$key}: " . $e->getMessage());
+                Log::error("Failed to fetch user for field {$key}: ".$e->getMessage());
+
                 return $value;
             }
         }
@@ -144,7 +145,7 @@ trait HasLogActivity
         return [
             'created_at',
             'updated_at',
-            'deleted_at'
+            'deleted_at',
         ];
     }
 }

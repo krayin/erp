@@ -2,13 +2,13 @@
 
 namespace Webkul\Chatter\Filament\Resources\TaskResource\Pages;
 
-use Webkul\Chatter\Filament\Resources\TaskResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
-use Webkul\TableViews\Filament\Traits\HasTableViews;
-use Webkul\TableViews\Components\PresetView;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Chatter\Filament\Resources\TaskResource;
+use Webkul\TableViews\Components\PresetView;
+use Webkul\TableViews\Filament\Traits\HasTableViews;
 
 class ListTasks extends ListRecords
 {
@@ -22,11 +22,11 @@ class ListTasks extends ListRecords
             'my_tasks' => PresetView::make('My Tasks')
                 ->icon('heroicon-m-numbered-list')
                 ->favorite()
-                ->modifyQueryUsing(fn(Builder $query) => $query->where('assigned_to', Auth::user()->id)),
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('assigned_to', Auth::user()->id)),
 
             'pending_tasks' => PresetView::make('Pending Tasks')
                 ->icon('heroicon-m-numbered-list')
-                ->modifyQueryUsing(fn(Builder $query) => $query->where('status', 'pending')),
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'pending')),
         ];
     }
 

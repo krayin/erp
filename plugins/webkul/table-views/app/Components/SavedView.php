@@ -21,7 +21,7 @@ class SavedView extends PresetView
         return $this->model;
     }
 
-    public function isFavorite(string | int $id = null): bool
+    public function isFavorite(string|int|null $id = null): bool
     {
         $tableViewFavorite = TableViewFavorite::query()
             ->where('user_id', auth()->id())

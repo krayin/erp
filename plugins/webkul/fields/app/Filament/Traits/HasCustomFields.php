@@ -3,9 +3,9 @@
 namespace Webkul\Fields\Filament\Traits;
 
 use Webkul\Fields\Filament\Forms\Components\CustomFields;
+use Webkul\Fields\Filament\Infolists\Components\CustomEntries;
 use Webkul\Fields\Filament\Tables\Columns\CustomColumns;
 use Webkul\Fields\Filament\Tables\Filters\CustomFilters;
-use Webkul\Fields\Filament\Infolists\Components\CustomEntries;
 
 trait HasCustomFields
 {

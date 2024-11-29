@@ -4,9 +4,9 @@ namespace Webkul\Fields\Filament\Infolists\Components;
 
 use Filament\Infolists;
 use Filament\Infolists\Components\Component;
+use Filament\Support\Enums\FontWeight;
 use Illuminate\Support\Collection;
 use Webkul\Fields\Models\Field;
-use Filament\Support\Enums\FontWeight;
 
 class CustomEntries extends Component
 {
@@ -106,9 +106,9 @@ class CustomEntries extends Component
         if (method_exists($column, $name)) {
             if ($value !== null) {
                 if ($name == 'weight') {
-                    $column->{$name}(constant(FontWeight::class . "::$value"));
+                    $column->{$name}(constant(FontWeight::class."::$value"));
                 } elseif ($name == 'size') {
-                    $column->{$name}(constant(Infolists\Components\TextEntry\TextEntrySize::class . "::$value"));
+                    $column->{$name}(constant(Infolists\Components\TextEntry\TextEntrySize::class."::$value"));
                 } else {
                     $column->{$name}($value);
                 }

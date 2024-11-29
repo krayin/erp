@@ -4,7 +4,7 @@ namespace Webkul\Chatter\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Webkul\Chatter\Models\Chat;
-use Webkul\Support\Models\User;
+use Webkul\Security\Models\User;
 
 class ChatPolicy
 {

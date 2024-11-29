@@ -129,7 +129,7 @@ class FieldsColumnManager
         $value = $validation['value'] ?? null;
 
         switch ($rule) {
-                // Add more validation-to-column mappings as needed
+            // Add more validation-to-column mappings as needed
         }
     }
 

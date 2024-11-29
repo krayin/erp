@@ -15,9 +15,9 @@ enum ActivityType: string
     public static function options(): array
     {
         return [
-            self::Todo->value    => 'To Do',
-            self::Email->value   => 'Email',
-            self::Call->value    => 'Call',
+            self::Todo->value => 'To Do',
+            self::Email->value => 'Email',
+            self::Call->value => 'Call',
             self::Meeting->value => 'Meeting',
         ];
     }

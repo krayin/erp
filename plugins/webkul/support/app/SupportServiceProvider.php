@@ -5,9 +5,9 @@ namespace Webkul\Support;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Livewire;
 use Spatie\Permission\Models\Role;
-use Webkul\Support\Console\Commands\InstallERP;
 use Webkul\Security\Livewire\AcceptInvitation;
 use Webkul\Security\Policies\RolePolicy;
+use Webkul\Support\Console\Commands\InstallERP;
 
 class SupportServiceProvider extends PackageServiceProvider
 {
@@ -19,7 +19,6 @@ class SupportServiceProvider extends PackageServiceProvider
     {
         $package->name(static::$name)
             ->hasViews()
-            ->hasRoute('web')
             ->hasMigrations([])
             ->runsMigrations();
     }

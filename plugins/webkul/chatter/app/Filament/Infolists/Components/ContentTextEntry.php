@@ -13,7 +13,6 @@ class ContentTextEntry extends Entry
 
     protected string $view = 'chatter::filament.infolists.components.content-text-entry';
 
-
     protected function setUp(): void
     {
         parent::setUp();

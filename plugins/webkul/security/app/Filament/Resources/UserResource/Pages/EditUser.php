@@ -37,7 +37,7 @@ class EditUser extends EditRecord
                     Forms\Components\TextInput::make('new_password_confirmation')
                         ->password()
                         ->label('Confirm New Password')
-                        ->rule('required', fn($get) => (bool) $get('new_password'))
+                        ->rule('required', fn ($get) => (bool) $get('new_password'))
                         ->same('new_password'),
                 ])
                 ->icon('heroicon-o-key'),

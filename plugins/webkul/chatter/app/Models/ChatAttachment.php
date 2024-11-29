@@ -32,6 +32,6 @@ class ChatAttachment extends Model
     {
         $sizeInMb = $this->file_size / (1024 * 1024);
 
-        return number_format($sizeInMb, 2) . ' MB';
+        return number_format($sizeInMb, 2).' MB';
     }
 }

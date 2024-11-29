@@ -2,19 +2,19 @@
 
 namespace Webkul\TableViews\Filament\Traits;
 
-use \Closure;
+use Closure;
+use Filament\Actions\Action;
+use Filament\Support\Concerns\EvaluatesClosures;
+use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Url;
 use Webkul\TableViews\Components\PresetView;
 use Webkul\TableViews\Components\SavedView;
-use Webkul\TableViews\Models\TableView as TableViewModel;
-use Webkul\TableViews\Models\TableViewFavorite as TableViewFavoriteModel;
+use Webkul\TableViews\Enums\TableViewsLayout;
 use Webkul\TableViews\Filament\Actions\CreateViewAction;
 use Webkul\TableViews\Filament\Actions\EditViewAction;
-use Filament\Actions\Action;
-use Webkul\TableViews\Enums\TableViewsLayout;
-use Filament\Support\Enums\MaxWidth;
-use Filament\Support\Concerns\EvaluatesClosures;
+use Webkul\TableViews\Models\TableView as TableViewModel;
+use Webkul\TableViews\Models\TableViewFavorite as TableViewFavoriteModel;
 
 trait HasTableViews
 {
@@ -33,11 +33,11 @@ trait HasTableViews
      */
     protected array $cachedFavoriteTableViews;
 
-    protected string | Closure | null $tableViewsFormMaxHeight = null;
+    protected string|Closure|null $tableViewsFormMaxHeight = null;
 
-    protected MaxWidth | string | Closure | null $tableViewsFormWidth = null;
+    protected MaxWidth|string|Closure|null $tableViewsFormWidth = null;
 
-    protected TableViewsLayout | Closure | null $tableViewsLayout = null;
+    protected TableViewsLayout|Closure|null $tableViewsLayout = null;
 
     public function mount(): void
     {
@@ -167,7 +167,7 @@ trait HasTableViews
     public function getFavoriteTableViews(): array
     {
         return collect($this->getAllTableViews())
-            ->filter(function (PresetView $presetView, string | int $id) {
+            ->filter(function (PresetView $presetView, string|int $id) {
                 return $presetView->isFavorite($id);
             })
             ->all();
@@ -183,10 +183,11 @@ trait HasTableViews
                 'default' => PresetView::make('default')
                     ->label('Default')
                     ->icon('heroicon-m-queue-list')
-                    ->favorite()
+                    ->favorite(),
             ] + $this->getFavoriteTableViews()
         );
     }
+
     /**
      * @return array<string | int, Tab>
      */
@@ -195,7 +196,7 @@ trait HasTableViews
         return $this->cachedTableViews ??= $this->getSavedTableViews();
     }
 
-    public function getDefaultActiveTableView(): string | int | null
+    public function getDefaultActiveTableView(): string|int|null
     {
         return array_key_first($this->getCachedFavoriteTableViews());
     }
@@ -262,38 +263,37 @@ trait HasTableViews
                     'tableRecordsPerPage' => $this->tableRecordsPerPage,
                     'toggledTableColumns' => $this->toggledTableColumns,
                 ];
-        
+
                 return $data;
             })
             ->after(function (TableViewModel $saveFilter): void {
                 unset($this->cachedTableViews);
                 unset($this->cachedFavoriteTableViews);
-                
+
                 $this->getCachedTableViews();
                 $this->getCachedFavoriteTableViews();
-                
+
                 $this->dispatch('filtered-list-updated');
 
                 $this->activeTableView = $saveFilter->id;
             });
     }
 
-
-    public function setTableViewsFormMaxHeight(string | Closure | null $height): static
+    public function setTableViewsFormMaxHeight(string|Closure|null $height): static
     {
         $this->tableViewsFormMaxHeight = $height;
 
         return $this;
     }
 
-    public function setTableViewsFormWidth(MaxWidth | string | Closure | null $width): static
+    public function setTableViewsFormWidth(MaxWidth|string|Closure|null $width): static
     {
         $this->tableViewsFormWidth = $width;
 
         return $this;
     }
 
-    public function setTableViewsLayout(TableViewsLayout | Closure | null $tableViewsLayout): static
+    public function setTableViewsLayout(TableViewsLayout|Closure|null $tableViewsLayout): static
     {
         $this->tableViewsLayout = $tableViewsLayout;
 
@@ -305,7 +305,7 @@ trait HasTableViews
         return $this->evaluate($this->tableViewsFormMaxHeight);
     }
 
-    public function getTableViewsFormWidth(): MaxWidth | string | null
+    public function getTableViewsFormWidth(): MaxWidth|string|null
     {
         return $this->evaluate($this->tableViewsFormWidth) ?? MaxWidth::ExtraSmall;
     }
@@ -327,7 +327,7 @@ trait HasTableViews
         if (isset($tableViews[$this->activeTableView])) {
             return 1;
         }
-        
+
         return 0;
     }
 
@@ -347,7 +347,7 @@ trait HasTableViews
         return Action::make('applyTableView')
             ->label('Apply View')
             ->icon('heroicon-s-arrow-small-right')
-            ->action(function(array $arguments) {
+            ->action(function (array $arguments) {
                 $this->resetTableViews();
 
                 $this->activeTableView = $arguments['view_key'];
@@ -361,7 +361,7 @@ trait HasTableViews
         return Action::make('addTableViewToFavorites')
             ->label('Add To Favorites')
             ->icon('heroicon-o-star')
-            ->action(function(array $arguments) {
+            ->action(function (array $arguments) {
                 TableViewFavoriteModel::updateOrCreate(
                     ['view_type' => $arguments['view_type'], 'view_key' => $arguments['view_key'], 'user_id' => auth()->id()],
                     ['is_favorite' => true]
@@ -377,7 +377,7 @@ trait HasTableViews
         return Action::make('removeTableViewFromFavorites')
             ->label('Remove From Favorites')
             ->icon('heroicon-o-minus-circle')
-            ->action(function(array $arguments) {
+            ->action(function (array $arguments) {
                 TableViewFavoriteModel::updateOrCreate(
                     ['view_type' => $arguments['view_type'], 'view_key' => $arguments['view_key'], 'user_id' => auth()->id()],
                     ['is_favorite' => false]
@@ -394,7 +394,7 @@ trait HasTableViews
             ->after(function (): void {
                 unset($this->cachedTableViews);
                 unset($this->cachedFavoriteTableViews);
-                
+
                 $this->getCachedTableViews();
                 $this->getCachedFavoriteTableViews();
             });
@@ -407,7 +407,7 @@ trait HasTableViews
             ->icon('heroicon-m-trash')
             ->color('danger')
             ->requiresConfirmation()
-            ->action(function(array $arguments) {
+            ->action(function (array $arguments) {
                 TableViewModel::find($arguments['view_key'])->delete();
 
                 unset($this->cachedTableViews);
@@ -422,7 +422,7 @@ trait HasTableViews
             ->icon('heroicon-m-arrows-right-left')
             ->color('danger')
             ->requiresConfirmation()
-            ->action(function(array $arguments) {
+            ->action(function (array $arguments) {
                 TableViewModel::find($arguments['view_key'])->update([
                     'filters' => [
                         'tableFilters' => $this->tableFilters,

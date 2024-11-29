@@ -10,6 +10,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Infolists\Concerns\InteractsWithInfolists;
 use Filament\Infolists\Contracts\HasInfolists;
+use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
@@ -18,16 +19,15 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Webkul\Chatter\Enums\ActivityType;
 use Webkul\Chatter\Filament\Actions\FollowerAction;
-use Webkul\Chatter\Mail\SendMessage;
-use Webkul\Support\Models\User;
-use Filament\Infolists\Infolist;
 use Webkul\Chatter\Filament\Infolists\Components\ChatsRepeatableEntry;
 use Webkul\Chatter\Filament\Infolists\Components\ContentTextEntry;
 use Webkul\Chatter\Filament\Infolists\Components\TitleTextEntry;
+use Webkul\Chatter\Mail\SendMessage;
+use Webkul\Security\Models\User;
 
-class ChatterPanel extends Component implements HasForms, HasActions, HasInfolists
+class ChatterPanel extends Component implements HasActions, HasForms, HasInfolists
 {
-    use InteractsWithForms, InteractsWithActions, WithFileUploads, InteractsWithInfolists;
+    use InteractsWithActions, InteractsWithForms, InteractsWithInfolists, WithFileUploads;
 
     public Model $record;
 
@@ -89,8 +89,8 @@ class ChatterPanel extends Component implements HasForms, HasActions, HasInfolis
         return User::query()
             ->whereNotIn('users.id', array_merge($followerIds, [$this->record->user_id]))
             ->when($this->searchQuery, function ($query) {
-                $query->where('users.name', 'like', '%' . $this->searchQuery . '%')
-                    ->orWhere('users.email', 'like', '%' . $this->searchQuery . '%');
+                $query->where('users.name', 'like', '%'.$this->searchQuery.'%')
+                    ->orWhere('users.email', 'like', '%'.$this->searchQuery.'%');
             })
             ->orderBy('name')
             ->limit(50)
@@ -171,7 +171,6 @@ class ChatterPanel extends Component implements HasForms, HasActions, HasInfolis
             ])
             ->statePath('messageForm');
     }
-
 
     public function createLogForm(Form $form): Form
     {
@@ -274,10 +273,10 @@ class ChatterPanel extends Component implements HasForms, HasActions, HasInfolis
                         collect($data['file'] ?? [])
                             ->map(function ($filePath) {
                                 return [
-                                    'file_path'          => $filePath,
+                                    'file_path' => $filePath,
                                     'original_file_name' => basename($filePath),
-                                    'mime_type'          => mime_content_type($storagePath = storage_path('app/public/' . $filePath)) ?: 'application/octet-stream',
-                                    'file_size'          => filesize($storagePath) ?: 0,
+                                    'mime_type' => mime_content_type($storagePath = storage_path('app/public/'.$filePath)) ?: 'application/octet-stream',
+                                    'file_size' => filesize($storagePath) ?: 0,
                                 ];
                             })
                             ->filter()
@@ -318,7 +317,7 @@ class ChatterPanel extends Component implements HasForms, HasActions, HasInfolis
                             ->extraAttributes(['class' => 'text-sm'])
                             ->hiddenLabel(),
                         ContentTextEntry::make('content')
-                            ->hiddenLabel()
+                            ->hiddenLabel(),
                     ])
                     ->placeholder('No record found.'),
             ]);

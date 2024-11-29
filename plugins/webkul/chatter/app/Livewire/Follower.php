@@ -9,7 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Webkul\Support\Models\User;
+use Webkul\Security\Models\User;
 
 class Follower extends Component implements HasForms
 {
@@ -25,7 +25,7 @@ class Follower extends Component implements HasForms
     protected $listeners = ['refreshFollowers' => '$refresh'];
 
     protected $updatesQueryString = [
-        'searchQuery' => ['except' => '']
+        'searchQuery' => ['except' => ''],
     ];
 
     public function mount(Model $record): void

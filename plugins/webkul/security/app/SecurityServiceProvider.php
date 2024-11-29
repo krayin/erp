@@ -2,8 +2,8 @@
 
 namespace Webkul\Security;
 
-use Webkul\Support\PackageServiceProvider;
 use Webkul\Support\Package;
+use Webkul\Support\PackageServiceProvider;
 
 class SecurityServiceProvider extends PackageServiceProvider
 {
@@ -15,6 +15,7 @@ class SecurityServiceProvider extends PackageServiceProvider
     {
         $package->name(static::$name)
             ->hasViews()
+            ->hasRoute('web')
             ->runsMigrations()
             ->hasMigrations([
                 '2024_11_11_112529_create_user_invitations_table',

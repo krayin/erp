@@ -5,7 +5,7 @@ namespace Webkul\Chatter\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Webkul\Support\Models\User;
+use Webkul\Security\Models\User;
 
 class Chat extends Model
 {
@@ -19,11 +19,11 @@ class Chat extends Model
         'user_id',
         'assigned_to',
         'due_date',
-        'summary'
+        'summary',
     ];
 
     protected $casts = [
-        'changes'  => 'array',
+        'changes' => 'array',
         'due_date' => 'date',
     ];
 

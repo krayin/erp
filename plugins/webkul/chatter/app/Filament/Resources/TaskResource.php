@@ -2,18 +2,18 @@
 
 namespace Webkul\Chatter\Filament\Resources;
 
-use Webkul\Chatter\Filament\Resources\TaskResource\Pages;
-use Webkul\Chatter\Models\Task;
 use Filament\Forms;
+use Filament\Forms\Form;
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Webkul\Chatter\Enums\TaskStatus;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Webkul\Chatter\Enums\TaskStatus;
+use Webkul\Chatter\Filament\Resources\TaskResource\Pages;
+use Webkul\Chatter\Models\Task;
 use Webkul\Fields\Filament\Traits\HasCustomFields;
 
 class TaskResource extends Resource
@@ -67,7 +67,7 @@ class TaskResource extends Resource
                         ->label('Followers')
                         ->multiple()
                         ->relationship('followers', 'name')
-                        ->preload()
+                        ->preload(),
                 ])->columns(2),
         ];
 
@@ -87,7 +87,7 @@ class TaskResource extends Resource
             ->columns(static::mergeCustomTableColumns([
                 Tables\Columns\TextColumn::make('title')->searchable(),
                 Tables\Columns\TextColumn::make('status')
-                    ->formatStateUsing(fn($state) => TaskStatus::options()[$state])
+                    ->formatStateUsing(fn ($state) => TaskStatus::options()[$state])
                     ->sortable(),
                 Tables\Columns\TextColumn::make('due_date')->date()->sortable(),
                 Tables\Columns\TextColumn::make('assignedTo.name')
@@ -133,7 +133,7 @@ class TaskResource extends Resource
             ]);
         // ->modifyQueryUsing(function ($query) {
         //     /**
-        //      * @var \Webkul\Support\Models\User $user
+        //      * @var \Webkul\Security\Models\User $user
         //      */
         //     $user = Auth::user();
 
@@ -182,7 +182,7 @@ class TaskResource extends Resource
                 ->schema([
                     Infolists\Components\TextEntry::make('status')
                         ->label('Task Status')
-                        ->formatStateUsing(fn($state): string => Str::headline($state)),
+                        ->formatStateUsing(fn ($state): string => Str::headline($state)),
                     Infolists\Components\TextEntry::make('due_date')
                         ->label('Due Date')
                         ->date(),
@@ -196,7 +196,7 @@ class TaskResource extends Resource
                         ->label('Assigned To'),
                     Infolists\Components\TextEntry::make('followers.name')
                         ->label('Followers')
-                        ->listWithLineBreaks()
+                        ->listWithLineBreaks(),
                 ])->columns(2),
         ];
 

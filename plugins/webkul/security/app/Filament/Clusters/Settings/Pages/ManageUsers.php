@@ -2,13 +2,13 @@
 
 namespace Webkul\Security\Filament\Clusters\Settings\Pages;
 
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
 use Spatie\Permission\Models\Role;
 use Webkul\Security\Filament\Clusters\Settings;
 use Webkul\Security\Settings\UserSettings;
-use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
 class ManageUsers extends SettingsPage
 {

@@ -11,11 +11,11 @@ trait HasCustomFields
      */
     protected static function bootHasCustomFields()
     {
-        static::retrieved(fn($model) => $model->loadCustomFields());
+        static::retrieved(fn ($model) => $model->loadCustomFields());
 
-        static::creating(fn($model) => $model->loadCustomFields());
+        static::creating(fn ($model) => $model->loadCustomFields());
 
-        static::updating(fn($model) => $model->loadCustomFields());
+        static::updating(fn ($model) => $model->loadCustomFields());
     }
 
     /**

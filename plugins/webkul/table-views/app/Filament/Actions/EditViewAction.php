@@ -2,10 +2,10 @@
 
 namespace Webkul\TableViews\Filament\Actions;
 
-use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Actions\Action;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Forms;
+use Filament\Support\Enums\MaxWidth;
 use Webkul\TableViews\Models\TableView;
 use Webkul\TableViews\Models\TableViewFavorite;
 
@@ -46,7 +46,7 @@ class EditViewAction extends Action
                     ->required(),
                 Forms\Components\Select::make('color')
                     ->label('Color')
-                    ->options(function() {
+                    ->options(function () {
                         return collect([
                             'danger' => 'Danger',
                             'gray' => 'Gray',
@@ -55,7 +55,7 @@ class EditViewAction extends Action
                             'warning' => 'Warning',
                         ])->mapWithKeys(function ($value, $key) {
                             return [
-                                $key => '<div class="flex gap-4 items-center"><span class="flex w-5 h-5 rounded-full" style="background: rgb(var(--'.$key.'-500))"></span> '.$value.'</span>'
+                                $key => '<div class="flex gap-4 items-center"><span class="flex w-5 h-5 rounded-full" style="background: rgb(var(--'.$key.'-500))"></span> '.$value.'</span>',
                             ];
                         });
                     })

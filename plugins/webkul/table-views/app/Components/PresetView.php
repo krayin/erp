@@ -8,21 +8,21 @@ use Webkul\TableViews\Models\TableViewFavorite;
 
 class PresetView extends Tab
 {
-    protected string | Closure | null $id = null;
+    protected string|Closure|null $id = null;
 
-    protected string | Closure | null $color = null;
+    protected string|Closure|null $color = null;
 
-    protected bool | Closure $isDefault = false;
+    protected bool|Closure $isDefault = false;
 
-    protected bool | Closure $isFavorite = false;
+    protected bool|Closure $isFavorite = false;
 
-    protected bool | Closure $isEditable = false;
+    protected bool|Closure $isEditable = false;
 
-    protected bool | Closure $isReplaceable = false;
+    protected bool|Closure $isReplaceable = false;
 
-    protected bool | Closure $isDeletable = false;
+    protected bool|Closure $isDeletable = false;
 
-    public function color(string | Closure | null $color): static
+    public function color(string|Closure|null $color): static
     {
         $this->color = $color;
 
@@ -34,14 +34,14 @@ class PresetView extends Tab
         return null;
     }
 
-    public function favorite(bool | Closure $condition = true): static
+    public function favorite(bool|Closure $condition = true): static
     {
         $this->isFavorite = $condition;
 
         return $this;
     }
 
-    public function default(bool | Closure $condition = true): static
+    public function default(bool|Closure $condition = true): static
     {
         $this->isDefault = $condition;
 
@@ -53,7 +53,7 @@ class PresetView extends Tab
         return (bool) $this->evaluate($this->isDefault);
     }
 
-    public function isFavorite(string | int $id = null): bool
+    public function isFavorite(string|int|null $id = null): bool
     {
         $tableViewFavorite = TableViewFavorite::query()
             ->where('user_id', auth()->id())
@@ -82,7 +82,7 @@ class PresetView extends Tab
     /**
      * @return string | array{50: string, 100: string, 200: string, 300: string, 400: string, 500: string, 600: string, 700: string, 800: string, 900: string, 950: string} | null
      */
-    public function getColor(): string | array | null
+    public function getColor(): string|array|null
     {
         return $this->evaluate($this->color);
     }

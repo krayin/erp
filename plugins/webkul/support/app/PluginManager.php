@@ -40,7 +40,7 @@ class PluginManager implements Plugin
 
     protected function getPlugins(): array
     {
-        $plugins = require join_paths(base_path() . '/bootstrap', 'plugins.php');
+        $plugins = require join_paths(base_path().'/bootstrap', 'plugins.php');
 
         $plugins = collect($plugins)
             ->unique()

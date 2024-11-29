@@ -4,7 +4,7 @@ namespace Webkul\ChatAttachmentter\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Webkul\Chatter\Models\ChatAttachment;
-use Webkul\Support\Models\User;
+use Webkul\Security\Models\User;
 
 class ChatAttachmentAttachmentPolicy
 {

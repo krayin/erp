@@ -12,9 +12,9 @@ use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Webkul\Fields\FieldColumnManager;
 use Webkul\Fields\Filament\Resources\FieldResource\Pages;
 use Webkul\Fields\Models\Field;
-use Webkul\Fields\FieldColumnManager;
 
 class FieldResource extends Resource
 {
@@ -46,7 +46,7 @@ class FieldResource extends Resource
                             ->columns(2),
 
                         Forms\Components\Section::make('Options')
-                            ->visible(fn(Forms\Get $get): bool => in_array($get('type'), [
+                            ->visible(fn (Forms\Get $get): bool => in_array($get('type'), [
                                 'select',
                                 'checkbox_list',
                                 'radio',
@@ -105,7 +105,7 @@ class FieldResource extends Resource
                                     ->required()
                                     ->disabledOn('edit')
                                     ->native(false)
-                                    ->visible(fn(Forms\Get $get): bool => $get('type') == 'text')
+                                    ->visible(fn (Forms\Get $get): bool => $get('type') == 'text')
                                     ->options([
                                         'text' => 'Text',
                                         'email' => 'Email',
@@ -131,7 +131,7 @@ class FieldResource extends Resource
                                     ->searchable()
                                     ->native(false)
                                     ->disabledOn('edit')
-                                    ->options(fn() => collect(Filament::getResources())->filter(fn($resource) => in_array('Webkul\Fields\Filament\Traits\HasCustomFields', class_uses($resource)))->mapWithKeys(fn($resource) => [
+                                    ->options(fn () => collect(Filament::getResources())->filter(fn ($resource) => in_array('Webkul\Fields\Filament\Traits\HasCustomFields', class_uses($resource)))->mapWithKeys(fn ($resource) => [
                                         $resource::getModel() => str($resource)->afterLast('\\')->toString(),
                                     ])),
                             ]),
@@ -155,7 +155,7 @@ class FieldResource extends Resource
                     ->label('Type'),
                 Tables\Columns\TextColumn::make('customizable_type')
                     ->label('Resource')
-                    ->description(fn(Field $record): string => str($record->customizable_type)->afterLast('\\')->toString() . 'Resource'),
+                    ->description(fn (Field $record): string => str($record->customizable_type)->afterLast('\\')->toString().'Resource'),
                 Tables\Columns\TextColumn::make('created_at'),
             ])
             ->filters([
@@ -176,7 +176,7 @@ class FieldResource extends Resource
                     ]),
                 Tables\Filters\SelectFilter::make('customizable_type')
                     ->label('Resource')
-                    ->options(fn() => collect(Filament::getResources())->filter(fn($resource) => in_array('Webkul\Fields\Filament\Traits\HasCustomFields', class_uses($resource)))->mapWithKeys(fn($resource) => [
+                    ->options(fn () => collect(Filament::getResources())->filter(fn ($resource) => in_array('Webkul\Fields\Filament\Traits\HasCustomFields', class_uses($resource)))->mapWithKeys(fn ($resource) => [
                         $resource::getModel() => str($resource)->afterLast('\\')->toString(),
                     ])),
             ])
@@ -184,7 +184,7 @@ class FieldResource extends Resource
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make()
-                        ->hidden(fn($record) => $record->trashed()),
+                        ->hidden(fn ($record) => $record->trashed()),
                     Tables\Actions\DeleteAction::make(),
                     Tables\Actions\ForceDeleteAction::make()
                         ->before(function ($record) {
@@ -231,11 +231,11 @@ class FieldResource extends Resource
                                 ->required()
                                 ->distinct()
                                 ->live()
-                                ->options(fn(Forms\Get $get): array => static::getTypeFormValidations($get('../../../type'))),
+                                ->options(fn (Forms\Get $get): array => static::getTypeFormValidations($get('../../../type'))),
                             Forms\Components\TextInput::make('field')
                                 ->label('Field')
                                 ->required()
-                                ->visible(fn(Forms\Get $get): bool => in_array($get('validation'), [
+                                ->visible(fn (Forms\Get $get): bool => in_array($get('validation'), [
                                     'prohibitedIf',
                                     'prohibitedUnless',
                                     'requiredIf',
@@ -244,7 +244,7 @@ class FieldResource extends Resource
                             Forms\Components\TextInput::make('value')
                                 ->label('Value / Field')
                                 ->required()
-                                ->visible(fn(Forms\Get $get): bool => in_array($get('validation'), [
+                                ->visible(fn (Forms\Get $get): bool => in_array($get('validation'), [
                                     'after',
                                     'afterOrEqual',
                                     'before',
@@ -304,11 +304,11 @@ class FieldResource extends Resource
                                 ->distinct()
                                 ->searchable()
                                 ->live()
-                                ->options(fn(Forms\Get $get): array => static::getTypeFormSettings($get('../../../type'))),
+                                ->options(fn (Forms\Get $get): array => static::getTypeFormSettings($get('../../../type'))),
                             Forms\Components\TextInput::make('value')
                                 ->label('Value')
                                 ->required()
-                                ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                                ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                                     'autocapitalize',
                                     'autocomplete',
                                     'default',
@@ -339,7 +339,7 @@ class FieldResource extends Resource
                                 ->required()
                                 ->numeric()
                                 ->minValue(0)
-                                ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                                ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                                     'cols',
                                     'columns',
                                     'firstDayOfWeek',
@@ -357,7 +357,7 @@ class FieldResource extends Resource
                             Forms\Components\Select::make('value')
                                 ->label('Color')
                                 ->required()
-                                ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                                ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                                     'hintColor',
                                     'prefixIconColor',
                                     'suffixIconColor',
@@ -375,7 +375,7 @@ class FieldResource extends Resource
                             Forms\Components\Select::make('value')
                                 ->label('Value')
                                 ->required()
-                                ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                                ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                                     'gridDirection',
                                 ]))
                                 ->options([
@@ -392,7 +392,7 @@ class FieldResource extends Resource
                             Forms\Components\Select::make('value')
                                 ->label('Value')
                                 ->required()
-                                ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                                ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                                     'inputMode',
                                 ]))
                                 ->options([
@@ -759,18 +759,18 @@ class FieldResource extends Resource
                 ->live(),
             Forms\Components\Repeater::make('table_settings')
                 ->hiddenLabel()
-                ->visible(fn(Forms\Get $get): bool => $get('use_in_table'))
+                ->visible(fn (Forms\Get $get): bool => $get('use_in_table'))
                 ->schema([
                     Forms\Components\Select::make('setting')
                         ->searchable()
                         ->required()
                         ->distinct()
                         ->live()
-                        ->options(fn(Forms\Get $get): array => static::getTypeTableSettings($get('../../type'))),
+                        ->options(fn (Forms\Get $get): array => static::getTypeTableSettings($get('../../type'))),
                     Forms\Components\TextInput::make('value')
                         ->label('Value')
                         ->required()
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'copyMessage',
                             'dateTimeTooltip',
                             'default',
@@ -787,7 +787,7 @@ class FieldResource extends Resource
                     Forms\Components\Select::make('value')
                         ->label('Color')
                         ->required()
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'color',
                             'iconColor',
                         ]))
@@ -803,7 +803,7 @@ class FieldResource extends Resource
                     Forms\Components\Select::make('value')
                         ->label('Alignment')
                         ->required()
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'alignment',
                             'verticalAlignment',
                         ]))
@@ -820,7 +820,7 @@ class FieldResource extends Resource
                     Forms\Components\Select::make('value')
                         ->label('Font Weight')
                         ->required()
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'weight',
                         ]))
                         ->options([
@@ -838,7 +838,7 @@ class FieldResource extends Resource
                     Forms\Components\Select::make('value')
                         ->label('Icon Position')
                         ->required()
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'iconPosition',
                         ]))
                         ->options([
@@ -849,7 +849,7 @@ class FieldResource extends Resource
                     Forms\Components\Select::make('value')
                         ->label('Size')
                         ->required()
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'size',
                         ]))
                         ->options([
@@ -863,7 +863,7 @@ class FieldResource extends Resource
                         ->required()
                         ->numeric()
                         ->minValue(0)
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'limit',
                             'words',
                             'lineClamp',
@@ -949,11 +949,11 @@ class FieldResource extends Resource
                         ->required()
                         ->distinct()
                         ->live()
-                        ->options(fn(Forms\Get $get): array => static::getTypeInfolistSettings($get('../../type'))),
+                        ->options(fn (Forms\Get $get): array => static::getTypeInfolistSettings($get('../../type'))),
                     Forms\Components\TextInput::make('value')
                         ->label('Value')
                         ->required()
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'copyMessage',
                             'dateTimeTooltip',
                             'default',
@@ -973,7 +973,7 @@ class FieldResource extends Resource
                     Forms\Components\Select::make('value')
                         ->label('Color')
                         ->required()
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'color',
                             'iconColor',
                             'hintColor',
@@ -992,7 +992,7 @@ class FieldResource extends Resource
                     Forms\Components\Select::make('value')
                         ->label('Font Weight')
                         ->required()
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'weight',
                         ]))
                         ->options([
@@ -1010,7 +1010,7 @@ class FieldResource extends Resource
                     Forms\Components\Select::make('value')
                         ->label('Icon Position')
                         ->required()
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'iconPosition',
                         ]))
                         ->options([
@@ -1021,7 +1021,7 @@ class FieldResource extends Resource
                     Forms\Components\Select::make('value')
                         ->label('Size')
                         ->required()
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'size',
                         ]))
                         ->options([
@@ -1035,7 +1035,7 @@ class FieldResource extends Resource
                         ->required()
                         ->numeric()
                         ->minValue(0)
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'limit',
                             'words',
                             'lineClamp',

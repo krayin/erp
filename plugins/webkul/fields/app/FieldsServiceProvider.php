@@ -3,10 +3,10 @@
 namespace Webkul\Fields;
 
 use Illuminate\Support\Facades\Gate;
-use Webkul\Support\Package;
-use Webkul\Support\PackageServiceProvider;
 use Webkul\Fields\Models\Field;
 use Webkul\Fields\Policies\FieldPolicy;
+use Webkul\Support\Package;
+use Webkul\Support\PackageServiceProvider;
 
 class FieldsServiceProvider extends PackageServiceProvider
 {

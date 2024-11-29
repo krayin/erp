@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
-use Webkul\Support\Models\User;
 use Webkul\Fields\Traits\HasCustomFields;
+use Webkul\Security\Models\User;
 
 class Task extends Model
 {
@@ -19,11 +19,11 @@ class Task extends Model
         'status',
         'due_date',
         'created_by',
-        'assigned_to'
+        'assigned_to',
     ];
 
     protected $casts = [
-        'due_date' => 'date'
+        'due_date' => 'date',
     ];
 
     public function createdBy(): BelongsTo

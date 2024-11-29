@@ -3,7 +3,7 @@
 namespace Webkul\TableViews\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Webkul\Support\Models\User;
+use Webkul\Security\Models\User;
 
 class TableView extends Model
 {

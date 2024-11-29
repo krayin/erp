@@ -30,7 +30,7 @@ class UserInvitationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Invitation to join ' . config('app.name'),
+            subject: 'Invitation to join '.config('app.name'),
         );
     }
 
@@ -40,10 +40,10 @@ class UserInvitationMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'core::emails.user-invitation',
+            markdown: 'security::emails.user-invitation',
             with: [
                 'acceptUrl' => URL::signedRoute(
-                    'core.invitation.accept',
+                    'security.invitation.accept',
                     ['invitation' => $this->invitation]
                 ),
             ]

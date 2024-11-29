@@ -6,5 +6,5 @@ use Webkul\Security\Livewire\AcceptInvitation;
 Route::middleware(['web'])->group(function () {
     Route::middleware('signed')
         ->get('invitation/{invitation}/accept', AcceptInvitation::class)
-        ->name('core.invitation.accept');
+        ->name('security.invitation.accept');
 });

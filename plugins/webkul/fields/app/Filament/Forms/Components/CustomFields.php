@@ -112,7 +112,7 @@ class CustomFields extends Component
         if (in_array($field->type, ['select', 'radio', 'checkbox_list']) && ! empty($field->options)) {
             $component->options(function () use ($field) {
                 return collect($field->options)
-                    ->mapWithKeys(fn($option) => [$option => $option])
+                    ->mapWithKeys(fn ($option) => [$option => $option])
                     ->toArray();
             });
 

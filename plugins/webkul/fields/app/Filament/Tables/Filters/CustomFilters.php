@@ -8,7 +8,6 @@ use Filament\Tables\Filters\QueryBuilder\Constraints;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Webkul\Fields\Models\Field;
-use Filament\Tables\Filters\QueryBuilder\Constraints\Operators\IsFilledOperator;
 
 class CustomFilters extends Component
 {
@@ -93,49 +92,49 @@ class CustomFilters extends Component
     {
         $filter = match ($field->type) {
             'checkbox' => Tables\Filters\Filter::make($field->code)
-                ->query(fn(Builder $query): Builder => $query->where($field->code, true)),
+                ->query(fn (Builder $query): Builder => $query->where($field->code, true)),
 
             'toggle' => Tables\Filters\Filter::make($field->code)
                 ->toggle()
-                ->query(fn(Builder $query): Builder => $query->where($field->code, true)),
+                ->query(fn (Builder $query): Builder => $query->where($field->code, true)),
 
             'radio' => Tables\Filters\SelectFilter::make($field->code)
                 ->options(function () use ($field) {
                     return collect($field->options)
-                        ->mapWithKeys(fn($option) => [$option => $option])
+                        ->mapWithKeys(fn ($option) => [$option => $option])
                         ->toArray();
                 }),
 
             'select' => $field->is_multiselect
                 ? Tables\Filters\SelectFilter::make($field->code)
-                ->options(function () use ($field) {
-                    return collect($field->options)
-                        ->mapWithKeys(fn($option) => [$option => $option])
-                        ->toArray();
-                })
-                ->query(function (Builder $query, $state) use ($field): Builder {
-                    if (empty($state['values'])) {
-                        return $query;
-                    }
-
-                    return $query->where(function (Builder $query) use ($state, $field) {
-                        foreach ((array) $state as $value) {
-                            $query->orWhereJsonContains($field->code, $value);
+                    ->options(function () use ($field) {
+                        return collect($field->options)
+                            ->mapWithKeys(fn ($option) => [$option => $option])
+                            ->toArray();
+                    })
+                    ->query(function (Builder $query, $state) use ($field): Builder {
+                        if (empty($state['values'])) {
+                            return $query;
                         }
-                    });
-                })
-                ->multiple()
+
+                        return $query->where(function (Builder $query) use ($state, $field) {
+                            foreach ((array) $state as $value) {
+                                $query->orWhereJsonContains($field->code, $value);
+                            }
+                        });
+                    })
+                    ->multiple()
                 : Tables\Filters\SelectFilter::make($field->code)
-                ->options(function () use ($field) {
-                    return collect($field->options)
-                        ->mapWithKeys(fn($option) => [$option => $option])
-                        ->toArray();
-                }),
+                    ->options(function () use ($field) {
+                        return collect($field->options)
+                            ->mapWithKeys(fn ($option) => [$option => $option])
+                            ->toArray();
+                    }),
 
             'checkbox_list' => Tables\Filters\SelectFilter::make($field->code)
                 ->options(function () use ($field) {
                     return collect($field->options)
-                        ->mapWithKeys(fn($option) => [$option => $option])
+                        ->mapWithKeys(fn ($option) => [$option => $option])
                         ->toArray();
                 })
                 ->query(function (Builder $query, $state) use ($field): Builder {
@@ -172,23 +171,23 @@ class CustomFilters extends Component
 
             'select' => $field->is_multiselect
                 ? Constraints\SelectConstraint::make($field->code)
-                ->options(function () use ($field) {
-                    return collect($field->options)
-                        ->mapWithKeys(fn($option) => [$option => $option])
-                        ->toArray();
-                })
-                ->multiple()
+                    ->options(function () use ($field) {
+                        return collect($field->options)
+                            ->mapWithKeys(fn ($option) => [$option => $option])
+                            ->toArray();
+                    })
+                    ->multiple()
                 : Constraints\SelectConstraint::make($field->code)
-                ->options(function () use ($field) {
-                    return collect($field->options)
-                        ->mapWithKeys(fn($option) => [$option => $option])
-                        ->toArray();
-                }),
+                    ->options(function () use ($field) {
+                        return collect($field->options)
+                            ->mapWithKeys(fn ($option) => [$option => $option])
+                            ->toArray();
+                    }),
 
             'checkbox_list' => Constraints\SelectConstraint::make($field->code)
                 ->options(function () use ($field) {
                     return collect($field->options)
-                        ->mapWithKeys(fn($option) => [$option => $option])
+                        ->mapWithKeys(fn ($option) => [$option => $option])
                         ->toArray();
                 })
                 ->multiple(),

@@ -4,12 +4,12 @@ namespace Webkul\Chatter\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Webkul\Chatter\Models\Chat;
-use Webkul\Support\Models\User;
-use Illuminate\Mail\Mailables\Address;
+use Webkul\Security\Models\User;
 
 class SendMessage extends Mailable
 {
@@ -29,9 +29,9 @@ class SendMessage extends Mailable
                 new Address(
                     $this->follower->email,
                     $this->follower->name
-                )
+                ),
             ],
-            subject: 'New Message from ' . $this->record->user->name,
+            subject: 'New Message from '.$this->record->user->name,
         );
     }
 
@@ -40,7 +40,7 @@ class SendMessage extends Mailable
         return new Content(
             view: 'chatter::emails.send-message',
             with: [
-                'content'    => $this->chat->content,
+                'content' => $this->chat->content,
                 'senderName' => $this->record->user->name,
             ],
         );

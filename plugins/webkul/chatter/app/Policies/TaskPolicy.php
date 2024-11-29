@@ -2,9 +2,9 @@
 
 namespace Webkul\Chatter\Policies;
 
-use Webkul\Security\Models\User;
-use Webkul\Chatter\Models\Task;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Webkul\Chatter\Models\Task;
+use Webkul\Security\Models\User;
 use Webkul\Security\Traits\HasGroupPermissions;
 
 class TaskPolicy

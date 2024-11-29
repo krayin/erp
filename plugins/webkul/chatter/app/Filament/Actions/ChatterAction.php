@@ -2,11 +2,10 @@
 
 namespace Webkul\Chatter\Filament\Actions;
 
-use App\Models\Chat;
 use Filament\Actions\Action;
 use Filament\Support\Enums\MaxWidth;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 
 class ChatterAction extends Action
 {
@@ -24,10 +23,10 @@ class ChatterAction extends Action
             ->icon('heroicon-s-chat-bubble-left-right')
             ->modalIcon('heroicon-s-chat-bubble-left-right')
             ->slideOver()
-            ->modalContentFooter(fn(Model $record): View => view('chatter::filament.widgets.chatter', compact('record')))
+            ->modalContentFooter(fn (Model $record): View => view('chatter::filament.widgets.chatter', compact('record')))
             ->modalHeading('Chatter')
             ->modalDescription('Add messages, notes, activities, file attachments, and more.')
-            ->badge(fn(Model $record): int => $record->chats()->count())
+            ->badge(fn (Model $record): int => $record->chats()->count())
             ->modalWidth(MaxWidth::ThreeExtraLarge)
             ->modalSubmitAction(false)
             ->modalCancelAction(false);

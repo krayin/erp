@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Webkul\Chatter\Models\Chat;
-use Webkul\Support\Models\User;
+use Webkul\Security\Models\User;
 
 trait HasChatter
 {
@@ -44,7 +44,7 @@ trait HasChatter
 
     public function addFollower($userId): void
     {
-        if (!$this->isFollowedBy($userId)) {
+        if (! $this->isFollowedBy($userId)) {
             $this->followers()->attach($userId, ['followed_at' => now()]);
         }
     }
