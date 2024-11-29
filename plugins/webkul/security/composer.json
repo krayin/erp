@@ -1,0 +1,30 @@
+{
+    "name": "webkul/security",
+    "description": "",
+    "authors": [
+        {
+            "name": "Jitendra Singh",
+            "email": "jitendra@webkul.in"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webkul\\Security\\Providers\\SecurityServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Webkul\\Security\\": "app/",
+            "Webkul\\Security\\Database\\Factories\\": "database/factories/",
+            "Webkul\\Security\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webkul\\Security\\Tests\\": "tests/"
+        }
+    }
+}

@@ -18,7 +18,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Webkul\Core\PluginManager;
+use Webkul\Support\PluginManager;
 
 class AdminPanelProvider extends PanelProvider
 {

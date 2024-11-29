@@ -1,0 +1,30 @@
+{
+    "name": "webkul/fields",
+    "description": "",
+    "authors": [
+        {
+            "name": "Jitendra Singh",
+            "email": "jitendra@webkul.in"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webkul\\Fields\\Providers\\FieldsServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Webkul\\Fields\\": "app/",
+            "Webkul\\Fields\\Database\\Factories\\": "database/factories/",
+            "Webkul\\Fields\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webkul\\Fields\\Tests\\": "tests/"
+        }
+    }
+}

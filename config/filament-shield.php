@@ -14,7 +14,7 @@ return [
     ],
 
     'auth_provider_model' => [
-        'fqcn' => 'Webkul\\Core\\Models\\User',
+        'fqcn' => 'Webkul\\Support\\Models\\User',
     ],
 
     'super_admin' => [
@@ -70,7 +70,8 @@ return [
         ],
 
         'widgets' => [
-            'AccountWidget', 'FilamentInfoWidget',
+            'AccountWidget',
+            'FilamentInfoWidget',
         ],
 
         'resources' => [],

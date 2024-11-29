@@ -1,0 +1,55 @@
+<?php
+
+namespace Webkul\Support;
+
+use Illuminate\Support\Facades\Gate;
+use Livewire\Livewire;
+use Spatie\Permission\Models\Role;
+use Webkul\Support\Console\Commands\InstallERP;
+use Webkul\Support\Livewire\AcceptInvitation;
+use Webkul\Support\Policies\RolePolicy;
+
+class SupportServiceProvider extends PackageServiceProvider
+{
+    public static string $name = 'support';
+
+    public static string $viewNamespace = 'support';
+
+    public function configureCustomPackage(Package $package): void
+    {
+        $package->name(static::$name)
+            ->hasViews()
+            ->hasRoute('web')
+            ->hasMigrations([
+                '2024_11_11_112529_create_user_invitations_table',
+                '2024_11_12_125715_create_teams_table',
+                '2024_11_12_130019_create_user_team_table',
+            ])
+            ->runsMigrations()
+            ->hasSettings([
+                '2024_11_05_042358_create_user_settings',
+            ])
+            ->runsSettings();
+    }
+
+    public function packageBooted(): void
+    {
+        Livewire::component('accept-invitation', AcceptInvitation::class);
+
+        Gate::policy(Role::class, RolePolicy::class);
+    }
+
+    public function packageRegistered(): void
+    {
+        $this->registerCommands();
+    }
+
+    private function registerCommands(): void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                InstallERP::class,
+            ]);
+        }
+    }
+}

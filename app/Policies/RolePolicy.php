@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use Webkul\Core\Models\User;
+use Webkul\Support\Models\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Auth\Access\HandlesAuthorization;
 

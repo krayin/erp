@@ -7,7 +7,7 @@ return [
      * put them (manually) here.
      */
     'settings' => [
-        Webkul\Core\Settings\UserSettings::class,
+        Webkul\Support\Settings\UserSettings::class,
     ],
 
     /*
