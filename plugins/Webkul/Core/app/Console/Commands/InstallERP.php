@@ -107,7 +107,7 @@ class InstallERP extends Command
             $adminUser->assignRole($adminRoleName);
         }
 
-        $this->info("✅ Admin user '{$adminUser->name}' created and assigned the Super Admin role successfully.");
+        $this->info("✅ Admin user '{$adminUser->name}' created and assigned the '{$this->getAdminRoleName()}' role successfully.");
     }
 
     /**
