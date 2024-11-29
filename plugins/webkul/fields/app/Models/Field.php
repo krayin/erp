@@ -22,10 +22,10 @@ class Field extends Model
      * @var string
      */
     protected $casts = [
-        'is_multiselect' => 'boolean',
-        'options' => 'array',
-        'form_settings' => 'array',
-        'table_settings' => 'array',
+        'is_multiselect'    => 'boolean',
+        'options'           => 'array',
+        'form_settings'     => 'array',
+        'table_settings'    => 'array',
         'infolist_settings' => 'array',
     ];
 

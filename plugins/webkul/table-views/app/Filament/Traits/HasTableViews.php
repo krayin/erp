@@ -219,12 +219,12 @@ trait HasTableViews
         }
 
         return [
-            'tableFilters' => $this->tableFilters,
-            'tableGrouping' => $this->tableGrouping,
-            'tableSearch' => $this->tableSearch,
+            'tableFilters'        => $this->tableFilters,
+            'tableGrouping'       => $this->tableGrouping,
+            'tableSearch'         => $this->tableSearch,
             'tableColumnSearches' => $this->tableColumnSearches,
-            'tableSortColumn' => $this->tableSortColumn,
-            'tableSortDirection' => $this->tableSortDirection,
+            'tableSortColumn'     => $this->tableSortColumn,
+            'tableSortDirection'  => $this->tableSortDirection,
             'tableRecordsPerPage' => $this->tableRecordsPerPage,
             'toggledTableColumns' => $this->toggledTableColumns,
         ] != $tableViews[$this->activeTableView]->getModel()->filters;
@@ -254,12 +254,12 @@ trait HasTableViews
                 $data['filterable_type'] = static::class;
 
                 $data['filters'] = [
-                    'tableFilters' => $this->tableFilters,
-                    'tableGrouping' => $this->tableGrouping,
-                    'tableSearch' => $this->tableSearch,
+                    'tableFilters'        => $this->tableFilters,
+                    'tableGrouping'       => $this->tableGrouping,
+                    'tableSearch'         => $this->tableSearch,
                     'tableColumnSearches' => $this->tableColumnSearches,
-                    'tableSortColumn' => $this->tableSortColumn,
-                    'tableSortDirection' => $this->tableSortDirection,
+                    'tableSortColumn'     => $this->tableSortColumn,
+                    'tableSortDirection'  => $this->tableSortDirection,
                     'tableRecordsPerPage' => $this->tableRecordsPerPage,
                     'toggledTableColumns' => $this->toggledTableColumns,
                 ];
@@ -425,12 +425,12 @@ trait HasTableViews
             ->action(function (array $arguments) {
                 TableViewModel::find($arguments['view_key'])->update([
                     'filters' => [
-                        'tableFilters' => $this->tableFilters,
-                        'tableGrouping' => $this->tableGrouping,
-                        'tableSearch' => $this->tableSearch,
+                        'tableFilters'        => $this->tableFilters,
+                        'tableGrouping'       => $this->tableGrouping,
+                        'tableSearch'         => $this->tableSearch,
                         'tableColumnSearches' => $this->tableColumnSearches,
-                        'tableSortColumn' => $this->tableSortColumn,
-                        'tableSortDirection' => $this->tableSortDirection,
+                        'tableSortColumn'     => $this->tableSortColumn,
+                        'tableSortDirection'  => $this->tableSortDirection,
                         'tableRecordsPerPage' => $this->tableRecordsPerPage,
                         'toggledTableColumns' => $this->toggledTableColumns,
                     ],

@@ -273,10 +273,10 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
                         collect($data['file'] ?? [])
                             ->map(function ($filePath) {
                                 return [
-                                    'file_path' => $filePath,
+                                    'file_path'          => $filePath,
                                     'original_file_name' => basename($filePath),
-                                    'mime_type' => mime_content_type($storagePath = storage_path('app/public/'.$filePath)) ?: 'application/octet-stream',
-                                    'file_size' => filesize($storagePath) ?: 0,
+                                    'mime_type'          => mime_content_type($storagePath = storage_path('app/public/'.$filePath)) ?: 'application/octet-stream',
+                                    'file_size'          => filesize($storagePath) ?: 0,
                                 ];
                             })
                             ->filter()

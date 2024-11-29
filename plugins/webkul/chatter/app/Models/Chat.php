@@ -23,7 +23,7 @@ class Chat extends Model
     ];
 
     protected $casts = [
-        'changes' => 'array',
+        'changes'  => 'array',
         'due_date' => 'date',
     ];
 

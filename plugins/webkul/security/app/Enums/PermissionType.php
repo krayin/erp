@@ -13,9 +13,9 @@ enum PermissionType: string
     public static function options(): array
     {
         return [
-            self::GROUP->value => 'Group',
+            self::GROUP->value      => 'Group',
             self::INDIVIDUAL->value => 'Individual',
-            self::GLOBAL->value => 'Global',
+            self::GLOBAL->value     => 'Global',
         ];
     }
 }

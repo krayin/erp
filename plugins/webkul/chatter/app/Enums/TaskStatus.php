@@ -13,9 +13,9 @@ enum TaskStatus: string
     public static function options(): array
     {
         return [
-            self::Pending->value => 'Pending',
+            self::Pending->value    => 'Pending',
             self::InProgress->value => 'In Progress',
-            self::Completed->value => 'Completed',
+            self::Completed->value  => 'Completed',
         ];
     }
 }

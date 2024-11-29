@@ -71,7 +71,7 @@ class InstallERP extends Command
         $this->info('🛡️ Generating permissions...');
 
         Artisan::call('shield:generate', [
-            '--all' => true,
+            '--all'    => true,
             '--option' => 'permissions',
         ], $this->getOutput());
 

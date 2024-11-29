@@ -70,9 +70,9 @@ class AcceptInvitation extends SimplePage
         $this->invitationModel = Invitation::find($this->invitation);
 
         $user = User::create([
-            'name' => $this->form->getState()['name'],
+            'name'     => $this->form->getState()['name'],
             'password' => $this->form->getState()['password'],
-            'email' => $this->invitationModel->email,
+            'email'    => $this->invitationModel->email,
         ]);
 
         $user->assignRole(app(UserSettings::class)->default_role_id);

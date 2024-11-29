@@ -70,11 +70,11 @@ trait HasCustomFields
 
         foreach ($attributes as $attribute) {
             match ($attribute->type) {
-                'select' => $this->casts[$attribute->code] = $attribute->is_multiselect ? 'array' : 'string',
-                'checkbox' => $this->casts[$attribute->code] = 'boolean',
-                'toggle' => $this->casts[$attribute->code] = 'boolean',
+                'select'        => $this->casts[$attribute->code] = $attribute->is_multiselect ? 'array' : 'string',
+                'checkbox'      => $this->casts[$attribute->code] = 'boolean',
+                'toggle'        => $this->casts[$attribute->code] = 'boolean',
                 'checkbox_list' => $this->casts[$attribute->code] = 'array',
-                default => $this->casts[$attribute->code] = 'string',
+                default         => $this->casts[$attribute->code] = 'string',
             };
         }
 

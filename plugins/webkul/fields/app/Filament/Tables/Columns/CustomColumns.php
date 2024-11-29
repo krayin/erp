@@ -82,7 +82,7 @@ class CustomColumns extends Component
             'text', 'textarea', 'select', 'radio' => Tables\Columns\TextColumn::class,
             'checkbox', 'toggle' => Tables\Columns\IconColumn::class,
             'checkbox_list' => Tables\Columns\TextColumn::class,
-            'datetime' => Tables\Columns\TextColumn::class,
+            'datetime'      => Tables\Columns\TextColumn::class,
             'editor', 'markdown' => Tables\Columns\TextColumn::class,
             'color' => Tables\Columns\ColorColumn::class,
             default => Tables\Columns\TextColumn::class,

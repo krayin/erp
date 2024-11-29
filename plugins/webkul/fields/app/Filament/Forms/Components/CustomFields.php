@@ -76,18 +76,18 @@ class CustomFields extends Component
     protected function createField(Field $field): Forms\Components\Component
     {
         $componentClass = match ($field->type) {
-            'text' => Forms\Components\TextInput::class,
-            'textarea' => Forms\Components\Textarea::class,
-            'select' => Forms\Components\Select::class,
-            'checkbox' => Forms\Components\Checkbox::class,
-            'radio' => Forms\Components\Radio::class,
-            'toggle' => Forms\Components\Toggle::class,
+            'text'          => Forms\Components\TextInput::class,
+            'textarea'      => Forms\Components\Textarea::class,
+            'select'        => Forms\Components\Select::class,
+            'checkbox'      => Forms\Components\Checkbox::class,
+            'radio'         => Forms\Components\Radio::class,
+            'toggle'        => Forms\Components\Toggle::class,
             'checkbox_list' => Forms\Components\CheckboxList::class,
-            'datetime' => Forms\Components\DateTimePicker::class,
-            'editor' => Forms\Components\RichEditor::class,
-            'markdown' => Forms\Components\MarkdownEditor::class,
-            'color' => Forms\Components\ColorPicker::class,
-            default => Forms\Components\TextInput::class,
+            'datetime'      => Forms\Components\DateTimePicker::class,
+            'editor'        => Forms\Components\RichEditor::class,
+            'markdown'      => Forms\Components\MarkdownEditor::class,
+            'color'         => Forms\Components\ColorPicker::class,
+            default         => Forms\Components\TextInput::class,
         };
 
         $component = $componentClass::make($field->code)

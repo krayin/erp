@@ -80,7 +80,7 @@ class CustomEntries extends Component
             'text', 'textarea', 'select', 'radio' => Infolists\Components\TextEntry::class,
             'checkbox', 'toggle' => Infolists\Components\IconEntry::class,
             'checkbox_list' => Infolists\Components\TextEntry::class,
-            'datetime' => Infolists\Components\TextEntry::class,
+            'datetime'      => Infolists\Components\TextEntry::class,
             'editor', 'markdown' => Infolists\Components\TextEntry::class,
             'color' => Infolists\Components\ColorEntry::class,
             default => Infolists\Components\TextEntry::class,

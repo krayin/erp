@@ -39,11 +39,11 @@ trait HasLogActivity
 
         try {
             return $this->chats()->create([
-                'type' => 'log',
+                'type'          => 'log',
                 'activity_type' => $event,
-                'user_id' => Auth::id(),
-                'content' => $this->generateActivityDescription($event),
-                'changes' => $this->determineChanges($event),
+                'user_id'       => Auth::id(),
+                'content'       => $this->generateActivityDescription($event),
+                'changes'       => $this->determineChanges($event),
             ]);
         } catch (\Exception $e) {
             Log::error('Activity Log Creation Failed: '.$e->getMessage());
@@ -57,7 +57,7 @@ trait HasLogActivity
         return match ($event) {
             'created' => $this->getModelAttributes(),
             'updated' => $this->getUpdatedAttributes(),
-            default => null
+            default   => null
         };
     }
 
@@ -66,13 +66,13 @@ trait HasLogActivity
         $modelName = Str::headline(class_basename(static::class));
 
         return match ($event) {
-            'created' => "A new {$modelName} was created",
-            'updated' => "The {$modelName} was updated",
-            'deleted' => "The {$modelName} was deleted",
+            'created'      => "A new {$modelName} was created",
+            'updated'      => "The {$modelName} was updated",
+            'deleted'      => "The {$modelName} was deleted",
             'soft_deleted' => "The {$modelName} was soft deleted",
             'hard_deleted' => "The {$modelName} was permanently deleted",
-            'restored' => "The {$modelName} was restored",
-            default => $event
+            'restored'     => "The {$modelName} was restored",
+            default        => $event
         };
     }
 
@@ -100,7 +100,7 @@ trait HasLogActivity
                 || $original[$key] !== $value
             ) {
                 $changes[$key] = [
-                    'type' => array_key_exists($key, $original) ? 'modified' : 'added',
+                    'type'      => array_key_exists($key, $original) ? 'modified' : 'added',
                     'old_value' => $this->formatAttributeValue($key, $original[$key] ?? null),
                     'new_value' => $this->formatAttributeValue($key, $value),
                 ];

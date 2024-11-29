@@ -33,9 +33,9 @@ class CreateViewAction extends Action
                     ->label('Color')
                     ->options(function () {
                         return collect([
-                            'danger' => 'Danger',
-                            'gray' => 'Gray',
-                            'info' => 'Information',
+                            'danger'  => 'Danger',
+                            'gray'    => 'Gray',
+                            'info'    => 'Information',
                             'success' => 'Success',
                             'warning' => 'Warning',
                         ])->mapWithKeys(function ($value, $key) {
@@ -68,9 +68,9 @@ class CreateViewAction extends Action
                     $record->save();
 
                     TableViewFavorite::create([
-                        'view_type' => 'saved',
-                        'view_key' => $record->id,
-                        'user_id' => auth()->id(),
+                        'view_type'   => 'saved',
+                        'view_key'    => $record->id,
+                        'user_id'     => auth()->id(),
                         'is_favorite' => $data['is_favorite'],
                     ]);
 

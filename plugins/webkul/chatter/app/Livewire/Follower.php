@@ -60,8 +60,8 @@ class Follower extends Component implements HasForms
         return User::query()
             ->whereNotIn('users.id', array_merge($followerIds, [$this->record->created_by]))
             ->where(function ($query) {
-                $query->where('users.name', 'like', '%' . $this->searchQuery . '%')
-                    ->orWhere('users.email', 'like', '%' . $this->searchQuery . '%');
+                $query->where('users.name', 'like', '%'.$this->searchQuery.'%')
+                    ->orWhere('users.email', 'like', '%'.$this->searchQuery.'%');
             })
             ->orderBy('name')
             ->paginate(10);
@@ -98,7 +98,7 @@ class Follower extends Component implements HasForms
     public function render(): View
     {
         return view('chatter::livewire.followers', [
-            'followers' => $this->getFollowersProperty(),
+            'followers'    => $this->getFollowersProperty(),
             'nonFollowers' => $this->getNonFollowersProperty(),
         ]);
     }

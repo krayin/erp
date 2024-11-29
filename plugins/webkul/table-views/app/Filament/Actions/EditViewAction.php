@@ -32,11 +32,11 @@ class EditViewAction extends Action
                     ->first();
 
                 return [
-                    'name' => $arguments['view_model']['name'],
-                    'color' => $arguments['view_model']['color'],
-                    'icon' => $arguments['view_model']['icon'],
+                    'name'        => $arguments['view_model']['name'],
+                    'color'       => $arguments['view_model']['color'],
+                    'icon'        => $arguments['view_model']['icon'],
                     'is_favorite' => $tableViewFavorite?->is_favorite ?? false,
-                    'is_public' => $arguments['view_model']['is_public'],
+                    'is_public'   => $arguments['view_model']['is_public'],
                 ];
             })
             ->form([
@@ -48,9 +48,9 @@ class EditViewAction extends Action
                     ->label('Color')
                     ->options(function () {
                         return collect([
-                            'danger' => 'Danger',
-                            'gray' => 'Gray',
-                            'info' => 'Information',
+                            'danger'  => 'Danger',
+                            'gray'    => 'Gray',
+                            'info'    => 'Information',
                             'success' => 'Success',
                             'warning' => 'Warning',
                         ])->mapWithKeys(function ($value, $key) {

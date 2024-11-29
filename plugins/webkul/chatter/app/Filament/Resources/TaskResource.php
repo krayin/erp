@@ -218,10 +218,10 @@ class TaskResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTasks::route('/'),
+            'index'  => Pages\ListTasks::route('/'),
             'create' => Pages\CreateTask::route('/create'),
-            'view' => Pages\ViewTask::route('/{record}'),
-            'edit' => Pages\EditTask::route('/{record}/edit'),
+            'view'   => Pages\ViewTask::route('/{record}'),
+            'edit'   => Pages\EditTask::route('/{record}/edit'),
         ];
     }
 }

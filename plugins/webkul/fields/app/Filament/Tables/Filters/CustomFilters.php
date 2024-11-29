@@ -162,7 +162,7 @@ class CustomFilters extends Component
             'text' => match ($field->input_type) {
                 'integer' => Constraints\NumberConstraint::make($field->code)->integer(),
                 'numeric' => Constraints\NumberConstraint::make($field->code),
-                default => Constraints\TextConstraint::make($field->code),
+                default   => Constraints\TextConstraint::make($field->code),
             },
 
             'datetime' => Constraints\DateConstraint::make($field->code),
