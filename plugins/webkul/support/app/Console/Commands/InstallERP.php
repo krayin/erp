@@ -2,13 +2,13 @@
 
 namespace Webkul\Support\Console\Commands;
 
+use BezhanSalleh\FilamentShield\Support\Utils;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use BezhanSalleh\FilamentShield\Support\Utils;
-use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Models\Role;
 
 use function Laravel\Prompts\password;
 use function Laravel\Prompts\text;
@@ -84,17 +84,17 @@ class InstallERP extends Command
         $userModel = app(config('filament-shield.auth_provider_model.fqcn'));
 
         $adminData = [
-            'name' => text('Name', required: true),
+            'name'  => text('Name', required: true),
             'email' => text(
                 'Email address',
                 required: true,
-                validate: fn($email) => $this->validateAdminEmail($email, $userModel)
+                validate: fn ($email) => $this->validateAdminEmail($email, $userModel)
             ),
             'password' => Hash::make(
                 password(
                     'Password',
                     required: true,
-                    validate: fn($value) => $this->validateAdminPassword($value)
+                    validate: fn ($value) => $this->validateAdminPassword($value)
                 )
             ),
         ];

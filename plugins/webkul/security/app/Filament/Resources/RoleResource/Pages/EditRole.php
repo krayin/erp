@@ -1,14 +1,14 @@
 <?php
 
-namespace Webkul\Core\Filament\Resources\RoleResource\Pages;
+namespace Webkul\Security\Filament\Resources\RoleResource\Pages;
 
-use Webkul\Core\Filament\Resources\RoleResource;
 use BezhanSalleh\FilamentShield\Support\Utils;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Webkul\Security\Filament\Resources\RoleResource;
 
 class EditRole extends EditRecord
 {
@@ -20,7 +20,7 @@ class EditRole extends EditRecord
     {
         return [
             Actions\DeleteAction::make()
-                ->hidden(fn(Model $record) => $record->name == config('filament-shield.panel_user.name')),
+                ->hidden(fn (Model $record) => $record->name == config('filament-shield.panel_user.name')),
         ];
     }
 
@@ -42,7 +42,7 @@ class EditRole extends EditRecord
         $permissionModels = collect();
         $this->permissions->each(function ($permission) use ($permissionModels) {
             $permissionModels->push(Utils::getPermissionModel()::firstOrCreate([
-                'name' => $permission,
+                'name'       => $permission,
                 'guard_name' => $this->data['guard_name'],
             ]));
         });

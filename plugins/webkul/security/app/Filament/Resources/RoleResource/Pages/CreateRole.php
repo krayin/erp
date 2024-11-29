@@ -1,12 +1,12 @@
 <?php
 
-namespace Webkul\Core\Filament\Resources\RoleResource\Pages;
+namespace Webkul\Security\Filament\Resources\RoleResource\Pages;
 
-use Webkul\Core\Filament\Resources\RoleResource;
 use BezhanSalleh\FilamentShield\Support\Utils;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Webkul\Security\Filament\Resources\RoleResource;
 
 class CreateRole extends CreateRecord
 {
@@ -32,8 +32,7 @@ class CreateRole extends CreateRecord
         $permissionModels = collect();
         $this->permissions->each(function ($permission) use ($permissionModels) {
             $permissionModels->push(Utils::getPermissionModel()::firstOrCreate([
-                /** @phpstan-ignore-next-line */
-                'name' => $permission,
+                'name'       => $permission,
                 'guard_name' => $this->data['guard_name'],
             ]));
         });

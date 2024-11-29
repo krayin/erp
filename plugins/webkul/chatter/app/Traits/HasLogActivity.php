@@ -12,9 +12,9 @@ trait HasLogActivity
 {
     public static function bootHasLogActivity()
     {
-        static::created(fn(Model $model) => $model->logModelActivity('created'));
+        static::created(fn (Model $model) => $model->logModelActivity('created'));
 
-        static::updated(fn(Model $model) => $model->logModelActivity('updated'));
+        static::updated(fn (Model $model) => $model->logModelActivity('updated'));
 
         if (method_exists(static::class, 'bootSoftDeletes')) {
             static::deleted(function (Model $model) {
@@ -25,9 +25,9 @@ trait HasLogActivity
                 }
             });
 
-            static::restored(fn(Model $model) => $model->logModelActivity('restored'));
+            static::restored(fn (Model $model) => $model->logModelActivity('restored'));
         } else {
-            static::deleting(fn(Model $model) => $model->logModelActivity('deleted'));
+            static::deleting(fn (Model $model) => $model->logModelActivity('deleted'));
         }
     }
 
@@ -46,7 +46,7 @@ trait HasLogActivity
                 'changes'       => $this->determineChanges($event),
             ]);
         } catch (\Exception $e) {
-            Log::error('Activity Log Creation Failed: ' . $e->getMessage());
+            Log::error('Activity Log Creation Failed: '.$e->getMessage());
 
             return null;
         }
@@ -80,7 +80,7 @@ trait HasLogActivity
     {
         return collect($this->getAttributes())
             ->except($this->getExcludedAttributes())
-            ->map(fn($value, $key) => $this->formatAttributeValue($key, $value))
+            ->map(fn ($value, $key) => $this->formatAttributeValue($key, $value))
             ->toArray();
     }
 
@@ -108,7 +108,7 @@ trait HasLogActivity
                 $changes[$key] = [
                     'type'      => array_key_exists($key, $original) ? 'modified' : 'added',
                     'old_value' => $this->formatAttributeValue($key, $oldValue),
-                    'new_value' => $this->formatAttributeValue($key, $newValue)
+                    'new_value' => $this->formatAttributeValue($key, $newValue),
                 ];
             }
         }
@@ -133,7 +133,7 @@ trait HasLogActivity
 
                 return $user ? $user->name : 'Unassigned';
             } catch (\Exception $e) {
-                Log::error("Failed to fetch user for field {$key}: " . $e->getMessage());
+                Log::error("Failed to fetch user for field {$key}: ".$e->getMessage());
 
                 return $value;
             }

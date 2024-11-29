@@ -1,10 +1,10 @@
 <?php
 
-namespace Webkul\Core\Filament\Resources\RoleResource\Pages;
+namespace Webkul\Security\Filament\Resources\RoleResource\Pages;
 
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
-use Webkul\Core\Filament\Resources\RoleResource;
+use Webkul\Security\Filament\Resources\RoleResource;
 
 class ViewRole extends ViewRecord
 {
