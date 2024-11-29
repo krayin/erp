@@ -3,6 +3,7 @@
 namespace Webkul\Support;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Spatie\LaravelPackageTools\Exceptions\InvalidPackage;
 use Spatie\LaravelPackageTools\Package as BasePackage;

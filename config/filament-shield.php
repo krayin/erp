@@ -14,7 +14,7 @@ return [
     ],
 
     'auth_provider_model' => [
-        'fqcn' => 'Webkul\\Support\\Models\\User',
+        'fqcn' => 'Webkul\\Security\\Models\\User',
     ],
 
     'super_admin' => [

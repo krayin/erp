@@ -1,12 +1,12 @@
 <?php
 
-namespace Webkul\Fields\Policies;
+namespace Webkul\Security\Policies;
 
-use Webkul\Security\Models\User;
-use Webkul\Fields\Models\Field;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Spatie\Permission\Models\Role;
+use Webkul\Security\Models\User;
 
-class FieldPolicy
+class RolePolicy
 {
     use HandlesAuthorization;
 
@@ -15,15 +15,15 @@ class FieldPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_field');
+        return $user->can('view_any_role');
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Field $field): bool
+    public function view(User $user, Role $role): bool
     {
-        return $user->can('view_field');
+        return $user->can('view_role');
     }
 
     /**
@@ -31,23 +31,23 @@ class FieldPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_field');
+        return $user->can('create_role');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Field $field): bool
+    public function update(User $user, Role $role): bool
     {
-        return $user->can('update_field');
+        return $user->can('update_role');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Field $field): bool
+    public function delete(User $user, Role $role): bool
     {
-        return $user->can('delete_field');
+        return $user->can('delete_role');
     }
 
     /**
@@ -55,13 +55,13 @@ class FieldPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_field');
+        return $user->can('delete_any_role');
     }
 
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, Field $field): bool
+    public function forceDelete(User $user, Role $role): bool
     {
         return $user->can('force_delete_field');
     }
@@ -77,7 +77,7 @@ class FieldPolicy
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, Field $field): bool
+    public function restore(User $user, Role $role): bool
     {
         return $user->can('restore_field');
     }
@@ -93,7 +93,7 @@ class FieldPolicy
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, Field $field): bool
+    public function replicate(User $user, Role $role): bool
     {
         return $user->can('replicate_field');
     }

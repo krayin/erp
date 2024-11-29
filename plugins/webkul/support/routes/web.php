@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Webkul\Support\Livewire\AcceptInvitation;
+use Webkul\Security\Livewire\AcceptInvitation;
 
 Route::middleware(['web'])->group(function () {
     Route::middleware('signed')
