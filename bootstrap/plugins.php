@@ -2,6 +2,7 @@
 
 return [
     \Webkul\Chatter\ChatterPlugin::class,
-    \Webkul\Core\CorePlugin::class,
-    \Webkul\Field\FieldPlugin::class,
+    \Webkul\Support\SupportPlugin::class,
+    \Webkul\Security\SecurityPlugin::class,
+    \Webkul\Fields\FieldsPlugin::class,
 ];

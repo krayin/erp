@@ -1,0 +1,30 @@
+{
+    "name": "webkul/support",
+    "description": "",
+    "authors": [
+        {
+            "name": "Jitendra Singh",
+            "email": "jitendra@webkul.in"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webkul\\Support\\Providers\\SupportServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Webkul\\Support\\": "app/",
+            "Webkul\\Support\\Database\\Factories\\": "database/factories/",
+            "Webkul\\Support\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webkul\\Support\\Tests\\": "tests/"
+        }
+    }
+}
