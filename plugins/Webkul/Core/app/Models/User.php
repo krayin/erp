@@ -14,6 +14,9 @@ class User extends BaseUser implements FilamentUser
 {
     use HasPanelShield, HasRoles, SoftDeletes;
 
+    /**
+     * Determine if the user can access the Filament panel.
+     */
     public function canAccessPanel(Panel $panel): bool
     {
         return true;

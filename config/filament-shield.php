@@ -18,15 +18,15 @@ return [
     ],
 
     'super_admin' => [
-        'enabled' => true,
+        'enabled' => false,
         'name' => 'super_admin',
         'define_via_gate' => false,
-        'intercept_gate' => 'before', // after
+        'intercept_gate' => 'before',
     ],
 
     'panel_user' => [
         'enabled' => true,
-        'name' => 'panel_user',
+        'name' => 'admin',
     ],
 
     'permission_prefixes' => [
@@ -70,7 +70,8 @@ return [
         ],
 
         'widgets' => [
-            'AccountWidget', 'FilamentInfoWidget',
+            'AccountWidget',
+            'FilamentInfoWidget',
         ],
 
         'resources' => [],
