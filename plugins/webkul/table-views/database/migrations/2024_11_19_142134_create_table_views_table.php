@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('icon')->nullable();
             $table->string('color')->nullable();
             $table->boolean('is_public')->default(0);
-            $table->string('filters')->nullable();
+            $table->json('filters')->nullable();
             $table->string('filterable_type');
             $table->unsignedBigInteger('user_id');
 
