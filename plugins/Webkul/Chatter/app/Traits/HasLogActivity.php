@@ -88,6 +88,7 @@ trait HasLogActivity
     {
         $original = $this->getOriginal();
         $current = $this->getDirty();
+
         $changes = [];
 
         foreach ($current as $key => $value) {
@@ -99,10 +100,15 @@ trait HasLogActivity
                 ! array_key_exists($key, $original)
                 || $original[$key] !== $value
             ) {
+
+                $newValue = static::decodeValueIfJson($value);
+
+                $oldValue = static::decodeValueIfJson($original[$key] ?? null);
+
                 $changes[$key] = [
                     'type'      => array_key_exists($key, $original) ? 'modified' : 'added',
-                    'old_value' => $this->formatAttributeValue($key, $original[$key] ?? null),
-                    'new_value' => $this->formatAttributeValue($key, $value)
+                    'old_value' => $this->formatAttributeValue($key, $oldValue),
+                    'new_value' => $this->formatAttributeValue($key, $newValue)
                 ];
             }
         }
@@ -146,5 +152,40 @@ trait HasLogActivity
             'updated_at',
             'deleted_at'
         ];
+    }
+
+    protected static function decodeValueIfJson($value)
+    {
+        if (
+            ! is_array($value)
+            && json_decode($value, true)
+        ) {
+            $value = json_decode($value, true);
+        }
+
+        if (! is_array($value)) {
+            return $value;
+        }
+
+        static::ksortRecursive($value);
+
+        return $value;
+    }
+
+    protected static function ksortRecursive(&$array)
+    {
+        if (! is_array($array)) {
+            return;
+        }
+
+        ksort($array);
+
+        foreach ($array as &$value) {
+            if (! is_array($value)) {
+                continue;
+            }
+
+            static::ksortRecursive($value);
+        }
     }
 }
