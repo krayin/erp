@@ -42,7 +42,7 @@
 
                                 <!-- File Details -->
                                 <div class="flex-1 min-w-0">
-                                    <p class="text-sm font-medium text-gray-900 truncate group-hover:text-primary-600 dark:group-hover:text-primary-400 dark:text-gray-100">
+                                    <p class="text-sm font-medium text-gray-900 break-words group-hover:text-primary-600 dark:group-hover:text-primary-400 dark:text-gray-100">
                                         {{ $attachment->original_file_name }}
                                     </p>
                                     <p class="text-xs text-gray-500 truncate dark:text-gray-400">

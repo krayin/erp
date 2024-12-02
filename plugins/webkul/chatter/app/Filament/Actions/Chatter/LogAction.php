@@ -31,7 +31,7 @@ class LogAction extends Action
             ->color('gray')
             ->outlined()
             ->form(
-                fn($form) => $form->schema([
+                fn ($form) => $form->schema([
                     Forms\Components\RichEditor::make('content')
                         ->hiddenLabel()
                         ->placeholder('Type your message here...')
@@ -54,13 +54,16 @@ class LogAction extends Action
                     Notification::make()
                         ->danger()
                         ->title('Log Not Added')
-                        ->body('An error occurred: ' . $e->getMessage())
+                        ->body('An error occurred: '.$e->getMessage())
                         ->send();
                 }
             })
             ->label('Log Note')
             ->icon('heroicon-o-chat-bubble-oval-left')
-            ->modalSubmitAction(fn($action) => $action->label('Add Log Note'))
+            ->modalSubmitAction(function ($action) {
+                $action->label('Add Log Note');
+                $action->icon('heroicon-m-paper-airplane');
+            })
             ->slideOver(false);
     }
 }

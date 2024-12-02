@@ -28,10 +28,10 @@ class FileAction extends Action
         parent::setUp();
 
         $this
-            ->slideOver()
             ->color('gray')
+            ->outlined()
             ->form(
-                fn($form) => $form->schema([
+                fn ($form) => $form->schema([
                     Forms\Components\FileUpload::make('file')
                         ->label('File')
                         ->multiple()
@@ -50,10 +50,10 @@ class FileAction extends Action
                     $chat->attachments()
                         ->createMany(
                             collect($data['file'] ?? [])
-                                ->map(fn($filePath) => [
+                                ->map(fn ($filePath) => [
                                     'file_path'          => $filePath,
                                     'original_file_name' => basename($filePath),
-                                    'mime_type'          => mime_content_type($storagePath = storage_path('app/public/' . $filePath)) ?: 'application/octet-stream',
+                                    'mime_type'          => mime_content_type($storagePath = storage_path('app/public/'.$filePath)) ?: 'application/octet-stream',
                                     'file_size'          => filesize($storagePath) ?: 0,
                                 ])
                                 ->filter()
@@ -69,7 +69,7 @@ class FileAction extends Action
                     Notification::make()
                         ->danger()
                         ->title('File Sending Failed')
-                        ->body('An error occurred: ' . $e->getMessage())
+                        ->body('An error occurred: '.$e->getMessage())
                         ->send();
                 }
             })

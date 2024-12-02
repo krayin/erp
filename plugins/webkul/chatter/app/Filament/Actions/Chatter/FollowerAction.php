@@ -5,10 +5,10 @@ namespace Webkul\Chatter\Filament\Actions\Chatter;
 use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Notifications\Notification;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Model;
 use Webkul\Security\Models\User;
-use Filament\Notifications\Notification;
 
 class FollowerAction extends Action
 {
@@ -34,7 +34,7 @@ class FollowerAction extends Action
                     ->placeholder('Search by name or email')
                     ->live()
                     ->debounce(500)
-                    ->afterStateUpdated(fn($state, callable $set) => $set('user_results', $this->getUsersQuery($state)->get())),
+                    ->afterStateUpdated(fn ($state, callable $set) => $set('user_results', $this->getUsersQuery($state)->get())),
 
                 Forms\Components\Repeater::make('user_results')
                     ->label('Search Results')
@@ -60,7 +60,7 @@ class FollowerAction extends Action
                                 }),
                         ]),
                     ])
-                    ->hidden(fn($get) => empty($get('user_results'))),
+                    ->hidden(fn ($get) => empty($get('user_results'))),
 
                 Forms\Components\Section::make('Current Followers')
                     ->schema([
@@ -82,14 +82,14 @@ class FollowerAction extends Action
                                             Notification::make()
                                                 ->warning()
                                                 ->title('Follower Removed')
-                                                ->body("Follower has been removed.")
+                                                ->body('Follower has been removed.')
                                                 ->send();
                                         }),
                                 ]),
-                            ])
+                            ]),
                     ]),
             ])
-            ->badge(fn(Model $record): int => $record->followers()->count())
+            ->badge(fn (Model $record): int => $record->followers()->count())
             ->modalSubmitAction(false)
             ->modalCancelAction(false);
     }
@@ -102,7 +102,7 @@ class FollowerAction extends Action
         $query = User::query()
             ->whereNotIn(
                 'id',
-                fn($q) => $q->select('user_id')
+                fn ($q) => $q->select('user_id')
                     ->from('followers')
                     ->where('record_type', get_class($this->record))
                     ->where('record_id', $this->record->id)

@@ -25,7 +25,7 @@ class ActivityAction extends Action
             ->color('gray')
             ->outlined()
             ->form(
-                fn($form) => $form->schema([
+                fn ($form) => $form->schema([
                     Forms\Components\Group::make()
                         ->schema([
                             Forms\Components\Select::make('activity_type')
@@ -71,13 +71,16 @@ class ActivityAction extends Action
                     Notification::make()
                         ->danger()
                         ->title('Message Sending Failed')
-                        ->body('An error occurred: ' . $e->getMessage())
+                        ->body('An error occurred: '.$e->getMessage())
                         ->send();
                 }
             })
             ->label('Activity')
             ->icon('heroicon-o-clock')
-            ->modalSubmitAction(fn($action) => $action->label('Add Activity'))
+            ->modalSubmitAction(function ($action) {
+                $action->label('Add Activity');
+                $action->icon('heroicon-m-paper-airplane');
+            })
             ->slideOver(false);
     }
 }

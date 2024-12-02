@@ -8,6 +8,8 @@ use Filament\Forms;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Webkul\Chatter\Mail\SendMessage;
 
 class MessageAction extends Action
 {
@@ -40,7 +42,7 @@ class MessageAction extends Action
             ->color('gray')
             ->outlined()
             ->form(
-                fn($form) => $form->schema([
+                fn ($form) => $form->schema([
                     Forms\Components\RichEditor::make('content')
                         ->hiddenLabel()
                         ->placeholder('Type your message here...')
@@ -55,6 +57,8 @@ class MessageAction extends Action
                 try {
                     $record->addChat($data, Auth::user()->id);
 
+                    $this->notifyToFollowers($data);
+
                     Notification::make()
                         ->success()
                         ->title('Message Sent')
@@ -64,7 +68,7 @@ class MessageAction extends Action
                     Notification::make()
                         ->danger()
                         ->title('Message Sending Failed')
-                        ->body('An error occurred: ' . $e->getMessage())
+                        ->body('An error occurred: '.$e->getMessage())
                         ->send();
                 }
             })
@@ -77,8 +81,26 @@ class MessageAction extends Action
             ->slideOver(false);
     }
 
-    public function isFormExpanded(): bool
+    private function notifyToFollowers($chat): void
     {
-        return $this->isExpanded;
+        try {
+            foreach ($this->getFollowers() as $follower) {
+                if ($follower->id === Auth::user()->id) {
+                    continue;
+                }
+
+                Mail::queue(new SendMessage($this->record, $follower, $chat));
+            }
+        } catch (\Exception $e) {
+            report($e);
+        }
+    }
+
+    private function getFollowers()
+    {
+        return $this->record->followers()
+            ->select('users.*')
+            ->orderBy('name')
+            ->get();
     }
 }
