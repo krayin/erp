@@ -18,4 +18,16 @@ class ViewTask extends ViewRecord
             Actions\EditAction::make(),
         ];
     }
+
+    protected function getFooterWidgets(): array
+    {
+        return [
+            \Webkul\Chatter\Filament\Widgets\ChatterWidget::class
+        ];
+    }
+
+    public function getFooterWidgetsColumns(): int | array
+    {
+        return 1;
+    }
 }

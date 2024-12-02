@@ -54,23 +54,63 @@
                 @continue
             @endif
             
-            <div class="flex flex-col">
+            <div
+                class="flex flex-col"
+                x-data="{ reorderViews: false }"
+            >
                 <div class="flex items-center justify-between min-h-[36px]" style="min-height: 36px">
                     <h3 class="font-medium text-gray-400 dark:text-gray-500">
                         {{ $label }}
                     </h3>
+
+                    <x-filament::icon-button
+                        icon="heroicon-o-arrows-up-down"
+                        color="gray"
+                        size="sm"
+                        x-on:click="reorderViews = true"
+                        x-show="reorderViews === false"
+                    />
+
+                    <x-filament::icon-button
+                        icon="heroicon-c-check"
+                        color="gray"
+                        size="sm"
+                        x-on:click="reorderViews = false"
+                        x-show="reorderViews === true"
+                    />
                 </div>
 
-                <div class="flex flex-col gap-y-1">
+                <div
+                    class="flex flex-col gap-y-1"
+                    x-data="{}"
+                    x-sortable
+                    x-on:start="reorderViews === true"
+                    x-on:end="console.log('Sorting ended!', $event.detail)"
+                >
                     @foreach ($views as $key => $view)
                         @php
                             $type = $view instanceof \Webkul\TableViews\Components\SavedView ? 'saved' : 'preset';
                         @endphp
 
-                        <div class="flex items-center justify-between px-3 py-1 -mx-3 gap-x-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-white/5 hover:rounded-lg">
+                        <div
+                            class="flex items-center justify-between px-3 py-1 -mx-3 gap-x-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-white/5 hover:rounded-lg"
+                            style="margin-left: -.75rem; margin-right: -.75rem;"
+                            x-bind:class="{
+                                'cursor-move': reorderViews === true
+                            }"
+                            x-sortable-handle
+                             x-bind:x-sortable-item="reorderViews === true && '{{ $key }}'"
+                        >
                             <div
                                 class="flex w-full gap-x-2 truncate justify-between items-center"
-                                wire:click="mountAction('applyTableView', JSON.parse('{\u0022view_key\u0022:\u0022{{$key}}\u0022, \u0022view_type\u0022:\u0022{{$type}}\u0022}'))"
+                                x-bind:class="{
+                                    'cursor-move': reorderViews === true
+                                }"
+                                x-on:click="
+                                    reorderViews === false
+                                        ? $wire.call('mountAction', 'applyTableView', JSON.parse('{\u0022view_key\u0022:\u0022{{$key}}\u0022, \u0022view_type\u0022:\u0022{{$type}}\u0022}'))
+                                        : null
+                                "
                             >
                                 <div class="flex flex-1 h-9 items-center truncate">
                                     <div class="flex w-full items-center gap-x-3 truncate">
@@ -80,7 +120,7 @@
                                         />
                                         
                                         <div class="flex items-center gap-x-2 truncate" style="">
-                                            <span class="truncate">
+                                            <span class="truncate select-none">
                                                 {{ $view->getLabel() }}
                                             </span>
 
@@ -92,26 +132,36 @@
                                 </div>
                             </div>
 
-                            <x-filament-actions::group
-                                :actions="[
-                                    ($this->applyTableViewAction)(['view_key' => $key, 'view_type' => $type])
-                                        ->visible(fn () => $key != $activeTableView),
-                                    ($this->addTableViewToFavoritesAction)(['view_key' => $key, 'view_type' => $type])
-                                        ->visible(fn () => ! $view->isFavorite($key)),
-                                    ($this->removeTableViewFromFavoritesAction)(['view_key' => $key, 'view_type' => $type])
-                                        ->visible(fn () => $view->isFavorite($key)),
-                                    ($this->editTableViewAction)(['view_model' => $view->getModel()])
-                                        ->visible(fn () => $view->isEditable()),
-                                    \Filament\Actions\ActionGroup::make([
-                                        ($this->replaceTableViewAction)(['view_key' => $key, 'view_type' => $type])
-                                            ->visible(fn () => $view->isReplaceable() && $key == $activeTableView && $isActiveTableViewModified),
-                                        ($this->deleteTableViewAction)(['view_key' => $key, 'view_type' => $type])
-                                            ->visible(fn () => $key == $view->isDeletable()),
-                                    ])
-                                        ->dropdown(false),
-                                ]"
-                                dropdown-placement="bottom-end"
-                            />
+                            <div x-show="reorderViews === false">
+                                <x-filament-actions::group
+                                    
+                                    :actions="[
+                                        ($this->applyTableViewAction)(['view_key' => $key, 'view_type' => $type])
+                                            ->visible(fn () => $key != $activeTableView),
+                                        ($this->addTableViewToFavoritesAction)(['view_key' => $key, 'view_type' => $type])
+                                            ->visible(fn () => ! $view->isFavorite($key)),
+                                        ($this->removeTableViewFromFavoritesAction)(['view_key' => $key, 'view_type' => $type])
+                                            ->visible(fn () => $view->isFavorite($key)),
+                                        ($this->editTableViewAction)(['view_model' => $view->getModel()])
+                                            ->visible(fn () => $view->isEditable()),
+                                        \Filament\Actions\ActionGroup::make([
+                                            ($this->replaceTableViewAction)(['view_key' => $key, 'view_type' => $type])
+                                                ->visible(fn () => $view->isReplaceable() && $key == $activeTableView && $isActiveTableViewModified),
+                                            ($this->deleteTableViewAction)(['view_key' => $key, 'view_type' => $type])
+                                                ->visible(fn () => $key == $view->isDeletable()),
+                                        ])
+                                            ->dropdown(false),
+                                    ]"
+                                    dropdown-placement="bottom-end"
+                                />
+                            </div>
+
+                            <div x-show="reorderViews === true">
+                                <x-filament::icon-button
+                                    icon="heroicon-m-equals"
+                                    size="sm"
+                                />
+                            </div>
                         </div>
                     @endforeach
                 </div>
