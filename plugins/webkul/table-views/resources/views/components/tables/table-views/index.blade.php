@@ -53,12 +53,12 @@
             @if (empty($views))
                 @continue
             @endif
-            
+
             <div
                 class="flex flex-col"
                 x-data="{ reorderViews: false }"
             >
-                <div class="flex items-center justify-between min-h-[36px]" style="min-height: 36px">
+                <div class="flex min-h-[36px] items-center justify-between" style="min-height: 36px">
                     <h3 class="font-medium text-gray-400 dark:text-gray-500">
                         {{ $label }}
                     </h3>
@@ -93,7 +93,7 @@
                         @endphp
 
                         <div
-                            class="flex items-center justify-between px-3 py-1 -mx-3 gap-x-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-white/5 hover:rounded-lg"
+                            class="-mx-3 flex cursor-pointer items-center justify-between gap-x-3 px-3 py-1 hover:rounded-lg hover:bg-gray-100 dark:hover:bg-white/5"
                             style="margin-left: -.75rem; margin-right: -.75rem;"
                             x-bind:class="{
                                 'cursor-move': reorderViews === true
@@ -102,7 +102,7 @@
                              x-bind:x-sortable-item="reorderViews === true && '{{ $key }}'"
                         >
                             <div
-                                class="flex w-full gap-x-2 truncate justify-between items-center"
+                                class="flex w-full items-center justify-between gap-x-2 truncate"
                                 x-bind:class="{
                                     'cursor-move': reorderViews === true
                                 }"
@@ -112,15 +112,15 @@
                                         : null
                                 "
                             >
-                                <div class="flex flex-1 h-9 items-center truncate">
+                                <div class="flex h-9 flex-1 items-center truncate">
                                     <div class="flex w-full items-center gap-x-3 truncate">
                                         <x-filament::icon
                                             :icon="$view->getIcon()"
                                             class="h-5 w-5 text-gray-500 dark:text-gray-400"
                                         />
-                                        
+
                                         <div class="flex items-center gap-x-2 truncate" style="">
-                                            <span class="truncate select-none">
+                                            <span class="select-none truncate">
                                                 {{ $view->getLabel() }}
                                             </span>
 
@@ -134,7 +134,7 @@
 
                             <div x-show="reorderViews === false">
                                 <x-filament-actions::group
-                                    
+
                                     :actions="[
                                         ($this->applyTableViewAction)(['view_key' => $key, 'view_type' => $type])
                                             ->visible(fn () => $key != $activeTableView),

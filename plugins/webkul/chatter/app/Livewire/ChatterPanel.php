@@ -4,25 +4,24 @@ namespace Webkul\Chatter\Livewire;
 
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
-use Filament\Forms;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
 use Filament\Infolists\Concerns\InteractsWithInfolists;
 use Filament\Infolists\Contracts\HasInfolists;
 use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Webkul\Chatter\Enums\ActivityType;
-use Webkul\Chatter\Filament\Actions\FollowerAction;
+use Webkul\Chatter\Filament\Actions\Chatter\ActivityAction;
+use Webkul\Chatter\Filament\Actions\Chatter\FileAction;
+use Webkul\Chatter\Filament\Actions\Chatter\FollowerAction;
+use Webkul\Chatter\Filament\Actions\Chatter\LogAction;
+use Webkul\Chatter\Filament\Actions\Chatter\MessageAction;
 use Webkul\Chatter\Filament\Infolists\Components\ChatsRepeatableEntry;
 use Webkul\Chatter\Filament\Infolists\Components\ContentTextEntry;
 use Webkul\Chatter\Filament\Infolists\Components\TitleTextEntry;
-use Webkul\Chatter\Mail\SendMessage;
 use Webkul\Security\Models\User;
 
 class ChatterPanel extends Component implements HasActions, HasForms, HasInfolists
@@ -31,43 +30,42 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
 
     public Model $record;
 
-    public ?array $messageForm = [];
-
-    public ?array $logForm = [];
-
-    public ?array $fileForm = [];
-
-    public ?array $scheduleActivityForm = [];
-
-    public bool $showFollowerModal = false;
-
     public string $searchQuery = '';
-
-    public string $activeTab = '';
 
     protected $listeners = ['refreshFollowers' => '$refresh'];
 
     public function mount(Model $record): void
     {
         $this->record = $record;
-
-        $this->createMessageForm->fill();
-
-        $this->createLogForm->fill();
-
-        $this->createScheduleActivityForm->fill();
-
-        $this->createFileForm->fill();
-    }
-
-    public function toggleTab(string $tab): void
-    {
-        $this->activeTab = $this->activeTab === $tab ? '' : $tab;
     }
 
     public function followerAction(): FollowerAction
     {
         return FollowerAction::make('follower')
+            ->record($this->record);
+    }
+
+    public function messageAction(): MessageAction
+    {
+        return MessageAction::make('message')
+            ->record($this->record);
+    }
+
+    public function logAction(): LogAction
+    {
+        return LogAction::make('log')
+            ->record($this->record);
+    }
+
+    public function activityAction(): ActivityAction
+    {
+        return ActivityAction::make('activity')
+            ->record($this->record);
+    }
+
+    public function fileAction(): FileAction
+    {
+        return FileAction::make('file')
             ->record($this->record);
     }
 
@@ -123,185 +121,21 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
         }
     }
 
-    private function notifyToFollowers($chat): void
-    {
-        try {
-            foreach ($this->followers as $follower) {
-                if ($follower->id === auth()->id()) {
-                    continue;
-                }
-
-                Mail::queue(new SendMessage($this->record, $follower, $chat));
-            }
-        } catch (\Exception $e) {
-            report($e);
-        }
-    }
-
     public function deleteChat($chatId)
     {
-        $this->record->removeChat($chatId);
-
-        Notification::make()
-            ->title('Chat is deleted successfully.')
-            ->success()
-            ->send();
-    }
-
-    protected function getForms(): array
-    {
-        return [
-            'createMessageForm',
-            'createLogForm',
-            'createScheduleActivityForm',
-            'createFileForm',
-        ];
-    }
-
-    public function createMessageForm(Form $form): Form
-    {
-        return $form
-            ->schema([
-                Forms\Components\RichEditor::make('content')
-                    ->hiddenLabel()
-                    ->placeholder('Type your message here...')
-                    ->required(),
-                Forms\Components\Hidden::make('type')
-                    ->default('message'),
-            ])
-            ->statePath('messageForm');
-    }
-
-    public function createLogForm(Form $form): Form
-    {
-        return $form
-            ->schema([
-                Forms\Components\RichEditor::make('content')
-                    ->hiddenLabel()
-                    ->placeholder('Type your message here...')
-                    ->required(),
-                Forms\Components\Hidden::make('type')
-                    ->default('note'),
-            ])
-            ->statePath('logForm');
-    }
-
-    public function createScheduleActivityForm(Form $form): Form
-    {
-        return $form
-            ->schema([
-                Forms\Components\Group::make()
-                    ->schema([
-                        Forms\Components\Select::make('activity_type')
-                            ->label('Activity Type')
-                            ->options(ActivityType::options())
-                            ->required(),
-                        Forms\Components\DatePicker::make('due_date')
-                            ->label('Due Date')
-                            ->native(false)
-                            ->required(),
-                    ])->columns(2),
-                Forms\Components\Group::make()
-                    ->schema([
-                        Forms\Components\TextInput::make('summary')
-                            ->label('Summary')
-                            ->required(),
-                        Forms\Components\Select::make('assigned_to')
-                            ->label('Assigned To')
-                            ->searchable()
-                            ->live()
-                            ->options(User::all()->pluck('name', 'id')->toArray())
-                            ->required(),
-                    ])->columns(2),
-                Forms\Components\RichEditor::make('content')
-                    ->hiddenLabel()
-                    ->placeholder('Type your message here...')
-                    ->required(),
-                Forms\Components\Hidden::make('type')
-                    ->default('activity'),
-            ])
-            ->statePath('scheduleActivityForm');
-    }
-
-    public function createFileForm(Form $form): Form
-    {
-        return $form
-            ->schema([
-                Forms\Components\FileUpload::make('file')
-                    ->label('File')
-                    ->multiple()
-                    ->directory('chats-attachments')
-                    ->panelLayout('grid')
-                    ->required(),
-                Forms\Components\Hidden::make('type')
-                    ->default('file'),
-            ])
-            ->statePath('fileForm');
-    }
-
-    public function getFormType(): string
-    {
-        if ($this->activeTab === 'message') {
-            return 'createMessageForm';
-        }
-
-        if ($this->activeTab === 'log') {
-            return 'createLogForm';
-        }
-
-        if ($this->activeTab === 'activity') {
-            return 'createScheduleActivityForm';
-        }
-
-        if ($this->activeTab === 'file') {
-            return 'createFileForm';
-        }
-    }
-
-    public function create(): void
-    {
-        $formType = $this->getFormType();
-
-        $data = $this->{$formType}->getState();
-
         try {
-            $chat = $this->record->addChat($data, auth()->id());
-
-            if ($formType === 'createFileForm') {
-                $chat->attachments()
-                    ->createMany(
-                        collect($data['file'] ?? [])
-                            ->map(function ($filePath) {
-                                return [
-                                    'file_path'          => $filePath,
-                                    'original_file_name' => basename($filePath),
-                                    'mime_type'          => mime_content_type($storagePath = storage_path('app/public/'.$filePath)) ?: 'application/octet-stream',
-                                    'file_size'          => filesize($storagePath) ?: 0,
-                                ];
-                            })
-                            ->filter()
-                            ->toArray()
-                    );
-            }
-
-            if ($data['type'] === 'message') {
-                $this->notifyToFollowers($chat, $data);
-            }
-
-            $this->{$formType}->fill();
+            $this->record->removeChat($chatId);
 
             Notification::make()
-                ->title('Message sent successfully.')
+                ->title('Chat is deleted successfully.')
                 ->success()
                 ->send();
         } catch (\Exception $e) {
             Notification::make()
-                ->title('Failed to send message.')
+                ->title('Error deleting chat.')
                 ->body($e->getMessage())
                 ->danger()
                 ->send();
-
-            report($e);
         }
     }
 

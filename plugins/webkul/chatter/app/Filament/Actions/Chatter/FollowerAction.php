@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\Chatter\Filament\Actions;
+namespace Webkul\Chatter\Filament\Actions\Chatter;
 
 use Filament\Actions\Action;
 use Filament\Support\Enums\MaxWidth;

@@ -42,7 +42,7 @@ trait HasLogActivity
                 'type'          => 'log',
                 'activity_type' => $event,
                 'user_id'       => Auth::id(),
-                'content'       => $this->generateActivityDescription($event),
+                'content'       => null,
                 'changes'       => $this->determineChanges($event),
             ]);
         } catch (\Exception $e) {
