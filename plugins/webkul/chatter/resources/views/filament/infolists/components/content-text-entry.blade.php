@@ -187,10 +187,12 @@
                                                 />
                                             </span>
 
-                                            <span class="text-sm text-gray-500 transition-colors dark:text-gray-400"
-                                                    @style([
-                                                        'color: rgb(var(--danger-500))',
-                                                    ])>
+                                            <span
+                                                class="text-sm text-gray-500 transition-colors dark:text-gray-400"
+                                                @style([
+                                                    'color: rgb(var(--danger-500))',
+                                                ])
+                                            >
                                                 @if($field === 'due_date')
                                                     {{ \Carbon\Carbon::parse($change['old_value'])->format('F j, Y') }}
                                                 @else
