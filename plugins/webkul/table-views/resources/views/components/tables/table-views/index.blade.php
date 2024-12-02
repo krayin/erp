@@ -53,7 +53,7 @@
             @if (empty($views))
                 @continue
             @endif
-            
+
             <div class="flex flex-col">
                 <div class="flex items-center justify-between min-h-[36px]" style="min-height: 36px">
                     <h3 class="font-medium text-gray-400 dark:text-gray-500">
@@ -67,19 +67,19 @@
                             $type = $view instanceof \Webkul\TableViews\Components\SavedView ? 'saved' : 'preset';
                         @endphp
 
-                        <div class="flex items-center justify-between px-3 py-1 -mx-3 gap-x-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-white/5 hover:rounded-lg">
+                        <div class="flex items-center justify-between px-3 py-1 -mx-3 cursor-pointer gap-x-3 hover:bg-gray-100 dark:hover:bg-white/5 hover:rounded-lg">
                             <div
-                                class="flex w-full gap-x-2 truncate justify-between items-center"
+                                class="flex items-center justify-between w-full truncate gap-x-2"
                                 wire:click="mountAction('applyTableView', JSON.parse('{\u0022view_key\u0022:\u0022{{$key}}\u0022, \u0022view_type\u0022:\u0022{{$type}}\u0022}'))"
                             >
-                                <div class="flex flex-1 h-9 items-center truncate">
-                                    <div class="flex w-full items-center gap-x-3 truncate">
+                                <div class="flex items-center flex-1 truncate h-9">
+                                    <div class="flex items-center w-full truncate gap-x-3">
                                         <x-filament::icon
                                             :icon="$view->getIcon()"
-                                            class="h-5 w-5 text-gray-500 dark:text-gray-400"
+                                            class="w-5 h-5 text-gray-500 dark:text-gray-400"
                                         />
-                                        
-                                        <div class="flex items-center gap-x-2 truncate" style="">
+
+                                        <div class="flex items-center truncate gap-x-2" style="">
                                             <span class="truncate">
                                                 {{ $view->getLabel() }}
                                             </span>

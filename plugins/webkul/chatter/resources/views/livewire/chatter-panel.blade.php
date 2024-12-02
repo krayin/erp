@@ -1,6 +1,6 @@
-<div class="flex h-full w-full flex-col space-y-4">
+{{-- <div class="flex flex-col w-full h-full space-y-4"> --}}
     <!-- Tabs -->
-    <div class="w-full">
+    {{-- <div class="w-full">
         <x-filament::tabs>
             <!-- Message Tab -->
             <x-filament::tabs.item
@@ -40,16 +40,16 @@
             </x-filament::tabs.item>
 
             <!-- Right Aligned Actions -->
-            <div class="ml-auto flex items-center">
+            <div class="flex items-center ml-auto">
                 {{ $this->followerAction }}
 
                 <x-filament-actions::modals />
             </div>
         </x-filament::tabs>
-    </div>
+    </div> --}}
 
     <!-- Tab Content -->
-    <div class="w-full flex-grow">
+    {{-- <div class="flex-grow w-full">
         @if($activeTab === 'message')
             <div class="w-full space-y-4">
                 {{ $this->createMessageForm }}
@@ -109,8 +109,30 @@
                 </x-filament::button>
             </div>
         @endif
+    </div> --}}
+
+    <!-- Chats -->
+    {{-- {{ $this->chatInfolist }} --}}
+
+
+    {{-- </div> --}}
+
+<div class="flex flex-col w-full h-full space-y-4">
+    <!-- Tabs -->
+    <div class="flex w-full gap-2">
+        {{ $this->messageAction($record) }}
+
+        {{ $this->logAction($record) }}
+
+        {{ $this->activityAction($record) }}
+
+        {{ $this->fileAction($record) }}
+
+        {{ $this->followerAction($record) }}
     </div>
 
     <!-- Chats -->
     {{ $this->chatInfolist }}
+
+    <x-filament-actions::modals />
 </div>

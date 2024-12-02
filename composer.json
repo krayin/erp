@@ -10,6 +10,7 @@
     "require": {
         "php": "^8.2",
         "bezhansalleh/filament-shield": "^3.2",
+        "charrafimed/global-search-modal": "*",
         "filament/filament": "^3.2",
         "filament/spatie-laravel-settings-plugin": "^3.2",
         "guava/filament-icon-picker": "^2.0",

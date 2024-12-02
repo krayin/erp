@@ -17,8 +17,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Webkul\Chatter\Enums\ActivityType;
-use Webkul\Chatter\Filament\Actions\FollowerAction;
+use Webkul\Chatter\Filament\Actions\Chatter\ActivityAction;
+use Webkul\Chatter\Filament\Actions\Chatter\FileAction;
+use Webkul\Chatter\Filament\Actions\Chatter\FollowerAction;
+use Webkul\Chatter\Filament\Actions\Chatter\LogAction;
+use Webkul\Chatter\Filament\Actions\Chatter\MessageAction;
 use Webkul\Chatter\Filament\Infolists\Components\ChatsRepeatableEntry;
 use Webkul\Chatter\Filament\Infolists\Components\ContentTextEntry;
 use Webkul\Chatter\Filament\Infolists\Components\TitleTextEntry;
@@ -71,6 +74,30 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
             ->record($this->record);
     }
 
+    public function messageAction(): MessageAction
+    {
+        return MessageAction::make('message')
+            ->record($this->record);
+    }
+
+    public function logAction(): LogAction
+    {
+        return LogAction::make('log')
+            ->record($this->record);
+    }
+
+    public function activityAction(): ActivityAction
+    {
+        return ActivityAction::make('activity')
+            ->record($this->record);
+    }
+
+    public function fileAction(): FileAction
+    {
+        return FileAction::make('file')
+            ->record($this->record);
+    }
+
     public function getFollowersProperty()
     {
         return $this->record->followers()
@@ -89,8 +116,8 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
         return User::query()
             ->whereNotIn('users.id', array_merge($followerIds, [$this->record->user_id]))
             ->when($this->searchQuery, function ($query) {
-                $query->where('users.name', 'like', '%'.$this->searchQuery.'%')
-                    ->orWhere('users.email', 'like', '%'.$this->searchQuery.'%');
+                $query->where('users.name', 'like', '%' . $this->searchQuery . '%')
+                    ->orWhere('users.email', 'like', '%' . $this->searchQuery . '%');
             })
             ->orderBy('name')
             ->limit(50)
@@ -161,65 +188,21 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
     public function createMessageForm(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\RichEditor::make('content')
-                    ->hiddenLabel()
-                    ->placeholder('Type your message here...')
-                    ->required(),
-                Forms\Components\Hidden::make('type')
-                    ->default('message'),
-            ])
+            ->schema([])
             ->statePath('messageForm');
     }
 
     public function createLogForm(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\RichEditor::make('content')
-                    ->hiddenLabel()
-                    ->placeholder('Type your message here...')
-                    ->required(),
-                Forms\Components\Hidden::make('type')
-                    ->default('note'),
-            ])
+            ->schema([])
             ->statePath('logForm');
     }
 
     public function createScheduleActivityForm(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\Group::make()
-                    ->schema([
-                        Forms\Components\Select::make('activity_type')
-                            ->label('Activity Type')
-                            ->options(ActivityType::options())
-                            ->required(),
-                        Forms\Components\DatePicker::make('due_date')
-                            ->label('Due Date')
-                            ->native(false)
-                            ->required(),
-                    ])->columns(2),
-                Forms\Components\Group::make()
-                    ->schema([
-                        Forms\Components\TextInput::make('summary')
-                            ->label('Summary')
-                            ->required(),
-                        Forms\Components\Select::make('assigned_to')
-                            ->label('Assigned To')
-                            ->searchable()
-                            ->live()
-                            ->options(User::all()->pluck('name', 'id')->toArray())
-                            ->required(),
-                    ])->columns(2),
-                Forms\Components\RichEditor::make('content')
-                    ->hiddenLabel()
-                    ->placeholder('Type your message here...')
-                    ->required(),
-                Forms\Components\Hidden::make('type')
-                    ->default('activity'),
-            ])
+            ->schema([])
             ->statePath('scheduleActivityForm');
     }
 
@@ -275,7 +258,7 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
                                 return [
                                     'file_path'          => $filePath,
                                     'original_file_name' => basename($filePath),
-                                    'mime_type'          => mime_content_type($storagePath = storage_path('app/public/'.$filePath)) ?: 'application/octet-stream',
+                                    'mime_type'          => mime_content_type($storagePath = storage_path('app/public/' . $filePath)) ?: 'application/octet-stream',
                                     'file_size'          => filesize($storagePath) ?: 0,
                                 ];
                             })
