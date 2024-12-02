@@ -87,8 +87,8 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
         return User::query()
             ->whereNotIn('users.id', array_merge($followerIds, [$this->record->user_id]))
             ->when($this->searchQuery, function ($query) {
-                $query->where('users.name', 'like', '%' . $this->searchQuery . '%')
-                    ->orWhere('users.email', 'like', '%' . $this->searchQuery . '%');
+                $query->where('users.name', 'like', '%'.$this->searchQuery.'%')
+                    ->orWhere('users.email', 'like', '%'.$this->searchQuery.'%');
             })
             ->orderBy('name')
             ->limit(50)

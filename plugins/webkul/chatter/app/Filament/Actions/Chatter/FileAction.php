@@ -77,7 +77,7 @@ class FileAction extends Action
             ->icon('heroicon-o-document-text')
             ->label('Add Files')
             ->modalSubmitAction(function ($action) {
-                $action->label('Send Files');
+                $action->label('Add Files');
                 $action->icon('heroicon-m-paper-airplane');
             })
             ->slideOver(false);

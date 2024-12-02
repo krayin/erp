@@ -6,13 +6,10 @@
 <x-dynamic-component
     :component="$getEntryWrapperView()"
     :entry="$entry"
-    class="bg-black"
 >
     <div {{ $attributes->merge($getExtraAttributes())->class(['space-y-4']) }}>
-         @if($record->content)
-            <p class="text-sm text-gray-600 dark:text-gray-400">
-                {!! $record->content !!}
-            </p>
+        @if($record->content)
+            {!! $record->content !!}
         @endif
 
         @if($record->attachments->isNotEmpty())
@@ -20,6 +17,7 @@
                 <div class="border-b border-gray-200 px-4 py-3 dark:border-gray-700">
                     <div class="flex items-center gap-2">
                         <x-heroicon-m-paper-clip class="text-primary-500 h-5 w-5"/>
+
                         <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100">
                             Attachments
                         </h3>
@@ -45,6 +43,7 @@
                                     <p class="group-hover:text-primary-600 dark:group-hover:text-primary-400 break-words text-sm font-medium text-gray-900 dark:text-gray-100">
                                         {{ $attachment->original_file_name }}
                                     </p>
+
                                     <p class="truncate text-xs text-gray-500 dark:text-gray-400">
                                         {{ $attachment->size }}
                                     </p>
@@ -70,10 +69,12 @@
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-2">
                             <x-heroicon-m-clipboard-document-check class="text-primary-500 h-5 w-5"/>
+
                             <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100">
                                 Activity Details
                             </h3>
                         </div>
+
                         <span class="bg-primary-50 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 inline-flex items-center rounded-md px-2 py-1 text-xs font-medium">
                             {{ ucfirst($record->activity_type) }}
                         </span>
@@ -87,6 +88,7 @@
                         @if($record->user)
                             <div class="flex items-center gap-3">
                                 <x-heroicon-m-user-circle class="h-5 w-5 text-gray-400"/>
+
                                 <div>
                                     <span class="block text-xs font-medium text-gray-500 dark:text-gray-400">Created By</span>
                                     <span class="text-sm text-gray-900 dark:text-gray-100">{{ $record->user->name }}</span>
@@ -98,6 +100,7 @@
                         @if($record->summary)
                             <div class="flex items-center gap-3">
                                 <x-heroicon-m-document class="h-5 w-5 text-gray-400"/>
+
                                 <div>
                                     <span class="block text-xs font-medium text-gray-500 dark:text-gray-400">Summary</span>
                                     <span class="text-sm text-gray-900 dark:text-gray-100">{{ $record->summary }}</span>
@@ -112,6 +115,7 @@
                         @if($record->due_date)
                             <div class="flex items-center gap-3">
                                 <x-heroicon-m-calendar class="h-5 w-5 text-gray-400"/>
+
                                 <div>
                                     <span class="block text-xs font-medium text-gray-500 dark:text-gray-400">Due Date</span>
                                     <span class="text-sm text-gray-900 dark:text-gray-100">
@@ -125,8 +129,10 @@
                         @if($record->assignedTo)
                             <div class="flex items-center gap-3">
                                 <x-heroicon-m-user-group class="h-5 w-5 text-gray-400"/>
+
                                 <div>
                                     <span class="block text-xs font-medium text-gray-500 dark:text-gray-400">Assigned To</span>
+
                                     <span class="text-sm text-gray-900 dark:text-gray-100">{{ $record->assignedTo->name }}</span>
                                 </div>
                             </div>
@@ -145,6 +151,7 @@
                 <div class="border-b border-gray-200 px-4 py-3 dark:border-gray-700">
                     <div class="flex items-center gap-2">
                         <x-heroicon-m-arrow-path class="text-primary-500 h-5 w-5"/>
+
                         <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100">
                             Changes Made
                         </h3>
@@ -166,13 +173,13 @@
 
                                     <span class="text-sm font-medium text-gray-900 dark:text-gray-100">
                                         {{ ucwords(str_replace('_', ' ', $field)) }}
-                                    </span>
 
-                                    @isset($change['type'])
-                                        <span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 dark:bg-blue-900/50 dark:text-blue-300">
-                                            {{ ucfirst($change['type']) }}
-                                        </span>
-                                    @endisset
+                                        @isset($change['type'])
+                                            <span class="inline-flex items-center rounded-md text-xs">
+                                                {{ ucfirst($change['type']) }}
+                                            </span>
+                                        @endisset
+                                    </span>
                                 </div>
 
                                 <div class="space-y-2 pl-6">
@@ -216,6 +223,7 @@
                                                     ])
                                                 />
                                             </span>
+
                                             <span class="text-sm font-medium text-gray-900 transition-colors dark:text-gray-100"
                                                     @style([
                                                         'color: rgb(var(--success-500))',
@@ -241,3 +249,5 @@
         @endif
     </div>
 </x-dynamic-component>
+
+

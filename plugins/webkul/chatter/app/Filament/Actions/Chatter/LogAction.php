@@ -61,7 +61,7 @@ class LogAction extends Action
             ->label('Log Note')
             ->icon('heroicon-o-chat-bubble-oval-left')
             ->modalSubmitAction(function ($action) {
-                $action->label('Add Log Note');
+                $action->label('Log');
                 $action->icon('heroicon-m-paper-airplane');
             })
             ->slideOver(false);

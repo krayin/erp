@@ -22,11 +22,11 @@ class ViewTask extends ViewRecord
     protected function getFooterWidgets(): array
     {
         return [
-            \Webkul\Chatter\Filament\Widgets\ChatterWidget::class
+            \Webkul\Chatter\Filament\Widgets\ChatterWidget::class,
         ];
     }
 
-    public function getFooterWidgetsColumns(): int | array
+    public function getFooterWidgetsColumns(): int|array
     {
         return 1;
     }

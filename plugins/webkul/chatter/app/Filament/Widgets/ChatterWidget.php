@@ -10,7 +10,7 @@ class ChatterWidget extends Widget
 
     // Set this to true to make it span the full width
     protected int|string|array $columnSpan = 'full';
-    
+
     // Make the record a public property that can be set
     public $record = null;
 

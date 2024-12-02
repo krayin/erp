@@ -55,9 +55,9 @@ class MessageAction extends Action
             )
             ->action(function (array $data, ?Model $record = null) {
                 try {
-                    $record->addChat($data, Auth::user()->id);
+                    $chat = $record->addChat($data, Auth::user()->id);
 
-                    $this->notifyToFollowers($data);
+                    $this->notifyToFollowers($chat);
 
                     Notification::make()
                         ->success()
@@ -72,10 +72,10 @@ class MessageAction extends Action
                         ->send();
                 }
             })
-            ->label('Message')
+            ->label('Send Message')
             ->icon('heroicon-o-chat-bubble-oval-left-ellipsis')
             ->modalSubmitAction(function ($action) {
-                $action->label('Send Message');
+                $action->label('Send');
                 $action->icon('heroicon-m-paper-airplane');
             })
             ->slideOver(false);

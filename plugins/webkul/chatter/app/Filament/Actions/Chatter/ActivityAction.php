@@ -78,7 +78,7 @@ class ActivityAction extends Action
             ->label('Activity')
             ->icon('heroicon-o-clock')
             ->modalSubmitAction(function ($action) {
-                $action->label('Add Activity');
+                $action->label('Schedule');
                 $action->icon('heroicon-m-paper-airplane');
             })
             ->slideOver(false);

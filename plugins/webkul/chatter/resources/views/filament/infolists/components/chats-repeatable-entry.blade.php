@@ -22,7 +22,7 @@
                 class="gap-2"
             >
                 @foreach ($childComponentContainers as $container)
-                    <article class="mb-3 border-t border-gray-200 bg-white p-6 text-base dark:border-gray-700 dark:bg-gray-900">
+                    <article class="mb-3 rounded border border-gray-200 bg-white p-6 text-base dark:border-gray-700 dark:bg-gray-900">
                         {{ $container }}
                     </article>
                 @endforeach
