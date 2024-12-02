@@ -147,7 +147,12 @@
             !empty($changes)
             && $record->activity_type !== 'created'
         )
-            <div class="rounded-lg bg-white shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-800 dark:ring-white/10">
+            <div
+                class="rounded-lg bg-white shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-800 dark:ring-white/10"
+                @style([
+                    'background-color: rgba(var(--primary-200),0.1)' => $record->type == 'log',
+                ])
+            >
                 <div class="border-b border-gray-200 px-4 py-3 dark:border-gray-700">
                     <div class="flex items-center gap-2">
                         <x-heroicon-m-arrow-path class="text-primary-500 h-5 w-5"/>
