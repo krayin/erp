@@ -147,6 +147,20 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
             ]);
     }
 
+    public function placeholder()
+    {
+        return <<<'HTML'
+            <div class="flex w-full items-center justify-center">
+                <div class="flex flex-col items-center space-y-4">
+                    <x-filament::loading-indicator class="text-primary-500 h-10 w-10 animate-spin" />
+                    <p class="text-sm font-medium tracking-wide text-gray-600 dark:text-gray-300">
+                        Loading Chatter...
+                    </p>
+                </div>
+            </div>
+        HTML;
+    }
+
     public function render(): View
     {
         return view('chatter::livewire.chatter-panel');

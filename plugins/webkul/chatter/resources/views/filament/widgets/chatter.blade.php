@@ -1,3 +1,6 @@
 <div class="flex w-full">
-    <livewire:chatter-panel :record="$record ?? $this->record" />
+    <livewire:chatter-panel
+        :record="$record ?? $this->record"
+        lazy
+    />
 </div>
