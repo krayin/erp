@@ -13,8 +13,6 @@ use Webkul\Chatter\Mail\SendMessage;
 
 class MessageAction extends Action
 {
-    protected bool $isExpanded = false;
-
     public static function getDefaultName(): ?string
     {
         return 'message.action';
@@ -27,13 +25,6 @@ class MessageAction extends Action
         return $this;
     }
 
-    public function expandForm(): static
-    {
-        $this->isExpanded = true;
-
-        return $this;
-    }
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -42,14 +33,14 @@ class MessageAction extends Action
             ->color('gray')
             ->outlined()
             ->form(
-                fn ($form) => $form->schema([
+                fn($form) => $form->schema([
                     Forms\Components\RichEditor::make('content')
                         ->hiddenLabel()
                         ->placeholder('Type your message here...')
                         ->required()
                         ->columnSpanFull(),
                     Forms\Components\Hidden::make('type')
-                        ->default('note'),
+                        ->default('message'),
                 ])
                     ->columns(1)
             )
@@ -68,7 +59,7 @@ class MessageAction extends Action
                     Notification::make()
                         ->danger()
                         ->title('Message Sending Failed')
-                        ->body('An error occurred: '.$e->getMessage())
+                        ->body('An error occurred: ' . $e->getMessage())
                         ->send();
                 }
             })

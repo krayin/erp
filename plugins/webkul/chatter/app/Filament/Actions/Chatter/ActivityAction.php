@@ -75,7 +75,7 @@ class ActivityAction extends Action
                         ->send();
                 }
             })
-            ->label('Activity')
+            ->label('Schedule Activity')
             ->icon('heroicon-o-clock')
             ->modalSubmitAction(function ($action) {
                 $action->label('Schedule');

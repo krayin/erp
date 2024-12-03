@@ -20,16 +20,14 @@
                     </div>
                 </div>
 
-                @if (true)
-                    <div class="flex-shrink-0">
-                        <x-filament::icon-button
-                            wire:click="deleteChat({{ $getRecord()->id }})"
-                            icon="heroicon-s-trash"
-                            color="danger"
-                            tooltip="Delete comment"
-                        />
-                    </div>
-                @endif
+                <div class="flex-shrink-0">
+                    <x-filament::icon-button
+                        wire:click="mountAction('deleteChat',  { id: {{ $getRecord()->id }} })"
+                        icon="heroicon-s-trash"
+                        color="danger"
+                        tooltip="Delete comment"
+                    />
+                </div>
             </div>
         </div>
     </div>
