@@ -12,7 +12,7 @@ trait HasLogActivity
 {
     public static function bootHasLogActivity()
     {
-        static::created(fn (Model $model) => $model->logModelActivity('created'));
+        // static::created(fn (Model $model) => $model->logModelActivity('created'));
 
         static::updated(fn (Model $model) => $model->logModelActivity('updated'));
 
