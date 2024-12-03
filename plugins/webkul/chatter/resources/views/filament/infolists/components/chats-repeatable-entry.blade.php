@@ -23,9 +23,9 @@
             >
                 @foreach ($childComponentContainers as $container)
                     <article
-                        class="mb-3 rounded border border-gray-200 bg-white p-6 text-base dark:border-gray-700 dark:bg-gray-900"
+                        class="mb-3 rounded-lg border border-gray-200 bg-white p-6 text-base dark:border-gray-700 dark:bg-gray-900"
                         @style([
-                            'background-color: rgba(var(--primary-200),0.1)' => $container->record->type == 'log',
+                            'background-color: rgba(var(--primary-200), 0.1);' => $container->record->type == 'note',
                         ])
                     >
                         {{ $container }}

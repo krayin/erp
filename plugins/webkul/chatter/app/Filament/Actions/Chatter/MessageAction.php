@@ -13,8 +13,6 @@ use Webkul\Chatter\Mail\SendMessage;
 
 class MessageAction extends Action
 {
-    protected bool $isExpanded = false;
-
     public static function getDefaultName(): ?string
     {
         return 'message.action';
@@ -23,13 +21,6 @@ class MessageAction extends Action
     public function record(Model|Closure|null $record = null): static
     {
         $this->record = $record;
-
-        return $this;
-    }
-
-    public function expandForm(): static
-    {
-        $this->isExpanded = true;
 
         return $this;
     }
@@ -49,7 +40,7 @@ class MessageAction extends Action
                         ->required()
                         ->columnSpanFull(),
                     Forms\Components\Hidden::make('type')
-                        ->default('note'),
+                        ->default('message'),
                 ])
                     ->columns(1)
             )

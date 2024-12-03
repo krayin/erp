@@ -1,17 +1,17 @@
 <div class="flex h-full w-full flex-col space-y-4">
-    <!-- Tabs -->
+    <!-- Actions -->
     <div class="flex justify-between">
         <div class="flex w-full gap-3">
-            {{ $this->messageAction($record) }}
+            {{ $this->messageAction }}
 
-            {{ $this->logAction($record) }}
+            {{ $this->logAction }}
 
-            {{ $this->activityAction($record) }}
+            {{ $this->activityAction }}
 
-            {{ $this->fileAction($record) }}
+            {{ $this->fileAction }}
         </div>
 
-        {{ $this->followerAction($record) }}
+        {{ $this->followerAction }}
     </div>
 
     <!-- Chats -->

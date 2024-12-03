@@ -2,6 +2,7 @@
 
 namespace Webkul\Chatter\Livewire;
 
+use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -121,22 +122,11 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
         }
     }
 
-    public function deleteChat($chatId)
+    public function deleteChatAction(): Action
     {
-        try {
-            $this->record->removeChat($chatId);
-
-            Notification::make()
-                ->title('Chat is deleted successfully.')
-                ->success()
-                ->send();
-        } catch (\Exception $e) {
-            Notification::make()
-                ->title('Error deleting chat.')
-                ->body($e->getMessage())
-                ->danger()
-                ->send();
-        }
+        return Action::make('deleteChat')
+            ->requiresConfirmation()
+            ->action(fn (array $arguments) => $this->record->removeChat($arguments['id']));
     }
 
     public function chatInfolist(Infolist $infolist): Infolist

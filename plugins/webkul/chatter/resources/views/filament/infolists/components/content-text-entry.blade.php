@@ -150,7 +150,7 @@
             <div
                 class="rounded-lg bg-white shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-800 dark:ring-white/10"
                 @style([
-                    'background-color: rgba(var(--primary-200),0.1)' => $record->type == 'log',
+                    'background-color: rgba(var(--primary-200), 0.1);' => $record->type == 'note',
                 ])
             >
                 <div class="border-b border-gray-200 px-4 py-3 dark:border-gray-700">
@@ -177,7 +177,7 @@
                                     @endif
 
                                     <span class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                        {{ ucwords(str_replace('_', ' ', $field)) }}
+                                        The '<b>{{ ucwords(str_replace('_', ' ', $field)) }}</b>' Has been
 
                                         @isset($change['type'])
                                             <span class="inline-flex items-center rounded-md text-xs">
@@ -189,8 +189,8 @@
 
                                 <div class="space-y-2 pl-6">
                                     @if(isset($change['old_value']))
-                                        <div class="group flex items-start gap-2">
-                                            <span class="mt-1 flex-shrink-0">
+                                        <div class="group flex items-center gap-2">
+                                            <span class="flex-shrink-0">
                                                 <x-heroicon-m-minus-circle
                                                     class="h-4 w-4"
                                                     @style([
@@ -219,8 +219,8 @@
                                     @endif
 
                                     @if(isset($change['new_value']))
-                                        <div class="group flex items-start gap-2">
-                                            <span class="mt-1 flex-shrink-0">
+                                        <div class="group flex items-center gap-2">
+                                            <span class="flex-shrink-0">
                                                 <x-heroicon-m-plus-circle
                                                     class="h-4 w-4 text-green-500"
                                                     @style([
