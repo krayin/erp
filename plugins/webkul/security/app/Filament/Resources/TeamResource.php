@@ -9,6 +9,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Webkul\Security\Filament\Resources\TeamResource\Pages;
 use Webkul\Security\Models\Team;
+use Illuminate\Database\Eloquent\Model;
 
 class TeamResource extends Resource
 {
@@ -19,6 +20,20 @@ class TeamResource extends Resource
     protected static ?string $navigationLabel = 'Teams';
 
     protected static ?string $navigationGroup = 'Settings';
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return [
+            'name',
+        ];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'name' => $record->name,
+        ];
+    }
 
     public static function form(Form $form): Form
     {

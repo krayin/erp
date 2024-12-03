@@ -9,6 +9,7 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Webkul\Chatter\Enums\TaskStatus;
@@ -23,6 +24,23 @@ class TaskResource extends Resource
     protected static ?string $model = Task::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return [
+            'title',
+            'description',
+        ];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'title'       => $record->title,
+            'description' => $record->description,
+            'status'      => TaskStatus::options()[$record->status],
+        ];
+    }
 
     public static function form(Form $form): Form
     {
@@ -87,7 +105,7 @@ class TaskResource extends Resource
             ->columns(static::mergeCustomTableColumns([
                 Tables\Columns\TextColumn::make('title')->searchable(),
                 Tables\Columns\TextColumn::make('status')
-                    ->formatStateUsing(fn ($state) => TaskStatus::options()[$state])
+                    ->formatStateUsing(fn($state) => TaskStatus::options()[$state])
                     ->sortable(),
                 Tables\Columns\TextColumn::make('due_date')->date()->sortable(),
                 Tables\Columns\TextColumn::make('assignedTo.name')
@@ -182,7 +200,7 @@ class TaskResource extends Resource
                 ->schema([
                     Infolists\Components\TextEntry::make('status')
                         ->label('Task Status')
-                        ->formatStateUsing(fn ($state): string => Str::headline($state)),
+                        ->formatStateUsing(fn($state): string => Str::headline($state)),
                     Infolists\Components\TextEntry::make('due_date')
                         ->label('Due Date')
                         ->date(),

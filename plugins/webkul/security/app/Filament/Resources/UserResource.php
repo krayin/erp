@@ -8,6 +8,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Role;
 use Webkul\Security\Enums\PermissionType;
 use Webkul\Security\Filament\Resources\UserResource\Pages;
@@ -22,6 +23,25 @@ class UserResource extends Resource
     protected static ?string $navigationLabel = 'Users';
 
     protected static ?string $navigationGroup = 'Settings';
+
+    protected static ?string $recordTitleAttribute = 'name';
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return [
+            'name',
+            'email',
+        ];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'name' => $record->name,
+            'email' => $record->email,
+            'roles' => $record->roles->pluck('name')->join(', '),
+        ];
+    }
 
     public static function form(Form $form): Form
     {
@@ -45,7 +65,7 @@ class UserResource extends Resource
                             ->password()
                             ->label('Confirm New Password')
                             ->hiddenOn('edit')
-                            ->rule('required', fn ($get) => (bool) $get('password'))
+                            ->rule('required', fn($get) => (bool) $get('password'))
                             ->same('password'),
                     ])
                     ->columns(2),
@@ -97,13 +117,13 @@ class UserResource extends Resource
                     ->preload(),
                 Tables\Filters\SelectFilter::make('teams')
                     ->relationship('teams', 'name')
-                    ->options(fn (): array => Role::query()->pluck('name', 'id')->all())
+                    ->options(fn(): array => Role::query()->pluck('name', 'id')->all())
                     ->multiple()
                     ->searchable()
                     ->preload(),
                 Tables\Filters\SelectFilter::make('roles')
                     ->relationship('roles', 'name')
-                    ->options(fn (): array => Role::query()->pluck('name', 'id')->all())
+                    ->options(fn(): array => Role::query()->pluck('name', 'id')->all())
                     ->multiple()
                     ->searchable()
                     ->preload(),
@@ -112,9 +132,9 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make()
-                        ->hidden(fn ($record) => $record->trashed()),
+                        ->hidden(fn($record) => $record->trashed()),
                     Tables\Actions\EditAction::make()
-                        ->hidden(fn ($record) => $record->trashed()),
+                        ->hidden(fn($record) => $record->trashed()),
                     Tables\Actions\DeleteAction::make(),
                     Tables\Actions\RestoreAction::make(),
                 ]),
