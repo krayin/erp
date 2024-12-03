@@ -37,7 +37,7 @@ class UserResource extends Resource
     public static function getGlobalSearchResultDetails(Model $record): array
     {
         return [
-            'name' => $record->name,
+            'name'  => $record->name,
             'email' => $record->email,
             'roles' => $record->roles->pluck('name')->join(', '),
         ];
@@ -65,7 +65,7 @@ class UserResource extends Resource
                             ->password()
                             ->label('Confirm New Password')
                             ->hiddenOn('edit')
-                            ->rule('required', fn($get) => (bool) $get('password'))
+                            ->rule('required', fn ($get) => (bool) $get('password'))
                             ->same('password'),
                     ])
                     ->columns(2),
@@ -117,13 +117,13 @@ class UserResource extends Resource
                     ->preload(),
                 Tables\Filters\SelectFilter::make('teams')
                     ->relationship('teams', 'name')
-                    ->options(fn(): array => Role::query()->pluck('name', 'id')->all())
+                    ->options(fn (): array => Role::query()->pluck('name', 'id')->all())
                     ->multiple()
                     ->searchable()
                     ->preload(),
                 Tables\Filters\SelectFilter::make('roles')
                     ->relationship('roles', 'name')
-                    ->options(fn(): array => Role::query()->pluck('name', 'id')->all())
+                    ->options(fn (): array => Role::query()->pluck('name', 'id')->all())
                     ->multiple()
                     ->searchable()
                     ->preload(),
@@ -132,9 +132,9 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make()
-                        ->hidden(fn($record) => $record->trashed()),
+                        ->hidden(fn ($record) => $record->trashed()),
                     Tables\Actions\EditAction::make()
-                        ->hidden(fn($record) => $record->trashed()),
+                        ->hidden(fn ($record) => $record->trashed()),
                     Tables\Actions\DeleteAction::make(),
                     Tables\Actions\RestoreAction::make(),
                 ]),

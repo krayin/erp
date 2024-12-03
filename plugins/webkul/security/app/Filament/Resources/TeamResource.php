@@ -7,9 +7,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Webkul\Security\Filament\Resources\TeamResource\Pages;
 use Webkul\Security\Models\Team;
-use Illuminate\Database\Eloquent\Model;
 
 class TeamResource extends Resource
 {

@@ -10,6 +10,7 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Support\Enums\Platform;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -19,7 +20,6 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Webkul\Support\PluginManager;
-use Filament\Support\Enums\Platform;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -65,10 +65,10 @@ class AdminPanelProvider extends PanelProvider
             ->globalSearchDebounce('500ms')
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->globalSearchFieldKeyBindingSuffix()
-            ->globalSearchFieldSuffix(fn(): ?string => match (Platform::detect()) {
+            ->globalSearchFieldSuffix(fn (): ?string => match (Platform::detect()) {
                 Platform::Windows, Platform::Linux => 'CTRL+K',
                 Platform::Mac => '⌘K',
-                default => null,
+                default       => null,
             })
             ->authMiddleware([
                 Authenticate::class,
