@@ -157,6 +157,10 @@ trait HasLogActivity
 
     protected static function decodeValueIfJson($value)
     {
+        if (is_bool($value)) {
+            return $value ? 'Yes' : 'No';
+        }
+
         if (
             ! is_array($value)
             && json_decode($value, true)
