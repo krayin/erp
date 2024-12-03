@@ -2,6 +2,7 @@
 
 namespace Webkul\Chatter\Livewire;
 
+use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -23,7 +24,6 @@ use Webkul\Chatter\Filament\Infolists\Components\ChatsRepeatableEntry;
 use Webkul\Chatter\Filament\Infolists\Components\ContentTextEntry;
 use Webkul\Chatter\Filament\Infolists\Components\TitleTextEntry;
 use Webkul\Security\Models\User;
-use Filament\Actions\Action;
 
 class ChatterPanel extends Component implements HasActions, HasForms, HasInfolists
 {
@@ -88,8 +88,8 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
         return User::query()
             ->whereNotIn('users.id', array_merge($followerIds, [$this->record->user_id]))
             ->when($this->searchQuery, function ($query) {
-                $query->where('users.name', 'like', '%' . $this->searchQuery . '%')
-                    ->orWhere('users.email', 'like', '%' . $this->searchQuery . '%');
+                $query->where('users.name', 'like', '%'.$this->searchQuery.'%')
+                    ->orWhere('users.email', 'like', '%'.$this->searchQuery.'%');
             })
             ->orderBy('name')
             ->limit(50)
@@ -126,7 +126,7 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
     {
         return Action::make('deleteChat')
             ->requiresConfirmation()
-            ->action(fn(array $arguments) => $this->record->removeChat($arguments['id']));
+            ->action(fn (array $arguments) => $this->record->removeChat($arguments['id']));
     }
 
     public function chatInfolist(Infolist $infolist): Infolist

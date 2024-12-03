@@ -33,7 +33,7 @@ class MessageAction extends Action
             ->color('gray')
             ->outlined()
             ->form(
-                fn($form) => $form->schema([
+                fn ($form) => $form->schema([
                     Forms\Components\RichEditor::make('content')
                         ->hiddenLabel()
                         ->placeholder('Type your message here...')
@@ -59,7 +59,7 @@ class MessageAction extends Action
                     Notification::make()
                         ->danger()
                         ->title('Message Sending Failed')
-                        ->body('An error occurred: ' . $e->getMessage())
+                        ->body('An error occurred: '.$e->getMessage())
                         ->send();
                 }
             })

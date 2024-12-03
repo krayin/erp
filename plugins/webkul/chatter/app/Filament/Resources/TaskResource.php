@@ -87,7 +87,7 @@ class TaskResource extends Resource
             ->columns(static::mergeCustomTableColumns([
                 Tables\Columns\TextColumn::make('title')->searchable(),
                 Tables\Columns\TextColumn::make('status')
-                    ->formatStateUsing(fn($state) => TaskStatus::options()[$state])
+                    ->formatStateUsing(fn ($state) => TaskStatus::options()[$state])
                     ->sortable(),
                 Tables\Columns\TextColumn::make('due_date')->date()->sortable(),
                 Tables\Columns\TextColumn::make('assignedTo.name')
@@ -182,7 +182,7 @@ class TaskResource extends Resource
                 ->schema([
                     Infolists\Components\TextEntry::make('status')
                         ->label('Task Status')
-                        ->formatStateUsing(fn($state): string => Str::headline($state)),
+                        ->formatStateUsing(fn ($state): string => Str::headline($state)),
                     Infolists\Components\TextEntry::make('due_date')
                         ->label('Due Date')
                         ->date(),
