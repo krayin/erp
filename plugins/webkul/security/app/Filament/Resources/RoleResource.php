@@ -24,21 +24,6 @@ class RoleResource extends Resource implements HasShieldPermissions
 
     protected static $permissionsCollection;
 
-    // public static function getModelLabel(): string
-    // {
-    //     return __('security::app.filament.resources.role.title');
-    // }
-
-    // public static function getNavigationLabel(): string
-    // {
-    //     return __('security::app.filament.resources.role.navigation.title');
-    // }
-
-    // public static function getNavigationGroup(): string
-    // {
-    //     return __('security::app.filament.resources.role.navigation.group');
-    // }
-
     public static function getPermissionPrefixes(): array
     {
         return [
