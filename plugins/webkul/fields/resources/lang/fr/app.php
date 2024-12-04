@@ -12,7 +12,11 @@ return [
         'pages' => [
             'list-records' => [
                 'index' => [
-                    'title' => 'Champs Personnalisés',
+                    'title'    => 'Champs personnalisés',
+                    'tabs'     => [
+                        'all'      => 'Tous les champs',
+                        'archived' => 'Archivé',
+                    ],
                 ],
             ],
         ],
