@@ -58,7 +58,7 @@ class FieldResource extends Resource
                             ->columns(2),
 
                         Forms\Components\Section::make(__('field::app.form.sections.options'))
-                            ->visible(fn(Forms\Get $get): bool => in_array($get('type'), [
+                            ->visible(fn (Forms\Get $get): bool => in_array($get('type'), [
                                 'select',
                                 'checkbox_list',
                                 'radio',
@@ -117,7 +117,7 @@ class FieldResource extends Resource
                                     ->required()
                                     ->disabledOn('edit')
                                     ->native(false)
-                                    ->visible(fn(Forms\Get $get): bool => $get('type') == 'text')
+                                    ->visible(fn (Forms\Get $get): bool => $get('type') == 'text')
                                     ->options([
                                         'text'     => __('field::app.form.fields.input-types.text'),
                                         'email'    => __('field::app.form.fields.input-types.email'),
@@ -131,7 +131,7 @@ class FieldResource extends Resource
                                 Forms\Components\Toggle::make('is_multiselect')
                                     ->label(__('field::app.form.fields.is-multiselect'))
                                     ->required()
-                                    ->visible(fn(Forms\Get $get): bool => $get('type') == 'select')
+                                    ->visible(fn (Forms\Get $get): bool => $get('type') == 'select')
                                     ->live(),
                                 Forms\Components\TextInput::make('sort_order')
                                     ->label(__('field::app.form.fields.sort-order'))
@@ -148,7 +148,7 @@ class FieldResource extends Resource
                                     ->searchable()
                                     ->native(false)
                                     ->disabledOn('edit')
-                                    ->options(fn() => collect(Filament::getResources())->filter(fn($resource) => in_array('Webkul\Fields\Filament\Traits\HasCustomFields', class_uses($resource)))->mapWithKeys(fn($resource) => [
+                                    ->options(fn () => collect(Filament::getResources())->filter(fn ($resource) => in_array('Webkul\Fields\Filament\Traits\HasCustomFields', class_uses($resource)))->mapWithKeys(fn ($resource) => [
                                         $resource::getModel() => str($resource)->afterLast('\\')->toString(),
                                     ])),
                             ]),
@@ -172,7 +172,7 @@ class FieldResource extends Resource
                     ->label(__('field::app.table.columns.type')),
                 Tables\Columns\TextColumn::make('customizable_type')
                     ->label(__('field::app.table.columns.resource'))
-                    ->description(fn(Field $record): string => str($record->customizable_type)->afterLast('\\')->toString() . __('field::app.form.fields.resource')),
+                    ->description(fn (Field $record): string => str($record->customizable_type)->afterLast('\\')->toString().__('field::app.form.fields.resource')),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(__('field::app.table.columns.created-at')),
             ])
@@ -194,7 +194,7 @@ class FieldResource extends Resource
                     ]),
                 Tables\Filters\SelectFilter::make('customizable_type')
                     ->label(__('field::app.table.filters.resource.label'))
-                    ->options(fn() => collect(Filament::getResources())->filter(fn($resource) => in_array('Webkul\Fields\Filament\Traits\HasCustomFields', class_uses($resource)))->mapWithKeys(fn($resource) => [
+                    ->options(fn () => collect(Filament::getResources())->filter(fn ($resource) => in_array('Webkul\Fields\Filament\Traits\HasCustomFields', class_uses($resource)))->mapWithKeys(fn ($resource) => [
                         $resource::getModel() => str($resource)->afterLast('\\')->toString(),
                     ])),
             ])
@@ -202,7 +202,7 @@ class FieldResource extends Resource
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make()
-                        ->hidden(fn($record) => $record->trashed()),
+                        ->hidden(fn ($record) => $record->trashed()),
                     Tables\Actions\DeleteAction::make(),
                     Tables\Actions\ForceDeleteAction::make()
                         ->before(function ($record) {
@@ -249,11 +249,11 @@ class FieldResource extends Resource
                                 ->required()
                                 ->distinct()
                                 ->live()
-                                ->options(fn(Forms\Get $get): array => static::getTypeFormValidations($get('../../../type'))),
+                                ->options(fn (Forms\Get $get): array => static::getTypeFormValidations($get('../../../type'))),
                             Forms\Components\TextInput::make('field')
                                 ->label(__('field::app.form.fields.field'))
                                 ->required()
-                                ->visible(fn(Forms\Get $get): bool => in_array($get('validation'), [
+                                ->visible(fn (Forms\Get $get): bool => in_array($get('validation'), [
                                     'prohibitedIf',
                                     'prohibitedUnless',
                                     'requiredIf',
@@ -262,7 +262,7 @@ class FieldResource extends Resource
                             Forms\Components\TextInput::make('value')
                                 ->label(__('field::app.form.fields.value'))
                                 ->required()
-                                ->visible(fn(Forms\Get $get): bool => in_array($get('validation'), [
+                                ->visible(fn (Forms\Get $get): bool => in_array($get('validation'), [
                                     'after',
                                     'afterOrEqual',
                                     'before',
@@ -318,11 +318,11 @@ class FieldResource extends Resource
                                 ->distinct()
                                 ->searchable()
                                 ->live()
-                                ->options(fn(Forms\Get $get): array => static::getTypeFormSettings($get('../../../type'))),
+                                ->options(fn (Forms\Get $get): array => static::getTypeFormSettings($get('../../../type'))),
                             Forms\Components\TextInput::make('value')
                                 ->label(__('field::app.form.fields.value'))
                                 ->required()
-                                ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                                ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                                     'autocapitalize',
                                     'autocomplete',
                                     'default',
@@ -353,7 +353,7 @@ class FieldResource extends Resource
                                 ->required()
                                 ->numeric()
                                 ->minValue(0)
-                                ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                                ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                                     'cols',
                                     'columns',
                                     'firstDayOfWeek',
@@ -371,7 +371,7 @@ class FieldResource extends Resource
                             Forms\Components\Select::make('value')
                                 ->label(__('field::app.form.fields.color'))
                                 ->required()
-                                ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                                ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                                     'hintColor',
                                     'prefixIconColor',
                                     'suffixIconColor',
@@ -389,7 +389,7 @@ class FieldResource extends Resource
                             Forms\Components\Select::make('value')
                                 ->label(__('field::app.form.fields.value'))
                                 ->required()
-                                ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                                ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                                     'gridDirection',
                                 ]))
                                 ->options([
@@ -399,7 +399,7 @@ class FieldResource extends Resource
                             Forms\Components\Select::make('value')
                                 ->label(__('field::app.form.fields.value'))
                                 ->required()
-                                ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                                ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                                     'inputMode',
                                 ]))
                                 ->options([
@@ -763,7 +763,7 @@ class FieldResource extends Resource
                 ->live(),
             Forms\Components\Repeater::make('table_settings')
                 ->hiddenLabel()
-                ->visible(fn(Forms\Get $get): bool => $get('use_in_table'))
+                ->visible(fn (Forms\Get $get): bool => $get('use_in_table'))
                 ->schema([
                     Forms\Components\Select::make('setting')
                         ->label(__('field::app.form.fields.setting'))
@@ -771,12 +771,12 @@ class FieldResource extends Resource
                         ->required()
                         ->distinct()
                         ->live()
-                        ->options(fn(Forms\Get $get): array => static::getTypeTableSettings($get('../../type'))),
+                        ->options(fn (Forms\Get $get): array => static::getTypeTableSettings($get('../../type'))),
                     Forms\Components\TextInput::make('value')
                         ->label('Value')
                         ->label(__('field::app.form.fields.value'))
                         ->required()
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'copyMessage',
                             'dateTimeTooltip',
                             'default',
@@ -794,7 +794,7 @@ class FieldResource extends Resource
                         ->label(__('field::app.form.fields.value'))
                         ->label('Color')
                         ->required()
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'color',
                             'iconColor',
                         ]))
@@ -810,7 +810,7 @@ class FieldResource extends Resource
                     Forms\Components\Select::make('value')
                         ->label(__('field::app.form.fields.alignment'))
                         ->required()
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'alignment',
                             'verticalAlignment',
                         ]))
@@ -827,7 +827,7 @@ class FieldResource extends Resource
                     Forms\Components\Select::make('value')
                         ->label(__('field::app.form.fields.font-weight'))
                         ->required()
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'weight',
                         ]))
                         ->options([
@@ -845,7 +845,7 @@ class FieldResource extends Resource
                     Forms\Components\Select::make('value')
                         ->label(__('field::app.form.fields.icon-position'))
                         ->required()
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'iconPosition',
                         ]))
                         ->options([
@@ -856,7 +856,7 @@ class FieldResource extends Resource
                     Forms\Components\Select::make('value')
                         ->label(__('field::app.form.fields.size'))
                         ->required()
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'size',
                         ]))
                         ->options([
@@ -870,7 +870,7 @@ class FieldResource extends Resource
                         ->required()
                         ->numeric()
                         ->minValue(0)
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'limit',
                             'words',
                             'lineClamp',
@@ -958,11 +958,11 @@ class FieldResource extends Resource
                         ->required()
                         ->distinct()
                         ->live()
-                        ->options(fn(Forms\Get $get): array => static::getTypeInfolistSettings($get('../../type'))),
+                        ->options(fn (Forms\Get $get): array => static::getTypeInfolistSettings($get('../../type'))),
                     Forms\Components\TextInput::make('value')
                         ->label(__('field::app.form.fields.value'))
                         ->required()
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'copyMessage',
                             'dateTimeTooltip',
                             'default',
@@ -982,7 +982,7 @@ class FieldResource extends Resource
                     Forms\Components\Select::make('value')
                         ->label(__('field::app.form.fields.color'))
                         ->required()
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'color',
                             'iconColor',
                             'hintColor',
@@ -1001,7 +1001,7 @@ class FieldResource extends Resource
                     Forms\Components\Select::make('value')
                         ->label('Font Weight')
                         ->required()
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'weight',
                         ]))
                         ->options([
@@ -1019,7 +1019,7 @@ class FieldResource extends Resource
                     Forms\Components\Select::make('value')
                         ->label('Icon Position')
                         ->required()
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'iconPosition',
                         ]))
                         ->options([
@@ -1030,7 +1030,7 @@ class FieldResource extends Resource
                     Forms\Components\Select::make('value')
                         ->label('Size')
                         ->required()
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'size',
                         ]))
                         ->options([
@@ -1044,7 +1044,7 @@ class FieldResource extends Resource
                         ->required()
                         ->numeric()
                         ->minValue(0)
-                        ->visible(fn(Forms\Get $get): bool => in_array($get('setting'), [
+                        ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'limit',
                             'words',
                             'lineClamp',
