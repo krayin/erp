@@ -177,7 +177,7 @@
                                     @endif
 
                                     <span class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                        The '<b>{{ ucwords(str_replace('_', ' ', $field)) }}</b>' Has been
+                                        The '<b>{{ ucwords(str_replace('_', ' ', $field)) }}</b>' has been
 
                                         @isset($change['type'])
                                             <span class="inline-flex items-center rounded-md text-xs">
@@ -254,5 +254,3 @@
         @endif
     </div>
 </x-dynamic-component>
-
-
