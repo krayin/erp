@@ -5,6 +5,7 @@ return [
         'clusters' => [
             'pages' => [
                 'manage-users' => [
+                    'title'                              => 'إدارة المستخدمين',
                     'enable-user-invitation'             => 'تمكين دعوة المستخدم',
                     'enable-user-invitation-helper-text' => 'السماح للمسؤولين بدعوة المستخدمين عبر البريد الإلكتروني مع تعيين الأدوار والصلاحيات.',
                     'enable-reset-password'              => 'تمكين إعادة تعيين كلمة المرور',

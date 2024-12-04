@@ -20,6 +20,11 @@ class ManageUsers extends SettingsPage
 
     protected static string $settings = UserSettings::class;
 
+    public static function getNavigationLabel(): string
+    {
+        return __('security::app.filament.clusters.pages.manage-users.title');
+    }
+
     public function form(Form $form): Form
     {
         return $form

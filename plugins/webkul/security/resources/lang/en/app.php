@@ -5,6 +5,7 @@ return [
         'clusters' => [
             'pages' => [
                 'manage-users' => [
+                    'title'                              => 'Manage Users',
                     'enable-user-invitation'             => 'Enable User Invitation',
                     'enable-user-invitation-helper-text' => 'Allow admins to invite users by email with assigned roles and permissions.',
                     'enable-reset-password'              => 'Enable Reset Password',
