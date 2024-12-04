@@ -35,7 +35,7 @@ class SupportServiceProvider extends PackageServiceProvider
 
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
             $switch
-                ->locales(['ar', 'en'])
+                ->locales(['ar', 'en', 'fr'])
                 ->circular();
         });
     }
