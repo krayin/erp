@@ -40,7 +40,7 @@ class CreateViewAction extends Action
                             'warning' => 'Warning',
                         ])->mapWithKeys(function ($value, $key) {
                             return [
-                                $key => '<div class="flex gap-4 items-center"><span class="flex w-5 h-5 rounded-full" style="background: rgb(var(--'.$key.'-500))"></span> '.$value.'</span>',
+                                $key => '<div class="flex items-center gap-4"><span class="flex h-5 w-5 rounded-full" style="background: rgb(var(--'.$key.'-500))"></span> '.$value.'</span>',
                             ];
                         });
                     })
