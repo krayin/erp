@@ -16,6 +16,11 @@ class TeamResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
+    public static function getModelLabel(): string
+    {
+        return __('security::app.filament.resources.team.navigation.title');
+    }
+
     public static function getNavigationLabel(): string
     {
         return __('security::app.filament.resources.team.navigation.title');
