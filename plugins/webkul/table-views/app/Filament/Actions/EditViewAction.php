@@ -41,18 +41,18 @@ class EditViewAction extends Action
             })
             ->form([
                 Forms\Components\TextInput::make('name')
-                    ->label(__('table-views::app.actions.edit-view.form.name'))
+                    ->label(__('table-views::app.filament.actions.edit-view.form.name'))
                     ->autofocus()
                     ->required(),
                 Forms\Components\Select::make('color')
-                    ->label(__('table-views::app.actions.edit-view.form.color'))
+                    ->label(__('table-views::app.filament.actions.edit-view.form.color'))
                     ->options(function () {
                         return collect([
-                            'danger'  => __('table-views::app.actions.edit-view.form.options.danger'),
-                            'gray'    => __('table-views::app.actions.edit-view.form.options.gray'),
-                            'info'    => __('table-views::app.actions.edit-view.form.options.info'),
-                            'success' => __('table-views::app.actions.edit-view.form.options.success'),
-                            'warning' => __('table-views::app.actions.edit-view.form.options.warning'),
+                            'danger'  => __('table-views::app.filament.actions.edit-view.form.options.danger'),
+                            'gray'    => __('table-views::app.filament.actions.edit-view.form.options.gray'),
+                            'info'    => __('table-views::app.filament.actions.edit-view.form.options.info'),
+                            'success' => __('table-views::app.filament.actions.edit-view.form.options.success'),
+                            'warning' => __('table-views::app.filament.actions.edit-view.form.options.warning'),
                         ])->mapWithKeys(function ($value, $key) {
                             return [
                                 $key => '<div class="flex items-center gap-4"><span class="flex h-5 w-5 rounded-full" style="background: rgb(var(--'.$key.'-500))"></span> '.$value.'</span>',
@@ -62,17 +62,17 @@ class EditViewAction extends Action
                     ->native(false)
                     ->allowHtml(),
                 \Guava\FilamentIconPicker\Forms\IconPicker::make('icon')
-                    ->label(__('table-views::app.actions.edit-view.form.icon'))
+                    ->label(__('table-views::app.filament.actions.edit-view.form.icon'))
                     ->sets(['heroicons'])
                     ->columns(4)
                     ->preload()
                     ->optionsLimit(50),
                 Forms\Components\Toggle::make('is_favorite')
-                    ->label(__('table-views::app.actions.edit-view.form.add-to-favorites'))
-                    ->helperText(__('table-views::app.actions.edit-view.form.add-to-favorites-help')),
+                    ->label(__('table-views::app.filament.actions.edit-view.form.add-to-favorites'))
+                    ->helperText(__('table-views::app.filament.actions.edit-view.form.add-to-favorites-help')),
                 Forms\Components\Toggle::make('is_public')
-                    ->label(__('table-views::app.actions.edit-view.form.make-public'))
-                    ->helperText(__('table-views::app.actions.edit-view.form.make-public-help')),
+                    ->label(__('table-views::app.filament.actions.edit-view.form.make-public'))
+                    ->helperText(__('table-views::app.filament.actions.edit-view.form.make-public-help')),
             ])->action(function (array $arguments): void {
                 TableView::find($arguments['view_model']['id'])->update($arguments['view_model']);
 
@@ -94,11 +94,11 @@ class EditViewAction extends Action
 
                 $this->success();
             })
-            ->label(__('table-views::app.actions.edit-view.form.modal.title'))
-            ->successNotificationTitle(__('table-views::app.actions.edit-view.form.notification.created'))
+            ->label(__('table-views::app.filament.actions.edit-view.form.modal.title'))
+            ->successNotificationTitle(__('table-views::app.filament.actions.edit-view.form.notification.created'))
             ->icon('heroicon-s-pencil-square')
             ->slideOver()
-            ->modalHeading(__('table-views::app.actions.edit-view.form.modal.title'))
+            ->modalHeading(__('table-views::app.filament.actions.edit-view.form.modal.title'))
             ->modalWidth(MaxWidth::Medium);
     }
 }

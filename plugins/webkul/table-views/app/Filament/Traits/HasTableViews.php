@@ -181,7 +181,7 @@ trait HasTableViews
         return $this->cachedFavoriteTableViews ??= (
             [
                 'default' => PresetView::make('default')
-                    ->label(__('table-views::app.views.default'))
+                    ->label(__('table-views::app.filament.traits.has-table-views.default'))
                     ->icon('heroicon-m-queue-list')
                     ->favorite(),
             ] + $this->getFavoriteTableViews()
@@ -334,7 +334,7 @@ trait HasTableViews
     public function getTableViewsTriggerAction(): Action
     {
         return Action::make('openTableViews')
-            ->label(__('table-views::app.views.title'))
+            ->label(__('table-views::app.filament.traits.has-table-views.title'))
             ->iconButton()
             ->icon('heroicon-m-queue-list')
             ->color('gray')
@@ -345,7 +345,7 @@ trait HasTableViews
     public function applyTableViewAction(): Action
     {
         return Action::make('applyTableView')
-            ->label(__('table-views::app.views.apply-view'))
+            ->label(__('table-views::app.filament.traits.has-table-views.apply-view'))
             ->icon('heroicon-s-arrow-small-right')
             ->action(function (array $arguments) {
                 $this->resetTableViews();
@@ -359,7 +359,7 @@ trait HasTableViews
     public function addTableViewToFavoritesAction(): Action
     {
         return Action::make('addTableViewToFavorites')
-            ->label(__('table-views::app.views.add-to-favorites'))
+            ->label(__('table-views::app.filament.traits.has-table-views.add-to-favorites'))
             ->icon('heroicon-o-star')
             ->action(function (array $arguments) {
                 TableViewFavoriteModel::updateOrCreate(
@@ -375,7 +375,7 @@ trait HasTableViews
     public function removeTableViewFromFavoritesAction(): Action
     {
         return Action::make('removeTableViewFromFavorites')
-            ->label(__('table-views::app.views.remove-from-favorites'))
+            ->label(__('table-views::app.filament.traits.has-table-views.remove-from-favorites'))
             ->icon('heroicon-o-minus-circle')
             ->action(function (array $arguments) {
                 TableViewFavoriteModel::updateOrCreate(
@@ -403,7 +403,7 @@ trait HasTableViews
     public function deleteTableViewAction(): Action
     {
         return Action::make('deleteTableView')
-            ->label(__('table-views::app.views.delete-view'))
+            ->label(__('table-views::app.filament.traits.has-table-views.delete-view'))
             ->icon('heroicon-m-trash')
             ->color('danger')
             ->requiresConfirmation()
@@ -418,7 +418,7 @@ trait HasTableViews
     public function replaceTableViewAction(): Action
     {
         return Action::make('replaceTableView')
-            ->label(__('table-views::app.views.replace-view'))
+            ->label(__('table-views::app.filament.traits.has-table-views.replace-view'))
             ->icon('heroicon-m-arrows-right-left')
             ->color('danger')
             ->requiresConfirmation()
