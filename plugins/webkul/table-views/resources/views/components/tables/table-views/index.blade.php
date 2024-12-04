@@ -11,7 +11,7 @@
         <h4
             class="text-base font-semibold leading-6 text-gray-950 dark:text-white"
         >
-            Views
+            @lang('table-views::app.views.title')
         </h4>
 
         <div>
@@ -22,13 +22,13 @@
                             'color' => 'danger',
                             'tag' => 'button',
                             'wire:click' => 'resetTableViews',
-                            'wire:loading.remove.delay.' . config('filament.livewire_loading_delay', 'default') => '',
+                            'wire:loading.remove.delay.'.config('filament.livewire_loading_delay', 'default') => '',
                             'wire:target' => 'resetTableViews',
                         ])
                     )
                 "
             >
-                {{ __('filament-tables::table.filters.actions.reset.label') }}
+                @lang('table-views::app.views.reset')
             </x-filament::link>
 
             <x-filament::loading-indicator
@@ -46,9 +46,9 @@
 
     <div class="flex flex-col gap-y-6">
         @foreach ([
-            'Favorites Views' => $favoriteViews,
-            'Saved Views' => $savedViews,
-            'Preset Views' => $presetViews,
+            __('table-views::app.views.favorites-views') => $favoriteViews,
+            __('table-views::app.views.saved-views') => $savedViews,
+            __('table-views::app.views.preset-views') => $presetViews,
         ] as $label => $views)
             @if (empty($views))
                 @continue
@@ -134,7 +134,6 @@
 
                             <div x-show="reorderViews === false">
                                 <x-filament-actions::group
-
                                     :actions="[
                                         ($this->applyTableViewAction)(['view_key' => $key, 'view_type' => $type])
                                             ->visible(fn () => $key != $activeTableView),

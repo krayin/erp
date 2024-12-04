@@ -14,11 +14,16 @@ use Webkul\TableViews\Policies\TableViewPolicy;
 
 class TableViewsServiceProvider extends PackageServiceProvider
 {
+    public static string $name = 'table-views';
+
+    public static string $viewNamespace = 'table-views';
+
     public function configureCustomPackage(Package $package): void
     {
         $package
-            ->name('table-views')
+            ->name(static::$name)
             ->hasViews()
+            ->hasTranslations()
             ->hasMigrations([
                 '2024_11_19_142134_create_table_views_table',
                 '2024_11_21_142134_create_table_view_favorites_table',
