@@ -11,7 +11,7 @@ class CreateUser extends CreateRecord
 
     protected function getCreatedNotificationTitle(): ?string
     {
-        return 'User registered';
+        return __('security::app.filament.resources.user.pages.create.created-notification-title');
     }
 
     protected function getRedirectUrl(): string

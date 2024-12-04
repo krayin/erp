@@ -25,16 +25,16 @@ class ManageUsers extends SettingsPage
         return $form
             ->schema([
                 Forms\Components\Toggle::make('enable_user_invitation')
-                    ->label('Enable User Invitation')
-                    ->helperText('Allow admins to invite users by email with assigned roles and permissions.')
+                    ->label(__('security::app.filament.clusters.pages.manage-users.enable-user-invitation'))
+                    ->helperText(__('security::app.filament.clusters.pages.manage-users.enable-user-invitation-helper-text'))
                     ->required(),
                 Forms\Components\Toggle::make('enable_reset_password')
-                    ->label('Enable Reset Password')
-                    ->helperText('Allow users to reset their passwords from login page.')
+                    ->label(__('security::app.filament.clusters.pages.manage-users.enable-reset-password'))
+                    ->helperText(__('security::app.filament.clusters.pages.manage-users.enable-reset-password-helper-text'))
                     ->required(),
                 Forms\Components\Select::make('default_role_id')
-                    ->label('Default Role')
-                    ->helperText('Role assigned to users upon registration via invitation.')
+                    ->label(__('security::app.filament.clusters.pages.manage-users.default-role'))
+                    ->helperText(__('security::app.filament.clusters.pages.manage-users.default-role-helper-text'))
                     ->options(Role::all()->pluck('name', 'id'))
                     ->searchable(),
             ]);

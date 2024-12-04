@@ -19,47 +19,64 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
-    protected static ?string $navigationLabel = 'Users';
+    public static function getModelLabel(): string
+    {
+        return __('security::app.filament.resources.user.title');
+    }
 
-    protected static ?string $navigationGroup = 'Settings';
+    public static function getNavigationLabel(): string
+    {
+        return __('security::app.filament.resources.user.navigation.title');
+    }
+
+    public static function getNavigationGroup(): string
+    {
+        return __('security::app.filament.resources.user.navigation.group');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Section::make('General')
+                Section::make(__('security::app.filament.resources.user.form.sections.general.title'))
                     ->schema([
                         Forms\Components\TextInput::make('name')
+                            ->label(__('security::app.filament.resources.user.form.sections.general.fields.name'))
                             ->required()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('email')
+                            ->label(__('security::app.filament.resources.user.form.sections.general.fields.email'))
                             ->email()
                             ->required()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('password')
+                            ->label(__('security::app.filament.resources.user.form.sections.general.fields.password'))
                             ->password()
                             ->required()
                             ->hiddenOn('edit')
                             ->maxLength(255),
                         Forms\Components\TextInput::make('password_confirmation')
                             ->password()
-                            ->label('Confirm New Password')
+                            ->label(__('security::app.filament.resources.user.form.sections.general.fields.password-confirmation'))
                             ->hiddenOn('edit')
                             ->rule('required', fn ($get) => (bool) $get('password'))
                             ->same('password'),
                     ])
                     ->columns(2),
-                Section::make('Permissions')->schema([
+                Section::make(__('security::app.filament.resources.user.form.sections.permissions.title'))->schema([
                     Forms\Components\Select::make('roles')
+                        ->label(__('security::app.filament.resources.user.form.sections.permissions.fields.roles'))
                         ->relationship('roles', 'name')
                         ->multiple()
                         ->preload(),
                     Forms\Components\Select::make('resource_permission')
                         ->options(PermissionType::options())
+                        ->label(__('security::app.filament.resources.user.form.sections.permissions.fields.resource-permission'))
                         ->required()
                         ->preload(),
                     Forms\Components\Select::make('teams')
                         ->relationship('teams', 'name')
+                        ->label(__('security::app.filament.resources.user.form.sections.permissions.fields.teams'))
                         ->multiple()
                         ->preload(),
                 ])
@@ -72,36 +89,46 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('security::app.filament.resources.user.table.columns.name'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->label(__('security::app.filament.resources.user.table.columns.email'))
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('teams.name'),
-                Tables\Columns\TextColumn::make('roles.name'),
+                Tables\Columns\TextColumn::make('teams.name')
+                    ->label(__('security::app.filament.resources.user.table.columns.teams')),
+                Tables\Columns\TextColumn::make('roles.name')
+                    ->label(__('security::app.filament.resources.user.table.columns.role')),
                 Tables\Columns\TextColumn::make('resource_permission')
+                    ->label(__('security::app.filament.resources.user.table.columns.resource-permission'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('security::app.filament.resources.user.table.columns.created-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('security::app.filament.resources.user.table.columns.updated-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('resource_permission')
+                    ->label(__('security::app.filament.resources.user.table.filters.resource-permission'))
                     ->searchable()
                     ->options(PermissionType::options())
                     ->preload(),
                 Tables\Filters\SelectFilter::make('teams')
                     ->relationship('teams', 'name')
+                    ->label(__('security::app.filament.resources.user.table.filters.teams'))
                     ->options(fn (): array => Role::query()->pluck('name', 'id')->all())
                     ->multiple()
                     ->searchable()
                     ->preload(),
                 Tables\Filters\SelectFilter::make('roles')
+                    ->label(__('security::app.filament.resources.user.table.filters.roles'))
                     ->relationship('roles', 'name')
                     ->options(fn (): array => Role::query()->pluck('name', 'id')->all())
                     ->multiple()

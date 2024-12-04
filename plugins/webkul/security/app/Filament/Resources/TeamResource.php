@@ -16,16 +16,22 @@ class TeamResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
-    protected static ?string $navigationLabel = 'Teams';
+    public static function getNavigationLabel(): string
+    {
+        return __('security::app.filament.resources.team.navigation.title');
+    }
 
-    protected static ?string $navigationGroup = 'Settings';
+    public static function getNavigationGroup(): ?string
+    {
+        return __('security::app.filament.resources.team.navigation.group');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('Name')
+                    ->label(__('security::app.filament.resources.team.form.name'))
                     ->required()
                     ->maxLength(255),
             ]);
@@ -36,7 +42,7 @@ class TeamResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Name')
+                    ->label(__('security::app.filament.resources.team.table.name'))
                     ->searchable()
                     ->sortable(),
             ])

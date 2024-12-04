@@ -31,7 +31,7 @@ return [
     |------------------------------------------------- -------------------------
     */
 
-    'nav.group' => 'Filament Shield',
+    'nav.group' => 'Կարգավորումներ',
     'nav.role.label' => 'Դերեր',
     'nav.role.icon' => 'heroicon-o-shield-check',
     'resource.label.role' => 'Դեր',

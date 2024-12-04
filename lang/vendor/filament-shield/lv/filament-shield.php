@@ -31,7 +31,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'nav.group' => 'Tiesības',
+    'nav.group' => 'Iestatījumi',
     'nav.role.label' => 'Lomas',
     'nav.role.icon' => 'heroicon-o-shield-check',
     'resource.label.role' => 'Loma',
