@@ -2,9 +2,9 @@
 
 namespace Webkul\Security\Filament\Resources\CompanyResource\Pages;
 
-use Webkul\Security\Filament\Resources\CompanyResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Webkul\Security\Filament\Resources\CompanyResource;
 
 class EditCompany extends EditRecord
 {

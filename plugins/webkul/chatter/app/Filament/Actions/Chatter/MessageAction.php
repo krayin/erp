@@ -33,7 +33,7 @@ class MessageAction extends Action
             ->color('gray')
             ->outlined()
             ->form(
-                fn($form) => $form->schema([
+                fn ($form) => $form->schema([
                     Forms\Components\RichEditor::make('content')
                         ->hiddenLabel()
                         ->placeholder(__('chatter::app.filament.actions.chatter.activity.form.type-your-message-here'))

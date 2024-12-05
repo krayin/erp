@@ -2,19 +2,18 @@
 
 namespace Webkul\Security\Filament\Resources;
 
-use Webkul\Security\Filament\Resources\CompanyResource\Pages;
-use Webkul\Security\Models\Company;
 use Filament\Forms;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\Actions\Action;
-use Filament\Infolists\Components\Tabs;
 use Webkul\Fields\Filament\Traits\HasCustomFields;
-use Webkul\Security\Filament\Actions\CreateBranch;
+use Webkul\Security\Filament\Resources\CompanyResource\Pages;
+use Webkul\Security\Filament\Resources\CompanyResource\RelationManagers;
+use Webkul\Security\Models\Company;
 
 class CompanyResource extends Resource
 {
@@ -66,17 +65,17 @@ class CompanyResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\BranchesRelationManager::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCompanies::route('/'),
+            'index'  => Pages\ListCompanies::route('/'),
             'create' => Pages\CreateCompany::route('/create'),
-            'view' => Pages\ViewCompany::route('/{record}'),
-            'edit' => Pages\EditCompany::route('/{record}/edit'),
+            'view'   => Pages\ViewCompany::route('/{record}'),
+            'edit'   => Pages\EditCompany::route('/{record}/edit'),
         ];
     }
 

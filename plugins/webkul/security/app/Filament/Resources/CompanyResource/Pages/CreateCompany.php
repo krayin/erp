@@ -2,10 +2,9 @@
 
 namespace Webkul\Security\Filament\Resources\CompanyResource\Pages;
 
-use Webkul\Security\Filament\Resources\CompanyResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Security\Filament\Resources\CompanyResource;
 
 class CreateCompany extends CreateRecord
 {
