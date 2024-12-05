@@ -31,7 +31,7 @@ class LogAction extends Action
             ->color('gray')
             ->outlined()
             ->form(
-                fn ($form) => $form->schema([
+                fn($form) => $form->schema([
                     Forms\Components\RichEditor::make('content')
                         ->hiddenLabel()
                         ->placeholder(__('chatter::app.filament.actions.chatter.log.form.type-your-message-here'))
@@ -63,7 +63,7 @@ class LogAction extends Action
             ->label(__('chatter::app.filament.actions.chatter.log.label'))
             ->icon('heroicon-o-chat-bubble-oval-left')
             ->modalSubmitAction(function ($action) {
-                $action->label(__('chatter::app.filament.actions.chatter.log.action.modal-submit-action.title'));
+                $action->label(__('chatter::app.filament.actions.chatter.log.modal-submit-action.log'));
                 $action->icon('heroicon-m-paper-airplane');
             })
             ->slideOver(false);
