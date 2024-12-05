@@ -15,10 +15,10 @@ enum ActivityType: string
     public static function options(): array
     {
         return [
-            self::Todo->value    => 'To Do',
-            self::Email->value   => 'Email',
-            self::Call->value    => 'Call',
-            self::Meeting->value => 'Meeting',
+            self::Todo->value    => __('chatter::app.enums.activity-type.to-do'),
+            self::Email->value   => __('chatter::app.enums.activity-type.email'),
+            self::Call->value    => __('chatter::app.enums.activity-type.call'),
+            self::Meeting->value => __('chatter::app.enums.activity-type.meeting'),
         ];
     }
 }

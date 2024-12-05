@@ -1,6 +1,21 @@
 <?php
 
 return [
+    'enums' => [
+        'activity-type' => [
+            'to-do'    => 'قائمة المهام',
+            'email'    => 'البريد الإلكتروني',
+            'call'     => 'مكالمة',
+            'meeting'  => 'اجتماع',
+        ],
+
+        'task-status' => [
+            'completed'   => 'مكتمل',
+            'pending'     => 'قيد الانتظار',
+            'in-progress' => 'قيد التنفيذ',
+        ],
+    ],
+
     'filament' => [
         'actions' => [
             'chatter' => [
