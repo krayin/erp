@@ -46,7 +46,11 @@ trait HasLogActivity
                 'changes'       => $this->determineChanges($event),
             ]);
         } catch (\Exception $e) {
-            Log::error('Activity Log Creation Failed: '.$e->getMessage());
+            Log::error(
+                __('chatter::app.trait.has-log-activity.errors.activity-log-failed', [
+                    'message' => $e->getMessage(),
+                ])
+            );
 
             return null;
         }
@@ -66,12 +70,24 @@ trait HasLogActivity
         $modelName = Str::headline(class_basename(static::class));
 
         return match ($event) {
-            'created'      => "A new {$modelName} was created",
-            'updated'      => "The {$modelName} was updated",
-            'deleted'      => "The {$modelName} was deleted",
-            'soft_deleted' => "The {$modelName} was soft deleted",
-            'hard_deleted' => "The {$modelName} was permanently deleted",
-            'restored'     => "The {$modelName} was restored",
+            'created'      => __('chatter::app.trait.has-log-activity.errors.activity-log-failed.created', [
+                'modal' => $modelName,
+            ]),
+            'updated'      => __('chatter::app.trait.has-log-activity.errors.activity-log-failed.updated', [
+                'modal' => $modelName,
+            ]),
+            'deleted'      => __('chatter::app.trait.has-log-activity.errors.activity-log-failed.deleted', [
+                'modal' => $modelName,
+            ]),
+            'soft_deleted' => __('chatter::app.trait.has-log-activity.errors.activity-log-failed.soft-deleted', [
+                'modal' => $modelName,
+            ]),
+            'hard_deleted' => __('chatter::app.trait.has-log-activity.errors.activity-log-failed.hard-deleted', [
+                'modal' => $modelName,
+            ]),
+            'restored'     => __('chatter::app.trait.has-log-activity.errors.activity-log-failed.restored', [
+                'modal' => $modelName,
+            ]),
             default        => $event
         };
     }
@@ -131,9 +147,13 @@ trait HasLogActivity
             try {
                 $user = User::find($value);
 
-                return $user ? $user->name : 'Unassigned';
+                return $user ? $user->name : __('chatter::app.trait.has-log-activity.attributes.unassigned');
             } catch (\Exception $e) {
-                Log::error("Failed to fetch user for field {$key}: ".$e->getMessage());
+                Log::error(
+                    __('chatter::app.trait.has-log-activity.errors.user-fetch-failed', [
+                        'field' => $key,
+                    ])
+                );
 
                 return $value;
             }

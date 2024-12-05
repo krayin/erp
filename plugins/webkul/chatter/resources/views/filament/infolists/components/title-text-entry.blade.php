@@ -25,7 +25,7 @@
                         wire:click="mountAction('deleteChat',  { id: {{ $getRecord()->id }} })"
                         icon="heroicon-s-trash"
                         color="danger"
-                        tooltip="Delete comment"
+                        :tooltip="trans('chatter::app.views.filament.infolists.components.title-text-entry.tooltip.delete')"
                     />
                 </div>
             </div>

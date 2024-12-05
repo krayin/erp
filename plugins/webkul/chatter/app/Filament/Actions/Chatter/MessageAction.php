@@ -36,7 +36,7 @@ class MessageAction extends Action
                 fn ($form) => $form->schema([
                     Forms\Components\RichEditor::make('content')
                         ->hiddenLabel()
-                        ->placeholder('Type your message here...')
+                        ->placeholder(__('chatter::app.filament.actions.chatter.activity.form.type-your-message-here'))
                         ->required()
                         ->columnSpanFull(),
                     Forms\Components\Hidden::make('type')
@@ -52,21 +52,21 @@ class MessageAction extends Action
 
                     Notification::make()
                         ->success()
-                        ->title('Message Sent')
-                        ->body('Your message has been sent successfully.')
+                        ->title(__('chatter::app.filament.actions.chatter.activity.action.notification.success.title'))
+                        ->body(__('chatter::app.filament.actions.chatter.activity.action.notification.success.body'))
                         ->send();
                 } catch (\Exception $e) {
                     Notification::make()
                         ->danger()
-                        ->title('Message Sending Failed')
-                        ->body('An error occurred: '.$e->getMessage())
+                        ->title(__('chatter::app.filament.actions.chatter.activity.action.notification.danger.title'))
+                        ->body(__('chatter::app.filament.actions.chatter.activity.action.notification.danger.body'))
                         ->send();
                 }
             })
-            ->label('Send Message')
+            ->label(__('chatter::app.filament.actions.chatter.activity.action.label'))
             ->icon('heroicon-o-chat-bubble-oval-left-ellipsis')
             ->modalSubmitAction(function ($action) {
-                $action->label('Send');
+                $action->label(__('chatter::app.filament.actions.chatter.activity.action.modal-submit-action.title'));
                 $action->icon('heroicon-m-paper-airplane');
             })
             ->slideOver(false);

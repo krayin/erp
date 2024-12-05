@@ -19,12 +19,12 @@ class ListTasks extends ListRecords
     public function getPresetTableViews(): array
     {
         return [
-            'my_tasks' => PresetView::make('My Tasks')
+            'my_tasks' => PresetView::make(__('chatter::app.filament.resources.task.pages.list.tabs.my-tasks'))
                 ->icon('heroicon-m-numbered-list')
                 ->favorite()
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('assigned_to', Auth::user()->id)),
 
-            'pending_tasks' => PresetView::make('Pending Tasks')
+            'pending_tasks' => PresetView::make(__('chatter::app.filament.resources.task.pages.list.tabs.pending-tasks'))
                 ->icon('heroicon-m-numbered-list')
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'pending')),
         ];

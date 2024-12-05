@@ -33,7 +33,7 @@ class FileAction extends Action
             ->form(
                 fn ($form) => $form->schema([
                     Forms\Components\FileUpload::make('file')
-                        ->label('File')
+                        ->label(__('chatter::app.filament.actions.chatter.file.form.file'))
                         ->multiple()
                         ->directory('chats-attachments')
                         ->panelLayout('grid')
@@ -62,22 +62,23 @@ class FileAction extends Action
 
                     Notification::make()
                         ->success()
-                        ->title('File Sent')
-                        ->body('Your file has been sent successfully.')
+                        ->title(__('chatter::app.filament.actions.chatter.file.action.notification.success.title'))
+                        ->body(__('chatter::app.filament.actions.chatter.file.action.notification.success.body'))
                         ->send();
                 } catch (\Exception $e) {
                     Notification::make()
                         ->danger()
-                        ->title('File Sending Failed')
-                        ->body('An error occurred: '.$e->getMessage())
+                        ->title(__('chatter::app.filament.actions.chatter.file.action.notification.danger.title'))
+                        ->body(__('chatter::app.filament.actions.chatter.file.action.notification.danger.body'))
                         ->send();
+
+                    report($e);
                 }
             })
-            ->label('Files')
+            ->label(__('chatter::app.filament.actions.chatter.file.action.label'))
             ->icon('heroicon-o-document-text')
-            ->label('Add Files')
             ->modalSubmitAction(function ($action) {
-                $action->label('Add Files');
+                $action->label(__('chatter::app.filament.actions.chatter.file.action.modal-submit-action.title'));
                 $action->icon('heroicon-m-paper-airplane');
             })
             ->slideOver(false);

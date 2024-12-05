@@ -19,7 +19,7 @@
                         <x-heroicon-m-paper-clip class="text-primary-500 h-5 w-5"/>
 
                         <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                            Attachments
+                            @lang('chatter::app.views.filament.infolists.components.content-text-entry.attachments')
                         </h3>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                             <x-heroicon-m-clipboard-document-check class="text-primary-500 h-5 w-5"/>
 
                             <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                Activity Details
+                                @lang('chatter::app.views.filament.infolists.components.content-text-entry.activity-details')
                             </h3>
                         </div>
 
@@ -90,7 +90,9 @@
                                 <x-heroicon-m-user-circle class="h-5 w-5 text-gray-400"/>
 
                                 <div>
-                                    <span class="block text-xs font-medium text-gray-500 dark:text-gray-400">Created By</span>
+                                    <span class="block text-xs font-medium text-gray-500 dark:text-gray-400">
+                                        @lang('chatter::app.views.filament.infolists.components.content-text-entry.created-by')
+                                    </span>
                                     <span class="text-sm text-gray-900 dark:text-gray-100">{{ $record->user->name }}</span>
                                 </div>
                             </div>
@@ -102,7 +104,10 @@
                                 <x-heroicon-m-document class="h-5 w-5 text-gray-400"/>
 
                                 <div>
-                                    <span class="block text-xs font-medium text-gray-500 dark:text-gray-400">Summary</span>
+                                    <span class="block text-xs font-medium text-gray-500 dark:text-gray-400">
+                                        @lang('chatter::app.views.filament.infolists.components.content-text-entry.summary')
+                                    </span>
+
                                     <span class="text-sm text-gray-900 dark:text-gray-100">{{ $record->summary }}</span>
                                 </div>
                             </div>
@@ -117,7 +122,10 @@
                                 <x-heroicon-m-calendar class="h-5 w-5 text-gray-400"/>
 
                                 <div>
-                                    <span class="block text-xs font-medium text-gray-500 dark:text-gray-400">Due Date</span>
+                                    <span class="block text-xs font-medium text-gray-500 dark:text-gray-400">
+                                        @lang('chatter::app.views.filament.infolists.components.content-text-entry.due-date')
+                                    </span>
+
                                     <span class="text-sm text-gray-900 dark:text-gray-100">
                                         {{ $record->due_date->format('F j, Y') }}
                                     </span>
@@ -131,7 +139,9 @@
                                 <x-heroicon-m-user-group class="h-5 w-5 text-gray-400"/>
 
                                 <div>
-                                    <span class="block text-xs font-medium text-gray-500 dark:text-gray-400">Assigned To</span>
+                                    <span class="block text-xs font-medium text-gray-500 dark:text-gray-400">
+                                        @lang('chatter::app.views.filament.infolists.components.content-text-entry.assigned-to')
+                                    </span>
 
                                     <span class="text-sm text-gray-900 dark:text-gray-100">{{ $record->assignedTo->name }}</span>
                                 </div>
@@ -158,7 +168,7 @@
                         <x-heroicon-m-arrow-path class="text-primary-500 h-5 w-5"/>
 
                         <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                            Changes Made
+                            @lang('chatter::app.views.filament.infolists.components.content-text-entry.changes-made')
                         </h3>
                     </div>
                 </div>
@@ -177,7 +187,9 @@
                                     @endif
 
                                     <span class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                        The '<b>{{ ucwords(str_replace('_', ' ', $field)) }}</b>' has been
+                                        @lang('chatter::app.views.filament.infolists.components.content-text-entry.modified', [
+                                            'field' => ucwords(str_replace('_', ' ', $field)),
+                                        ])
 
                                         @isset($change['type'])
                                             <span class="inline-flex items-center rounded-md text-xs">
