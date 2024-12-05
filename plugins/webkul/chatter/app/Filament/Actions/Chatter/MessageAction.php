@@ -33,7 +33,7 @@ class MessageAction extends Action
             ->color('gray')
             ->outlined()
             ->form(
-                fn ($form) => $form->schema([
+                fn($form) => $form->schema([
                     Forms\Components\RichEditor::make('content')
                         ->hiddenLabel()
                         ->placeholder(__('chatter::app.filament.actions.chatter.activity.form.type-your-message-here'))
@@ -63,10 +63,10 @@ class MessageAction extends Action
                         ->send();
                 }
             })
-            ->label(__('chatter::app.filament.actions.chatter.activity.action.label'))
+            ->label(__('chatter::app.filament.actions.chatter.message.label'))
             ->icon('heroicon-o-chat-bubble-oval-left-ellipsis')
             ->modalSubmitAction(function ($action) {
-                $action->label(__('chatter::app.filament.actions.chatter.activity.action.modal-submit-action.title'));
+                $action->label(__('chatter::app.filament.actions.chatter.message.modal-submit-action.title'));
                 $action->icon('heroicon-m-paper-airplane');
             })
             ->slideOver(false);
