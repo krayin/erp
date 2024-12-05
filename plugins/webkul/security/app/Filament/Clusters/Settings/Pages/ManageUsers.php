@@ -20,6 +20,13 @@ class ManageUsers extends SettingsPage
 
     protected static string $settings = UserSettings::class;
 
+    public function getBreadcrumbs(): array
+    {
+        return [
+            __('security::app.filament.clusters.settings.name'),
+        ];
+    }
+
     public function getTitle(): string
     {
         return __('security::app.filament.clusters.pages.manage-users.title');
