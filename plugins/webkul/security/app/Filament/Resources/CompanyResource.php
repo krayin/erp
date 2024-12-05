@@ -26,7 +26,94 @@ class CompanyResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema(static::getForm())
+            ->schema([
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\Group::make()
+                            ->schema([
+                                Forms\Components\Section::make('Company Information')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('name')
+                                            ->label('Company Name')
+                                            ->required()
+                                            ->maxLength(255)
+                                            ->live(onBlur: true),
+                                        Forms\Components\TextInput::make('company_id')
+                                            ->label('Company ID')
+                                            ->required()
+                                            ->unique()
+                                            ->hintAction(
+                                                Action::make('help')
+                                                    ->icon('heroicon-o-question-mark-circle')
+                                                    ->extraAttributes(['class' => 'text-gray-500'])
+                                                    ->hiddenLabel()
+                                                    ->tooltip('The Company ID is a unique identifier for your company.')
+                                            ),
+                                        Forms\Components\TextInput::make('tax_id')
+                                            ->label('Tax ID')
+                                            ->required()
+                                            ->unique()
+                                            ->hintAction(
+                                                Action::make('help')
+                                                    ->icon('heroicon-o-question-mark-circle')
+                                                    ->extraAttributes(['class' => 'text-gray-500'])
+                                                    ->hiddenLabel()
+                                                    ->tooltip('The Tax ID is a unique identifier for your company.')
+                                            ),
+                                        Forms\Components\ColorPicker::make('color')
+                                            ->label('Company Color'),
+
+                                        Forms\Components\FileUpload::make('logo')
+                                            ->label('Company Logo')
+                                            ->image()
+                                            ->columnSpan(['lg' => 2]),
+                                    ])
+                                    ->columns(2),
+                                Forms\Components\Section::make('Address Information')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('street1')
+                                            ->label('Street 1')
+                                            ->required(),
+                                        Forms\Components\TextInput::make('street2')
+                                            ->label('Street 2'),
+                                        Forms\Components\TextInput::make('city')
+                                            ->required(),
+                                        Forms\Components\TextInput::make('state')
+                                            ->required(),
+                                        Forms\Components\TextInput::make('zip')
+                                            ->label('ZIP Code')
+                                            ->required(),
+                                        Forms\Components\TextInput::make('country')
+                                            ->required(),
+                                    ])
+                                    ->columns(2),
+                            ])
+                            ->columnSpan(['lg' => 2]),
+                        Forms\Components\Group::make()
+                            ->schema([
+                                Forms\Components\Section::make('Contact Information')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('phone')
+                                            ->label('Phone Number')
+                                            ->required(),
+                                        Forms\Components\TextInput::make('mobile')
+                                            ->label('Mobile Number'),
+                                        Forms\Components\TextInput::make('email')
+                                            ->label('Email Address')
+                                            ->required()
+                                            ->email(),
+                                    ]),
+                                Forms\Components\Section::make('Additional Information')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('currency')
+                                            ->label('Default Currency')
+                                            ->required(),
+                                    ]),
+                            ])
+                            ->columnSpan(['lg' => 1]),
+                    ])
+                    ->columns(3),
+            ])
             ->columns('full');
     }
 
@@ -42,6 +129,7 @@ class CompanyResource extends Resource
                 Tables\Columns\TextColumn::make('currency'),
                 Tables\Columns\TextColumn::make('created_at')->dateTime(),
             ])
+            ->groups(['name', 'city', 'country', 'email', 'phone', 'currency', 'created_at'])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
@@ -85,97 +173,5 @@ class CompanyResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
-    }
-
-    protected static function getForm(): array
-    {
-        return [
-            Forms\Components\Group::make()
-                ->schema([
-                    Forms\Components\Group::make()
-                        ->schema([
-                            Forms\Components\Section::make('Company Information')
-                                ->schema([
-                                    Forms\Components\TextInput::make('name')
-                                        ->label('Company Name')
-                                        ->required()
-                                        ->maxLength(255)
-                                        ->live(onBlur: true),
-                                    Forms\Components\TextInput::make('company_id')
-                                        ->label('Company ID')
-                                        ->required()
-                                        ->unique()
-                                        ->hintAction(
-                                            Action::make('help')
-                                                ->icon('heroicon-o-question-mark-circle')
-                                                ->extraAttributes(['class' => 'text-gray-500'])
-                                                ->hiddenLabel()
-                                                ->tooltip('The Company ID is a unique identifier for your company.')
-                                        ),
-                                    Forms\Components\TextInput::make('tax_id')
-                                        ->label('Tax ID')
-                                        ->required()
-                                        ->unique()
-                                        ->hintAction(
-                                            Action::make('help')
-                                                ->icon('heroicon-o-question-mark-circle')
-                                                ->extraAttributes(['class' => 'text-gray-500'])
-                                                ->hiddenLabel()
-                                                ->tooltip('The Tax ID is a unique identifier for your company.')
-                                        ),
-                                    Forms\Components\ColorPicker::make('color')
-                                        ->label('Company Color'),
-
-                                    Forms\Components\FileUpload::make('logo')
-                                        ->label('Company Logo')
-                                        ->image()
-                                        ->columnSpan(['lg' => 2]),
-                                ])
-                                ->columns(2),
-                            Forms\Components\Section::make('Address Information')
-                                ->schema([
-                                    Forms\Components\TextInput::make('street1')
-                                        ->label('Street 1')
-                                        ->required(),
-                                    Forms\Components\TextInput::make('street2')
-                                        ->label('Street 2'),
-                                    Forms\Components\TextInput::make('city')
-                                        ->required(),
-                                    Forms\Components\TextInput::make('state')
-                                        ->required(),
-                                    Forms\Components\TextInput::make('zip')
-                                        ->label('ZIP Code')
-                                        ->required(),
-                                    Forms\Components\TextInput::make('country')
-                                        ->required(),
-                                ])
-                                ->columns(2),
-                        ])
-                        ->columnSpan(['lg' => 2]),
-                    Forms\Components\Group::make()
-                        ->schema([
-                            Forms\Components\Section::make('Contact Information')
-                                ->schema([
-                                    Forms\Components\TextInput::make('phone')
-                                        ->label('Phone Number')
-                                        ->required(),
-                                    Forms\Components\TextInput::make('mobile')
-                                        ->label('Mobile Number'),
-                                    Forms\Components\TextInput::make('email')
-                                        ->label('Email Address')
-                                        ->required()
-                                        ->email(),
-                                ]),
-                            Forms\Components\Section::make('Additional Information')
-                                ->schema([
-                                    Forms\Components\TextInput::make('currency')
-                                        ->label('Default Currency')
-                                        ->required(),
-                                ]),
-                        ])
-                        ->columnSpan(['lg' => 1]),
-                ])
-                ->columns(3),
-        ];
     }
 }

@@ -108,6 +108,7 @@ class BranchesRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('currency'),
                 Tables\Columns\TextColumn::make('created_at')->dateTime(),
             ])
+            ->groups(['name', 'city', 'country', 'email', 'phone', 'currency', 'created_at'])
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
             ])
