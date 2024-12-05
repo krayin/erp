@@ -103,7 +103,7 @@ class UserResource extends Resource
                     ->label(__('security::app.filament.resources.user.table.columns.role')),
                 Tables\Columns\TextColumn::make('resource_permission')
                     ->label(__('security::app.filament.resources.user.table.columns.resource-permission'))
-                    ->formatStateUsing(fn($state) => ucfirst($state))
+                    ->formatStateUsing(fn($state) => PermissionType::options()[$state] ?? $state)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(__('security::app.filament.resources.user.table.columns.created-at'))
