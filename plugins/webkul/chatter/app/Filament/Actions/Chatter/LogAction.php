@@ -34,7 +34,7 @@ class LogAction extends Action
                 fn ($form) => $form->schema([
                     Forms\Components\RichEditor::make('content')
                         ->hiddenLabel()
-                        ->placeholder('Type your message here...')
+                        ->placeholder(__('chatter::app.filament.actions.chatter.log.form.type-your-message-here'))
                         ->required(),
                     Forms\Components\Hidden::make('type')
                         ->default('note'),
@@ -47,21 +47,23 @@ class LogAction extends Action
 
                     Notification::make()
                         ->success()
-                        ->title('Log Added')
-                        ->body('Your log note has been added successfully.')
+                        ->title(__('chatter::app.filament.actions.chatter.log.action.notification.success.title'))
+                        ->body(__('chatter::app.filament.actions.chatter.log.action.notification.success.body'))
                         ->send();
                 } catch (\Exception $e) {
                     Notification::make()
                         ->danger()
-                        ->title('Log Not Added')
-                        ->body('An error occurred: '.$e->getMessage())
+                        ->title(__('chatter::app.filament.actions.chatter.log.action.notification.danger.title'))
+                        ->body(__('chatter::app.filament.actions.chatter.log.action.notification.danger.body'))
                         ->send();
+
+                    report($e);
                 }
             })
-            ->label('Log Note')
+            ->label(__('chatter::app.filament.actions.chatter.log.label'))
             ->icon('heroicon-o-chat-bubble-oval-left')
             ->modalSubmitAction(function ($action) {
-                $action->label('Log');
+                $action->label(__('chatter::app.filament.actions.chatter.log.action.modal-submit-action.title'));
                 $action->icon('heroicon-m-paper-airplane');
             })
             ->slideOver(false);

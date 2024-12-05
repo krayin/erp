@@ -13,9 +13,9 @@ enum TaskStatus: string
     public static function options(): array
     {
         return [
-            self::Pending->value    => 'Pending',
-            self::InProgress->value => 'In Progress',
-            self::Completed->value  => 'Completed',
+            self::Pending->value    => __('chatter::app.enums.task-status.pending'),
+            self::InProgress->value => __('chatter::app.enums.task-status.in-progress'),
+            self::Completed->value  => __('chatter::app.enums.task-status.completed'),
         ];
     }
 }

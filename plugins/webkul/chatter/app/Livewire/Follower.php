@@ -74,10 +74,10 @@ class Follower extends Component implements HasForms
 
             if ($this->record->isFollowedBy($userId)) {
                 $this->record->removeFollower($userId);
-                $message = "Successfully removed {$user->name} as a follower.";
+                $message = __('chatter::app.livewire.follower.actions.toggle.remove_success', ['name' => $user->name]);
             } else {
                 $this->record->addFollower($userId);
-                $message = "Successfully added {$user->name} as a follower.";
+                $message = __('chatter::app.livewire.follower.actions.toggle.add_success', ['name' => $user->name]);
             }
 
             $this->dispatch('refreshFollowers');
@@ -88,7 +88,7 @@ class Follower extends Component implements HasForms
                 ->send();
         } catch (\Exception $e) {
             Notification::make()
-                ->title('Error managing follower')
+                ->title(__('chatter::app.livewire.follower.actions.toggle.error'))
                 ->body($e->getMessage())
                 ->danger()
                 ->send();

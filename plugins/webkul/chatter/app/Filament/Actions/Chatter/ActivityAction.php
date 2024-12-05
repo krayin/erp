@@ -29,21 +29,21 @@ class ActivityAction extends Action
                     Forms\Components\Group::make()
                         ->schema([
                             Forms\Components\Select::make('activity_type')
-                                ->label('Activity Type')
+                                ->label(__('chatter::app.filament.actions.chatter.activity.form.activity-type'))
                                 ->options(ActivityType::options())
                                 ->required(),
                             Forms\Components\DatePicker::make('due_date')
-                                ->label('Due Date')
+                                ->label(__('chatter::app.filament.actions.chatter.activity.form.due-date'))
                                 ->native(false)
                                 ->required(),
                         ])->columns(2),
                     Forms\Components\Group::make()
                         ->schema([
                             Forms\Components\TextInput::make('summary')
-                                ->label('Summary')
+                                ->label(__('chatter::app.filament.actions.chatter.activity.form.summary'))
                                 ->required(),
                             Forms\Components\Select::make('assigned_to')
-                                ->label('Assigned To')
+                                ->label(__('chatter::app.filament.actions.chatter.activity.form.assigned-to'))
                                 ->searchable()
                                 ->live()
                                 ->options(User::all()->pluck('name', 'id')->toArray())
@@ -51,7 +51,7 @@ class ActivityAction extends Action
                         ])->columns(2),
                     Forms\Components\RichEditor::make('content')
                         ->hiddenLabel()
-                        ->placeholder('Type your message here...')
+                        ->label(__('chatter::app.filament.actions.chatter.activity.form.type-your-message-here'))
                         ->required(),
                     Forms\Components\Hidden::make('type')
                         ->default('activity'),
@@ -65,20 +65,23 @@ class ActivityAction extends Action
                     Notification::make()
                         ->success()
                         ->title('Message Sent')
-                        ->body('Your message has been sent successfully.')
+                        ->title(__('chatter::app.filament.actions.chatter.activity.action.notification.success.title'))
+                        ->body(__('chatter::app.filament.actions.chatter.activity.action.notification.success.body'))
                         ->send();
                 } catch (\Exception $e) {
                     Notification::make()
                         ->danger()
-                        ->title('Message Sending Failed')
-                        ->body('An error occurred: '.$e->getMessage())
+                        ->title(__('chatter::app.filament.actions.chatter.activity.action.notification.danger.title'))
+                        ->body(__('chatter::app.filament.actions.chatter.activity.action.notification.danger.body'))
                         ->send();
+
+                    report($e);
                 }
             })
-            ->label('Schedule Activity')
+            ->label(__('chatter::app.filament.actions.chatter.activity.action.label'))
             ->icon('heroicon-o-clock')
             ->modalSubmitAction(function ($action) {
-                $action->label('Schedule');
+                $action->label(__('chatter::app.filament.actions.chatter.activity.action.modal-submit-action.title'));
                 $action->icon('heroicon-m-paper-airplane');
             })
             ->slideOver(false);

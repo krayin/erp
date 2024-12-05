@@ -31,7 +31,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'nav.group' => 'إدارة الوصول',
+    'nav.group' => 'الإعدادات',
     'nav.role.label' => 'الأدوار',
     'nav.role.icon' => 'heroicon-o-shield-check',
     'resource.label.role' => 'دور',

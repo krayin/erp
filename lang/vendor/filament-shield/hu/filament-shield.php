@@ -31,7 +31,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'nav.group' => 'Rendszer',
+    'nav.group' => 'Beállítások',
     'nav.role.label' => 'Jogosultságok',
     'nav.role.icon' => 'heroicon-o-shield-check',
     'resource.label.role' => 'Jogosultság',

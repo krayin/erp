@@ -31,7 +31,7 @@ return [
     |------------------------------------------------- -------------------------
     */
 
-    'nav.group' => 'Scut',
+    'nav.group' => 'Setări',
     'nav.role.label' => 'Roluri',
     'nav.role.icon' => 'heroicon-o-shield-check',
     'resource.label.role' => 'Rol',

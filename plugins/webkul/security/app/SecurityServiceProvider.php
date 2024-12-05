@@ -15,6 +15,7 @@ class SecurityServiceProvider extends PackageServiceProvider
     {
         $package->name(static::$name)
             ->hasViews()
+            ->hasTranslations()
             ->hasRoute('web')
             ->runsMigrations()
             ->hasMigrations([

@@ -23,7 +23,7 @@ return [
     'field.guard_name' => 'ناوی گوارد',
     'field.permissions' => 'پێرمشنەکان',
     'field.select_all.name' => 'دیاری کردنی هەموو',
-    'field.select_all.message' => 'هەموو پێرمشنەکان چالاک بکە کە لە ئێستادا <span class="font-medium text-primary">چالاک کراوە</span> بۆ ئەم ڕۆڵە',
+    'field.select_all.message' => 'هەموو پێرمشنەکان چالاک بکە کە لە ئێستادا <span class="text-primary font-medium">چالاک کراوە</span> بۆ ئەم ڕۆڵە',
 
     /*
     |--------------------------------------------------------------------------
@@ -31,7 +31,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'nav.group' => 'فیڵەمێنت شیڵد',
+    'nav.group' => 'ڕێکخستنەکان',
     'nav.role.label' => 'ڕۆڵەکان',
     'nav.role.icon' => 'heroicon-o-users',
     'resource.label.role' => 'ڕۆڵ',

@@ -101,10 +101,10 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
         try {
             if ($this->record->isFollowedBy($userId)) {
                 $this->record->removeFollower($userId);
-                $message = 'Follower removed successfully.';
+                $message = __('chatter::app.livewire.chatter_panel.actions.follower.remove_success');
             } else {
                 $this->record->addFollower($userId);
-                $message = 'Follower added successfully.';
+                $message = __('chatter::app.livewire.chatter_panel.actions.follower.add_success');
             }
 
             $this->dispatch('refreshFollowers');
@@ -115,7 +115,7 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
                 ->send();
         } catch (\Exception $e) {
             Notification::make()
-                ->title('Error managing follower.')
+                ->title(__('chatter::app.livewire.chatter_panel.actions.follower.error'))
                 ->body($e->getMessage())
                 ->danger()
                 ->send();
@@ -143,7 +143,7 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
                         ContentTextEntry::make('content')
                             ->hiddenLabel(),
                     ])
-                    ->placeholder('No record found.'),
+                    ->placeholder(__('chatter::app.livewire.chatter_panel.placeholders.no_record_found')),
             ]);
     }
 
@@ -154,7 +154,7 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
                 <div class="flex flex-col items-center space-y-4">
                     <x-filament::loading-indicator class="text-primary-500 h-10 w-10 animate-spin" />
                     <p class="text-sm font-medium tracking-wide text-gray-600 dark:text-gray-300">
-                        Loading Chatter...
+                        {{ __('chatter::app.livewire.chatter_panel.placeholders.loading') }}
                     </p>
                 </div>
             </div>

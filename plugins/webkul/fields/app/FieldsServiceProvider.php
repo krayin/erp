@@ -18,6 +18,7 @@ class FieldsServiceProvider extends PackageServiceProvider
     {
         $package->name(static::$name)
             ->hasViews()
+            ->hasTranslations()
             ->hasMigrations([
                 '2024_11_13_052541_create_custom_fields_table',
             ])

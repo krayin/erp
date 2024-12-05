@@ -31,7 +31,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'nav.group' => 'Filament Shield',
+    'nav.group' => '設定 (せってい)',
     'nav.role.label' => 'ロール',
     'nav.role.icon' => 'heroicon-o-shield-check',
     'resource.label.role' => 'ロール',

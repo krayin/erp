@@ -25,7 +25,7 @@ class FollowerAction extends Action
             ->modal()
             ->badge(fn (Model $record): int => $record->followers()->count())
             ->modalContentFooter(fn (Model $record): View => view('chatter::filament.widgets.followers', compact('record')))
-            ->modalHeading('Followers')
+            ->modalHeading(__('chatter::app.filament.actions.chatter.follower.modal.heading'))
             ->modalWidth(MaxWidth::Large)
             ->modalSubmitAction(false)
             ->modalCancelAction(false);

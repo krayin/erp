@@ -16,7 +16,10 @@
 
     <!-- Current Followers -->
     <div class="p-4">
-        <h3 class="mb-3 text-sm font-medium text-gray-900">Current Followers</h3>
+        <h3 class="mb-3 text-sm font-medium text-gray-900">
+            @lang('chatter::app.views.livewire.current-followers')
+        </h3>
+
         <div class="flex flex-wrap gap-2">
             @forelse($followers as $follower)
                 <div
@@ -46,7 +49,9 @@
                     </button>
                 </div>
             @empty
-                <p class="text-sm text-gray-500">No followers yet.</p>
+                <p class="text-sm text-gray-500">
+                    @lang('chatter::app.views.livewire.no-followers-yet')
+                </p>
             @endforelse
         </div>
     </div>
@@ -54,7 +59,9 @@
     @if(strlen($searchQuery) > 0)
         <!-- Available Users -->
         <div class="max-h-[400px] overflow-y-auto border-t p-4">
-            <h3 class="mb-3 text-sm font-medium text-gray-900">Add Followers</h3>
+            <h3 class="mb-3 text-sm font-medium text-gray-900">
+                @lang('chatter::app.views.livewire.add-followers')
+            </h3>
 
             <div>
                 @if($nonFollowers->count() > 0)
@@ -81,10 +88,11 @@
                                 size="sm"
                             >
                                 <span wire:loading.remove wire:target="toggleFollower({{ $user->id }})">
-                                    Add
+                                    @lang('chatter::app.views.livewire.add')
                                 </span>
+
                                 <span wire:loading wire:target="toggleFollower({{ $user->id }})">
-                                    Adding...
+                                    @lang('chatter::app.views.livewire.adding')
                                 </span>
                             </x-filament::button>
                         </div>
@@ -97,7 +105,11 @@
                     @endif
                 @else
                     <div class="py-4 text-center">
-                        <p class="text-gray-500">No users found matching "{{ $searchQuery }}".</p>
+                        <p class="text-gray-500">
+                            @lang('chatter::app.views.livewire.user-not-found-matching', [
+                                'query' => $searchQuery,
+                            ])
+                        </p>
                     </div>
                 @endif
             </div>

@@ -2,6 +2,7 @@
 
 namespace Webkul\Support;
 
+use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Livewire;
 use Spatie\Permission\Models\Role;
@@ -20,7 +21,10 @@ class SupportServiceProvider extends PackageServiceProvider
         $package->name(static::$name)
             ->hasViews()
             ->hasMigrations([])
-            ->runsMigrations();
+            ->runsMigrations()
+            ->hasCommands([
+                InstallERP::class,
+            ]);
     }
 
     public function packageBooted(): void
@@ -28,19 +32,16 @@ class SupportServiceProvider extends PackageServiceProvider
         Livewire::component('accept-invitation', AcceptInvitation::class);
 
         Gate::policy(Role::class, RolePolicy::class);
+
+        LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
+            $switch
+                ->locales(['ar', 'en', 'fr'])
+                ->circular();
+        });
     }
 
     public function packageRegistered(): void
     {
-        $this->registerCommands();
-    }
-
-    private function registerCommands(): void
-    {
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                InstallERP::class,
-            ]);
-        }
+        //
     }
 }

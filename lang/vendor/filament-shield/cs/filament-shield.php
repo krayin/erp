@@ -31,7 +31,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'nav.group' => 'Filament Shield',
+    'nav.group' => 'Nastavení',
     'nav.role.label' => 'Role',
     'nav.role.icon' => 'heroicon-o-shield-check',
     'resource.label.role' => 'Role',

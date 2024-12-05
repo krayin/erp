@@ -18,25 +18,26 @@ class EditUser extends EditRecord
     {
         return [
             Actions\Action::make('changePassword')
+                ->label(__('security::app.filament.resources.user.pages.edit.header-actions.action.title'))
                 ->action(function (User $record, array $data): void {
                     $record->update([
                         'password' => $data['new_password'],
                     ]);
 
                     Notification::make()
-                        ->title('Saved successfully')
+                        ->title(__('security::app.filament.resources.user.pages.edit.header-actions.action.notification.title'))
                         ->success()
                         ->send();
                 })
                 ->form([
                     Forms\Components\TextInput::make('new_password')
                         ->password()
-                        ->label('New Password')
+                        ->label(__('security::app.filament.resources.user.pages.edit.header-actions.form.new-password'))
                         ->required()
                         ->rule(Password::default()),
                     Forms\Components\TextInput::make('new_password_confirmation')
                         ->password()
-                        ->label('Confirm New Password')
+                        ->label(__('security::app.filament.resources.user.pages.edit.header-actions.form.confirm-new-password'))
                         ->rule('required', fn ($get) => (bool) $get('new_password'))
                         ->same('new_password'),
                 ])
