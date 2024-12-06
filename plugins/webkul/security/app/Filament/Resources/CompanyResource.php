@@ -97,7 +97,7 @@ class CompanyResource extends Resource
                                             ->required()
                                             ->live()
                                             ->preload()
-                                            ->options(fn() => Currency::pluck('name', 'code'))
+                                            ->options(fn () => Currency::pluck('name', 'code'))
                                             ->createOptionForm([
                                                 Forms\Components\TextInput::make('code')
                                                     ->label('Currency Code')
