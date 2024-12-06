@@ -69,8 +69,6 @@ class CompanyResource extends Resource
                                                     ->hiddenLabel()
                                                     ->tooltip('The Tax ID is a unique identifier for your company.')
                                             ),
-                                        Forms\Components\ColorPicker::make('color')
-                                            ->label('Color'),
                                     ])
                                     ->columns(2),
                                 Forms\Components\Section::make('Address Information')
@@ -149,6 +147,8 @@ class CompanyResource extends Resource
                                             ->image()
                                             ->directory('company-logos')
                                             ->visibility('private'),
+                                        Forms\Components\ColorPicker::make('color')
+                                            ->label('Color'),
                                     ]),
                                 Forms\Components\Section::make('Contact Information')
                                     ->schema([
