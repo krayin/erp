@@ -21,7 +21,12 @@ class CompanyResource extends Resource
 
     protected static ?string $model = Company::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-building-office';
+
+    public static function getNavigationGroup(): string
+    {
+        return 'Settings';
+    }
 
     public static function form(Form $form): Form
     {
