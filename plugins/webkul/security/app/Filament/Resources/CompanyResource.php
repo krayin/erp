@@ -97,7 +97,7 @@ class CompanyResource extends Resource
                                             ->required()
                                             ->live()
                                             ->preload()
-                                            ->options(fn () => Currency::pluck('name', 'code'))
+                                            ->options(fn() => Currency::pluck('name', 'code'))
                                             ->createOptionForm([
                                                 Forms\Components\TextInput::make('code')
                                                     ->label('Currency Code')
@@ -174,12 +174,16 @@ class CompanyResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('logo')
+                    ->size(50)
+                    ->label('Logo'),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Company Name')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('branches.name')
-                    ->label('Email')
+                    ->label('Branches')
+                    ->badge()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->label('Email')

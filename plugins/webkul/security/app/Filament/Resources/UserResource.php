@@ -11,6 +11,7 @@ use Filament\Tables\Table;
 use Spatie\Permission\Models\Role;
 use Webkul\Security\Enums\PermissionType;
 use Webkul\Security\Filament\Resources\UserResource\Pages;
+use Webkul\Security\Models\Company;
 use Webkul\Security\Models\User;
 
 class UserResource extends Resource
@@ -59,7 +60,7 @@ class UserResource extends Resource
                             ->password()
                             ->label(__('security::app.filament.resources.user.form.sections.general.fields.password-confirmation'))
                             ->hiddenOn('edit')
-                            ->rule('required', fn ($get) => (bool) $get('password'))
+                            ->rule('required', fn($get) => (bool) $get('password'))
                             ->same('password'),
                     ])
                     ->columns(2),
@@ -80,6 +81,20 @@ class UserResource extends Resource
                         ->multiple()
                         ->preload(),
                 ])
+                    ->columns(2),
+                Section::make(__('Multi Companies'))
+                    ->schema([
+                        Forms\Components\Select::make('allowed_companies')
+                            ->label(__('Allowed Companies'))
+                            ->relationship('allowedCompanies', 'name')
+                            ->multiple()
+                            ->preload(),
+                        Forms\Components\Select::make('default_company_id')
+                            ->label(__('Default Company'))
+                            ->options(fn() => Company::pluck('name', 'id'))
+                            ->searchable()
+                            ->preload(),
+                    ])
                     ->columns(2),
             ]);
     }
@@ -103,6 +118,12 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('resource_permission')
                     ->label(__('security::app.filament.resources.user.table.columns.resource-permission'))
                     ->sortable(),
+                Tables\Columns\TextColumn::make('defaultCompany.name')
+                    ->label(__('Default Company'))
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('allowedCompanies.name')
+                    ->label(__('Allowed Companies'))
+                    ->badge(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(__('security::app.filament.resources.user.table.columns.created-at'))
                     ->dateTime()
@@ -120,17 +141,28 @@ class UserResource extends Resource
                     ->searchable()
                     ->options(PermissionType::options())
                     ->preload(),
+                Tables\Filters\SelectFilter::make('default_company')
+                    ->relationship('defaultCompany', 'name')
+                    ->label(__('Default Company'))
+                    ->searchable()
+                    ->preload(),
+                Tables\Filters\SelectFilter::make('allowed_companies')
+                    ->relationship('allowedCompanies', 'name')
+                    ->label(__('Allowed Companies'))
+                    ->multiple()
+                    ->searchable()
+                    ->preload(),
                 Tables\Filters\SelectFilter::make('teams')
                     ->relationship('teams', 'name')
                     ->label(__('security::app.filament.resources.user.table.filters.teams'))
-                    ->options(fn (): array => Role::query()->pluck('name', 'id')->all())
+                    ->options(fn(): array => Role::query()->pluck('name', 'id')->all())
                     ->multiple()
                     ->searchable()
                     ->preload(),
                 Tables\Filters\SelectFilter::make('roles')
                     ->label(__('security::app.filament.resources.user.table.filters.roles'))
                     ->relationship('roles', 'name')
-                    ->options(fn (): array => Role::query()->pluck('name', 'id')->all())
+                    ->options(fn(): array => Role::query()->pluck('name', 'id')->all())
                     ->multiple()
                     ->searchable()
                     ->preload(),
@@ -139,9 +171,9 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make()
-                        ->hidden(fn ($record) => $record->trashed()),
+                        ->hidden(fn($record) => $record->trashed()),
                     Tables\Actions\EditAction::make()
-                        ->hidden(fn ($record) => $record->trashed()),
+                        ->hidden(fn($record) => $record->trashed()),
                     Tables\Actions\DeleteAction::make(),
                     Tables\Actions\RestoreAction::make(),
                 ]),
@@ -153,7 +185,10 @@ class UserResource extends Resource
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ])
-            ->defaultSort('created_at', 'desc');
+            ->defaultSort('created_at', 'desc')
+            ->modifyQueryUsing(function ($query) {
+                $query->with('roles', 'teams', 'defaultCompany', 'allowedCompanies');
+            });
     }
 
     public static function getRelations(): array
