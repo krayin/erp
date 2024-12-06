@@ -148,6 +148,7 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('teams.name')
                     ->label(__('security::app.filament.resources.user.table.columns.teams')),
                 Tables\Columns\TextColumn::make('roles.name')
+                    ->sortable()
                     ->label(__('security::app.filament.resources.user.table.columns.role')),
                 Tables\Columns\TextColumn::make('resource_permission')
                     ->label(__('security::app.filament.resources.user.table.columns.resource-permission'))

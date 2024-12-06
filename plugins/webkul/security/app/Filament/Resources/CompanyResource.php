@@ -187,21 +187,31 @@ class CompanyResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->label('Email')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('city')
                     ->label('City')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('country')
                     ->label('Country')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('currency_code')
                     ->label('Currency')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_active')
+                    ->sortable()
                     ->label('Status')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('update_at')
+                    ->label('Updated')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -245,6 +255,7 @@ class CompanyResource extends Resource
                         return Company::distinct('country')->pluck('country', 'country');
                     }),
             ])
+            ->filtersFormColumns(2)
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
