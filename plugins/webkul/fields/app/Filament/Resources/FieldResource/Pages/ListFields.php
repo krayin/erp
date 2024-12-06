@@ -28,8 +28,7 @@ class ListFields extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()
-                ->icon('heroicon-o-plus'),
+            Actions\CreateAction::make()->icon('heroicon-o-plus-circle'),
         ];
     }
 }
