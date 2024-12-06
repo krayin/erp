@@ -21,17 +21,4 @@ class ListCompanies extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
-
-    public function getTabs(): array
-    {
-        return [
-            'all' => Tab::make('All Companies')
-                ->badge(Company::count()),
-            'archived' => Tab::make('Archived')
-                ->badge(Company::onlyTrashed()->count())
-                ->modifyQueryUsing(function ($query) {
-                    return $query->onlyTrashed();
-                }),
-        ];
-    }
 }
