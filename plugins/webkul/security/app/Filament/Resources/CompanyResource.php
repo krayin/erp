@@ -99,7 +99,7 @@ class CompanyResource extends Resource
                                             ->required()
                                             ->live()
                                             ->preload()
-                                            ->options(fn() => Currency::pluck('name', 'code'))
+                                            ->options(fn () => Currency::pluck('name', 'code'))
                                             ->createOptionForm([
                                                 Forms\Components\TextInput::make('code')
                                                     ->label('Currency Code')
@@ -218,7 +218,7 @@ class CompanyResource extends Resource
                 Tables\Grouping\Group::make('phone')
                     ->label('Phone')
                     ->collapsible(),
-                Tables\Grouping\Group::make('currency')
+                Tables\Grouping\Group::make('currency_code')
                     ->label('Currency')
                     ->collapsible(),
                 Tables\Grouping\Group::make('created_at')
@@ -230,7 +230,7 @@ class CompanyResource extends Resource
                 Tables\Filters\SelectFilter::make('is_active')
                     ->label('Status')
                     ->options([
-                        true => 'Active',
+                        true  => 'Active',
                         false => 'Inactive',
                     ]),
                 Tables\Filters\SelectFilter::make('country')

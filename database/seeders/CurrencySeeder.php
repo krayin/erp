@@ -60,8 +60,8 @@ class CurrencySeeder extends Seeder
 
         $currencyData = collect($currencies)->map(function ($name, $code) {
             return [
-                'code' => $code,
-                'name' => $name,
+                'code'       => $code,
+                'name'       => $name,
                 'created_at' => now(),
                 'updated_at' => now(),
             ];

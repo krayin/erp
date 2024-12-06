@@ -3,13 +3,13 @@
 namespace Webkul\Security\Filament\Resources\CompanyResource\RelationManagers;
 
 use Filament\Forms;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Webkul\Security\Models\Currency;
-use Filament\Forms\Components\Actions\Action;
-use Filament\Notifications\Notification;
 
 class BranchesRelationManager extends RelationManager
 {
@@ -86,7 +86,7 @@ class BranchesRelationManager extends RelationManager
                                             ->required()
                                             ->live()
                                             ->preload()
-                                            ->options(fn() => Currency::pluck('name', 'code'))
+                                            ->options(fn () => Currency::pluck('name', 'code'))
                                             ->createOptionForm([
                                                 Forms\Components\TextInput::make('code')
                                                     ->label('Currency Code')
@@ -193,7 +193,7 @@ class BranchesRelationManager extends RelationManager
                 Tables\Grouping\Group::make('phone')
                     ->label('Phone')
                     ->collapsible(),
-                Tables\Grouping\Group::make('currency')
+                Tables\Grouping\Group::make('currency_code')
                     ->label('Currency')
                     ->collapsible(),
                 Tables\Grouping\Group::make('created_at')
