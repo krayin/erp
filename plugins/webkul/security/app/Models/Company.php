@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
+use Webkul\Fields\Traits\HasCustomFields;
 
 class Company extends Model
 {
-    use HasChatter, HasFactory, HasLogActivity, SoftDeletes;
+    use HasChatter, HasFactory, HasLogActivity, SoftDeletes, HasCustomFields;
 
     protected $fillable = [
         'name',
