@@ -13,22 +13,24 @@ return new class extends Migration
     {
         Schema::create('branches', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained()->onDelete('cascade');
-            $table->foreignId('parent_branch_id')->nullable()->constrained('branches')->onDelete('cascade');
-            $table->string('name');
-            $table->string('street1');
-            $table->string('street2')->nullable();
-            $table->string('city');
-            $table->string('state');
-            $table->string('zip');
-            $table->string('country');
-            $table->string('tax_id')->unique();
-            $table->string('branch_id')->unique();
-            $table->string('currency');
-            $table->string('phone');
+            $table->string('name')->nullable(false);
+            $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
+            $table->string('tax_id')->unique()->nullable();
+            $table->string('registration_number')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
             $table->string('mobile')->nullable();
-            $table->string('email')->unique();
+            $table->string('street1')->nullable();
+            $table->string('street2')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('zip')->nullable();
+            $table->string('country')->nullable();
             $table->string('logo')->nullable();
+            $table->string('color')->nullable();
+            $table->string('currency_code', 3)->nullable();
+            $table->boolean('is_active')->default(true);
+            $table->string('founded_date')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

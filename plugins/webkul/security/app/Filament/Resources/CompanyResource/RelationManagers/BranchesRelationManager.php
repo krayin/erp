@@ -7,6 +7,9 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Webkul\Security\Models\Currency;
+use Filament\Forms\Components\Actions\Action;
+use Filament\Notifications\Notification;
 
 class BranchesRelationManager extends RelationManager
 {
@@ -25,47 +28,102 @@ class BranchesRelationManager extends RelationManager
                                 Forms\Components\Section::make('Branch Information')
                                     ->schema([
                                         Forms\Components\TextInput::make('name')
-                                            ->label('Branch Name')
+                                            ->label('Company Name')
                                             ->required()
-                                            ->maxLength(255),
-                                        Forms\Components\TextInput::make('branch_id')
-                                            ->label('Branch ID')
-                                            ->required()
-                                            ->unique(),
+                                            ->maxLength(255)
+                                            ->live(onBlur: true),
+                                        Forms\Components\TextInput::make('registration_number')
+                                            ->label('Registration Number'),
                                         Forms\Components\TextInput::make('tax_id')
                                             ->label('Tax ID')
-                                            ->required()
-                                            ->unique(),
+                                            ->unique(ignoreRecord: true)
+                                            ->hintAction(
+                                                Action::make('help')
+                                                    ->icon('heroicon-o-question-mark-circle')
+                                                    ->extraAttributes(['class' => 'text-gray-500'])
+                                                    ->hiddenLabel()
+                                                    ->tooltip('The Tax ID is a unique identifier for your company.')
+                                            ),
                                         Forms\Components\ColorPicker::make('color')
-                                            ->label('Branch Color'),
-                                        Forms\Components\FileUpload::make('logo')
-                                            ->label('Branch Logo')
-                                            ->image()
-                                            ->columnSpanFull(),
+                                            ->label('Color'),
                                     ])
                                     ->columns(2),
-
-                                Forms\Components\Section::make('Address Information')
+                                Forms\Components\Section::make('Branding')
+                                    ->schema([
+                                        Forms\Components\FileUpload::make('logo')
+                                            ->label('Company Logo')
+                                            ->image()
+                                            ->directory('company-logos')
+                                            ->visibility('private'),
+                                    ]),
+                            ])
+                            ->columnSpanFull(),
+                        Forms\Components\Tabs\Tab::make('Address Information')
+                            ->schema([
+                                Forms\Components\Section::make('Contact Information')
                                     ->schema([
                                         Forms\Components\TextInput::make('street1')
-                                            ->label('Street Address 1')
+                                            ->label('Street 1')
                                             ->required(),
                                         Forms\Components\TextInput::make('street2')
-                                            ->label('Street Address 2'),
+                                            ->label('Street 2'),
                                         Forms\Components\TextInput::make('city')
-                                            ->label('City')
                                             ->required(),
                                         Forms\Components\TextInput::make('state')
-                                            ->label('State')
                                             ->required(),
                                         Forms\Components\TextInput::make('zip')
                                             ->label('ZIP Code')
                                             ->required(),
                                         Forms\Components\TextInput::make('country')
-                                            ->label('Country')
                                             ->required(),
                                     ])
                                     ->columns(2),
+                                Forms\Components\Section::make('Additional Information')
+                                    ->schema([
+                                        Forms\Components\Select::make('currency_code')
+                                            ->label('Default Currency')
+                                            ->searchable()
+                                            ->required()
+                                            ->live()
+                                            ->preload()
+                                            ->options(fn() => Currency::pluck('name', 'code'))
+                                            ->createOptionForm([
+                                                Forms\Components\TextInput::make('code')
+                                                    ->label('Currency Code')
+                                                    ->required()
+                                                    ->unique('currencies', 'code', ignoreRecord: true),
+                                                Forms\Components\TextInput::make('name')
+                                                    ->label('Currency Name')
+                                                    ->required()
+                                                    ->maxLength(255)
+                                                    ->unique('currencies', 'name', ignoreRecord: true),
+                                            ])
+                                            ->createOptionAction(function (Action $action) {
+                                                return $action
+                                                    ->modalHeading('Create Currency')
+                                                    ->modalSubmitActionLabel('Create Currency')
+                                                    ->modalWidth('lg')
+                                                    ->action(function (array $data, $component) {
+                                                        $currency = Currency::create([
+                                                            'code' => $data['code'],
+                                                            'name' => $data['name'],
+                                                        ]);
+
+                                                        $component->state($currency->code);
+
+                                                        Notification::make()
+                                                            ->title('Currency Created Successfully')
+                                                            ->success()
+                                                            ->send();
+                                                    });
+                                            }),
+                                        Forms\Components\DatePicker::make('founded_date')
+                                            ->native(false)
+                                            ->label('Company Founding Date'),
+                                        Forms\Components\Toggle::make('is_active')
+                                            ->label('Active Status')
+                                            ->default(true),
+                                    ]),
                             ])
                             ->columnSpanFull(),
                         Forms\Components\Tabs\Tab::make('Contact Information')
@@ -83,12 +141,6 @@ class BranchesRelationManager extends RelationManager
                                             ->email(),
                                     ])
                                     ->columns(2),
-                                Forms\Components\Section::make('Additional Information')
-                                    ->schema([
-                                        Forms\Components\TextInput::make('currency')
-                                            ->label('Default Currency')
-                                            ->required(),
-                                    ]),
                             ])
                             ->columnSpanFull(),
                     ]),
@@ -100,13 +152,30 @@ class BranchesRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('city')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('country')->sortable(),
-                Tables\Columns\TextColumn::make('email'),
-                Tables\Columns\TextColumn::make('phone'),
-                Tables\Columns\TextColumn::make('currency'),
-                Tables\Columns\TextColumn::make('created_at')->dateTime(),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Branch Name')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('email')
+                    ->label('Email')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('city')
+                    ->label('City')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('country')
+                    ->label('Country')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('currency_code')
+                    ->label('Currency')
+                    ->searchable(),
+                Tables\Columns\IconColumn::make('is_active')
+                    ->label('Status')
+                    ->boolean(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Created')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->groups([
                 Tables\Grouping\Group::make('name')

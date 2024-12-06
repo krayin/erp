@@ -6,6 +6,7 @@ use App\Models\User as BaseUser;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -27,5 +28,10 @@ class User extends BaseUser implements FilamentUser
     public function teams(): BelongsToMany
     {
         return $this->belongsToMany(Team::class, 'user_team', 'user_id', 'team_id');
+    }
+
+    public function companies(): HasMany
+    {
+        return $this->hasMany(Company::class);
     }
 }

@@ -16,23 +16,25 @@ class Company extends Model
 
     protected $fillable = [
         'name',
+        'company_id',
+        'user_id',
+        'tax_id',
+        'registration_number',
+        'email',
+        'phone',
+        'mobile',
         'street1',
         'street2',
         'city',
         'state',
         'zip',
         'country',
-        'tax_id',
-        'company_id',
-        'currency',
-        'phone',
-        'mobile',
-        'email',
-        'website',
-        'email_domain',
-        'color',
         'logo',
-        'user_id',
+        'color',
+        'currency_code',
+        'accounting_reference',
+        'is_active',
+        'founded_date',
     ];
 
     public function user(): BelongsTo
@@ -43,5 +45,9 @@ class Company extends Model
     public function branches(): HasMany
     {
         return $this->hasMany(Branch::class);
+    }
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
     }
 }

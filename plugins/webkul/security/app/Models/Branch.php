@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Branch extends Model
 {
-    use HasFactory;
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
@@ -21,14 +20,17 @@ class Branch extends Model
         'zip',
         'country',
         'tax_id',
-        'branch_id',
-        'currency',
+        'company_id',
+        'currency_code',
         'phone',
         'mobile',
         'email',
+        'founded_date',
+        'color',
         'logo',
-        'company_id',
-        'parent_branch_id',
+        'registration_number',
+        'accounting_reference',
+        'is_active',
     ];
 
     public function company(): BelongsTo
