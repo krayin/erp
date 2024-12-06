@@ -136,6 +136,7 @@ class CompanyResource extends Resource
                                         Forms\Components\Toggle::make('is_active')
                                             ->label('Active Status')
                                             ->default(true),
+                                        ...static::getCustomFormFields(),
                                     ])->columns(2),
                             ])
                             ->columnSpan(['lg' => 2]),
