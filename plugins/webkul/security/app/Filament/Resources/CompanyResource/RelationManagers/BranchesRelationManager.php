@@ -157,22 +157,32 @@ class BranchesRelationManager extends RelationManager
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->sortable()
                     ->label('Email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('city')
+                    ->sortable()
                     ->label('City')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('country')
+                    ->sortable()
                     ->label('Country')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('currency_code')
+                    ->sortable()
                     ->label('Currency')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_active')
+                    ->sortable()
                     ->label('Status')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Updated')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

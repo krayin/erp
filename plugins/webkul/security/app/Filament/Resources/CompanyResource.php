@@ -192,11 +192,13 @@ class CompanyResource extends Resource
                 Tables\Columns\TextColumn::make('city')
                     ->label('City')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('country')
                     ->label('Country')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('currency_code')
                     ->label('Currency')
                     ->sortable()
@@ -216,6 +218,7 @@ class CompanyResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->columnToggleFormColumns(2)
             ->groups([
                 Tables\Grouping\Group::make('name')
                     ->label('Name')
