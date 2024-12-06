@@ -26,6 +26,7 @@ class SecurityServiceProvider extends PackageServiceProvider
                 '2024_12_05_100809_create_branches_table',
                 '2024_12_06_061927_create_currencies_table',
                 '2024_12_06_111949_add_default_company_id_column_to_users_table',
+                '2024_12_06_111949_add_columns_to_users_table',
                 '2024_12_06_111930_create_user_allowed_companies_table',
             ])
             ->hasSettings([

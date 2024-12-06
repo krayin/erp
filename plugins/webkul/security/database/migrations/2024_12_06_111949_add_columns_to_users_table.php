@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('default_company_id')->nullable();
+            $table->string('language')->nullable()->after('password');
+            $table->boolean('is_active')->default(true)->after('language');
+            $table->unsignedBigInteger('default_company_id')->nullable()->after('email');
             $table->foreign('default_company_id')->references('id')->on('companies')->onDelete('set null');
         });
     }

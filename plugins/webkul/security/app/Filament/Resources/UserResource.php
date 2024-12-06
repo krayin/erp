@@ -39,64 +39,100 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Section::make(__('security::app.filament.resources.user.form.sections.general.title'))
+                Forms\Components\Group::make()
                     ->schema([
-                        Forms\Components\TextInput::make('name')
-                            ->label(__('security::app.filament.resources.user.form.sections.general.fields.name'))
-                            ->required()
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('email')
-                            ->label(__('security::app.filament.resources.user.form.sections.general.fields.email'))
-                            ->email()
-                            ->required()
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('password')
-                            ->label(__('security::app.filament.resources.user.form.sections.general.fields.password'))
-                            ->password()
-                            ->required()
-                            ->hiddenOn('edit')
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('password_confirmation')
-                            ->password()
-                            ->label(__('security::app.filament.resources.user.form.sections.general.fields.password-confirmation'))
-                            ->hiddenOn('edit')
-                            ->rule('required', fn($get) => (bool) $get('password'))
-                            ->same('password'),
+                        Forms\Components\Group::make()
+                            ->schema([
+                                Forms\Components\Section::make(__('security::app.filament.resources.user.form.sections.general.title'))
+                                    ->schema([
+                                        Forms\Components\TextInput::make('name')
+                                            ->label(__('security::app.filament.resources.user.form.sections.general.fields.name'))
+                                            ->required()
+                                            ->maxLength(255)
+                                            ->live(onBlur: true),
+                                        Forms\Components\TextInput::make('email')
+                                            ->label(__('security::app.filament.resources.user.form.sections.general.fields.email'))
+                                            ->email()
+                                            ->required()
+                                            ->unique(ignoreRecord: true)
+                                            ->maxLength(255),
+                                        Forms\Components\TextInput::make('password')
+                                            ->label(__('security::app.filament.resources.user.form.sections.general.fields.password'))
+                                            ->password()
+                                            ->required()
+                                            ->hiddenOn('edit')
+                                            ->maxLength(255)
+                                            ->rule('min:8'),
+                                        Forms\Components\TextInput::make('password_confirmation')
+                                            ->label(__('security::app.filament.resources.user.form.sections.general.fields.password-confirmation'))
+                                            ->password()
+                                            ->hiddenOn('edit')
+                                            ->rule('required', fn($get) => (bool) $get('password'))
+                                            ->same('password'),
+                                    ])
+                                    ->columns(2),
+
+                                Forms\Components\Section::make(__('security::app.filament.resources.user.form.sections.permissions.title'))
+                                    ->schema([
+                                        Forms\Components\Select::make('roles')
+                                            ->label(__('security::app.filament.resources.user.form.sections.permissions.fields.roles'))
+                                            ->relationship('roles', 'name')
+                                            ->multiple()
+                                            ->preload()
+                                            ->searchable(),
+                                        Forms\Components\Select::make('resource_permission')
+                                            ->label(__('security::app.filament.resources.user.form.sections.permissions.fields.resource-permission'))
+                                            ->options(PermissionType::options())
+                                            ->required()
+                                            ->preload()
+                                            ->searchable(),
+                                        Forms\Components\Select::make('teams')
+                                            ->label(__('security::app.filament.resources.user.form.sections.permissions.fields.teams'))
+                                            ->relationship('teams', 'name')
+                                            ->multiple()
+                                            ->preload()
+                                            ->searchable(),
+                                    ])
+                                    ->columns(2),
+                            ])
+                            ->columnSpan(['lg' => 2]),
+
+                        Forms\Components\Group::make()
+                            ->schema([
+                                Forms\Components\Section::make('Language & Status')
+                                    ->schema([
+                                        Forms\Components\Select::make('language')
+                                            ->label(__('Preferred Language'))
+                                            ->options([
+                                                'en' => __('English'),
+                                            ])
+                                            ->searchable(),
+                                        Forms\Components\Toggle::make('is_active')
+                                            ->label(__('Active Status'))
+                                            ->default(true),
+                                    ])
+                                    ->columns(1),
+
+                                Forms\Components\Section::make('Multi Company')
+                                    ->schema([
+                                        Forms\Components\Select::make('allowed_companies')
+                                            ->label(__('Allowed Companies'))
+                                            ->relationship('allowedCompanies', 'name')
+                                            ->multiple()
+                                            ->preload()
+                                            ->searchable(),
+                                        Forms\Components\Select::make('default_company_id')
+                                            ->label(__('Default Company'))
+                                            ->relationship('defaultCompany', 'name')
+                                            ->searchable()
+                                            ->preload(),
+                                    ])
+                            ])
+                            ->columnSpan(['lg' => 1]),
                     ])
-                    ->columns(2),
-                Section::make(__('security::app.filament.resources.user.form.sections.permissions.title'))->schema([
-                    Forms\Components\Select::make('roles')
-                        ->label(__('security::app.filament.resources.user.form.sections.permissions.fields.roles'))
-                        ->relationship('roles', 'name')
-                        ->multiple()
-                        ->preload(),
-                    Forms\Components\Select::make('resource_permission')
-                        ->options(PermissionType::options())
-                        ->label(__('security::app.filament.resources.user.form.sections.permissions.fields.resource-permission'))
-                        ->required()
-                        ->preload(),
-                    Forms\Components\Select::make('teams')
-                        ->relationship('teams', 'name')
-                        ->label(__('security::app.filament.resources.user.form.sections.permissions.fields.teams'))
-                        ->multiple()
-                        ->preload(),
-                ])
-                    ->columns(2),
-                Section::make(__('Multi Companies'))
-                    ->schema([
-                        Forms\Components\Select::make('allowed_companies')
-                            ->label(__('Allowed Companies'))
-                            ->relationship('allowedCompanies', 'name')
-                            ->multiple()
-                            ->preload(),
-                        Forms\Components\Select::make('default_company_id')
-                            ->label(__('Default Company'))
-                            ->options(fn() => Company::pluck('name', 'id'))
-                            ->searchable()
-                            ->preload(),
-                    ])
-                    ->columns(2),
-            ]);
+                    ->columns(3),
+            ])
+            ->columns('full');
     }
 
     public static function table(Table $table): Table
