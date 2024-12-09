@@ -33,6 +33,21 @@ class SkillTypeResource extends Resource
 
     protected static ?string $cluster = Employee::class;
 
+    // protected function afterCreate(): void
+    // {
+    //     dd('afterCreate');
+    //     $record = $this->getRecord();
+
+    //     $this->redirect(
+    //         SkillTypeResource::getUrl('edit', ['record' => $record])
+    //     );
+    // }
+
+    // protected function getRedirectUrl(): string
+    // {
+    //     return $this->getResource()::getUrl('index');
+    // }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -48,6 +63,7 @@ class SkillTypeResource extends Resource
                             ->placeholder('Enter skill type name'),
                         Forms\Components\Select::make('color')
                             ->label('Color')
+                            ->required()
                             ->options(function () {
                                 return collect([
                                     'danger'  => 'Danger',
