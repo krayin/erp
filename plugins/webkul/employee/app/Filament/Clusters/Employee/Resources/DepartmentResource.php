@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\Employee\Filament\Resources;
+namespace Webkul\Employee\Filament\Clusters\Employee\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -8,7 +8,8 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Webkul\Employee\Filament\Resources\DepartmentResource\Pages;
+use Webkul\Employee\Filament\Clusters\Employee;
+use Webkul\Employee\Filament\Clusters\Employee\Resources\DepartmentResource\Pages;
 use Webkul\Employee\Models\Department;
 use Webkul\Security\Models\Company;
 use Webkul\Security\Models\User;
@@ -17,22 +18,9 @@ class DepartmentResource extends Resource
 {
     protected static ?string $model = Department::class;
 
+    protected static ?string $cluster = Employee::class;
+
     protected static ?string $navigationIcon = 'heroicon-o-building-library';
-
-    public static function getModelLabel(): string
-    {
-        return 'Department';
-    }
-
-    public static function getNavigationLabel(): string
-    {
-        return 'Departments';
-    }
-
-    public static function getNavigationGroup(): ?string
-    {
-        return 'Employees';
-    }
 
     public static function form(Form $form): Form
     {

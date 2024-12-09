@@ -1,10 +1,10 @@
 <?php
 
-namespace Webkul\Employee\Filament\Resources\DepartmentResource\Pages;
+namespace Webkul\Employee\Filament\Clusters\Employee\Resources\DepartmentResource\Pages;
 
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
-use Webkul\Employee\Filament\Resources\DepartmentResource;
+use Webkul\Employee\Filament\Clusters\Employee\Resources\DepartmentResource;
 
 class ListDepartments extends ListRecords
 {

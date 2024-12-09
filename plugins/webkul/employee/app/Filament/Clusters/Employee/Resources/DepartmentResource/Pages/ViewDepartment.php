@@ -1,13 +1,13 @@
 <?php
 
-namespace Webkul\Employee\Filament\Resources\DepartmentResource\Pages;
+namespace Webkul\Employee\Filament\Clusters\Employee\Resources\DepartmentResource\Pages;
 
 use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
+use Filament\Resources\Pages\ViewRecord;
 use Webkul\Chatter\Filament\Actions as ChatterActions;
-use Webkul\Employee\Filament\Resources\DepartmentResource;
+use Webkul\Employee\Filament\Clusters\Employee\Resources\DepartmentResource;
 
-class EditDepartment extends EditRecord
+class ViewDepartment extends ViewRecord
 {
     protected static string $resource = DepartmentResource::class;
 
@@ -15,8 +15,7 @@ class EditDepartment extends EditRecord
     {
         return [
             ChatterActions\ChatterAction::make(),
-            Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
+            Actions\EditAction::make(),
         ];
     }
 }
