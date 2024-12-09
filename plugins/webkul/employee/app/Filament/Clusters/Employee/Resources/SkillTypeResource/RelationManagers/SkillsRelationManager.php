@@ -6,9 +6,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
-use Filament\Forms\Components\Actions\Action;
 use Filament\Tables\Table;
-use Webkul\Employee\Models\Skill;
 
 class SkillsRelationManager extends RelationManager
 {
@@ -53,7 +51,7 @@ class SkillsRelationManager extends RelationManager
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                    ->modal('form')
+                    ->modal('form'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

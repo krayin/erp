@@ -6,9 +6,8 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
-use Filament\Forms\Components\Actions\Action;
 use Filament\Tables\Table;
-use Webkul\Employee\Models\Skill;
+use Webkul\Employee\Filament\Tables as CustomTables;
 
 class SkillLevelRelationManager extends RelationManager
 {
@@ -26,6 +25,7 @@ class SkillLevelRelationManager extends RelationManager
                 Forms\Components\TextInput::make('level')
                     ->label('Level')
                     ->numeric()
+                    ->rules(['numeric', 'min:0', 'max:100'])
                     ->required(),
                 Forms\Components\Toggle::make('default_level')
                     ->label('Default Level')
@@ -41,10 +41,8 @@ class SkillLevelRelationManager extends RelationManager
                     ->label('Name')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('level')
-                    ->label('Level')
-                    ->searchable()
-                    ->sortable(),
+                CustomTables\Columns\ProgressBarEntry::make('level')
+                    ->getStateUsing(fn ($record) => $record->level),
                 Tables\Columns\IconColumn::make('default_level')
                     ->sortable()
                     ->label('Default Level')
@@ -69,6 +67,13 @@ class SkillLevelRelationManager extends RelationManager
             ->headerActions([
                 Tables\Actions\CreateAction::make()
                     ->modal('form')
+                    ->mutateFormDataUsing(function ($data) {
+                        if ($data['default_level'] ?? false) {
+                            $this->getRelationship()->update(['default_level' => false]);
+                        }
+
+                        return $data;
+                    }),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
@@ -76,7 +81,14 @@ class SkillLevelRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\EditAction::make()
+                        ->mutateFormDataUsing(function ($data, $record) {
+                            if ($data['default_level'] ?? false) {
+                                $this->getRelationship()->where('id', '!=', $record->id)->update(['default_level' => false]);
+                            }
+
+                            return $data;
+                        }),
                     Tables\Actions\DeleteAction::make(),
                     Tables\Actions\RestoreAction::make(),
                 ]),

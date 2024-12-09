@@ -10,16 +10,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Grid;
-use Filament\Support\Enums\MaxWidth;
-use Webkul\Employee\Models\Skill;
 use Webkul\Employee\Models\SkillType;
-use Filament\Forms\Components\Actions\Action;
-use Filament\Notifications\Notification;
-use Filament\Resources\RelationManagers\RelationManager;
-use Webkul\Employee\Models\SkillLevel;
 
 class SkillTypeResource extends Resource
 {
@@ -32,21 +23,6 @@ class SkillTypeResource extends Resource
     protected static ?int $navigationSort = 1;
 
     protected static ?string $cluster = Employee::class;
-
-    // protected function afterCreate(): void
-    // {
-    //     dd('afterCreate');
-    //     $record = $this->getRecord();
-
-    //     $this->redirect(
-    //         SkillTypeResource::getUrl('edit', ['record' => $record])
-    //     );
-    // }
-
-    // protected function getRedirectUrl(): string
-    // {
-    //     return $this->getResource()::getUrl('index');
-    // }
 
     public static function form(Form $form): Form
     {
@@ -108,6 +84,11 @@ class SkillTypeResource extends Resource
                     ->badge()
                     ->color(fn(SkillType $skillType) => $skillType->color)
                     ->searchable(),
+                Tables\Columns\TextColumn::make('skillLevels.name')
+                    ->label('Levels')
+                    ->badge()
+                    ->color('gray')
+                    ->searchable(),
                 Tables\Columns\IconColumn::make('status')
                     ->sortable()
                     ->label('Status')
@@ -129,9 +110,11 @@ class SkillTypeResource extends Resource
                     ->label('Active Status'),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
