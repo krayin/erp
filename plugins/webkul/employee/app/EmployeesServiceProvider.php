@@ -19,6 +19,9 @@ class EmployeesServiceProvider extends PackageServiceProvider
             ->hasMigrations([
                 '2024_12_09_051916_create_departments_table',
                 '2024_12_09_073130_create_employment_types_table',
+                '2024_12_09_075004_create_skill_types_table',
+                '2024_12_09_075011_create_skill_levels_table',
+                '2024_12_09_075017_create_skills_table',
             ])
             ->runsMigrations();
     }
