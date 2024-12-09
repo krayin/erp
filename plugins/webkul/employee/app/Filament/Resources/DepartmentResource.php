@@ -4,6 +4,7 @@ namespace Webkul\Employee\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -81,30 +82,61 @@ class DepartmentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->label('Name'),
-                Tables\Columns\TextColumn::make('company.name')->label('Company'),
-                Tables\Columns\TextColumn::make('manager.name')->label('Manager'),
-                Tables\Columns\ColorColumn::make('color')->label('Color'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\Layout\Stack::make([
+                    Tables\Columns\ImageColumn::make('manager.image')
+                        ->defaultImageUrl(fn($record): string => 'https://ui-avatars.com/api/?name=' . $record->name)
+                        ->label('Manager Photo')
+                        ->height('100%')
+                        ->width('100%'),
+                    Tables\Columns\Layout\Stack::make([
+                        Tables\Columns\TextColumn::make('name')
+                            ->label('Department Name')
+                            ->weight('bold'),
+                        Tables\Columns\TextColumn::make('manager.name')
+                            ->label('Manager')
+                            ->color('gray'),
+                        Tables\Columns\TextColumn::make('company.name')
+                            ->label('Company')
+                            ->color('blue')
+                            ->limit(30),
+                    ]),
+                ])->space(3),
+                Tables\Columns\Layout\Panel::make([
+                    Tables\Columns\Layout\Split::make([
+                        Tables\Columns\ColorColumn::make('color')
+                            ->label('Color')
+                            ->grow(false),
+
+                        Tables\Columns\TextColumn::make('description')
+                            ->label('Description')
+                            ->color('gray'),
+                    ]),
+                ])->collapsible(),
             ])
-            ->filters([
-                //
+            ->filters([])
+            ->contentGrid([
+                'md' => 2,
+                'xl' => 3,
+            ])
+            ->paginated([
+                18,
+                36,
+                72,
+                'all',
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->action(function () {
+                            Notification::make()
+                                ->title('Delete action executed.')
+                                ->warning()
+                                ->send();
+                        }),
                 ]),
             ]);
     }
