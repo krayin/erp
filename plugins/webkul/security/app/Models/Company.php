@@ -13,7 +13,7 @@ use Webkul\Fields\Traits\HasCustomFields;
 
 class Company extends Model
 {
-    use HasChatter, HasFactory, HasLogActivity, SoftDeletes, HasCustomFields;
+    use HasChatter, HasCustomFields, HasFactory, HasLogActivity, SoftDeletes;
 
     protected $fillable = [
         'name',
