@@ -12,7 +12,7 @@ use Webkul\Employee\Models\Skill;
 
 class SkillLevelRelationManager extends RelationManager
 {
-    protected static string $relationship = 'skills';
+    protected static string $relationship = 'skillLevels';
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -23,7 +23,14 @@ class SkillLevelRelationManager extends RelationManager
                 Forms\Components\TextInput::make('name')
                     ->label('Name')
                     ->required(),
-            ])->columns('full');
+                Forms\Components\TextInput::make('level')
+                    ->label('Level')
+                    ->numeric()
+                    ->required(),
+                Forms\Components\Toggle::make('default_level')
+                    ->label('Default Level')
+                    ->required(),
+            ])->columns(2);
     }
 
     public function table(Table $table): Table
@@ -34,6 +41,14 @@ class SkillLevelRelationManager extends RelationManager
                     ->label('Name')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('level')
+                    ->label('Level')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\IconColumn::make('default_level')
+                    ->sortable()
+                    ->label('Default Level')
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created')
                     ->dateTime()

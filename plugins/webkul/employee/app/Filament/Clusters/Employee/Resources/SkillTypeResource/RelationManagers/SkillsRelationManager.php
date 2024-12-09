@@ -12,7 +12,7 @@ use Webkul\Employee\Models\Skill;
 
 class SkillsRelationManager extends RelationManager
 {
-    protected static string $relationship = 'skillLevels';
+    protected static string $relationship = 'skills';
 
     protected static ?string $recordTitleAttribute = 'name';
 
