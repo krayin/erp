@@ -8,4 +8,5 @@ return [
     Webkul\Fields\FieldsServiceProvider::class,
     Webkul\TableViews\TableViewsServiceProvider::class,
     Webkul\Security\SecurityServiceProvider::class,
+    Webkul\Employee\EmployeesServiceProvider::class,
 ];

@@ -42,7 +42,7 @@ trait HasLogActivity
                 'type'          => 'log',
                 'activity_type' => $event,
                 'user_id'       => Auth::id(),
-                'content'       => null,
+                'content'       => $this->generateActivityDescription($event),
                 'changes'       => $this->determineChanges($event),
             ]);
         } catch (\Exception $e) {
@@ -70,23 +70,23 @@ trait HasLogActivity
         $modelName = Str::headline(class_basename(static::class));
 
         return match ($event) {
-            'created'      => __('chatter::app.trait.has-log-activity.errors.activity-log-failed.created', [
-                'modal' => $modelName,
+            'created'      => __('chatter::app.trait.activity-log-failed.events.created', [
+                'model' => $modelName,
             ]),
-            'updated'      => __('chatter::app.trait.has-log-activity.errors.activity-log-failed.updated', [
-                'modal' => $modelName,
+            'updated'      => __('chatter::app.trait.activity-log-failed.events.updated', [
+                'model' => $modelName,
             ]),
-            'deleted'      => __('chatter::app.trait.has-log-activity.errors.activity-log-failed.deleted', [
-                'modal' => $modelName,
+            'deleted'      => __('chatter::app.trait.activity-log-failed.events.deleted', [
+                'model' => $modelName,
             ]),
-            'soft_deleted' => __('chatter::app.trait.has-log-activity.errors.activity-log-failed.soft-deleted', [
-                'modal' => $modelName,
+            'soft_deleted' => __('chatter::app.trait.activity-log-failed.events.soft-deleted', [
+                'model' => $modelName,
             ]),
-            'hard_deleted' => __('chatter::app.trait.has-log-activity.errors.activity-log-failed.hard-deleted', [
-                'modal' => $modelName,
+            'hard_deleted' => __('chatter::app.trait.activity-log-failed.events.hard-deleted', [
+                'model' => $modelName,
             ]),
-            'restored'     => __('chatter::app.trait.has-log-activity.errors.activity-log-failed.restored', [
-                'modal' => $modelName,
+            'restored'     => __('chatter::app.trait.activity-log-failed.events.restored', [
+                'model' => $modelName,
             ]),
             default        => $event
         };
