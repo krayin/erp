@@ -37,7 +37,6 @@ class DepartmentResource extends Resource
                                             ->required()
                                             ->maxLength(255)
                                             ->live(onBlur: true),
-
                                         Forms\Components\Select::make('manager_id')
                                             ->label('Manager')
                                             ->relationship('manager', 'name')
@@ -52,7 +51,7 @@ class DepartmentResource extends Resource
                                         Forms\Components\Select::make('company_id')
                                             ->label('Company')
                                             ->relationship('company', 'name')
-                                            ->options(fn() => Company::pluck('name', 'id'))
+                                            ->options(fn () => Company::pluck('name', 'id'))
                                             ->searchable()
                                             ->placeholder('Select a Company')
                                             ->nullable(),
@@ -72,7 +71,7 @@ class DepartmentResource extends Resource
             ->columns([
                 Tables\Columns\Layout\Stack::make([
                     Tables\Columns\ImageColumn::make('manager.image')
-                        ->defaultImageUrl(fn($record): string => 'https://ui-avatars.com/api/?name=' . $record->name)
+                        ->defaultImageUrl(fn ($record): string => 'https://ui-avatars.com/api/?name='.$record->name)
                         ->label('Manager Photo')
                         ->height('100%')
                         ->width('100%'),
@@ -103,8 +102,8 @@ class DepartmentResource extends Resource
             ])
             ->filters([])
             ->contentGrid([
-                'md' => 2,
-                'xl' => 3,
+                'xl'  => 2,
+                '2xl' => 2,
             ])
             ->paginated([
                 18,
@@ -115,6 +114,7 @@ class DepartmentResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
