@@ -2,14 +2,14 @@
 
 namespace Webkul\Employee\Filament\Clusters\Employee\Resources;
 
-use Webkul\Employee\Filament\Clusters\Employee;
-use Webkul\Employee\Filament\Clusters\Employee\Resources\SkillTypeResource\Pages;
-use Webkul\Employee\Filament\Clusters\Employee\Resources\SkillTypeResource\RelationManagers;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Webkul\Employee\Filament\Clusters\Employee;
+use Webkul\Employee\Filament\Clusters\Employee\Resources\SkillTypeResource\Pages;
+use Webkul\Employee\Filament\Clusters\Employee\Resources\SkillTypeResource\RelationManagers;
 use Webkul\Employee\Models\SkillType;
 
 class SkillTypeResource extends Resource
@@ -18,7 +18,7 @@ class SkillTypeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
 
-    protected static ?string $navigationGroup = 'Management';
+    protected static ?string $navigationGroup = 'Configuration';
 
     protected static ?int $navigationSort = 1;
 
@@ -49,7 +49,7 @@ class SkillTypeResource extends Resource
                                     'warning' => 'Warning',
                                 ])->mapWithKeys(function ($value, $key) {
                                     return [
-                                        $key => '<div class="flex items-center gap-4"><span class="flex h-5 w-5 rounded-full" style="background: rgb(var(--' . $key . '-500))"></span> ' . $value . '</span>',
+                                        $key => '<div class="flex items-center gap-4"><span class="flex h-5 w-5 rounded-full" style="background: rgb(var(--'.$key.'-500))"></span> '.$value.'</span>',
                                     ];
                                 });
                             })
@@ -58,31 +58,29 @@ class SkillTypeResource extends Resource
                         Forms\Components\Toggle::make('status')
                             ->label('Active Status')
                             ->default(true),
-                    ])->columns(2)
+                    ])->columns(2),
             ])
             ->columns('full');
     }
-
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Skill Type Name')
+                    ->label('Skill Type')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('color')
                     ->label('Color')
-                    ->formatStateUsing(function (SkillType $skillType) {
-                        return '<span class="flex h-5 w-5 rounded-full" style="background: rgb(var(--' . $skillType->color . '-500))"></span>';
-                    })
+                    ->toggleable(isToggledHiddenByDefault: false)
+                    ->formatStateUsing(fn (SkillType $skillType) => '<span class="flex h-5 w-5 border-2 border-gray-600" style="background: rgb(var(--'.$skillType->color.'-500))"></span>')
                     ->html()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('skills.name')
                     ->label('Skills')
                     ->badge()
-                    ->color(fn(SkillType $skillType) => $skillType->color)
+                    ->color(fn (SkillType $skillType) => $skillType->color)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('skillLevels.name')
                     ->label('Levels')
@@ -114,7 +112,7 @@ class SkillTypeResource extends Resource
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
-                ])
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -126,7 +124,6 @@ class SkillTypeResource extends Resource
             ]);
     }
 
-
     public static function getRelations(): array
     {
         return [
@@ -135,13 +132,12 @@ class SkillTypeResource extends Resource
         ];
     }
 
-
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListSkillTypes::route('/'),
-            'view' => Pages\ViewSkillType::route('/{record}'),
-            'edit' => Pages\EditSkillType::route('/{record}/edit'),
+            'view'  => Pages\ViewSkillType::route('/{record}'),
+            'edit'  => Pages\EditSkillType::route('/{record}/edit'),
         ];
     }
 }

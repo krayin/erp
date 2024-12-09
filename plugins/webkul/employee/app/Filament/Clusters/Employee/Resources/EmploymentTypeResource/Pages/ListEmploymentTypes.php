@@ -13,7 +13,10 @@ class ListEmploymentTypes extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->icon('heroicon-o-plus-circle'),
+            Actions\CreateAction::make()->icon('heroicon-o-plus-circle')
+                ->mutateFormDataUsing(function ($data) {
+                    dd($data);
+                }),
         ];
     }
 }

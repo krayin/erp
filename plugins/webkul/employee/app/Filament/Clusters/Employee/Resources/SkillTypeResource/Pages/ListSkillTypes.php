@@ -15,7 +15,7 @@ class ListSkillTypes extends ListRecords
         return [
             Actions\CreateAction::make()
                 ->createAnother(false)
-                ->after(function ($record, $livewire) {
+                ->after(function ($record) {
                     return redirect(
                         SkillTypeResource::getUrl('edit', ['record' => $record])
                     );

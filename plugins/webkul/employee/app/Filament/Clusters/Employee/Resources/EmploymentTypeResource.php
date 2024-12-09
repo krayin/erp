@@ -17,7 +17,7 @@ class EmploymentTypeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-cube-transparent';
 
-    protected static ?string $navigationGroup = 'Management';
+    protected static ?string $navigationGroup = 'Configuration';
 
     public static function getModelLabel(): string
     {

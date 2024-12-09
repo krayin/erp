@@ -22,6 +22,7 @@ class EmployeesServiceProvider extends PackageServiceProvider
                 '2024_12_09_075004_create_skill_types_table',
                 '2024_12_09_075011_create_skill_levels_table',
                 '2024_12_09_075017_create_skills_table',
+                '2024_12_09_120605_create_departure_reasons_table',
             ])
             ->runsMigrations();
     }
