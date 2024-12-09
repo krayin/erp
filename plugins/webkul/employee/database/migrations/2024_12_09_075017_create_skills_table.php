@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('skill_type_id')->constrained('skill_types')->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -27,3 +28,5 @@ return new class extends Migration
         Schema::dropIfExists('skills');
     }
 };
+
+

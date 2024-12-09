@@ -18,6 +18,7 @@ use Webkul\Employee\Models\Skill;
 use Webkul\Employee\Models\SkillType;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Notifications\Notification;
+use Filament\Resources\RelationManagers\RelationManager;
 use Webkul\Employee\Models\SkillLevel;
 
 class SkillTypeResource extends Resource
@@ -32,123 +33,40 @@ class SkillTypeResource extends Resource
 
     protected static ?string $cluster = Employee::class;
 
-    // public static function form(Form $form): Form
-    // {
-    //     return $form
-    //         ->schema([
-    //             Section::make('Skill Type Details')
-    //                 ->description('Create and manage skill type.')
-    //                 ->schema([
-    //                     Grid::make(2)
-    //                         ->schema([
-    // Forms\Components\TextInput::make('name')
-    //     ->label('Skill Type')
-    //     ->required()
-    //     ->unique(ignoreRecord: true)
-    //     ->maxLength(255)
-    //     ->placeholder('Enter skill type name'),
-
-    //                         ]),
-    //                 ])
-    //                 ->columns(1)
-    //         ]);
-    // }
-
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Group::make()
+                Forms\Components\Section::make('Skill Type Details')
+                    ->description('Create and manage skill type.')
                     ->schema([
-                        Forms\Components\Group::make()
-                            ->schema([
-                                Forms\Components\Section::make('Skill Type Details')
-                                    ->description('Create and manage skill type.')
-                                    ->schema([
-                                        Forms\Components\TextInput::make('name')
-                                            ->label('Skill Type')
-                                            ->required()
-                                            ->unique(ignoreRecord: true)
-                                            ->maxLength(255)
-                                            ->placeholder('Enter skill type name'),
-                                        Forms\Components\ColorPicker::make('color')
-                                            ->label('color')
-                                            ->required(),
-                                    ])
-                                    ->columns(2),
-                            ])
-                            ->columnSpan(['lg' => 2]),
-                        Forms\Components\Group::make()
-                            ->schema([
-                                Forms\Components\Section::make('Skills and Levels')
-                                    ->schema([
-                                        Forms\Components\Select::make('skills')
-                                            ->label('Skills')
-                                            ->searchable()
-                                            ->required()
-                                            ->live()
-                                            ->preload()
-                                            ->options(fn() => Skill::pluck('name', 'id'))
-                                            ->createOptionForm([
-                                                Forms\Components\TextInput::make('name')
-                                                    ->label('Name')
-                                                    ->required(),
-                                            ])
-                                            ->createOptionAction(function (Action $action) {
-                                                return $action
-                                                    ->modalHeading('Create Skill')
-                                                    ->modalSubmitActionLabel('Create Skill')
-                                                    ->modalWidth('lg')
-                                                    ->action(function (array $data, $component) {
-                                                        $skill = Skill::create([
-                                                            'code' => $data['code'],
-                                                            'name' => $data['name'],
-                                                        ]);
-
-                                                        $component->state($skill->code);
-
-                                                        Notification::make()
-                                                            ->title('Currency Created Successfully')
-                                                            ->success()
-                                                            ->send();
-                                                    });
-                                            }),
-                                        Forms\Components\Select::make('levels')
-                                            ->label('Levels')
-                                            ->searchable()
-                                            ->required()
-                                            ->live()
-                                            ->preload()
-                                            ->options(fn() => SkillLevel::pluck('name', 'id'))
-                                            ->createOptionForm([
-                                                Forms\Components\TextInput::make('name')
-                                                    ->label('Name')
-                                                    ->required(),
-                                            ])
-                                            ->createOptionAction(function (Action $action) {
-                                                return $action
-                                                    ->modalHeading('Create Level')
-                                                    ->modalSubmitActionLabel('Create Level')
-                                                    ->modalWidth('lg')
-                                                    ->action(function (array $data, $component) {
-                                                        $level = SkillLevel::create([
-                                                            'code' => $data['code'],
-                                                            'name' => $data['name'],
-                                                        ]);
-
-                                                        $component->state($level->code);
-
-                                                        Notification::make()
-                                                            ->title('Currency Created Successfully')
-                                                            ->success()
-                                                            ->send();
-                                                    });
-                                            }),
-                                    ]),
-                            ])
-                            ->columnSpan(['lg' => 1]),
-                    ])
-                    ->columns(3),
+                        Forms\Components\TextInput::make('name')
+                            ->label('Skill Type')
+                            ->required()
+                            ->unique(ignoreRecord: true)
+                            ->maxLength(255)
+                            ->placeholder('Enter skill type name'),
+                        Forms\Components\Select::make('color')
+                            ->label('Color')
+                            ->options(function () {
+                                return collect([
+                                    'danger'  => 'Danger',
+                                    'gray'    => 'Gray',
+                                    'info'    => 'Info',
+                                    'success' => 'Success',
+                                    'warning' => 'Warning',
+                                ])->mapWithKeys(function ($value, $key) {
+                                    return [
+                                        $key => '<div class="flex items-center gap-4"><span class="flex h-5 w-5 rounded-full" style="background: rgb(var(--' . $key . '-500))"></span> ' . $value . '</span>',
+                                    ];
+                                });
+                            })
+                            ->native(false)
+                            ->allowHtml(),
+                        Forms\Components\Toggle::make('status')
+                            ->label('Active Status')
+                            ->default(true),
+                    ])->columns(2)
             ])
             ->columns('full');
     }
@@ -162,40 +80,35 @@ class SkillTypeResource extends Resource
                     ->label('Skill Type Name')
                     ->searchable()
                     ->sortable(),
-
-                Tables\Columns\TextColumn::make('category')
-                    ->label('Category')
-                    ->badge()
-                    ->color(fn(string $state): string => match ($state) {
-                        'technical' => 'primary',
-                        'soft_skills' => 'success',
-                        'language' => 'warning',
-                        'professional' => 'info',
-                        default => 'gray',
+                Tables\Columns\TextColumn::make('color')
+                    ->label('Color')
+                    ->formatStateUsing(function (SkillType $skillType) {
+                        return '<span class="flex h-5 w-5 rounded-full" style="background: rgb(var(--' . $skillType->color . '-500))"></span>';
                     })
-                    ->searchable(),
-
-                Tables\Columns\IconColumn::make('is_active')
-                    ->label('Status')
-                    ->boolean()
+                    ->html()
                     ->sortable(),
-
+                Tables\Columns\TextColumn::make('skills.name')
+                    ->label('Skills')
+                    ->badge()
+                    ->color(fn(SkillType $skillType) => $skillType->color)
+                    ->searchable(),
+                Tables\Columns\IconColumn::make('status')
+                    ->sortable()
+                    ->label('Status')
+                    ->sortable()
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created')
                     ->date()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Updated')
+                    ->date()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('category')
-                    ->options([
-                        'technical' => 'Technical',
-                        'soft_skills' => 'Soft Skills',
-                        'language' => 'Language',
-                        'professional' => 'Professional',
-                        'other' => 'Other'
-                    ]),
-
                 Tables\Filters\TernaryFilter::make('is_active')
                     ->label('Active Status'),
             ])
@@ -215,11 +128,19 @@ class SkillTypeResource extends Resource
     }
 
 
+    public static function getRelations(): array
+    {
+        return [
+            RelationManagers\SkillsRelationManager::class,
+            RelationManagers\SkillLevelRelationManager::class,
+        ];
+    }
+
+
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListSkillTypes::route('/'),
-            'create' => Pages\CreateSkillType::route('/create'),
             'view' => Pages\ViewSkillType::route('/{record}'),
             'edit' => Pages\EditSkillType::route('/{record}/edit'),
         ];

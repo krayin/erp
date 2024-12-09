@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('skill_type_id')->constrained('skill_types')->onDelete('cascade');
             $table->integer('level')->default(0);
+            $table->boolean('default_level')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

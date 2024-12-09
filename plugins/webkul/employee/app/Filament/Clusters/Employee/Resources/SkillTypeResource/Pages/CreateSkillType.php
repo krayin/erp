@@ -4,6 +4,7 @@ namespace Webkul\Employee\Filament\Clusters\Employee\Resources\SkillTypeResource
 
 use Webkul\Employee\Filament\Clusters\Employee\Resources\SkillTypeResource;
 use Filament\Actions;
+use Filament\Forms\Form;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateSkillType extends CreateRecord

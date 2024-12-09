@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('skill_types', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->text('description')->nullable();
+            $table->string('color')->nullable(false);
+            $table->boolean('status')->default(true);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
