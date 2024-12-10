@@ -249,10 +249,6 @@ class BranchesRelationManager extends RelationManager
                     ->label('Company Name')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('branches.name')
-                    ->label('Branches')
-                    ->badge()
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->label('Email')
                     ->sortable()
@@ -262,12 +258,12 @@ class BranchesRelationManager extends RelationManager
                     ->sortable()
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('country')
+                Tables\Columns\TextColumn::make('country.name')
                     ->label('Country')
                     ->sortable()
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('currency_code')
+                Tables\Columns\TextColumn::make('currency.full_name')
                     ->label('Currency')
                     ->sortable()
                     ->searchable(),
