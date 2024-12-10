@@ -14,6 +14,7 @@ class ListSkillTypes extends ListRecords
     {
         return [
             Actions\CreateAction::make()
+                ->icon('heroicon-o-plus-circle')
                 ->createAnother(false)
                 ->after(function ($record) {
                     return redirect(

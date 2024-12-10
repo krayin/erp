@@ -25,17 +25,9 @@ class DepartureReasonResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('General Information')
-                    ->schema([
-                        Forms\Components\TextInput::make('sequence')
-                            ->label('Sequence')
-                            ->numeric()
-                            ->default(1)
-                            ->hidden(),
-                        Forms\Components\TextInput::make('name')
-                            ->label('Name')
-                            ->required(),
-                    ]),
+                Forms\Components\TextInput::make('name')
+                    ->label('Name')
+                    ->required(),
             ]);
     }
 
