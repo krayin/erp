@@ -1,0 +1,8827 @@
+[
+    {
+        "country_id": "13",
+        "name": "Australian Capital Territory",
+        "code": "ACT"
+    },
+    {
+        "country_id": "13",
+        "name": "New South Wales",
+        "code": "NSW"
+    },
+    {
+        "country_id": "13",
+        "name": "Northern Territory",
+        "code": "NT"
+    },
+    {
+        "country_id": "13",
+        "name": "Queensland",
+        "code": "QLD"
+    },
+    {
+        "country_id": "13",
+        "name": "South Australia",
+        "code": "SA"
+    },
+    {
+        "country_id": "13",
+        "name": "Tasmania",
+        "code": "TAS"
+    },
+    {
+        "country_id": "13",
+        "name": "Victoria",
+        "code": "VIC"
+    },
+    {
+        "country_id": "13",
+        "name": "Western Australia",
+        "code": "WA"
+    },
+    {
+        "country_id": "233",
+        "name": "Alabama",
+        "code": "AL"
+    },
+    {
+        "country_id": "233",
+        "name": "Alaska",
+        "code": "AK"
+    },
+    {
+        "country_id": "233",
+        "name": "Arizona",
+        "code": "AZ"
+    },
+    {
+        "country_id": "233",
+        "name": "Arkansas",
+        "code": "AR"
+    },
+    {
+        "country_id": "233",
+        "name": "California",
+        "code": "CA"
+    },
+    {
+        "country_id": "233",
+        "name": "Colorado",
+        "code": "CO"
+    },
+    {
+        "country_id": "233",
+        "name": "Connecticut",
+        "code": "CT"
+    },
+    {
+        "country_id": "233",
+        "name": "Delaware",
+        "code": "DE"
+    },
+    {
+        "country_id": "233",
+        "name": "District of Columbia",
+        "code": "DC"
+    },
+    {
+        "country_id": "233",
+        "name": "Florida",
+        "code": "FL"
+    },
+    {
+        "country_id": "233",
+        "name": "Georgia",
+        "code": "GA"
+    },
+    {
+        "country_id": "233",
+        "name": "Hawaii",
+        "code": "HI"
+    },
+    {
+        "country_id": "233",
+        "name": "Idaho",
+        "code": "ID"
+    },
+    {
+        "country_id": "233",
+        "name": "Illinois",
+        "code": "IL"
+    },
+    {
+        "country_id": "233",
+        "name": "Indiana",
+        "code": "IN"
+    },
+    {
+        "country_id": "233",
+        "name": "Iowa",
+        "code": "IA"
+    },
+    {
+        "country_id": "233",
+        "name": "Kansas",
+        "code": "KS"
+    },
+    {
+        "country_id": "233",
+        "name": "Kentucky",
+        "code": "KY"
+    },
+    {
+        "country_id": "233",
+        "name": "Louisiana",
+        "code": "LA"
+    },
+    {
+        "country_id": "233",
+        "name": "Maine",
+        "code": "ME"
+    },
+    {
+        "country_id": "233",
+        "name": "Montana",
+        "code": "MT"
+    },
+    {
+        "country_id": "233",
+        "name": "Nebraska",
+        "code": "NE"
+    },
+    {
+        "country_id": "233",
+        "name": "Nevada",
+        "code": "NV"
+    },
+    {
+        "country_id": "233",
+        "name": "New Hampshire",
+        "code": "NH"
+    },
+    {
+        "country_id": "233",
+        "name": "New Jersey",
+        "code": "NJ"
+    },
+    {
+        "country_id": "233",
+        "name": "New Mexico",
+        "code": "NM"
+    },
+    {
+        "country_id": "233",
+        "name": "New York",
+        "code": "NY"
+    },
+    {
+        "country_id": "233",
+        "name": "North Carolina",
+        "code": "NC"
+    },
+    {
+        "country_id": "233",
+        "name": "North Dakota",
+        "code": "ND"
+    },
+    {
+        "country_id": "233",
+        "name": "Ohio",
+        "code": "OH"
+    },
+    {
+        "country_id": "233",
+        "name": "Oklahoma",
+        "code": "OK"
+    },
+    {
+        "country_id": "233",
+        "name": "Oregon",
+        "code": "OR"
+    },
+    {
+        "country_id": "233",
+        "name": "Maryland",
+        "code": "MD"
+    },
+    {
+        "country_id": "233",
+        "name": "Massachusetts",
+        "code": "MA"
+    },
+    {
+        "country_id": "233",
+        "name": "Michigan",
+        "code": "MI"
+    },
+    {
+        "country_id": "233",
+        "name": "Minnesota",
+        "code": "MN"
+    },
+    {
+        "country_id": "233",
+        "name": "Mississippi",
+        "code": "MS"
+    },
+    {
+        "country_id": "233",
+        "name": "Missouri",
+        "code": "MO"
+    },
+    {
+        "country_id": "233",
+        "name": "Pennsylvania",
+        "code": "PA"
+    },
+    {
+        "country_id": "233",
+        "name": "Rhode Island",
+        "code": "RI"
+    },
+    {
+        "country_id": "233",
+        "name": "South Carolina",
+        "code": "SC"
+    },
+    {
+        "country_id": "233",
+        "name": "South Dakota",
+        "code": "SD"
+    },
+    {
+        "country_id": "233",
+        "name": "Tennessee",
+        "code": "TN"
+    },
+    {
+        "country_id": "233",
+        "name": "Texas",
+        "code": "TX"
+    },
+    {
+        "country_id": "233",
+        "name": "Utah",
+        "code": "UT"
+    },
+    {
+        "country_id": "233",
+        "name": "Vermont",
+        "code": "VT"
+    },
+    {
+        "country_id": "233",
+        "name": "Virginia",
+        "code": "VA"
+    },
+    {
+        "country_id": "233",
+        "name": "Washington",
+        "code": "WA"
+    },
+    {
+        "country_id": "233",
+        "name": "West Virginia",
+        "code": "WV"
+    },
+    {
+        "country_id": "233",
+        "name": "Wisconsin",
+        "code": "WI"
+    },
+    {
+        "country_id": "233",
+        "name": "Wyoming",
+        "code": "WY"
+    },
+    {
+        "country_id": "233",
+        "name": "American Samoa",
+        "code": "AS"
+    },
+    {
+        "country_id": "233",
+        "name": "Federated States of Micronesia",
+        "code": "FM"
+    },
+    {
+        "country_id": "233",
+        "name": "Guam",
+        "code": "GU"
+    },
+    {
+        "country_id": "233",
+        "name": "Marshall Islands",
+        "code": "MH"
+    },
+    {
+        "country_id": "233",
+        "name": "Northern Mariana Islands",
+        "code": "MP"
+    },
+    {
+        "country_id": "233",
+        "name": "Palau",
+        "code": "PW"
+    },
+    {
+        "country_id": "233",
+        "name": "Puerto Rico",
+        "code": "PR"
+    },
+    {
+        "country_id": "233",
+        "name": "Virgin Islands",
+        "code": "VI"
+    },
+    {
+        "country_id": "233",
+        "name": "Armed Forces Americas",
+        "code": "AA"
+    },
+    {
+        "country_id": "233",
+        "name": "Armed Forces Europe",
+        "code": "AE"
+    },
+    {
+        "country_id": "233",
+        "name": "Armed Forces Pacific",
+        "code": "AP"
+    },
+    {
+        "country_id": "31",
+        "name": "Acre",
+        "code": "AC"
+    },
+    {
+        "country_id": "31",
+        "name": "Alagoas",
+        "code": "AL"
+    },
+    {
+        "country_id": "31",
+        "name": "Amapá",
+        "code": "AP"
+    },
+    {
+        "country_id": "31",
+        "name": "Amazonas",
+        "code": "AM"
+    },
+    {
+        "country_id": "31",
+        "name": "Bahia",
+        "code": "BA"
+    },
+    {
+        "country_id": "31",
+        "name": "Ceará",
+        "code": "CE"
+    },
+    {
+        "country_id": "31",
+        "name": "Distrito Federal",
+        "code": "DF"
+    },
+    {
+        "country_id": "31",
+        "name": "Espírito Santo",
+        "code": "ES"
+    },
+    {
+        "country_id": "31",
+        "name": "Goiás",
+        "code": "GO"
+    },
+    {
+        "country_id": "31",
+        "name": "Maranhão",
+        "code": "MA"
+    },
+    {
+        "country_id": "31",
+        "name": "Mato Grosso",
+        "code": "MT"
+    },
+    {
+        "country_id": "31",
+        "name": "Mato Grosso do Sul",
+        "code": "MS"
+    },
+    {
+        "country_id": "31",
+        "name": "Minas Gerais",
+        "code": "MG"
+    },
+    {
+        "country_id": "31",
+        "name": "Pará",
+        "code": "PA"
+    },
+    {
+        "country_id": "31",
+        "name": "Paraíba",
+        "code": "PB"
+    },
+    {
+        "country_id": "31",
+        "name": "Paraná",
+        "code": "PR"
+    },
+    {
+        "country_id": "31",
+        "name": "Pernambuco",
+        "code": "PE"
+    },
+    {
+        "country_id": "31",
+        "name": "Piauí",
+        "code": "PI"
+    },
+    {
+        "country_id": "31",
+        "name": "Rio de Janeiro",
+        "code": "RJ"
+    },
+    {
+        "country_id": "31",
+        "name": "Rio Grande do Norte",
+        "code": "RN"
+    },
+    {
+        "country_id": "31",
+        "name": "Rio Grande do Sul",
+        "code": "RS"
+    },
+    {
+        "country_id": "31",
+        "name": "Rondônia",
+        "code": "RO"
+    },
+    {
+        "country_id": "31",
+        "name": "Roraima",
+        "code": "RR"
+    },
+    {
+        "country_id": "31",
+        "name": "Santa Catarina",
+        "code": "SC"
+    },
+    {
+        "country_id": "31",
+        "name": "São Paulo",
+        "code": "SP"
+    },
+    {
+        "country_id": "31",
+        "name": "Sergipe",
+        "code": "SE"
+    },
+    {
+        "country_id": "31",
+        "name": "Tocantins",
+        "code": "TO"
+    },
+    {
+        "country_id": "190",
+        "name": "Republic of Adygeya",
+        "code": "AD"
+    },
+    {
+        "country_id": "190",
+        "name": "Altai Republic",
+        "code": "AL"
+    },
+    {
+        "country_id": "190",
+        "name": "Altai Krai",
+        "code": "ALT"
+    },
+    {
+        "country_id": "190",
+        "name": "Amur Oblast",
+        "code": "AMU"
+    },
+    {
+        "country_id": "190",
+        "name": "Arkhangelsk Oblast",
+        "code": "ARK"
+    },
+    {
+        "country_id": "190",
+        "name": "Astrakhan Oblast",
+        "code": "AST"
+    },
+    {
+        "country_id": "190",
+        "name": "Republic of Bashkortostan",
+        "code": "BA"
+    },
+    {
+        "country_id": "190",
+        "name": "Belgorod Oblast",
+        "code": "BEL"
+    },
+    {
+        "country_id": "190",
+        "name": "Bryansk Oblast",
+        "code": "BRY"
+    },
+    {
+        "country_id": "190",
+        "name": "Republic of Buryatia",
+        "code": "BU"
+    },
+    {
+        "country_id": "190",
+        "name": "Chechen Republic",
+        "code": "CE"
+    },
+    {
+        "country_id": "190",
+        "name": "Chelyabinsk Oblast",
+        "code": "CHE"
+    },
+    {
+        "country_id": "190",
+        "name": "Chukotka Autonomous Okrug",
+        "code": "CHU"
+    },
+    {
+        "country_id": "190",
+        "name": "Chuvash Republic",
+        "code": "CU"
+    },
+    {
+        "country_id": "190",
+        "name": "Republic of Dagestan",
+        "code": "DA"
+    },
+    {
+        "country_id": "190",
+        "name": "Republic of Ingushetia",
+        "code": "IN"
+    },
+    {
+        "country_id": "190",
+        "name": "Irkutsk Oblast",
+        "code": "IRK"
+    },
+    {
+        "country_id": "190",
+        "name": "Ivanovo Oblast",
+        "code": "IVA"
+    },
+    {
+        "country_id": "190",
+        "name": "Kamchatka Krai",
+        "code": "KAM"
+    },
+    {
+        "country_id": "190",
+        "name": "Kabardino-Balkarian Republic",
+        "code": "KB"
+    },
+    {
+        "country_id": "190",
+        "name": "Kaliningrad Oblast",
+        "code": "KGD"
+    },
+    {
+        "country_id": "190",
+        "name": "Republic of Kalmykia",
+        "code": "KL"
+    },
+    {
+        "country_id": "190",
+        "name": "Kaluga Oblast",
+        "code": "KLU"
+    },
+    {
+        "country_id": "190",
+        "name": "Karachay–Cherkess Republic",
+        "code": "KC"
+    },
+    {
+        "country_id": "190",
+        "name": "Republic of Karelia",
+        "code": "KR"
+    },
+    {
+        "country_id": "190",
+        "name": "Kemerovo Oblast",
+        "code": "KEM"
+    },
+    {
+        "country_id": "190",
+        "name": "Khabarovsk Krai",
+        "code": "KHA"
+    },
+    {
+        "country_id": "190",
+        "name": "Republic of Khakassia",
+        "code": "KK"
+    },
+    {
+        "country_id": "190",
+        "name": "Khanty-Mansi Autonomous Okrug",
+        "code": "KHM"
+    },
+    {
+        "country_id": "190",
+        "name": "Kirov Oblast",
+        "code": "KIR"
+    },
+    {
+        "country_id": "190",
+        "name": "Komi Republic",
+        "code": "KO"
+    },
+    {
+        "country_id": "190",
+        "name": "Kostroma Oblast",
+        "code": "KOS"
+    },
+    {
+        "country_id": "190",
+        "name": "Krasnodar Krai",
+        "code": "KDA"
+    },
+    {
+        "country_id": "190",
+        "name": "Krasnoyarsk Krai",
+        "code": "KYA"
+    },
+    {
+        "country_id": "190",
+        "name": "Kurgan Oblast",
+        "code": "KGN"
+    },
+    {
+        "country_id": "190",
+        "name": "Kursk Oblast",
+        "code": "KRS"
+    },
+    {
+        "country_id": "190",
+        "name": "Leningrad Oblast",
+        "code": "LEN"
+    },
+    {
+        "country_id": "190",
+        "name": "Lipetsk Oblast",
+        "code": "LIP"
+    },
+    {
+        "country_id": "190",
+        "name": "Magadan Oblast",
+        "code": "MAG"
+    },
+    {
+        "country_id": "190",
+        "name": "Mari El Republic",
+        "code": "ME"
+    },
+    {
+        "country_id": "190",
+        "name": "Republic of Mordovia",
+        "code": "MO"
+    },
+    {
+        "country_id": "190",
+        "name": "Moscow Oblast",
+        "code": "MOS"
+    },
+    {
+        "country_id": "190",
+        "name": "Moscow",
+        "code": "MOW"
+    },
+    {
+        "country_id": "190",
+        "name": "Murmansk Oblast",
+        "code": "MUR"
+    },
+    {
+        "country_id": "190",
+        "name": "Nizhny Novgorod Oblast",
+        "code": "NIZ"
+    },
+    {
+        "country_id": "190",
+        "name": "Novgorod Oblast",
+        "code": "NGR"
+    },
+    {
+        "country_id": "190",
+        "name": "Novosibirsk Oblast",
+        "code": "NVS"
+    },
+    {
+        "country_id": "190",
+        "name": "Omsk Oblast",
+        "code": "OMS"
+    },
+    {
+        "country_id": "190",
+        "name": "Orenburg Oblast",
+        "code": "ORE"
+    },
+    {
+        "country_id": "190",
+        "name": "Oryol Oblast",
+        "code": "ORL"
+    },
+    {
+        "country_id": "190",
+        "name": "Penza Oblast",
+        "code": "PNZ"
+    },
+    {
+        "country_id": "190",
+        "name": "Perm Krai",
+        "code": "PER"
+    },
+    {
+        "country_id": "190",
+        "name": "Primorsky Krai",
+        "code": "PRI"
+    },
+    {
+        "country_id": "190",
+        "name": "Pskov Oblast",
+        "code": "PSK"
+    },
+    {
+        "country_id": "190",
+        "name": "Rostov Oblast",
+        "code": "ROS"
+    },
+    {
+        "country_id": "190",
+        "name": "Ryazan Oblast",
+        "code": "RYA"
+    },
+    {
+        "country_id": "190",
+        "name": "Sakha Republic (Yakutia)",
+        "code": "SA"
+    },
+    {
+        "country_id": "190",
+        "name": "Sakhalin Oblast",
+        "code": "SAK"
+    },
+    {
+        "country_id": "190",
+        "name": "Samara Oblast",
+        "code": "SAM"
+    },
+    {
+        "country_id": "190",
+        "name": "Saint Petersburg",
+        "code": "SPE"
+    },
+    {
+        "country_id": "190",
+        "name": "Saratov Oblast",
+        "code": "SAR"
+    },
+    {
+        "country_id": "190",
+        "name": "Republic of North Ossetia–Alania",
+        "code": "SE"
+    },
+    {
+        "country_id": "190",
+        "name": "Smolensk Oblast",
+        "code": "SMO"
+    },
+    {
+        "country_id": "190",
+        "name": "Stavropol Krai",
+        "code": "STA"
+    },
+    {
+        "country_id": "190",
+        "name": "Sverdlovsk Oblast",
+        "code": "SVE"
+    },
+    {
+        "country_id": "190",
+        "name": "Tambov Oblast",
+        "code": "TAM"
+    },
+    {
+        "country_id": "190",
+        "name": "Republic of Tatarstan",
+        "code": "TA"
+    },
+    {
+        "country_id": "190",
+        "name": "Tomsk Oblast",
+        "code": "TOM"
+    },
+    {
+        "country_id": "190",
+        "name": "Tula Oblast",
+        "code": "TUL"
+    },
+    {
+        "country_id": "190",
+        "name": "Tver Oblast",
+        "code": "TVE"
+    },
+    {
+        "country_id": "190",
+        "name": "Tyumen Oblast",
+        "code": "TYU"
+    },
+    {
+        "country_id": "190",
+        "name": "Tyva Republic",
+        "code": "TY"
+    },
+    {
+        "country_id": "190",
+        "name": "Udmurtia",
+        "code": "UD"
+    },
+    {
+        "country_id": "190",
+        "name": "Ulyanovsk Oblast",
+        "code": "ULY"
+    },
+    {
+        "country_id": "190",
+        "name": "Vladimir Oblast",
+        "code": "VLA"
+    },
+    {
+        "country_id": "190",
+        "name": "Volgograd Oblast",
+        "code": "VGG"
+    },
+    {
+        "country_id": "190",
+        "name": "Vologda Oblast",
+        "code": "VLG"
+    },
+    {
+        "country_id": "190",
+        "name": "Voronezh Oblast",
+        "code": "VOR"
+    },
+    {
+        "country_id": "190",
+        "name": "Yamalo-Nenets Autonomous Okrug",
+        "code": "YAN"
+    },
+    {
+        "country_id": "190",
+        "name": "Yaroslavl Oblast",
+        "code": "YAR"
+    },
+    {
+        "country_id": "190",
+        "name": "Jewish Autonomous Oblast",
+        "code": "YEV"
+    },
+    {
+        "country_id": "90",
+        "name": "Alta Verapaz",
+        "code": "AVE"
+    },
+    {
+        "country_id": "90",
+        "name": "Baja Verapaz",
+        "code": "BVE"
+    },
+    {
+        "country_id": "90",
+        "name": "Chimaltenango",
+        "code": "CMT"
+    },
+    {
+        "country_id": "90",
+        "name": "Chiquimula",
+        "code": "CQM"
+    },
+    {
+        "country_id": "90",
+        "name": "El Progreso",
+        "code": "EPR"
+    },
+    {
+        "country_id": "90",
+        "name": "Escuintla",
+        "code": "ESC"
+    },
+    {
+        "country_id": "90",
+        "name": "Guatemala",
+        "code": "GUA"
+    },
+    {
+        "country_id": "90",
+        "name": "Huehuetenango",
+        "code": "HUE"
+    },
+    {
+        "country_id": "90",
+        "name": "Izabal",
+        "code": "IZA"
+    },
+    {
+        "country_id": "90",
+        "name": "Jalapa",
+        "code": "JAL"
+    },
+    {
+        "country_id": "90",
+        "name": "Jutiapa",
+        "code": "JUT"
+    },
+    {
+        "country_id": "90",
+        "name": "Petén",
+        "code": "PET"
+    },
+    {
+        "country_id": "90",
+        "name": "Quetzaltenango",
+        "code": "QUE"
+    },
+    {
+        "country_id": "90",
+        "name": "Quiché",
+        "code": "QUI"
+    },
+    {
+        "country_id": "90",
+        "name": "Retalhuleu",
+        "code": "RET"
+    },
+    {
+        "country_id": "90",
+        "name": "Sacatepéquez",
+        "code": "SAC"
+    },
+    {
+        "country_id": "90",
+        "name": "San Marcos",
+        "code": "SMA"
+    },
+    {
+        "country_id": "90",
+        "name": "Santa Rosa",
+        "code": "SRO"
+    },
+    {
+        "country_id": "90",
+        "name": "Sololá",
+        "code": "SOL"
+    },
+    {
+        "country_id": "90",
+        "name": "Suchitepéquez",
+        "code": "SUC"
+    },
+    {
+        "country_id": "90",
+        "name": "Totonicapán",
+        "code": "TOT"
+    },
+    {
+        "country_id": "90",
+        "name": "Zacapa",
+        "code": "ZAC"
+    },
+    {
+        "country_id": "113",
+        "name": "Aichi",
+        "code": "23"
+    },
+    {
+        "country_id": "113",
+        "name": "Akita",
+        "code": "5"
+    },
+    {
+        "country_id": "113",
+        "name": "Aomori",
+        "code": "2"
+    },
+    {
+        "country_id": "113",
+        "name": "Chiba",
+        "code": "12"
+    },
+    {
+        "country_id": "113",
+        "name": "Ehime",
+        "code": "38"
+    },
+    {
+        "country_id": "113",
+        "name": "Fukui",
+        "code": "18"
+    },
+    {
+        "country_id": "113",
+        "name": "Fukuoka",
+        "code": "40"
+    },
+    {
+        "country_id": "113",
+        "name": "Fukushima",
+        "code": "7"
+    },
+    {
+        "country_id": "113",
+        "name": "Gifu",
+        "code": "21"
+    },
+    {
+        "country_id": "113",
+        "name": "Gunma",
+        "code": "10"
+    },
+    {
+        "country_id": "113",
+        "name": "Hiroshima",
+        "code": "34"
+    },
+    {
+        "country_id": "113",
+        "name": "Hokkaido",
+        "code": "1"
+    },
+    {
+        "country_id": "113",
+        "name": "Hyogo",
+        "code": "28"
+    },
+    {
+        "country_id": "113",
+        "name": "Ibaraki",
+        "code": "8"
+    },
+    {
+        "country_id": "113",
+        "name": "Ishikawa",
+        "code": "17"
+    },
+    {
+        "country_id": "113",
+        "name": "Iwate",
+        "code": "3"
+    },
+    {
+        "country_id": "113",
+        "name": "Kagawa",
+        "code": "37"
+    },
+    {
+        "country_id": "113",
+        "name": "Kagoshima",
+        "code": "46"
+    },
+    {
+        "country_id": "113",
+        "name": "Kanagawa",
+        "code": "14"
+    },
+    {
+        "country_id": "113",
+        "name": "Kochi",
+        "code": "39"
+    },
+    {
+        "country_id": "113",
+        "name": "Kumamoto",
+        "code": "43"
+    },
+    {
+        "country_id": "113",
+        "name": "Kyoto",
+        "code": "26"
+    },
+    {
+        "country_id": "113",
+        "name": "Mie",
+        "code": "24"
+    },
+    {
+        "country_id": "113",
+        "name": "Miyagi",
+        "code": "4"
+    },
+    {
+        "country_id": "113",
+        "name": "Miyazaki",
+        "code": "45"
+    },
+    {
+        "country_id": "113",
+        "name": "Nagano",
+        "code": "20"
+    },
+    {
+        "country_id": "113",
+        "name": "Nagasaki",
+        "code": "42"
+    },
+    {
+        "country_id": "113",
+        "name": "Nara",
+        "code": "29"
+    },
+    {
+        "country_id": "113",
+        "name": "Niigata",
+        "code": "15"
+    },
+    {
+        "country_id": "113",
+        "name": "Oita",
+        "code": "44"
+    },
+    {
+        "country_id": "113",
+        "name": "Okayama",
+        "code": "33"
+    },
+    {
+        "country_id": "113",
+        "name": "Okinawa",
+        "code": "47"
+    },
+    {
+        "country_id": "113",
+        "name": "Osaka",
+        "code": "27"
+    },
+    {
+        "country_id": "113",
+        "name": "Saga",
+        "code": "41"
+    },
+    {
+        "country_id": "113",
+        "name": "Saitama",
+        "code": "11"
+    },
+    {
+        "country_id": "113",
+        "name": "Shiga",
+        "code": "25"
+    },
+    {
+        "country_id": "113",
+        "name": "Shimane",
+        "code": "32"
+    },
+    {
+        "country_id": "113",
+        "name": "Shizuoka",
+        "code": "22"
+    },
+    {
+        "country_id": "113",
+        "name": "Tochigi",
+        "code": "9"
+    },
+    {
+        "country_id": "113",
+        "name": "Tokushima",
+        "code": "36"
+    },
+    {
+        "country_id": "113",
+        "name": "Tottori",
+        "code": "31"
+    },
+    {
+        "country_id": "113",
+        "name": "Toyama",
+        "code": "16"
+    },
+    {
+        "country_id": "113",
+        "name": "Tokyo",
+        "code": "13"
+    },
+    {
+        "country_id": "113",
+        "name": "Wakayama",
+        "code": "30"
+    },
+    {
+        "country_id": "113",
+        "name": "Yamagata",
+        "code": "6"
+    },
+    {
+        "country_id": "113",
+        "name": "Yamaguchi",
+        "code": "35"
+    },
+    {
+        "country_id": "113",
+        "name": "Yamanashi",
+        "code": "19"
+    },
+    {
+        "country_id": "183",
+        "name": "Aveiro",
+        "code": "1"
+    },
+    {
+        "country_id": "183",
+        "name": "Beja",
+        "code": "2"
+    },
+    {
+        "country_id": "183",
+        "name": "Braga",
+        "code": "3"
+    },
+    {
+        "country_id": "183",
+        "name": "Bragança",
+        "code": "4"
+    },
+    {
+        "country_id": "183",
+        "name": "Castelo Branco",
+        "code": "5"
+    },
+    {
+        "country_id": "183",
+        "name": "Coimbra",
+        "code": "6"
+    },
+    {
+        "country_id": "183",
+        "name": "Évora",
+        "code": "7"
+    },
+    {
+        "country_id": "183",
+        "name": "Faro",
+        "code": "8"
+    },
+    {
+        "country_id": "183",
+        "name": "Guarda",
+        "code": "9"
+    },
+    {
+        "country_id": "183",
+        "name": "Leiria",
+        "code": "10"
+    },
+    {
+        "country_id": "183",
+        "name": "Lisboa",
+        "code": "11"
+    },
+    {
+        "country_id": "183",
+        "name": "Portalegre",
+        "code": "12"
+    },
+    {
+        "country_id": "183",
+        "name": "Porto",
+        "code": "13"
+    },
+    {
+        "country_id": "183",
+        "name": "Santarém",
+        "code": "14"
+    },
+    {
+        "country_id": "183",
+        "name": "Setúbal",
+        "code": "15"
+    },
+    {
+        "country_id": "183",
+        "name": "Viana do Castelo",
+        "code": "16"
+    },
+    {
+        "country_id": "183",
+        "name": "Vila Real",
+        "code": "17"
+    },
+    {
+        "country_id": "183",
+        "name": "Viseu",
+        "code": "18"
+    },
+    {
+        "country_id": "183",
+        "name": "Açores",
+        "code": "20"
+    },
+    {
+        "country_id": "183",
+        "name": "Madeira",
+        "code": "30"
+    },
+    {
+        "country_id": "65",
+        "name": "Dakahlia",
+        "code": "DK"
+    },
+    {
+        "country_id": "65",
+        "name": "Red Sea",
+        "code": "BA"
+    },
+    {
+        "country_id": "65",
+        "name": "Beheira",
+        "code": "BH"
+    },
+    {
+        "country_id": "65",
+        "name": "Faiyum",
+        "code": "FYM"
+    },
+    {
+        "country_id": "65",
+        "name": "Gharbia",
+        "code": "GH"
+    },
+    {
+        "country_id": "65",
+        "name": "Alexandria",
+        "code": "ALX"
+    },
+    {
+        "country_id": "65",
+        "name": "Ismailia",
+        "code": "IS"
+    },
+    {
+        "country_id": "65",
+        "name": "Giza",
+        "code": "GZ"
+    },
+    {
+        "country_id": "65",
+        "name": "Monufia",
+        "code": "MNF"
+    },
+    {
+        "country_id": "65",
+        "name": "Minya",
+        "code": "MN"
+    },
+    {
+        "country_id": "65",
+        "name": "Cairo",
+        "code": "C"
+    },
+    {
+        "country_id": "65",
+        "name": "Qalyubia",
+        "code": "KB"
+    },
+    {
+        "country_id": "65",
+        "name": "Luxor",
+        "code": "LX"
+    },
+    {
+        "country_id": "65",
+        "name": "New Valley",
+        "code": "WAD"
+    },
+    {
+        "country_id": "65",
+        "name": "Al Sharqia",
+        "code": "SHR"
+    },
+    {
+        "country_id": "65",
+        "name": "6th of October",
+        "code": "SU"
+    },
+    {
+        "country_id": "65",
+        "name": "Suez",
+        "code": "SUZ"
+    },
+    {
+        "country_id": "65",
+        "name": "Aswan",
+        "code": "ASN"
+    },
+    {
+        "country_id": "65",
+        "name": "Asyut",
+        "code": "AST"
+    },
+    {
+        "country_id": "65",
+        "name": "Beni Suef",
+        "code": "BNS"
+    },
+    {
+        "country_id": "65",
+        "name": "Port Said",
+        "code": "PTS"
+    },
+    {
+        "country_id": "65",
+        "name": "Damietta",
+        "code": "DT"
+    },
+    {
+        "country_id": "65",
+        "name": "Helwan",
+        "code": "HU"
+    },
+    {
+        "country_id": "65",
+        "name": "South Sinai",
+        "code": "JS"
+    },
+    {
+        "country_id": "65",
+        "name": "Kafr el-Sheikh",
+        "code": "KFS"
+    },
+    {
+        "country_id": "65",
+        "name": "Matrouh",
+        "code": "MT"
+    },
+    {
+        "country_id": "65",
+        "name": "Qena",
+        "code": "KN"
+    },
+    {
+        "country_id": "65",
+        "name": "North Sinai",
+        "code": "SIN"
+    },
+    {
+        "country_id": "65",
+        "name": "Sohag",
+        "code": "SHG"
+    },
+    {
+        "country_id": "247",
+        "name": "Eastern Cape",
+        "code": "EC"
+    },
+    {
+        "country_id": "247",
+        "name": "Free State",
+        "code": "FS"
+    },
+    {
+        "country_id": "247",
+        "name": "Gauteng",
+        "code": "GP"
+    },
+    {
+        "country_id": "247",
+        "name": "KwaZulu-Natal",
+        "code": "KZN"
+    },
+    {
+        "country_id": "247",
+        "name": "Limpopo",
+        "code": "LP"
+    },
+    {
+        "country_id": "247",
+        "name": "Mpumalanga",
+        "code": "MP"
+    },
+    {
+        "country_id": "247",
+        "name": "Northern Cape",
+        "code": "NC"
+    },
+    {
+        "country_id": "247",
+        "name": "North West",
+        "code": "NW"
+    },
+    {
+        "country_id": "247",
+        "name": "Western Cape",
+        "code": "WC"
+    },
+    {
+        "country_id": "109",
+        "name": "Agrigento",
+        "code": "AG"
+    },
+    {
+        "country_id": "109",
+        "name": "Alessandria",
+        "code": "AL"
+    },
+    {
+        "country_id": "109",
+        "name": "Ancona",
+        "code": "AN"
+    },
+    {
+        "country_id": "109",
+        "name": "Aosta",
+        "code": "AO"
+    },
+    {
+        "country_id": "109",
+        "name": "Arezzo",
+        "code": "AR"
+    },
+    {
+        "country_id": "109",
+        "name": "Ascoli Piceno",
+        "code": "AP"
+    },
+    {
+        "country_id": "109",
+        "name": "Asti",
+        "code": "AT"
+    },
+    {
+        "country_id": "109",
+        "name": "Avellino",
+        "code": "AV"
+    },
+    {
+        "country_id": "109",
+        "name": "Bari",
+        "code": "BA"
+    },
+    {
+        "country_id": "109",
+        "name": "Barletta-Andria-Trani",
+        "code": "BT"
+    },
+    {
+        "country_id": "109",
+        "name": "Belluno",
+        "code": "BL"
+    },
+    {
+        "country_id": "109",
+        "name": "Benevento",
+        "code": "BN"
+    },
+    {
+        "country_id": "109",
+        "name": "Bergamo",
+        "code": "BG"
+    },
+    {
+        "country_id": "109",
+        "name": "Biella",
+        "code": "BI"
+    },
+    {
+        "country_id": "109",
+        "name": "Bologna",
+        "code": "BO"
+    },
+    {
+        "country_id": "109",
+        "name": "Bolzano",
+        "code": "BZ"
+    },
+    {
+        "country_id": "109",
+        "name": "Brescia",
+        "code": "BS"
+    },
+    {
+        "country_id": "109",
+        "name": "Brindisi",
+        "code": "BR"
+    },
+    {
+        "country_id": "109",
+        "name": "Cagliari",
+        "code": "CA"
+    },
+    {
+        "country_id": "109",
+        "name": "Caltanissetta",
+        "code": "CL"
+    },
+    {
+        "country_id": "109",
+        "name": "Campobasso",
+        "code": "CB"
+    },
+    {
+        "country_id": "109",
+        "name": "Carbonia-Iglesias",
+        "code": "CI"
+    },
+    {
+        "country_id": "109",
+        "name": "Caserta",
+        "code": "CE"
+    },
+    {
+        "country_id": "109",
+        "name": "Catania",
+        "code": "CT"
+    },
+    {
+        "country_id": "109",
+        "name": "Catanzaro",
+        "code": "CZ"
+    },
+    {
+        "country_id": "109",
+        "name": "Chieti",
+        "code": "CH"
+    },
+    {
+        "country_id": "109",
+        "name": "Como",
+        "code": "CO"
+    },
+    {
+        "country_id": "109",
+        "name": "Cosenza",
+        "code": "CS"
+    },
+    {
+        "country_id": "109",
+        "name": "Cremona",
+        "code": "CR"
+    },
+    {
+        "country_id": "109",
+        "name": "Crotone",
+        "code": "KR"
+    },
+    {
+        "country_id": "109",
+        "name": "Cuneo",
+        "code": "CN"
+    },
+    {
+        "country_id": "109",
+        "name": "Enna",
+        "code": "EN"
+    },
+    {
+        "country_id": "109",
+        "name": "Fermo",
+        "code": "FM"
+    },
+    {
+        "country_id": "109",
+        "name": "Ferrara",
+        "code": "FE"
+    },
+    {
+        "country_id": "109",
+        "name": "Firenze",
+        "code": "FI"
+    },
+    {
+        "country_id": "109",
+        "name": "Foggia",
+        "code": "FG"
+    },
+    {
+        "country_id": "109",
+        "name": "Forlì-Cesena",
+        "code": "FC"
+    },
+    {
+        "country_id": "109",
+        "name": "Frosinone",
+        "code": "FR"
+    },
+    {
+        "country_id": "109",
+        "name": "Genova",
+        "code": "GE"
+    },
+    {
+        "country_id": "109",
+        "name": "Gorizia",
+        "code": "GO"
+    },
+    {
+        "country_id": "109",
+        "name": "Grosseto",
+        "code": "GR"
+    },
+    {
+        "country_id": "109",
+        "name": "Imperia",
+        "code": "IM"
+    },
+    {
+        "country_id": "109",
+        "name": "Isernia",
+        "code": "IS"
+    },
+    {
+        "country_id": "109",
+        "name": "La Spezia",
+        "code": "SP"
+    },
+    {
+        "country_id": "109",
+        "name": "L'Aquila",
+        "code": "AQ"
+    },
+    {
+        "country_id": "109",
+        "name": "Latina",
+        "code": "LT"
+    },
+    {
+        "country_id": "109",
+        "name": "Lecce",
+        "code": "LE"
+    },
+    {
+        "country_id": "109",
+        "name": "Lecco",
+        "code": "LC"
+    },
+    {
+        "country_id": "109",
+        "name": "Livorno",
+        "code": "LI"
+    },
+    {
+        "country_id": "109",
+        "name": "Lodi",
+        "code": "LO"
+    },
+    {
+        "country_id": "109",
+        "name": "Lucca",
+        "code": "LU"
+    },
+    {
+        "country_id": "109",
+        "name": "Macerata",
+        "code": "MC"
+    },
+    {
+        "country_id": "109",
+        "name": "Mantova",
+        "code": "MN"
+    },
+    {
+        "country_id": "109",
+        "name": "Massa-Carrara",
+        "code": "MS"
+    },
+    {
+        "country_id": "109",
+        "name": "Matera",
+        "code": "MT"
+    },
+    {
+        "country_id": "109",
+        "name": "Medio Campidano",
+        "code": "VS"
+    },
+    {
+        "country_id": "109",
+        "name": "Messina",
+        "code": "ME"
+    },
+    {
+        "country_id": "109",
+        "name": "Milano",
+        "code": "MI"
+    },
+    {
+        "country_id": "109",
+        "name": "Modena",
+        "code": "MO"
+    },
+    {
+        "country_id": "109",
+        "name": "Monza e Brianza",
+        "code": "MB"
+    },
+    {
+        "country_id": "109",
+        "name": "Napoli",
+        "code": "NA"
+    },
+    {
+        "country_id": "109",
+        "name": "Novara",
+        "code": "NO"
+    },
+    {
+        "country_id": "109",
+        "name": "Nuoro",
+        "code": "NU"
+    },
+    {
+        "country_id": "109",
+        "name": "Ogliastra",
+        "code": "OG"
+    },
+    {
+        "country_id": "109",
+        "name": "Olbia-Tempio",
+        "code": "OT"
+    },
+    {
+        "country_id": "109",
+        "name": "Oristano",
+        "code": "OR"
+    },
+    {
+        "country_id": "109",
+        "name": "Padova",
+        "code": "PD"
+    },
+    {
+        "country_id": "109",
+        "name": "Palermo",
+        "code": "PA"
+    },
+    {
+        "country_id": "109",
+        "name": "Parma",
+        "code": "PR"
+    },
+    {
+        "country_id": "109",
+        "name": "Pavia",
+        "code": "PV"
+    },
+    {
+        "country_id": "109",
+        "name": "Perugia",
+        "code": "PG"
+    },
+    {
+        "country_id": "109",
+        "name": "Pesaro e Urbino",
+        "code": "PU"
+    },
+    {
+        "country_id": "109",
+        "name": "Pescara",
+        "code": "PE"
+    },
+    {
+        "country_id": "109",
+        "name": "Piacenza",
+        "code": "PC"
+    },
+    {
+        "country_id": "109",
+        "name": "Pisa",
+        "code": "PI"
+    },
+    {
+        "country_id": "109",
+        "name": "Pistoia",
+        "code": "PT"
+    },
+    {
+        "country_id": "109",
+        "name": "Pordenone",
+        "code": "PN"
+    },
+    {
+        "country_id": "109",
+        "name": "Potenza",
+        "code": "PZ"
+    },
+    {
+        "country_id": "109",
+        "name": "Prato",
+        "code": "PO"
+    },
+    {
+        "country_id": "109",
+        "name": "Ragusa",
+        "code": "RG"
+    },
+    {
+        "country_id": "109",
+        "name": "Ravenna",
+        "code": "RA"
+    },
+    {
+        "country_id": "109",
+        "name": "Reggio Calabria",
+        "code": "RC"
+    },
+    {
+        "country_id": "109",
+        "name": "Reggio Emilia",
+        "code": "RE"
+    },
+    {
+        "country_id": "109",
+        "name": "Rieti",
+        "code": "RI"
+    },
+    {
+        "country_id": "109",
+        "name": "Rimini",
+        "code": "RN"
+    },
+    {
+        "country_id": "109",
+        "name": "Roma",
+        "code": "RM"
+    },
+    {
+        "country_id": "109",
+        "name": "Rovigo",
+        "code": "RO"
+    },
+    {
+        "country_id": "109",
+        "name": "Salerno",
+        "code": "SA"
+    },
+    {
+        "country_id": "109",
+        "name": "Sassari",
+        "code": "SS"
+    },
+    {
+        "country_id": "109",
+        "name": "Savona",
+        "code": "SV"
+    },
+    {
+        "country_id": "109",
+        "name": "Siena",
+        "code": "SI"
+    },
+    {
+        "country_id": "109",
+        "name": "Siracusa",
+        "code": "SR"
+    },
+    {
+        "country_id": "109",
+        "name": "Sondrio",
+        "code": "SO"
+    },
+    {
+        "country_id": "109",
+        "name": "Sud Sardegna",
+        "code": "SU"
+    },
+    {
+        "country_id": "109",
+        "name": "Taranto",
+        "code": "TA"
+    },
+    {
+        "country_id": "109",
+        "name": "Teramo",
+        "code": "TE"
+    },
+    {
+        "country_id": "109",
+        "name": "Terni",
+        "code": "TR"
+    },
+    {
+        "country_id": "109",
+        "name": "Torino",
+        "code": "TO"
+    },
+    {
+        "country_id": "109",
+        "name": "Trapani",
+        "code": "TP"
+    },
+    {
+        "country_id": "109",
+        "name": "Trento",
+        "code": "TN"
+    },
+    {
+        "country_id": "109",
+        "name": "Treviso",
+        "code": "TV"
+    },
+    {
+        "country_id": "109",
+        "name": "Trieste",
+        "code": "TS"
+    },
+    {
+        "country_id": "109",
+        "name": "Udine",
+        "code": "UD"
+    },
+    {
+        "country_id": "109",
+        "name": "Varese",
+        "code": "VA"
+    },
+    {
+        "country_id": "109",
+        "name": "Venezia",
+        "code": "VE"
+    },
+    {
+        "country_id": "109",
+        "name": "Verbano-Cusio-Ossola",
+        "code": "VB"
+    },
+    {
+        "country_id": "109",
+        "name": "Vercelli",
+        "code": "VC"
+    },
+    {
+        "country_id": "109",
+        "name": "Verona",
+        "code": "VR"
+    },
+    {
+        "country_id": "109",
+        "name": "Vibo Valentia",
+        "code": "VV"
+    },
+    {
+        "country_id": "109",
+        "name": "Vicenza",
+        "code": "VI"
+    },
+    {
+        "country_id": "109",
+        "name": "Viterbo",
+        "code": "VT"
+    },
+    {
+        "country_id": "68",
+        "name": "A Coruña (La Coruña)",
+        "code": "C"
+    },
+    {
+        "country_id": "68",
+        "name": "Araba/Álava",
+        "code": "VI"
+    },
+    {
+        "country_id": "68",
+        "name": "Albacete",
+        "code": "AB"
+    },
+    {
+        "country_id": "68",
+        "name": "Alacant (Alicante)",
+        "code": "A"
+    },
+    {
+        "country_id": "68",
+        "name": "Almería",
+        "code": "AL"
+    },
+    {
+        "country_id": "68",
+        "name": "Asturias",
+        "code": "O"
+    },
+    {
+        "country_id": "68",
+        "name": "Ávila",
+        "code": "AV"
+    },
+    {
+        "country_id": "68",
+        "name": "Badajoz",
+        "code": "BA"
+    },
+    {
+        "country_id": "68",
+        "name": "Illes Balears (Islas Baleares)",
+        "code": "PM"
+    },
+    {
+        "country_id": "68",
+        "name": "Barcelona",
+        "code": "B"
+    },
+    {
+        "country_id": "68",
+        "name": "Burgos",
+        "code": "BU"
+    },
+    {
+        "country_id": "68",
+        "name": "Cáceres",
+        "code": "CC"
+    },
+    {
+        "country_id": "68",
+        "name": "Cádiz",
+        "code": "CA"
+    },
+    {
+        "country_id": "68",
+        "name": "Cantabria",
+        "code": "S"
+    },
+    {
+        "country_id": "68",
+        "name": "Castelló (Castellón)",
+        "code": "CS"
+    },
+    {
+        "country_id": "68",
+        "name": "Ceuta",
+        "code": "CE"
+    },
+    {
+        "country_id": "68",
+        "name": "Ciudad Real",
+        "code": "CR"
+    },
+    {
+        "country_id": "68",
+        "name": "Córdoba",
+        "code": "CO"
+    },
+    {
+        "country_id": "68",
+        "name": "Cuenca",
+        "code": "CU"
+    },
+    {
+        "country_id": "68",
+        "name": "Girona (Gerona)",
+        "code": "GI"
+    },
+    {
+        "country_id": "68",
+        "name": "Granada",
+        "code": "GR"
+    },
+    {
+        "country_id": "68",
+        "name": "Guadalajara",
+        "code": "GU"
+    },
+    {
+        "country_id": "68",
+        "name": "Gipuzkoa (Guipúzcoa)",
+        "code": "SS"
+    },
+    {
+        "country_id": "68",
+        "name": "Huelva",
+        "code": "H"
+    },
+    {
+        "country_id": "68",
+        "name": "Huesca",
+        "code": "HU"
+    },
+    {
+        "country_id": "68",
+        "name": "Jaén",
+        "code": "J"
+    },
+    {
+        "country_id": "68",
+        "name": "La Rioja",
+        "code": "LO"
+    },
+    {
+        "country_id": "68",
+        "name": "Las Palmas",
+        "code": "GC"
+    },
+    {
+        "country_id": "68",
+        "name": "León",
+        "code": "LE"
+    },
+    {
+        "country_id": "68",
+        "name": "Lleida (Lérida)",
+        "code": "L"
+    },
+    {
+        "country_id": "68",
+        "name": "Lugo",
+        "code": "LU"
+    },
+    {
+        "country_id": "68",
+        "name": "Madrid",
+        "code": "M"
+    },
+    {
+        "country_id": "68",
+        "name": "Málaga",
+        "code": "MA"
+    },
+    {
+        "country_id": "68",
+        "name": "Melilla",
+        "code": "ME"
+    },
+    {
+        "country_id": "68",
+        "name": "Murcia",
+        "code": "MU"
+    },
+    {
+        "country_id": "68",
+        "name": "Navarra (Nafarroa)",
+        "code": "NA"
+    },
+    {
+        "country_id": "68",
+        "name": "Ourense (Orense)",
+        "code": "OR"
+    },
+    {
+        "country_id": "68",
+        "name": "Palencia",
+        "code": "P"
+    },
+    {
+        "country_id": "68",
+        "name": "Pontevedra",
+        "code": "PO"
+    },
+    {
+        "country_id": "68",
+        "name": "Salamanca",
+        "code": "SA"
+    },
+    {
+        "country_id": "68",
+        "name": "Santa Cruz de Tenerife",
+        "code": "TF"
+    },
+    {
+        "country_id": "68",
+        "name": "Segovia",
+        "code": "SG"
+    },
+    {
+        "country_id": "68",
+        "name": "Sevilla",
+        "code": "SE"
+    },
+    {
+        "country_id": "68",
+        "name": "Soria",
+        "code": "SO"
+    },
+    {
+        "country_id": "68",
+        "name": "Tarragona",
+        "code": "T"
+    },
+    {
+        "country_id": "68",
+        "name": "Teruel",
+        "code": "TE"
+    },
+    {
+        "country_id": "68",
+        "name": "Toledo",
+        "code": "TO"
+    },
+    {
+        "country_id": "68",
+        "name": "València (Valencia)",
+        "code": "V"
+    },
+    {
+        "country_id": "68",
+        "name": "Valladolid",
+        "code": "VA"
+    },
+    {
+        "country_id": "68",
+        "name": "Bizkaia (Vizcaya)",
+        "code": "BI"
+    },
+    {
+        "country_id": "68",
+        "name": "Zamora",
+        "code": "ZA"
+    },
+    {
+        "country_id": "68",
+        "name": "Zaragoza",
+        "code": "Z"
+    },
+    {
+        "country_id": "157",
+        "name": "Johor",
+        "code": "MY-01"
+    },
+    {
+        "country_id": "157",
+        "name": "Kedah",
+        "code": "MY-02"
+    },
+    {
+        "country_id": "157",
+        "name": "Kelantan",
+        "code": "MY-03"
+    },
+    {
+        "country_id": "157",
+        "name": "Kuala Lumpur",
+        "code": "MY-14"
+    },
+    {
+        "country_id": "157",
+        "name": "Labuan",
+        "code": "MY-15"
+    },
+    {
+        "country_id": "157",
+        "name": "Melaka",
+        "code": "MY-04"
+    },
+    {
+        "country_id": "157",
+        "name": "Negeri Sembilan",
+        "code": "MY-05"
+    },
+    {
+        "country_id": "157",
+        "name": "Pahang",
+        "code": "MY-06"
+    },
+    {
+        "country_id": "157",
+        "name": "Perak",
+        "code": "MY-08"
+    },
+    {
+        "country_id": "157",
+        "name": "Perlis",
+        "code": "MY-09"
+    },
+    {
+        "country_id": "157",
+        "name": "Pulau Pinang",
+        "code": "MY-07"
+    },
+    {
+        "country_id": "157",
+        "name": "Putrajaya",
+        "code": "MY-16"
+    },
+    {
+        "country_id": "157",
+        "name": "Sabah",
+        "code": "MY-12"
+    },
+    {
+        "country_id": "157",
+        "name": "Sarawak",
+        "code": "MY-13"
+    },
+    {
+        "country_id": "157",
+        "name": "Selangor",
+        "code": "MY-10"
+    },
+    {
+        "country_id": "157",
+        "name": "Terengganu",
+        "code": "MY-11"
+    },
+    {
+        "country_id": "156",
+        "name": "Aguascalientes",
+        "code": "AGU"
+    },
+    {
+        "country_id": "156",
+        "name": "Baja California",
+        "code": "BCN"
+    },
+    {
+        "country_id": "156",
+        "name": "Baja California Sur",
+        "code": "BCS"
+    },
+    {
+        "country_id": "156",
+        "name": "Chihuahua",
+        "code": "CHH"
+    },
+    {
+        "country_id": "156",
+        "name": "Colima",
+        "code": "COL"
+    },
+    {
+        "country_id": "156",
+        "name": "Campeche",
+        "code": "CAM"
+    },
+    {
+        "country_id": "156",
+        "name": "Coahuila",
+        "code": "COA"
+    },
+    {
+        "country_id": "156",
+        "name": "Chiapas",
+        "code": "CHP"
+    },
+    {
+        "country_id": "156",
+        "name": "Ciudad de México",
+        "code": "CMX"
+    },
+    {
+        "country_id": "156",
+        "name": "Durango",
+        "code": "DUR"
+    },
+    {
+        "country_id": "156",
+        "name": "Guerrero",
+        "code": "GRO"
+    },
+    {
+        "country_id": "156",
+        "name": "Guanajuato",
+        "code": "GUA"
+    },
+    {
+        "country_id": "156",
+        "name": "Hidalgo",
+        "code": "HID"
+    },
+    {
+        "country_id": "156",
+        "name": "Jalisco",
+        "code": "JAL"
+    },
+    {
+        "country_id": "156",
+        "name": "Michoacán",
+        "code": "MIC"
+    },
+    {
+        "country_id": "156",
+        "name": "Morelos",
+        "code": "MOR"
+    },
+    {
+        "country_id": "156",
+        "name": "México",
+        "code": "MEX"
+    },
+    {
+        "country_id": "156",
+        "name": "Nayarit",
+        "code": "NAY"
+    },
+    {
+        "country_id": "156",
+        "name": "Nuevo León",
+        "code": "NLE"
+    },
+    {
+        "country_id": "156",
+        "name": "Oaxaca",
+        "code": "OAX"
+    },
+    {
+        "country_id": "156",
+        "name": "Puebla",
+        "code": "PUE"
+    },
+    {
+        "country_id": "156",
+        "name": "Quintana Roo",
+        "code": "ROO"
+    },
+    {
+        "country_id": "156",
+        "name": "Querétaro",
+        "code": "QUE"
+    },
+    {
+        "country_id": "156",
+        "name": "Sinaloa",
+        "code": "SIN"
+    },
+    {
+        "country_id": "156",
+        "name": "San Luis Potosí",
+        "code": "SLP"
+    },
+    {
+        "country_id": "156",
+        "name": "Sonora",
+        "code": "SON"
+    },
+    {
+        "country_id": "156",
+        "name": "Tabasco",
+        "code": "TAB"
+    },
+    {
+        "country_id": "156",
+        "name": "Tlaxcala",
+        "code": "TLA"
+    },
+    {
+        "country_id": "156",
+        "name": "Tamaulipas",
+        "code": "TAM"
+    },
+    {
+        "country_id": "156",
+        "name": "Veracruz",
+        "code": "VER"
+    },
+    {
+        "country_id": "156",
+        "name": "Yucatán",
+        "code": "YUC"
+    },
+    {
+        "country_id": "156",
+        "name": "Zacatecas",
+        "code": "ZAC"
+    },
+    {
+        "country_id": "170",
+        "name": "Auckland",
+        "code": "AUK"
+    },
+    {
+        "country_id": "170",
+        "name": "Bay of Plenty",
+        "code": "BOP"
+    },
+    {
+        "country_id": "170",
+        "name": "Canterbury",
+        "code": "CAN"
+    },
+    {
+        "country_id": "170",
+        "name": "Gisborne",
+        "code": "GIS"
+    },
+    {
+        "country_id": "170",
+        "name": "Hawke's Bay",
+        "code": "HKB"
+    },
+    {
+        "country_id": "170",
+        "name": "Manawatu-Wanganui",
+        "code": "MWT"
+    },
+    {
+        "country_id": "170",
+        "name": "Marlborough",
+        "code": "MBH"
+    },
+    {
+        "country_id": "170",
+        "name": "Nelson",
+        "code": "NSN"
+    },
+    {
+        "country_id": "170",
+        "name": "Northland",
+        "code": "NTL"
+    },
+    {
+        "country_id": "170",
+        "name": "Otago",
+        "code": "OTA"
+    },
+    {
+        "country_id": "170",
+        "name": "Southland",
+        "code": "STL"
+    },
+    {
+        "country_id": "170",
+        "name": "Taranaki",
+        "code": "TKI"
+    },
+    {
+        "country_id": "170",
+        "name": "Tasman",
+        "code": "TAS"
+    },
+    {
+        "country_id": "170",
+        "name": "Waikato",
+        "code": "WKO"
+    },
+    {
+        "country_id": "170",
+        "name": "Wellington",
+        "code": "WGN"
+    },
+    {
+        "country_id": "170",
+        "name": "West Coast",
+        "code": "WTC"
+    },
+    {
+        "country_id": "38",
+        "name": "Alberta",
+        "code": "AB"
+    },
+    {
+        "country_id": "38",
+        "name": "British Columbia",
+        "code": "BC"
+    },
+    {
+        "country_id": "38",
+        "name": "Manitoba",
+        "code": "MB"
+    },
+    {
+        "country_id": "38",
+        "name": "New Brunswick",
+        "code": "NB"
+    },
+    {
+        "country_id": "38",
+        "name": "Newfoundland and Labrador",
+        "code": "NL"
+    },
+    {
+        "country_id": "38",
+        "name": "Northwest Territories",
+        "code": "NT"
+    },
+    {
+        "country_id": "38",
+        "name": "Nova Scotia",
+        "code": "NS"
+    },
+    {
+        "country_id": "38",
+        "name": "Nunavut",
+        "code": "NU"
+    },
+    {
+        "country_id": "38",
+        "name": "Ontario",
+        "code": "ON"
+    },
+    {
+        "country_id": "38",
+        "name": "Prince Edward Island",
+        "code": "PE"
+    },
+    {
+        "country_id": "38",
+        "name": "Quebec",
+        "code": "QC"
+    },
+    {
+        "country_id": "38",
+        "name": "Saskatchewan",
+        "code": "SK"
+    },
+    {
+        "country_id": "38",
+        "name": "Yukon",
+        "code": "YT"
+    },
+    {
+        "country_id": "2",
+        "name": "Abu Dhabi",
+        "code": "AZ"
+    },
+    {
+        "country_id": "2",
+        "name": "Ajman",
+        "code": "AJ"
+    },
+    {
+        "country_id": "2",
+        "name": "Dubai",
+        "code": "DU"
+    },
+    {
+        "country_id": "2",
+        "name": "Fujairah",
+        "code": "FU"
+    },
+    {
+        "country_id": "2",
+        "name": "Ras al-Khaimah",
+        "code": "RK"
+    },
+    {
+        "country_id": "2",
+        "name": "Sharjah",
+        "code": "SH"
+    },
+    {
+        "country_id": "2",
+        "name": "Umm al-Quwain",
+        "code": "UQ"
+    },
+    {
+        "country_id": "10",
+        "name": "Ciudad Autónoma de Buenos Aires",
+        "code": "C"
+    },
+    {
+        "country_id": "10",
+        "name": "Buenos Aires",
+        "code": "B"
+    },
+    {
+        "country_id": "10",
+        "name": "Catamarca",
+        "code": "K"
+    },
+    {
+        "country_id": "10",
+        "name": "Chaco",
+        "code": "H"
+    },
+    {
+        "country_id": "10",
+        "name": "Chubut",
+        "code": "U"
+    },
+    {
+        "country_id": "10",
+        "name": "Córdoba",
+        "code": "X"
+    },
+    {
+        "country_id": "10",
+        "name": "Corrientes",
+        "code": "W"
+    },
+    {
+        "country_id": "10",
+        "name": "Entre Ríos",
+        "code": "E"
+    },
+    {
+        "country_id": "10",
+        "name": "Formosa",
+        "code": "P"
+    },
+    {
+        "country_id": "10",
+        "name": "Jujuy",
+        "code": "Y"
+    },
+    {
+        "country_id": "10",
+        "name": "La Pampa",
+        "code": "L"
+    },
+    {
+        "country_id": "10",
+        "name": "La Rioja",
+        "code": "F"
+    },
+    {
+        "country_id": "10",
+        "name": "Mendoza",
+        "code": "M"
+    },
+    {
+        "country_id": "10",
+        "name": "Misiones",
+        "code": "N"
+    },
+    {
+        "country_id": "10",
+        "name": "Neuquén",
+        "code": "Q"
+    },
+    {
+        "country_id": "10",
+        "name": "Río Negro",
+        "code": "R"
+    },
+    {
+        "country_id": "10",
+        "name": "Salta",
+        "code": "A"
+    },
+    {
+        "country_id": "10",
+        "name": "San Juan",
+        "code": "J"
+    },
+    {
+        "country_id": "10",
+        "name": "San Luis",
+        "code": "D"
+    },
+    {
+        "country_id": "10",
+        "name": "Santa Cruz",
+        "code": "Z"
+    },
+    {
+        "country_id": "10",
+        "name": "Santa Fe",
+        "code": "S"
+    },
+    {
+        "country_id": "10",
+        "name": "Santiago Del Estero",
+        "code": "G"
+    },
+    {
+        "country_id": "10",
+        "name": "Tierra del Fuego",
+        "code": "V"
+    },
+    {
+        "country_id": "10",
+        "name": "Tucumán",
+        "code": "T"
+    },
+    {
+        "country_id": "104",
+        "name": "Andaman and Nicobar",
+        "code": "AN"
+    },
+    {
+        "country_id": "104",
+        "name": "Andhra Pradesh",
+        "code": "AP"
+    },
+    {
+        "country_id": "104",
+        "name": "Arunachal Pradesh",
+        "code": "AR"
+    },
+    {
+        "country_id": "104",
+        "name": "Assam",
+        "code": "AS"
+    },
+    {
+        "country_id": "104",
+        "name": "Bihar",
+        "code": "BR"
+    },
+    {
+        "country_id": "104",
+        "name": "Chandigarh",
+        "code": "CH"
+    },
+    {
+        "country_id": "104",
+        "name": "Chattisgarh",
+        "code": "CG"
+    },
+    {
+        "country_id": "104",
+        "name": "Dadra and Nagar Haveli",
+        "code": "DN"
+    },
+    {
+        "country_id": "104",
+        "name": "Daman and Diu",
+        "code": "DD"
+    },
+    {
+        "country_id": "104",
+        "name": "Delhi",
+        "code": "DL"
+    },
+    {
+        "country_id": "104",
+        "name": "Goa",
+        "code": "GA"
+    },
+    {
+        "country_id": "104",
+        "name": "Gujarat",
+        "code": "GJ"
+    },
+    {
+        "country_id": "104",
+        "name": "Haryana",
+        "code": "HR"
+    },
+    {
+        "country_id": "104",
+        "name": "Himachal Pradesh",
+        "code": "HP"
+    },
+    {
+        "country_id": "104",
+        "name": "Jammu and Kashmir",
+        "code": "JK"
+    },
+    {
+        "country_id": "104",
+        "name": "Jharkhand",
+        "code": "JH"
+    },
+    {
+        "country_id": "104",
+        "name": "Karnataka",
+        "code": "KA"
+    },
+    {
+        "country_id": "104",
+        "name": "Kerala",
+        "code": "KL"
+    },
+    {
+        "country_id": "104",
+        "name": "Lakshadweep",
+        "code": "LD"
+    },
+    {
+        "country_id": "104",
+        "name": "Madhya Pradesh",
+        "code": "MP"
+    },
+    {
+        "country_id": "104",
+        "name": "Maharashtra",
+        "code": "MH"
+    },
+    {
+        "country_id": "104",
+        "name": "Manipur",
+        "code": "MN"
+    },
+    {
+        "country_id": "104",
+        "name": "Meghalaya",
+        "code": "ML"
+    },
+    {
+        "country_id": "104",
+        "name": "Mizoram",
+        "code": "MZ"
+    },
+    {
+        "country_id": "104",
+        "name": "Nagaland",
+        "code": "NL"
+    },
+    {
+        "country_id": "104",
+        "name": "Orissa",
+        "code": "OR"
+    },
+    {
+        "country_id": "104",
+        "name": "Puducherry",
+        "code": "PY"
+    },
+    {
+        "country_id": "104",
+        "name": "Punjab",
+        "code": "PB"
+    },
+    {
+        "country_id": "104",
+        "name": "Rajasthan",
+        "code": "RJ"
+    },
+    {
+        "country_id": "104",
+        "name": "Sikkim",
+        "code": "SK"
+    },
+    {
+        "country_id": "104",
+        "name": "Tamil Nadu",
+        "code": "TN"
+    },
+    {
+        "country_id": "104",
+        "name": "Telangana",
+        "code": "TS"
+    },
+    {
+        "country_id": "104",
+        "name": "Tripura",
+        "code": "TR"
+    },
+    {
+        "country_id": "104",
+        "name": "Uttar Pradesh",
+        "code": "UP"
+    },
+    {
+        "country_id": "104",
+        "name": "Uttarakhand",
+        "code": "UK"
+    },
+    {
+        "country_id": "104",
+        "name": "West Bengal",
+        "code": "WB"
+    },
+    {
+        "country_id": "100",
+        "name": "Aceh",
+        "code": "AC"
+    },
+    {
+        "country_id": "100",
+        "name": "Bali",
+        "code": "BA"
+    },
+    {
+        "country_id": "100",
+        "name": "Bangka Belitung",
+        "code": "BB"
+    },
+    {
+        "country_id": "100",
+        "name": "Banten",
+        "code": "BT"
+    },
+    {
+        "country_id": "100",
+        "name": "Bengkulu",
+        "code": "BE"
+    },
+    {
+        "country_id": "100",
+        "name": "Gorontalo",
+        "code": "GO"
+    },
+    {
+        "country_id": "100",
+        "name": "Jakarta",
+        "code": "JK"
+    },
+    {
+        "country_id": "100",
+        "name": "Jambi",
+        "code": "JA"
+    },
+    {
+        "country_id": "100",
+        "name": "Jawa Barat",
+        "code": "JB"
+    },
+    {
+        "country_id": "100",
+        "name": "Jawa Tengah",
+        "code": "JT"
+    },
+    {
+        "country_id": "100",
+        "name": "Jawa Timur",
+        "code": "JI"
+    },
+    {
+        "country_id": "100",
+        "name": "Kalimantan Barat",
+        "code": "KB"
+    },
+    {
+        "country_id": "100",
+        "name": "Kalimantan Selatan",
+        "code": "KS"
+    },
+    {
+        "country_id": "100",
+        "name": "Kalimantan Tengah",
+        "code": "KT"
+    },
+    {
+        "country_id": "100",
+        "name": "Kalimantan Timur",
+        "code": "KI"
+    },
+    {
+        "country_id": "100",
+        "name": "Kalimantan Utara",
+        "code": "KU"
+    },
+    {
+        "country_id": "100",
+        "name": "Kepulauan Riau",
+        "code": "KR"
+    },
+    {
+        "country_id": "100",
+        "name": "Lampung",
+        "code": "LA"
+    },
+    {
+        "country_id": "100",
+        "name": "Maluku",
+        "code": "MA"
+    },
+    {
+        "country_id": "100",
+        "name": "Maluku Utara",
+        "code": "MU"
+    },
+    {
+        "country_id": "100",
+        "name": "Nusa Tenggara Barat",
+        "code": "NB"
+    },
+    {
+        "country_id": "100",
+        "name": "Nusa Tenggara Timur",
+        "code": "NT"
+    },
+    {
+        "country_id": "100",
+        "name": "Papua",
+        "code": "PA"
+    },
+    {
+        "country_id": "100",
+        "name": "Papua Barat",
+        "code": "PB"
+    },
+    {
+        "country_id": "100",
+        "name": "Papua Selatan",
+        "code": "PS"
+    },
+    {
+        "country_id": "100",
+        "name": "Papua Tengah",
+        "code": "PT"
+    },
+    {
+        "country_id": "100",
+        "name": "Papua Pegunungan",
+        "code": "PP"
+    },
+    {
+        "country_id": "100",
+        "name": "Riau",
+        "code": "RI"
+    },
+    {
+        "country_id": "100",
+        "name": "Sulawesi Barat",
+        "code": "SR"
+    },
+    {
+        "country_id": "100",
+        "name": "Sulawesi Selatan",
+        "code": "SN"
+    },
+    {
+        "country_id": "100",
+        "name": "Sulawesi Tengah",
+        "code": "ST"
+    },
+    {
+        "country_id": "100",
+        "name": "Sulawesi Tenggara",
+        "code": "SG"
+    },
+    {
+        "country_id": "100",
+        "name": "Sulawesi Utara",
+        "code": "SA"
+    },
+    {
+        "country_id": "100",
+        "name": "Sumatra Barat",
+        "code": "SB"
+    },
+    {
+        "country_id": "100",
+        "name": "Sumatra Selatan",
+        "code": "SS"
+    },
+    {
+        "country_id": "100",
+        "name": "Sumatra Utara",
+        "code": "SU"
+    },
+    {
+        "country_id": "100",
+        "name": "Yogyakarta",
+        "code": "YO"
+    },
+    {
+        "country_id": "49",
+        "name": "Antioquia",
+        "code": "ANT"
+    },
+    {
+        "country_id": "49",
+        "name": "Atlántico",
+        "code": "ATL"
+    },
+    {
+        "country_id": "49",
+        "name": "Bogotá",
+        "code": "DC"
+    },
+    {
+        "country_id": "49",
+        "name": "Bolívar",
+        "code": "BOL"
+    },
+    {
+        "country_id": "49",
+        "name": "Boyacá",
+        "code": "BOY"
+    },
+    {
+        "country_id": "49",
+        "name": "Caldas",
+        "code": "CAL"
+    },
+    {
+        "country_id": "49",
+        "name": "Caquetá",
+        "code": "CAQ"
+    },
+    {
+        "country_id": "49",
+        "name": "Cauca",
+        "code": "CAU"
+    },
+    {
+        "country_id": "49",
+        "name": "Cesar",
+        "code": "CES"
+    },
+    {
+        "country_id": "49",
+        "name": "Córdoba",
+        "code": "COR"
+    },
+    {
+        "country_id": "49",
+        "name": "Cundinamarca",
+        "code": "CUN"
+    },
+    {
+        "country_id": "49",
+        "name": "Chocó",
+        "code": "CHO"
+    },
+    {
+        "country_id": "49",
+        "name": "Huila",
+        "code": "HUI"
+    },
+    {
+        "country_id": "49",
+        "name": "La Guajira",
+        "code": "LAG"
+    },
+    {
+        "country_id": "49",
+        "name": "Magdalena",
+        "code": "MAG"
+    },
+    {
+        "country_id": "49",
+        "name": "Meta",
+        "code": "MET"
+    },
+    {
+        "country_id": "49",
+        "name": "Nariño",
+        "code": "NAR"
+    },
+    {
+        "country_id": "49",
+        "name": "Norte de Santander",
+        "code": "NSA"
+    },
+    {
+        "country_id": "49",
+        "name": "Quindío",
+        "code": "QUI"
+    },
+    {
+        "country_id": "49",
+        "name": "Risaralda",
+        "code": "RIS"
+    },
+    {
+        "country_id": "49",
+        "name": "Santander",
+        "code": "SAN"
+    },
+    {
+        "country_id": "49",
+        "name": "Sucre",
+        "code": "SUC"
+    },
+    {
+        "country_id": "49",
+        "name": "Tolima",
+        "code": "TOL"
+    },
+    {
+        "country_id": "49",
+        "name": "Valle del Cauca",
+        "code": "VAC"
+    },
+    {
+        "country_id": "49",
+        "name": "Arauca",
+        "code": "ARA"
+    },
+    {
+        "country_id": "49",
+        "name": "Casanare",
+        "code": "CAS"
+    },
+    {
+        "country_id": "49",
+        "name": "Putumayo",
+        "code": "PUT"
+    },
+    {
+        "country_id": "49",
+        "name": "San Andrés y Providencia",
+        "code": "SAP"
+    },
+    {
+        "country_id": "49",
+        "name": "Amazonas",
+        "code": "AMA"
+    },
+    {
+        "country_id": "49",
+        "name": "Guainía",
+        "code": "GUA"
+    },
+    {
+        "country_id": "49",
+        "name": "Guaviare",
+        "code": "GUV"
+    },
+    {
+        "country_id": "49",
+        "name": "Vaupés",
+        "code": "VAU"
+    },
+    {
+        "country_id": "49",
+        "name": "Vichada",
+        "code": "VID"
+    },
+    {
+        "country_id": "146",
+        "name": "Архангай",
+        "code": "1"
+    },
+    {
+        "country_id": "146",
+        "name": "Баян-Өлгий",
+        "code": "2"
+    },
+    {
+        "country_id": "146",
+        "name": "Баянхонгор",
+        "code": "3"
+    },
+    {
+        "country_id": "146",
+        "name": "Булган",
+        "code": "4"
+    },
+    {
+        "country_id": "146",
+        "name": "Говь-Алтай",
+        "code": "5"
+    },
+    {
+        "country_id": "146",
+        "name": "Дорноговь",
+        "code": "6"
+    },
+    {
+        "country_id": "146",
+        "name": "Дорнод",
+        "code": "7"
+    },
+    {
+        "country_id": "146",
+        "name": "Дундговь",
+        "code": "8"
+    },
+    {
+        "country_id": "146",
+        "name": "Завхан",
+        "code": "9"
+    },
+    {
+        "country_id": "146",
+        "name": "Өвөрхангай",
+        "code": "10"
+    },
+    {
+        "country_id": "146",
+        "name": "Өмнөговь",
+        "code": "11"
+    },
+    {
+        "country_id": "146",
+        "name": "Сүхбаатар",
+        "code": "12"
+    },
+    {
+        "country_id": "146",
+        "name": "Сэлэнгэ",
+        "code": "13"
+    },
+    {
+        "country_id": "146",
+        "name": "Төв",
+        "code": "14"
+    },
+    {
+        "country_id": "146",
+        "name": "Увс",
+        "code": "15"
+    },
+    {
+        "country_id": "146",
+        "name": "Ховд",
+        "code": "16"
+    },
+    {
+        "country_id": "146",
+        "name": "Хөвсгөл",
+        "code": "17"
+    },
+    {
+        "country_id": "146",
+        "name": "Хэнтий",
+        "code": "18"
+    },
+    {
+        "country_id": "146",
+        "name": "Дархан-Уул",
+        "code": "19"
+    },
+    {
+        "country_id": "146",
+        "name": "Орхон",
+        "code": "20"
+    },
+    {
+        "country_id": "146",
+        "name": "УБ - Хан Уул",
+        "code": "23"
+    },
+    {
+        "country_id": "146",
+        "name": "УБ - Баянзүрх",
+        "code": "24"
+    },
+    {
+        "country_id": "146",
+        "name": "УБ - Сүхбаатар",
+        "code": "25"
+    },
+    {
+        "country_id": "146",
+        "name": "УБ - Баянгол",
+        "code": "26"
+    },
+    {
+        "country_id": "146",
+        "name": "УБ - Багануур",
+        "code": "27"
+    },
+    {
+        "country_id": "146",
+        "name": "УБ - Багахангай",
+        "code": "28"
+    },
+    {
+        "country_id": "146",
+        "name": "УБ - Налайх",
+        "code": "29"
+    },
+    {
+        "country_id": "146",
+        "name": "Говьсүмбэр",
+        "code": "32"
+    },
+    {
+        "country_id": "146",
+        "name": "УБ - Сонгино Хайрхан",
+        "code": "34"
+    },
+    {
+        "country_id": "146",
+        "name": "УБ - Чингэлтэй",
+        "code": "35"
+    },
+    {
+        "country_id": "231",
+        "name": "Aberdeenshire",
+        "code": "A1"
+    },
+    {
+        "country_id": "231",
+        "name": "Angus",
+        "code": "A5"
+    },
+    {
+        "country_id": "231",
+        "name": "Argyll",
+        "code": "A7"
+    },
+    {
+        "country_id": "231",
+        "name": "Avon",
+        "code": "A9"
+    },
+    {
+        "country_id": "231",
+        "name": "Ayrshire",
+        "code": "B1"
+    },
+    {
+        "country_id": "231",
+        "name": "Banffshire",
+        "code": "B3"
+    },
+    {
+        "country_id": "231",
+        "name": "Bedfordshire",
+        "code": "B5"
+    },
+    {
+        "country_id": "231",
+        "name": "Berkshire",
+        "code": "B7"
+    },
+    {
+        "country_id": "231",
+        "name": "Berwickshire",
+        "code": "B9"
+    },
+    {
+        "country_id": "231",
+        "name": "Buckinghamshire",
+        "code": "C1"
+    },
+    {
+        "country_id": "231",
+        "name": "Caithness",
+        "code": "C3"
+    },
+    {
+        "country_id": "231",
+        "name": "Cambridgeshire",
+        "code": "C5"
+    },
+    {
+        "country_id": "231",
+        "name": "Channel Islands",
+        "code": "C6"
+    },
+    {
+        "country_id": "231",
+        "name": "Cheshire",
+        "code": "C7"
+    },
+    {
+        "country_id": "231",
+        "name": "Clackmannanshire",
+        "code": "C9"
+    },
+    {
+        "country_id": "231",
+        "name": "Cleveland",
+        "code": "D1"
+    },
+    {
+        "country_id": "231",
+        "name": "Clwyd",
+        "code": "D3"
+    },
+    {
+        "country_id": "231",
+        "name": "County Antrim",
+        "code": "D5"
+    },
+    {
+        "country_id": "231",
+        "name": "County Armagh",
+        "code": "D7"
+    },
+    {
+        "country_id": "231",
+        "name": "County Down",
+        "code": "D9"
+    },
+    {
+        "country_id": "231",
+        "name": "County Durham",
+        "code": "E1"
+    },
+    {
+        "country_id": "231",
+        "name": "County Fermanagh",
+        "code": "E3"
+    },
+    {
+        "country_id": "231",
+        "name": "County Londonderry",
+        "code": "E5"
+    },
+    {
+        "country_id": "231",
+        "name": "County Tyrone",
+        "code": "E7"
+    },
+    {
+        "country_id": "231",
+        "name": "Cornwall",
+        "code": "E9"
+    },
+    {
+        "country_id": "231",
+        "name": "Cumbria",
+        "code": "F1"
+    },
+    {
+        "country_id": "231",
+        "name": "Derbyshire",
+        "code": "F3"
+    },
+    {
+        "country_id": "231",
+        "name": "Devon",
+        "code": "F5"
+    },
+    {
+        "country_id": "231",
+        "name": "Dorset",
+        "code": "F7"
+    },
+    {
+        "country_id": "231",
+        "name": "Dumfriesshire",
+        "code": "F9"
+    },
+    {
+        "country_id": "231",
+        "name": "Dunbartonshire",
+        "code": "G1"
+    },
+    {
+        "country_id": "231",
+        "name": "Dyfed",
+        "code": "G3"
+    },
+    {
+        "country_id": "231",
+        "name": "East Lothian",
+        "code": "G5"
+    },
+    {
+        "country_id": "231",
+        "name": "East Sussex",
+        "code": "G7"
+    },
+    {
+        "country_id": "231",
+        "name": "Essex",
+        "code": "G9"
+    },
+    {
+        "country_id": "231",
+        "name": "Fife",
+        "code": "H1"
+    },
+    {
+        "country_id": "231",
+        "name": "Gloucestershire",
+        "code": "H3"
+    },
+    {
+        "country_id": "231",
+        "name": "Gwent",
+        "code": "H7"
+    },
+    {
+        "country_id": "231",
+        "name": "Gwynedd",
+        "code": "H9"
+    },
+    {
+        "country_id": "231",
+        "name": "Hampshire",
+        "code": "I1"
+    },
+    {
+        "country_id": "231",
+        "name": "Herefordshire",
+        "code": "I3"
+    },
+    {
+        "country_id": "231",
+        "name": "Hertfordshire",
+        "code": "I5"
+    },
+    {
+        "country_id": "231",
+        "name": "Inverness-Shire",
+        "code": "I7"
+    },
+    {
+        "country_id": "231",
+        "name": "Isle of Arran",
+        "code": "I9"
+    },
+    {
+        "country_id": "231",
+        "name": "Isle of Barra",
+        "code": "J1"
+    },
+    {
+        "country_id": "231",
+        "name": "Isle of Benbecula",
+        "code": "J3"
+    },
+    {
+        "country_id": "231",
+        "name": "Isle of Bute",
+        "code": "J5"
+    },
+    {
+        "country_id": "231",
+        "name": "Isle of Canna",
+        "code": "J7"
+    },
+    {
+        "country_id": "231",
+        "name": "Isle of Coll",
+        "code": "J9"
+    },
+    {
+        "country_id": "231",
+        "name": "Isle of Colonsay",
+        "code": "K1"
+    },
+    {
+        "country_id": "231",
+        "name": "Isle of Cumbrae",
+        "code": "K3"
+    },
+    {
+        "country_id": "231",
+        "name": "Isle of Eigg",
+        "code": "K5"
+    },
+    {
+        "country_id": "231",
+        "name": "Isle of Gigha",
+        "code": "K7"
+    },
+    {
+        "country_id": "231",
+        "name": "Isle of Harris",
+        "code": "K9"
+    },
+    {
+        "country_id": "231",
+        "name": "Isle of Iona",
+        "code": "L1"
+    },
+    {
+        "country_id": "231",
+        "name": "Isle of Islay",
+        "code": "L2"
+    },
+    {
+        "country_id": "231",
+        "name": "Isle of Jura",
+        "code": "L5"
+    },
+    {
+        "country_id": "231",
+        "name": "Isle of Lewis",
+        "code": "L7"
+    },
+    {
+        "country_id": "231",
+        "name": "Isle of Man",
+        "code": "L9"
+    },
+    {
+        "country_id": "231",
+        "name": "Isle of Mull",
+        "code": "M1"
+    },
+    {
+        "country_id": "231",
+        "name": "Isle of North Uist",
+        "code": "M3"
+    },
+    {
+        "country_id": "231",
+        "name": "Isle of Rhum",
+        "code": "M7"
+    },
+    {
+        "country_id": "231",
+        "name": "Isle of Scalpay",
+        "code": "M9"
+    },
+    {
+        "country_id": "231",
+        "name": "Shetland Islands",
+        "code": "N1"
+    },
+    {
+        "country_id": "231",
+        "name": "Isle of Skye",
+        "code": "N3"
+    },
+    {
+        "country_id": "231",
+        "name": "Isle of South Uist",
+        "code": "N5"
+    },
+    {
+        "country_id": "231",
+        "name": "Isle of Tiree",
+        "code": "N7"
+    },
+    {
+        "country_id": "231",
+        "name": "Isle of Wight",
+        "code": "N9"
+    },
+    {
+        "country_id": "231",
+        "name": "Kent",
+        "code": "O5"
+    },
+    {
+        "country_id": "231",
+        "name": "Kincardineshire",
+        "code": "O7"
+    },
+    {
+        "country_id": "231",
+        "name": "Kinross-Shire",
+        "code": "O9"
+    },
+    {
+        "country_id": "231",
+        "name": "Kirkcudbrightshire",
+        "code": "P1"
+    },
+    {
+        "country_id": "231",
+        "name": "Lancashire",
+        "code": "P5"
+    },
+    {
+        "country_id": "231",
+        "name": "Leicestershire",
+        "code": "P7"
+    },
+    {
+        "country_id": "231",
+        "name": "Lincolnshire",
+        "code": "P9"
+    },
+    {
+        "country_id": "231",
+        "name": "Merseyside",
+        "code": "Q3"
+    },
+    {
+        "country_id": "231",
+        "name": "Mid Glamorgan",
+        "code": "Q5"
+    },
+    {
+        "country_id": "231",
+        "name": "Middlesex",
+        "code": "Q9"
+    },
+    {
+        "country_id": "231",
+        "name": "Morayshire",
+        "code": "R1"
+    },
+    {
+        "country_id": "231",
+        "name": "Nairnshire",
+        "code": "R3"
+    },
+    {
+        "country_id": "231",
+        "name": "North Humberside",
+        "code": "R7"
+    },
+    {
+        "country_id": "231",
+        "name": "North Yorkshire",
+        "code": "R9"
+    },
+    {
+        "country_id": "231",
+        "name": "Northamptonshire",
+        "code": "S1"
+    },
+    {
+        "country_id": "231",
+        "name": "Northumberland",
+        "code": "S3"
+    },
+    {
+        "country_id": "231",
+        "name": "Nottinghamshire",
+        "code": "S5"
+    },
+    {
+        "country_id": "231",
+        "name": "Oxfordshire",
+        "code": "S7"
+    },
+    {
+        "country_id": "231",
+        "name": "Peeblesshire",
+        "code": "S9"
+    },
+    {
+        "country_id": "231",
+        "name": "Perthshire",
+        "code": "T1"
+    },
+    {
+        "country_id": "231",
+        "name": "Powys",
+        "code": "T3"
+    },
+    {
+        "country_id": "231",
+        "name": "Renfrewshire",
+        "code": "T5"
+    },
+    {
+        "country_id": "231",
+        "name": "Ross-Shire",
+        "code": "T7"
+    },
+    {
+        "country_id": "231",
+        "name": "Roxburghshire",
+        "code": "T9"
+    },
+    {
+        "country_id": "231",
+        "name": "Selkirkshire",
+        "code": "U3"
+    },
+    {
+        "country_id": "231",
+        "name": "Shropshire",
+        "code": "U5"
+    },
+    {
+        "country_id": "231",
+        "name": "Somerset",
+        "code": "U7"
+    },
+    {
+        "country_id": "231",
+        "name": "South Glamorgan",
+        "code": "U9"
+    },
+    {
+        "country_id": "231",
+        "name": "South Humberside",
+        "code": "V1"
+    },
+    {
+        "country_id": "231",
+        "name": "South Yorkshire",
+        "code": "V3"
+    },
+    {
+        "country_id": "231",
+        "name": "Staffordshire",
+        "code": "V5"
+    },
+    {
+        "country_id": "231",
+        "name": "Stirlingshire",
+        "code": "V7"
+    },
+    {
+        "country_id": "231",
+        "name": "Suffolk",
+        "code": "V9"
+    },
+    {
+        "country_id": "231",
+        "name": "Surrey",
+        "code": "W1"
+    },
+    {
+        "country_id": "231",
+        "name": "Sutherland",
+        "code": "W3"
+    },
+    {
+        "country_id": "231",
+        "name": "Tyne and Wear",
+        "code": "W5"
+    },
+    {
+        "country_id": "231",
+        "name": "Warwickshire",
+        "code": "W7"
+    },
+    {
+        "country_id": "231",
+        "name": "West Glamorgan",
+        "code": "W9"
+    },
+    {
+        "country_id": "231",
+        "name": "West Lothian",
+        "code": "X1"
+    },
+    {
+        "country_id": "231",
+        "name": "West Midlands",
+        "code": "X3"
+    },
+    {
+        "country_id": "231",
+        "name": "West Sussex",
+        "code": "X5"
+    },
+    {
+        "country_id": "231",
+        "name": "West Yorkshire",
+        "code": "X7"
+    },
+    {
+        "country_id": "231",
+        "name": "Wigtownshire",
+        "code": "X9"
+    },
+    {
+        "country_id": "231",
+        "name": "Wiltshire",
+        "code": "Y1"
+    },
+    {
+        "country_id": "231",
+        "name": "Worcestershire",
+        "code": "Y3"
+    },
+    {
+        "country_id": "231",
+        "name": "Orkney",
+        "code": "M5"
+    },
+    {
+        "country_id": "231",
+        "name": "Isles of Scilly",
+        "code": "O1"
+    },
+    {
+        "country_id": "231",
+        "name": "Lanarkshire",
+        "code": "P3"
+    },
+    {
+        "country_id": "231",
+        "name": "London",
+        "code": "Q1"
+    },
+    {
+        "country_id": "231",
+        "name": "Midlothian",
+        "code": "Q7"
+    },
+    {
+        "country_id": "231",
+        "name": "Norfolk",
+        "code": "R5"
+    },
+    {
+        "country_id": "188",
+        "name": "Alba",
+        "code": "AB"
+    },
+    {
+        "country_id": "188",
+        "name": "Argeș",
+        "code": "AG"
+    },
+    {
+        "country_id": "188",
+        "name": "Arad",
+        "code": "AR"
+    },
+    {
+        "country_id": "188",
+        "name": "București",
+        "code": "B"
+    },
+    {
+        "country_id": "188",
+        "name": "Bacău",
+        "code": "BC"
+    },
+    {
+        "country_id": "188",
+        "name": "Bihor",
+        "code": "BH"
+    },
+    {
+        "country_id": "188",
+        "name": "Bistrița-Năsăud",
+        "code": "BN"
+    },
+    {
+        "country_id": "188",
+        "name": "Brăila",
+        "code": "BR"
+    },
+    {
+        "country_id": "188",
+        "name": "Botoșani",
+        "code": "BT"
+    },
+    {
+        "country_id": "188",
+        "name": "Brașov",
+        "code": "BV"
+    },
+    {
+        "country_id": "188",
+        "name": "Buzău",
+        "code": "BZ"
+    },
+    {
+        "country_id": "188",
+        "name": "Cluj",
+        "code": "CJ"
+    },
+    {
+        "country_id": "188",
+        "name": "Călărași",
+        "code": "CL"
+    },
+    {
+        "country_id": "188",
+        "name": "Caraș Severin",
+        "code": "CS"
+    },
+    {
+        "country_id": "188",
+        "name": "Constanța",
+        "code": "CT"
+    },
+    {
+        "country_id": "188",
+        "name": "Covasna",
+        "code": "CV"
+    },
+    {
+        "country_id": "188",
+        "name": "Dâmbovița",
+        "code": "DB"
+    },
+    {
+        "country_id": "188",
+        "name": "Dolj",
+        "code": "DJ"
+    },
+    {
+        "country_id": "188",
+        "name": "Gorj",
+        "code": "GJ"
+    },
+    {
+        "country_id": "188",
+        "name": "Galați",
+        "code": "GL"
+    },
+    {
+        "country_id": "188",
+        "name": "Giurgiu",
+        "code": "GR"
+    },
+    {
+        "country_id": "188",
+        "name": "Hunedoara",
+        "code": "HD"
+    },
+    {
+        "country_id": "188",
+        "name": "Harghita",
+        "code": "HR"
+    },
+    {
+        "country_id": "188",
+        "name": "Ilfov",
+        "code": "IF"
+    },
+    {
+        "country_id": "188",
+        "name": "Ialomița",
+        "code": "IL"
+    },
+    {
+        "country_id": "188",
+        "name": "Iași",
+        "code": "IS"
+    },
+    {
+        "country_id": "188",
+        "name": "Mehedinți",
+        "code": "MH"
+    },
+    {
+        "country_id": "188",
+        "name": "Maramureș",
+        "code": "MM"
+    },
+    {
+        "country_id": "188",
+        "name": "Mureș",
+        "code": "MS"
+    },
+    {
+        "country_id": "188",
+        "name": "Neamț",
+        "code": "NT"
+    },
+    {
+        "country_id": "188",
+        "name": "Olt",
+        "code": "OT"
+    },
+    {
+        "country_id": "188",
+        "name": "Prahova",
+        "code": "PH"
+    },
+    {
+        "country_id": "188",
+        "name": "Sibiu",
+        "code": "SB"
+    },
+    {
+        "country_id": "188",
+        "name": "Sălaj",
+        "code": "SJ"
+    },
+    {
+        "country_id": "188",
+        "name": "Satu Mare",
+        "code": "SM"
+    },
+    {
+        "country_id": "188",
+        "name": "Suceava",
+        "code": "SV"
+    },
+    {
+        "country_id": "188",
+        "name": "Tulcea",
+        "code": "TL"
+    },
+    {
+        "country_id": "188",
+        "name": "Timiș",
+        "code": "TM"
+    },
+    {
+        "country_id": "188",
+        "name": "Teleorman",
+        "code": "TR"
+    },
+    {
+        "country_id": "188",
+        "name": "Vâlcea",
+        "code": "VL"
+    },
+    {
+        "country_id": "188",
+        "name": "Vrancea",
+        "code": "VN"
+    },
+    {
+        "country_id": "188",
+        "name": "Vaslui",
+        "code": "VS"
+    },
+    {
+        "country_id": "48",
+        "name": "北京市",
+        "code": "京"
+    },
+    {
+        "country_id": "48",
+        "name": "上海市",
+        "code": "沪"
+    },
+    {
+        "country_id": "48",
+        "name": "浙江省",
+        "code": "浙"
+    },
+    {
+        "country_id": "48",
+        "name": "天津市",
+        "code": "津"
+    },
+    {
+        "country_id": "48",
+        "name": "安徽省",
+        "code": "皖"
+    },
+    {
+        "country_id": "48",
+        "name": "福建省",
+        "code": "闽"
+    },
+    {
+        "country_id": "48",
+        "name": "重庆市",
+        "code": "渝"
+    },
+    {
+        "country_id": "48",
+        "name": "江西省",
+        "code": "赣"
+    },
+    {
+        "country_id": "48",
+        "name": "山东省",
+        "code": "鲁"
+    },
+    {
+        "country_id": "48",
+        "name": "河南省",
+        "code": "豫"
+    },
+    {
+        "country_id": "48",
+        "name": "内蒙古自治区",
+        "code": "蒙"
+    },
+    {
+        "country_id": "48",
+        "name": "湖北省",
+        "code": "鄂"
+    },
+    {
+        "country_id": "48",
+        "name": "新疆维吾尔自治区",
+        "code": "新"
+    },
+    {
+        "country_id": "48",
+        "name": "湖南省",
+        "code": "湘"
+    },
+    {
+        "country_id": "48",
+        "name": "宁夏回族自治区",
+        "code": "宁"
+    },
+    {
+        "country_id": "48",
+        "name": "广东省",
+        "code": "粤"
+    },
+    {
+        "country_id": "48",
+        "name": "西藏自治区",
+        "code": "藏"
+    },
+    {
+        "country_id": "48",
+        "name": "海南省",
+        "code": "琼"
+    },
+    {
+        "country_id": "48",
+        "name": "广西壮族自治区",
+        "code": "桂"
+    },
+    {
+        "country_id": "48",
+        "name": "四川省",
+        "code": "蜀"
+    },
+    {
+        "country_id": "48",
+        "name": "河北省",
+        "code": "冀"
+    },
+    {
+        "country_id": "48",
+        "name": "贵州省",
+        "code": "黔"
+    },
+    {
+        "country_id": "48",
+        "name": "山西省",
+        "code": "晋"
+    },
+    {
+        "country_id": "48",
+        "name": "云南省",
+        "code": "滇"
+    },
+    {
+        "country_id": "48",
+        "name": "辽宁省",
+        "code": "辽"
+    },
+    {
+        "country_id": "48",
+        "name": "陕西省",
+        "code": "陕"
+    },
+    {
+        "country_id": "48",
+        "name": "吉林省",
+        "code": "吉"
+    },
+    {
+        "country_id": "48",
+        "name": "甘肃省",
+        "code": "甘"
+    },
+    {
+        "country_id": "48",
+        "name": "黑龙江省",
+        "code": "黑"
+    },
+    {
+        "country_id": "48",
+        "name": "青海省",
+        "code": "青"
+    },
+    {
+        "country_id": "48",
+        "name": "江苏省",
+        "code": "苏"
+    },
+    {
+        "country_id": "48",
+        "name": "台湾省",
+        "code": "台"
+    },
+    {
+        "country_id": "48",
+        "name": "香港特别行政区",
+        "code": "港"
+    },
+    {
+        "country_id": "48",
+        "name": "澳门特别行政区",
+        "code": "澳"
+    },
+    {
+        "country_id": "69",
+        "name": "Addis Ababa",
+        "code": "AA"
+    },
+    {
+        "country_id": "69",
+        "name": "Afar",
+        "code": "AF"
+    },
+    {
+        "country_id": "69",
+        "name": "Amhara",
+        "code": "AM"
+    },
+    {
+        "country_id": "69",
+        "name": "Benishangul-Gumuz",
+        "code": "BN"
+    },
+    {
+        "country_id": "69",
+        "name": "Dire Dawa",
+        "code": "DR"
+    },
+    {
+        "country_id": "69",
+        "name": "Gambella Peoples",
+        "code": "GM"
+    },
+    {
+        "country_id": "69",
+        "name": "Harrari Peoples",
+        "code": "HR"
+    },
+    {
+        "country_id": "69",
+        "name": "Oromia",
+        "code": "OR"
+    },
+    {
+        "country_id": "69",
+        "name": "Somalia",
+        "code": "SM"
+    },
+    {
+        "country_id": "69",
+        "name": "Southern Peoples, Nations, and Nationalities",
+        "code": "SP"
+    },
+    {
+        "country_id": "69",
+        "name": "Tigray",
+        "code": "TG"
+    },
+    {
+        "country_id": "101",
+        "name": "Carlow",
+        "code": "CW"
+    },
+    {
+        "country_id": "101",
+        "name": "Cavan",
+        "code": "CN"
+    },
+    {
+        "country_id": "101",
+        "name": "Clare",
+        "code": "CE"
+    },
+    {
+        "country_id": "101",
+        "name": "Cork",
+        "code": "C"
+    },
+    {
+        "country_id": "101",
+        "name": "Limerick",
+        "code": "LK"
+    },
+    {
+        "country_id": "101",
+        "name": "Waterford",
+        "code": "WD"
+    },
+    {
+        "country_id": "101",
+        "name": "Donegal",
+        "code": "DL"
+    },
+    {
+        "country_id": "101",
+        "name": "Dublin",
+        "code": "D"
+    },
+    {
+        "country_id": "101",
+        "name": "Galway",
+        "code": "G"
+    },
+    {
+        "country_id": "101",
+        "name": "Kerry",
+        "code": "KY"
+    },
+    {
+        "country_id": "101",
+        "name": "Kildare",
+        "code": "KE"
+    },
+    {
+        "country_id": "101",
+        "name": "Kilkenny",
+        "code": "KK"
+    },
+    {
+        "country_id": "101",
+        "name": "Laois",
+        "code": "LS"
+    },
+    {
+        "country_id": "101",
+        "name": "Leitrim",
+        "code": "LM"
+    },
+    {
+        "country_id": "101",
+        "name": "Longford",
+        "code": "LD"
+    },
+    {
+        "country_id": "101",
+        "name": "Louth",
+        "code": "LH"
+    },
+    {
+        "country_id": "101",
+        "name": "Mayo",
+        "code": "MO"
+    },
+    {
+        "country_id": "101",
+        "name": "Meath",
+        "code": "MH"
+    },
+    {
+        "country_id": "101",
+        "name": "Monaghan",
+        "code": "MN"
+    },
+    {
+        "country_id": "101",
+        "name": "Offaly",
+        "code": "OY"
+    },
+    {
+        "country_id": "101",
+        "name": "Roscommon",
+        "code": "RN"
+    },
+    {
+        "country_id": "101",
+        "name": "Sligo",
+        "code": "SO"
+    },
+    {
+        "country_id": "101",
+        "name": "Tipperary",
+        "code": "TR"
+    },
+    {
+        "country_id": "101",
+        "name": "Westmeath",
+        "code": "WH"
+    },
+    {
+        "country_id": "101",
+        "name": "Wexford",
+        "code": "WX"
+    },
+    {
+        "country_id": "101",
+        "name": "Wicklow",
+        "code": "WW"
+    },
+    {
+        "country_id": "101",
+        "name": "Antrim",
+        "code": "AM"
+    },
+    {
+        "country_id": "101",
+        "name": "Armagh",
+        "code": "AH"
+    },
+    {
+        "country_id": "101",
+        "name": "Down",
+        "code": "DN"
+    },
+    {
+        "country_id": "101",
+        "name": "Fermanagh",
+        "code": "FH"
+    },
+    {
+        "country_id": "101",
+        "name": "Londonderry",
+        "code": "LY"
+    },
+    {
+        "country_id": "101",
+        "name": "Tyrone",
+        "code": "TE"
+    },
+    {
+        "country_id": "165",
+        "name": "Drenthe",
+        "code": "DR"
+    },
+    {
+        "country_id": "165",
+        "name": "Flevoland",
+        "code": "FL"
+    },
+    {
+        "country_id": "165",
+        "name": "Friesland",
+        "code": "FR"
+    },
+    {
+        "country_id": "165",
+        "name": "Gelderland",
+        "code": "GE"
+    },
+    {
+        "country_id": "165",
+        "name": "Groningen",
+        "code": "GR"
+    },
+    {
+        "country_id": "165",
+        "name": "Limburg",
+        "code": "LI"
+    },
+    {
+        "country_id": "165",
+        "name": "Noord-Brabant",
+        "code": "NB"
+    },
+    {
+        "country_id": "165",
+        "name": "Noord-Holland",
+        "code": "NH"
+    },
+    {
+        "country_id": "165",
+        "name": "Overijssel",
+        "code": "OV"
+    },
+    {
+        "country_id": "165",
+        "name": "Utrecht",
+        "code": "UT"
+    },
+    {
+        "country_id": "165",
+        "name": "Zeeland",
+        "code": "ZE"
+    },
+    {
+        "country_id": "165",
+        "name": "Zuid-Holland",
+        "code": "ZH"
+    },
+    {
+        "country_id": "165",
+        "name": "Bonaire",
+        "code": "BQ1"
+    },
+    {
+        "country_id": "165",
+        "name": "Saba",
+        "code": "BQ2"
+    },
+    {
+        "country_id": "165",
+        "name": "Sint Eustatius",
+        "code": "BQ3"
+    },
+    {
+        "country_id": "224",
+        "name": "Adana",
+        "code": "1"
+    },
+    {
+        "country_id": "224",
+        "name": "Adıyaman",
+        "code": "2"
+    },
+    {
+        "country_id": "224",
+        "name": "Afyonkarahisar",
+        "code": "3"
+    },
+    {
+        "country_id": "224",
+        "name": "Ağrı",
+        "code": "4"
+    },
+    {
+        "country_id": "224",
+        "name": "Amasya",
+        "code": "5"
+    },
+    {
+        "country_id": "224",
+        "name": "Ankara",
+        "code": "6"
+    },
+    {
+        "country_id": "224",
+        "name": "Antalya",
+        "code": "7"
+    },
+    {
+        "country_id": "224",
+        "name": "Artvin",
+        "code": "8"
+    },
+    {
+        "country_id": "224",
+        "name": "Aydın",
+        "code": "9"
+    },
+    {
+        "country_id": "224",
+        "name": "Balıkesir",
+        "code": "10"
+    },
+    {
+        "country_id": "224",
+        "name": "Bilecik",
+        "code": "11"
+    },
+    {
+        "country_id": "224",
+        "name": "Bingöl",
+        "code": "12"
+    },
+    {
+        "country_id": "224",
+        "name": "Bitlis",
+        "code": "13"
+    },
+    {
+        "country_id": "224",
+        "name": "Bolu",
+        "code": "14"
+    },
+    {
+        "country_id": "224",
+        "name": "Burdur",
+        "code": "15"
+    },
+    {
+        "country_id": "224",
+        "name": "Bursa",
+        "code": "16"
+    },
+    {
+        "country_id": "224",
+        "name": "Çanakkale",
+        "code": "17"
+    },
+    {
+        "country_id": "224",
+        "name": "Çankırı",
+        "code": "18"
+    },
+    {
+        "country_id": "224",
+        "name": "Çorum",
+        "code": "19"
+    },
+    {
+        "country_id": "224",
+        "name": "Denizli",
+        "code": "20"
+    },
+    {
+        "country_id": "224",
+        "name": "Diyarbakır",
+        "code": "21"
+    },
+    {
+        "country_id": "224",
+        "name": "Edirne",
+        "code": "22"
+    },
+    {
+        "country_id": "224",
+        "name": "Elazığ",
+        "code": "23"
+    },
+    {
+        "country_id": "224",
+        "name": "Erzincan",
+        "code": "24"
+    },
+    {
+        "country_id": "224",
+        "name": "Erzurum",
+        "code": "25"
+    },
+    {
+        "country_id": "224",
+        "name": "Eskişehir",
+        "code": "26"
+    },
+    {
+        "country_id": "224",
+        "name": "Gaziantep",
+        "code": "27"
+    },
+    {
+        "country_id": "224",
+        "name": "Giresun",
+        "code": "28"
+    },
+    {
+        "country_id": "224",
+        "name": "Gümüşhane",
+        "code": "29"
+    },
+    {
+        "country_id": "224",
+        "name": "Hakkari",
+        "code": "30"
+    },
+    {
+        "country_id": "224",
+        "name": "Hatay",
+        "code": "31"
+    },
+    {
+        "country_id": "224",
+        "name": "Isparta",
+        "code": "32"
+    },
+    {
+        "country_id": "224",
+        "name": "Mersin",
+        "code": "33"
+    },
+    {
+        "country_id": "224",
+        "name": "İstanbul",
+        "code": "34"
+    },
+    {
+        "country_id": "224",
+        "name": "İzmir",
+        "code": "35"
+    },
+    {
+        "country_id": "224",
+        "name": "Kars",
+        "code": "36"
+    },
+    {
+        "country_id": "224",
+        "name": "Kastamonu",
+        "code": "37"
+    },
+    {
+        "country_id": "224",
+        "name": "Kayseri",
+        "code": "38"
+    },
+    {
+        "country_id": "224",
+        "name": "Kırklareli",
+        "code": "39"
+    },
+    {
+        "country_id": "224",
+        "name": "Kırşehir",
+        "code": "40"
+    },
+    {
+        "country_id": "224",
+        "name": "Kocaeli",
+        "code": "41"
+    },
+    {
+        "country_id": "224",
+        "name": "Konya",
+        "code": "42"
+    },
+    {
+        "country_id": "224",
+        "name": "Kütahya",
+        "code": "43"
+    },
+    {
+        "country_id": "224",
+        "name": "Malatya",
+        "code": "44"
+    },
+    {
+        "country_id": "224",
+        "name": "Manisa",
+        "code": "45"
+    },
+    {
+        "country_id": "224",
+        "name": "Kahramanmaraş",
+        "code": "46"
+    },
+    {
+        "country_id": "224",
+        "name": "Mardin",
+        "code": "47"
+    },
+    {
+        "country_id": "224",
+        "name": "Muğla",
+        "code": "48"
+    },
+    {
+        "country_id": "224",
+        "name": "Muş",
+        "code": "49"
+    },
+    {
+        "country_id": "224",
+        "name": "Nevşehir",
+        "code": "50"
+    },
+    {
+        "country_id": "224",
+        "name": "Niğde",
+        "code": "51"
+    },
+    {
+        "country_id": "224",
+        "name": "Ordu",
+        "code": "52"
+    },
+    {
+        "country_id": "224",
+        "name": "Rize",
+        "code": "53"
+    },
+    {
+        "country_id": "224",
+        "name": "Sakarya",
+        "code": "54"
+    },
+    {
+        "country_id": "224",
+        "name": "Samsun",
+        "code": "55"
+    },
+    {
+        "country_id": "224",
+        "name": "Siirt",
+        "code": "56"
+    },
+    {
+        "country_id": "224",
+        "name": "Sinop",
+        "code": "57"
+    },
+    {
+        "country_id": "224",
+        "name": "Sivas",
+        "code": "58"
+    },
+    {
+        "country_id": "224",
+        "name": "Tekirdağ",
+        "code": "59"
+    },
+    {
+        "country_id": "224",
+        "name": "Tokat",
+        "code": "60"
+    },
+    {
+        "country_id": "224",
+        "name": "Trabzon",
+        "code": "61"
+    },
+    {
+        "country_id": "224",
+        "name": "Tunceli",
+        "code": "62"
+    },
+    {
+        "country_id": "224",
+        "name": "Şanlıurfa",
+        "code": "63"
+    },
+    {
+        "country_id": "224",
+        "name": "Uşak",
+        "code": "64"
+    },
+    {
+        "country_id": "224",
+        "name": "Van",
+        "code": "65"
+    },
+    {
+        "country_id": "224",
+        "name": "Yozgat",
+        "code": "66"
+    },
+    {
+        "country_id": "224",
+        "name": "Zonguldak",
+        "code": "67"
+    },
+    {
+        "country_id": "224",
+        "name": "Aksaray",
+        "code": "68"
+    },
+    {
+        "country_id": "224",
+        "name": "Bayburt",
+        "code": "69"
+    },
+    {
+        "country_id": "224",
+        "name": "Karaman",
+        "code": "70"
+    },
+    {
+        "country_id": "224",
+        "name": "Kırıkkale",
+        "code": "71"
+    },
+    {
+        "country_id": "224",
+        "name": "Batman",
+        "code": "72"
+    },
+    {
+        "country_id": "224",
+        "name": "Şırnak",
+        "code": "73"
+    },
+    {
+        "country_id": "224",
+        "name": "Bartın",
+        "code": "74"
+    },
+    {
+        "country_id": "224",
+        "name": "Ardahan",
+        "code": "75"
+    },
+    {
+        "country_id": "224",
+        "name": "Iğdır",
+        "code": "76"
+    },
+    {
+        "country_id": "224",
+        "name": "Yalova",
+        "code": "77"
+    },
+    {
+        "country_id": "224",
+        "name": "Karabük",
+        "code": "78"
+    },
+    {
+        "country_id": "224",
+        "name": "Kilis",
+        "code": "79"
+    },
+    {
+        "country_id": "224",
+        "name": "Osmaniye",
+        "code": "80"
+    },
+    {
+        "country_id": "224",
+        "name": "Düzce",
+        "code": "81"
+    },
+    {
+        "country_id": "241",
+        "name": "An Giang",
+        "code": "VN-44"
+    },
+    {
+        "country_id": "241",
+        "name": "Bình Dương",
+        "code": "VN-57"
+    },
+    {
+        "country_id": "241",
+        "name": "Bình Định",
+        "code": "VN-31"
+    },
+    {
+        "country_id": "241",
+        "name": "Bắc Giang",
+        "code": "VN-54"
+    },
+    {
+        "country_id": "241",
+        "name": "Bắc Kạn",
+        "code": "VN-53"
+    },
+    {
+        "country_id": "241",
+        "name": "Bạc Liêu",
+        "code": "VN-55"
+    },
+    {
+        "country_id": "241",
+        "name": "Bắc Ninh",
+        "code": "VN-56"
+    },
+    {
+        "country_id": "241",
+        "name": "Bình Phước",
+        "code": "VN-58"
+    },
+    {
+        "country_id": "241",
+        "name": "Bà Rịa - Vũng Tàu",
+        "code": "VN-43"
+    },
+    {
+        "country_id": "241",
+        "name": "Bình Thuận",
+        "code": "VN-40"
+    },
+    {
+        "country_id": "241",
+        "name": "Bến Tre",
+        "code": "VN-50"
+    },
+    {
+        "country_id": "241",
+        "name": "Cao Bằng",
+        "code": "VN-04"
+    },
+    {
+        "country_id": "241",
+        "name": "Cà Mau",
+        "code": "VN-59"
+    },
+    {
+        "country_id": "241",
+        "name": "TP Cần Thơ",
+        "code": "VN-CT"
+    },
+    {
+        "country_id": "241",
+        "name": "Điện Biên",
+        "code": "VN-71"
+    },
+    {
+        "country_id": "241",
+        "name": "Đắk Lắk",
+        "code": "VN-33"
+    },
+    {
+        "country_id": "241",
+        "name": "TP Đà Nẵng",
+        "code": "VN-DN"
+    },
+    {
+        "country_id": "241",
+        "name": "Đồng Nai",
+        "code": "VN-39"
+    },
+    {
+        "country_id": "241",
+        "name": "Đắk Nông",
+        "code": "VN-72"
+    },
+    {
+        "country_id": "241",
+        "name": "Đồng Tháp",
+        "code": "VN-45"
+    },
+    {
+        "country_id": "241",
+        "name": "Gia Lai",
+        "code": "VN-30"
+    },
+    {
+        "country_id": "241",
+        "name": "Hòa Bình",
+        "code": "VN-14"
+    },
+    {
+        "country_id": "241",
+        "name": "TP Hồ Chí Minh",
+        "code": "VN-SG"
+    },
+    {
+        "country_id": "241",
+        "name": "Hải Dương",
+        "code": "VN-61"
+    },
+    {
+        "country_id": "241",
+        "name": "Hậu Giang",
+        "code": "VN-73"
+    },
+    {
+        "country_id": "241",
+        "name": "Hà Giang",
+        "code": "VN-03"
+    },
+    {
+        "country_id": "241",
+        "name": "Hà Nội",
+        "code": "VN-HN"
+    },
+    {
+        "country_id": "241",
+        "name": "Hà Nam",
+        "code": "VN-63"
+    },
+    {
+        "country_id": "241",
+        "name": "TP Hải Phòng",
+        "code": "VN-HP"
+    },
+    {
+        "country_id": "241",
+        "name": "Hà Tĩnh",
+        "code": "VN-23"
+    },
+    {
+        "country_id": "241",
+        "name": "Hưng Yên",
+        "code": "VN-66"
+    },
+    {
+        "country_id": "241",
+        "name": "Kiên Giang",
+        "code": "VN-47"
+    },
+    {
+        "country_id": "241",
+        "name": "Khánh Hòa",
+        "code": "VN-34"
+    },
+    {
+        "country_id": "241",
+        "name": "Kon Tum",
+        "code": "VN-28"
+    },
+    {
+        "country_id": "241",
+        "name": "Long An",
+        "code": "VN-41"
+    },
+    {
+        "country_id": "241",
+        "name": "Lào Cai",
+        "code": "VN-02"
+    },
+    {
+        "country_id": "241",
+        "name": "Lai Châu",
+        "code": "VN-01"
+    },
+    {
+        "country_id": "241",
+        "name": "Lâm Đồng",
+        "code": "VN-35"
+    },
+    {
+        "country_id": "241",
+        "name": "Lạng Sơn",
+        "code": "VN-09"
+    },
+    {
+        "country_id": "241",
+        "name": "Nghệ An",
+        "code": "VN-22"
+    },
+    {
+        "country_id": "241",
+        "name": "Ninh Bình",
+        "code": "VN-18"
+    },
+    {
+        "country_id": "241",
+        "name": "Nam Định",
+        "code": "VN-67"
+    },
+    {
+        "country_id": "241",
+        "name": "Ninh Thuận",
+        "code": "VN-36"
+    },
+    {
+        "country_id": "241",
+        "name": "Phú Thọ",
+        "code": "VN-68"
+    },
+    {
+        "country_id": "241",
+        "name": "Phú Yên",
+        "code": "VN-32"
+    },
+    {
+        "country_id": "241",
+        "name": "Quảng Bình",
+        "code": "VN-24"
+    },
+    {
+        "country_id": "241",
+        "name": "Quảng Ninh",
+        "code": "VN-13"
+    },
+    {
+        "country_id": "241",
+        "name": "Quảng Nam",
+        "code": "VN-27"
+    },
+    {
+        "country_id": "241",
+        "name": "Quảng Ngãi",
+        "code": "VN-29"
+    },
+    {
+        "country_id": "241",
+        "name": "Quảng Trị",
+        "code": "VN-25"
+    },
+    {
+        "country_id": "241",
+        "name": "Sơn La",
+        "code": "VN-05"
+    },
+    {
+        "country_id": "241",
+        "name": "Sóc Trăng",
+        "code": "VN-52"
+    },
+    {
+        "country_id": "241",
+        "name": "Thái Bình",
+        "code": "VN-20"
+    },
+    {
+        "country_id": "241",
+        "name": "Tiền Giang",
+        "code": "VN-46"
+    },
+    {
+        "country_id": "241",
+        "name": "Thanh Hóa",
+        "code": "VN-21"
+    },
+    {
+        "country_id": "241",
+        "name": "Thái Nguyên",
+        "code": "VN-69"
+    },
+    {
+        "country_id": "241",
+        "name": "Tây Ninh",
+        "code": "VN-37"
+    },
+    {
+        "country_id": "241",
+        "name": "Tuyên Quang",
+        "code": "VN-07"
+    },
+    {
+        "country_id": "241",
+        "name": "Thừa Thiên - Huế",
+        "code": "VN-26"
+    },
+    {
+        "country_id": "241",
+        "name": "Trà Vinh",
+        "code": "VN-51"
+    },
+    {
+        "country_id": "241",
+        "name": "Vĩnh Long",
+        "code": "VN-49"
+    },
+    {
+        "country_id": "241",
+        "name": "Vĩnh Phúc",
+        "code": "VN-70"
+    },
+    {
+        "country_id": "241",
+        "name": "Yên Bái",
+        "code": "VN-06"
+    },
+    {
+        "country_id": "50",
+        "name": "San José",
+        "code": "1"
+    },
+    {
+        "country_id": "50",
+        "name": "Alajuela",
+        "code": "2"
+    },
+    {
+        "country_id": "50",
+        "name": "Heredia",
+        "code": "4"
+    },
+    {
+        "country_id": "50",
+        "name": "Cartago",
+        "code": "3"
+    },
+    {
+        "country_id": "50",
+        "name": "Puntarenas",
+        "code": "6"
+    },
+    {
+        "country_id": "50",
+        "name": "Guanacaste",
+        "code": "5"
+    },
+    {
+        "country_id": "50",
+        "name": "Limón",
+        "code": "7"
+    },
+    {
+        "country_id": "61",
+        "name": "Distrito Nacional",
+        "code": "DN"
+    },
+    {
+        "country_id": "61",
+        "name": "Azua",
+        "code": "AZU"
+    },
+    {
+        "country_id": "61",
+        "name": "Bahoruco",
+        "code": "BAH"
+    },
+    {
+        "country_id": "61",
+        "name": "Barahona",
+        "code": "BAR"
+    },
+    {
+        "country_id": "61",
+        "name": "Dajabón",
+        "code": "DAJ"
+    },
+    {
+        "country_id": "61",
+        "name": "Duarte",
+        "code": "DUA"
+    },
+    {
+        "country_id": "61",
+        "name": "Elías Piña",
+        "code": "ELP"
+    },
+    {
+        "country_id": "61",
+        "name": "El Seibo",
+        "code": "ELS"
+    },
+    {
+        "country_id": "61",
+        "name": "Espaillat",
+        "code": "ESP"
+    },
+    {
+        "country_id": "61",
+        "name": "Independencia",
+        "code": "IND"
+    },
+    {
+        "country_id": "61",
+        "name": "La Altagracia",
+        "code": "LA"
+    },
+    {
+        "country_id": "61",
+        "name": "La Romana",
+        "code": "LR"
+    },
+    {
+        "country_id": "61",
+        "name": "La Vega",
+        "code": "LV"
+    },
+    {
+        "country_id": "61",
+        "name": "María Trinidad Sánchez",
+        "code": "MTS"
+    },
+    {
+        "country_id": "61",
+        "name": "Monte Cristi",
+        "code": "MC"
+    },
+    {
+        "country_id": "61",
+        "name": "Pedernales",
+        "code": "PED"
+    },
+    {
+        "country_id": "61",
+        "name": "Peravia",
+        "code": "PER"
+    },
+    {
+        "country_id": "61",
+        "name": "Puerto Plata",
+        "code": "PP"
+    },
+    {
+        "country_id": "61",
+        "name": "Hermanas Mirabal",
+        "code": "HEM"
+    },
+    {
+        "country_id": "61",
+        "name": "Samaná",
+        "code": "SAM"
+    },
+    {
+        "country_id": "61",
+        "name": "San Cristóbal",
+        "code": "SC"
+    },
+    {
+        "country_id": "61",
+        "name": "San Juan",
+        "code": "SJ"
+    },
+    {
+        "country_id": "61",
+        "name": "San Pedro de Macorís",
+        "code": "SPM"
+    },
+    {
+        "country_id": "61",
+        "name": "Sánchez Ramírez",
+        "code": "SRA"
+    },
+    {
+        "country_id": "61",
+        "name": "Santiago",
+        "code": "STGO"
+    },
+    {
+        "country_id": "61",
+        "name": "Santiago Rodríguez",
+        "code": "SRO"
+    },
+    {
+        "country_id": "61",
+        "name": "Valverde",
+        "code": "VAL"
+    },
+    {
+        "country_id": "61",
+        "name": "Monseñor Nouel",
+        "code": "MON"
+    },
+    {
+        "country_id": "61",
+        "name": "Monte Plata",
+        "code": "MP"
+    },
+    {
+        "country_id": "61",
+        "name": "Hato Mayor",
+        "code": "HAM"
+    },
+    {
+        "country_id": "61",
+        "name": "San José de Ocoa",
+        "code": "SJO"
+    },
+    {
+        "country_id": "61",
+        "name": "Santo Domingo",
+        "code": "SD"
+    },
+    {
+        "country_id": "173",
+        "name": "Amazonas",
+        "code": "1"
+    },
+    {
+        "country_id": "173",
+        "name": "Áncash",
+        "code": "2"
+    },
+    {
+        "country_id": "173",
+        "name": "Apurímac",
+        "code": "3"
+    },
+    {
+        "country_id": "173",
+        "name": "Arequipa",
+        "code": "4"
+    },
+    {
+        "country_id": "173",
+        "name": "Ayacucho",
+        "code": "5"
+    },
+    {
+        "country_id": "173",
+        "name": "Cajamarca",
+        "code": "6"
+    },
+    {
+        "country_id": "173",
+        "name": "Callao",
+        "code": "7"
+    },
+    {
+        "country_id": "173",
+        "name": "Cusco",
+        "code": "8"
+    },
+    {
+        "country_id": "173",
+        "name": "Huancavelica",
+        "code": "9"
+    },
+    {
+        "country_id": "173",
+        "name": "Huánuco",
+        "code": "10"
+    },
+    {
+        "country_id": "173",
+        "name": "Ica",
+        "code": "11"
+    },
+    {
+        "country_id": "173",
+        "name": "Junin",
+        "code": "12"
+    },
+    {
+        "country_id": "173",
+        "name": "La Libertad",
+        "code": "13"
+    },
+    {
+        "country_id": "173",
+        "name": "Lambayeque",
+        "code": "14"
+    },
+    {
+        "country_id": "173",
+        "name": "Lima",
+        "code": "15"
+    },
+    {
+        "country_id": "173",
+        "name": "Loreto",
+        "code": "16"
+    },
+    {
+        "country_id": "173",
+        "name": "Madre de Dios",
+        "code": "17"
+    },
+    {
+        "country_id": "173",
+        "name": "Moquegua",
+        "code": "18"
+    },
+    {
+        "country_id": "173",
+        "name": "Pasco",
+        "code": "19"
+    },
+    {
+        "country_id": "173",
+        "name": "Piura",
+        "code": "20"
+    },
+    {
+        "country_id": "173",
+        "name": "Puno",
+        "code": "21"
+    },
+    {
+        "country_id": "173",
+        "name": "San Martín",
+        "code": "22"
+    },
+    {
+        "country_id": "173",
+        "name": "Tacna",
+        "code": "23"
+    },
+    {
+        "country_id": "173",
+        "name": "Tumbes",
+        "code": "24"
+    },
+    {
+        "country_id": "173",
+        "name": "Ucayali",
+        "code": "25"
+    },
+    {
+        "country_id": "46",
+        "name": "Tarapacá",
+        "code": "1"
+    },
+    {
+        "country_id": "46",
+        "name": "Antofagasta",
+        "code": "2"
+    },
+    {
+        "country_id": "46",
+        "name": "Atacama",
+        "code": "3"
+    },
+    {
+        "country_id": "46",
+        "name": "Coquimbo",
+        "code": "4"
+    },
+    {
+        "country_id": "46",
+        "name": "Valparaíso",
+        "code": "5"
+    },
+    {
+        "country_id": "46",
+        "name": "del Libertador Gral. Bernardo O'Higgins",
+        "code": "6"
+    },
+    {
+        "country_id": "46",
+        "name": "del Maule",
+        "code": "7"
+    },
+    {
+        "country_id": "46",
+        "name": "del BíoBio",
+        "code": "8"
+    },
+    {
+        "country_id": "46",
+        "name": "de la Araucania",
+        "code": "9"
+    },
+    {
+        "country_id": "46",
+        "name": "de los Lagos",
+        "code": "10"
+    },
+    {
+        "country_id": "46",
+        "name": "Aysén del Gral. Carlos Ibáñez del Campo",
+        "code": "11"
+    },
+    {
+        "country_id": "46",
+        "name": "Magallanes",
+        "code": "12"
+    },
+    {
+        "country_id": "46",
+        "name": "Metropolitana",
+        "code": "13"
+    },
+    {
+        "country_id": "46",
+        "name": "Los Ríos",
+        "code": "14"
+    },
+    {
+        "country_id": "46",
+        "name": "Arica y Parinacota",
+        "code": "15"
+    },
+    {
+        "country_id": "46",
+        "name": "del Ñuble",
+        "code": "16"
+    },
+    {
+        "country_id": "64",
+        "name": "Harjumaa",
+        "code": "EE-37"
+    },
+    {
+        "country_id": "64",
+        "name": "Hiiumaa",
+        "code": "EE-39"
+    },
+    {
+        "country_id": "64",
+        "name": "Ida-Virumaa",
+        "code": "EE-44"
+    },
+    {
+        "country_id": "64",
+        "name": "Jõgevamaa",
+        "code": "EE-49"
+    },
+    {
+        "country_id": "64",
+        "name": "Järvamaa",
+        "code": "EE-51"
+    },
+    {
+        "country_id": "64",
+        "name": "Läänemaa",
+        "code": "EE-57"
+    },
+    {
+        "country_id": "64",
+        "name": "Lääne-Virumaa",
+        "code": "EE-59"
+    },
+    {
+        "country_id": "64",
+        "name": "Põlvamaa",
+        "code": "EE-65"
+    },
+    {
+        "country_id": "64",
+        "name": "Pärnumaa",
+        "code": "EE-67"
+    },
+    {
+        "country_id": "64",
+        "name": "Raplamaa",
+        "code": "EE-70"
+    },
+    {
+        "country_id": "64",
+        "name": "Saaremaa",
+        "code": "EE-74"
+    },
+    {
+        "country_id": "64",
+        "name": "Tartumaa",
+        "code": "EE-78"
+    },
+    {
+        "country_id": "64",
+        "name": "Valgamaa",
+        "code": "EE-82"
+    },
+    {
+        "country_id": "64",
+        "name": "Viljandimaa",
+        "code": "EE-84"
+    },
+    {
+        "country_id": "64",
+        "name": "Võrumaa",
+        "code": "EE-86"
+    },
+    {
+        "country_id": "134",
+        "name": "Aglonas novads",
+        "code": "LV-001"
+    },
+    {
+        "country_id": "134",
+        "name": "Aizkraukles novads",
+        "code": "LV-002"
+    },
+    {
+        "country_id": "134",
+        "name": "Aizputes novads",
+        "code": "LV-003"
+    },
+    {
+        "country_id": "134",
+        "name": "Aknīstes novads",
+        "code": "LV-004"
+    },
+    {
+        "country_id": "134",
+        "name": "Alojas novads",
+        "code": "LV-005"
+    },
+    {
+        "country_id": "134",
+        "name": "Alsungas novads",
+        "code": "LV-006"
+    },
+    {
+        "country_id": "134",
+        "name": "Alūksnes novads",
+        "code": "LV-007"
+    },
+    {
+        "country_id": "134",
+        "name": "Amatas novads",
+        "code": "LV-008"
+    },
+    {
+        "country_id": "134",
+        "name": "Apes novads",
+        "code": "LV-009"
+    },
+    {
+        "country_id": "134",
+        "name": "Auces novads",
+        "code": "LV-010"
+    },
+    {
+        "country_id": "134",
+        "name": "Ādažu novads",
+        "code": "LV-011"
+    },
+    {
+        "country_id": "134",
+        "name": "Babītes novads",
+        "code": "LV-012"
+    },
+    {
+        "country_id": "134",
+        "name": "Baldones novads",
+        "code": "LV-013"
+    },
+    {
+        "country_id": "134",
+        "name": "Baltinavas novads",
+        "code": "LV-014"
+    },
+    {
+        "country_id": "134",
+        "name": "Balvu novads",
+        "code": "LV-015"
+    },
+    {
+        "country_id": "134",
+        "name": "Bauskas novads",
+        "code": "LV-016"
+    },
+    {
+        "country_id": "134",
+        "name": "Beverīnas novads",
+        "code": "LV-017"
+    },
+    {
+        "country_id": "134",
+        "name": "Brocēnu novads",
+        "code": "LV-018"
+    },
+    {
+        "country_id": "134",
+        "name": "Burtnieku novads",
+        "code": "LV-019"
+    },
+    {
+        "country_id": "134",
+        "name": "Carnikavas novads",
+        "code": "LV-020"
+    },
+    {
+        "country_id": "134",
+        "name": "Cesvaines novads",
+        "code": "LV-021"
+    },
+    {
+        "country_id": "134",
+        "name": "Cēsu novads",
+        "code": "LV-022"
+    },
+    {
+        "country_id": "134",
+        "name": "Ciblas novads",
+        "code": "LV-023"
+    },
+    {
+        "country_id": "134",
+        "name": "Dagdas novads",
+        "code": "LV-024"
+    },
+    {
+        "country_id": "134",
+        "name": "Daugavpils novads",
+        "code": "LV-025"
+    },
+    {
+        "country_id": "134",
+        "name": "Dobeles novads",
+        "code": "LV-026"
+    },
+    {
+        "country_id": "134",
+        "name": "Dundagas novads",
+        "code": "LV-027"
+    },
+    {
+        "country_id": "134",
+        "name": "Durbes novads",
+        "code": "LV-028"
+    },
+    {
+        "country_id": "134",
+        "name": "Engures novads",
+        "code": "LV-029"
+    },
+    {
+        "country_id": "134",
+        "name": "Ērgļu novads",
+        "code": "LV-030"
+    },
+    {
+        "country_id": "134",
+        "name": "Garkalnes novads",
+        "code": "LV-031"
+    },
+    {
+        "country_id": "134",
+        "name": "Grobiņas novads",
+        "code": "LV-032"
+    },
+    {
+        "country_id": "134",
+        "name": "Gulbenes novads",
+        "code": "LV-033"
+    },
+    {
+        "country_id": "134",
+        "name": "Iecavas novads",
+        "code": "LV-034"
+    },
+    {
+        "country_id": "134",
+        "name": "Ikšķiles novads",
+        "code": "LV-035"
+    },
+    {
+        "country_id": "134",
+        "name": "Ilūkstes novads",
+        "code": "LV-036"
+    },
+    {
+        "country_id": "134",
+        "name": "Inčukalna novads",
+        "code": "LV-037"
+    },
+    {
+        "country_id": "134",
+        "name": "Jaunjelgavas novads",
+        "code": "LV-038"
+    },
+    {
+        "country_id": "134",
+        "name": "Jaunpiebalgas novads",
+        "code": "LV-039"
+    },
+    {
+        "country_id": "134",
+        "name": "Jaunpils novads",
+        "code": "LV-040"
+    },
+    {
+        "country_id": "134",
+        "name": "Jelgavas novads",
+        "code": "LV-041"
+    },
+    {
+        "country_id": "134",
+        "name": "Jēkabpils novads",
+        "code": "LV-042"
+    },
+    {
+        "country_id": "134",
+        "name": "Kandavas novads",
+        "code": "LV-043"
+    },
+    {
+        "country_id": "134",
+        "name": "Kārsavas novads",
+        "code": "LV-044"
+    },
+    {
+        "country_id": "134",
+        "name": "Kocēnu novads",
+        "code": "LV-045"
+    },
+    {
+        "country_id": "134",
+        "name": "Kokneses novads",
+        "code": "LV-046"
+    },
+    {
+        "country_id": "134",
+        "name": "Krāslavas novads",
+        "code": "LV-047"
+    },
+    {
+        "country_id": "134",
+        "name": "Krimuldas novads",
+        "code": "LV-048"
+    },
+    {
+        "country_id": "134",
+        "name": "Krustpils novads",
+        "code": "LV-049"
+    },
+    {
+        "country_id": "134",
+        "name": "Kuldīgas novads",
+        "code": "LV-050"
+    },
+    {
+        "country_id": "134",
+        "name": "Ķeguma novads",
+        "code": "LV-051"
+    },
+    {
+        "country_id": "134",
+        "name": "Ķekavas novads",
+        "code": "LV-052"
+    },
+    {
+        "country_id": "134",
+        "name": "Lielvārdes novads",
+        "code": "LV-053"
+    },
+    {
+        "country_id": "134",
+        "name": "Limbažu novads",
+        "code": "LV-054"
+    },
+    {
+        "country_id": "134",
+        "name": "Līgatnes novads",
+        "code": "LV-055"
+    },
+    {
+        "country_id": "134",
+        "name": "Līvānu novads",
+        "code": "LV-056"
+    },
+    {
+        "country_id": "134",
+        "name": "Lubānas novads",
+        "code": "LV-057"
+    },
+    {
+        "country_id": "134",
+        "name": "Ludzas novads",
+        "code": "LV-058"
+    },
+    {
+        "country_id": "134",
+        "name": "Madonas novads",
+        "code": "LV-059"
+    },
+    {
+        "country_id": "134",
+        "name": "Mazsalacas novads",
+        "code": "LV-060"
+    },
+    {
+        "country_id": "134",
+        "name": "Mālpils novads",
+        "code": "LV-061"
+    },
+    {
+        "country_id": "134",
+        "name": "Mārupes novads",
+        "code": "LV-062"
+    },
+    {
+        "country_id": "134",
+        "name": "Mērsraga novads",
+        "code": "LV-063"
+    },
+    {
+        "country_id": "134",
+        "name": "Naukšēnu novads",
+        "code": "LV-064"
+    },
+    {
+        "country_id": "134",
+        "name": "Neretas novads",
+        "code": "LV-065"
+    },
+    {
+        "country_id": "134",
+        "name": "Nīcas novads",
+        "code": "LV-066"
+    },
+    {
+        "country_id": "134",
+        "name": "Ogres novads",
+        "code": "LV-067"
+    },
+    {
+        "country_id": "134",
+        "name": "Olaines novads",
+        "code": "LV-068"
+    },
+    {
+        "country_id": "134",
+        "name": "Ozolnieku novads",
+        "code": "LV-069"
+    },
+    {
+        "country_id": "134",
+        "name": "Pārgaujas novads",
+        "code": "LV-070"
+    },
+    {
+        "country_id": "134",
+        "name": "Pāvilostas novads",
+        "code": "LV-071"
+    },
+    {
+        "country_id": "134",
+        "name": "Pļaviņu novads",
+        "code": "LV-072"
+    },
+    {
+        "country_id": "134",
+        "name": "Preiļu novads",
+        "code": "LV-073"
+    },
+    {
+        "country_id": "134",
+        "name": "Priekules novads",
+        "code": "LV-074"
+    },
+    {
+        "country_id": "134",
+        "name": "Priekuļu novads",
+        "code": "LV-075"
+    },
+    {
+        "country_id": "134",
+        "name": "Raunas novads",
+        "code": "LV-076"
+    },
+    {
+        "country_id": "134",
+        "name": "Rēzeknes novads",
+        "code": "LV-077"
+    },
+    {
+        "country_id": "134",
+        "name": "Riebiņu novads",
+        "code": "LV-078"
+    },
+    {
+        "country_id": "134",
+        "name": "Rojas novads",
+        "code": "LV-079"
+    },
+    {
+        "country_id": "134",
+        "name": "Ropažu novads",
+        "code": "LV-080"
+    },
+    {
+        "country_id": "134",
+        "name": "Rucavas novads",
+        "code": "LV-081"
+    },
+    {
+        "country_id": "134",
+        "name": "Rugāju novads",
+        "code": "LV-082"
+    },
+    {
+        "country_id": "134",
+        "name": "Rundāles novads",
+        "code": "LV-083"
+    },
+    {
+        "country_id": "134",
+        "name": "Rūjienas novads",
+        "code": "LV-084"
+    },
+    {
+        "country_id": "134",
+        "name": "Salas novads",
+        "code": "LV-085"
+    },
+    {
+        "country_id": "134",
+        "name": "Salacgrīvas novads",
+        "code": "LV-086"
+    },
+    {
+        "country_id": "134",
+        "name": "Salaspils novads",
+        "code": "LV-087"
+    },
+    {
+        "country_id": "134",
+        "name": "Saldus novads",
+        "code": "LV-088"
+    },
+    {
+        "country_id": "134",
+        "name": "Saulkrastu novads",
+        "code": "LV-089"
+    },
+    {
+        "country_id": "134",
+        "name": "Sējas novads",
+        "code": "LV-090"
+    },
+    {
+        "country_id": "134",
+        "name": "Siguldas novads",
+        "code": "LV-091"
+    },
+    {
+        "country_id": "134",
+        "name": "Skrīveru novads",
+        "code": "LV-092"
+    },
+    {
+        "country_id": "134",
+        "name": "Skrundas novads",
+        "code": "LV-093"
+    },
+    {
+        "country_id": "134",
+        "name": "Smiltenes novads",
+        "code": "LV-094"
+    },
+    {
+        "country_id": "134",
+        "name": "Stopiņu novads",
+        "code": "LV-095"
+    },
+    {
+        "country_id": "134",
+        "name": "Strenču novads",
+        "code": "LV-096"
+    },
+    {
+        "country_id": "134",
+        "name": "Talsu novads",
+        "code": "LV-097"
+    },
+    {
+        "country_id": "134",
+        "name": "Tērvetes novads",
+        "code": "LV-098"
+    },
+    {
+        "country_id": "134",
+        "name": "Tukuma novads",
+        "code": "LV-099"
+    },
+    {
+        "country_id": "134",
+        "name": "Vaiņodes novads",
+        "code": "LV-100"
+    },
+    {
+        "country_id": "134",
+        "name": "Valkas novads",
+        "code": "LV-101"
+    },
+    {
+        "country_id": "134",
+        "name": "Varakļānu novads",
+        "code": "LV-102"
+    },
+    {
+        "country_id": "134",
+        "name": "Vārkavas novads",
+        "code": "LV-103"
+    },
+    {
+        "country_id": "134",
+        "name": "Vecpiebalgas novads",
+        "code": "LV-104"
+    },
+    {
+        "country_id": "134",
+        "name": "Vecumnieku novads",
+        "code": "LV-105"
+    },
+    {
+        "country_id": "134",
+        "name": "Ventspils novads",
+        "code": "LV-106"
+    },
+    {
+        "country_id": "134",
+        "name": "Viesītes novads",
+        "code": "LV-107"
+    },
+    {
+        "country_id": "134",
+        "name": "Viļakas novads",
+        "code": "LV-108"
+    },
+    {
+        "country_id": "134",
+        "name": "Viļānu novads",
+        "code": "LV-109"
+    },
+    {
+        "country_id": "134",
+        "name": "Zilupes novads",
+        "code": "LV-110"
+    },
+    {
+        "country_id": "134",
+        "name": "Daugavpils",
+        "code": "LV-DGV"
+    },
+    {
+        "country_id": "134",
+        "name": "Jelgava",
+        "code": "LV-JEL"
+    },
+    {
+        "country_id": "134",
+        "name": "Jēkabpils",
+        "code": "LV-JKB"
+    },
+    {
+        "country_id": "134",
+        "name": "Jūrmala",
+        "code": "LV-JUR"
+    },
+    {
+        "country_id": "134",
+        "name": "Liepāja",
+        "code": "LV-LPX"
+    },
+    {
+        "country_id": "134",
+        "name": "Rēzekne",
+        "code": "LV-REZ"
+    },
+    {
+        "country_id": "134",
+        "name": "Rīga",
+        "code": "LV-RIX"
+    },
+    {
+        "country_id": "134",
+        "name": "Valmiera",
+        "code": "LV-VMR"
+    },
+    {
+        "country_id": "134",
+        "name": "Ventspils",
+        "code": "LV-VEN"
+    },
+    {
+        "country_id": "132",
+        "name": "Alytaus apskritis",
+        "code": "LT-AL"
+    },
+    {
+        "country_id": "132",
+        "name": "Kauno apskritis",
+        "code": "LT-KU"
+    },
+    {
+        "country_id": "132",
+        "name": "Klaipėdos apskritis",
+        "code": "LT-KL"
+    },
+    {
+        "country_id": "132",
+        "name": "Marijampolės apskritis",
+        "code": "LT-MR"
+    },
+    {
+        "country_id": "132",
+        "name": "Panevėžio apskritis",
+        "code": "LT-PN"
+    },
+    {
+        "country_id": "132",
+        "name": "Šiaulių apskritis",
+        "code": "LT-SA"
+    },
+    {
+        "country_id": "132",
+        "name": "Tauragės apskritis",
+        "code": "LT-TA"
+    },
+    {
+        "country_id": "132",
+        "name": "Telšių apskritis",
+        "code": "LT-TE"
+    },
+    {
+        "country_id": "132",
+        "name": "Utenos apskritis",
+        "code": "LT-UT"
+    },
+    {
+        "country_id": "132",
+        "name": "Vilniaus apskritis",
+        "code": "LT-VL"
+    },
+    {
+        "country_id": "70",
+        "name": "Ahvenanmaa",
+        "code": "FI-01"
+    },
+    {
+        "country_id": "70",
+        "name": "Etelä-Karjala",
+        "code": "FI-02"
+    },
+    {
+        "country_id": "70",
+        "name": "Etelä-Pohjanmaa",
+        "code": "FI-03"
+    },
+    {
+        "country_id": "70",
+        "name": "Etelä-Savo",
+        "code": "FI-04"
+    },
+    {
+        "country_id": "70",
+        "name": "Kainuu",
+        "code": "FI-05"
+    },
+    {
+        "country_id": "70",
+        "name": "Kanta-Häme",
+        "code": "FI-06"
+    },
+    {
+        "country_id": "70",
+        "name": "Keski-Pohjanmaa",
+        "code": "FI-07"
+    },
+    {
+        "country_id": "70",
+        "name": "Keski-Suomi",
+        "code": "FI-08"
+    },
+    {
+        "country_id": "70",
+        "name": "Kymenlaakso",
+        "code": "FI-09"
+    },
+    {
+        "country_id": "70",
+        "name": "Lappi",
+        "code": "FI-10"
+    },
+    {
+        "country_id": "70",
+        "name": "Pirkanmaa",
+        "code": "FI-11"
+    },
+    {
+        "country_id": "70",
+        "name": "Pohjanmaa",
+        "code": "FI-12"
+    },
+    {
+        "country_id": "70",
+        "name": "Pohjois-Karjala",
+        "code": "FI-13"
+    },
+    {
+        "country_id": "70",
+        "name": "Pohjois-Pohjanmaa",
+        "code": "FI-14"
+    },
+    {
+        "country_id": "70",
+        "name": "Pohjois-Savo",
+        "code": "FI-15"
+    },
+    {
+        "country_id": "70",
+        "name": "Päijät-Häme",
+        "code": "FI-16"
+    },
+    {
+        "country_id": "70",
+        "name": "Satakunta",
+        "code": "FI-17"
+    },
+    {
+        "country_id": "70",
+        "name": "Uusimaa",
+        "code": "FI-18"
+    },
+    {
+        "country_id": "70",
+        "name": "Varsinais-Suomi",
+        "code": "FI-19"
+    },
+    {
+        "country_id": "196",
+        "name": "Blekinge län",
+        "code": "SE-K"
+    },
+    {
+        "country_id": "196",
+        "name": "Dalarnas län",
+        "code": "SE-W"
+    },
+    {
+        "country_id": "196",
+        "name": "Gotlands län",
+        "code": "SE-I"
+    },
+    {
+        "country_id": "196",
+        "name": "Gävleborgs län",
+        "code": "SE-X"
+    },
+    {
+        "country_id": "196",
+        "name": "Hallands län",
+        "code": "SE-N"
+    },
+    {
+        "country_id": "196",
+        "name": "Jämtlands län",
+        "code": "SE-Z"
+    },
+    {
+        "country_id": "196",
+        "name": "Jönköpings län",
+        "code": "SE-F"
+    },
+    {
+        "country_id": "196",
+        "name": "Kalmar län",
+        "code": "SE-H"
+    },
+    {
+        "country_id": "196",
+        "name": "Kronobergs län",
+        "code": "SE-G"
+    },
+    {
+        "country_id": "196",
+        "name": "Norrbottens län",
+        "code": "SE-BD"
+    },
+    {
+        "country_id": "196",
+        "name": "Skåne län",
+        "code": "SE-M"
+    },
+    {
+        "country_id": "196",
+        "name": "Stockholms län",
+        "code": "SE-AB"
+    },
+    {
+        "country_id": "196",
+        "name": "Södermanlands län",
+        "code": "SE-D"
+    },
+    {
+        "country_id": "196",
+        "name": "Uppsala län",
+        "code": "SE-C"
+    },
+    {
+        "country_id": "196",
+        "name": "Värmlands län",
+        "code": "SE-S"
+    },
+    {
+        "country_id": "196",
+        "name": "Västerbottens län",
+        "code": "SE-AC"
+    },
+    {
+        "country_id": "196",
+        "name": "Västernorrlands län",
+        "code": "SE-Y"
+    },
+    {
+        "country_id": "196",
+        "name": "Västmanlands län",
+        "code": "SE-U"
+    },
+    {
+        "country_id": "196",
+        "name": "Västra Götalands län",
+        "code": "SE-O"
+    },
+    {
+        "country_id": "196",
+        "name": "Örebro län",
+        "code": "SE-T"
+    },
+    {
+        "country_id": "196",
+        "name": "Östergötlands län",
+        "code": "SE-E"
+    },
+    {
+        "country_id": "166",
+        "name": "Agder",
+        "code": "NO-42"
+    },
+    {
+        "country_id": "166",
+        "name": "Innlandet",
+        "code": "NO-34"
+    },
+    {
+        "country_id": "166",
+        "name": "Møre og Romsdal",
+        "code": "NO-15"
+    },
+    {
+        "country_id": "166",
+        "name": "Nordland",
+        "code": "NO-18"
+    },
+    {
+        "country_id": "166",
+        "name": "Oslo",
+        "code": "NO-03"
+    },
+    {
+        "country_id": "166",
+        "name": "Rogaland",
+        "code": "NO-11"
+    },
+    {
+        "country_id": "166",
+        "name": "Troms og Finnmark / Romsa ja Finnmárku",
+        "code": "NO-54"
+    },
+    {
+        "country_id": "166",
+        "name": "Trøndelag",
+        "code": "NO-50"
+    },
+    {
+        "country_id": "166",
+        "name": "Vestfold og Telemark",
+        "code": "NO-38"
+    },
+    {
+        "country_id": "166",
+        "name": "Vestland",
+        "code": "NO-46"
+    },
+    {
+        "country_id": "166",
+        "name": "Viken",
+        "code": "NO-30"
+    },
+    {
+        "country_id": "166",
+        "name": "Jan Mayen",
+        "code": "NO-22"
+    },
+    {
+        "country_id": "166",
+        "name": "Svalbard",
+        "code": "NO-21"
+    },
+    {
+        "country_id": "57",
+        "name": "Baden-Württemberg",
+        "code": "DE-BW"
+    },
+    {
+        "country_id": "57",
+        "name": "Bayern",
+        "code": "DE-BY"
+    },
+    {
+        "country_id": "57",
+        "name": "Berlin",
+        "code": "DE-BE"
+    },
+    {
+        "country_id": "57",
+        "name": "Brandenburg",
+        "code": "DE-BB"
+    },
+    {
+        "country_id": "57",
+        "name": "Bremen",
+        "code": "DE-HB"
+    },
+    {
+        "country_id": "57",
+        "name": "Hamburg",
+        "code": "DE-HH"
+    },
+    {
+        "country_id": "57",
+        "name": "Hessen",
+        "code": "DE-HE"
+    },
+    {
+        "country_id": "57",
+        "name": "Mecklenburg-Vorpommern",
+        "code": "DE-MV"
+    },
+    {
+        "country_id": "57",
+        "name": "Niedersachsen",
+        "code": "DE-NI"
+    },
+    {
+        "country_id": "57",
+        "name": "Nordrhein-Westfalen",
+        "code": "DE-NW"
+    },
+    {
+        "country_id": "57",
+        "name": "Rheinland-Pfalz",
+        "code": "DE-RP"
+    },
+    {
+        "country_id": "57",
+        "name": "Saarland",
+        "code": "DE-SL"
+    },
+    {
+        "country_id": "57",
+        "name": "Sachsen",
+        "code": "DE-SN"
+    },
+    {
+        "country_id": "57",
+        "name": "Sachsen-Anhalt",
+        "code": "DE-ST"
+    },
+    {
+        "country_id": "57",
+        "name": "Schleswig-Holstein",
+        "code": "DE-SH"
+    },
+    {
+        "country_id": "57",
+        "name": "Thüringen",
+        "code": "DE-TH"
+    },
+    {
+        "country_id": "63",
+        "name": "Azuay",
+        "code": "1"
+    },
+    {
+        "country_id": "63",
+        "name": "Bolivar",
+        "code": "2"
+    },
+    {
+        "country_id": "63",
+        "name": "Canar",
+        "code": "3"
+    },
+    {
+        "country_id": "63",
+        "name": "Carchi",
+        "code": "4"
+    },
+    {
+        "country_id": "63",
+        "name": "Cotopaxi",
+        "code": "5"
+    },
+    {
+        "country_id": "63",
+        "name": "Chimborazo",
+        "code": "6"
+    },
+    {
+        "country_id": "63",
+        "name": "El Oro",
+        "code": "7"
+    },
+    {
+        "country_id": "63",
+        "name": "Esmeraldas",
+        "code": "8"
+    },
+    {
+        "country_id": "63",
+        "name": "Guayas",
+        "code": "9"
+    },
+    {
+        "country_id": "63",
+        "name": "Imbabura",
+        "code": "10"
+    },
+    {
+        "country_id": "63",
+        "name": "Loja",
+        "code": "11"
+    },
+    {
+        "country_id": "63",
+        "name": "Los Rios",
+        "code": "12"
+    },
+    {
+        "country_id": "63",
+        "name": "Manabi",
+        "code": "13"
+    },
+    {
+        "country_id": "63",
+        "name": "Morona Santiago",
+        "code": "14"
+    },
+    {
+        "country_id": "63",
+        "name": "Napo",
+        "code": "15"
+    },
+    {
+        "country_id": "63",
+        "name": "Pastaza",
+        "code": "16"
+    },
+    {
+        "country_id": "63",
+        "name": "Pichincha",
+        "code": "17"
+    },
+    {
+        "country_id": "63",
+        "name": "Tungurahua",
+        "code": "18"
+    },
+    {
+        "country_id": "63",
+        "name": "Zamora Chinchipe",
+        "code": "19"
+    },
+    {
+        "country_id": "63",
+        "name": "Galapagos",
+        "code": "20"
+    },
+    {
+        "country_id": "63",
+        "name": "Sucumbios",
+        "code": "21"
+    },
+    {
+        "country_id": "63",
+        "name": "Orellana",
+        "code": "22"
+    },
+    {
+        "country_id": "63",
+        "name": "Santo Domingo de los Tsachilas",
+        "code": "23"
+    },
+    {
+        "country_id": "63",
+        "name": "Santa Elena",
+        "code": "24"
+    },
+    {
+        "country_id": "43",
+        "name": "Zürich",
+        "code": "ZH"
+    },
+    {
+        "country_id": "43",
+        "name": "Zurigo",
+        "code": "ZH-IT"
+    },
+    {
+        "country_id": "43",
+        "name": "Zurich",
+        "code": "ZH-FR"
+    },
+    {
+        "country_id": "43",
+        "name": "Bern",
+        "code": "BE"
+    },
+    {
+        "country_id": "43",
+        "name": "Berna",
+        "code": "BE-IT"
+    },
+    {
+        "country_id": "43",
+        "name": "Berne",
+        "code": "BE-FR"
+    },
+    {
+        "country_id": "43",
+        "name": "Luzern",
+        "code": "LU"
+    },
+    {
+        "country_id": "43",
+        "name": "Lucerna",
+        "code": "LU-IT"
+    },
+    {
+        "country_id": "43",
+        "name": "Lucerne",
+        "code": "LU-FR"
+    },
+    {
+        "country_id": "43",
+        "name": "Uri",
+        "code": "UR"
+    },
+    {
+        "country_id": "43",
+        "name": "Schwyz",
+        "code": "SZ"
+    },
+    {
+        "country_id": "43",
+        "name": "Svitto",
+        "code": "SZ-IT"
+    },
+    {
+        "country_id": "43",
+        "name": "Obwalden",
+        "code": "OW"
+    },
+    {
+        "country_id": "43",
+        "name": "Obvaldo",
+        "code": "OW-IT"
+    },
+    {
+        "country_id": "43",
+        "name": "Obwald",
+        "code": "OW-FR"
+    },
+    {
+        "country_id": "43",
+        "name": "Nidwalden",
+        "code": "NW"
+    },
+    {
+        "country_id": "43",
+        "name": "Nidvaldo",
+        "code": "NW-IT"
+    },
+    {
+        "country_id": "43",
+        "name": "Nidwald",
+        "code": "NW-FR"
+    },
+    {
+        "country_id": "43",
+        "name": "Glarus",
+        "code": "GL"
+    },
+    {
+        "country_id": "43",
+        "name": "Glanora",
+        "code": "GL-IT"
+    },
+    {
+        "country_id": "43",
+        "name": "Glaris",
+        "code": "GL-FR"
+    },
+    {
+        "country_id": "43",
+        "name": "Zug",
+        "code": "ZG"
+    },
+    {
+        "country_id": "43",
+        "name": "Zugo",
+        "code": "ZG-IT"
+    },
+    {
+        "country_id": "43",
+        "name": "Zoug",
+        "code": "ZG-FR"
+    },
+    {
+        "country_id": "43",
+        "name": "Freiburg",
+        "code": "FR"
+    },
+    {
+        "country_id": "43",
+        "name": "Friburgo",
+        "code": "FR-IT"
+    },
+    {
+        "country_id": "43",
+        "name": "Fribourg",
+        "code": "FR-FR"
+    },
+    {
+        "country_id": "43",
+        "name": "Solothurn",
+        "code": "SO"
+    },
+    {
+        "country_id": "43",
+        "name": "Soletta",
+        "code": "SO-IT"
+    },
+    {
+        "country_id": "43",
+        "name": "Soleure",
+        "code": "SO-FR"
+    },
+    {
+        "country_id": "43",
+        "name": "Basel-Stadt",
+        "code": "BS"
+    },
+    {
+        "country_id": "43",
+        "name": "Basilea-Città",
+        "code": "BS-IT"
+    },
+    {
+        "country_id": "43",
+        "name": "Bâle-Ville",
+        "code": "BS-FR"
+    },
+    {
+        "country_id": "43",
+        "name": "Basel-Landschaft",
+        "code": "BL"
+    },
+    {
+        "country_id": "43",
+        "name": "Basilea-Campagna",
+        "code": "BL-IT"
+    },
+    {
+        "country_id": "43",
+        "name": "Bâle-Campagne",
+        "code": "BL-FR"
+    },
+    {
+        "country_id": "43",
+        "name": "Schaffhausen",
+        "code": "SH"
+    },
+    {
+        "country_id": "43",
+        "name": "Sciaffusa",
+        "code": "SH-IT"
+    },
+    {
+        "country_id": "43",
+        "name": "Schaffhouse",
+        "code": "SH-FR"
+    },
+    {
+        "country_id": "43",
+        "name": "Appenzell Ausserrhoden",
+        "code": "AR"
+    },
+    {
+        "country_id": "43",
+        "name": "Appenzello Esterno",
+        "code": "AR-IT"
+    },
+    {
+        "country_id": "43",
+        "name": "Appenzell Rhodes-Extérieures",
+        "code": "AR-FR"
+    },
+    {
+        "country_id": "43",
+        "name": "Appenzell Innerrhoden",
+        "code": "AI"
+    },
+    {
+        "country_id": "43",
+        "name": "Appenzello Interno",
+        "code": "AI-IT"
+    },
+    {
+        "country_id": "43",
+        "name": "Appenzell Rhodes-Intérieures",
+        "code": "AI-FR"
+    },
+    {
+        "country_id": "43",
+        "name": "St. Gallen",
+        "code": "SG"
+    },
+    {
+        "country_id": "43",
+        "name": "San Gallo",
+        "code": "SG-IT"
+    },
+    {
+        "country_id": "43",
+        "name": "Saint-Gall",
+        "code": "SG-FR"
+    },
+    {
+        "country_id": "43",
+        "name": "Graubünden",
+        "code": "GR"
+    },
+    {
+        "country_id": "43",
+        "name": "Grigioni",
+        "code": "GR-IT"
+    },
+    {
+        "country_id": "43",
+        "name": "Grisons",
+        "code": "GR-FR"
+    },
+    {
+        "country_id": "43",
+        "name": "Aargau",
+        "code": "AG"
+    },
+    {
+        "country_id": "43",
+        "name": "Argovia",
+        "code": "AG-IT"
+    },
+    {
+        "country_id": "43",
+        "name": "Argovie",
+        "code": "AG-FR"
+    },
+    {
+        "country_id": "43",
+        "name": "Thurgau",
+        "code": "TG"
+    },
+    {
+        "country_id": "43",
+        "name": "Turgovia",
+        "code": "TG-IT"
+    },
+    {
+        "country_id": "43",
+        "name": "Thurgovie",
+        "code": "TG-FR"
+    },
+    {
+        "country_id": "43",
+        "name": "Tessin",
+        "code": "TI"
+    },
+    {
+        "country_id": "43",
+        "name": "Ticino",
+        "code": "TI-IT"
+    },
+    {
+        "country_id": "43",
+        "name": "Waadt",
+        "code": "VD"
+    },
+    {
+        "country_id": "43",
+        "name": "Vaud",
+        "code": "VD-FR"
+    },
+    {
+        "country_id": "43",
+        "name": "Wallis",
+        "code": "VS"
+    },
+    {
+        "country_id": "43",
+        "name": "Vallese",
+        "code": "VS-IT"
+    },
+    {
+        "country_id": "43",
+        "name": "Valais",
+        "code": "VS-FR"
+    },
+    {
+        "country_id": "43",
+        "name": "Neuenburg",
+        "code": "NE"
+    },
+    {
+        "country_id": "43",
+        "name": "Neuchâtel",
+        "code": "NE-FR"
+    },
+    {
+        "country_id": "43",
+        "name": "Genf",
+        "code": "GE"
+    },
+    {
+        "country_id": "43",
+        "name": "Ginevra",
+        "code": "GE-IT"
+    },
+    {
+        "country_id": "43",
+        "name": "Genève",
+        "code": "GE-FR"
+    },
+    {
+        "country_id": "43",
+        "name": "Jura",
+        "code": "JU"
+    },
+    {
+        "country_id": "43",
+        "name": "Giura",
+        "code": "JU-IT"
+    },
+    {
+        "country_id": "217",
+        "name": "Bangkok",
+        "code": "TH-10"
+    },
+    {
+        "country_id": "217",
+        "name": "Amnat Charoen",
+        "code": "TH-37"
+    },
+    {
+        "country_id": "217",
+        "name": "Ang Thong",
+        "code": "TH-15"
+    },
+    {
+        "country_id": "217",
+        "name": "Bueng Kan",
+        "code": "TH-38"
+    },
+    {
+        "country_id": "217",
+        "name": "Buriram",
+        "code": "TH-31"
+    },
+    {
+        "country_id": "217",
+        "name": "Chachoengsao",
+        "code": "TH-24"
+    },
+    {
+        "country_id": "217",
+        "name": "Chai Nat",
+        "code": "TH-18"
+    },
+    {
+        "country_id": "217",
+        "name": "Chaiyaphum",
+        "code": "TH-36"
+    },
+    {
+        "country_id": "217",
+        "name": "Chanthaburi",
+        "code": "TH-22"
+    },
+    {
+        "country_id": "217",
+        "name": "Chiang Mai",
+        "code": "TH-50"
+    },
+    {
+        "country_id": "217",
+        "name": "Chiang Rai",
+        "code": "TH-57"
+    },
+    {
+        "country_id": "217",
+        "name": "Chonburi",
+        "code": "TH-20"
+    },
+    {
+        "country_id": "217",
+        "name": "Chumphon",
+        "code": "TH-86"
+    },
+    {
+        "country_id": "217",
+        "name": "Kalasin",
+        "code": "TH-46"
+    },
+    {
+        "country_id": "217",
+        "name": "Kamphaeng Phet",
+        "code": "TH-62"
+    },
+    {
+        "country_id": "217",
+        "name": "Kanchanaburi",
+        "code": "TH-71"
+    },
+    {
+        "country_id": "217",
+        "name": "Khon Kaen",
+        "code": "TH-40"
+    },
+    {
+        "country_id": "217",
+        "name": "Krabi",
+        "code": "TH-81"
+    },
+    {
+        "country_id": "217",
+        "name": "Lampang",
+        "code": "TH-52"
+    },
+    {
+        "country_id": "217",
+        "name": "Lamphun",
+        "code": "TH-51"
+    },
+    {
+        "country_id": "217",
+        "name": "Loei",
+        "code": "TH-42"
+    },
+    {
+        "country_id": "217",
+        "name": "Lopburi",
+        "code": "TH-16"
+    },
+    {
+        "country_id": "217",
+        "name": "Mae Hong Son",
+        "code": "TH-58"
+    },
+    {
+        "country_id": "217",
+        "name": "Maha Sarakham",
+        "code": "TH-44"
+    },
+    {
+        "country_id": "217",
+        "name": "Mukdahan",
+        "code": "TH-49"
+    },
+    {
+        "country_id": "217",
+        "name": "Nakhon Nayok",
+        "code": "TH-26"
+    },
+    {
+        "country_id": "217",
+        "name": "Nakhon Pathom",
+        "code": "TH-73"
+    },
+    {
+        "country_id": "217",
+        "name": "Nakhon Phanom",
+        "code": "TH-48"
+    },
+    {
+        "country_id": "217",
+        "name": "Nakhon Ratchasima",
+        "code": "TH-30"
+    },
+    {
+        "country_id": "217",
+        "name": "Nakhon Sawan",
+        "code": "TH-60"
+    },
+    {
+        "country_id": "217",
+        "name": "Nakhon Si Thammarat",
+        "code": "TH-80"
+    },
+    {
+        "country_id": "217",
+        "name": "Nan",
+        "code": "TH-55"
+    },
+    {
+        "country_id": "217",
+        "name": "Narathiwat",
+        "code": "TH-96"
+    },
+    {
+        "country_id": "217",
+        "name": "Nong Bua Lamphu",
+        "code": "TH-39"
+    },
+    {
+        "country_id": "217",
+        "name": "Nong Khai",
+        "code": "TH-43"
+    },
+    {
+        "country_id": "217",
+        "name": "Nonthaburi",
+        "code": "TH-12"
+    },
+    {
+        "country_id": "217",
+        "name": "Pathum Thani",
+        "code": "TH-13"
+    },
+    {
+        "country_id": "217",
+        "name": "Pattani",
+        "code": "TH-94"
+    },
+    {
+        "country_id": "217",
+        "name": "Phang Nga",
+        "code": "TH-82"
+    },
+    {
+        "country_id": "217",
+        "name": "Phatthalung",
+        "code": "TH-93"
+    },
+    {
+        "country_id": "217",
+        "name": "Phayao",
+        "code": "TH-56"
+    },
+    {
+        "country_id": "217",
+        "name": "Phetchabun",
+        "code": "TH-67"
+    },
+    {
+        "country_id": "217",
+        "name": "Phetchaburi",
+        "code": "TH-76"
+    },
+    {
+        "country_id": "217",
+        "name": "Phichit",
+        "code": "TH-66"
+    },
+    {
+        "country_id": "217",
+        "name": "Phitsanulok",
+        "code": "TH-65"
+    },
+    {
+        "country_id": "217",
+        "name": "Phra Nakhon Si Ayutthaya",
+        "code": "TH-14"
+    },
+    {
+        "country_id": "217",
+        "name": "Phrae",
+        "code": "TH-54"
+    },
+    {
+        "country_id": "217",
+        "name": "Phuket",
+        "code": "TH-83"
+    },
+    {
+        "country_id": "217",
+        "name": "Prachinburi",
+        "code": "TH-25"
+    },
+    {
+        "country_id": "217",
+        "name": "Prachuap Khiri Khan",
+        "code": "TH-77"
+    },
+    {
+        "country_id": "217",
+        "name": "Ranong",
+        "code": "TH-85"
+    },
+    {
+        "country_id": "217",
+        "name": "Ratchaburi",
+        "code": "TH-70"
+    },
+    {
+        "country_id": "217",
+        "name": "Rayong",
+        "code": "TH-21"
+    },
+    {
+        "country_id": "217",
+        "name": "Roi Et",
+        "code": "TH-45"
+    },
+    {
+        "country_id": "217",
+        "name": "Sa Kaeo",
+        "code": "TH-27"
+    },
+    {
+        "country_id": "217",
+        "name": "Sakon Nakhon",
+        "code": "TH-47"
+    },
+    {
+        "country_id": "217",
+        "name": "Samut Prakan",
+        "code": "TH-11"
+    },
+    {
+        "country_id": "217",
+        "name": "Samut Sakhon",
+        "code": "TH-74"
+    },
+    {
+        "country_id": "217",
+        "name": "Samut Songkhram",
+        "code": "TH-75"
+    },
+    {
+        "country_id": "217",
+        "name": "Saraburi",
+        "code": "TH-19"
+    },
+    {
+        "country_id": "217",
+        "name": "Satun",
+        "code": "TH-91"
+    },
+    {
+        "country_id": "217",
+        "name": "Sing Buri",
+        "code": "TH-17"
+    },
+    {
+        "country_id": "217",
+        "name": "Sisaket",
+        "code": "TH-33"
+    },
+    {
+        "country_id": "217",
+        "name": "Songkhla",
+        "code": "TH-90"
+    },
+    {
+        "country_id": "217",
+        "name": "Sukhothai",
+        "code": "TH-64"
+    },
+    {
+        "country_id": "217",
+        "name": "Suphan Buri",
+        "code": "TH-72"
+    },
+    {
+        "country_id": "217",
+        "name": "Surat Thani",
+        "code": "TH-84"
+    },
+    {
+        "country_id": "217",
+        "name": "Surin",
+        "code": "TH-32"
+    },
+    {
+        "country_id": "217",
+        "name": "Tak",
+        "code": "TH-63"
+    },
+    {
+        "country_id": "217",
+        "name": "Trang",
+        "code": "TH-92"
+    },
+    {
+        "country_id": "217",
+        "name": "Trat",
+        "code": "TH-23"
+    },
+    {
+        "country_id": "217",
+        "name": "Ubon Ratchathani",
+        "code": "TH-34"
+    },
+    {
+        "country_id": "217",
+        "name": "Udon Thani",
+        "code": "TH-41"
+    },
+    {
+        "country_id": "217",
+        "name": "Uthai Thani",
+        "code": "TH-61"
+    },
+    {
+        "country_id": "217",
+        "name": "Uttaradit",
+        "code": "TH-53"
+    },
+    {
+        "country_id": "217",
+        "name": "Yala",
+        "code": "TH-95"
+    },
+    {
+        "country_id": "217",
+        "name": "Yasothon",
+        "code": "TH-35"
+    },
+    {
+        "country_id": "192",
+        "name": "Abha",
+        "code": "AHB"
+    },
+    {
+        "country_id": "192",
+        "name": "Abqaiq",
+        "code": "ABQ"
+    },
+    {
+        "country_id": "192",
+        "name": "Ad Dammam",
+        "code": "DMM"
+    },
+    {
+        "country_id": "192",
+        "name": "Ad Dawadami",
+        "code": "DAW"
+    },
+    {
+        "country_id": "192",
+        "name": "Al Baha",
+        "code": "ABT"
+    },
+    {
+        "country_id": "192",
+        "name": "Al Bahah",
+        "code": "BAH"
+    },
+    {
+        "country_id": "192",
+        "name": "Al Hada",
+        "code": "AHA"
+    },
+    {
+        "country_id": "192",
+        "name": "Al Hadithah",
+        "code": "HAD"
+    },
+    {
+        "country_id": "192",
+        "name": "Al Hasa",
+        "code": "ALH"
+    },
+    {
+        "country_id": "192",
+        "name": "Al Jawf",
+        "code": "LJW"
+    },
+    {
+        "country_id": "192",
+        "name": "Al Jubayl Industrial City",
+        "code": "JBI"
+    },
+    {
+        "country_id": "192",
+        "name": "Al Kharj",
+        "code": "AKH"
+    },
+    {
+        "country_id": "192",
+        "name": "Al Khobar",
+        "code": "AQK"
+    },
+    {
+        "country_id": "192",
+        "name": "Al Khobar",
+        "code": "ALK"
+    },
+    {
+        "country_id": "192",
+        "name": "Al Khuraibah",
+        "code": "KHU"
+    },
+    {
+        "country_id": "192",
+        "name": "Al Muajjiz",
+        "code": "AMU"
+    },
+    {
+        "country_id": "192",
+        "name": "Al Qahmah",
+        "code": "QAH"
+    },
+    {
+        "country_id": "192",
+        "name": "Al Qunfudah",
+        "code": "QUN"
+    },
+    {
+        "country_id": "192",
+        "name": "Al Qurainah",
+        "code": "QRN"
+    },
+    {
+        "country_id": "192",
+        "name": "Al Shuqaiq",
+        "code": "ASQ"
+    },
+    {
+        "country_id": "192",
+        "name": "Al 'Uthmaniyah",
+        "code": "AUT"
+    },
+    {
+        "country_id": "192",
+        "name": "Ar Rass",
+        "code": "ARR"
+    },
+    {
+        "country_id": "192",
+        "name": "Arar",
+        "code": "RAE"
+    },
+    {
+        "country_id": "192",
+        "name": "Asfan",
+        "code": "ASF"
+    },
+    {
+        "country_id": "192",
+        "name": "Badanah",
+        "code": "BDN"
+    },
+    {
+        "country_id": "192",
+        "name": "Bisha",
+        "code": "BHH"
+    },
+    {
+        "country_id": "192",
+        "name": "Buraydah",
+        "code": "BRU"
+    },
+    {
+        "country_id": "192",
+        "name": "Buraydah",
+        "code": "BUR"
+    },
+    {
+        "country_id": "192",
+        "name": "Dhahran",
+        "code": "DHA"
+    },
+    {
+        "country_id": "192",
+        "name": "Dhuba",
+        "code": "DHU"
+    },
+    {
+        "country_id": "192",
+        "name": "Fiji",
+        "code": "FJJ"
+    },
+    {
+        "country_id": "192",
+        "name": "Gassim",
+        "code": "ELQ"
+    },
+    {
+        "country_id": "192",
+        "name": "Gurayat",
+        "code": "URY"
+    },
+    {
+        "country_id": "192",
+        "name": "Hafar al Batin",
+        "code": "HBT"
+    },
+    {
+        "country_id": "192",
+        "name": "Hail",
+        "code": "HAS"
+    },
+    {
+        "country_id": "192",
+        "name": "Harad",
+        "code": "RAD"
+    },
+    {
+        "country_id": "192",
+        "name": "Hazm Al Jalamid",
+        "code": "HZM"
+    },
+    {
+        "country_id": "192",
+        "name": "Hofuf",
+        "code": "HOF"
+    },
+    {
+        "country_id": "192",
+        "name": "Jazan Economic City",
+        "code": "JEC"
+    },
+    {
+        "country_id": "192",
+        "name": "Jeddah",
+        "code": "JED"
+    },
+    {
+        "country_id": "192",
+        "name": "Jeddah Industrial City 2 & 3",
+        "code": "JIC"
+    },
+    {
+        "country_id": "192",
+        "name": "Jeddah Yachts Club Port",
+        "code": "JYC"
+    },
+    {
+        "country_id": "192",
+        "name": "Jizan",
+        "code": "GIZ"
+    },
+    {
+        "country_id": "192",
+        "name": "Jouf",
+        "code": "AJF"
+    },
+    {
+        "country_id": "192",
+        "name": "Juaymah Terminal",
+        "code": "JUT"
+    },
+    {
+        "country_id": "192",
+        "name": "Jubail",
+        "code": "JUB"
+    },
+    {
+        "country_id": "192",
+        "name": "Khamis Mushayt",
+        "code": "KMX"
+    },
+    {
+        "country_id": "192",
+        "name": "King Abdullah City",
+        "code": "KAC"
+    },
+    {
+        "country_id": "192",
+        "name": "King Fhad",
+        "code": "KFH"
+    },
+    {
+        "country_id": "192",
+        "name": "King Khalid",
+        "code": "KKH"
+    },
+    {
+        "country_id": "192",
+        "name": "Lith",
+        "code": "LIT"
+    },
+    {
+        "country_id": "192",
+        "name": "Madinah",
+        "code": "MED"
+    },
+    {
+        "country_id": "192",
+        "name": "Majma",
+        "code": "MJH"
+    },
+    {
+        "country_id": "192",
+        "name": "Makkah",
+        "code": "MAK"
+    },
+    {
+        "country_id": "192",
+        "name": "Manailih",
+        "code": "MAN"
+    },
+    {
+        "country_id": "192",
+        "name": "Manfouha",
+        "code": "MUF"
+    },
+    {
+        "country_id": "192",
+        "name": "Muhayil",
+        "code": "MHY"
+    },
+    {
+        "country_id": "192",
+        "name": "Najran",
+        "code": "NJN"
+    },
+    {
+        "country_id": "192",
+        "name": "Nejran",
+        "code": "EAM"
+    },
+    {
+        "country_id": "192",
+        "name": "Qaisumah",
+        "code": "AQI"
+    },
+    {
+        "country_id": "192",
+        "name": "Qalsn",
+        "code": "QAL"
+    },
+    {
+        "country_id": "192",
+        "name": "Qatif",
+        "code": "QTF"
+    },
+    {
+        "country_id": "192",
+        "name": "Qurayyah",
+        "code": "QUR"
+    },
+    {
+        "country_id": "192",
+        "name": "Rabigh",
+        "code": "RAB"
+    },
+    {
+        "country_id": "192",
+        "name": "Rafha",
+        "code": "RAH"
+    },
+    {
+        "country_id": "192",
+        "name": "Ras al Khafji",
+        "code": "RAR"
+    },
+    {
+        "country_id": "192",
+        "name": "Ras al Mishab",
+        "code": "RAM"
+    },
+    {
+        "country_id": "192",
+        "name": "Ras Al-Khair",
+        "code": "RAZ"
+    },
+    {
+        "country_id": "192",
+        "name": "Ras Tanura",
+        "code": "RTA"
+    },
+    {
+        "country_id": "192",
+        "name": "Riyadh",
+        "code": "RUH"
+    },
+    {
+        "country_id": "192",
+        "name": "Riyadh Dry Port",
+        "code": "RYP"
+    },
+    {
+        "country_id": "192",
+        "name": "Safaniya",
+        "code": "SAF"
+    },
+    {
+        "country_id": "192",
+        "name": "Salboukh",
+        "code": "SUH"
+    },
+    {
+        "country_id": "192",
+        "name": "Salwá",
+        "code": "SAL"
+    },
+    {
+        "country_id": "192",
+        "name": "Sayhat",
+        "code": "SAY"
+    },
+    {
+        "country_id": "192",
+        "name": "Shadqam",
+        "code": "SHD"
+    },
+    {
+        "country_id": "192",
+        "name": "Sharurah",
+        "code": "SHW"
+    },
+    {
+        "country_id": "192",
+        "name": "Shuaibah",
+        "code": "SHU"
+    },
+    {
+        "country_id": "192",
+        "name": "Sulayel",
+        "code": "SLF"
+    },
+    {
+        "country_id": "192",
+        "name": "Tabuk",
+        "code": "TUU"
+    },
+    {
+        "country_id": "192",
+        "name": "Taif",
+        "code": "TIF"
+    },
+    {
+        "country_id": "192",
+        "name": "Turaif",
+        "code": "TUI"
+    },
+    {
+        "country_id": "192",
+        "name": "Tusdeer Free Zone",
+        "code": "TFZ"
+    },
+    {
+        "country_id": "192",
+        "name": "Udhailiyah",
+        "code": "UDH"
+    },
+    {
+        "country_id": "192",
+        "name": "Umm Lajj",
+        "code": "VLA"
+    },
+    {
+        "country_id": "192",
+        "name": "Unayzah",
+        "code": "UZH"
+    },
+    {
+        "country_id": "192",
+        "name": "Wadi ad Dawasir",
+        "code": "WAE"
+    },
+    {
+        "country_id": "192",
+        "name": "Waisumah",
+        "code": "AWI"
+    },
+    {
+        "country_id": "192",
+        "name": "Wedjh",
+        "code": "EJH"
+    },
+    {
+        "country_id": "192",
+        "name": "Yanbu commercial city",
+        "code": "YNB"
+    },
+    {
+        "country_id": "192",
+        "name": "Yanbu Industrial City",
+        "code": "YBI"
+    },
+    {
+        "country_id": "192",
+        "name": "Zilfi",
+        "code": "ZUL"
+    },
+    {
+        "country_id": "192",
+        "name": "Zulayfayn",
+        "code": "ZUY"
+    },
+    {
+        "country_id": "234",
+        "name": "Artigas",
+        "code": "AR"
+    },
+    {
+        "country_id": "234",
+        "name": "Canelones",
+        "code": "CA"
+    },
+    {
+        "country_id": "234",
+        "name": "Cerro Largo",
+        "code": "CL"
+    },
+    {
+        "country_id": "234",
+        "name": "Colonia",
+        "code": "CO"
+    },
+    {
+        "country_id": "234",
+        "name": "Durazno",
+        "code": "DU"
+    },
+    {
+        "country_id": "234",
+        "name": "Flores",
+        "code": "FS"
+    },
+    {
+        "country_id": "234",
+        "name": "Florida",
+        "code": "FD"
+    },
+    {
+        "country_id": "234",
+        "name": "Lavalleja",
+        "code": "LA"
+    },
+    {
+        "country_id": "234",
+        "name": "Maldonado",
+        "code": "MA"
+    },
+    {
+        "country_id": "234",
+        "name": "Montevideo",
+        "code": "MO"
+    },
+    {
+        "country_id": "234",
+        "name": "Paysandú",
+        "code": "PA"
+    },
+    {
+        "country_id": "234",
+        "name": "Río Negro",
+        "code": "RN"
+    },
+    {
+        "country_id": "234",
+        "name": "Rivera",
+        "code": "RV"
+    },
+    {
+        "country_id": "234",
+        "name": "Rocha",
+        "code": "RO"
+    },
+    {
+        "country_id": "234",
+        "name": "Salto",
+        "code": "SA"
+    },
+    {
+        "country_id": "234",
+        "name": "San José",
+        "code": "SJ"
+    },
+    {
+        "country_id": "234",
+        "name": "Soriano",
+        "code": "SO"
+    },
+    {
+        "country_id": "234",
+        "name": "Tacuarembó",
+        "code": "TA"
+    },
+    {
+        "country_id": "234",
+        "name": "Treinta y Tres",
+        "code": "TT"
+    },
+    {
+        "country_id": "94",
+        "name": "Hong Kong Island",
+        "code": "HK"
+    },
+    {
+        "country_id": "94",
+        "name": "Kowloon",
+        "code": "KLN"
+    },
+    {
+        "country_id": "94",
+        "name": "New Territories",
+        "code": "NT"
+    },
+    {
+        "country_id": "114",
+        "name": "Baringo",
+        "code": "KE-01"
+    },
+    {
+        "country_id": "114",
+        "name": "Bomet",
+        "code": "KE-02"
+    },
+    {
+        "country_id": "114",
+        "name": "Bungoma",
+        "code": "KE-03"
+    },
+    {
+        "country_id": "114",
+        "name": "Busia",
+        "code": "KE-04"
+    },
+    {
+        "country_id": "114",
+        "name": "Elgeyo/Marakwet",
+        "code": "KE-05"
+    },
+    {
+        "country_id": "114",
+        "name": "Embu",
+        "code": "KE-06"
+    },
+    {
+        "country_id": "114",
+        "name": "Garissa",
+        "code": "KE-07"
+    },
+    {
+        "country_id": "114",
+        "name": "Homa Bay",
+        "code": "KE-08"
+    },
+    {
+        "country_id": "114",
+        "name": "Isiolo",
+        "code": "KE-09"
+    },
+    {
+        "country_id": "114",
+        "name": "Kajiado",
+        "code": "KE-10"
+    },
+    {
+        "country_id": "114",
+        "name": "Kakamega",
+        "code": "KE-11"
+    },
+    {
+        "country_id": "114",
+        "name": "Kericho",
+        "code": "KE-12"
+    },
+    {
+        "country_id": "114",
+        "name": "Kiambu",
+        "code": "KE-13"
+    },
+    {
+        "country_id": "114",
+        "name": "Kilifi",
+        "code": "KE-14"
+    },
+    {
+        "country_id": "114",
+        "name": "Kirinyaga",
+        "code": "KE-15"
+    },
+    {
+        "country_id": "114",
+        "name": "Kisii",
+        "code": "KE-16"
+    },
+    {
+        "country_id": "114",
+        "name": "Kisumu",
+        "code": "KE-17"
+    },
+    {
+        "country_id": "114",
+        "name": "Kitui",
+        "code": "KE-18"
+    },
+    {
+        "country_id": "114",
+        "name": "Kwale",
+        "code": "KE-19"
+    },
+    {
+        "country_id": "114",
+        "name": "Laikipia",
+        "code": "KE-20"
+    },
+    {
+        "country_id": "114",
+        "name": "Lamu",
+        "code": "KE-21"
+    },
+    {
+        "country_id": "114",
+        "name": "Machakos",
+        "code": "KE-22"
+    },
+    {
+        "country_id": "114",
+        "name": "Makueni",
+        "code": "KE-23"
+    },
+    {
+        "country_id": "114",
+        "name": "Mandera",
+        "code": "KE-24"
+    },
+    {
+        "country_id": "114",
+        "name": "Marsabit",
+        "code": "KE-25"
+    },
+    {
+        "country_id": "114",
+        "name": "Meru",
+        "code": "KE-26"
+    },
+    {
+        "country_id": "114",
+        "name": "Migori",
+        "code": "KE-27"
+    },
+    {
+        "country_id": "114",
+        "name": "Mombasa",
+        "code": "KE-28"
+    },
+    {
+        "country_id": "114",
+        "name": "Murang'a",
+        "code": "KE-29"
+    },
+    {
+        "country_id": "114",
+        "name": "Nairobi City",
+        "code": "KE-30"
+    },
+    {
+        "country_id": "114",
+        "name": "Nakuru",
+        "code": "KE-31"
+    },
+    {
+        "country_id": "114",
+        "name": "Nandi",
+        "code": "KE-32"
+    },
+    {
+        "country_id": "114",
+        "name": "Narok",
+        "code": "KE-33"
+    },
+    {
+        "country_id": "114",
+        "name": "Nyamira",
+        "code": "KE-34"
+    },
+    {
+        "country_id": "114",
+        "name": "Nyandarua",
+        "code": "KE-35"
+    },
+    {
+        "country_id": "114",
+        "name": "Nyeri",
+        "code": "KE-36"
+    },
+    {
+        "country_id": "114",
+        "name": "Samburu",
+        "code": "KE-37"
+    },
+    {
+        "country_id": "114",
+        "name": "Siaya",
+        "code": "KE-38"
+    },
+    {
+        "country_id": "114",
+        "name": "Taita/Taveta",
+        "code": "KE-39"
+    },
+    {
+        "country_id": "114",
+        "name": "Tana River",
+        "code": "KE-40"
+    },
+    {
+        "country_id": "114",
+        "name": "Tharaka-Nithi",
+        "code": "KE-41"
+    },
+    {
+        "country_id": "114",
+        "name": "Trans Nzoia",
+        "code": "KE-42"
+    },
+    {
+        "country_id": "114",
+        "name": "Turkana",
+        "code": "KE-43"
+    },
+    {
+        "country_id": "114",
+        "name": "Uasin Gishu",
+        "code": "KE-44"
+    },
+    {
+        "country_id": "114",
+        "name": "Vihiga",
+        "code": "KE-45"
+    },
+    {
+        "country_id": "114",
+        "name": "Wajir",
+        "code": "KE-46"
+    },
+    {
+        "country_id": "114",
+        "name": "West Pokot",
+        "code": "KE-47"
+    },
+    {
+        "country_id": "112",
+        "name": "Ajloun",
+        "code": "JO-AJ"
+    },
+    {
+        "country_id": "112",
+        "name": "Amman",
+        "code": "JO-AM"
+    },
+    {
+        "country_id": "112",
+        "name": "Aqaba",
+        "code": "JO-AQ"
+    },
+    {
+        "country_id": "112",
+        "name": "Tafileh",
+        "code": "JO-AT"
+    },
+    {
+        "country_id": "112",
+        "name": "Zarqa",
+        "code": "JO-AZ"
+    },
+    {
+        "country_id": "112",
+        "name": "Balqa",
+        "code": "JO-BA"
+    },
+    {
+        "country_id": "112",
+        "name": "Irbid",
+        "code": "JO-IR"
+    },
+    {
+        "country_id": "112",
+        "name": "Jerash",
+        "code": "JO-JA"
+    },
+    {
+        "country_id": "112",
+        "name": "Karak",
+        "code": "JO-KA"
+    },
+    {
+        "country_id": "112",
+        "name": "Mafraq",
+        "code": "JO-MA"
+    },
+    {
+        "country_id": "112",
+        "name": "Madaba",
+        "code": "JO-MD"
+    },
+    {
+        "country_id": "112",
+        "name": "Maan",
+        "code": "JO-MN"
+    },
+    {
+        "country_id": "121",
+        "name": "Seoul-teukbyeolsi",
+        "code": "KR-11"
+    },
+    {
+        "country_id": "121",
+        "name": "Busan-gwangyeoksi",
+        "code": "KR-26"
+    },
+    {
+        "country_id": "121",
+        "name": "Daegu-gwangyeoksi",
+        "code": "KR-27"
+    },
+    {
+        "country_id": "121",
+        "name": "Incheon-gwangyeoksi",
+        "code": "KR-28"
+    },
+    {
+        "country_id": "121",
+        "name": "Gwangju-gwangyeoksi",
+        "code": "KR-29"
+    },
+    {
+        "country_id": "121",
+        "name": "Daejeon-gwangyeoksi",
+        "code": "KR-30"
+    },
+    {
+        "country_id": "121",
+        "name": "Ulsan-gwangyeoksi",
+        "code": "KR-31"
+    },
+    {
+        "country_id": "121",
+        "name": "Gyeonggi-do",
+        "code": "KR-41"
+    },
+    {
+        "country_id": "121",
+        "name": "Gangwon-teukbyeoljachido",
+        "code": "KR-42"
+    },
+    {
+        "country_id": "121",
+        "name": "Chungcheongbuk-do",
+        "code": "KR-43"
+    },
+    {
+        "country_id": "121",
+        "name": "Chungcheongnam-do",
+        "code": "KR-44"
+    },
+    {
+        "country_id": "121",
+        "name": "Jeollabuk-do",
+        "code": "KR-45"
+    },
+    {
+        "country_id": "121",
+        "name": "Jeollanam-do",
+        "code": "KR-46"
+    },
+    {
+        "country_id": "121",
+        "name": "Gyeongsangbuk-do",
+        "code": "KR-47"
+    },
+    {
+        "country_id": "121",
+        "name": "Gyeongsangnam-do",
+        "code": "KR-48"
+    },
+    {
+        "country_id": "121",
+        "name": "Jeju-teukbyeoljachido",
+        "code": "KR-49"
+    },
+    {
+        "country_id": "121",
+        "name": "Sejong",
+        "code": "KR-50"
+    }
+]

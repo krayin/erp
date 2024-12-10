@@ -5,18 +5,23 @@ namespace Webkul\Security\Filament\Resources;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Fields\Filament\Traits\HasCustomFields;
 use Webkul\Security\Filament\Resources\CompanyResource\Pages;
 use Webkul\Security\Filament\Resources\CompanyResource\RelationManagers;
 use Webkul\Security\Models\Company;
+use Webkul\Security\Models\Country;
 use Webkul\Security\Models\Currency;
+use Webkul\Security\Models\State;
 
 class CompanyResource extends Resource
 {
@@ -80,24 +85,107 @@ class CompanyResource extends Resource
                                             ->label('Street 2'),
                                         Forms\Components\TextInput::make('city')
                                             ->required(),
-                                        Forms\Components\TextInput::make('state')
-                                            ->required(),
                                         Forms\Components\TextInput::make('zip')
+                                            ->live()
                                             ->label('ZIP Code')
+                                            ->required(fn(Get $get) => Country::find($get('country_id'))?->zip_required),
+                                        Forms\Components\Select::make('country_id')
+                                            ->label('Country')
+                                            ->relationship(name: 'country', titleAttribute: 'name')
+                                            ->afterStateUpdated(fn(Set $set) => $set('state_id', null))
+                                            ->createOptionForm([
+                                                Forms\Components\Select::make('currency_id')
+                                                    ->options(fn() => Currency::pluck('full_name', 'id'))
+                                                    ->searchable()
+                                                    ->preload()
+                                                    ->label('Currency Name')
+                                                    ->required(),
+                                                Forms\Components\TextInput::make('phone_code')
+                                                    ->label('Phone Code')
+                                                    ->required(),
+                                                Forms\Components\TextInput::make('code')
+                                                    ->label('Code')
+                                                    ->required()
+                                                    ->rules('max:2'),
+                                                Forms\Components\TextInput::make('name')
+                                                    ->label('Country Name')
+                                                    ->required(),
+                                                Forms\Components\Toggle::make('state_required')
+                                                    ->label('State Required')
+                                                    ->required(),
+                                                Forms\Components\Toggle::make('zip_required')
+                                                    ->label('Zip Required')
+                                                    ->required(),
+                                            ])
+                                            ->createOptionAction(function (Action $action) {
+                                                return $action
+                                                    ->modalHeading('Create Country')
+                                                    ->modalSubmitActionLabel('Create Country')
+                                                    ->modalWidth('xl')
+                                                    ->action(function (array $data, $component) {
+                                                        $country = Country::create($data);
+
+                                                        $component->state($country->id);
+
+                                                        Notification::make()
+                                                            ->title('Country Created Successfully')
+                                                            ->success()
+                                                            ->send();
+                                                    });
+                                            })
+                                            ->searchable()
+                                            ->preload()
+                                            ->live()
                                             ->required(),
-                                        Forms\Components\TextInput::make('country')
-                                            ->required(),
+                                        Forms\Components\Select::make('state_id')
+                                            ->label('State')
+                                            ->options(
+                                                fn(Get $get): Collection => State::query()
+                                                    ->where('country_id', $get('country_id'))
+                                                    ->pluck('name', 'id')
+                                            )
+                                            ->createOptionForm([
+                                                Forms\Components\TextInput::make('name')
+                                                    ->label('Name')
+                                                    ->required()
+                                                    ->maxLength(255),
+                                                Forms\Components\TextInput::make('code')
+                                                    ->label('Code')
+                                                    ->required()
+                                                    ->maxLength(255),
+                                            ])
+                                            ->createOptionAction(function (Action $action, Get $get) {
+                                                return $action
+                                                    ->modalHeading('Create State')
+                                                    ->modalSubmitActionLabel('Create State')
+                                                    ->modalWidth('lg')
+                                                    ->action(function (array $data, $component) use ($get) {
+                                                        $data['country_id'] = $get('country_id');
+
+                                                        $state = State::create($data);
+
+                                                        $component->state($state->id);
+
+                                                        Notification::make()
+                                                            ->title('State Created Successfully')
+                                                            ->success()
+                                                            ->send();
+                                                    });
+                                            })
+                                            ->searchable()
+                                            ->preload()
+                                            ->required(fn(Get $get) => Country::find($get('country_id'))?->state_required),
                                     ])
                                     ->columns(2),
                                 Forms\Components\Section::make('Additional Information')
                                     ->schema([
-                                        Forms\Components\Select::make('currency_code')
+                                        Forms\Components\Select::make('currency_id')
                                             ->label('Default Currency')
                                             ->searchable()
                                             ->required()
                                             ->live()
                                             ->preload()
-                                            ->options(fn () => Currency::pluck('full_name', 'name'))
+                                            ->options(fn() => Currency::pluck('full_name', 'id'))
                                             ->createOptionForm([
                                                 Forms\Components\TextInput::make('code')
                                                     ->label('Currency Code')
@@ -194,12 +282,12 @@ class CompanyResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('country')
+                Tables\Columns\TextColumn::make('country.name')
                     ->label('Country')
                     ->sortable()
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('currency_code')
+                Tables\Columns\TextColumn::make('currency.full_name')
                     ->label('Currency')
                     ->sortable()
                     ->searchable(),
@@ -226,9 +314,11 @@ class CompanyResource extends Resource
                 Tables\Grouping\Group::make('city')
                     ->label('City')
                     ->collapsible(),
-                Tables\Grouping\Group::make('country')
+                Tables\Grouping\Group::make('country.name')
                     ->label('Country')
-                    ->date()
+                    ->collapsible(),
+                Tables\Grouping\Group::make('state.name')
+                    ->label('State')
                     ->collapsible(),
                 Tables\Grouping\Group::make('email')
                     ->label('Email')
@@ -236,11 +326,15 @@ class CompanyResource extends Resource
                 Tables\Grouping\Group::make('phone')
                     ->label('Phone')
                     ->collapsible(),
-                Tables\Grouping\Group::make('currency_code')
+                Tables\Grouping\Group::make('currency_id')
                     ->label('Currency')
                     ->collapsible(),
                 Tables\Grouping\Group::make('created_at')
                     ->label('Created At')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('updated_at')
+                    ->label('Update At')
+                    ->date()
                     ->collapsible(),
             ])
             ->filters([
@@ -255,7 +349,7 @@ class CompanyResource extends Resource
                     ->label('Country')
                     ->multiple()
                     ->options(function () {
-                        return Company::distinct('country')->pluck('country', 'country');
+                        return Country::pluck('name', 'name');
                     }),
             ])
             ->filtersFormColumns(2)
@@ -275,7 +369,8 @@ class CompanyResource extends Resource
                 ]),
             ])->modifyQueryUsing(function (Builder $query) {
                 $query->where('user_id', Auth::user()->id);
-            });
+            })
+            ->reorderable('sequence');
     }
 
     public static function getRelations(): array

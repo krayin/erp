@@ -12,16 +12,18 @@ class Branch extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'sequence',
         'name',
         'street1',
         'street2',
         'city',
-        'state',
+        'state_id',
         'zip',
-        'country',
+        'country_id',
         'tax_id',
         'company_id',
-        'currency_code',
+        'user_id',
+        'currency_id',
         'phone',
         'mobile',
         'email',
@@ -36,5 +38,29 @@ class Branch extends Model
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
+    }
+
+    /**
+     * Get the currency associated with the company.
+     */
+    public function currency(): BelongsTo
+    {
+        return $this->belongsTo(Currency::class);
+    }
+
+    /**
+     * Get the state associated with the company.
+     */
+    public function state(): BelongsTo
+    {
+        return $this->belongsTo(State::class);
+    }
+
+    /**
+     * Get the country associated with the company.
+     */
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
     }
 }

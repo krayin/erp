@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('companies', function (Blueprint $table) {
+        Schema::create('branches', function (Blueprint $table) {
             $table->id();
+            $table->integer('sequence')->nullable();
             $table->string('name')->nullable(false);
-            $table->string('company_id')->unique();
             $table->string('tax_id')->unique()->nullable();
             $table->string('registration_number')->nullable();
             $table->string('email')->nullable();
@@ -23,15 +23,22 @@ return new class extends Migration
             $table->string('street1')->nullable();
             $table->string('street2')->nullable();
             $table->string('city')->nullable();
-            $table->string('state')->nullable();
+
             $table->string('zip')->nullable();
-            $table->string('country')->nullable();
             $table->string('logo')->nullable();
             $table->string('color')->nullable();
-            $table->string('currency_code', 3)->nullable();
             $table->boolean('is_active')->default(true);
             $table->date('founded_date')->nullable();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('currency_id');
+            $table->unsignedBigInteger('state_id');
+            $table->unsignedBigInteger('country_id');
+
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
+            $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
@@ -43,6 +50,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('companies');
+        Schema::dropIfExists('branches');
     }
 };
