@@ -30,6 +30,9 @@ class SecurityServiceProvider extends PackageServiceProvider
                 '2024_12_10_100833_create_branches_table',
                 '2024_12_10_100944_create_user_allowed_companies_table',
                 '2024_12_10_101127_create_add_columns_to_users_table',
+                '2024_12_10_114620_create_activity_plans_table',
+                '2024_12_10_115256_create_activity_types_table',
+                '2024_12_10_115728_create_activity_plan_templates_table'
             ])
             ->hasSettings([
                 '2024_11_05_042358_create_user_settings',
