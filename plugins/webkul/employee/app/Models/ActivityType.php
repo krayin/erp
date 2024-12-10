@@ -1,10 +1,11 @@
 <?php
 
-namespace Webkul\Security\Models;
+namespace Webkul\Employee\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Webkul\Security\Models\User;
 
 class ActivityType extends Model
 {

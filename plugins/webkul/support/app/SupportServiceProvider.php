@@ -19,7 +19,15 @@ class SupportServiceProvider extends PackageServiceProvider
     {
         $package->name(static::$name)
             ->hasViews()
-            ->hasMigrations([])
+            ->hasMigrations([
+                '2024_12_06_061927_create_currencies_table',
+                '2024_12_10_092651_create_countries_table',
+                '2024_12_10_092657_create_states_table',
+                '2024_12_10_100813_create_companies_table',
+                '2024_12_10_100833_create_branches_table',
+                '2024_12_10_100944_create_user_allowed_companies_table',
+                
+            ])
             ->runsMigrations()
             ->hasCommands([
                 InstallERP::class,
