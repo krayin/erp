@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employment_types', function (Blueprint $table) {
+        Schema::create('departure_reasons', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->integer('sequence')->nullable();
+            $table->integer('reason_code')->nullable();
+            $table->string('name')->nullable(false);
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employment_types');
+        Schema::dropIfExists('departure_reasons');
     }
 };

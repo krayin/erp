@@ -4,13 +4,16 @@ namespace Webkul\Employee\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Webkul\Employee\Models\Skill;
-use Webkul\Employee\Models\SkillLevel;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SkillType extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'name',
+        'color',
+        'status',
     ];
 
     public function skillLevels(): HasMany

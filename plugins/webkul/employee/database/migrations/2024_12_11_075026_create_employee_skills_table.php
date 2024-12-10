@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('notes')->nullable();
             $table->unique(['employee_id', 'skill_id']);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

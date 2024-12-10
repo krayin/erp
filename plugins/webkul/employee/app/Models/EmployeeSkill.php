@@ -11,7 +11,7 @@ class EmployeeSkill extends Model
         'skill_id',
         'skill_level_id',
         'start_date',
-        'notes'
+        'notes',
     ];
 
     protected $dates = ['start_date'];

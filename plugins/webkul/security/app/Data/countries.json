@@ -1,0 +1,2002 @@
+[
+    {
+        "currency_id": "125",
+        "phone_code": "376",
+        "code": "AD",
+        "name": "Andorra",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "128",
+        "phone_code": "971",
+        "code": "AE",
+        "name": "United Arab Emirates",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "47",
+        "phone_code": "93",
+        "code": "AF",
+        "name": "Afghanistan",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "49",
+        "phone_code": "1268",
+        "code": "AG",
+        "name": "Antigua and Barbuda",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "49",
+        "phone_code": "1264",
+        "code": "AI",
+        "name": "Anguilla",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "118",
+        "phone_code": "355",
+        "code": "AL",
+        "name": "Albania",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "50",
+        "phone_code": "374",
+        "code": "AM",
+        "name": "Armenia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "48",
+        "phone_code": "244",
+        "code": "AO",
+        "name": "Angola",
+        "state_required": false,
+        "zip_required": false
+    },
+    {
+        "currency_id": "49",
+        "phone_code": "672",
+        "code": "AQ",
+        "name": "Antarctica",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "19",
+        "phone_code": "54",
+        "code": "AR",
+        "name": "Argentina",
+        "state_required": true,
+        "zip_required": true
+    },
+    {
+        "currency_id": "1",
+        "phone_code": "1684",
+        "code": "AS",
+        "name": "American Samoa",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "43",
+        "code": "AT",
+        "name": "Austria",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "21",
+        "phone_code": "61",
+        "code": "AU",
+        "name": "Australia",
+        "state_required": true,
+        "zip_required": true
+    },
+    {
+        "currency_id": "51",
+        "phone_code": "297",
+        "code": "AW",
+        "name": "Aruba",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "358",
+        "code": "AX",
+        "name": "Åland Islands",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "52",
+        "phone_code": "994",
+        "code": "AZ",
+        "name": "Azerbaijan",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "63",
+        "phone_code": "387",
+        "code": "BA",
+        "name": "Bosnia and Herzegovina",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "56",
+        "phone_code": "1246",
+        "code": "BB",
+        "name": "Barbados",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "55",
+        "phone_code": "880",
+        "code": "BD",
+        "name": "Bangladesh",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "32",
+        "code": "BE",
+        "name": "Belgium",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "41",
+        "phone_code": "226",
+        "code": "BF",
+        "name": "Burkina Faso",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "26",
+        "phone_code": "359",
+        "code": "BG",
+        "name": "Bulgaria",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "54",
+        "phone_code": "973",
+        "code": "BH",
+        "name": "Bahrain",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "65",
+        "phone_code": "257",
+        "code": "BI",
+        "name": "Burundi",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "41",
+        "phone_code": "229",
+        "code": "BJ",
+        "name": "Benin",
+        "state_required": false,
+        "zip_required": false
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "590",
+        "code": "BL",
+        "name": "Saint Barthélémy",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "60",
+        "phone_code": "1441",
+        "code": "BM",
+        "name": "Bermuda",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "110",
+        "phone_code": "673",
+        "code": "BN",
+        "name": "Brunei Darussalam",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "62",
+        "phone_code": "591",
+        "code": "BO",
+        "name": "Bolivia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "1",
+        "phone_code": "599",
+        "code": "BQ",
+        "name": "Bonaire",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "5",
+        "phone_code": "55",
+        "code": "BR",
+        "name": "Brazil",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "53",
+        "phone_code": "1242",
+        "code": "BS",
+        "name": "Bahamas",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "61",
+        "phone_code": "975",
+        "code": "BT",
+        "name": "Bhutan",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "14",
+        "phone_code": "55",
+        "code": "BV",
+        "name": "Bouvet Island",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "64",
+        "phone_code": "267",
+        "code": "BW",
+        "name": "Botswana",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "58",
+        "phone_code": "375",
+        "code": "BY",
+        "name": "Belarus",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "59",
+        "phone_code": "501",
+        "code": "BZ",
+        "name": "Belize",
+        "state_required": false,
+        "zip_required": false
+    },
+    {
+        "currency_id": "3",
+        "phone_code": "1",
+        "code": "CA",
+        "name": "Canada",
+        "state_required": true,
+        "zip_required": true
+    },
+    {
+        "currency_id": "21",
+        "phone_code": "61",
+        "code": "CC",
+        "name": "Cocos (Keeling) Islands",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "42",
+        "phone_code": "236",
+        "code": "CF",
+        "name": "Central African Republic",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "69",
+        "phone_code": "243",
+        "code": "CD",
+        "name": "Democratic Republic of the Congo",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "42",
+        "phone_code": "242",
+        "code": "CG",
+        "name": "Congo",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "4",
+        "phone_code": "41",
+        "code": "CH",
+        "name": "Switzerland",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "41",
+        "phone_code": "225",
+        "code": "CI",
+        "name": "Côte d'Ivoire",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "35",
+        "phone_code": "682",
+        "code": "CK",
+        "name": "Cook Islands",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "45",
+        "phone_code": "56",
+        "code": "CL",
+        "name": "Chile",
+        "state_required": false,
+        "zip_required": false
+    },
+    {
+        "currency_id": "42",
+        "phone_code": "237",
+        "code": "CM",
+        "name": "Cameroon",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "6",
+        "phone_code": "86",
+        "code": "CN",
+        "name": "China",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "8",
+        "phone_code": "57",
+        "code": "CO",
+        "name": "Colombia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "39",
+        "phone_code": "506",
+        "code": "CR",
+        "name": "Costa Rica",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "70",
+        "phone_code": "53",
+        "code": "CU",
+        "name": "Cuba",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "161",
+        "phone_code": "238",
+        "code": "CV",
+        "name": "Cape Verde",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "71",
+        "phone_code": "599",
+        "code": "CW",
+        "name": "Curaçao",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "21",
+        "phone_code": "61",
+        "code": "CX",
+        "name": "Christmas Island",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "357",
+        "code": "CY",
+        "name": "Cyprus",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "9",
+        "phone_code": "420",
+        "code": "CZ",
+        "name": "Czech Republic",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "49",
+        "code": "DE",
+        "name": "Germany",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "72",
+        "phone_code": "253",
+        "code": "DJ",
+        "name": "Djibouti",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "10",
+        "phone_code": "45",
+        "code": "DK",
+        "name": "Denmark",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "49",
+        "phone_code": "1767",
+        "code": "DM",
+        "name": "Dominica",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "73",
+        "phone_code": "1849",
+        "code": "DO",
+        "name": "Dominican Republic",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "111",
+        "phone_code": "213",
+        "code": "DZ",
+        "name": "Algeria",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "1",
+        "phone_code": "593",
+        "code": "EC",
+        "name": "Ecuador",
+        "state_required": false,
+        "zip_required": false
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "372",
+        "code": "EE",
+        "name": "Estonia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "74",
+        "phone_code": "20",
+        "code": "EG",
+        "name": "Egypt",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "109",
+        "phone_code": "212",
+        "code": "EH",
+        "name": "Western Sahara",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "76",
+        "phone_code": "291",
+        "code": "ER",
+        "name": "Eritrea",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "34",
+        "code": "ES",
+        "name": "Spain",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "77",
+        "phone_code": "251",
+        "code": "ET",
+        "name": "Ethiopia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "358",
+        "code": "FI",
+        "name": "Finland",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "79",
+        "phone_code": "679",
+        "code": "FJ",
+        "name": "Fiji",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "78",
+        "phone_code": "500",
+        "code": "FK",
+        "name": "Falkland Islands",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "1",
+        "phone_code": "691",
+        "code": "FM",
+        "name": "Micronesia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "10",
+        "phone_code": "298",
+        "code": "FO",
+        "name": "Faroe Islands",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "33",
+        "code": "FR",
+        "name": "France",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "42",
+        "phone_code": "241",
+        "code": "GA",
+        "name": "Gabon",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "49",
+        "phone_code": "1473",
+        "code": "GD",
+        "name": "Grenada",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "80",
+        "phone_code": "995",
+        "code": "GE",
+        "name": "Georgia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "594",
+        "code": "GF",
+        "name": "French Guiana",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "112",
+        "phone_code": "233",
+        "code": "GH",
+        "name": "Ghana",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "81",
+        "phone_code": "350",
+        "code": "GI",
+        "name": "Gibraltar",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "143",
+        "phone_code": "44",
+        "code": "GG",
+        "name": "Guernsey",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "10",
+        "phone_code": "299",
+        "code": "GL",
+        "name": "Greenland",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "113",
+        "phone_code": "220",
+        "code": "GM",
+        "name": "Gambia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "82",
+        "phone_code": "224",
+        "code": "GN",
+        "name": "Guinea",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "590",
+        "code": "GP",
+        "name": "Guadeloupe",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "42",
+        "phone_code": "240",
+        "code": "GQ",
+        "name": "Equatorial Guinea",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "30",
+        "code": "GR",
+        "name": "Greece",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "143",
+        "phone_code": "500",
+        "code": "GS",
+        "name": "South Georgia and the South Sandwich Islands",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "165",
+        "phone_code": "502",
+        "code": "GT",
+        "name": "Guatemala",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "1",
+        "phone_code": "1671",
+        "code": "GU",
+        "name": "Guam",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "41",
+        "phone_code": "245",
+        "code": "GW",
+        "name": "Guinea-Bissau",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "83",
+        "phone_code": "592",
+        "code": "GY",
+        "name": "Guyana",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "24",
+        "phone_code": "852",
+        "code": "HK",
+        "name": "Hong Kong",
+        "state_required": false,
+        "zip_required": false
+    },
+    {
+        "currency_id": "21",
+        "phone_code": "672",
+        "code": "HM",
+        "name": "Heard Island and McDonald Islands",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "44",
+        "phone_code": "504",
+        "code": "HN",
+        "name": "Honduras",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "385",
+        "code": "HR",
+        "name": "Croatia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "84",
+        "phone_code": "509",
+        "code": "HT",
+        "name": "Haiti",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "11",
+        "phone_code": "36",
+        "code": "HU",
+        "name": "Hungary",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "12",
+        "phone_code": "62",
+        "code": "ID",
+        "name": "Indonesia",
+        "state_required": true,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "353",
+        "code": "IE",
+        "name": "Ireland",
+        "state_required": false,
+        "zip_required": false
+    },
+    {
+        "currency_id": "88",
+        "phone_code": "972",
+        "code": "IL",
+        "name": "Israel",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "143",
+        "phone_code": "44",
+        "code": "IM",
+        "name": "Isle of Man",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "20",
+        "phone_code": "91",
+        "code": "IN",
+        "name": "India",
+        "state_required": true,
+        "zip_required": true
+    },
+    {
+        "currency_id": "1",
+        "phone_code": "246",
+        "code": "IO",
+        "name": "British Indian Ocean Territory",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "87",
+        "phone_code": "964",
+        "code": "IQ",
+        "name": "Iraq",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "86",
+        "phone_code": "98",
+        "code": "IR",
+        "name": "Iran",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "85",
+        "phone_code": "354",
+        "code": "IS",
+        "name": "Iceland",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "39",
+        "code": "IT",
+        "name": "Italy",
+        "state_required": true,
+        "zip_required": true
+    },
+    {
+        "currency_id": "143",
+        "phone_code": "44",
+        "code": "JE",
+        "name": "Jersey",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "89",
+        "phone_code": "1876",
+        "code": "JM",
+        "name": "Jamaica",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "90",
+        "phone_code": "962",
+        "code": "JO",
+        "name": "Jordan",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "25",
+        "phone_code": "81",
+        "code": "JP",
+        "name": "Japan",
+        "state_required": true,
+        "zip_required": true
+    },
+    {
+        "currency_id": "92",
+        "phone_code": "254",
+        "code": "KE",
+        "name": "Kenya",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "94",
+        "phone_code": "996",
+        "code": "KG",
+        "name": "Kyrgyzstan",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "66",
+        "phone_code": "855",
+        "code": "KH",
+        "name": "Cambodia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "21",
+        "phone_code": "686",
+        "code": "KI",
+        "name": "Kiribati",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "68",
+        "phone_code": "269",
+        "code": "KM",
+        "name": "Comoros",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "49",
+        "phone_code": "1869",
+        "code": "KN",
+        "name": "Saint Kitts and Nevis",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "121",
+        "phone_code": "850",
+        "code": "KP",
+        "name": "North Korea",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "32",
+        "phone_code": "82",
+        "code": "KR",
+        "name": "South Korea",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "93",
+        "phone_code": "965",
+        "code": "KW",
+        "name": "Kuwait",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "67",
+        "phone_code": "1345",
+        "code": "KY",
+        "name": "Cayman Islands",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "91",
+        "phone_code": "7",
+        "code": "KZ",
+        "name": "Kazakhstan",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "95",
+        "phone_code": "856",
+        "code": "LA",
+        "name": "Laos",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "96",
+        "phone_code": "961",
+        "code": "LB",
+        "name": "Lebanon",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "49",
+        "phone_code": "1758",
+        "code": "LC",
+        "name": "Saint Lucia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "4",
+        "phone_code": "423",
+        "code": "LI",
+        "name": "Liechtenstein",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "141",
+        "phone_code": "94",
+        "code": "LK",
+        "name": "Sri Lanka",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "98",
+        "phone_code": "231",
+        "code": "LR",
+        "name": "Liberia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "97",
+        "phone_code": "266",
+        "code": "LS",
+        "name": "Lesotho",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "370",
+        "code": "LT",
+        "name": "Lithuania",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "352",
+        "code": "LU",
+        "name": "Luxembourg",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "371",
+        "code": "LV",
+        "name": "Latvia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "99",
+        "phone_code": "218",
+        "code": "LY",
+        "name": "Libya",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "109",
+        "phone_code": "212",
+        "code": "MA",
+        "name": "Morocco",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "377",
+        "code": "MC",
+        "name": "Monaco",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "107",
+        "phone_code": "373",
+        "code": "MD",
+        "name": "Moldova",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "382",
+        "code": "ME",
+        "name": "Montenegro",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "590",
+        "code": "MF",
+        "name": "Saint Martin (French part)",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "102",
+        "phone_code": "261",
+        "code": "MG",
+        "name": "Madagascar",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "1",
+        "phone_code": "692",
+        "code": "MH",
+        "name": "Marshall Islands",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "101",
+        "phone_code": "389",
+        "code": "MK",
+        "name": "North Macedonia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "41",
+        "phone_code": "223",
+        "code": "ML",
+        "name": "Mali",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "115",
+        "phone_code": "95",
+        "code": "MM",
+        "name": "Myanmar",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "108",
+        "phone_code": "976",
+        "code": "MN",
+        "name": "Mongolia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "100",
+        "phone_code": "853",
+        "code": "MO",
+        "name": "Macau",
+        "state_required": false,
+        "zip_required": false
+    },
+    {
+        "currency_id": "1",
+        "phone_code": "1670",
+        "code": "MP",
+        "name": "Northern Mariana Islands",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "596",
+        "code": "MQ",
+        "name": "Martinique",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "106",
+        "phone_code": "222",
+        "code": "MR",
+        "name": "Mauritania",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "49",
+        "phone_code": "1664",
+        "code": "MS",
+        "name": "Montserrat",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "356",
+        "code": "MT",
+        "name": "Malta",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "40",
+        "phone_code": "230",
+        "code": "MU",
+        "name": "Mauritius",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "104",
+        "phone_code": "960",
+        "code": "MV",
+        "name": "Maldives",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "103",
+        "phone_code": "265",
+        "code": "MW",
+        "name": "Malawi",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "33",
+        "phone_code": "52",
+        "code": "MX",
+        "name": "Mexico",
+        "state_required": true,
+        "zip_required": true
+    },
+    {
+        "currency_id": "34",
+        "phone_code": "60",
+        "code": "MY",
+        "name": "Malaysia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "114",
+        "phone_code": "258",
+        "code": "MZ",
+        "name": "Mozambique",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "116",
+        "phone_code": "264",
+        "code": "NA",
+        "name": "Namibia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "15",
+        "phone_code": "687",
+        "code": "NC",
+        "name": "New Caledonia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "41",
+        "phone_code": "227",
+        "code": "NE",
+        "name": "Niger",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "21",
+        "phone_code": "672",
+        "code": "NF",
+        "name": "Norfolk Island",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "120",
+        "phone_code": "234",
+        "code": "NG",
+        "name": "Nigeria",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "119",
+        "phone_code": "505",
+        "code": "NI",
+        "name": "Nicaragua",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "31",
+        "code": "NL",
+        "name": "Netherlands",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "14",
+        "phone_code": "47",
+        "code": "NO",
+        "name": "Norway",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "117",
+        "phone_code": "977",
+        "code": "NP",
+        "name": "Nepal",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "21",
+        "phone_code": "674",
+        "code": "NR",
+        "name": "Nauru",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "35",
+        "phone_code": "683",
+        "code": "NU",
+        "name": "Niue",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "35",
+        "phone_code": "64",
+        "code": "NZ",
+        "name": "New Zealand",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "160",
+        "phone_code": "968",
+        "code": "OM",
+        "name": "Oman",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "16",
+        "phone_code": "507",
+        "code": "PA",
+        "name": "Panama",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "156",
+        "phone_code": "51",
+        "code": "PE",
+        "name": "Peru",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "15",
+        "phone_code": "689",
+        "code": "PF",
+        "name": "French Polynesia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "158",
+        "phone_code": "675",
+        "code": "PG",
+        "name": "Papua New Guinea",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "36",
+        "phone_code": "63",
+        "code": "PH",
+        "name": "Philippines",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "159",
+        "phone_code": "92",
+        "code": "PK",
+        "name": "Pakistan",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "17",
+        "phone_code": "48",
+        "code": "PL",
+        "name": "Poland",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "508",
+        "code": "PM",
+        "name": "Saint Pierre and Miquelon",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "35",
+        "phone_code": "64",
+        "code": "PN",
+        "name": "Pitcairn Islands",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "1",
+        "phone_code": "1939",
+        "code": "PR",
+        "name": "Puerto Rico",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "88",
+        "phone_code": "970",
+        "code": "PS",
+        "name": "State of Palestine",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "351",
+        "code": "PT",
+        "name": "Portugal",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "1",
+        "phone_code": "680",
+        "code": "PW",
+        "name": "Palau",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "157",
+        "phone_code": "595",
+        "code": "PY",
+        "name": "Paraguay",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "155",
+        "phone_code": "974",
+        "code": "QA",
+        "name": "Qatar",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "262",
+        "code": "RE",
+        "name": "Réunion",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "28",
+        "phone_code": "40",
+        "code": "RO",
+        "name": "Romania",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "149",
+        "phone_code": "381",
+        "code": "RS",
+        "name": "Serbia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "30",
+        "phone_code": "7",
+        "code": "RU",
+        "name": "Russian Federation",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "154",
+        "phone_code": "250",
+        "code": "RW",
+        "name": "Rwanda",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "150",
+        "phone_code": "966",
+        "code": "SA",
+        "name": "Saudi Arabia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "145",
+        "phone_code": "677",
+        "code": "SB",
+        "name": "Solomon Islands",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "148",
+        "phone_code": "248",
+        "code": "SC",
+        "name": "Seychelles",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "140",
+        "phone_code": "249",
+        "code": "SD",
+        "name": "Sudan",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "18",
+        "phone_code": "46",
+        "code": "SE",
+        "name": "Sweden",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "37",
+        "phone_code": "65",
+        "code": "SG",
+        "name": "Singapore",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "153",
+        "phone_code": "290",
+        "code": "SH",
+        "name": "Saint Helena",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "386",
+        "code": "SI",
+        "name": "Slovenia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "14",
+        "phone_code": "47",
+        "code": "SJ",
+        "name": "Svalbard and Jan Mayen",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "421",
+        "code": "SK",
+        "name": "Slovakia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "147",
+        "phone_code": "232",
+        "code": "SL",
+        "name": "Sierra Leone",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "378",
+        "code": "SM",
+        "name": "San Marino",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "41",
+        "phone_code": "221",
+        "code": "SN",
+        "name": "Senegal",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "144",
+        "phone_code": "252",
+        "code": "SO",
+        "name": "Somalia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "139",
+        "phone_code": "597",
+        "code": "SR",
+        "name": "Suriname",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "142",
+        "phone_code": "211",
+        "code": "SS",
+        "name": "South Sudan",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "151",
+        "phone_code": "239",
+        "code": "ST",
+        "name": "São Tomé and Príncipe",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "75",
+        "phone_code": "503",
+        "code": "SV",
+        "name": "El Salvador",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "71",
+        "phone_code": "1721",
+        "code": "SX",
+        "name": "Sint Maarten (Dutch part)",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "137",
+        "phone_code": "963",
+        "code": "SY",
+        "name": "Syria",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "138",
+        "phone_code": "268",
+        "code": "SZ",
+        "name": "Eswatini",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "1",
+        "phone_code": "1649",
+        "code": "TC",
+        "name": "Turks and Caicos Islands",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "42",
+        "phone_code": "235",
+        "code": "TD",
+        "name": "Chad",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "262",
+        "code": "TF",
+        "name": "French Southern Territories",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "41",
+        "phone_code": "228",
+        "code": "TG",
+        "name": "Togo",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "133",
+        "phone_code": "66",
+        "code": "TH",
+        "name": "Thailand",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "135",
+        "phone_code": "992",
+        "code": "TJ",
+        "name": "Tajikistan",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "35",
+        "phone_code": "690",
+        "code": "TK",
+        "name": "Tokelau",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "129",
+        "phone_code": "993",
+        "code": "TM",
+        "name": "Turkmenistan",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "130",
+        "phone_code": "216",
+        "code": "TN",
+        "name": "Tunisia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "132",
+        "phone_code": "676",
+        "code": "TO",
+        "name": "Tonga",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "1",
+        "phone_code": "670",
+        "code": "TL",
+        "name": "Timor-Leste",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "31",
+        "phone_code": "90",
+        "code": "TR",
+        "name": "Türkiye",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "131",
+        "phone_code": "1868",
+        "code": "TT",
+        "name": "Trinidad and Tobago",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "21",
+        "phone_code": "688",
+        "code": "TV",
+        "name": "Tuvalu",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "136",
+        "phone_code": "886",
+        "code": "TW",
+        "name": "Taiwan",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "134",
+        "phone_code": "255",
+        "code": "TZ",
+        "name": "Tanzania",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "22",
+        "phone_code": "380",
+        "code": "UA",
+        "name": "Ukraine",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "43",
+        "phone_code": "256",
+        "code": "UG",
+        "name": "Uganda",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "143",
+        "phone_code": "44",
+        "code": "GB",
+        "name": "United Kingdom",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "1",
+        "phone_code": "699",
+        "code": "UM",
+        "name": "USA Minor Outlying Islands",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "1",
+        "phone_code": "1",
+        "code": "US",
+        "name": "United States",
+        "state_required": true,
+        "zip_required": true
+    },
+    {
+        "currency_id": "46",
+        "phone_code": "598",
+        "code": "UY",
+        "name": "Uruguay",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "127",
+        "phone_code": "998",
+        "code": "UZ",
+        "name": "Uzbekistan",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "379",
+        "code": "VA",
+        "name": "Holy See (Vatican City State)",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "49",
+        "phone_code": "1784",
+        "code": "VC",
+        "name": "Saint Vincent and the Grenadines",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "2",
+        "phone_code": "58",
+        "code": "VE",
+        "name": "Venezuela",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "1",
+        "phone_code": "1284",
+        "code": "VG",
+        "name": "Virgin Islands (British)",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "1",
+        "phone_code": "1340",
+        "code": "VI",
+        "name": "Virgin Islands (USA)",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "23",
+        "phone_code": "84",
+        "code": "VN",
+        "name": "Vietnam",
+        "state_required": false,
+        "zip_required": false
+    },
+    {
+        "currency_id": "126",
+        "phone_code": "678",
+        "code": "VU",
+        "name": "Vanuatu",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "15",
+        "phone_code": "681",
+        "code": "WF",
+        "name": "Wallis and Futuna",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "152",
+        "phone_code": "685",
+        "code": "WS",
+        "name": "Samoa",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "124",
+        "phone_code": "967",
+        "code": "YE",
+        "name": "Yemen",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "262",
+        "code": "YT",
+        "name": "Mayotte",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "38",
+        "phone_code": "27",
+        "code": "ZA",
+        "name": "South Africa",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "123",
+        "phone_code": "260",
+        "code": "ZM",
+        "name": "Zambia",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "122",
+        "phone_code": "263",
+        "code": "ZW",
+        "name": "Zimbabwe",
+        "state_required": false,
+        "zip_required": true
+    },
+    {
+        "currency_id": "125",
+        "phone_code": "383",
+        "code": "XK",
+        "name": "Kosovo",
+        "state_required": false,
+        "zip_required": true
+    }
+]

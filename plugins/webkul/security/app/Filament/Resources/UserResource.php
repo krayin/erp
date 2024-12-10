@@ -65,7 +65,7 @@ class UserResource extends Resource
                                             ->label(__('security::app.filament.resources.user.form.sections.general.fields.password-confirmation'))
                                             ->password()
                                             ->hiddenOn('edit')
-                                            ->rule('required', fn($get) => (bool) $get('password'))
+                                            ->rule('required', fn ($get) => (bool) $get('password'))
                                             ->same('password'),
                                     ])
                                     ->columns(2),
@@ -152,7 +152,7 @@ class UserResource extends Resource
                     ->label(__('security::app.filament.resources.user.table.columns.role')),
                 Tables\Columns\TextColumn::make('resource_permission')
                     ->label(__('security::app.filament.resources.user.table.columns.resource-permission'))
-                    ->formatStateUsing(fn($state) => PermissionType::options()[$state] ?? $state)
+                    ->formatStateUsing(fn ($state) => PermissionType::options()[$state] ?? $state)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('defaultCompany.name')
                     ->label(__('Default Company'))
@@ -191,14 +191,14 @@ class UserResource extends Resource
                 Tables\Filters\SelectFilter::make('teams')
                     ->relationship('teams', 'name')
                     ->label(__('security::app.filament.resources.user.table.filters.teams'))
-                    ->options(fn(): array => Role::query()->pluck('name', 'id')->all())
+                    ->options(fn (): array => Role::query()->pluck('name', 'id')->all())
                     ->multiple()
                     ->searchable()
                     ->preload(),
                 Tables\Filters\SelectFilter::make('roles')
                     ->label(__('security::app.filament.resources.user.table.filters.roles'))
                     ->relationship('roles', 'name')
-                    ->options(fn(): array => Role::query()->pluck('name', 'id')->all())
+                    ->options(fn (): array => Role::query()->pluck('name', 'id')->all())
                     ->multiple()
                     ->searchable()
                     ->preload(),
@@ -207,9 +207,9 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make()
-                        ->hidden(fn($record) => $record->trashed()),
+                        ->hidden(fn ($record) => $record->trashed()),
                     Tables\Actions\EditAction::make()
-                        ->hidden(fn($record) => $record->trashed()),
+                        ->hidden(fn ($record) => $record->trashed()),
                     Tables\Actions\DeleteAction::make(),
                     Tables\Actions\RestoreAction::make(),
                 ]),

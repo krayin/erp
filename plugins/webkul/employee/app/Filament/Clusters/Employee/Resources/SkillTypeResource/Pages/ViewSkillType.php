@@ -2,9 +2,9 @@
 
 namespace Webkul\Employee\Filament\Clusters\Employee\Resources\SkillTypeResource\Pages;
 
-use Webkul\Employee\Filament\Clusters\Employee\Resources\SkillTypeResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
+use Webkul\Employee\Filament\Clusters\Employee\Resources\SkillTypeResource;
 
 class ViewSkillType extends ViewRecord
 {

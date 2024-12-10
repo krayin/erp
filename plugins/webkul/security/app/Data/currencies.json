@@ -1,0 +1,1523 @@
+[
+    {
+        "symbol": "$",
+        "iso_numeric": "840",
+        "decimal_places": "2",
+        "full_name": "United States dollar",
+        "rounding": 0.01,
+        "active": true,
+        "name": "USD"
+    },
+    {
+        "symbol": "Bs.F",
+        "iso_numeric": "937",
+        "decimal_places": "2",
+        "full_name": "Venezuelan bolívar fuerte",
+        "rounding": "0.01",
+        "active": false,
+        "name": "VEF"
+    },
+    {
+        "symbol": "$",
+        "iso_numeric": "124",
+        "decimal_places": "2",
+        "full_name": "Canadian dollar",
+        "rounding": "0.01",
+        "active": false,
+        "name": "CAD"
+    },
+    {
+        "symbol": "CHF",
+        "iso_numeric": "756",
+        "decimal_places": "2",
+        "full_name": "Swiss franc",
+        "rounding": "0.01",
+        "active": false,
+        "name": "CHF"
+    },
+    {
+        "symbol": "R$",
+        "iso_numeric": "986",
+        "decimal_places": "2",
+        "full_name": "Brazilian real",
+        "rounding": "0.01",
+        "active": false,
+        "name": "BRL"
+    },
+    {
+        "symbol": "¥",
+        "iso_numeric": "156",
+        "decimal_places": "2",
+        "full_name": "Chinese yuan",
+        "rounding": "0.01",
+        "active": false,
+        "name": "CNY"
+    },
+    {
+        "symbol": "¥",
+        "iso_numeric": null,
+        "decimal_places": "2",
+        "full_name": "Chinese yuan - Offshore",
+        "rounding": "0.01",
+        "active": false,
+        "name": "CNH"
+    },
+    {
+        "symbol": "$",
+        "iso_numeric": "170",
+        "decimal_places": "2",
+        "full_name": "Colombian peso",
+        "rounding": "0.01",
+        "active": false,
+        "name": "COP"
+    },
+    {
+        "symbol": "Kč",
+        "iso_numeric": "203",
+        "decimal_places": "2",
+        "full_name": "Czech koruna",
+        "rounding": "0.01",
+        "active": false,
+        "name": "CZK"
+    },
+    {
+        "symbol": "kr",
+        "iso_numeric": "208",
+        "decimal_places": "2",
+        "full_name": "Danish krone",
+        "rounding": "0.01",
+        "active": false,
+        "name": "DKK"
+    },
+    {
+        "symbol": "Ft",
+        "iso_numeric": "348",
+        "decimal_places": "2",
+        "full_name": "Hungarian forint",
+        "rounding": "0.01",
+        "active": false,
+        "name": "HUF"
+    },
+    {
+        "symbol": "Rp",
+        "iso_numeric": "360",
+        "decimal_places": "2",
+        "full_name": "Indonesian rupiah",
+        "rounding": "0.01",
+        "active": false,
+        "name": "IDR"
+    },
+    {
+        "symbol": "Ls",
+        "iso_numeric": "840",
+        "decimal_places": "2",
+        "full_name": "Latvian lats",
+        "rounding": "0.01",
+        "active": false,
+        "name": "LVL"
+    },
+    {
+        "symbol": "kr",
+        "iso_numeric": "578",
+        "decimal_places": "2",
+        "full_name": "Norwegian krone",
+        "rounding": "0.01",
+        "active": false,
+        "name": "NOK"
+    },
+    {
+        "symbol": "XPF",
+        "iso_numeric": "953",
+        "decimal_places": "0",
+        "full_name": "CFP franc",
+        "rounding": "1",
+        "active": false,
+        "name": "XPF"
+    },
+    {
+        "symbol": "B/.",
+        "iso_numeric": "590",
+        "decimal_places": "2",
+        "full_name": "Panamanian balboa",
+        "rounding": "0.01",
+        "active": false,
+        "name": "PAB"
+    },
+    {
+        "symbol": "zł",
+        "iso_numeric": "985",
+        "decimal_places": "2",
+        "full_name": "Polish złoty",
+        "rounding": "0.01",
+        "active": false,
+        "name": "PLN"
+    },
+    {
+        "symbol": "kr",
+        "iso_numeric": "752",
+        "decimal_places": "2",
+        "full_name": "Swedish krona",
+        "rounding": "0.01",
+        "active": false,
+        "name": "SEK"
+    },
+    {
+        "symbol": "$",
+        "iso_numeric": "32",
+        "decimal_places": "2",
+        "full_name": "Argentine peso",
+        "rounding": "0.01",
+        "active": false,
+        "name": "ARS"
+    },
+    {
+        "symbol": "₹",
+        "iso_numeric": "356",
+        "decimal_places": "2",
+        "full_name": "Indian rupee",
+        "rounding": "0.01",
+        "active": false,
+        "name": "INR"
+    },
+    {
+        "symbol": "$",
+        "iso_numeric": "36",
+        "decimal_places": "2",
+        "full_name": "Australian dollar",
+        "rounding": "0.01",
+        "active": false,
+        "name": "AUD"
+    },
+    {
+        "symbol": "₴",
+        "iso_numeric": "980",
+        "decimal_places": "2",
+        "full_name": "Ukraine Hryvnia",
+        "rounding": "0.01",
+        "active": false,
+        "name": "UAH"
+    },
+    {
+        "symbol": "₫",
+        "iso_numeric": "704",
+        "decimal_places": "0",
+        "full_name": "Vietnamese đồng",
+        "rounding": "1",
+        "active": false,
+        "name": "VND"
+    },
+    {
+        "symbol": "$",
+        "iso_numeric": "344",
+        "decimal_places": "2",
+        "full_name": "Hong Kong dollar",
+        "rounding": "0.01",
+        "active": false,
+        "name": "HKD"
+    },
+    {
+        "symbol": "¥",
+        "iso_numeric": "392",
+        "decimal_places": "0",
+        "full_name": "Japanese yen",
+        "rounding": "1",
+        "active": false,
+        "name": "JPY"
+    },
+    {
+        "symbol": "лв",
+        "iso_numeric": "975",
+        "decimal_places": "2",
+        "full_name": "Bulgarian lev",
+        "rounding": "0.01",
+        "active": false,
+        "name": "BGN"
+    },
+    {
+        "symbol": "Lt",
+        "iso_numeric": "840",
+        "decimal_places": "2",
+        "full_name": "Lithuanian litas",
+        "rounding": "0.01",
+        "active": false,
+        "name": "LTL"
+    },
+    {
+        "symbol": "lei",
+        "iso_numeric": "946",
+        "decimal_places": "2",
+        "full_name": "Romanian leu",
+        "rounding": "0.01",
+        "active": false,
+        "name": "RON"
+    },
+    {
+        "symbol": "kn",
+        "iso_numeric": "191",
+        "decimal_places": "2",
+        "full_name": "Croatian kuna",
+        "rounding": "0.01",
+        "active": false,
+        "name": "HRK"
+    },
+    {
+        "symbol": "руб",
+        "iso_numeric": "643",
+        "decimal_places": "2",
+        "full_name": "Russian ruble",
+        "rounding": "0.01",
+        "active": false,
+        "name": "RUB"
+    },
+    {
+        "symbol": "₺",
+        "iso_numeric": "949",
+        "decimal_places": "2",
+        "full_name": "Turkish lira",
+        "rounding": "0.01",
+        "active": false,
+        "name": "TRY"
+    },
+    {
+        "symbol": "₩",
+        "iso_numeric": "410",
+        "decimal_places": "0",
+        "full_name": "South Korean won",
+        "rounding": "1",
+        "active": false,
+        "name": "KRW"
+    },
+    {
+        "symbol": "$",
+        "iso_numeric": "484",
+        "decimal_places": "2",
+        "full_name": "Mexican peso",
+        "rounding": "0.01",
+        "active": false,
+        "name": "MXN"
+    },
+    {
+        "symbol": "RM",
+        "iso_numeric": "458",
+        "decimal_places": "2",
+        "full_name": "Malaysian ringgit",
+        "rounding": "0.01",
+        "active": false,
+        "name": "MYR"
+    },
+    {
+        "symbol": "$",
+        "iso_numeric": "554",
+        "decimal_places": "2",
+        "full_name": "New Zealand dollar",
+        "rounding": "0.01",
+        "active": false,
+        "name": "NZD"
+    },
+    {
+        "symbol": "₱",
+        "iso_numeric": "608",
+        "decimal_places": "2",
+        "full_name": "Philippine peso",
+        "rounding": "0.01",
+        "active": false,
+        "name": "PHP"
+    },
+    {
+        "symbol": "S$",
+        "iso_numeric": "702",
+        "decimal_places": "2",
+        "full_name": "Singapore dollar",
+        "rounding": "0.01",
+        "active": false,
+        "name": "SGD"
+    },
+    {
+        "symbol": "R",
+        "iso_numeric": "710",
+        "decimal_places": "2",
+        "full_name": "South African rand",
+        "rounding": "0.01",
+        "active": false,
+        "name": "ZAR"
+    },
+    {
+        "symbol": "₡",
+        "iso_numeric": "188",
+        "decimal_places": "2",
+        "full_name": "Costa Rican colón",
+        "rounding": "0.01",
+        "active": false,
+        "name": "CRC"
+    },
+    {
+        "symbol": "Rs",
+        "iso_numeric": "480",
+        "decimal_places": "2",
+        "full_name": "Mauritian rupee",
+        "rounding": "0.01",
+        "active": false,
+        "name": "MUR"
+    },
+    {
+        "symbol": "CFA",
+        "iso_numeric": "952",
+        "decimal_places": "0",
+        "full_name": "CFA franc BCEAO",
+        "rounding": "1",
+        "active": false,
+        "name": "XOF"
+    },
+    {
+        "symbol": "FCFA",
+        "iso_numeric": "950",
+        "decimal_places": "0",
+        "full_name": "CFA franc BEAC",
+        "rounding": "1",
+        "active": false,
+        "name": "XAF"
+    },
+    {
+        "symbol": "USh",
+        "iso_numeric": "800",
+        "decimal_places": "0",
+        "full_name": "Ugandan shilling",
+        "rounding": "1",
+        "active": false,
+        "name": "UGX"
+    },
+    {
+        "symbol": "L",
+        "iso_numeric": "340",
+        "decimal_places": "2",
+        "full_name": "Honduran lempira",
+        "rounding": "0.01",
+        "active": false,
+        "name": "HNL"
+    },
+    {
+        "symbol": "$",
+        "iso_numeric": "152",
+        "decimal_places": "0",
+        "full_name": "Chilean peso",
+        "rounding": "1",
+        "active": false,
+        "name": "CLP"
+    },
+    {
+        "symbol": "$",
+        "iso_numeric": "858",
+        "decimal_places": "2",
+        "full_name": "Uruguayan peso",
+        "rounding": "0.01",
+        "active": false,
+        "name": "UYU"
+    },
+    {
+        "symbol": "Afs",
+        "iso_numeric": "971",
+        "decimal_places": "2",
+        "full_name": "Afghan afghani",
+        "rounding": "0.01",
+        "active": false,
+        "name": "AFN"
+    },
+    {
+        "symbol": "Kz",
+        "iso_numeric": "973",
+        "decimal_places": "2",
+        "full_name": "Angolan kwanza",
+        "rounding": "0.01",
+        "active": false,
+        "name": "AOA"
+    },
+    {
+        "symbol": "$",
+        "iso_numeric": "951",
+        "decimal_places": "2",
+        "full_name": "East Caribbean dollar",
+        "rounding": "0.01",
+        "active": false,
+        "name": "XCD"
+    },
+    {
+        "symbol": "դր.",
+        "iso_numeric": "51",
+        "decimal_places": "2",
+        "full_name": "Armenian dram",
+        "rounding": "0.01",
+        "active": false,
+        "name": "AMD"
+    },
+    {
+        "symbol": "Afl.",
+        "iso_numeric": "533",
+        "decimal_places": "2",
+        "full_name": "Aruban florin",
+        "rounding": "0.01",
+        "active": false,
+        "name": "AWG"
+    },
+    {
+        "symbol": "m",
+        "iso_numeric": "944",
+        "decimal_places": "2",
+        "full_name": "Azerbaijani manat",
+        "rounding": "0.01",
+        "active": false,
+        "name": "AZN"
+    },
+    {
+        "symbol": "B$",
+        "iso_numeric": "44",
+        "decimal_places": "2",
+        "full_name": "Bahamian dollar",
+        "rounding": "0.01",
+        "active": false,
+        "name": "BSD"
+    },
+    {
+        "symbol": "BD",
+        "iso_numeric": "48",
+        "decimal_places": "3",
+        "full_name": "Bahraini dinar",
+        "rounding": "0.001",
+        "active": false,
+        "name": "BHD"
+    },
+    {
+        "symbol": "৳",
+        "iso_numeric": "50",
+        "decimal_places": "2",
+        "full_name": "Bangladeshi taka",
+        "rounding": "0.01",
+        "active": false,
+        "name": "BDT"
+    },
+    {
+        "symbol": "Bds$",
+        "iso_numeric": "52",
+        "decimal_places": "2",
+        "full_name": "Barbados dollar",
+        "rounding": "0.01",
+        "active": false,
+        "name": "BBD"
+    },
+    {
+        "symbol": "BR",
+        "iso_numeric": "974",
+        "decimal_places": "0",
+        "full_name": "Belarusian ruble",
+        "rounding": "1",
+        "active": false,
+        "name": "BYR"
+    },
+    {
+        "symbol": "Br",
+        "iso_numeric": "974",
+        "decimal_places": "2",
+        "full_name": "Belarusian ruble",
+        "rounding": "0.01",
+        "active": false,
+        "name": "BYN"
+    },
+    {
+        "symbol": "BZ$",
+        "iso_numeric": "84",
+        "decimal_places": "2",
+        "full_name": "Belize dollar",
+        "rounding": "0.01",
+        "active": false,
+        "name": "BZD"
+    },
+    {
+        "symbol": "BD$",
+        "iso_numeric": "60",
+        "decimal_places": "2",
+        "full_name": "Bermudian dollar",
+        "rounding": "0.01",
+        "active": false,
+        "name": "BMD"
+    },
+    {
+        "symbol": "Nu.",
+        "iso_numeric": "64",
+        "decimal_places": "2",
+        "full_name": "Bhutanese ngultrum",
+        "rounding": "0.01",
+        "active": false,
+        "name": "BTN"
+    },
+    {
+        "symbol": "Bs.",
+        "iso_numeric": "68",
+        "decimal_places": "2",
+        "full_name": "Boliviano",
+        "rounding": "0.01",
+        "active": false,
+        "name": "BOB"
+    },
+    {
+        "symbol": "KM",
+        "iso_numeric": "977",
+        "decimal_places": "2",
+        "full_name": "Bosnia and Herzegovina convertible mark",
+        "rounding": "0.01",
+        "active": false,
+        "name": "BAM"
+    },
+    {
+        "symbol": "P",
+        "iso_numeric": "72",
+        "decimal_places": "2",
+        "full_name": "Botswana pula",
+        "rounding": "0.01",
+        "active": false,
+        "name": "BWP"
+    },
+    {
+        "symbol": "FBu",
+        "iso_numeric": "108",
+        "decimal_places": "0",
+        "full_name": "Burundian franc",
+        "rounding": "1",
+        "active": false,
+        "name": "BIF"
+    },
+    {
+        "symbol": "៛",
+        "iso_numeric": "116",
+        "decimal_places": "2",
+        "full_name": "Cambodian riel",
+        "rounding": "0.01",
+        "active": false,
+        "name": "KHR"
+    },
+    {
+        "symbol": "$",
+        "iso_numeric": "136",
+        "decimal_places": "2",
+        "full_name": "Cayman Islands dollar",
+        "rounding": "0.01",
+        "active": false,
+        "name": "KYD"
+    },
+    {
+        "symbol": "CF",
+        "iso_numeric": "174",
+        "decimal_places": "0",
+        "full_name": "Comorian franc",
+        "rounding": "1",
+        "active": false,
+        "name": "KMF"
+    },
+    {
+        "symbol": "Fr",
+        "iso_numeric": "976",
+        "decimal_places": "2",
+        "full_name": "Congolese franc",
+        "rounding": "0.01",
+        "active": false,
+        "name": "CDF"
+    },
+    {
+        "symbol": "$",
+        "iso_numeric": "192",
+        "decimal_places": "2",
+        "full_name": "Cuban peso",
+        "rounding": "0.01",
+        "active": false,
+        "name": "CUP"
+    },
+    {
+        "symbol": "ƒ",
+        "iso_numeric": "532",
+        "decimal_places": "2",
+        "full_name": "Netherlands Antillean guilder",
+        "rounding": "0.01",
+        "active": false,
+        "name": "ANG"
+    },
+    {
+        "symbol": "Fdj",
+        "iso_numeric": "262",
+        "decimal_places": "0",
+        "full_name": "Djiboutian franc",
+        "rounding": "1",
+        "active": false,
+        "name": "DJF"
+    },
+    {
+        "symbol": "RD$",
+        "iso_numeric": "214",
+        "decimal_places": "2",
+        "full_name": "Dominican peso",
+        "rounding": "0.01",
+        "active": false,
+        "name": "DOP"
+    },
+    {
+        "symbol": "LE",
+        "iso_numeric": "818",
+        "decimal_places": "2",
+        "full_name": "Egyptian pound",
+        "rounding": "0.01",
+        "active": false,
+        "name": "EGP"
+    },
+    {
+        "symbol": "¢",
+        "iso_numeric": "222",
+        "decimal_places": "2",
+        "full_name": "Salvadoran Colon",
+        "rounding": "0.01",
+        "active": false,
+        "name": "SVC"
+    },
+    {
+        "symbol": "Nfk",
+        "iso_numeric": "232",
+        "decimal_places": "2",
+        "full_name": "Eritrean nakfa",
+        "rounding": "0.01",
+        "active": false,
+        "name": "ERN"
+    },
+    {
+        "symbol": "Br",
+        "iso_numeric": "230",
+        "decimal_places": "2",
+        "full_name": "Ethiopian birr",
+        "rounding": "0.01",
+        "active": false,
+        "name": "ETB"
+    },
+    {
+        "symbol": "£",
+        "iso_numeric": "238",
+        "decimal_places": "2",
+        "full_name": "Falkland Islands pound",
+        "rounding": "0.01",
+        "active": false,
+        "name": "FKP"
+    },
+    {
+        "symbol": "FJ$",
+        "iso_numeric": "242",
+        "decimal_places": "2",
+        "full_name": "Fiji dollar",
+        "rounding": "0.01",
+        "active": false,
+        "name": "FJD"
+    },
+    {
+        "symbol": "ლ",
+        "iso_numeric": "981",
+        "decimal_places": "2",
+        "full_name": "Georgian lari",
+        "rounding": "0.01",
+        "active": false,
+        "name": "GEL"
+    },
+    {
+        "symbol": "£",
+        "iso_numeric": "292",
+        "decimal_places": "2",
+        "full_name": "Gibraltar pound",
+        "rounding": "0.01",
+        "active": false,
+        "name": "GIP"
+    },
+    {
+        "symbol": "FG",
+        "iso_numeric": "324",
+        "decimal_places": "0",
+        "full_name": "Guinean franc",
+        "rounding": "1",
+        "active": false,
+        "name": "GNF"
+    },
+    {
+        "symbol": "$",
+        "iso_numeric": "328",
+        "decimal_places": "2",
+        "full_name": "Guyanese dollar",
+        "rounding": "0.01",
+        "active": false,
+        "name": "GYD"
+    },
+    {
+        "symbol": "G",
+        "iso_numeric": "332",
+        "decimal_places": "2",
+        "full_name": "Haitian gourde",
+        "rounding": "0.01",
+        "active": false,
+        "name": "HTG"
+    },
+    {
+        "symbol": "kr",
+        "iso_numeric": "352",
+        "decimal_places": "0",
+        "full_name": "Icelandic króna",
+        "rounding": "1",
+        "active": false,
+        "name": "ISK"
+    },
+    {
+        "symbol": "﷼",
+        "iso_numeric": "364",
+        "decimal_places": "2",
+        "full_name": "Iranian rial",
+        "rounding": "0.01",
+        "active": false,
+        "name": "IRR"
+    },
+    {
+        "symbol": "ع.د",
+        "iso_numeric": "368",
+        "decimal_places": "3",
+        "full_name": "Iraqi dinar",
+        "rounding": "0.001",
+        "active": false,
+        "name": "IQD"
+    },
+    {
+        "symbol": "₪",
+        "iso_numeric": "376",
+        "decimal_places": "2",
+        "full_name": "Israeli new shekel",
+        "rounding": "0.01",
+        "active": false,
+        "name": "ILS"
+    },
+    {
+        "symbol": "$",
+        "iso_numeric": "388",
+        "decimal_places": "2",
+        "full_name": "Jamaican dollar",
+        "rounding": "0.01",
+        "active": false,
+        "name": "JMD"
+    },
+    {
+        "symbol": "د.ا",
+        "iso_numeric": "400",
+        "decimal_places": "3",
+        "full_name": "Jordanian dinar",
+        "rounding": "0.001",
+        "active": false,
+        "name": "JOD"
+    },
+    {
+        "symbol": "₸",
+        "iso_numeric": "398",
+        "decimal_places": "2",
+        "full_name": "Kazakhstani tenge",
+        "rounding": "0.01",
+        "active": false,
+        "name": "KZT"
+    },
+    {
+        "symbol": "KSh",
+        "iso_numeric": "404",
+        "decimal_places": "2",
+        "full_name": "Kenyan shilling",
+        "rounding": "0.01",
+        "active": false,
+        "name": "KES"
+    },
+    {
+        "symbol": "د.ك",
+        "iso_numeric": "414",
+        "decimal_places": "3",
+        "full_name": "Kuwaiti dinar",
+        "rounding": "0.001",
+        "active": false,
+        "name": "KWD"
+    },
+    {
+        "symbol": "лв",
+        "iso_numeric": "417",
+        "decimal_places": "2",
+        "full_name": "Kyrgyzstani som",
+        "rounding": "0.01",
+        "active": false,
+        "name": "KGS"
+    },
+    {
+        "symbol": "₭",
+        "iso_numeric": "418",
+        "decimal_places": "2",
+        "full_name": "Lao kip",
+        "rounding": "0.01",
+        "active": false,
+        "name": "LAK"
+    },
+    {
+        "symbol": "ل.ل",
+        "iso_numeric": "422",
+        "decimal_places": "2",
+        "full_name": "Lebanese pound",
+        "rounding": "0.01",
+        "active": false,
+        "name": "LBP"
+    },
+    {
+        "symbol": "M",
+        "iso_numeric": "426",
+        "decimal_places": "2",
+        "full_name": "Lesotho loti",
+        "rounding": "0.01",
+        "active": false,
+        "name": "LSL"
+    },
+    {
+        "symbol": "L$",
+        "iso_numeric": "430",
+        "decimal_places": "2",
+        "full_name": "Liberian dollar",
+        "rounding": "0.01",
+        "active": false,
+        "name": "LRD"
+    },
+    {
+        "symbol": "ل.د",
+        "iso_numeric": "434",
+        "decimal_places": "3",
+        "full_name": "Libyan dinar",
+        "rounding": "0.001",
+        "active": false,
+        "name": "LYD"
+    },
+    {
+        "symbol": "MOP$",
+        "iso_numeric": "446",
+        "decimal_places": "2",
+        "full_name": "Macanese pataca",
+        "rounding": "0.01",
+        "active": false,
+        "name": "MOP"
+    },
+    {
+        "symbol": "ден",
+        "iso_numeric": "807",
+        "decimal_places": "2",
+        "full_name": "Macedonian denar",
+        "rounding": "0.01",
+        "active": false,
+        "name": "MKD"
+    },
+    {
+        "symbol": "Ar",
+        "iso_numeric": "969",
+        "decimal_places": "2",
+        "full_name": "Malagasy ariary",
+        "rounding": "0.01",
+        "active": false,
+        "name": "MGA"
+    },
+    {
+        "symbol": "MK",
+        "iso_numeric": "454",
+        "decimal_places": "2",
+        "full_name": "Malawian kwacha",
+        "rounding": "0.01",
+        "active": false,
+        "name": "MWK"
+    },
+    {
+        "symbol": "Rf",
+        "iso_numeric": "462",
+        "decimal_places": "2",
+        "full_name": "Maldivian rufiyaa",
+        "rounding": "0.01",
+        "active": false,
+        "name": "MVR"
+    },
+    {
+        "symbol": "UM",
+        "iso_numeric": "478",
+        "decimal_places": "2",
+        "full_name": "Mauritanian ouguiya (old)",
+        "rounding": "0.01",
+        "active": false,
+        "name": "MRO"
+    },
+    {
+        "symbol": "UM",
+        "iso_numeric": "478",
+        "decimal_places": "2",
+        "full_name": "Mauritanian ouguiya",
+        "rounding": "0.01",
+        "active": false,
+        "name": "MRU"
+    },
+    {
+        "symbol": "L",
+        "iso_numeric": "498",
+        "decimal_places": "2",
+        "full_name": "Moldovan leu",
+        "rounding": "0.01",
+        "active": false,
+        "name": "MDL"
+    },
+    {
+        "symbol": "₮",
+        "iso_numeric": "496",
+        "decimal_places": "2",
+        "full_name": "Mongolian tögrög",
+        "rounding": "0.01",
+        "active": false,
+        "name": "MNT"
+    },
+    {
+        "symbol": "DH",
+        "iso_numeric": "504",
+        "decimal_places": "2",
+        "full_name": "Moroccan dirham",
+        "rounding": "0.01",
+        "active": false,
+        "name": "MAD"
+    },
+    {
+        "symbol": "$",
+        "iso_numeric": "96",
+        "decimal_places": "2",
+        "full_name": "Brunei dollar",
+        "rounding": "0.01",
+        "active": false,
+        "name": "BND"
+    },
+    {
+        "symbol": "DA",
+        "iso_numeric": "12",
+        "decimal_places": "2",
+        "full_name": "Algerian dinar",
+        "rounding": "0.01",
+        "active": false,
+        "name": "DZD"
+    },
+    {
+        "symbol": "GH¢",
+        "iso_numeric": "936",
+        "decimal_places": "2",
+        "full_name": "Ghanaian cedi",
+        "rounding": "0.01",
+        "active": false,
+        "name": "GHS"
+    },
+    {
+        "symbol": "D",
+        "iso_numeric": "270",
+        "decimal_places": "2",
+        "full_name": "Gambian dalasi",
+        "rounding": "0.01",
+        "active": false,
+        "name": "GMD"
+    },
+    {
+        "symbol": "MT",
+        "iso_numeric": "943",
+        "decimal_places": "2",
+        "full_name": "Mozambican metical",
+        "rounding": "0.01",
+        "active": false,
+        "name": "MZN"
+    },
+    {
+        "symbol": "K",
+        "iso_numeric": "104",
+        "decimal_places": "2",
+        "full_name": "Myanmar kyat",
+        "rounding": "0.01",
+        "active": false,
+        "name": "MMK"
+    },
+    {
+        "symbol": "$",
+        "iso_numeric": "516",
+        "decimal_places": "2",
+        "full_name": "Namibian dollar",
+        "rounding": "0.01",
+        "active": false,
+        "name": "NAD"
+    },
+    {
+        "symbol": "₨",
+        "iso_numeric": "524",
+        "decimal_places": "2",
+        "full_name": "Nepalese rupee",
+        "rounding": "0.01",
+        "active": false,
+        "name": "NPR"
+    },
+    {
+        "symbol": "L",
+        "iso_numeric": "8",
+        "decimal_places": "2",
+        "full_name": "Albanian lek",
+        "rounding": "0.01",
+        "active": false,
+        "name": "ALL"
+    },
+    {
+        "symbol": "C$",
+        "iso_numeric": "558",
+        "decimal_places": "2",
+        "full_name": "Nicaraguan córdoba",
+        "rounding": "0.01",
+        "active": false,
+        "name": "NIO"
+    },
+    {
+        "symbol": "₦",
+        "iso_numeric": "566",
+        "decimal_places": "2",
+        "full_name": "Nigerian naira",
+        "rounding": "0.01",
+        "active": false,
+        "name": "NGN"
+    },
+    {
+        "symbol": "₩",
+        "iso_numeric": "408",
+        "decimal_places": "2",
+        "full_name": "North Korean won",
+        "rounding": "0.01",
+        "active": false,
+        "name": "KPW"
+    },
+    {
+        "symbol": "ZiG",
+        "iso_numeric": null,
+        "decimal_places": "2",
+        "full_name": "Zimbabwe Gold",
+        "rounding": "0.01",
+        "active": false,
+        "name": "ZIG"
+    },
+    {
+        "symbol": "ZK",
+        "iso_numeric": "967",
+        "decimal_places": "2",
+        "full_name": "Zambian kwacha",
+        "rounding": "0.01",
+        "active": false,
+        "name": "ZMW"
+    },
+    {
+        "symbol": "﷼",
+        "iso_numeric": "886",
+        "decimal_places": "2",
+        "full_name": "Yemeni rial",
+        "rounding": "0.01",
+        "active": false,
+        "name": "YER"
+    },
+    {
+        "symbol": "€",
+        "iso_numeric": "978",
+        "decimal_places": "2",
+        "full_name": "Euro",
+        "rounding": "0.01",
+        "active": false,
+        "name": "EUR"
+    },
+    {
+        "symbol": "VT",
+        "iso_numeric": "548",
+        "decimal_places": "0",
+        "full_name": "Vanuatu vatu",
+        "rounding": "1",
+        "active": false,
+        "name": "VUV"
+    },
+    {
+        "symbol": "лв",
+        "iso_numeric": "860",
+        "decimal_places": "2",
+        "full_name": "Uzbekistan som",
+        "rounding": "0.01",
+        "active": false,
+        "name": "UZS"
+    },
+    {
+        "symbol": "د.إ",
+        "iso_numeric": "784",
+        "decimal_places": "2",
+        "full_name": "United Arab Emirates dirham",
+        "rounding": "0.01",
+        "active": false,
+        "name": "AED"
+    },
+    {
+        "symbol": "T",
+        "iso_numeric": "934",
+        "decimal_places": "2",
+        "full_name": "Turkmenistan manat",
+        "rounding": "0.01",
+        "active": false,
+        "name": "TMT"
+    },
+    {
+        "symbol": "DT",
+        "iso_numeric": "788",
+        "decimal_places": "3",
+        "full_name": "Tunisian dinar",
+        "rounding": "0.001",
+        "active": false,
+        "name": "TND"
+    },
+    {
+        "symbol": "$",
+        "iso_numeric": "780",
+        "decimal_places": "2",
+        "full_name": "Trinidad and Tobago dollar",
+        "rounding": "0.01",
+        "active": false,
+        "name": "TTD"
+    },
+    {
+        "symbol": "T$",
+        "iso_numeric": "776",
+        "decimal_places": "2",
+        "full_name": "Tongan paʻanga",
+        "rounding": "0.01",
+        "active": false,
+        "name": "TOP"
+    },
+    {
+        "symbol": "฿",
+        "iso_numeric": "764",
+        "decimal_places": "2",
+        "full_name": "Thai baht",
+        "rounding": "0.01",
+        "active": false,
+        "name": "THB"
+    },
+    {
+        "symbol": "TSh",
+        "iso_numeric": "834",
+        "decimal_places": "2",
+        "full_name": "Tanzanian shilling",
+        "rounding": "0.01",
+        "active": false,
+        "name": "TZS"
+    },
+    {
+        "symbol": "TJS",
+        "iso_numeric": "972",
+        "decimal_places": "2",
+        "full_name": "Tajikistani somoni",
+        "rounding": "0.01",
+        "active": false,
+        "name": "TJS"
+    },
+    {
+        "symbol": "NT$",
+        "iso_numeric": "901",
+        "decimal_places": "0",
+        "full_name": "New Taiwan dollar",
+        "rounding": "1",
+        "active": false,
+        "name": "TWD"
+    },
+    {
+        "symbol": "£",
+        "iso_numeric": "760",
+        "decimal_places": "2",
+        "full_name": "Syrian pound",
+        "rounding": "0.01",
+        "active": false,
+        "name": "SYP"
+    },
+    {
+        "symbol": "E",
+        "iso_numeric": "748",
+        "decimal_places": "2",
+        "full_name": "Swazi lilangeni",
+        "rounding": "0.01",
+        "active": false,
+        "name": "SZL"
+    },
+    {
+        "symbol": "$",
+        "iso_numeric": "968",
+        "decimal_places": "2",
+        "full_name": "Surinamese dollar",
+        "rounding": "0.01",
+        "active": false,
+        "name": "SRD"
+    },
+    {
+        "symbol": "ج.س.",
+        "iso_numeric": "938",
+        "decimal_places": "2",
+        "full_name": "Sudanese pound",
+        "rounding": "0.01",
+        "active": false,
+        "name": "SDG"
+    },
+    {
+        "symbol": "Rs",
+        "iso_numeric": "144",
+        "decimal_places": "2",
+        "full_name": "Sri Lankan rupee",
+        "rounding": "0.01",
+        "active": false,
+        "name": "LKR"
+    },
+    {
+        "symbol": "£",
+        "iso_numeric": "728",
+        "decimal_places": "2",
+        "full_name": "South Sudanese pound",
+        "rounding": "0.01",
+        "active": false,
+        "name": "SSP"
+    },
+    {
+        "symbol": "£",
+        "iso_numeric": "826",
+        "decimal_places": "2",
+        "full_name": "Pound sterling",
+        "rounding": "0.01",
+        "active": false,
+        "name": "GBP"
+    },
+    {
+        "symbol": "Sh.",
+        "iso_numeric": "706",
+        "decimal_places": "2",
+        "full_name": "Somali shilling",
+        "rounding": "0.01",
+        "active": false,
+        "name": "SOS"
+    },
+    {
+        "symbol": "SI$",
+        "iso_numeric": "90",
+        "decimal_places": "2",
+        "full_name": "Solomon Islands dollar",
+        "rounding": "0.01",
+        "active": false,
+        "name": "SBD"
+    },
+    {
+        "symbol": "Le",
+        "iso_numeric": "694",
+        "decimal_places": "2",
+        "full_name": "Sierra Leonean leone",
+        "rounding": "0.01",
+        "active": false,
+        "name": "SLL"
+    },
+    {
+        "symbol": "Le",
+        "iso_numeric": "694",
+        "decimal_places": "2",
+        "full_name": "Sierra Leonean leone",
+        "rounding": "0.01",
+        "active": false,
+        "name": "SLE"
+    },
+    {
+        "symbol": "SR",
+        "iso_numeric": "690",
+        "decimal_places": "2",
+        "full_name": "Seychellois rupee",
+        "rounding": "0.01",
+        "active": false,
+        "name": "SCR"
+    },
+    {
+        "symbol": "din.",
+        "iso_numeric": "941",
+        "decimal_places": "2",
+        "full_name": "Serbian dinar",
+        "rounding": "0.01",
+        "active": false,
+        "name": "RSD"
+    },
+    {
+        "symbol": "SR",
+        "iso_numeric": "682",
+        "decimal_places": "2",
+        "full_name": "Saudi riyal",
+        "rounding": "0.01",
+        "active": false,
+        "name": "SAR"
+    },
+    {
+        "symbol": "Db",
+        "iso_numeric": "678",
+        "decimal_places": "2",
+        "full_name": "São Tomé and Príncipe dobra",
+        "rounding": "0.01",
+        "active": false,
+        "name": "STD"
+    },
+    {
+        "symbol": "WS$",
+        "iso_numeric": "882",
+        "decimal_places": "2",
+        "full_name": "Samoan tālā",
+        "rounding": "0.01",
+        "active": false,
+        "name": "WST"
+    },
+    {
+        "symbol": "£",
+        "iso_numeric": "654",
+        "decimal_places": "2",
+        "full_name": "Saint Helena pound",
+        "rounding": "0.01",
+        "active": false,
+        "name": "SHP"
+    },
+    {
+        "symbol": "RF",
+        "iso_numeric": "646",
+        "decimal_places": "0",
+        "full_name": "Rwandan franc",
+        "rounding": "1",
+        "active": false,
+        "name": "RWF"
+    },
+    {
+        "symbol": "QR",
+        "iso_numeric": "634",
+        "decimal_places": "2",
+        "full_name": "Qatari riyal",
+        "rounding": "0.01",
+        "active": false,
+        "name": "QAR"
+    },
+    {
+        "symbol": "S/",
+        "iso_numeric": "604",
+        "decimal_places": "2",
+        "full_name": "Peruvian sol",
+        "rounding": "0.01",
+        "active": false,
+        "name": "PEN"
+    },
+    {
+        "symbol": "₲",
+        "iso_numeric": "600",
+        "decimal_places": "0",
+        "full_name": "Paraguayan guaraní",
+        "rounding": "1",
+        "active": false,
+        "name": "PYG"
+    },
+    {
+        "symbol": "K",
+        "iso_numeric": "598",
+        "decimal_places": "2",
+        "full_name": "Papua New Guinean kina",
+        "rounding": "0.01",
+        "active": false,
+        "name": "PGK"
+    },
+    {
+        "symbol": "Rs.",
+        "iso_numeric": "586",
+        "decimal_places": "2",
+        "full_name": "Pakistani rupee",
+        "rounding": "0.01",
+        "active": false,
+        "name": "PKR"
+    },
+    {
+        "symbol": "ر.ع.",
+        "iso_numeric": "512",
+        "decimal_places": "3",
+        "full_name": "Omani rial",
+        "rounding": "0.001",
+        "active": false,
+        "name": "OMR"
+    },
+    {
+        "symbol": "$",
+        "iso_numeric": "132",
+        "decimal_places": "2",
+        "full_name": "Cape Verdean escudo",
+        "rounding": "0.01",
+        "active": false,
+        "name": "CVE"
+    },
+    {
+        "symbol": "$",
+        "iso_numeric": "970",
+        "decimal_places": "2",
+        "full_name": "Unidad de Valor Real",
+        "rounding": "0.01",
+        "active": false,
+        "name": "COU"
+    },
+    {
+        "symbol": "$",
+        "iso_numeric": "990",
+        "decimal_places": "4",
+        "full_name": "Unidad de Fomento",
+        "rounding": "0.0001",
+        "active": false,
+        "name": "CLF"
+    },
+    {
+        "symbol": "$",
+        "iso_numeric": "931",
+        "decimal_places": "2",
+        "full_name": "Cuban convertible peso",
+        "rounding": "0.01",
+        "active": false,
+        "name": "CUC"
+    },
+    {
+        "symbol": "Q",
+        "iso_numeric": "320",
+        "decimal_places": "2",
+        "full_name": "Guatemalan Quetzal",
+        "rounding": "0.01",
+        "active": false,
+        "name": "GTQ"
+    },
+    {
+        "symbol": "Bs",
+        "iso_numeric": "937",
+        "decimal_places": "2",
+        "full_name": "Venezuelan bolívar soberano",
+        "rounding": "0.01",
+        "active": false,
+        "name": "VES"
+    },
+    {
+        "symbol": "$",
+        "iso_numeric": "858",
+        "decimal_places": "4",
+        "full_name": "Unidad previsional",
+        "rounding": "0.0001",
+        "active": false,
+        "name": "UYW"
+    },
+    {
+        "symbol": "$",
+        "iso_numeric": "940",
+        "decimal_places": "4",
+        "full_name": "Uruguay Peso en Unidades Indexadas",
+        "rounding": "0.0001",
+        "active": false,
+        "name": "UYI"
+    },
+    {
+        "symbol": "Db",
+        "iso_numeric": "678",
+        "decimal_places": "2",
+        "full_name": "São Tomé and Príncipe dobra",
+        "rounding": "0.01",
+        "active": false,
+        "name": "STN"
+    }
+]

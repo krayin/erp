@@ -2,9 +2,9 @@
 
 namespace Webkul\Employee\Filament\Clusters\Employee\Resources\SkillTypeResource\Pages;
 
-use Webkul\Employee\Filament\Clusters\Employee\Resources\SkillTypeResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Webkul\Employee\Filament\Clusters\Employee\Resources\SkillTypeResource;
 
 class ListSkillTypes extends ListRecords
 {
@@ -13,7 +13,13 @@ class ListSkillTypes extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->createAnother(false)
+                ->after(function ($record) {
+                    return redirect(
+                        SkillTypeResource::getUrl('edit', ['record' => $record])
+                    );
+                }),
         ];
     }
 }

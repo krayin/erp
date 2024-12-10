@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('skill_levels', function (Blueprint $table) {
+        Schema::create('skill_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->foreignId('skill_type_id')->constrained('skill_types')->onDelete('cascade');
-            $table->integer('level')->default(0);
+            $table->string('name')->unique();
+            $table->string('color')->nullable(false);
+            $table->boolean('status')->default(true);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('skill_levels');
+        Schema::dropIfExists('skill_types');
     }
 };
