@@ -8,6 +8,6 @@ class EmploymentType extends Model
 {
     protected $fillable = [
         'name',
-        'sequence'
+        'sequence',
     ];
 }
