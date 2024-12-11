@@ -61,7 +61,7 @@ class EmployeeCategoryResource extends Resource
                     ->searchable()
                     ->label('Color')
                     ->toggleable(isToggledHiddenByDefault: false)
-                    ->formatStateUsing(fn (EmployeeCategory $employeeCategory) => '<span class="flex w-5 h-5" style="background: rgb(var(--'.$employeeCategory->color.'-500))"></span>')
+                    ->formatStateUsing(fn (EmployeeCategory $employeeCategory) => '<span class="flex w-5 h-5 rounded-full" style="background: rgb(var(--'.$employeeCategory->color.'-500))"></span>')
                     ->html()
                     ->sortable(),
             ])
