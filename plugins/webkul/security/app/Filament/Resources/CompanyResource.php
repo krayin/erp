@@ -88,14 +88,14 @@ class CompanyResource extends Resource
                                         Forms\Components\TextInput::make('zip')
                                             ->live()
                                             ->label('ZIP Code')
-                                            ->required(fn(Get $get) => Country::find($get('country_id'))?->zip_required),
+                                            ->required(fn (Get $get) => Country::find($get('country_id'))?->zip_required),
                                         Forms\Components\Select::make('country_id')
                                             ->label('Country')
                                             ->relationship(name: 'country', titleAttribute: 'name')
-                                            ->afterStateUpdated(fn(Set $set) => $set('state_id', null))
+                                            ->afterStateUpdated(fn (Set $set) => $set('state_id', null))
                                             ->createOptionForm([
                                                 Forms\Components\Select::make('currency_id')
-                                                    ->options(fn() => Currency::pluck('full_name', 'id'))
+                                                    ->options(fn () => Currency::pluck('full_name', 'id'))
                                                     ->searchable()
                                                     ->preload()
                                                     ->label('Currency Name')
@@ -140,7 +140,7 @@ class CompanyResource extends Resource
                                         Forms\Components\Select::make('state_id')
                                             ->label('State')
                                             ->options(
-                                                fn(Get $get): Collection => State::query()
+                                                fn (Get $get): Collection => State::query()
                                                     ->where('country_id', $get('country_id'))
                                                     ->pluck('name', 'id')
                                             )
@@ -174,7 +174,7 @@ class CompanyResource extends Resource
                                             })
                                             ->searchable()
                                             ->preload()
-                                            ->required(fn(Get $get) => Country::find($get('country_id'))?->state_required),
+                                            ->required(fn (Get $get) => Country::find($get('country_id'))?->state_required),
                                     ])
                                     ->columns(2),
                                 Forms\Components\Section::make('Additional Information')
@@ -185,7 +185,7 @@ class CompanyResource extends Resource
                                             ->required()
                                             ->live()
                                             ->preload()
-                                            ->options(fn() => Currency::pluck('full_name', 'id'))
+                                            ->options(fn () => Currency::pluck('full_name', 'id'))
                                             ->createOptionForm([
                                                 Forms\Components\TextInput::make('code')
                                                     ->label('Currency Code')

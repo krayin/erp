@@ -26,7 +26,6 @@ return new class extends Migration
             $table->unsignedBigInteger('responsible_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
 
-
             $table->foreign('plan_id')->references('id')->on('activity_plans')->onDelete('set null');
             $table->foreign('responsible_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('activity_type_id')->references('id')->on('activity_types')->onDelete('set null');

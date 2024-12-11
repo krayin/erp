@@ -4,7 +4,6 @@ namespace Webkul\Employee\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Webkul\Security\Models\User;
 
 class ActivityType extends Model
@@ -24,15 +23,15 @@ class ActivityType extends Model
         'summary',
         'default_note',
         'active',
-        'keep_done'
+        'keep_done',
     ];
 
     protected $casts = [
-        'name' => 'array',
-        'summary' => 'array',
+        'name'         => 'array',
+        'summary'      => 'array',
         'default_note' => 'array',
-        'active' => 'boolean',
-        'keep_done' => 'boolean'
+        'active'       => 'boolean',
+        'keep_done'    => 'boolean',
     ];
 
     public function createdBy(): BelongsTo
@@ -48,12 +47,14 @@ class ActivityType extends Model
     public function getLocalizedNameAttribute()
     {
         $locale = app()->getLocale();
+
         return $this->name[$locale] ?? $this->name['en'] ?? null;
     }
 
     public function getLocalizedSummaryAttribute()
     {
         $locale = app()->getLocale();
+
         return $this->summary[$locale] ?? $this->summary['en'] ?? null;
     }
 

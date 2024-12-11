@@ -5,9 +5,8 @@ namespace Webkul\Employee\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Webkul\Employee\Models\Department;
-use Webkul\Security\Models\User;
 use Webkul\Security\Models\Company;
+use Webkul\Security\Models\User;
 
 class ActivityPlan extends Model
 {
@@ -24,7 +23,7 @@ class ActivityPlan extends Model
         'write_uid',
         'name',
         'department_id',
-        'active'
+        'active',
     ];
 
     /**
@@ -33,7 +32,7 @@ class ActivityPlan extends Model
      * @var array
      */
     protected $casts = [
-        'active' => 'boolean'
+        'active' => 'boolean',
     ];
 
     /**
