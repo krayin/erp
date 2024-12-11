@@ -22,4 +22,9 @@ class EditCalendar extends EditRecord
     {
         return $data;
     }
+
+    protected function afterSave(): void
+    {
+        $this->dispatch('refreshCalendarResource');
+    }
 }

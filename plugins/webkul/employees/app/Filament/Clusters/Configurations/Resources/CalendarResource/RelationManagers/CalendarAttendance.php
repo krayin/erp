@@ -14,6 +14,8 @@ use Webkul\Employee\Enums;
 
 class CalendarAttendance extends RelationManager
 {
+    protected $listeners = ['refreshCalendarResource' => '$refresh'];
+
     protected static string $relationship = 'attendance';
 
     protected static ?string $recordTitleAttribute = 'name';
