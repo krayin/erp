@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace Webkul\Employee\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Webkul\Employee\Enums\WorkLocationEnum;
 use Webkul\Security\Models\Company;
+use Webkul\Security\Models\User;
 
 class WorkLocation extends Model
 {
@@ -14,7 +16,7 @@ class WorkLocation extends Model
 
     protected $fillable = [
         'company_id',
-        'address_id',
+        'user_id',
         'name',
         'location_type',
         'location_number',
@@ -22,7 +24,8 @@ class WorkLocation extends Model
     ];
 
     protected $casts = [
-        'active' => 'boolean',
+        'active'        => 'boolean',
+        'location_type' => WorkLocationEnum::class,
     ];
 
     public function company(): BelongsTo
@@ -30,9 +33,9 @@ class WorkLocation extends Model
         return $this->belongsTo(Company::class);
     }
 
-    public function address(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Address::class);
+        return $this->belongsTo(User::class);
     }
 
     /**
