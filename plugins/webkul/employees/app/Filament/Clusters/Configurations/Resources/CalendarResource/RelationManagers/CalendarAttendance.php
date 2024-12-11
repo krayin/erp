@@ -136,12 +136,22 @@ class CalendarAttendance extends RelationManager
             ->headerActions([
                 Tables\Actions\CreateAction::make()
                     ->icon('heroicon-o-plus-circle')
-                    ->hidden(fn (RelationManager $livewire) => $livewire->getOwnerRecord()->flexible_hours ?? false),
+                    ->hidden(fn (RelationManager $livewire) => $livewire->getOwnerRecord()->flexible_hours ?? false)
+                    ->mutateFormDataUsing(function (array $data) {
+                        $data['sequence'] = $this->getOwnerRecord()->attendance()->count() + 1;
+
+                        return $data;
+                    }),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\EditAction::make()
+                        ->mutateFormDataUsing(function (array $data) {
+                            $data['sequence'] = $this->getOwnerRecord()->attendance()->count() + 1;
+
+                            return $data;
+                        }),
                     Tables\Actions\DeleteAction::make(),
                     Tables\Actions\RestoreAction::make(),
                 ]),
@@ -152,6 +162,7 @@ class CalendarAttendance extends RelationManager
                     Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->reorderable('sequence');
     }
 }
