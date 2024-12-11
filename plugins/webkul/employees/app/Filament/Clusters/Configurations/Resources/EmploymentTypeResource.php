@@ -7,11 +7,10 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\EmploymentTypeResource\Pages;
 use Webkul\Employee\Models\EmploymentType;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 class EmploymentTypeResource extends Resource
 {
@@ -67,6 +66,27 @@ class EmploymentTypeResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->label('Company'),
+            ])
+            ->groups([
+                Tables\Grouping\Group::make('name')
+                    ->label('Name')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('code')
+                    ->label('Code')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('user.name')
+                    ->label('User')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('company.name')
+                    ->label('User')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('created_at')
+                    ->label('Created At')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('updated_at')
+                    ->label('Update At')
+                    ->date()
+                    ->collapsible(),
             ])
             ->filters([])
             ->actions([

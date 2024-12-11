@@ -66,6 +66,7 @@ class SkillLevelRelationManager extends RelationManager
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
+                    ->icon('heroicon-o-plus-circle')
                     ->modal('form')
                     ->mutateFormDataUsing(function ($data) {
                         if ($data['default_level'] ?? false) {

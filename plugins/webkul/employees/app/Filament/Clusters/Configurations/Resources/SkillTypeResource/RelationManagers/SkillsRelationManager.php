@@ -51,6 +51,7 @@ class SkillsRelationManager extends RelationManager
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
+                    ->icon('heroicon-o-plus-circle')
                     ->modal('form'),
             ])
             ->filters([

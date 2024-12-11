@@ -99,6 +99,24 @@ class DepartmentResource extends Resource
                     ]),
                 ])->collapsible(),
             ])
+            ->groups([
+                Tables\Grouping\Group::make('name')
+                    ->label('Name')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('company.name')
+                    ->label('Company')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('manager.name')
+                    ->label('Manager')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('created_at')
+                    ->label('Created At')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('updated_at')
+                    ->label('Update At')
+                    ->date()
+                    ->collapsible(),
+            ])
             ->filters([])
             ->contentGrid([
                 'xl'  => 2,

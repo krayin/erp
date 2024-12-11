@@ -28,6 +28,7 @@ class EmployeeServiceProvider extends PackageServiceProvider
                 '2024_12_12_115728_create_activity_plan_templates_table',
                 '2024_12_11_045350_create_work_locations_table',
                 '2024_12_11_054555_create_employee_categories_table',
+                '2024_12_11_081046_create_employee_job_positions_table',
             ])
             ->runsMigrations();
     }

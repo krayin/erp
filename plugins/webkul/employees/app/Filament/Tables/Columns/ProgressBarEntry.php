@@ -8,7 +8,7 @@ class ProgressBarEntry extends Column
 {
     protected $canShow = true;
 
-    protected string $view = 'employee::tables.columns.progress-bar-entry';
+    protected string $view = 'employees::tables.columns.progress-bar-entry';
 
     public function hideProgressValue($canShow = false)
     {
