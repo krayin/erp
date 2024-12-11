@@ -5,6 +5,7 @@ namespace Webkul\Employee\Filament\Clusters\Configurations\Resources\EmployeeCat
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Employee\Enums;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\EmployeeCategoryResource;
 
 class ListEmployeeCategories extends ListRecords
@@ -19,15 +20,7 @@ class ListEmployeeCategories extends ListRecords
                 ->mutateFormDataUsing(function (array $data): array {
                     $data['user_id'] = Auth::user()->id;
 
-                    $colors = [
-                        'danger'  => 'Danger',
-                        'gray'    => 'Gray',
-                        'info'    => 'Info',
-                        'success' => 'Success',
-                        'warning' => 'Warning',
-                    ];
-
-                    $data['color'] = $data['color'] ?? collect($colors)->keys()->random();
+                    $data['color'] = $data['color'] ?? collect(Enums\Colors::options())->keys()->random();
 
                     return $data;
                 }),

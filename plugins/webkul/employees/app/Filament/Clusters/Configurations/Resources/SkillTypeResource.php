@@ -7,6 +7,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Webkul\Employee\Enums;
 use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\SkillTypeResource\Pages;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\SkillTypeResource\RelationManagers;
@@ -38,15 +39,9 @@ class SkillTypeResource extends Resource
                     ->label('Color')
                     ->required()
                     ->options(function () {
-                        return collect([
-                            'danger'  => 'Danger',
-                            'gray'    => 'Gray',
-                            'info'    => 'Info',
-                            'success' => 'Success',
-                            'warning' => 'Warning',
-                        ])->mapWithKeys(function ($value, $key) {
+                        return collect(Enums\Colors::options())->mapWithKeys(function ($value, $key) {
                             return [
-                                $key => '<div class="flex items-center gap-4"><span class="flex h-5 w-5 rounded-full" style="background: rgb(var(--'.$key.'-500))"></span> '.$value.'</span>',
+                                $key => '<div class="flex items-center gap-4"><span class="flex w-5 h-5 rounded-full" style="background: rgb(var(--'.$key.'-500))"></span> '.$value.'</span>',
                             ];
                         });
                     })
@@ -69,7 +64,7 @@ class SkillTypeResource extends Resource
                 Tables\Columns\TextColumn::make('color')
                     ->label('Color')
                     ->toggleable(isToggledHiddenByDefault: false)
-                    ->formatStateUsing(fn (SkillType $skillType) => '<span class="flex h-5 w-5 border-2 border-gray-600" style="background: rgb(var(--'.$skillType->color.'-500))"></span>')
+                    ->formatStateUsing(fn (SkillType $skillType) => '<span class="flex w-5 h-5" style="background: rgb(var(--'.$skillType->color.'-500))"></span>')
                     ->html()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('skills.name')

@@ -13,9 +13,9 @@ enum DisplayType: string
     public static function options(): array
     {
         return [
-            self::Working->value       => 'Working',
-            self::Off->value           => 'Off',
-            self::Holiday->value       => 'Holiday',
+            self::Working->value => 'Working',
+            self::Off->value     => 'Off',
+            self::Holiday->value => 'Holiday',
         ];
     }
 }

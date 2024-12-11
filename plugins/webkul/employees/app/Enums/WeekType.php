@@ -13,9 +13,9 @@ enum WeekType: string
     public static function options(): array
     {
         return [
-            self::All->value       => 'All',
-            self::Even->value      => 'Even',
-            self::Odd->value       => 'Odd',
+            self::All->value  => 'All',
+            self::Even->value => 'Even',
+            self::Odd->value  => 'Odd',
         ];
     }
 }

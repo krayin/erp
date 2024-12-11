@@ -15,10 +15,10 @@ enum DayPeriod: string
     public static function options(): array
     {
         return [
-            self::Morning->value     => 'Morning',
-            self::Afternoon->value   => 'Afternoon',
-            self::Evening->value     => 'Evening',
-            self::Night->value       => 'Night',
+            self::Morning->value   => 'Morning',
+            self::Afternoon->value => 'Afternoon',
+            self::Evening->value   => 'Evening',
+            self::Night->value     => 'Night',
         ];
     }
 }

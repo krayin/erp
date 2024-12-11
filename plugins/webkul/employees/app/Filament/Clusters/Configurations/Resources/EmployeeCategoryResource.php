@@ -7,6 +7,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Webkul\Employee\Enums;
 use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\EmployeeCategoryResource\Pages;
 use Webkul\Employee\Models\EmployeeCategory;
@@ -38,15 +39,9 @@ class EmployeeCategoryResource extends Resource
                 Forms\Components\Select::make('color')
                     ->label('Color')
                     ->options(function () {
-                        return collect([
-                            'danger'  => 'Danger',
-                            'gray'    => 'Gray',
-                            'info'    => 'Info',
-                            'success' => 'Success',
-                            'warning' => 'Warning',
-                        ])->mapWithKeys(function ($value, $key) {
+                        return collect(Enums\Colors::options())->mapWithKeys(function ($value, $key) {
                             return [
-                                $key => '<div class="flex items-center gap-4"><span class="flex h-5 w-5 rounded-full" style="background: rgb(var(--'.$key.'-500))"></span> '.$value.'</span>',
+                                $key => '<div class="flex items-center gap-4"><span class="flex w-5 h-5 rounded-full" style="background: rgb(var(--'.$key.'-500))"></span> '.$value.'</span>',
                             ];
                         });
                     })
@@ -66,7 +61,7 @@ class EmployeeCategoryResource extends Resource
                     ->searchable()
                     ->label('Color')
                     ->toggleable(isToggledHiddenByDefault: false)
-                    ->formatStateUsing(fn (EmployeeCategory $employeeCategory) => '<span class="flex h-5 w-5" style="background: rgb(var(--'.$employeeCategory->color.'-500))"></span>')
+                    ->formatStateUsing(fn (EmployeeCategory $employeeCategory) => '<span class="flex w-5 h-5" style="background: rgb(var(--'.$employeeCategory->color.'-500))"></span>')
                     ->html()
                     ->sortable(),
             ])
