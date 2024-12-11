@@ -29,6 +29,9 @@ class EmployeeServiceProvider extends PackageServiceProvider
                 '2024_12_11_045350_create_work_locations_table',
                 '2024_12_11_054555_create_employee_categories_table',
                 '2024_12_11_081046_create_employee_job_positions_table',
+                '2024_12_11_100426_create_calendars_table',
+                '2024_12_11_100435_create_calendar_attendances_table',
+                '2024_12_11_100442_create_calendar_leaves_table',
             ])
             ->runsMigrations();
     }
