@@ -1,11 +1,11 @@
 <?php
 
-namespace Webkul\Employee\Filament\Clusters\Configurations\Resources\DepartmentResource\Pages;
+namespace Webkul\Employee\Filament\Resources\DepartmentResource\Pages;
 
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 use Webkul\Chatter\Filament\Actions as ChatterActions;
-use Webkul\Employee\Filament\Clusters\Configurations\Resources\DepartmentResource;
+use Webkul\Employee\Filament\Resources\DepartmentResource;
 
 class ViewDepartment extends ViewRecord
 {

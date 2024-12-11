@@ -18,7 +18,7 @@ class SkillTypeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
 
-    protected static ?string $navigationGroup = 'Configuration';
+    protected static ?string $navigationGroup = 'Employee';
 
     protected static ?int $navigationSort = 1;
 

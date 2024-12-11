@@ -17,7 +17,7 @@ class DepartureReasonResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-fire';
 
-    protected static ?string $navigationGroup = 'Configuration';
+    protected static ?string $navigationGroup = 'Employee';
 
     protected static ?string $cluster = Configurations::class;
 
