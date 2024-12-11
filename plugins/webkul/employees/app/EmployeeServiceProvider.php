@@ -5,11 +5,11 @@ namespace Webkul\Employee;
 use Webkul\Support\Package;
 use Webkul\Support\PackageServiceProvider;
 
-class EmployeesServiceProvider extends PackageServiceProvider
+class EmployeeServiceProvider extends PackageServiceProvider
 {
-    public static string $name = 'employee';
+    public static string $name = 'employees';
 
-    public static string $viewNamespace = 'employee';
+    public static string $viewNamespace = 'employees';
 
     public function configureCustomPackage(Package $package): void
     {

@@ -9,7 +9,7 @@ class EmployeePlugin implements Plugin
 {
     public function getId(): string
     {
-        return 'employee';
+        return 'employees';
     }
 
     public static function make(): static
@@ -35,6 +35,6 @@ class EmployeePlugin implements Plugin
     {
         $reflector = new \ReflectionClass(get_class($this));
 
-        return dirname($reflector->getFileName()).($path ?? '');
+        return dirname($reflector->getFileName()) . ($path ?? '');
     }
 }
