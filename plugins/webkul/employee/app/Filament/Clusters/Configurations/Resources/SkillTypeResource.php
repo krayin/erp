@@ -28,39 +28,34 @@ class SkillTypeResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Skill Type Details')
-                    ->description('Create and manage skill type.')
-                    ->schema([
-                        Forms\Components\TextInput::make('name')
-                            ->label('Skill Type')
-                            ->required()
-                            ->unique(ignoreRecord: true)
-                            ->maxLength(255)
-                            ->placeholder('Enter skill type name'),
-                        Forms\Components\Select::make('color')
-                            ->label('Color')
-                            ->required()
-                            ->options(function () {
-                                return collect([
-                                    'danger'  => 'Danger',
-                                    'gray'    => 'Gray',
-                                    'info'    => 'Info',
-                                    'success' => 'Success',
-                                    'warning' => 'Warning',
-                                ])->mapWithKeys(function ($value, $key) {
-                                    return [
-                                        $key => '<div class="flex items-center gap-4"><span class="flex h-5 w-5 rounded-full" style="background: rgb(var(--'.$key.'-500))"></span> '.$value.'</span>',
-                                    ];
-                                });
-                            })
-                            ->native(false)
-                            ->allowHtml(),
-                        Forms\Components\Toggle::make('status')
-                            ->label('Active Status')
-                            ->default(true),
-                    ])->columns(2),
-            ])
-            ->columns('full');
+                Forms\Components\TextInput::make('name')
+                    ->label('Skill Type')
+                    ->required()
+                    ->unique(ignoreRecord: true)
+                    ->maxLength(255)
+                    ->placeholder('Enter skill type name'),
+                Forms\Components\Select::make('color')
+                    ->label('Color')
+                    ->required()
+                    ->options(function () {
+                        return collect([
+                            'danger'  => 'Danger',
+                            'gray'    => 'Gray',
+                            'info'    => 'Info',
+                            'success' => 'Success',
+                            'warning' => 'Warning',
+                        ])->mapWithKeys(function ($value, $key) {
+                            return [
+                                $key => '<div class="flex items-center gap-4"><span class="flex h-5 w-5 rounded-full" style="background: rgb(var(--' . $key . '-500))"></span> ' . $value . '</span>',
+                            ];
+                        });
+                    })
+                    ->native(false)
+                    ->allowHtml(),
+                Forms\Components\Toggle::make('status')
+                    ->label('Active Status')
+                    ->default(true),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -74,13 +69,13 @@ class SkillTypeResource extends Resource
                 Tables\Columns\TextColumn::make('color')
                     ->label('Color')
                     ->toggleable(isToggledHiddenByDefault: false)
-                    ->formatStateUsing(fn (SkillType $skillType) => '<span class="flex h-5 w-5 border-2 border-gray-600" style="background: rgb(var(--'.$skillType->color.'-500))"></span>')
+                    ->formatStateUsing(fn(SkillType $skillType) => '<span class="flex h-5 w-5 border-2 border-gray-600" style="background: rgb(var(--' . $skillType->color . '-500))"></span>')
                     ->html()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('skills.name')
                     ->label('Skills')
                     ->badge()
-                    ->color(fn (SkillType $skillType) => $skillType->color)
+                    ->color(fn(SkillType $skillType) => $skillType->color)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('skillLevels.name')
                     ->label('Levels')

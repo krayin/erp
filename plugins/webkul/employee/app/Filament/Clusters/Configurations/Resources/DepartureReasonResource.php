@@ -28,7 +28,7 @@ class DepartureReasonResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->label('Name')
                     ->required(),
-            ]);
+            ])->columns('full');
     }
 
     public static function table(Table $table): Table

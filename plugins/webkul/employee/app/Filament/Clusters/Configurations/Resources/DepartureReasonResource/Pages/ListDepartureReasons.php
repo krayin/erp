@@ -15,6 +15,7 @@ class ListDepartureReasons extends ListRecords
     {
         return [
             Actions\CreateAction::make()
+                ->icon('heroicon-o-plus-circle')
                 ->mutateFormDataUsing(function (array $data): array {
                     $data['sequence'] = DepartureReason::max('sequence') + 1;
 

@@ -27,23 +27,20 @@ class WorkLocationResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('General')
-                    ->schema([
-                        Forms\Components\TextInput::make('name')
-                            ->required()
-                            ->maxLength(255),
-                        Forms\Components\ToggleButtons::make('location_type')
-                            ->inline()
-                            ->options(WorkLocationEnum::class)
-                            ->required(),
-                        Forms\Components\Select::make('company_id')
-                            ->searchable()
-                            ->required()
-                            ->preload()
-                            ->relationship('company', 'name'),
-                        Forms\Components\Toggle::make('active')
-                            ->required(),
-                    ])->columns(2),
+                Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\ToggleButtons::make('location_type')
+                    ->inline()
+                    ->options(WorkLocationEnum::class)
+                    ->required(),
+                Forms\Components\Select::make('company_id')
+                    ->searchable()
+                    ->required()
+                    ->preload()
+                    ->relationship('company', 'name'),
+                Forms\Components\Toggle::make('active')
+                    ->required(),
             ]);
     }
 

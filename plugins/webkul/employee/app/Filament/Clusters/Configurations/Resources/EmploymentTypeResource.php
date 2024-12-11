@@ -10,6 +10,8 @@ use Filament\Tables\Table;
 use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\EmploymentTypeResource\Pages;
 use Webkul\Employee\Models\EmploymentType;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class EmploymentTypeResource extends Resource
 {
@@ -17,7 +19,7 @@ class EmploymentTypeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-cube-transparent';
 
-    protected static ?string $navigationGroup = 'Employee';
+    protected static ?string $navigationGroup = 'Recruitment';
 
     public static function getModelLabel(): string
     {
@@ -35,8 +37,14 @@ class EmploymentTypeResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->live(onBlur: true),
+                Forms\Components\TextInput::make('code')
+                    ->label('Code'),
+                Forms\Components\Select::make('company_id')
+                    ->searchable()
+                    ->preload()
+                    ->relationship('company', 'name'),
             ])
-            ->columns('full');
+            ->columns(2);
     }
 
     public static function table(Table $table): Table
@@ -44,7 +52,21 @@ class EmploymentTypeResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->sortable()
+                    ->searchable()
                     ->label('Name'),
+                Tables\Columns\TextColumn::make('code')
+                    ->sortable()
+                    ->searchable()
+                    ->label('Code'),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->sortable()
+                    ->searchable()
+                    ->label('User'),
+                Tables\Columns\TextColumn::make('company.name')
+                    ->sortable()
+                    ->searchable()
+                    ->label('Company'),
             ])
             ->filters([])
             ->actions([
@@ -52,6 +74,10 @@ class EmploymentTypeResource extends Resource
                 Tables\Actions\EditAction::make()
                     ->mutateFormDataUsing(function (array $data): array {
                         $data['sequence'] = EmploymentType::max('sequence') + 1;
+
+                        $data['code'] = $data['code'] ?? $data['name'];
+
+                        $data['user_id'] = Auth::user()->id;
 
                         return $data;
                     }),
