@@ -135,7 +135,7 @@ class CalendarAttendance extends RelationManager
             ->headerActions([
                 Tables\Actions\CreateAction::make()
                     ->icon('heroicon-o-plus-circle')
-                    ->hidden(fn($livewire) => $livewire->getOwnerRecord()->flexible_hours ?? false)
+                    ->hidden(fn(RelationManager $livewire) => $livewire->getOwnerRecord()->flexible_hours ?? false)
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
