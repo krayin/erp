@@ -12,9 +12,12 @@ use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\CalendarResource\Pages;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\CalendarResource\RelationManagers;
 use Webkul\Employee\Models\Calendar;
+use Webkul\Fields\Filament\Traits\HasCustomFields;
 
 class CalendarResource extends Resource
 {
+    use HasCustomFields;
+
     protected static ?string $model = Calendar::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-clock';

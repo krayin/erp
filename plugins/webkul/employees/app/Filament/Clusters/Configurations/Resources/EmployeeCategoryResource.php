@@ -11,9 +11,12 @@ use Webkul\Employee\Enums;
 use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\EmployeeCategoryResource\Pages;
 use Webkul\Employee\Models\EmployeeCategory;
+use Webkul\Fields\Filament\Traits\HasCustomFields;
 
 class EmployeeCategoryResource extends Resource
 {
+    use HasCustomFields;
+
     protected static ?string $model = EmployeeCategory::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-at-symbol';

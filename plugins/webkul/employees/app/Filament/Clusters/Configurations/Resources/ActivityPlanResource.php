@@ -10,9 +10,12 @@ use Filament\Tables\Table;
 use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityPlanResource\Pages;
 use Webkul\Employee\Models\ActivityPlan;
+use Webkul\Fields\Filament\Traits\HasCustomFields;
 
 class ActivityPlanResource extends Resource
 {
+    use HasCustomFields;
+
     protected static ?string $model = ActivityPlan::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';

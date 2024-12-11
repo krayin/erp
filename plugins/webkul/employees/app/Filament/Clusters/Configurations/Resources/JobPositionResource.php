@@ -11,11 +11,14 @@ use Filament\Tables\Table;
 use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\JobPositionResource\Pages;
 use Webkul\Employee\Models\EmployeeJobPosition;
+use Webkul\Fields\Filament\Traits\HasCustomFields;
 use Webkul\Security\Models\Company as ModelsCompany;
 use Webkul\Security\Models\User;
 
 class JobPositionResource extends Resource
 {
+    use HasCustomFields;
+
     protected static ?string $model = EmployeeJobPosition::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';

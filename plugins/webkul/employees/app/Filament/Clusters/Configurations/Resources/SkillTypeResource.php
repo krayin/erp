@@ -12,9 +12,12 @@ use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\SkillTypeResource\Pages;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\SkillTypeResource\RelationManagers;
 use Webkul\Employee\Models\SkillType;
+use Webkul\Fields\Filament\Traits\HasCustomFields;
 
 class SkillTypeResource extends Resource
 {
+    use HasCustomFields;
+
     protected static ?string $model = SkillType::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';

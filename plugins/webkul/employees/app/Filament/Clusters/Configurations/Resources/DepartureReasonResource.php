@@ -10,9 +10,12 @@ use Filament\Tables\Table;
 use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\DepartureReasonResource\Pages;
 use Webkul\Employee\Models\DepartureReason;
+use Webkul\Fields\Filament\Traits\HasCustomFields;
 
 class DepartureReasonResource extends Resource
 {
+    use HasCustomFields;
+
     protected static ?string $model = DepartureReason::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-fire';

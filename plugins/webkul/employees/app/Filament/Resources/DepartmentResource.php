@@ -10,11 +10,14 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Webkul\Employee\Filament\Resources\DepartmentResource\Pages;
 use Webkul\Employee\Models\Department;
+use Webkul\Fields\Filament\Traits\HasCustomFields;
 use Webkul\Security\Models\Company;
 use Webkul\Security\Models\User;
 
 class DepartmentResource extends Resource
 {
+    use HasCustomFields;
+
     protected static ?string $model = Department::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-building-library';

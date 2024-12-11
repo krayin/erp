@@ -12,9 +12,12 @@ use Webkul\Employee\Enums\WorkLocationEnum;
 use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\WorkLocationResource\Pages;
 use Webkul\Employee\Models\WorkLocation;
+use Webkul\Fields\Filament\Traits\HasCustomFields;
 
 class WorkLocationResource extends Resource
 {
+    use HasCustomFields;
+
     protected static ?string $model = WorkLocation::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-map-pin';

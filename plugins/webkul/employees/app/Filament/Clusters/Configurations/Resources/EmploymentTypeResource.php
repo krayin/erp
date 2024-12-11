@@ -11,9 +11,12 @@ use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\EmploymentTypeResource\Pages;
 use Webkul\Employee\Models\EmploymentType;
+use Webkul\Fields\Filament\Traits\HasCustomFields;
 
 class EmploymentTypeResource extends Resource
 {
+    use HasCustomFields;
+
     protected static ?string $model = EmploymentType::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-cube-transparent';
