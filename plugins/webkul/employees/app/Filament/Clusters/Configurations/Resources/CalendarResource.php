@@ -2,15 +2,15 @@
 
 namespace Webkul\Employee\Filament\Clusters\Configurations\Resources;
 
-use Webkul\Employee\Filament\Clusters\Configurations;
-use Webkul\Employee\Filament\Clusters\Configurations\Resources\CalendarResource\Pages;
-use Webkul\Employee\Filament\Clusters\Configurations\Resources\CalendarResource\RelationManagers;
 use Filament\Forms;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Forms\Components\Actions\Action;
+use Webkul\Employee\Filament\Clusters\Configurations;
+use Webkul\Employee\Filament\Clusters\Configurations\Resources\CalendarResource\Pages;
+use Webkul\Employee\Filament\Clusters\Configurations\Resources\CalendarResource\RelationManagers;
 use Webkul\Employee\Models\Calendar;
 
 class CalendarResource extends Resource
@@ -196,7 +196,7 @@ class CalendarResource extends Resource
                 Tables\Filters\TernaryFilter::make('status')
                     ->label('Active Status'),
                 Tables\Filters\TernaryFilter::make('flexible_hours')
-                    ->label('Flexible Hours')
+                    ->label('Flexible Hours'),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
@@ -222,10 +222,10 @@ class CalendarResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCalendars::route('/'),
+            'index'  => Pages\ListCalendars::route('/'),
             'create' => Pages\CreateCalendar::route('/create'),
-            'view' => Pages\ViewCalendar::route('/{record}'),
-            'edit' => Pages\EditCalendar::route('/{record}/edit'),
+            'view'   => Pages\ViewCalendar::route('/{record}'),
+            'edit'   => Pages\EditCalendar::route('/{record}/edit'),
         ];
     }
 }

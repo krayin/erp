@@ -2,8 +2,8 @@
 
 namespace Webkul\Employee\Filament\Clusters\Configurations\Resources\CalendarResource\Pages;
 
-use Webkul\Employee\Filament\Clusters\Configurations\Resources\CalendarResource;
 use Filament\Resources\Pages\CreateRecord;
+use Webkul\Employee\Filament\Clusters\Configurations\Resources\CalendarResource;
 
 class CreateCalendar extends CreateRecord
 {

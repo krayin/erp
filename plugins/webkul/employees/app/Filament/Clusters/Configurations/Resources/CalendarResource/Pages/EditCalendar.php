@@ -2,9 +2,9 @@
 
 namespace Webkul\Employee\Filament\Clusters\Configurations\Resources\CalendarResource\Pages;
 
-use Webkul\Employee\Filament\Clusters\Configurations\Resources\CalendarResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Webkul\Employee\Filament\Clusters\Configurations\Resources\CalendarResource;
 
 class EditCalendar extends EditRecord
 {

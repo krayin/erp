@@ -4,7 +4,6 @@ namespace Webkul\Employee\Filament\Clusters\Configurations\Resources\CalendarRes
 
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Forms\Get;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -91,7 +90,7 @@ class CalendarAttendance extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn(Builder $query) => $query->withoutGlobalScopes([
+            ->modifyQueryUsing(fn (Builder $query) => $query->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]))
             ->columns([
@@ -100,12 +99,12 @@ class CalendarAttendance extends RelationManager
                     ->sortable(),
                 Tables\Columns\TextColumn::make('day_of_week')
                     ->label('Day')
-                    ->formatStateUsing(fn($state) => ucfirst($state))
+                    ->formatStateUsing(fn ($state) => ucfirst($state))
                     ->badge()
                     ->color('primary'),
                 Tables\Columns\TextColumn::make('day_period')
                     ->label('Period')
-                    ->formatStateUsing(fn($state) => ucfirst($state))
+                    ->formatStateUsing(fn ($state) => ucfirst($state))
                     ->badge()
                     ->color('secondary'),
                 Tables\Columns\TextColumn::make('hour_from')
@@ -135,7 +134,7 @@ class CalendarAttendance extends RelationManager
             ->headerActions([
                 Tables\Actions\CreateAction::make()
                     ->icon('heroicon-o-plus-circle')
-                    ->hidden(fn(RelationManager $livewire) => $livewire->getOwnerRecord()->flexible_hours ?? false)
+                    ->hidden(fn (RelationManager $livewire) => $livewire->getOwnerRecord()->flexible_hours ?? false),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
