@@ -4,6 +4,7 @@ namespace Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityPla
 
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityPlanResource;
 
 class ListActivityPlans extends ListRecords
@@ -13,7 +14,13 @@ class ListActivityPlans extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->icon('heroicon-o-plus-circle'),
+            Actions\CreateAction::make()
+                ->icon('heroicon-o-plus-circle')
+                ->mutateFormDataUsing(function ($data) {
+                    $data['user_id'] = Auth::user()->id;
+
+                    return $data;
+                }),
         ];
     }
 }

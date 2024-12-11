@@ -23,21 +23,23 @@ class ActivityPlanResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('model_type')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('model_id')
-                    ->required()
-                    ->numeric(),
                 Forms\Components\TextInput::make('name')
+                    ->label('Plan Name')
+                    ->required()
                     ->maxLength(255),
-                Forms\Components\Toggle::make('active'),
-                Forms\Components\TextInput::make('user_id')
-                    ->numeric(),
                 Forms\Components\Select::make('company_id')
-                    ->relationship('company', 'name'),
+                    ->relationship('company', 'name')
+                    ->searchable()
+                    ->required()
+                    ->preload(),
                 Forms\Components\Select::make('department_id')
-                    ->relationship('department', 'name'),
+                    ->relationship('department', 'name')
+                    ->searchable()
+                    ->required()
+                    ->preload(),
+                Forms\Components\Toggle::make('active')
+                    ->default(true)
+                    ->inline(false),
             ]);
     }
 
@@ -97,7 +99,6 @@ class ActivityPlanResource extends Resource
     {
         return [
             'index'  => Pages\ListActivityPlans::route('/'),
-            'create' => Pages\CreateActivityPlan::route('/create'),
             'view'   => Pages\ViewActivityPlan::route('/{record}'),
             'edit'   => Pages\EditActivityPlan::route('/{record}/edit'),
         ];

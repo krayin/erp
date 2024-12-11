@@ -11,21 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('hr_work_locations', function (Blueprint $table) {
+        Schema::create('work_locations', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('company_id')
-                ->constrained('companies')
-                ->restrictOnDelete();
-
-            $table->foreignId('address_id')
-                ->constrained('addresses')
-                ->restrictOnDelete();
-
             $table->string('name');
             $table->string('location_type');
             $table->string('location_number')->nullable();
             $table->boolean('active')->default(true);
+
+            $table->unsignedBigInteger('company_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('set null');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
 
             $table->timestamps();
             $table->softDeletes();
