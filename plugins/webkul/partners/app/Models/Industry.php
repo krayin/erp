@@ -13,6 +13,13 @@ class Industry extends Model
     use HasFactory;
 
     /**
+     * Table name.
+     *
+     * @var string
+     */
+    protected $table = 'partners_industries';
+
+    /**
      * Fillable.
      *
      * @var array

@@ -13,6 +13,13 @@ class Tag extends Model
     use HasFactory;
 
     /**
+     * Table name.
+     *
+     * @var string
+     */
+    protected $table = 'partners_tags';
+
+    /**
      * Fillable.
      *
      * @var array
