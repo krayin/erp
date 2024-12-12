@@ -13,16 +13,24 @@ return new class extends Migration
     {
         Schema::create('banks', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('code');
-            $table->string('email');
-            $table->string('phone');
-            $table->string('street1');
+            $table->string('name')->nullable();
+            $table->string('code')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('street1')->nullable();
             $table->string('street2')->nullable();
-            $table->string('city');
-            $table->string('state');
-            $table->string('country');
-            $table->string('zip');
+            $table->string('city')->nullable();
+            $table->string('zip')->nullable();
+
+            $table->foreignId('state_id')
+                ->nullable()
+                ->constrained('states')
+                ->restrictOnDelete();
+
+            $table->foreignId('country_id')
+                ->nullable()
+                ->constrained('countries')
+                ->restrictOnDelete();
 
             $table->foreignId('creator_id')
                 ->constrained('users')

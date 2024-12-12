@@ -4,11 +4,15 @@ namespace Webkul\Partner\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Webkul\Partner\Database\Factories\PartnerFactory;
 use Webkul\Security\Models\User;
 use Webkul\Security\Models\Company;
 
 class Partner extends Model
 {
+    use HasFactory;
+
     /**
      * Fillable.
      *
@@ -72,5 +76,10 @@ class Partner extends Model
     public function industry(): BelongsTo
     {
         return $this->belongsTo(Industry::class);
+    }
+
+    protected static function newFactory(): PartnerFactory
+    {
+        return PartnerFactory::new();
     }
 }
