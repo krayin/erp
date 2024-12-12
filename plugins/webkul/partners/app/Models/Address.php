@@ -17,6 +17,13 @@ class Address extends Model
     use HasFactory;
 
     /**
+     * Table name.
+     *
+     * @var string
+     */
+    protected $table = 'partners_addresses';
+
+    /**
      * Fillable.
      *
      * @var array
