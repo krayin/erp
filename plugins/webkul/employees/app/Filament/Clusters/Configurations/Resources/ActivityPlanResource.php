@@ -8,9 +8,11 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityPlanResource\Pages;
 use Webkul\Employee\Models\ActivityPlan;
+use Webkul\Employee\Models\Employee;
 use Webkul\Fields\Filament\Traits\HasCustomFields;
 use Webkul\Security\Models\Company;
 use Webkul\Security\Models\User;
@@ -33,9 +35,19 @@ class ActivityPlanResource extends Resource
                     ->label('Plan Name')
                     ->required()
                     ->maxLength(255),
+                // Forms\Components\Hidden::make('model_type')
+                //     ->default(Employee::class),
+                // Forms\Components\Select::make('model_id')
+                //     ->label('Employee')
+                //     ->options(fn() => Employee::pluck('name', 'id'))
+                //     ->required()
+                //     ->searchable()
+                //     ->preload(),
                 Forms\Components\Select::make('company_id')
                     ->relationship('company', 'name')
                     ->searchable()
+                    ->default(fn() => Auth::user()->defaultCompany?->id)
+                    ->disabled()
                     ->required()
                     ->preload(),
                 Forms\Components\Select::make('department_id')
@@ -65,7 +77,7 @@ class ActivityPlanResource extends Resource
                                 Forms\Components\Select::make('company_id')
                                     ->label('Company')
                                     ->relationship('company', 'name')
-                                    ->options(fn () => Company::pluck('name', 'id'))
+                                    ->options(fn() => Company::pluck('name', 'id'))
                                     ->searchable()
                                     ->placeholder('Select a Company')
                                     ->nullable(),
@@ -95,17 +107,15 @@ class ActivityPlanResource extends Resource
         return $table
             ->columns(static::mergeCustomTableColumns([
                 Tables\Columns\TextColumn::make('model_type')
+                    ->label('Type')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('model_id')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('model.name')
+                    ->label('Related Entity')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('active')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('company.name')
                     ->numeric()
                     ->sortable(),
@@ -113,10 +123,6 @@ class ActivityPlanResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
