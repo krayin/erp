@@ -41,4 +41,9 @@ class Branch extends Model
     {
         return $this->belongsTo(Currency::class);
     }
+
+    public function address()
+    {
+        return $this->hasOne(BranchAddress::class);
+    }
 }

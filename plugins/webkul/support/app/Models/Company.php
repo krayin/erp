@@ -69,4 +69,9 @@ class Company extends Model
     {
         return $query->where('is_active', true);
     }
+
+    public function address()
+    {
+        return $this->hasOne(CompanyAddress::class);
+    }
 }

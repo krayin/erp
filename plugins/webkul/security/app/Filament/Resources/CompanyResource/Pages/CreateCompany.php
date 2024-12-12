@@ -13,6 +13,8 @@ class CreateCompany extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
+        dd($data);
+
         $data['user_id'] = Auth::user()->id;
 
         $data['sequence'] = Company::max('sequence') + 1;
