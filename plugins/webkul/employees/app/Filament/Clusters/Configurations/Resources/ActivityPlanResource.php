@@ -11,6 +11,9 @@ use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityPlanResource\Pages;
 use Webkul\Employee\Models\ActivityPlan;
 use Webkul\Fields\Filament\Traits\HasCustomFields;
+use Webkul\Security\Models\User;
+use Filament\Forms\Components\Actions\Action;
+use Webkul\Security\Models\Company;
 
 class ActivityPlanResource extends Resource
 {
@@ -36,10 +39,46 @@ class ActivityPlanResource extends Resource
                     ->required()
                     ->preload(),
                 Forms\Components\Select::make('department_id')
-                    ->relationship('department', 'name')
+                    ->label('Department')
+                    ->relationship(name: 'department', titleAttribute: 'name')
                     ->searchable()
-                    ->required()
-                    ->preload(),
+                    ->preload()
+                    ->createOptionForm([
+                        Forms\Components\Group::make()
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->label('Name')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->live(onBlur: true),
+                                Forms\Components\Select::make('manager_id')
+                                    ->label('Manager')
+                                    ->relationship('manager', 'name')
+                                    ->options(function () {
+                                        return User::whereHas('roles', function ($query) {
+                                            $query->where('name', 'admin');
+                                        })->pluck('name', 'id');
+                                    })
+                                    ->searchable()
+                                    ->placeholder('Select a manager')
+                                    ->nullable(),
+                                Forms\Components\Select::make('company_id')
+                                    ->label('Company')
+                                    ->relationship('company', 'name')
+                                    ->options(fn() => Company::pluck('name', 'id'))
+                                    ->searchable()
+                                    ->placeholder('Select a Company')
+                                    ->nullable(),
+                                Forms\Components\ColorPicker::make('color')
+                                    ->label('Color'),
+                            ])->columns(2),
+                    ])
+                    ->createOptionAction(function (Action $action) {
+                        return $action
+                            ->modalHeading('Create Department')
+                            ->modalSubmitActionLabel('Create Department')
+                            ->modalWidth('2xl');
+                    }),
                 Forms\Components\Toggle::make('active')
                     ->default(true)
                     ->inline(false),
