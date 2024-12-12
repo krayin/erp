@@ -26,11 +26,11 @@ class IndustryFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'description' => fake()->sentence(),
-            'is_active' => true,
+            'name'           => fake()->name(),
+            'description'    => fake()->sentence(),
+            'is_active'      => true,
             'can_send_money' => true,
-            'creator_id' => User::factory(),
+            'creator_id'     => User::factory(),
         ];
     }
 }

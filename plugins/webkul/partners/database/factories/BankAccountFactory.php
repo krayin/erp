@@ -5,8 +5,8 @@ namespace Webkul\Partner\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Webkul\Partner\Models\BankAccount;
 use Webkul\Partner\Models\Partner;
-use Webkul\Support\Models\Bank;
 use Webkul\Security\Models\User;
+use Webkul\Support\Models\Bank;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Webkul\Partner\Models\BankAccount>
@@ -28,13 +28,13 @@ class BankAccountFactory extends Factory
     public function definition(): array
     {
         return [
-            'account_number' => fake()->bankAccountNumber(),
+            'account_number'      => fake()->bankAccountNumber(),
             'account_holder_name' => fake()->name(),
-            'is_active' => true,
-            'can_send_money' => true,
-            'creator_id' => User::factory(),
-            'partner_id' => Partner::factory(),
-            'bank_id' => Bank::factory(),
+            'is_active'           => true,
+            'can_send_money'      => true,
+            'creator_id'          => User::factory(),
+            'partner_id'          => Partner::factory(),
+            'bank_id'             => Bank::factory(),
         ];
     }
 }

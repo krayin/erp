@@ -26,7 +26,7 @@ class TitleFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'name'       => fake()->name(),
             'short_name' => fake()->name(),
             'creator_id' => User::factory(),
         ];

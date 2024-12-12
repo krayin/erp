@@ -2,11 +2,11 @@
 
 namespace Webkul\Support\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Webkul\Support\Database\Factories\BankFactory;
 use Webkul\Security\Models\User;
+use Webkul\Support\Database\Factories\BankFactory;
 
 class Bank extends Model
 {

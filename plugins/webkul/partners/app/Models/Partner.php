@@ -2,9 +2,9 @@
 
 namespace Webkul\Partner\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Webkul\Partner\Database\Factories\PartnerFactory;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;

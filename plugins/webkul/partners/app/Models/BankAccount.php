@@ -2,13 +2,12 @@
 
 namespace Webkul\Partner\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Webkul\Partner\Database\Factories\BankAccountFactory;
-use Webkul\Support\Models\Bank;
-use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
+use Webkul\Support\Models\Bank;
 
 class BankAccount extends Model
 {

@@ -63,22 +63,6 @@ class Company extends Model
     }
 
     /**
-     * Get the state associated with the company.
-     */
-    public function state(): BelongsTo
-    {
-        return $this->belongsTo(State::class);
-    }
-
-    /**
-     * Get the country associated with the company.
-     */
-    public function country(): BelongsTo
-    {
-        return $this->belongsTo(Country::class);
-    }
-
-    /**
      * Scope a query to only include active companies.
      */
     public function scopeActive($query)

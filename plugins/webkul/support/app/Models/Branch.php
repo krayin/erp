@@ -14,12 +14,6 @@ class Branch extends Model
     protected $fillable = [
         'sequence',
         'name',
-        'street1',
-        'street2',
-        'city',
-        'state_id',
-        'zip',
-        'country_id',
         'tax_id',
         'company_id',
         'user_id',
@@ -46,21 +40,5 @@ class Branch extends Model
     public function currency(): BelongsTo
     {
         return $this->belongsTo(Currency::class);
-    }
-
-    /**
-     * Get the state associated with the company.
-     */
-    public function state(): BelongsTo
-    {
-        return $this->belongsTo(State::class);
-    }
-
-    /**
-     * Get the country associated with the company.
-     */
-    public function country(): BelongsTo
-    {
-        return $this->belongsTo(Country::class);
     }
 }
