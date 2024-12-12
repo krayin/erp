@@ -7,7 +7,6 @@ use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
-use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -78,83 +77,87 @@ class CompanyResource extends Resource
                                     ->columns(2),
                                 Forms\Components\Section::make('Address Information')
                                     ->schema([
-                                        Forms\Components\TextInput::make('address.street1')
-                                            ->label('Street 1')
-                                            ->required(),
-                                        Forms\Components\TextInput::make('address.street2')
-                                            ->label('Street 2'),
-                                        Forms\Components\TextInput::make('address.city')
-                                            ->required(),
-                                        Forms\Components\TextInput::make('address.zip')
-                                            ->live()
-                                            ->label('ZIP Code')
-                                            ->required(fn(Get $get) => Country::find($get('address.country_id'))?->zip_required),
-                                        Forms\Components\Select::make('address.country_id')
-                                            ->label('Country')
-                                            ->relationship(name: 'address.country', titleAttribute: 'name')
-                                            ->afterStateUpdated(fn(Set $set) => $set('address.state_id', null))
-                                            ->createOptionForm([
-                                                Forms\Components\Select::make('currency_id')
-                                                    ->options(fn() => Currency::pluck('full_name', 'id'))
+                                        Forms\Components\Group::make()
+                                            ->relationship('address')
+                                            ->schema([
+                                                Forms\Components\TextInput::make('street1')
+                                                    ->label('Street 1')
+                                                    ->required(),
+                                                Forms\Components\TextInput::make('street2')
+                                                    ->label('Street 2'),
+                                                Forms\Components\TextInput::make('city')
+                                                    ->required(),
+                                                Forms\Components\TextInput::make('zip')
+                                                    ->live()
+                                                    ->label('ZIP Code')
+                                                    ->required(fn (Get $get) => Country::find($get('country_id'))?->zip_required),
+                                                Forms\Components\Select::make('country_id')
+                                                    ->label('Country')
+                                                    ->relationship(name: 'country', titleAttribute: 'name')
+                                                    ->afterStateUpdated(fn (Set $set) => $set('state_id', null))
+                                                    ->createOptionForm([
+                                                        Forms\Components\Select::make('currency_id')
+                                                            ->options(fn () => Currency::pluck('full_name', 'id'))
+                                                            ->searchable()
+                                                            ->preload()
+                                                            ->label('Currency Name')
+                                                            ->required(),
+                                                        Forms\Components\TextInput::make('phone_code')
+                                                            ->label('Phone Code')
+                                                            ->required(),
+                                                        Forms\Components\TextInput::make('code')
+                                                            ->label('Code')
+                                                            ->required()
+                                                            ->rules('max:2'),
+                                                        Forms\Components\TextInput::make('name')
+                                                            ->label('Country Name')
+                                                            ->required(),
+                                                        Forms\Components\Toggle::make('state_required')
+                                                            ->label('State Required')
+                                                            ->required(),
+                                                        Forms\Components\Toggle::make('zip_required')
+                                                            ->label('Zip Required')
+                                                            ->required(),
+                                                    ])
+                                                    ->createOptionAction(
+                                                        fn (Action $action) => $action
+                                                            ->modalHeading('Create Country')
+                                                            ->modalSubmitActionLabel('Create Country')
+                                                            ->modalWidth('lg')
+                                                    )
                                                     ->searchable()
                                                     ->preload()
-                                                    ->label('Currency Name')
+                                                    ->live()
                                                     ->required(),
-                                                Forms\Components\TextInput::make('phone_code')
-                                                    ->label('Phone Code')
-                                                    ->required(),
-                                                Forms\Components\TextInput::make('code')
-                                                    ->label('Code')
-                                                    ->required()
-                                                    ->rules('max:2'),
-                                                Forms\Components\TextInput::make('name')
-                                                    ->label('Country Name')
-                                                    ->required(),
-                                                Forms\Components\Toggle::make('state_required')
-                                                    ->label('State Required')
-                                                    ->required(),
-                                                Forms\Components\Toggle::make('zip_required')
-                                                    ->label('Zip Required')
-                                                    ->required(),
+                                                Forms\Components\Select::make('state_id')
+                                                    ->label('State')
+                                                    ->options(
+                                                        fn (Get $get): Collection => State::query()
+                                                            ->where('country_id', $get('country_id'))
+                                                            ->pluck('name', 'id')
+                                                    )
+                                                    ->createOptionForm([
+                                                        Forms\Components\TextInput::make('name')
+                                                            ->label('Name')
+                                                            ->required()
+                                                            ->maxLength(255),
+                                                        Forms\Components\TextInput::make('code')
+                                                            ->label('Code')
+                                                            ->required()
+                                                            ->maxLength(255),
+                                                    ])
+                                                    ->createOptionAction(
+                                                        fn (Action $action) => $action
+                                                            ->modalHeading('Create State')
+                                                            ->modalSubmitActionLabel('Create State')
+                                                            ->modalWidth('lg')
+                                                    )
+                                                    ->searchable()
+                                                    ->preload()
+                                                    ->required(fn (Get $get) => Country::find($get('country_id'))?->state_required),
                                             ])
-                                            ->createOptionAction(
-                                                fn(Action $action) =>  $action
-                                                    ->modalHeading('Create Country')
-                                                    ->modalSubmitActionLabel('Create Country')
-                                                    ->modalWidth('lg')
-                                            )
-                                            ->searchable()
-                                            ->preload()
-                                            ->live()
-                                            ->required(),
-                                        Forms\Components\Select::make('address.state_id')
-                                            ->label('State')
-                                            ->options(
-                                                fn(Get $get): Collection => State::query()
-                                                    ->where('country_id', $get('address.country_id'))
-                                                    ->pluck('name', 'id')
-                                            )
-                                            ->createOptionForm([
-                                                Forms\Components\TextInput::make('name')
-                                                    ->label('Name')
-                                                    ->required()
-                                                    ->maxLength(255),
-                                                Forms\Components\TextInput::make('code')
-                                                    ->label('Code')
-                                                    ->required()
-                                                    ->maxLength(255),
-                                            ])
-                                            ->createOptionAction(
-                                                fn(Action $action) => $action
-                                                    ->modalHeading('Create State')
-                                                    ->modalSubmitActionLabel('Create State')
-                                                    ->modalWidth('lg')
-                                            )
-                                            ->searchable()
-                                            ->preload()
-                                            ->required(fn(Get $get) => Country::find($get('address.country_id'))?->state_required),
-                                    ])
-                                    ->columns(2),
+                                            ->columns(2),
+                                    ]),
                                 Forms\Components\Section::make('Additional Information')
                                     ->schema([
                                         Forms\Components\Select::make('currency_id')
@@ -164,7 +167,7 @@ class CompanyResource extends Resource
                                             ->required()
                                             ->live()
                                             ->preload()
-                                            ->options(fn() => Currency::pluck('full_name', 'id'))
+                                            ->options(fn () => Currency::pluck('full_name', 'id'))
                                             ->createOptionForm([
                                                 Forms\Components\Section::make()
                                                     ->schema([
@@ -200,7 +203,7 @@ class CompanyResource extends Resource
                                                     ])->columns(2),
                                             ])
                                             ->createOptionAction(
-                                                fn(Action $action) => $action
+                                                fn (Action $action) => $action
                                                     ->modalHeading('Create Currency')
                                                     ->modalSubmitActionLabel('Create Currency')
                                                     ->modalWidth('xl')
@@ -266,12 +269,12 @@ class CompanyResource extends Resource
                     ->label('Email')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('city')
+                Tables\Columns\TextColumn::make('address.city')
                     ->label('City')
                     ->sortable()
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('country.name')
+                Tables\Columns\TextColumn::make('address.country.name')
                     ->label('Country')
                     ->sortable()
                     ->searchable()

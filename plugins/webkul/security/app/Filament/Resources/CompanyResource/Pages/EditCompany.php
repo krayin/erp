@@ -24,10 +24,10 @@ class EditCompany extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        $data['user_id'] = Auth::user()->id;
-
-        $data['sequence'] = Company::max('sequence') + 1;
-
-        return $data;
+        return [
+            'sequence' => Company::max('sequence') + 1,
+            'user_id'  => Auth::user()->id,
+            ...$data,
+        ];
     }
 }

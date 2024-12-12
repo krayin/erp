@@ -31,4 +31,9 @@ class BranchAddress extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
 }

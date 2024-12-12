@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('color')->nullable();
             $table->boolean('is_active')->default(true);
             $table->date('founded_date')->nullable();
+
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('currency_id');
 

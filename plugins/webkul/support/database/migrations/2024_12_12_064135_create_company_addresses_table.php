@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('street2')->nullable();
             $table->string('city')->nullable();
             $table->string('zip')->nullable();
-            $table->boolean('is_primary')->default(0);
+            $table->boolean('is_primary')->default(1);
 
             $table->unsignedBigInteger('state_id')->nullable();
             $table->unsignedBigInteger('country_id')->nullable();
