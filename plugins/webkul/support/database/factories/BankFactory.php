@@ -1,25 +1,24 @@
 <?php
 
-namespace Webkul\Partner\Database\Factories;
+namespace Webkul\Support\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Webkul\Partner\Models\Address;
-use Webkul\Partner\Models\Partner;
+use Webkul\Support\Models\Bank;
 use Webkul\Support\Models\Country;
 use Webkul\Support\Models\State;
 use Webkul\Security\Models\User;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Webkul\Partner\Models\Address>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Webkul\Support\Models\Bank>
  */
-class AddressFactory extends Factory
+class BankFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Address::class;
+    protected $model = Bank::class;
 
     /**
      * Define the model's default state.
@@ -29,8 +28,8 @@ class AddressFactory extends Factory
     public function definition(): array
     {
         return [
-            'type' => 'contact',
             'name' => fake()->name(),
+            'code' => fake()->swiftBicNumber(),
             'email' => fake()->unique()->safeEmail(),
             'phone' => fake()->phoneNumber(),
             'street1' => fake()->streetAddress(),
@@ -40,7 +39,6 @@ class AddressFactory extends Factory
             'state_id' => State::factory(),
             'country_id' => Country::factory(),
             'creator_id' => User::factory(),
-            'partner_id' => Partner::factory(),
         ];
     }
 }
