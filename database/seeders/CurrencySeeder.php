@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Webkul\Security\Models\Currency;
+use Webkul\Support\Models\Currency;
 
 class CurrencySeeder extends Seeder
 {
