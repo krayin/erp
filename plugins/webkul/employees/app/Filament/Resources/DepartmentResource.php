@@ -27,7 +27,47 @@ class DepartmentResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema(static::getFormSchema())
+            ->schema([
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\Group::make()
+                            ->schema([
+                                Forms\Components\Section::make('General Information')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('name')
+                                            ->label('Name')
+                                            ->required()
+                                            ->maxLength(255)
+                                            ->live(onBlur: true),
+                                        Forms\Components\Select::make('manager_id')
+                                            ->label('Manager')
+                                            ->relationship('manager', 'name')
+                                            ->options(function () {
+                                                return User::whereHas('roles', function ($query) {
+                                                    $query->where('name', 'admin');
+                                                })->pluck('name', 'id');
+                                            })
+                                            ->searchable()
+                                            ->placeholder('Select a manager')
+                                            ->nullable(),
+                                        Forms\Components\Select::make('company_id')
+                                            ->label('Company')
+                                            ->relationship('company', 'name')
+                                            ->options(fn () => Company::pluck('name', 'id'))
+                                            ->searchable()
+                                            ->placeholder('Select a Company')
+                                            ->nullable(),
+                                        Forms\Components\ColorPicker::make('color')
+                                            ->label('Color'),
+                                    ])
+                                    ->columns(2),
+                                Forms\Components\Section::make('Additional Information')
+                                    ->visible(! empty($customFormFields = static::getCustomFormFields()))
+                                    ->description('Additional information about this work schedule')
+                                    ->schema($customFormFields),
+                            ]),
+                    ]),
+            ])
             ->columns('full');
     }
 
@@ -128,57 +168,5 @@ class DepartmentResource extends Resource
             'view'   => Pages\ViewDepartment::route('/{record}'),
             'edit'   => Pages\EditDepartment::route('/{record}/edit'),
         ];
-    }
-
-    public static function getFormSchema(): array
-    {
-        $formSchema = [
-            Forms\Components\Group::make()
-                ->schema([
-                    Forms\Components\Group::make()
-                        ->schema([
-                            Forms\Components\Section::make('General Information')
-                                ->schema([
-                                    Forms\Components\TextInput::make('name')
-                                        ->label('Name')
-                                        ->required()
-                                        ->maxLength(255)
-                                        ->live(onBlur: true),
-                                    Forms\Components\Select::make('manager_id')
-                                        ->label('Manager')
-                                        ->relationship('manager', 'name')
-                                        ->options(function () {
-                                            return User::whereHas('roles', function ($query) {
-                                                $query->where('name', 'admin');
-                                            })->pluck('name', 'id');
-                                        })
-                                        ->searchable()
-                                        ->placeholder('Select a manager')
-                                        ->nullable(),
-                                    Forms\Components\Select::make('company_id')
-                                        ->label('Company')
-                                        ->relationship('company', 'name')
-                                        ->options(fn () => Company::pluck('name', 'id'))
-                                        ->searchable()
-                                        ->placeholder('Select a Company')
-                                        ->nullable(),
-                                    Forms\Components\ColorPicker::make('color')
-                                        ->label('Color'),
-                                ])
-                                ->columns(2),
-                        ]),
-                ]),
-        ];
-
-        $additionalCustomFormFields = static::getCustomFormFields();
-
-        if (count($additionalCustomFormFields)) {
-            $formSchema[] = Forms\Components\Section::make('Additional Information')
-                ->description('Add additional information for the department.')
-                ->schema($additionalCustomFormFields)
-                ->columns(2);
-        }
-
-        return $formSchema;
     }
 }

@@ -54,6 +54,10 @@ class SkillTypeResource extends Resource
                     Forms\Components\Toggle::make('status')
                         ->label('Active Status')
                         ->default(true),
+                    Forms\Components\Section::make('Additional Information')
+                        ->visible(! empty($customFormFields = static::getCustomFormFields()))
+                        ->description('Additional information about this work schedule')
+                        ->schema($customFormFields),
                 ])->columns(2),
             ]);
     }
@@ -61,7 +65,7 @@ class SkillTypeResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
+            ->columns(static::mergeCustomTableColumns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('Skill Type')
                     ->searchable()
@@ -97,11 +101,11 @@ class SkillTypeResource extends Resource
                     ->date()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
+            ]))
+            ->filters(static::mergeCustomTableFilters([
                 Tables\Filters\TernaryFilter::make('is_active')
                     ->label('Active Status'),
-            ])
+            ]))
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
