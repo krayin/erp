@@ -13,6 +13,44 @@ return new class extends Migration
     {
         Schema::create('projects_projects', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->index();
+            $table->text('description')->nullable();
+            $table->string('visibility')->nullable();
+            $table->string('color')->nullable();
+            $table->integer('sort')->nullable()->index();
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
+            $table->decimal('allocated_hours')->nullable();
+            $table->boolean('allow_timesheets')->default(0);
+            $table->boolean('allow_milestones')->default(0);
+            $table->boolean('allow_task_dependencies')->default(0);
+            $table->boolean('is_active')->default(1);
+
+            $table->foreignId('stage_id')
+                ->nullable()
+                ->constrained('projects_project_stages')
+                ->nullOnDelete();
+
+            $table->foreignId('partner_id')
+                ->nullable()
+                ->constrained('partners_partners')
+                ->nullOnDelete();
+
+            $table->foreignId('company_id')
+                ->nullable()
+                ->constrained('companies')
+                ->nullOnDelete();
+
+            $table->foreignId('user_id')
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
+
+            $table->foreignId('creator_id')
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
+                
             $table->timestamps();
         });
     }

@@ -11,17 +11,28 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('partners_tags', function (Blueprint $table) {
+        Schema::create('projects_task_stages', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('color')->nullable();
+            $table->boolean('is_active')->default(1);
+            $table->boolean('is_collapsed')->default(0);
+            $table->integer('sort')->nullable();
+
+            $table->foreignId('company_id')
+                ->nullable()
+                ->constrained('companies')
+                ->nullOnDelete();
+
+            $table->foreignId('user_id')
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
 
             $table->foreignId('creator_id')
                 ->nullable()
                 ->constrained('users')
                 ->nullOnDelete();
 
-            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -31,6 +42,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('partners_tags');
+        Schema::dropIfExists('projects_task_stages');
     }
 };

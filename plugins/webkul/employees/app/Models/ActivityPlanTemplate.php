@@ -34,7 +34,7 @@ class ActivityPlanTemplate extends Model
     /**
      * Get the activity type associated with the template.
      */
-    public function activityType(): BelongsTo
+    public function activity_type(): BelongsTo
     {
         return $this->belongsTo(ActivityType::class);
     }

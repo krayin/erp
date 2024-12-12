@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('partners_industries', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->boolean('is_active')->default(1);
 
             $table->foreignId('creator_id')
@@ -22,6 +22,7 @@ return new class extends Migration
                 ->constrained('users')
                 ->nullOnDelete();
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }
