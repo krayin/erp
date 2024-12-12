@@ -30,18 +30,12 @@ class Company extends Model
         'email',
         'phone',
         'mobile',
-        'street1',
-        'street2',
-        'city',
-        'zip',
         'logo',
         'color',
         'is_active',
         'founded_date',
         'user_id',
         'currency_id',
-        'state_id',
-        'country_id',
     ];
 
     /**
