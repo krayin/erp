@@ -14,6 +14,13 @@ class Partner extends Model
     use HasFactory;
 
     /**
+     * Table name.
+     *
+     * @var string
+     */
+    protected $table = 'partners_partners';
+
+    /**
      * Fillable.
      *
      * @var array

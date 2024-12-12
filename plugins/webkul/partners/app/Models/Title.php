@@ -13,6 +13,13 @@ class Title extends Model
     use HasFactory;
 
     /**
+     * Table name.
+     *
+     * @var string
+     */
+    protected $table = 'partners_titles';
+
+    /**
      * Fillable.
      *
      * @var array

@@ -15,6 +15,13 @@ class BankAccount extends Model
     use HasFactory;
 
     /**
+     * Table name.
+     *
+     * @var string
+     */
+    protected $table = 'partners_bank_accounts';
+
+    /**
      * Fillable.
      *
      * @var array
