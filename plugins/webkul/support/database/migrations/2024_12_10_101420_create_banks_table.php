@@ -18,14 +18,13 @@ return new class extends Migration
             $table->string('email');
             $table->string('phone');
             $table->string('street1');
-            $table->string('street2');
+            $table->string('street2')->nullable();
             $table->string('city');
             $table->string('state');
             $table->string('country');
             $table->string('zip');
-            $table->string('fax');
 
-            $table->foreignId('user_id')
+            $table->foreignId('creator_id')
                 ->constrained('users')
                 ->setNullOnDelete();
 
