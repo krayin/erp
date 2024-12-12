@@ -81,11 +81,11 @@ class CompanyResource extends Resource
                                         Forms\Components\TextInput::make('address.street1')
                                             ->label('Street 1')
                                             ->required(),
-                                        Forms\Components\TextInput::make('street2')
+                                        Forms\Components\TextInput::make('address.street2')
                                             ->label('Street 2'),
-                                        Forms\Components\TextInput::make('city')
+                                        Forms\Components\TextInput::make('address.city')
                                             ->required(),
-                                        Forms\Components\TextInput::make('zip')
+                                        Forms\Components\TextInput::make('address.zip')
                                             ->live()
                                             ->label('ZIP Code')
                                             ->required(fn(Get $get) => Country::find($get('address.country_id'))?->zip_required),
@@ -117,12 +117,12 @@ class CompanyResource extends Resource
                                                     ->label('Zip Required')
                                                     ->required(),
                                             ])
-                                            ->createOptionAction(function (Action $action) {
-                                                return $action
+                                            ->createOptionAction(
+                                                fn(Action $action) =>  $action
                                                     ->modalHeading('Create Country')
                                                     ->modalSubmitActionLabel('Create Country')
-                                                    ->modalWidth('lg');
-                                            })
+                                                    ->modalWidth('lg')
+                                            )
                                             ->searchable()
                                             ->preload()
                                             ->live()
@@ -144,12 +144,12 @@ class CompanyResource extends Resource
                                                     ->required()
                                                     ->maxLength(255),
                                             ])
-                                            ->createOptionAction(function (Action $action) {
-                                                return $action
+                                            ->createOptionAction(
+                                                fn(Action $action) => $action
                                                     ->modalHeading('Create State')
                                                     ->modalSubmitActionLabel('Create State')
-                                                    ->modalWidth('lg');
-                                            })
+                                                    ->modalWidth('lg')
+                                            )
                                             ->searchable()
                                             ->preload()
                                             ->required(fn(Get $get) => Country::find($get('address.country_id'))?->state_required),
@@ -158,6 +158,7 @@ class CompanyResource extends Resource
                                 Forms\Components\Section::make('Additional Information')
                                     ->schema([
                                         Forms\Components\Select::make('currency_id')
+                                            ->relationship('currency', 'full_name')
                                             ->label('Default Currency')
                                             ->searchable()
                                             ->required()
@@ -168,7 +169,7 @@ class CompanyResource extends Resource
                                                 Forms\Components\Section::make()
                                                     ->schema([
                                                         Forms\Components\TextInput::make('name')
-                                                            ->label('Currency Name')
+                                                            ->label('Name')
                                                             ->required()
                                                             ->maxLength(255)
                                                             ->unique('currencies', 'name', ignoreRecord: true),
@@ -182,6 +183,7 @@ class CompanyResource extends Resource
                                                             ->required(),
                                                         Forms\Components\TextInput::make('iso_numeric')
                                                             ->label('ISO Numeric')
+                                                            ->numeric()
                                                             ->required(),
                                                         Forms\Components\TextInput::make('decimal_places')
                                                             ->numeric()
@@ -197,12 +199,12 @@ class CompanyResource extends Resource
                                                             ->default(true),
                                                     ])->columns(2),
                                             ])
-                                            ->createOptionAction(function (Action $action) {
-                                                return $action
+                                            ->createOptionAction(
+                                                fn(Action $action) => $action
                                                     ->modalHeading('Create Currency')
                                                     ->modalSubmitActionLabel('Create Currency')
-                                                    ->modalWidth('xl');
-                                            }),
+                                                    ->modalWidth('xl')
+                                            ),
                                         Forms\Components\DatePicker::make('founded_date')
                                             ->native(false)
                                             ->label('Company Founding Date'),

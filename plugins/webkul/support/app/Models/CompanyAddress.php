@@ -11,6 +11,7 @@ class CompanyAddress extends Model
         'street2',
         'city',
         'zip',
+        'is_primary',
         'state_id',
         'country_id',
         'company_id',
