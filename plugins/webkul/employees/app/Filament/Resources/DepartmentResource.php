@@ -129,7 +129,7 @@ class DepartmentResource extends Resource
             ->filters(static::mergeCustomTableFilters([]))
             ->contentGrid([
                 'xl'  => 2,
-                '2xl' => 2,
+                '2xl' => 3,
             ])
             ->paginated([
                 18,

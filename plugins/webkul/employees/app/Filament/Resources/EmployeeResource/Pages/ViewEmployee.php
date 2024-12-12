@@ -2,10 +2,10 @@
 
 namespace Webkul\Employee\Filament\Resources\EmployeeResource\Pages;
 
-use Webkul\Employee\Filament\Resources\EmployeeResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 use Webkul\Chatter\Filament\Actions as ChatterActions;
+use Webkul\Employee\Filament\Resources\EmployeeResource;
 
 class ViewEmployee extends ViewRecord
 {

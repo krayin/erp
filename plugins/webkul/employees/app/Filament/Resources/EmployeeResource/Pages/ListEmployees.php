@@ -2,9 +2,9 @@
 
 namespace Webkul\Employee\Filament\Resources\EmployeeResource\Pages;
 
-use Webkul\Employee\Filament\Resources\EmployeeResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Webkul\Employee\Filament\Resources\EmployeeResource;
 
 class ListEmployees extends ListRecords
 {

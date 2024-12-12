@@ -4,9 +4,12 @@ namespace Webkul\Employee\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 use Webkul\Employee\Enums\Gender;
 use Webkul\Employee\Enums\MaritalStatus;
 use Webkul\Employee\Filament\Resources\EmployeeResource\Pages;
@@ -58,6 +61,11 @@ class EmployeeResource extends Resource
                                             ->native(false),
                                         Forms\Components\TextInput::make('place_of_birth')
                                             ->label('Place of Birth'),
+                                        Forms\Components\Select::make('country_of_birth')
+                                            ->relationship('countryOfBirth', 'name')
+                                            ->searchable()
+                                            ->preload()
+                                            ->label('Country of Birth'),
                                         Forms\Components\TextInput::make('children')
                                             ->label('Number of Children')
                                             ->numeric()
@@ -180,8 +188,15 @@ class EmployeeResource extends Resource
                             ->columnSpan(['lg' => 2]),
                         Forms\Components\Group::make()
                             ->schema([
+                                Forms\Components\Section::make('Skills & Levels')
+                                    ->schema([]),
                                 Forms\Components\Section::make('Employment Status')
                                     ->schema([
+                                        Forms\Components\Select::make('user_id')
+                                            ->relationship('user', 'name')
+                                            ->searchable()
+                                            ->preload()
+                                            ->label('Related User'),
                                         Forms\Components\Select::make('job_id')
                                             ->relationship('job', 'name')
                                             ->label('Job Position'),
@@ -258,42 +273,90 @@ class EmployeeResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns(static::mergeCustomTableColumns([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('job_title')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('work_email')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('department.name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('company.name')
-                    ->searchable(),
-                Tables\Columns\IconColumn::make('is_active')
-                    ->sortable()
-                    ->label('Status')
-                    ->boolean(),
-            ]))
-            ->filters(static::mergeCustomTableFilters([
-                Tables\Filters\SelectFilter::make('company')
-                    ->relationship('company', 'name'),
-                Tables\Filters\SelectFilter::make('department')
-                    ->relationship('department', 'name'),
-                Tables\Filters\TernaryFilter::make('is_active')
-                    ->label('Active Status'),
-            ]))
+            ->columns([
+                Tables\Columns\Layout\Stack::make([
+                    Tables\Columns\ImageColumn::make('image')
+                        ->defaultImageUrl(fn ($record): string => 'https://demo.filamentphp.com/storage/45f67a9a-d3cd-4a14-899a-724daca66845.jpg')
+                        ->height('100%')
+                        ->width('100%'),
+                    Tables\Columns\Layout\Stack::make([
+                        Tables\Columns\TextColumn::make('name')
+                            ->weight(FontWeight::Bold)
+                            ->sortable(),
+                            Tables\Columns\TextColumn::make('job_title')
+                            ->label('Job Title')
+                            ->icon('heroicon-o-briefcase')
+                            ->color('gray'),
+                            Tables\Columns\Layout\Split::make([
+                                Tables\Columns\TextColumn::make('company.name')
+                                    ->icon('heroicon-o-building-office')
+                                    ->label('Company')
+                                    ->color('gray')
+                                    ->limit(30)
+                                    ->sortable(),
+                            ]),
+                        Tables\Columns\Layout\Split::make([
+                            Tables\Columns\TextColumn::make('work_email')
+                                ->icon('heroicon-o-envelope')
+                                ->label('Work Email')
+                                ->color('gray')
+                                ->limit(30)
+                                ->sortable(),
+                            Tables\Columns\TextColumn::make('work_phone')
+                                ->icon('heroicon-o-phone')
+                                ->label('Work Email')
+                                ->color('gray')
+                                ->limit(30)
+                                ->sortable(),
+                        ]),
+                    ]),
+                ])->space(3),
+                Tables\Columns\Layout\Panel::make([
+                    Tables\Columns\Layout\Split::make([
+                        Tables\Columns\ColorColumn::make('color')
+                            ->grow(false),
+                        Tables\Columns\TextColumn::make('department.name')
+                            ->label('Department')
+                            ->icon('heroicon-o-building-office')
+                            ->color('gray')
+                            ->sortable(),
+                    ]),
+                ])->collapsible(),
+            ])
+            ->contentGrid([
+                'md' => 2,
+                'xl' => 3,
+            ])
+            ->paginated([
+                18,
+                36,
+                72,
+                'all',
+            ])
+            ->defaultSort('name')
+            ->persistSortInSession()
             ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\DeleteAction::make(),
-                    Tables\Actions\RestoreAction::make(),
-                ]),
+                Tables\Actions\ViewAction::make()
+                    ->color('primary')
+                    ->outlined(),
+                Tables\Actions\EditAction::make()
+                    ->color('success')
+                    ->outlined(),
+                Tables\Actions\DeleteAction::make()
+                    ->color('danger')
+                    ->requiresConfirmation()
+                    ->modalHeading('Delete Employee')
+                    ->modalDescription('Are you sure you want to delete this employee?'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->action(function () {
+                            Notification::make()
+                                ->title('Now, now, don\'t be cheeky, leave some records for others to play with!')
+                                ->warning()
+                                ->send();
+                        }),
                 ]),
             ]);
     }
