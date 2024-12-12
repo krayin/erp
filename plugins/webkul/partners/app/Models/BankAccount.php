@@ -4,11 +4,16 @@ namespace Webkul\Partner\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Webkul\Security\Models\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Webkul\Partner\Database\Factories\BankAccountFactory;
 use Webkul\Support\Models\Bank;
+use Webkul\Partner\Models\Partner;
+use Webkul\Security\Models\User;
 
 class BankAccount extends Model
 {
+    use HasFactory;
+
     /**
      * Fillable.
      *
@@ -47,5 +52,10 @@ class BankAccount extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    protected static function newFactory(): BankAccountFactory
+    {
+        return BankAccountFactory::new();
     }
 }
