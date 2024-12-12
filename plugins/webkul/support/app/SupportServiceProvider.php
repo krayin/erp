@@ -27,7 +27,6 @@ class SupportServiceProvider extends PackageServiceProvider
                 '2024_12_10_100833_create_branches_table',
                 '2024_12_10_100944_create_user_allowed_companies_table',
                 '2024_12_10_101420_create_banks_table',
-                
             ])
             ->runsMigrations()
             ->hasCommands([

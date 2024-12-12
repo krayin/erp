@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Fields\Traits\HasCustomFields;
+use Webkul\Support\Models\Country;
+use Webkul\Support\Models\Currency;
+use Webkul\Support\Models\State;
 
 class Company extends Model
 {

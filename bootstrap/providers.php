@@ -9,5 +9,5 @@ return [
     Webkul\Partner\PartnerServiceProvider::class,
     Webkul\TableViews\TableViewsServiceProvider::class,
     Webkul\Security\SecurityServiceProvider::class,
-    Webkul\Employee\EmployeesServiceProvider::class,
+    Webkul\Employee\EmployeeServiceProvider::class,
 ];

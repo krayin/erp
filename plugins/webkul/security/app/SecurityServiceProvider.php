@@ -23,7 +23,7 @@ class SecurityServiceProvider extends PackageServiceProvider
                 '2024_11_12_125715_create_teams_table',
                 '2024_11_12_130019_create_user_team_table',
                 '2024_12_10_101127_create_add_columns_to_users_table',
-                ])
+            ])
             ->hasSettings([
                 '2024_11_05_042358_create_user_settings',
             ])
