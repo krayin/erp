@@ -5,11 +5,14 @@ namespace Webkul\Employee\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Webkul\Fields\Traits\HasCustomFields;
 use Webkul\Security\Models\Company;
 use Webkul\Security\Models\User;
 
 class ActivityPlan extends Model
 {
+    use HasCustomFields;
+
     /**
      * The attributes that are mass assignable.
      *
