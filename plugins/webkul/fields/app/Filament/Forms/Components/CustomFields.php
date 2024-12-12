@@ -70,7 +70,7 @@ class CustomFields extends Component
             $query->whereNotIn('code', $this->exclude);
         }
 
-        return $query->orderBy('sort_order')->get();
+        return $query->orderBy('sort')->get();
     }
 
     protected function createField(Field $field): Forms\Components\Component

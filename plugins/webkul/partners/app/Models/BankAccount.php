@@ -9,10 +9,11 @@ use Webkul\Partner\Database\Factories\BankAccountFactory;
 use Webkul\Support\Models\Bank;
 use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BankAccount extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * Table name.

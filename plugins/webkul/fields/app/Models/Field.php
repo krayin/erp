@@ -46,7 +46,7 @@ class Field extends Model
         'use_in_table',
         'table_settings',
         'infolist_settings',
-        'sort_order',
+        'sort',
         'customizable_type',
     ];
 }

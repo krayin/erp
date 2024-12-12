@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('partners_tags', function (Blueprint $table) {
+        Schema::create('projects_tags', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('color')->nullable();
@@ -21,7 +21,6 @@ return new class extends Migration
                 ->constrained('users')
                 ->nullOnDelete();
 
-            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('partners_tags');
+        Schema::dropIfExists('projects_tags');
     }
 };

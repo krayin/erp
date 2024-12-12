@@ -56,6 +56,7 @@ return new class extends Migration
                 ->constrained('partners_industries')
                 ->nullOnDelete();
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

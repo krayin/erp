@@ -1,24 +1,24 @@
 <?php
 
-namespace Webkul\Partner\Models;
+namespace Webkul\Project\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Webkul\Partner\Database\Factories\IndustryFactory;
+use Webkul\Project\Database\Factories\ProjectStageFactory;
 use Webkul\Security\Models\User;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Webkul\Security\Models\Company;
 
-class Industry extends Model
+class ProjectStage extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     /**
      * Table name.
      *
      * @var string
      */
-    protected $table = 'partners_industries';
+    protected $table = 'projects_project_stages';
 
     /**
      * Fillable.
@@ -27,9 +27,10 @@ class Industry extends Model
      */
     protected $fillable = [
         'name',
-        'description',
         'is_active',
-        'can_send_money',
+        'is_collapsed',
+        'sort',
+        'company_id',
         'creator_id',
     ];
 
@@ -40,6 +41,7 @@ class Industry extends Model
      */
     protected $casts = [
         'is_active' => 'boolean',
+        'is_collapsed' => 'boolean',
     ];
 
     public function creator(): BelongsTo
@@ -47,8 +49,13 @@ class Industry extends Model
         return $this->belongsTo(User::class);
     }
 
-    protected static function newFactory(): IndustryFactory
+    public function company(): BelongsTo
     {
-        return IndustryFactory::new();
+        return $this->belongsTo(Company::class);
+    }
+
+    protected static function newFactory(): ProjectStageFactory
+    {
+        return ProjectStageFactory::new();
     }
 }

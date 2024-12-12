@@ -83,7 +83,7 @@ class CustomFilters extends Component
         }
 
         return $query
-            ->orderBy('sort_order')
+            ->orderBy('sort')
             ->whereJsonContains('table_settings', ['setting' => 'filterable'])
             ->get();
     }

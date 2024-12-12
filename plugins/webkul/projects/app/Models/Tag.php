@@ -1,24 +1,23 @@
 <?php
 
-namespace Webkul\Partner\Models;
+namespace Webkul\Project\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Webkul\Partner\Database\Factories\TagFactory;
+use Webkul\Project\Database\Factories\TagFactory;
 use Webkul\Security\Models\User;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tag extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     /**
      * Table name.
      *
      * @var string
      */
-    protected $table = 'partners_tags';
+    protected $table = 'projects_tags';
 
     /**
      * Fillable.

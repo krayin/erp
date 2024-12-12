@@ -24,14 +24,14 @@ return new class extends Migration
             $table->boolean('use_in_table')->default(0);
             $table->json('table_settings')->nullable();
             $table->json('infolist_settings')->nullable();
-            $table->integer('sort_order')->nullable();
+            $table->integer('sort')->nullable();
             $table->string('customizable_type');
             $table->unique(['code', 'customizable_type']);
             $table->softDeletes();
             $table->timestamps();
 
             $table->index('code');
-            $table->index('sort_order');
+            $table->index('sort');
         });
     }
 

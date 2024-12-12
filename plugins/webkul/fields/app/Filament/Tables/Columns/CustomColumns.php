@@ -68,7 +68,7 @@ class CustomColumns extends Component
             $query->whereNotIn('code', $this->exclude);
         }
 
-        return $query->orderBy('sort_order')->get();
+        return $query->orderBy('sort')->get();
     }
 
     protected function getResourceClass(): string
