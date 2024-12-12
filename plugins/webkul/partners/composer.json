@@ -1,0 +1,30 @@
+{
+    "name": "webkul/partners",
+    "description": "",
+    "authors": [
+        {
+            "name": "Jitendra Singh",
+            "email": "jitendra@webkul.in"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webkul\\Partner\\Providers\\PartnerServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Webkul\\Partner\\": "app/",
+            "Webkul\\Partner\\Database\\Factories\\": "database/factories/",
+            "Webkul\\Partner\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webkul\\Partner\\Tests\\": "tests/"
+        }
+    }
+}
