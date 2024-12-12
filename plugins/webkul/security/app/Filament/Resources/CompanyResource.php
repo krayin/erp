@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Webkul\Fields\Filament\Traits\HasCustomFields;
 use Webkul\Security\Filament\Resources\CompanyResource\Pages;
 use Webkul\Security\Filament\Resources\CompanyResource\RelationManagers;
-use Webkul\Security\Models\Company;
+use Webkul\Support\Models\Company;
 use Webkul\Support\Models\Country;
 use Webkul\Support\Models\Currency;
 use Webkul\Support\Models\State;

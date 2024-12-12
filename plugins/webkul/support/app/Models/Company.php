@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\Security\Models;
+namespace Webkul\Support\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,9 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Fields\Traits\HasCustomFields;
-use Webkul\Support\Models\Country;
-use Webkul\Support\Models\Currency;
-use Webkul\Support\Models\State;
+use Webkul\Security\Models\User;
 
 class Company extends Model
 {

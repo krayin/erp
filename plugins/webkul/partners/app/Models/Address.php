@@ -5,10 +5,9 @@ namespace Webkul\Partner\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Webkul\Partner\Enums\AccountType;
+use Webkul\Security\Models\User;
 use Webkul\Support\Models\Country;
 use Webkul\Support\Models\State;
-use Webkul\Partner\Models\Partner;
-use Webkul\Security\Models\User;
 
 class Address extends Model
 {

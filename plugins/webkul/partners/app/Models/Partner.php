@@ -5,7 +5,7 @@ namespace Webkul\Partner\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Webkul\Security\Models\User;
-use Webkul\Security\Models\Company;
+use Webkul\Support\Models\Company;
 
 class Partner extends Model
 {

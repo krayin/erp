@@ -5,8 +5,8 @@ namespace Webkul\Employee\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Webkul\Fields\Traits\HasCustomFields;
-use Webkul\Security\Models\Company;
 use Webkul\Security\Models\User;
+use Webkul\Support\Models\Company;
 
 class EmployeeJobPosition extends Model
 {

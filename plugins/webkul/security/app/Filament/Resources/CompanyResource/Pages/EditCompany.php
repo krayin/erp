@@ -6,7 +6,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Security\Filament\Resources\CompanyResource;
-use Webkul\Security\Models\Company;
+use Webkul\Support\Models\Company;
 
 class EditCompany extends EditRecord
 {

@@ -3,8 +3,6 @@
 namespace Webkul\Partner\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Webkul\Partner\Enums\AccountType;
 use Webkul\Partner\Models\Address;
 
@@ -28,14 +26,14 @@ class AddressFactory extends Factory
     public function definition(): array
     {
         return [
-            'type' => AccountType::INDIVIDUAL,
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'phone' => fake()->phoneNumber(),
+            'type'    => AccountType::INDIVIDUAL,
+            'name'    => fake()->name(),
+            'email'   => fake()->unique()->safeEmail(),
+            'phone'   => fake()->phoneNumber(),
             'street1' => fake()->streetAddress(),
             'street2' => fake()->streetAddress(),
-            'city' => fake()->city(),
-            'zip' => fake()->postcode(),
+            'city'    => fake()->city(),
+            'zip'     => fake()->postcode(),
         ];
     }
 }

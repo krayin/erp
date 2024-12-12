@@ -1,14 +1,11 @@
 <?php
 
-namespace Webkul\Security\Models;
+namespace Webkul\Support\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Webkul\Support\Models\Country;
-use Webkul\Support\Models\Currency;
-use Webkul\Support\Models\State;
 
 class Branch extends Model
 {
