@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('projects_tasks', function (Blueprint $table) {
             $table->id();
             $table->string('title')->index();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->string('color')->nullable();
             $table->string('priority')->nullable()->index();
             $table->string('state')->index();
@@ -61,6 +61,7 @@ return new class extends Migration
                 ->constrained('users')
                 ->nullOnDelete();
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

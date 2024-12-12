@@ -9,10 +9,11 @@ use Webkul\Project\Database\Factories\ProjectFactory;
 use Webkul\Security\Models\User;
 use Webkul\Security\Models\Company;
 use Webkul\Partner\Models\Partner;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Project extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * Table name.
