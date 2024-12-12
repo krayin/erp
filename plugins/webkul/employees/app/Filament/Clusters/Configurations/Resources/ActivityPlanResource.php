@@ -46,7 +46,7 @@ class ActivityPlanResource extends Resource
                 Forms\Components\Select::make('company_id')
                     ->relationship('company', 'name')
                     ->searchable()
-                    ->default(fn() => Auth::user()->defaultCompany?->id)
+                    ->default(fn () => Auth::user()->defaultCompany?->id)
                     ->disabled()
                     ->required()
                     ->preload(),
@@ -77,7 +77,7 @@ class ActivityPlanResource extends Resource
                                 Forms\Components\Select::make('company_id')
                                     ->label('Company')
                                     ->relationship('company', 'name')
-                                    ->options(fn() => Company::pluck('name', 'id'))
+                                    ->options(fn () => Company::pluck('name', 'id'))
                                     ->searchable()
                                     ->placeholder('Select a Company')
                                     ->nullable(),

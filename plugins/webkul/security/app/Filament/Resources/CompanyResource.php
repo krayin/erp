@@ -19,9 +19,9 @@ use Webkul\Fields\Filament\Traits\HasCustomFields;
 use Webkul\Security\Filament\Resources\CompanyResource\Pages;
 use Webkul\Security\Filament\Resources\CompanyResource\RelationManagers;
 use Webkul\Security\Models\Company;
-use Webkul\Security\Models\Country;
-use Webkul\Security\Models\Currency;
-use Webkul\Security\Models\State;
+use Webkul\Support\Models\Country;
+use Webkul\Support\Models\Currency;
+use Webkul\Support\Models\State;
 
 class CompanyResource extends Resource
 {

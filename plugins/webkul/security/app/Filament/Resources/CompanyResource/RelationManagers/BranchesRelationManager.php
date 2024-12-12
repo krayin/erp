@@ -14,9 +14,9 @@ use Filament\Tables\Table;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Security\Models\Branch;
-use Webkul\Security\Models\Country;
-use Webkul\Security\Models\Currency;
-use Webkul\Security\Models\State;
+use Webkul\Support\Models\Country;
+use Webkul\Support\Models\Currency;
+use Webkul\Support\Models\State;
 
 class BranchesRelationManager extends RelationManager
 {
