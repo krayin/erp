@@ -44,13 +44,17 @@ class WorkLocationResource extends Resource
                     ->relationship('company', 'name'),
                 Forms\Components\Toggle::make('active')
                     ->required(),
+                Forms\Components\Section::make('Additional Information')
+                    ->visible(! empty($customFormFields = static::getCustomFormFields()))
+                    ->description('Additional information about this work schedule')
+                    ->schema($customFormFields),
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
+            ->columns(static::mergeCustomTableColumns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('location_type')
@@ -79,10 +83,8 @@ class WorkLocationResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                //
-            ])
+            ]))
+            ->filters(static::mergeCustomTableFilters([]))
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),

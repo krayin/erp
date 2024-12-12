@@ -98,6 +98,11 @@ class CalendarResource extends Resource
                                             ->default(40)
                                             ->suffix('hours per week'),
                                     ])->columns(2),
+                                Forms\Components\Section::make('Additional Information')
+                                    ->visible(! empty($customFormFields = static::getCustomFormFields()))
+                                    ->description('Additional information about this work schedule')
+                                    ->schema($customFormFields)
+                                    ->columns(2),
                             ])
                             ->columnSpan(['lg' => 2]),
                         Forms\Components\Group::make()
@@ -129,7 +134,7 @@ class CalendarResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
+            ->columns(static::mergeCustomTableColumns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('Schedule Name')
                     ->searchable()
@@ -164,7 +169,7 @@ class CalendarResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])
+            ]))
             ->groups([
                 Tables\Grouping\Group::make('name')
                     ->label('Name')

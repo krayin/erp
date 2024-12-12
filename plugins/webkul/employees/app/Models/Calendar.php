@@ -3,11 +3,14 @@
 namespace Webkul\Employee\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Webkul\Fields\Traits\HasCustomFields;
 use Webkul\Security\Models\Company;
 use Webkul\Security\Models\User;
 
 class Calendar extends Model
 {
+    use HasCustomFields;
+
     protected $table = 'calendars';
 
     protected $fillable = [

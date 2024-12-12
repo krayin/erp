@@ -44,19 +44,23 @@ class EmployeeCategoryResource extends Resource
                     ->options(function () {
                         return collect(Enums\Colors::options())->mapWithKeys(function ($value, $key) {
                             return [
-                                $key => '<div class="flex items-center gap-4"><span class="flex w-5 h-5 rounded-full" style="background: rgb(var(--'.$key.'-500))"></span> '.$value.'</span>',
+                                $key => '<div class="flex items-center gap-4"><span class="flex h-5 w-5 rounded-full" style="background: rgb(var(--'.$key.'-500))"></span> '.$value.'</span>',
                             ];
                         });
                     })
                     ->native(false)
                     ->allowHtml(),
+                Forms\Components\Section::make('Additional Information')
+                    ->visible(! empty($customFormFields = static::getCustomFormFields()))
+                    ->description('Additional information about this work schedule')
+                    ->schema($customFormFields),
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
+            ->columns(static::mergeCustomTableColumns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
@@ -64,11 +68,11 @@ class EmployeeCategoryResource extends Resource
                     ->searchable()
                     ->label('Color')
                     ->toggleable(isToggledHiddenByDefault: false)
-                    ->formatStateUsing(fn (EmployeeCategory $employeeCategory) => '<span class="flex w-5 h-5 rounded-full" style="background: rgb(var(--'.$employeeCategory->color.'-500))"></span>')
+                    ->formatStateUsing(fn (EmployeeCategory $employeeCategory) => '<span class="flex h-5 w-5 rounded-full" style="background: rgb(var(--'.$employeeCategory->color.'-500))"></span>')
                     ->html()
                     ->sortable(),
-            ])
-            ->filters([])
+            ]))
+            ->filters(static::mergeCustomTableFilters([]))
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
@@ -79,13 +83,6 @@ class EmployeeCategoryResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array

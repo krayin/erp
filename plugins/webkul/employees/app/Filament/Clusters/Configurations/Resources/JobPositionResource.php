@@ -115,6 +115,11 @@ class JobPositionResource extends Resource
                                             ->label('Job Requirements')
                                             ->columnSpanFull(),
                                     ]),
+                                Forms\Components\Section::make('Additional Information')
+                                    ->visible(! empty($customFormFields = static::getCustomFormFields()))
+                                    ->description('Additional information about this work schedule')
+                                    ->schema($customFormFields)
+                                    ->columns(),
                             ])
                             ->columnSpan(['lg' => 2]),
                         Forms\Components\Group::make()
@@ -158,7 +163,7 @@ class JobPositionResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
+            ->columns(static::mergeCustomTableColumns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('Job Position')
                     ->searchable()
@@ -199,9 +204,9 @@ class JobPositionResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])
+            ]))
             ->columnToggleFormColumns(2)
-            ->filters([
+            ->filters(static::mergeCustomTableFilters([
                 Tables\Filters\SelectFilter::make('department')
                     ->relationship('department', 'name')
                     ->label('Department'),
@@ -210,7 +215,7 @@ class JobPositionResource extends Resource
                     ->label('Company'),
                 Tables\Filters\TernaryFilter::make('active')
                     ->label('Active Status'),
-            ])
+            ]))
             ->groups([
                 Tables\Grouping\Group::make('name')
                     ->label('Job Position')
@@ -245,13 +250,6 @@ class JobPositionResource extends Resource
                 ]),
             ])
             ->reorderable('sequence');
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array

@@ -45,6 +45,11 @@ class EmploymentTypeResource extends Resource
                     ->searchable()
                     ->preload()
                     ->relationship('company', 'name'),
+                Forms\Components\Section::make('Additional Information')
+                    ->visible(! empty($customFormFields = static::getCustomFormFields()))
+                    ->description('Additional information about this work schedule')
+                    ->schema($customFormFields)
+                    ->columns(),
             ])
             ->columns(2);
     }
@@ -52,7 +57,7 @@ class EmploymentTypeResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
+            ->columns(static::mergeCustomTableColumns([
                 Tables\Columns\TextColumn::make('name')
                     ->sortable()
                     ->searchable()
@@ -69,7 +74,7 @@ class EmploymentTypeResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->label('Company'),
-            ])
+            ]))
             ->groups([
                 Tables\Grouping\Group::make('name')
                     ->label('Name')
@@ -91,7 +96,7 @@ class EmploymentTypeResource extends Resource
                     ->date()
                     ->collapsible(),
             ])
-            ->filters([])
+            ->filters(static::mergeCustomTableFilters([]))
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make()

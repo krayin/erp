@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Employee\Enums\WorkLocationEnum;
+use Webkul\Fields\Traits\HasCustomFields;
 use Webkul\Security\Models\Company;
 use Webkul\Security\Models\User;
 
 class WorkLocation extends Model
 {
-    use SoftDeletes;
+    use HasCustomFields, SoftDeletes;
 
     protected $fillable = [
         'company_id',

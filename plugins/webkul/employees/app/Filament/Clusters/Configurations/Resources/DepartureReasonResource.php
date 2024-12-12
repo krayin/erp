@@ -31,13 +31,17 @@ class DepartureReasonResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->label('Name')
                     ->required(),
+                Forms\Components\Section::make('Additional Information')
+                    ->visible(! empty($customFormFields = static::getCustomFormFields()))
+                    ->description('Additional information about this work schedule')
+                    ->schema($customFormFields),
             ])->columns('full');
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
+            ->columns(static::mergeCustomTableColumns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('Name')
                     ->searchable()
@@ -52,7 +56,7 @@ class DepartureReasonResource extends Resource
                     ->date()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])
+            ]))
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make()

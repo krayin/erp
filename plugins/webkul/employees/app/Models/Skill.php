@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Webkul\Fields\Traits\HasCustomFields;
 
 class Skill extends Model
 {
-    use SoftDeletes;
+    use HasCustomFields, SoftDeletes;
 
     protected $fillable = [
         'name',

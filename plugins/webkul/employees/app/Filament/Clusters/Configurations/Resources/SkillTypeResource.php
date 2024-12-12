@@ -32,27 +32,29 @@ class SkillTypeResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label('Skill Type')
-                    ->required()
-                    ->unique(ignoreRecord: true)
-                    ->maxLength(255)
-                    ->placeholder('Enter skill type name'),
-                Forms\Components\Select::make('color')
-                    ->label('Color')
-                    ->required()
-                    ->options(function () {
-                        return collect(Enums\Colors::options())->mapWithKeys(function ($value, $key) {
-                            return [
-                                $key => '<div class="flex items-center gap-4"><span class="flex w-5 h-5 rounded-full" style="background: rgb(var(--'.$key.'-500))"></span> '.$value.'</span>',
-                            ];
-                        });
-                    })
-                    ->native(false)
-                    ->allowHtml(),
-                Forms\Components\Toggle::make('status')
-                    ->label('Active Status')
-                    ->default(true),
+                Forms\Components\Section::make([
+                    Forms\Components\TextInput::make('name')
+                        ->label('Skill Type')
+                        ->required()
+                        ->unique(ignoreRecord: true)
+                        ->maxLength(255)
+                        ->placeholder('Enter skill type name'),
+                    Forms\Components\Select::make('color')
+                        ->label('Color')
+                        ->required()
+                        ->options(function () {
+                            return collect(Enums\Colors::options())->mapWithKeys(function ($value, $key) {
+                                return [
+                                    $key => '<div class="flex items-center gap-4"><span class="flex h-5 w-5 rounded-full" style="background: rgb(var(--'.$key.'-500))"></span> '.$value.'</span>',
+                                ];
+                            });
+                        })
+                        ->native(false)
+                        ->allowHtml(),
+                    Forms\Components\Toggle::make('status')
+                        ->label('Active Status')
+                        ->default(true),
+                ])->columns(2),
             ]);
     }
 
@@ -67,7 +69,7 @@ class SkillTypeResource extends Resource
                 Tables\Columns\TextColumn::make('color')
                     ->label('Color')
                     ->toggleable(isToggledHiddenByDefault: false)
-                    ->formatStateUsing(fn (SkillType $skillType) => '<span class="flex w-5 h-5 rounded-full" style="background: rgb(var(--'.$skillType->color.'-500))"></span>')
+                    ->formatStateUsing(fn (SkillType $skillType) => '<span class="flex h-5 w-5 rounded-full" style="background: rgb(var(--'.$skillType->color.'-500))"></span>')
                     ->html()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('skills.name')
