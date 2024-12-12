@@ -10,10 +10,11 @@ use Webkul\Project\Database\Factories\TaskFactory;
 use Webkul\Security\Models\User;
 use Webkul\Security\Models\Company;
 use Webkul\Partner\Models\Partner;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Task extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * Table name.
