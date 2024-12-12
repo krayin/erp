@@ -31,6 +31,7 @@ class ProjectFactory extends Factory
         return [
             'name' => fake()->name(),
             'description' => fake()->sentence(),
+            'tasks_label' => 'Tasks',
             'visibility' => 'public',
             'color' => fake()->hexColor(),
             'sort' => fake()->randomNumber(),

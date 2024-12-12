@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('color')->nullable();
             $table->string('priority')->nullable()->index();
             $table->string('state')->index();
+            $table->json('tags')->nullable();
             $table->integer('sort')->nullable();
             $table->boolean('is_active')->default(1);
             $table->boolean('is_recurring')->default(0);

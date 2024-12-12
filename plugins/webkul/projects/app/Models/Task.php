@@ -34,6 +34,7 @@ class Task extends Model
         'color',
         'priority',
         'state',
+        'tags',
         'sort',
         'is_active',
         'is_recurring',
@@ -60,6 +61,7 @@ class Task extends Model
      * @var string
      */
     protected $casts = [
+        'tags' => 'array',
         'deadline' => 'datetime',
         'is_active' => 'boolean',
         'is_recurring' => 'boolean',
@@ -98,6 +100,11 @@ class Task extends Model
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class, 'projects_task_tag', 'task_id', 'tag_id');
     }
 
     protected static function newFactory(): TaskFactory
