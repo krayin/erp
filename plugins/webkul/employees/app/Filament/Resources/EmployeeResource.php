@@ -12,7 +12,6 @@ use Filament\Tables\Table;
 use Webkul\Employee\Enums\Gender;
 use Webkul\Employee\Enums\MaritalStatus;
 use Webkul\Employee\Filament\Resources\EmployeeResource\Pages;
-use Webkul\Employee\Filament\Resources\EmployeeResource\RelationManagers;
 use Webkul\Employee\Models\Employee;
 use Webkul\Fields\Filament\Traits\HasCustomFields;
 
@@ -375,7 +374,7 @@ class EmployeeResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\SkillsRelationManager::class,
+            //
         ];
     }
 
