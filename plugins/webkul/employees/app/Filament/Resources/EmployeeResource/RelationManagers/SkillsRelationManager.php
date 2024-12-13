@@ -7,6 +7,7 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Webkul\Employee\Filament\Tables as CustomTables;
 use Webkul\Employee\Models\SkillType;
 
 class SkillsRelationManager extends RelationManager
@@ -54,6 +55,9 @@ class SkillsRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('skillLevel.name')
                     ->label('Skill Level')
                     ->sortable(),
+                CustomTables\Columns\ProgressBarEntry::make('skillLevel.level')
+                    ->getStateUsing(fn ($record) => $record->skillLevel->level)
+                    ->label('Level'),
                 Tables\Columns\TextColumn::make('creator.name')
                     ->label('Creator')
                     ->sortable(),
