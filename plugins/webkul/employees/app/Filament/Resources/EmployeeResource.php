@@ -517,7 +517,7 @@ class EmployeeResource extends Resource
             ->columns([
                 Tables\Columns\Layout\Stack::make([
                     Tables\Columns\ImageColumn::make('image')
-                        ->defaultImageUrl(fn ($record): string => 'https://demo.filamentphp.com/storage/a8534bc4-2da7-4a27-bdaa-cde2c4589dc0.jpg')
+                        ->defaultImageUrl(fn ($record): string => 'https://a.storyblok.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp')
                         ->height('100%')
                         ->width('100%'),
                     Tables\Columns\Layout\Stack::make([
