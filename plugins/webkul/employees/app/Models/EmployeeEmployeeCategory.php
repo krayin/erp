@@ -6,9 +6,25 @@ use Illuminate\Database\Eloquent\Model;
 
 class EmployeeEmployeeCategory extends Model
 {
+    public $timestamps = false;
+
     protected $table = 'employee_employee_categories';
 
     protected $fillable = ['employee_id', 'category_id'];
 
-    public $timestamps = false;
+    /**
+     * Relationship to fetch the employee.
+     */
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class, 'employee_id');
+    }
+
+    /**
+     * Relationship to fetch the category (skill).
+     */
+    public function category()
+    {
+        return $this->belongsTo(EmployeeCategory::class, 'category_id');
+    }
 }

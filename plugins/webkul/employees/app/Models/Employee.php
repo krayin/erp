@@ -3,6 +3,8 @@
 namespace Webkul\Employee\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Fields\Traits\HasCustomFields;
@@ -103,88 +105,93 @@ class Employee extends Model
         'work_permit_scheduled_activity' => 'boolean',
     ];
 
-    public function company()
+    public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class, 'company_id');
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function creator()
+    public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'creator_id');
     }
 
-    public function calendar()
+    public function calendar(): BelongsTo
     {
         return $this->belongsTo(Calendar::class, 'calendar_id');
     }
 
-    public function department()
+    public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class, 'department_id');
     }
 
-    public function job()
+    public function job(): BelongsTo
     {
         return $this->belongsTo(EmployeeJobPosition::class, 'job_id');
     }
 
-    public function partner()
+    public function partner(): BelongsTo
     {
         return $this->belongsTo(Partner::class, 'partner_id');
     }
 
-    public function workLocation()
+    public function workLocation(): BelongsTo
     {
         return $this->belongsTo(WorkLocation::class, 'work_location_id');
     }
 
-    public function parent()
+    public function parent(): BelongsTo
     {
         return $this->belongsTo(Employee::class, 'parent_id');
     }
 
-    public function coach()
+    public function coach(): BelongsTo
     {
         return $this->belongsTo(Employee::class, 'coach_id');
     }
 
-    public function privateState()
+    public function privateState(): BelongsTo
     {
         return $this->belongsTo(State::class, 'private_state_id');
     }
 
-    public function privateCountry()
+    public function privateCountry(): BelongsTo
     {
         return $this->belongsTo(Country::class, 'private_country_id');
     }
 
-    public function country()
+    public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class, 'country_id');
     }
 
-    public function countryOfBirth()
+    public function countryOfBirth(): BelongsTo
     {
         return $this->belongsTo(Country::class, 'country_of_birth');
     }
 
-    public function bankAccount()
+    public function bankAccount(): BelongsTo
     {
         return $this->belongsTo(Bank::class, 'bank_account_id');
     }
 
-    public function departureReason()
+    public function departureReason(): BelongsTo
     {
         return $this->belongsTo(DepartureReason::class, 'departure_reason_id');
     }
 
-    public function employmentType()
+    public function employmentType(): BelongsTo
     {
         return $this->belongsTo(EmploymentType::class, 'employee_type');
+    }
+
+    public function skills(): BelongsToMany
+    {
+        return $this->belongsToMany(EmployeeCategory::class, 'employee_employee_categories', 'employee_id', 'category_id');
     }
 }

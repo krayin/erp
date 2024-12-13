@@ -9,10 +9,10 @@ use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Support\Str;
 use Webkul\Employee\Enums\Gender;
 use Webkul\Employee\Enums\MaritalStatus;
 use Webkul\Employee\Filament\Resources\EmployeeResource\Pages;
+use Webkul\Employee\Filament\Resources\EmployeeResource\RelationManagers;
 use Webkul\Employee\Models\Employee;
 use Webkul\Fields\Filament\Traits\HasCustomFields;
 
@@ -189,7 +189,9 @@ class EmployeeResource extends Resource
                         Forms\Components\Group::make()
                             ->schema([
                                 Forms\Components\Section::make('Skills & Levels')
-                                    ->schema([]),
+                                    ->schema([
+
+                                    ]),
                                 Forms\Components\Section::make('Employment Status')
                                     ->schema([
                                         Forms\Components\Select::make('user_id')
@@ -276,25 +278,16 @@ class EmployeeResource extends Resource
             ->columns([
                 Tables\Columns\Layout\Stack::make([
                     Tables\Columns\ImageColumn::make('image')
-                        ->defaultImageUrl(fn ($record): string => 'https://demo.filamentphp.com/storage/45f67a9a-d3cd-4a14-899a-724daca66845.jpg')
+                        ->defaultImageUrl(fn ($record): string => 'https://demo.filamentphp.com/storage/0b023058-c3c0-418c-86c9-aa35bdfb3b1b.jpg')
                         ->height('100%')
                         ->width('100%'),
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('name')
                             ->weight(FontWeight::Bold)
                             ->sortable(),
-                            Tables\Columns\TextColumn::make('job_title')
+                        Tables\Columns\TextColumn::make('job_title')
                             ->label('Job Title')
-                            ->icon('heroicon-o-briefcase')
                             ->color('gray'),
-                            Tables\Columns\Layout\Split::make([
-                                Tables\Columns\TextColumn::make('company.name')
-                                    ->icon('heroicon-o-building-office')
-                                    ->label('Company')
-                                    ->color('gray')
-                                    ->limit(30)
-                                    ->sortable(),
-                            ]),
                         Tables\Columns\Layout\Split::make([
                             Tables\Columns\TextColumn::make('work_email')
                                 ->icon('heroicon-o-envelope')
@@ -333,6 +326,24 @@ class EmployeeResource extends Resource
                 72,
                 'all',
             ])
+            ->groups([
+                Tables\Grouping\Group::make('name')
+                    ->label('Name')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('company.name')
+                    ->label('Company')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('manager.name')
+                    ->label('Manager')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('created_at')
+                    ->label('Created At')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('updated_at')
+                    ->label('Update At')
+                    ->date()
+                    ->collapsible(),
+            ])
             ->defaultSort('name')
             ->persistSortInSession()
             ->actions([
@@ -359,6 +370,13 @@ class EmployeeResource extends Resource
                         }),
                 ]),
             ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            RelationManagers\SkillsRelationManager::class,
+        ];
     }
 
     public static function getPages(): array
