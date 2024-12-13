@@ -54,7 +54,14 @@ class SkillsRelationManager extends RelationManager
                     ->sortable(),
                 Tables\Columns\TextColumn::make('skillLevel.name')
                     ->label('Skill Level')
-                    ->sortable(),
+                    ->badge()
+                    ->color(fn ($record) => match ($record->skillLevel->name) {
+                        'Beginner'     => 'gray',
+                        'Intermediate' => 'warning',
+                        'Advanced'     => 'success',
+                        'Expert'       => 'primary',
+                        default        => 'secondary'
+                    }),
                 CustomTables\Columns\ProgressBarEntry::make('skillLevel.level')
                     ->getStateUsing(fn ($record) => $record->skillLevel->level)
                     ->label('Level Percent'),
