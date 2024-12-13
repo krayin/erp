@@ -249,6 +249,9 @@ class JobPositionResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
+            ->emptyStateActions([
+                Tables\Actions\CreateAction::make(),
+            ])
             ->reorderable('sequence');
     }
 
