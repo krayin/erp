@@ -57,7 +57,7 @@ class SkillsRelationManager extends RelationManager
                     ->sortable(),
                 CustomTables\Columns\ProgressBarEntry::make('skillLevel.level')
                     ->getStateUsing(fn ($record) => $record->skillLevel->level)
-                    ->label('Level'),
+                    ->label('Level Percent'),
                 Tables\Columns\TextColumn::make('creator.name')
                     ->label('Creator')
                     ->sortable(),
