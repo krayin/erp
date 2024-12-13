@@ -224,7 +224,11 @@ class UserResource extends Resource
             ->defaultSort('created_at', 'desc')
             ->modifyQueryUsing(function ($query) {
                 $query->with('roles', 'teams', 'defaultCompany', 'allowedCompanies');
-            });
+            })
+            ->emptyStateActions([
+                Tables\Actions\CreateAction::make()
+                    ->icon('heroicon-o-plus-circle'),
+            ]);
     }
 
     public static function getRelations(): array

@@ -75,7 +75,8 @@ class DepartureReasonResource extends Resource
                 ]),
             ])
             ->emptyStateActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+                    ->icon('heroicon-o-plus-circle'),
             ])
             ->reorderable('sequence');
     }
