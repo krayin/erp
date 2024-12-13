@@ -197,6 +197,11 @@ class Employee extends Model
         return $this->belongsToMany(EmployeeCategory::class, 'employee_employee_categories', 'employee_id', 'category_id');
     }
 
+    public function categories()
+    {
+        return $this->belongsToMany(EmployeeCategory::class, 'employee_employee_categories', 'employee_id', 'category_id');
+    }
+
     /**
      * Get the factory instance for the model.
      */

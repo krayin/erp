@@ -5,6 +5,7 @@ namespace Webkul\Employee\Filament\Clusters\Configurations\Resources;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Webkul\Employee\Enums;

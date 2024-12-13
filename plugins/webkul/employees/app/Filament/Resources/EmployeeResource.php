@@ -44,6 +44,7 @@ class EmployeeResource extends Resource
                                         Forms\Components\Select::make('gender')
                                             ->label('Gender')
                                             ->searchable()
+                                            ->preload()
                                             ->options(Gender::options()),
                                         Forms\Components\DatePicker::make('birthday')
                                             ->label('Date of Birth')
@@ -52,6 +53,7 @@ class EmployeeResource extends Resource
                                         Forms\Components\Select::make('marital')
                                             ->label('Marital Status')
                                             ->searchable()
+                                            ->preload()
                                             ->options(MaritalStatus::options()),
                                         Forms\Components\TextInput::make('spouse_complete_name')
                                             ->label('Spouse Name'),
@@ -187,12 +189,18 @@ class EmployeeResource extends Resource
                             ->columnSpan(['lg' => 2]),
                         Forms\Components\Group::make()
                             ->schema([
-                                Forms\Components\Section::make('Skills & Levels')
+                                Forms\Components\Section::make('Tags')
                                     ->schema([
 
                                     ]),
                                 Forms\Components\Section::make('Employment Status')
                                     ->schema([
+                                        Forms\Components\Select::make('employee_employee_categories')
+                                            ->multiple()
+                                            ->relationship('categories', 'name')
+                                            ->searchable()
+                                            ->preload()
+                                            ->label('Tags'),
                                         Forms\Components\Select::make('user_id')
                                             ->relationship('user', 'name')
                                             ->searchable()
@@ -200,6 +208,8 @@ class EmployeeResource extends Resource
                                             ->label('Related User'),
                                         Forms\Components\Select::make('job_id')
                                             ->relationship('job', 'name')
+                                            ->searchable()
+                                            ->preload()
                                             ->label('Job Position'),
                                         Forms\Components\Select::make('work_location_id')
                                             ->relationship('workLocation', 'name')
@@ -248,6 +258,8 @@ class EmployeeResource extends Resource
                                             ->label('Work Permit Scheduled Activity'),
                                         Forms\Components\Select::make('departure_reason_id')
                                             ->relationship('departureReason', 'name')
+                                            ->searchable()
+                                            ->preload()
                                             ->label('Departure Reason'),
                                         Forms\Components\DatePicker::make('departure_date')
                                             ->label('Departure Date')

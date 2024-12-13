@@ -12,8 +12,8 @@ use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\JobPositionResource\Pages;
 use Webkul\Employee\Models\EmployeeJobPosition;
 use Webkul\Fields\Filament\Traits\HasCustomFields;
-use Webkul\Security\Models\Company as ModelsCompany;
 use Webkul\Security\Models\User;
+use Webkul\Support\Models\Company;
 
 class JobPositionResource extends Resource
 {
@@ -86,7 +86,7 @@ class JobPositionResource extends Resource
                                                         Forms\Components\Select::make('company_id')
                                                             ->label('Company')
                                                             ->relationship('company', 'name')
-                                                            ->options(fn () => ModelsCompany::pluck('name', 'id'))
+                                                            ->options(fn () => Company::pluck('name', 'id'))
                                                             ->searchable()
                                                             ->placeholder('Select a Company')
                                                             ->nullable(),
