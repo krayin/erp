@@ -2,13 +2,13 @@
 
 namespace Webkul\Employee\Filament\Clusters\Reportings\Resources;
 
-use Webkul\Employee\Filament\Clusters\Reportings;
-use Webkul\Employee\Filament\Clusters\Reportings\Resources\EmployeeSkillResource\Pages;
-use Webkul\Employee\Models\EmployeeSkill;
-use Webkul\Employee\Filament\Tables as CustomTables;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Webkul\Employee\Filament\Clusters\Reportings;
+use Webkul\Employee\Filament\Clusters\Reportings\Resources\EmployeeSkillResource\Pages;
+use Webkul\Employee\Filament\Tables as CustomTables;
+use Webkul\Employee\Models\EmployeeSkill;
 
 class EmployeeSkillResource extends Resource
 {

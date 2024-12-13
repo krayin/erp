@@ -2,9 +2,8 @@
 
 namespace Webkul\Employee\Filament\Clusters\Reportings\Resources\EmployeeSkillResource\Pages;
 
-use Webkul\Employee\Filament\Clusters\Reportings\Resources\EmployeeSkillResource;
-use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Webkul\Employee\Filament\Clusters\Reportings\Resources\EmployeeSkillResource;
 
 class ListEmployeeSkills extends ListRecords
 {
