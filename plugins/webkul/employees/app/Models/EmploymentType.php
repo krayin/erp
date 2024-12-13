@@ -2,14 +2,16 @@
 
 namespace Webkul\Employee\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Webkul\Employee\Database\Factories\EmploymentTypeFactory;
 use Webkul\Fields\Traits\HasCustomFields;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 
 class EmploymentType extends Model
 {
-    use HasCustomFields;
+    use HasCustomFields, HasFactory;
 
     protected $fillable = [
         'name',
@@ -27,5 +29,13 @@ class EmploymentType extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the factory instance for the model.
+     */
+    protected static function newFactory(): EmploymentTypeFactory
+    {
+        return EmploymentTypeFactory::new();
     }
 }

@@ -2,15 +2,17 @@
 
 namespace Webkul\Employee\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Webkul\Employee\Database\Factories\EmployeeJobPositionFactory;
 use Webkul\Fields\Traits\HasCustomFields;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 
 class EmployeeJobPosition extends Model
 {
-    use HasCustomFields;
+    use HasCustomFields, HasFactory;
 
     /**
      * The table associated with the model.
@@ -70,5 +72,13 @@ class EmployeeJobPosition extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the factory instance for the model.
+     */
+    protected static function newFactory(): EmployeeJobPositionFactory
+    {
+        return EmployeeJobPositionFactory::new();
     }
 }

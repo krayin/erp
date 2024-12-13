@@ -2,14 +2,16 @@
 
 namespace Webkul\Employee\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Webkul\Employee\Database\Factories\SkillTypeFactory;
 use Webkul\Fields\Traits\HasCustomFields;
 
 class SkillType extends Model
 {
-    use HasCustomFields, SoftDeletes;
+    use HasCustomFields, HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -25,5 +27,13 @@ class SkillType extends Model
     public function skills(): HasMany
     {
         return $this->hasMany(Skill::class, 'skill_type_id');
+    }
+
+    /**
+     * Get the factory instance for the model.
+     */
+    protected static function newFactory(): SkillTypeFactory
+    {
+        return SkillTypeFactory::new();
     }
 }

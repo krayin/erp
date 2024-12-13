@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
+use Webkul\Employee\Database\Factories\DepartmentFactory;
 use Webkul\Fields\Traits\HasCustomFields;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
@@ -47,5 +48,13 @@ class Department extends Model
     {
         // Need to ask sir that manager will be user or employee
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the factory instance for the model.
+     */
+    protected static function newFactory(): DepartmentFactory
+    {
+        return DepartmentFactory::new();
     }
 }

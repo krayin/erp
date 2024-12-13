@@ -3,9 +3,11 @@
 namespace Webkul\Employee\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Webkul\Employee\Database\Factories\WorkLocationFactory;
 use Webkul\Employee\Enums\WorkLocationEnum;
 use Webkul\Fields\Traits\HasCustomFields;
 use Webkul\Security\Models\User;
@@ -13,7 +15,7 @@ use Webkul\Support\Models\Company;
 
 class WorkLocation extends Model
 {
-    use HasCustomFields, SoftDeletes;
+    use HasCustomFields, HasFactory, SoftDeletes;
 
     protected $fillable = [
         'company_id',
@@ -45,5 +47,13 @@ class WorkLocation extends Model
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('active', true);
+    }
+
+    /**
+     * Get the factory instance for the model.
+     */
+    protected static function newFactory(): WorkLocationFactory
+    {
+        return WorkLocationFactory::new();
     }
 }

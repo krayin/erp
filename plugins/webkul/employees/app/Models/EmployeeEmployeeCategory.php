@@ -2,10 +2,14 @@
 
 namespace Webkul\Employee\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Webkul\Employee\Database\Factories\EmployeeEmployeeCategoryFactory;
 
 class EmployeeEmployeeCategory extends Model
 {
+    use HasFactory;
+
     public $timestamps = false;
 
     protected $table = 'employee_employee_categories';
@@ -26,5 +30,13 @@ class EmployeeEmployeeCategory extends Model
     public function category()
     {
         return $this->belongsTo(EmployeeCategory::class, 'category_id');
+    }
+
+    /**
+     * Get the factory instance for the model.
+     */
+    protected static function newFactory(): EmployeeEmployeeCategoryFactory
+    {
+        return EmployeeEmployeeCategoryFactory::new();
     }
 }

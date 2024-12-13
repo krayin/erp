@@ -2,11 +2,13 @@
 
 namespace Webkul\Employee\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Chatter\Traits\HasChatter;
+use Webkul\Employee\Database\Factories\EmployeeFactory;
 use Webkul\Fields\Traits\HasCustomFields;
 use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
@@ -17,7 +19,7 @@ use Webkul\Support\Models\State;
 
 class Employee extends Model
 {
-    use HasChatter, HasCustomFields, SoftDeletes;
+    use HasChatter, HasCustomFields, HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -193,5 +195,13 @@ class Employee extends Model
     public function skills(): BelongsToMany
     {
         return $this->belongsToMany(EmployeeCategory::class, 'employee_employee_categories', 'employee_id', 'category_id');
+    }
+
+    /**
+     * Get the factory instance for the model.
+     */
+    protected static function newFactory(): EmployeeFactory
+    {
+        return EmployeeFactory::new();
     }
 }

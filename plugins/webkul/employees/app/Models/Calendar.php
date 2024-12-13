@@ -2,14 +2,16 @@
 
 namespace Webkul\Employee\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Webkul\Employee\Database\Factories\CalendarFactory;
 use Webkul\Fields\Traits\HasCustomFields;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 
 class Calendar extends Model
 {
-    use HasCustomFields;
+    use HasCustomFields, HasFactory;
 
     protected $table = 'calendars';
 
@@ -38,5 +40,13 @@ class Calendar extends Model
     public function attendance()
     {
         return $this->hasMany(CalendarAttendance::class);
+    }
+
+    /**
+     * Get the factory instance for the model.
+     */
+    protected static function newFactory(): CalendarFactory
+    {
+        return CalendarFactory::new();
     }
 }

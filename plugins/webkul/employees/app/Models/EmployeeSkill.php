@@ -2,10 +2,14 @@
 
 namespace Webkul\Employee\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Webkul\Employee\Database\Factories\EmployeeSkillFactory;
 
 class EmployeeSkill extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'employee_id',
         'skill_id',
@@ -30,4 +34,12 @@ class EmployeeSkill extends Model
     // {
     //     return $this->belongsTo(HrSkillLevel::class, 'skill_level_id');
     // }
+
+    /**
+     * Get the factory instance for the model.
+     */
+    protected static function newFactory(): EmployeeSkillFactory
+    {
+        return EmployeeSkillFactory::new();
+    }
 }
