@@ -3,7 +3,6 @@
 namespace Webkul\Employee\Filament\Clusters\Configurations\Resources;
 
 use Filament\Forms;
-use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -45,13 +44,7 @@ class CalendarResource extends Resource
                                             ->label('Schedule Name')
                                             ->maxLength(255)
                                             ->required()
-                                            ->hintAction(
-                                                Action::make('help')
-                                                    ->icon('heroicon-o-question-mark-circle')
-                                                    ->extraAttributes(['class' => 'text-gray-500'])
-                                                    ->hiddenLabel()
-                                                    ->tooltip('Enter a descriptive name for this work schedule')
-                                            ),
+                                            ->hintIcon('heroicon-o-question-mark-circle', tooltip: 'Enter a descriptive name for this work schedule'),
                                         Forms\Components\Select::make('tz')
                                             ->label('Time Zone')
                                             ->options(function () {
@@ -62,13 +55,7 @@ class CalendarResource extends Resource
                                             ->default(date_default_timezone_get())
                                             ->preload()
                                             ->searchable()
-                                            ->hintAction(
-                                                Action::make('help')
-                                                    ->icon('heroicon-o-question-mark-circle')
-                                                    ->extraAttributes(['class' => 'text-gray-500'])
-                                                    ->hiddenLabel()
-                                                    ->tooltip('Specify the time zone for this work schedule')
-                                            ),
+                                            ->hintIcon('heroicon-o-question-mark-circle', tooltip: 'Specify the time zone for this work schedule'),
                                         Forms\Components\Select::make('company_id')
                                             ->label('Company')
                                             ->relationship('company', 'name')

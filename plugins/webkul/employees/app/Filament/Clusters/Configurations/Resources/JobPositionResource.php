@@ -52,13 +52,7 @@ class JobPositionResource extends Resource
                                             ->required()
                                             ->maxLength(255)
                                             ->live(onBlur: true)
-                                            ->hintAction(
-                                                Action::make('help')
-                                                    ->icon('heroicon-o-question-mark-circle')
-                                                    ->extraAttributes(['class' => 'text-gray-500'])
-                                                    ->hiddenLabel()
-                                                    ->tooltip('Enter the official job position title')
-                                            ),
+                                            ->hintIcon('heroicon-o-question-mark-circle', tooltip: 'Enter the official job position title'),
                                         Forms\Components\Select::make('department_id')
                                             ->label('Department')
                                             ->relationship(name: 'department', titleAttribute: 'name')

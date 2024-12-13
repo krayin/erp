@@ -43,13 +43,7 @@ class BranchesRelationManager extends RelationManager
                                         Forms\Components\TextInput::make('tax_id')
                                             ->label('Tax ID')
                                             ->unique(ignoreRecord: true)
-                                            ->hintAction(
-                                                Action::make('help')
-                                                    ->icon('heroicon-o-question-mark-circle')
-                                                    ->extraAttributes(['class' => 'text-gray-500'])
-                                                    ->hiddenLabel()
-                                                    ->tooltip('The Tax ID is a unique identifier for your company.')
-                                            ),
+                                            ->hintIcon('heroicon-o-question-mark-circle', tooltip: 'The Tax ID is a unique identifier for your company.'),
                                         Forms\Components\ColorPicker::make('color')
                                             ->label('Color'),
                                     ])

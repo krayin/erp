@@ -55,24 +55,12 @@ class CompanyResource extends Resource
                                         Forms\Components\TextInput::make('company_id')
                                             ->label('Company ID')
                                             ->unique(ignoreRecord: true)
-                                            ->hintAction(
-                                                Action::make('help')
-                                                    ->icon('heroicon-o-question-mark-circle')
-                                                    ->extraAttributes(['class' => 'text-gray-500'])
-                                                    ->hiddenLabel()
-                                                    ->tooltip('The Company ID is a unique identifier for your company.')
-                                            ),
+                                            ->hintIcon('heroicon-o-question-mark-circle', tooltip: 'The Company ID is a unique identifier for your company.'),
                                         Forms\Components\TextInput::make('tax_id')
                                             ->label('Tax ID')
                                             ->required()
                                             ->unique(ignoreRecord: true)
-                                            ->hintAction(
-                                                Action::make('help')
-                                                    ->icon('heroicon-o-question-mark-circle')
-                                                    ->extraAttributes(['class' => 'text-gray-500'])
-                                                    ->hiddenLabel()
-                                                    ->tooltip('The Tax ID is a unique identifier for your company.')
-                                            ),
+                                            ->hintIcon('heroicon-o-question-mark-circle', tooltip: 'The Tax ID is a unique identifier for your company.'),
                                     ])
                                     ->columns(2),
                                 Forms\Components\Section::make('Address Information')
