@@ -11,25 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('partners_bank_accounts', function (Blueprint $table) {
+        Schema::create('projects_project_stages', function (Blueprint $table) {
             $table->id();
-            $table->string('account_number');
-            $table->string('account_holder_name');
+            $table->string('name');
             $table->boolean('is_active')->default(1);
-            $table->boolean('can_send_money')->default(0);
+            $table->boolean('is_collapsed')->default(0);
+            $table->integer('sort')->nullable();
+
+            $table->foreignId('company_id')
+                ->nullable()
+                ->constrained('companies')
+                ->nullOnDelete();
 
             $table->foreignId('creator_id')
                 ->nullable()
                 ->constrained('users')
                 ->nullOnDelete();
-
-            $table->foreignId('partner_id')
-                ->constrained('partners_partners')
-                ->cascadeOnDelete();
-
-            $table->foreignId('bank_id')
-                ->constrained('banks')
-                ->cascadeOnDelete();
 
             $table->softDeletes();
             $table->timestamps();
@@ -41,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('partners_bank_accounts');
+        Schema::dropIfExists('projects_project_stages');
     }
 };

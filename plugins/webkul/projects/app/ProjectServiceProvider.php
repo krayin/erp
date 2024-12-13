@@ -17,6 +17,15 @@ class ProjectServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasTranslations()
             ->hasMigrations([
+                '2024_12_12_074920_create_projects_project_stages_table',
+                '2024_12_12_074929_create_projects_projects_table',
+                '2024_12_12_100227_create_projects_user_project_favorites_table',
+                '2024_12_12_100230_create_projects_tags_table',
+                '2024_12_12_100232_create_projects_project_tag_table',
+                '2024_12_12_101340_create_projects_task_stages_table',
+                '2024_12_12_101344_create_projects_tasks_table',
+                '2024_12_12_101350_create_projects_task_users_table',
+                '2024_12_12_101352_create_projects_task_tag_table',
             ])
             ->runsMigrations();
     }

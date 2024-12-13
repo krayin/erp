@@ -6,4 +6,5 @@ return [
     Webkul\Security\SecurityPlugin::class,
     Webkul\Fields\FieldsPlugin::class,
     Webkul\Employee\EmployeePlugin::class,
+    Webkul\Project\ProjectPlugin::class,
 ];

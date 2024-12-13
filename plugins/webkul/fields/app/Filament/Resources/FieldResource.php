@@ -133,7 +133,7 @@ class FieldResource extends Resource
                                     ->required()
                                     ->visible(fn (Forms\Get $get): bool => $get('type') == 'select')
                                     ->live(),
-                                Forms\Components\TextInput::make('sort_order')
+                                Forms\Components\TextInput::make('sort')
                                     ->label(__('field::app.form.fields.sort-order'))
                                     ->required()
                                     ->integer()

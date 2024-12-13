@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Webkul\Partner\Database\Factories\PartnerFactory;
 use Webkul\Security\Models\User;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Support\Models\Company;
 
 class Partner extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * Table name.
