@@ -24,6 +24,11 @@ class Skill extends Model
         return $this->belongsTo(SkillType::class, 'skill_type_id');
     }
 
+    public function skillLevels()
+    {
+        return $this->hasMany(SkillLevel::class);
+    }
+
     public function employeeSkills(): HasMany
     {
         return $this->hasMany(EmployeeSkill::class, 'skill_id');

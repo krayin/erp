@@ -5,6 +5,7 @@ namespace Webkul\Employee\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Webkul\Employee\Database\Factories\EmployeeSkillFactory;
+use Webkul\Security\Models\User;
 
 class EmployeeSkill extends Model
 {
@@ -14,26 +15,40 @@ class EmployeeSkill extends Model
         'employee_id',
         'skill_id',
         'skill_level_id',
-        'start_date',
-        'notes',
+        'skill_type_id',
+        'creator_id',
+        'user_id',
     ];
 
-    protected $dates = ['start_date'];
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
 
-    // public function employee(): BelongsTo
-    // {
-    //     return $this->belongsTo(Employee::class, 'employee_id');
-    // }
+    public function skill()
+    {
+        return $this->belongsTo(Skill::class);
+    }
 
-    // public function skill(): BelongsTo
-    // {
-    //     return $this->belongsTo(HrSkill::class, 'skill_id');
-    // }
+    public function skillLevel()
+    {
+        return $this->belongsTo(SkillLevel::class);
+    }
 
-    // public function skillLevel(): BelongsTo
-    // {
-    //     return $this->belongsTo(HrSkillLevel::class, 'skill_level_id');
-    // }
+    public function skillType()
+    {
+        return $this->belongsTo(SkillType::class);
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     /**
      * Get the factory instance for the model.

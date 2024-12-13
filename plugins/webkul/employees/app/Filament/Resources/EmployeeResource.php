@@ -12,6 +12,7 @@ use Filament\Tables\Table;
 use Webkul\Employee\Enums\Gender;
 use Webkul\Employee\Enums\MaritalStatus;
 use Webkul\Employee\Filament\Resources\EmployeeResource\Pages;
+use Webkul\Employee\Filament\Resources\EmployeeResource\RelationManagers;
 use Webkul\Employee\Models\Employee;
 use Webkul\Fields\Filament\Traits\HasCustomFields;
 
@@ -189,11 +190,7 @@ class EmployeeResource extends Resource
                             ->columnSpan(['lg' => 2]),
                         Forms\Components\Group::make()
                             ->schema([
-                                Forms\Components\Section::make('Tags')
-                                    ->schema([
-
-                                    ]),
-                                Forms\Components\Section::make('Employment Status')
+                                Forms\Components\Section::make('Employment Information')
                                     ->schema([
                                         Forms\Components\Select::make('employee_employee_categories')
                                             ->multiple()
@@ -289,7 +286,7 @@ class EmployeeResource extends Resource
             ->columns([
                 Tables\Columns\Layout\Stack::make([
                     Tables\Columns\ImageColumn::make('image')
-                        ->defaultImageUrl(fn ($record): string => 'https://demo.filamentphp.com/storage/0b023058-c3c0-418c-86c9-aa35bdfb3b1b.jpg')
+                        ->defaultImageUrl(fn ($record): string => 'https://demo.filamentphp.com/storage/a8534bc4-2da7-4a27-bdaa-cde2c4589dc0.jpg')
                         ->height('100%')
                         ->width('100%'),
                     Tables\Columns\Layout\Stack::make([
@@ -300,32 +297,26 @@ class EmployeeResource extends Resource
                             ->label('Job Title')
                             ->color('gray'),
                         Tables\Columns\Layout\Split::make([
-                            Tables\Columns\TextColumn::make('work_email')
-                                ->icon('heroicon-o-envelope')
-                                ->label('Work Email')
-                                ->color('gray')
-                                ->limit(30)
-                                ->sortable(),
-                            Tables\Columns\TextColumn::make('work_phone')
-                                ->icon('heroicon-o-phone')
-                                ->label('Work Email')
-                                ->color('gray')
-                                ->limit(30)
-                                ->sortable(),
+                            Tables\Columns\Layout\Split::make([
+                                Tables\Columns\TextColumn::make('work_email')
+                                    ->icon('heroicon-o-envelope')
+                                    ->label('Work Email')
+                                    ->color('gray')
+                                    ->limit(30)
+                                    ->sortable(),
+                                Tables\Columns\TextColumn::make('work_phone')
+                                    ->icon('heroicon-o-phone')
+                                    ->label('Work Email')
+                                    ->color('gray')
+                                    ->limit(30)
+                                    ->sortable(),
+                            ]),
                         ]),
-                    ]),
-                ])->space(3),
-                Tables\Columns\Layout\Panel::make([
-                    Tables\Columns\Layout\Split::make([
-                        Tables\Columns\ColorColumn::make('color')
-                            ->grow(false),
-                        Tables\Columns\TextColumn::make('department.name')
-                            ->label('Department')
-                            ->icon('heroicon-o-building-office')
-                            ->color('gray')
-                            ->sortable(),
-                    ]),
-                ])->collapsible(),
+                        Tables\Columns\TextColumn::make('categories.name')
+                            ->weight(FontWeight::Bold)
+                            ->badge(),
+                    ])->space(1),
+                ])->space(4),
             ])
             ->contentGrid([
                 'md' => 2,
@@ -386,7 +377,7 @@ class EmployeeResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\SkillsRelationManager::class,
         ];
     }
 

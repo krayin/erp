@@ -5,7 +5,7 @@ namespace Webkul\Employee\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Employee\Database\Factories\EmployeeFactory;
@@ -192,14 +192,14 @@ class Employee extends Model
         return $this->belongsTo(EmploymentType::class, 'employee_type');
     }
 
-    public function skills(): BelongsToMany
+    public function categories()
     {
         return $this->belongsToMany(EmployeeCategory::class, 'employee_employee_categories', 'employee_id', 'category_id');
     }
 
-    public function categories()
+    public function skills(): HasMany
     {
-        return $this->belongsToMany(EmployeeCategory::class, 'employee_employee_categories', 'employee_id', 'category_id');
+        return $this->hasMany(EmployeeSkill::class, 'employee_id');
     }
 
     /**
