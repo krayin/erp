@@ -38,6 +38,7 @@ class Employee extends Model
         'parent_id',
         'coach_id',
         'country_id',
+        'state_id',
         'private_state_id',
         'private_country_id',
         'country_of_birth',
@@ -170,6 +171,11 @@ class Employee extends Model
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class, 'country_id');
+    }
+
+    public function state(): BelongsTo
+    {
+        return $this->belongsTo(State::class, 'state_id');
     }
 
     public function countryOfBirth(): BelongsTo

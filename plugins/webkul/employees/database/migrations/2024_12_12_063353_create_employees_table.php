@@ -25,8 +25,9 @@ return new class extends Migration
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->unsignedBigInteger('coach_id')->nullable();
             $table->unsignedBigInteger('country_id')->nullable();
-            $table->unsignedBigInteger('private_state_id')->nullable();
+            $table->unsignedBigInteger('state_id')->nullable();
             $table->unsignedBigInteger('private_country_id')->nullable();
+            $table->unsignedBigInteger('private_state_id')->nullable();
             $table->unsignedBigInteger('country_of_birth')->nullable();
             $table->unsignedBigInteger('bank_account_id')->nullable();
             $table->unsignedBigInteger('departure_reason_id')->nullable();
@@ -92,6 +93,7 @@ return new class extends Migration
             $table->foreign('parent_id')->references('id')->on('employees')->onDelete('set null');
             $table->foreign('coach_id')->references('id')->on('employees')->onDelete('set null');
             $table->foreign('private_state_id')->references('id')->on('states')->onDelete('set null');
+            $table->foreign('state_id')->references('id')->on('states')->onDelete('set null');
             $table->foreign('private_country_id')->references('id')->on('countries')->onDelete('set null');
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('set null');
             $table->foreign('country_of_birth')->references('id')->on('countries')->onDelete('set null');
