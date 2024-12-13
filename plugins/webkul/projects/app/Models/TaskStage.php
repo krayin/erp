@@ -2,13 +2,13 @@
 
 namespace Webkul\Project\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Webkul\Project\Database\Factories\TaskStageFactory;
-use Webkul\Security\Models\User;
-use Webkul\Security\Models\Company;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Webkul\Project\Database\Factories\TaskStageFactory;
+use Webkul\Security\Models\Company;
+use Webkul\Security\Models\User;
 
 class TaskStage extends Model
 {
@@ -42,7 +42,7 @@ class TaskStage extends Model
      * @var string
      */
     protected $casts = [
-        'is_active' => 'boolean',
+        'is_active'    => 'boolean',
         'is_collapsed' => 'boolean',
     ];
 

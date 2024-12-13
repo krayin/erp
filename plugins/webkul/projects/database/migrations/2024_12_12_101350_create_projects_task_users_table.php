@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('projects_task_users', function (Blueprint $table) {
             $table->id();
-                
+
             $table->foreignId('task_id')
                 ->constrained('projects_tasks')
                 ->cascadeOnDelete();
-                
+
             $table->foreignId('user_id')
                 ->constrained('users')
                 ->cascadeOnDelete();
-                
+
             $table->foreignId('stage_id')
                 ->nullable()
                 ->constrained('projects_task_stages')

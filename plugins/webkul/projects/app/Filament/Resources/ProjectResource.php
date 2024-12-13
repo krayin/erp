@@ -2,16 +2,14 @@
 
 namespace Webkul\Project\Filament\Resources;
 
-use Webkul\Project\Filament\Resources\ProjectResource\Pages;
-use Webkul\Project\Filament\Resources\ProjectResource\RelationManagers;
-use Webkul\Project\Models\Project;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Webkul\Project\Filament\Resources\ProjectResource\Pages;
+use Webkul\Project\Models\Project;
 
 class ProjectResource extends Resource
 {
@@ -58,9 +56,9 @@ class ProjectResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProjects::route('/'),
+            'index'  => Pages\ListProjects::route('/'),
             'create' => Pages\CreateProject::route('/create'),
-            'edit' => Pages\EditProject::route('/{record}/edit'),
+            'edit'   => Pages\EditProject::route('/{record}/edit'),
         ];
     }
 

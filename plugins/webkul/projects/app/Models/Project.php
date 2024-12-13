@@ -2,14 +2,14 @@
 
 namespace Webkul\Project\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Webkul\Project\Database\Factories\ProjectFactory;
-use Webkul\Security\Models\User;
-use Webkul\Security\Models\Company;
-use Webkul\Partner\Models\Partner;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Webkul\Partner\Models\Partner;
+use Webkul\Project\Database\Factories\ProjectFactory;
+use Webkul\Security\Models\Company;
+use Webkul\Security\Models\User;
 
 class Project extends Model
 {
@@ -53,11 +53,11 @@ class Project extends Model
      * @var string
      */
     protected $casts = [
-        'start_date' => 'date',
-        'end_date' => 'date',
-        'is_active' => 'boolean',
-        'allow_timesheets' => 'boolean',
-        'allow_milestones' => 'boolean',
+        'start_date'              => 'date',
+        'end_date'                => 'date',
+        'is_active'               => 'boolean',
+        'allow_timesheets'        => 'boolean',
+        'allow_milestones'        => 'boolean',
         'allow_task_dependencies' => 'boolean',
     ];
 

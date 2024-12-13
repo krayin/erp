@@ -2,9 +2,8 @@
 
 namespace Webkul\Project\Filament\Resources\ProjectResource\Pages;
 
-use Webkul\Project\Filament\Resources\ProjectResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
+use Webkul\Project\Filament\Resources\ProjectResource;
 
 class CreateProject extends CreateRecord
 {
