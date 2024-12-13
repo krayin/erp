@@ -3,7 +3,11 @@
 namespace Webkul\Employee\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Webkul\Employee\Models\Department;
+use Webkul\Employee\Models\DepartureReason;
 use Webkul\Employee\Models\Employee;
+use Webkul\Employee\Models\EmployeeJobPosition;
+use Webkul\Employee\Models\WorkLocation;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 use Webkul\Support\Models\Country;
@@ -30,18 +34,18 @@ class EmployeeFactory extends Factory
             'user_id'                        => User::factory(),
             'creator_id'                     => User::factory(),
             'calendar_id'                    => null,
-            'department_id'                  => null,
-            'job_id'                         => null,
+            'department_id'                  => Department::factory(),
+            'job_id'                         => EmployeeJobPosition::factory(),
             'partner_id'                     => null,
-            'work_location_id'               => null,
-            'parent_id'                      => null,
-            'coach_id'                       => null,
+            'work_location_id'               => WorkLocation::factory(),
+            'parent_id'                      => User::factory(),
+            'coach_id'                       => User::factory(),
             'country_id'                     => Country::factory(),
             'private_state_id'               => State::factory(),
             'private_country_id'             => Country::factory(),
             'country_of_birth'               => Country::factory(),
             'bank_account_id'                => null,
-            'departure_reason_id'            => null,
+            'departure_reason_id'            => DepartureReason::factory(),
             'name'                           => $this->faker->name,
             'job_title'                      => $this->faker->jobTitle,
             'work_phone'                     => $this->faker->phoneNumber,
