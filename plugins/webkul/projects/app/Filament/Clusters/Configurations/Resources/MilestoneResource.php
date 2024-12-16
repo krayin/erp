@@ -2,17 +2,14 @@
 
 namespace Webkul\Project\Filament\Clusters\Configurations\Resources;
 
-use Webkul\Project\Filament\Clusters\Configurations;
-use Webkul\Project\Filament\Clusters\Configurations\Resources\MilestoneResource\Pages;
-use Webkul\Project\Filament\Clusters\Configurations\Resources\MilestoneResource\RelationManagers;
-use Webkul\Project\Models\Milestone;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Webkul\Project\Filament\Clusters\Configurations;
+use Webkul\Project\Filament\Clusters\Configurations\Resources\MilestoneResource\Pages;
+use Webkul\Project\Models\Milestone;
 
 class MilestoneResource extends Resource
 {

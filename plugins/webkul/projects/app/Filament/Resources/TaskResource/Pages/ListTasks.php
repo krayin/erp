@@ -2,14 +2,14 @@
 
 namespace Webkul\Project\Filament\Resources\TaskResource\Pages;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
-use Webkul\Project\Filament\Resources\TaskResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
+use Webkul\Project\Enums\TaskState;
+use Webkul\Project\Filament\Resources\TaskResource;
 use Webkul\TableViews\Components\PresetView;
 use Webkul\TableViews\Filament\Traits\HasTableViews;
-use Webkul\Project\Enums\TaskState;
 
 class ListTasks extends ListRecords
 {
@@ -25,7 +25,7 @@ class ListTasks extends ListRecords
                 ->favorite()
                 ->modifyQueryUsing(fn (Builder $query) => $query->whereNotIn('state', [
                     TaskState::CANCELLED,
-                    TaskState::DONE
+                    TaskState::DONE,
                 ])),
 
             'my_tasks' => PresetView::make('My Tasks')
@@ -49,7 +49,7 @@ class ListTasks extends ListRecords
                 ->favorite()
                 ->modifyQueryUsing(fn (Builder $query) => $query->whereIn('state', [
                     TaskState::CANCELLED,
-                    TaskState::DONE
+                    TaskState::DONE,
                 ])),
 
             'starred_tasks' => PresetView::make('Starred Tasks')

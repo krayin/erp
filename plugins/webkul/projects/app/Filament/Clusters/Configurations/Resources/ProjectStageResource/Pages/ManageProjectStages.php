@@ -2,10 +2,10 @@
 
 namespace Webkul\Project\Filament\Clusters\Configurations\Resources\ProjectStageResource\Pages;
 
-use Webkul\Project\Filament\Clusters\Configurations\Resources\ProjectStageResource;
 use Filament\Actions;
-use Filament\Resources\Pages\ManageRecords;
 use Filament\Resources\Components\Tab;
+use Filament\Resources\Pages\ManageRecords;
+use Webkul\Project\Filament\Clusters\Configurations\Resources\ProjectStageResource;
 use Webkul\Project\Models\ProjectStage;
 
 class ManageProjectStages extends ManageRecords

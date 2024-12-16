@@ -7,8 +7,6 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SubTasksRelationManager extends RelationManager
 {
@@ -27,25 +25,25 @@ class SubTasksRelationManager extends RelationManager
                     ->default('in_progress')
                     ->inline()
                     ->options([
-                        'in_progress' => 'In Progress',
+                        'in_progress'      => 'In Progress',
                         'change_requested' => 'Change Requested',
-                        'approved' => 'Approved',
-                        'cancelled' => 'Cancelled',
-                        'done' => 'Done',
+                        'approved'         => 'Approved',
+                        'cancelled'        => 'Cancelled',
+                        'done'             => 'Done',
                     ])
                     ->colors([
-                        'in_progress' => 'gray',
+                        'in_progress'      => 'gray',
                         'change_requested' => 'warning',
-                        'approved' => 'success',
-                        'cancelled' => 'danger',
-                        'done' => 'success',
+                        'approved'         => 'success',
+                        'cancelled'        => 'danger',
+                        'done'             => 'success',
                     ])
                     ->icons([
-                        'in_progress' => 'heroicon-m-play-circle',
+                        'in_progress'      => 'heroicon-m-play-circle',
                         'change_requested' => 'heroicon-s-exclamation-circle',
-                        'approved' => 'heroicon-o-check-circle',
-                        'cancelled' => 'heroicon-s-x-circle',
-                        'done' => 'heroicon-c-check-circle',
+                        'approved'         => 'heroicon-o-check-circle',
+                        'cancelled'        => 'heroicon-s-x-circle',
+                        'done'             => 'heroicon-c-check-circle',
                     ]),
                 Forms\Components\DateTimePicker::make('deadline')
                     ->label('Deadline')

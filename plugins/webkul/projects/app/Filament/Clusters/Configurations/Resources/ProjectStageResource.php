@@ -2,17 +2,14 @@
 
 namespace Webkul\Project\Filament\Clusters\Configurations\Resources;
 
-use Webkul\Project\Filament\Clusters\Configurations;
-use Webkul\Project\Filament\Clusters\Configurations\Resources\ProjectStageResource\Pages;
-use Webkul\Project\Filament\Clusters\Configurations\Resources\ProjectStageResource\RelationManagers;
-use Webkul\Project\Models\ProjectStage;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Webkul\Project\Filament\Clusters\Configurations;
+use Webkul\Project\Filament\Clusters\Configurations\Resources\ProjectStageResource\Pages;
+use Webkul\Project\Models\ProjectStage;
 
 class ProjectStageResource extends Resource
 {
@@ -46,10 +43,10 @@ class ProjectStageResource extends Resource
             ->reorderable('sort')
             ->defaultSort('sort', 'asc')
             ->actions([
-                    Tables\Actions\EditAction::make()
-                        ->hidden(fn ($record) => $record->trashed()),
-                    Tables\Actions\DeleteAction::make(),
-                    Tables\Actions\RestoreAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->hidden(fn ($record) => $record->trashed()),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

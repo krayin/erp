@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\Security\Models;
+namespace Webkul\Support\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,9 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Fields\Traits\HasCustomFields;
-use Webkul\Support\Models\Country;
-use Webkul\Support\Models\Currency;
-use Webkul\Support\Models\State;
+use Webkul\Security\Models\User;
 
 class Company extends Model
 {
@@ -32,18 +30,12 @@ class Company extends Model
         'email',
         'phone',
         'mobile',
-        'street1',
-        'street2',
-        'city',
-        'zip',
         'logo',
         'color',
         'is_active',
         'founded_date',
         'user_id',
         'currency_id',
-        'state_id',
-        'country_id',
     ];
 
     /**
@@ -71,26 +63,20 @@ class Company extends Model
     }
 
     /**
-     * Get the state associated with the company.
-     */
-    public function state(): BelongsTo
-    {
-        return $this->belongsTo(State::class);
-    }
-
-    /**
-     * Get the country associated with the company.
-     */
-    public function country(): BelongsTo
-    {
-        return $this->belongsTo(Country::class);
-    }
-
-    /**
      * Scope a query to only include active companies.
      */
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
+    }
+
+    public function address()
+    {
+        return $this->hasOne(CompanyAddress::class);
+    }
+
+    protected static function newFactory(): CompanyFactory
+    {
+        return CompanyFactory::new();
     }
 }

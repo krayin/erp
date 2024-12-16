@@ -2,10 +2,10 @@
 
 namespace Webkul\Project\Filament\Clusters\Configurations\Resources\TagResource\Pages;
 
-use Webkul\Project\Filament\Clusters\Configurations\Resources\TagResource;
 use Filament\Actions;
-use Filament\Resources\Pages\ManageRecords;
 use Filament\Resources\Components\Tab;
+use Filament\Resources\Pages\ManageRecords;
+use Webkul\Project\Filament\Clusters\Configurations\Resources\TagResource;
 use Webkul\Project\Models\Tag;
 
 class ManageTags extends ManageRecords

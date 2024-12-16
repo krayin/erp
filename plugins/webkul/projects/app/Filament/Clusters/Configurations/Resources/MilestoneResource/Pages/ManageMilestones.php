@@ -2,9 +2,9 @@
 
 namespace Webkul\Project\Filament\Clusters\Configurations\Resources\MilestoneResource\Pages;
 
-use Webkul\Project\Filament\Clusters\Configurations\Resources\MilestoneResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ManageRecords;
+use Webkul\Project\Filament\Clusters\Configurations\Resources\MilestoneResource;
 
 class ManageMilestones extends ManageRecords
 {

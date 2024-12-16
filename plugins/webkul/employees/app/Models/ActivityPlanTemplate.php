@@ -2,12 +2,15 @@
 
 namespace Webkul\Employee\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Webkul\Security\Models\User;
 
 class ActivityPlanTemplate extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'plan_id',
         'sequence',

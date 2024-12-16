@@ -2,9 +2,8 @@
 
 namespace Webkul\Project\Filament\Resources\TaskResource\Pages;
 
-use Webkul\Project\Filament\Resources\TaskResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
+use Webkul\Project\Filament\Resources\TaskResource;
 
 class CreateTask extends CreateRecord
 {

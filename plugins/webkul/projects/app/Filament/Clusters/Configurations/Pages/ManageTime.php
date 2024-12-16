@@ -2,11 +2,11 @@
 
 namespace Webkul\Project\Filament\Clusters\Configurations\Pages;
 
-use Webkul\Security\Filament\Clusters\Settings;
-use Webkul\Project\Settings\TimeSettings;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
+use Webkul\Project\Settings\TimeSettings;
+use Webkul\Security\Filament\Clusters\Settings;
 
 class ManageTime extends SettingsPage
 {

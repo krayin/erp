@@ -2,18 +2,16 @@
 
 namespace Webkul\Project\Filament\Resources;
 
-use Webkul\Project\Filament\Resources\TaskResource\Pages;
-use Webkul\Project\Filament\Resources\TaskResource\RelationManagers;
-use Filament\Resources\RelationManagers\RelationGroup;
-use Webkul\Project\Models\Task;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Webkul\Fields\Filament\Traits\HasCustomFields;
+use Webkul\Project\Filament\Resources\TaskResource\Pages;
+use Webkul\Project\Filament\Resources\TaskResource\RelationManagers;
+use Webkul\Project\Models\Task;
 
 class TaskResource extends Resource
 {
@@ -42,25 +40,25 @@ class TaskResource extends Resource
                                     ->default('in_progress')
                                     ->inline()
                                     ->options([
-                                        'in_progress' => 'In Progress',
+                                        'in_progress'      => 'In Progress',
                                         'change_requested' => 'Change Requested',
-                                        'approved' => 'Approved',
-                                        'cancelled' => 'Cancelled',
-                                        'done' => 'Done',
+                                        'approved'         => 'Approved',
+                                        'cancelled'        => 'Cancelled',
+                                        'done'             => 'Done',
                                     ])
                                     ->colors([
-                                        'in_progress' => 'gray',
+                                        'in_progress'      => 'gray',
                                         'change_requested' => 'warning',
-                                        'approved' => 'success',
-                                        'cancelled' => 'danger',
-                                        'done' => 'success',
+                                        'approved'         => 'success',
+                                        'cancelled'        => 'danger',
+                                        'done'             => 'success',
                                     ])
                                     ->icons([
-                                        'in_progress' => 'heroicon-m-play-circle',
+                                        'in_progress'      => 'heroicon-m-play-circle',
                                         'change_requested' => 'heroicon-s-exclamation-circle',
-                                        'approved' => 'heroicon-o-check-circle',
-                                        'cancelled' => 'heroicon-s-x-circle',
-                                        'done' => 'heroicon-c-check-circle',
+                                        'approved'         => 'heroicon-o-check-circle',
+                                        'cancelled'        => 'heroicon-s-x-circle',
+                                        'done'             => 'heroicon-c-check-circle',
                                     ]),
                                 Forms\Components\Select::make('tags')
                                     ->label('Tags')
@@ -117,7 +115,7 @@ class TaskResource extends Resource
                                     ->label('Allocated Hours')
                                     ->numeric(),
                             ]),
-                        ]),
+                    ]),
             ])
             ->columns(3);
     }
@@ -228,9 +226,9 @@ class TaskResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTasks::route('/'),
+            'index'  => Pages\ListTasks::route('/'),
             'create' => Pages\CreateTask::route('/create'),
-            'edit' => Pages\EditTask::route('/{record}/edit'),
+            'edit'   => Pages\EditTask::route('/{record}/edit'),
         ];
     }
 

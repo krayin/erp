@@ -2,9 +2,9 @@
 
 namespace Webkul\Project\Filament\Resources\ProjectResource\Pages;
 
-use Webkul\Project\Filament\Resources\ProjectResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Webkul\Project\Filament\Resources\ProjectResource;
 
 class EditProject extends EditRecord
 {

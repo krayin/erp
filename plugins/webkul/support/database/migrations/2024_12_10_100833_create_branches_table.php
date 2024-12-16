@@ -20,26 +20,20 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->string('mobile')->nullable();
-            $table->string('street1')->nullable();
-            $table->string('street2')->nullable();
-            $table->string('city')->nullable();
 
-            $table->string('zip')->nullable();
             $table->string('logo')->nullable();
             $table->string('color')->nullable();
             $table->boolean('is_active')->default(true);
             $table->date('founded_date')->nullable();
+
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('currency_id');
-            $table->unsignedBigInteger('state_id');
-            $table->unsignedBigInteger('country_id');
 
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
-            $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
-            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
             $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->softDeletes();
             $table->timestamps();
         });

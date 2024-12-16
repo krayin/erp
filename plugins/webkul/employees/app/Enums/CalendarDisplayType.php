@@ -2,7 +2,7 @@
 
 namespace Webkul\Employee\Enums;
 
-enum DisplayType: string
+enum CalendarDisplayType: string
 {
     case Working = 'working';
 

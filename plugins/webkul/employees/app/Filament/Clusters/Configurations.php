@@ -10,5 +10,10 @@ class Configurations extends Cluster
 
     protected static ?string $navigationGroup = 'Employees';
 
-    protected static ?int $navigationSort = 0;
+    protected static ?int $navigationSort = 4;
+
+    public static function getSlug(): string
+    {
+        return 'employees/configurations';
+    }
 }

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->foreignId('tag_id')
                 ->constrained('partners_tags')
                 ->cascadeOnDelete();
-                
+
             $table->foreignId('partner_id')
                 ->constrained('partners_partners')
                 ->cascadeOnDelete();

@@ -2,11 +2,15 @@
 
 namespace Webkul\Employee\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Webkul\Employee\Database\Factories\CalendarAttendanceFactory;
 use Webkul\Security\Models\User;
 
 class CalendarAttendance extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'sequence',
         'name',
@@ -31,5 +35,13 @@ class CalendarAttendance extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the factory instance for the model.
+     */
+    protected static function newFactory(): CalendarAttendanceFactory
+    {
+        return CalendarAttendanceFactory::new();
     }
 }

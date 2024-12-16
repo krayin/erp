@@ -2,17 +2,14 @@
 
 namespace Webkul\Project\Filament\Clusters\Configurations\Resources;
 
-use Webkul\Project\Filament\Clusters\Configurations;
-use Webkul\Project\Filament\Clusters\Configurations\Resources\TagResource\Pages;
-use Webkul\Project\Filament\Clusters\Configurations\Resources\TagResource\RelationManagers;
-use Webkul\Project\Models\Tag;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Webkul\Project\Filament\Clusters\Configurations;
+use Webkul\Project\Filament\Clusters\Configurations\Resources\TagResource\Pages;
+use Webkul\Project\Models\Tag;
 
 class TagResource extends Resource
 {
@@ -43,10 +40,10 @@ class TagResource extends Resource
                     ->wrap(),
             ])
             ->actions([
-                    Tables\Actions\EditAction::make()
-                        ->hidden(fn ($record) => $record->trashed()),
-                    Tables\Actions\DeleteAction::make(),
-                    Tables\Actions\RestoreAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->hidden(fn ($record) => $record->trashed()),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

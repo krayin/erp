@@ -13,12 +13,21 @@ return new class extends Migration
     {
         Schema::create('employee_skills', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
-            $table->foreignId('skill_id')->constrained('hr_skills')->onDelete('cascade');
-            $table->foreignId('skill_level_id')->constrained('hr_skill_levels')->onDelete('cascade');
-            $table->date('start_date')->nullable();
-            $table->text('notes')->nullable();
-            $table->unique(['employee_id', 'skill_id']);
+
+            $table->unsignedBigInteger('employee_id')->nullable();
+            $table->unsignedBigInteger('skill_id')->nullable();
+            $table->unsignedBigInteger('skill_level_id')->nullable();
+            $table->unsignedBigInteger('skill_type_id')->nullable();
+            $table->unsignedBigInteger('creator_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->foreign('skill_id')->references('id')->on('skills')->onDelete('cascade');
+            $table->foreign('skill_level_id')->references('id')->on('skill_levels')->onDelete('cascade');
+            $table->foreign('skill_type_id')->references('id')->on('skill_types')->onDelete('cascade');
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+
             $table->timestamps();
             $table->softDeletes();
         });
