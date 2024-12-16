@@ -7,6 +7,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\ManageRecords;
 use Filament\Resources\Components\Tab;
 use Webkul\Project\Models\ProjectStage;
+use Illuminate\Support\Facades\Auth;
 
 class ManageProjectStages extends ManageRecords
 {
@@ -30,5 +31,12 @@ class ManageProjectStages extends ManageRecords
                     return $query->onlyTrashed();
                 }),
         ];
+    }
+    
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['creator_id'] = Auth::id();
+    
+        return $data;
     }
 }

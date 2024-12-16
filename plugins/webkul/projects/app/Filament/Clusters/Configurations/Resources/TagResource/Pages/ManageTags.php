@@ -6,6 +6,7 @@ use Webkul\Project\Filament\Clusters\Configurations\Resources\TagResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ManageRecords;
 use Filament\Resources\Components\Tab;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Models\Tag;
 
 class ManageTags extends ManageRecords
@@ -30,5 +31,12 @@ class ManageTags extends ManageRecords
                     return $query->onlyTrashed();
                 }),
         ];
+    }
+    
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['creator_id'] = Auth::id();
+    
+        return $data;
     }
 }
