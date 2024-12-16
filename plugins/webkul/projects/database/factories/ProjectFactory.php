@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Webkul\Partner\Models\Partner;
 use Webkul\Project\Models\Project;
 use Webkul\Project\Models\ProjectStage;
-use Webkul\Security\Models\Company;
 use Webkul\Security\Models\User;
+use Webkul\Support\Models\Company;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Webkul\Project\Models\Project>
@@ -31,6 +31,7 @@ class ProjectFactory extends Factory
         return [
             'name'                    => fake()->name(),
             'description'             => fake()->sentence(),
+            'tasks_label'             => 'Tasks',
             'visibility'              => 'public',
             'color'                   => fake()->hexColor(),
             'sort'                    => fake()->randomNumber(),

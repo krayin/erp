@@ -11,17 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('partners_tags', function (Blueprint $table) {
+        Schema::create('projects_milestones', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('color')->nullable();
+            $table->string('name')->index();
+            $table->datetime('deadline')->nullable()->index();
+            $table->boolean('is_completed')->default(0);
+            $table->datetime('completed_at')->nullable()->index();
+
+            $table->foreignId('project_id')
+                ->constrained('projects_projects')
+                ->cascadeOnDelete();
 
             $table->foreignId('creator_id')
                 ->nullable()
                 ->constrained('users')
                 ->nullOnDelete();
 
-            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -31,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('partners_tags');
+        Schema::dropIfExists('projects_milestones');
     }
 };

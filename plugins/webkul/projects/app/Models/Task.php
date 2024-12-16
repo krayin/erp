@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Partner\Models\Partner;
 use Webkul\Project\Database\Factories\TaskFactory;
-use Webkul\Security\Models\Company;
 use Webkul\Security\Models\User;
+use Webkul\Support\Models\Company;
 
 class Task extends Model
 {
@@ -34,6 +35,7 @@ class Task extends Model
         'color',
         'priority',
         'state',
+        'tags',
         'sort',
         'is_active',
         'is_recurring',
@@ -62,6 +64,10 @@ class Task extends Model
     protected $casts = [
         'deadline'     => 'datetime',
         'is_active'    => 'boolean',
+        'tags'         => 'array',
+        'deadline'     => 'datetime',
+        'priority'     => 'boolean',
+        'is_active'    => 'boolean',
         'is_recurring' => 'boolean',
     ];
 
@@ -70,9 +76,19 @@ class Task extends Model
         return $this->belongsTo(self::class);
     }
 
+    public function subTasks(): HasMany
+    {
+        return $this->hasMany(self::class, 'parent_id');
+    }
+
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function milestone(): BelongsTo
+    {
+        return $this->belongsTo(Milestone::class);
     }
 
     public function stage(): BelongsTo
@@ -98,6 +114,11 @@ class Task extends Model
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class, 'projects_task_tag', 'task_id', 'tag_id');
     }
 
     protected static function newFactory(): TaskFactory

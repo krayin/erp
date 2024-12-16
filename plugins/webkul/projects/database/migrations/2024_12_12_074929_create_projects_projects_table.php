@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('projects_projects', function (Blueprint $table) {
             $table->id();
             $table->string('name')->index();
+            $table->string('tasks_label')->nullable();
             $table->text('description')->nullable();
             $table->string('visibility')->nullable();
             $table->string('color')->nullable();
