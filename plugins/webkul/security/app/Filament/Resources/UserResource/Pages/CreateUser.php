@@ -5,9 +5,7 @@ namespace Webkul\Security\Filament\Resources\UserResource\Pages;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Webkul\Security\Filament\Resources\UserResource;
-use Webkul\Partner\Models\Partner;
 
 class CreateUser extends CreateRecord
 {

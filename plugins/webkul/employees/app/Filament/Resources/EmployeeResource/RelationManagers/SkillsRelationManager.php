@@ -28,14 +28,16 @@ class SkillsRelationManager extends RelationManager
                         ->afterStateUpdated(fn (callable $set) => $set('skill_id', null)),
                     Forms\Components\Select::make('skill_id')
                         ->label('Skill')
-                        ->options(fn (callable $get) => SkillType::find($get('skill_type_id'))?->skills->pluck('name', 'id') ?? []
+                        ->options(
+                            fn (callable $get) => SkillType::find($get('skill_type_id'))?->skills->pluck('name', 'id') ?? []
                         )
                         ->required()
                         ->reactive()
                         ->afterStateUpdated(fn (callable $set) => $set('skill_level_id', null)),
                     Forms\Components\Select::make('skill_level_id')
                         ->label('Skill Level')
-                        ->options(fn (callable $get) => SkillType::find($get('skill_type_id'))?->skillLevels->pluck('name', 'id') ?? []
+                        ->options(
+                            fn (callable $get) => SkillType::find($get('skill_type_id'))?->skillLevels->pluck('name', 'id') ?? []
                         )
                         ->required(),
                 ])->columns(2),
@@ -55,13 +57,7 @@ class SkillsRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('skillLevel.name')
                     ->label('Skill Level')
                     ->badge()
-                    ->color(fn ($record) => match ($record->skillLevel->name) {
-                        'Beginner'     => 'gray',
-                        'Intermediate' => 'warning',
-                        'Advanced'     => 'success',
-                        'Expert'       => 'primary',
-                        default        => 'secondary'
-                    }),
+                    ->color(fn ($record) => $record->skillType->color),
                 CustomTables\Columns\ProgressBarEntry::make('skillLevel.level')
                     ->getStateUsing(fn ($record) => $record->skillLevel->level)
                     ->label('Level Percent'),
@@ -70,14 +66,20 @@ class SkillsRelationManager extends RelationManager
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('User')
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created At')
                     ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->date(),
             ])
-            ->filters([
+            ->groups([
+                Tables\Grouping\Group::make('skillType.name')
+                    ->label('Skill Type')
+                    ->collapsible(),
             ])
+            ->filters([])
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
             ])

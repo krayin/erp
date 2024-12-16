@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Chatter\Traits\HasChatter;
+use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Employee\Database\Factories\EmployeeFactory;
 use Webkul\Fields\Traits\HasCustomFields;
 use Webkul\Partner\Models\Partner;
@@ -16,11 +17,10 @@ use Webkul\Support\Models\Bank;
 use Webkul\Support\Models\Company;
 use Webkul\Support\Models\Country;
 use Webkul\Support\Models\State;
-use Webkul\Chatter\Traits\HasLogActivity;
 
 class Employee extends Model
 {
-    use HasChatter, HasCustomFields, HasFactory, SoftDeletes, HasLogActivity;
+    use HasChatter, HasCustomFields, HasFactory, HasLogActivity, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
