@@ -7,11 +7,14 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
 use Webkul\Fields\Filament\Traits\HasCustomFields;
 use Webkul\Project\Filament\Resources\TaskResource\Pages;
 use Webkul\Project\Filament\Resources\TaskResource\RelationManagers;
 use Webkul\Project\Models\Task;
+use Filament\Tables\Columns\Summarizers\Sum;
+use Webkul\Project\Enums\TaskState;
 
 class TaskResource extends Resource
 {
@@ -19,7 +22,7 @@ class TaskResource extends Resource
 
     protected static ?string $model = Task::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
     protected static ?string $navigationGroup = 'Project';
 
@@ -162,15 +165,19 @@ class TaskResource extends Resource
                 Tables\Columns\TextColumn::make('allocated_hours')
                     ->label('Allocated Time')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->summarize(Sum::make()->numeric()),
                 Tables\Columns\TextColumn::make('total_hours_spent')
                     ->label('Time Spent')
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->numeric()
+                    ->summarize(Sum::make()->numeric()),
                 Tables\Columns\TextColumn::make('remaining_hours')
                     ->label('Time Remaining')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->summarize(Sum::make()->numeric()),
                 Tables\Columns\TextColumn::make('progress')
                     ->label('Progress')
                     ->sortable()
@@ -188,8 +195,91 @@ class TaskResource extends Resource
                     ->sortable()
                     ->toggleable(),
             ])
-            ->filters([
+            ->groups([
+                Tables\Grouping\Group::make('project.name')
+                    ->label('Project'),
+                Tables\Grouping\Group::make('deadline')
+                    ->label('Deadline')
+                    ->date(),
+                Tables\Grouping\Group::make('stage.name')
+                    ->label('Stage'),
+                Tables\Grouping\Group::make('milestone.name')
+                    ->label('Milestone'),
+                Tables\Grouping\Group::make('partner.name')
+                    ->label('Customer'),
+                Tables\Grouping\Group::make('created_at')
+                    ->label('Created At')
+                    ->date(),
             ])
+            ->filters([
+                Tables\Filters\QueryBuilder::make()
+                    ->constraints([
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('users')
+                            ->label('Assignees')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('partner')
+                            ->label('Customer')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('project')
+                            ->label('Project')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('stage')
+                            ->label('Project')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\SelectConstraint::make('state')
+                            ->label('State')
+                            ->multiple()
+                            ->options([
+                                TaskState::IN_PROGRESS->value => 'In Progress',
+                                TaskState::CHANGE_REQUESTED->value => 'Change Requested',
+                                TaskState::APPROVED->value => 'Approved',
+                                TaskState::CANCELLED->value => 'Cancelled',
+                                TaskState::DONE->value => 'Done',
+                            ]),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('tags')
+                            ->label('Tags')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('allocated_hours')
+                            ->label('Allocated Hours'),
+                        Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('total_hours_spent')
+                            ->label('Total Hours Spent'),
+                        Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('remaining_hours')
+                            ->label('Remaining Hours'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('deadline'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at'),
+                    ])
+            ])
+            ->filtersFormColumns(3)
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make()

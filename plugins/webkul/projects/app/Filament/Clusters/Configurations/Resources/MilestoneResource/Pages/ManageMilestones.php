@@ -14,14 +14,12 @@ class ManageMilestones extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->mutateFormDataUsing(function (array $data): array {
+                    $data['creator_id'] = Auth::id();
+            
+                    return $data;
+                }),
         ];
-    }
-
-    protected function mutateFormDataBeforeCreate(array $data): array
-    {
-        $data['creator_id'] = Auth::id();
-
-        return $data;
     }
 }
