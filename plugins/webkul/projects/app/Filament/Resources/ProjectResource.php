@@ -57,7 +57,8 @@ class ProjectResource extends Resource
                                 Forms\Components\Select::make('partner_id')
                                     ->label('Customer')
                                     ->relationship('partner', 'name')
-                                    ->searchable(),
+                                    ->searchable()
+                                    ->preload(),
                                 Forms\Components\DatePicker::make('start_date')
                                     ->native(false),
                                 Forms\Components\Select::make('tags')
@@ -65,6 +66,7 @@ class ProjectResource extends Resource
                                     ->relationship(name: 'tags', titleAttribute: 'name')
                                     ->multiple()
                                     ->searchable()
+                                    ->preload()
                                     ->createOptionForm([
                                         Forms\Components\TextInput::make('name')
                                             ->label('Name')
@@ -85,6 +87,7 @@ class ProjectResource extends Resource
                             ->schema([
                                 Forms\Components\Radio::make('visibility')
                                     ->label('Visibility')
+                                    ->default('public')
                                     ->options([
                                         'private' => 'Private',
                                         'internal' => 'Internal',
@@ -97,7 +100,8 @@ class ProjectResource extends Resource
                                     ])
                                     ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Grant employees access to your project or tasks by adding them as followers. Employees automatically get access to the tasks they are assigned to.'),
 
-                                Forms\Components\Fieldset::make('Time Management')
+                                Forms\Components\Fieldset::make('Time Customer
+Management')
                                     ->schema([
                                         Forms\Components\Toggle::make('allow_timesheets')
                                             ->label('Allow Timesheets')
@@ -143,20 +147,32 @@ class ProjectResource extends Resource
                 ->space(3),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('tasks')
                     ->label('1 Tasks')
                     ->icon('heroicon-m-arrow-top-right-on-square')
                     ->color('primary')
-                    ->url('https:example.com/tasks/{record}'),
+                    ->url('https:example.com/tasks/{record}')
+                    ->hidden(fn ($record) => $record->trashed()),
                     // ->url(fn (Project $record): string => route('projects.tasks.index', $record)),
                 Tables\Actions\Action::make('milestones')
                     ->label('0/1')
                     ->icon('heroicon-c-flag')
                     ->color('gray')
                     ->tooltip('0 milestones reached out of 10')
-                    ->url('https:example.com/tasks/{record}'),
+                    ->url('https:example.com/tasks/{record}')
+                    ->hidden(fn ($record) => $record->trashed()),
                     // ->url(fn (Project $record): string => route('projects.tasks.index', $record)),
+                Tables\Actions\EditAction::make()
+                    ->hidden(fn ($record) => $record->trashed()),
+                Tables\Actions\RestoreAction::make(),
+                Tables\Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\ForceDeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
+                ]),
             ])
             ->contentGrid([
                 'md' => 3,
@@ -222,7 +238,12 @@ class ProjectResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make()
+                        ->hidden(fn ($record) => $record->trashed()),
+                    Tables\Actions\DeleteAction::make(),
+                    Tables\Actions\RestoreAction::make(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -249,11 +270,8 @@ class ProjectResource extends Resource
         ];
     }
 
-    public static function getEloquentQuery(): Builder
+    public static function getSlug(): string
     {
-        return parent::getEloquentQuery()
-            ->withoutGlobalScopes([
-                SoftDeletingScope::class,
-            ]);
+        return 'project/projects';
     }
 }

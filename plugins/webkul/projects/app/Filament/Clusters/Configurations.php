@@ -11,4 +11,9 @@ class Configurations extends Cluster
     protected static ?string $navigationGroup = 'Project';
 
     protected static ?int $navigationSort = 0;
+
+    public static function getSlug(): string
+    {
+        return 'project/configurations';
+    }
 }

@@ -4,6 +4,7 @@ namespace Webkul\Project\Filament\Resources;
 
 use Webkul\Project\Filament\Resources\TaskResource\Pages;
 use Webkul\Project\Filament\Resources\TaskResource\RelationManagers;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Webkul\Project\Models\Task;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -12,9 +13,12 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Webkul\Fields\Filament\Traits\HasCustomFields;
 
 class TaskResource extends Resource
 {
+    use HasCustomFields;
+
     protected static ?string $model = Task::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
@@ -23,7 +27,6 @@ class TaskResource extends Resource
 
     public static function form(Form $form): Form
     {
-
         return $form
             ->schema([
                 Forms\Components\Group::make()
@@ -64,6 +67,7 @@ class TaskResource extends Resource
                                     ->relationship(name: 'tags', titleAttribute: 'name')
                                     ->multiple()
                                     ->searchable()
+                                    ->preload()
                                     ->createOptionForm([
                                         Forms\Components\TextInput::make('name')
                                             ->label('Name')
@@ -81,10 +85,14 @@ class TaskResource extends Resource
                     ->schema([
                         Forms\Components\Section::make('Settings')
                             ->schema([
-
                                 Forms\Components\Select::make('project_id')
                                     ->label('Project')
                                     ->relationship('project', 'name')
+                                    ->searchable()
+                                    ->preload(),
+                                Forms\Components\Select::make('milestone_id')
+                                    ->label('Milestone')
+                                    ->relationship('milestone', 'name')
                                     ->searchable()
                                     ->preload(),
                                 Forms\Components\Select::make('partner_id')
@@ -112,141 +120,85 @@ class TaskResource extends Resource
                         ]),
             ])
             ->columns(3);
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('description')
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('color')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('priority')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('state')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('tags'),
-                Forms\Components\TextInput::make('sort')
-                    ->numeric(),
-                Forms\Components\Toggle::make('is_active')
-                    ->required(),
-                Forms\Components\Toggle::make('is_recurring')
-                    ->required(),
-                Forms\Components\DateTimePicker::make('deadline'),
-                Forms\Components\TextInput::make('working_hours_open')
-                    ->numeric(),
-                Forms\Components\TextInput::make('working_hours_close')
-                    ->numeric(),
-                Forms\Components\TextInput::make('allocated_hours')
-                    ->numeric(),
-                Forms\Components\TextInput::make('remaining_hours')
-                    ->numeric(),
-                Forms\Components\TextInput::make('effective_hours')
-                    ->numeric(),
-                Forms\Components\TextInput::make('total_hours_spent')
-                    ->numeric(),
-                Forms\Components\TextInput::make('overtime')
-                    ->numeric(),
-                Forms\Components\TextInput::make('progress')
-                    ->numeric(),
-                Forms\Components\Select::make('project_id')
-                    ->relationship('project', 'name'),
-                Forms\Components\Select::make('stage_id')
-                    ->relationship('stage', 'name'),
-                Forms\Components\Select::make('partner_id')
-                    ->relationship('partner', 'name'),
-                Forms\Components\Select::make('parent_id')
-                    ->relationship('parent', 'title'),
-                Forms\Components\Select::make('company_id')
-                    ->relationship('company', 'name'),
-                Forms\Components\Select::make('creator_id')
-                    ->relationship('creator', 'name'),
-            ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('Id')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\ToggleColumn::make('priority')
+                    ->onIcon('heroicon-s-star')
+                    ->onColor('warning')
+                    ->offIcon('heroicon-o-star')
+                    ->offColor('gray'),
                 Tables\Columns\TextColumn::make('title')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('color')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('priority')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('state')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('sort')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\IconColumn::make('is_active')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('is_recurring')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('deadline')
-                    ->dateTime()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('working_hours_open')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('working_hours_close')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('allocated_hours')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('remaining_hours')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('effective_hours')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('total_hours_spent')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('overtime')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('progress')
-                    ->numeric()
-                    ->sortable(),
+                    ->label('Title')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('project.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('stage.name')
-                    ->numeric()
-                    ->sortable(),
+                    ->label('Project')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('milestone.name')
+                    ->label('Milestone')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('partner.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('parent.title')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('company.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('creator.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime()
+                    ->label('Customer')
+                    ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                Tables\Columns\TextColumn::make('users.name')
+                    ->label('Assignees')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('allocated_hours')
+                    ->label('Allocated Time')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
+                Tables\Columns\TextColumn::make('total_hours_spent')
+                    ->label('Time Spent')
+                    ->sortable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('remaining_hours')
+                    ->label('Time Remaining')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('progress')
+                    ->label('Progress')
+                    ->sortable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('deadline')
+                    ->label('Deadline')
+                    ->sortable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('tags.name')
+                    ->label('Tags')
+                    ->badge()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('stage.name')
+                    ->label('Stage')
+                    ->sortable()
+                    ->toggleable(),
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make()
+                        ->hidden(fn ($record) => $record->trashed()),
+                    Tables\Actions\DeleteAction::make(),
+                    Tables\Actions\RestoreAction::make(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -254,13 +206,22 @@ class TaskResource extends Resource
                     Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->modifyQueryUsing(function ($query) {
+                $query->whereNull('parent_id');
+            });
     }
 
     public static function getRelations(): array
     {
         return [
-            //
+            RelationGroup::make('Timesheets', [
+                RelationManagers\SubTasksRelationManager::class,
+            ]),
+
+            RelationGroup::make('Sub Tasks', [
+                RelationManagers\SubTasksRelationManager::class,
+            ]),
         ];
     }
 
@@ -273,11 +234,8 @@ class TaskResource extends Resource
         ];
     }
 
-    public static function getEloquentQuery(): Builder
+    public static function getSlug(): string
     {
-        return parent::getEloquentQuery()
-            ->withoutGlobalScopes([
-                SoftDeletingScope::class,
-            ]);
+        return 'project/tasks';
     }
 }
