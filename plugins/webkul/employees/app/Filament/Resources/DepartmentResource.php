@@ -162,6 +162,11 @@ class DepartmentResource extends Resource
         ];
     }
 
+    public static function getSlug(): string
+    {
+        return 'employees/departments';
+    }
+
     public static function getPages(): array
     {
         return [

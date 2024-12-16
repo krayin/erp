@@ -42,14 +42,14 @@ class ActivityPlanResource extends Resource
                             ->default(Employee::class),
                         Forms\Components\Select::make('model_id')
                             ->label('Employee')
-                            ->options(fn() => Employee::pluck('name', 'id'))
+                            ->options(fn () => Employee::pluck('name', 'id'))
                             ->required()
                             ->searchable()
                             ->preload(),
                         Forms\Components\Select::make('company_id')
                             ->relationship('company', 'name')
                             ->searchable()
-                            ->default(fn() => Auth::user()->defaultCompany?->id)
+                            ->default(fn () => Auth::user()->defaultCompany?->id)
                             ->required()
                             ->suffixIcon('heroicon-o-building-office')
                             ->preload(),
@@ -80,7 +80,7 @@ class ActivityPlanResource extends Resource
                                         Forms\Components\Select::make('company_id')
                                             ->label('Company')
                                             ->relationship('company', 'name')
-                                            ->options(fn() => Company::pluck('name', 'id'))
+                                            ->options(fn () => Company::pluck('name', 'id'))
                                             ->searchable()
                                             ->placeholder('Select a Company')
                                             ->nullable(),
@@ -102,7 +102,7 @@ class ActivityPlanResource extends Resource
                             ->description('Additional information about this work schedule')
                             ->schema($customFormFields)
                             ->columns(),
-                    ])->columns(2)
+                    ])->columns(2),
             ]);
     }
 

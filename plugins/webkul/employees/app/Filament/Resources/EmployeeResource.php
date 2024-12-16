@@ -627,6 +627,11 @@ class EmployeeResource extends Resource
         ];
     }
 
+    public static function getSlug(): string
+    {
+        return 'employees/employees';
+    }
+
     public static function getPages(): array
     {
         return [

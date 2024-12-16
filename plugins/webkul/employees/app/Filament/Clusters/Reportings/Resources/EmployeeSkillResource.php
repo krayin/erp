@@ -179,6 +179,11 @@ class EmployeeSkillResource extends Resource
         ];
     }
 
+    public static function getSlug(): string
+    {
+        return 'employees/skills';
+    }
+
     public static function getPages(): array
     {
         return [
