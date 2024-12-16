@@ -17,7 +17,7 @@ class ListEmploymentTypes extends ListRecords
         return [
             Actions\CreateAction::make()->icon('heroicon-o-plus-circle')
                 ->mutateFormDataUsing(function (array $data): array {
-                    $data['sequence'] = EmploymentType::max('sequence') + 1;
+                    $data['sort'] = EmploymentType::max('sort') + 1;
 
                     $data['code'] = $data['code'] ?? $data['name'];
 

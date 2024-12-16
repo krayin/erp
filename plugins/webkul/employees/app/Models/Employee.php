@@ -203,7 +203,7 @@ class Employee extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(EmployeeCategory::class, 'employee_employee_categories', 'employee_id', 'category_id');
+        return $this->belongsToMany(EmployeeCategory::class, 'employees_employee_categories', 'employee_id', 'category_id');
     }
 
     public function skills(): HasMany
