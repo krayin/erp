@@ -68,7 +68,9 @@ class EditUser extends EditRecord
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
         $partner = Partner::updateOrCreate(
-            ['user_id' => $record->id],
+            [
+                'id' => $record->partner_id,
+            ],
             [
                 'creator_id' => Auth::user()->id,
                 'user_id'    => $record->id,
@@ -78,8 +80,11 @@ class EditUser extends EditRecord
             ],
         );
 
-        $record->partner_id = $partner->id;
-        $record->save();
+        if ($record->partner_id !== $partner->id) {
+            $record->partner_id = $partner->id;
+
+            $record->save();
+        }
 
         return parent::handleRecordUpdate($record, $data);
     }

@@ -125,12 +125,12 @@ class EmployeeResource extends Resource
                                             ->schema([
                                                 Forms\Components\Group::make()
                                                     ->schema([
-                                                        Forms\Components\Section::make('Logo')
+                                                        Forms\Components\Section::make('Avatar')
                                                             ->schema([
-                                                                Forms\Components\FileUpload::make('logo')
+                                                                Forms\Components\FileUpload::make('avatar')
                                                                     ->hiddenLabel()
                                                                     ->image()
-                                                                    ->directory('companies/logo')
+                                                                    ->directory('employees/logo')
                                                                     ->visibility('private'),
                                                             ]),
                                                     ])
@@ -532,10 +532,9 @@ class EmployeeResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\Layout\Stack::make([
-                    Tables\Columns\ImageColumn::make('image')
-                        ->defaultImageUrl(fn ($record): string => 'https://a.storyblok.com/f/191576/1200x800/a3640fdc4c/profile_picture_maker_before.webp')
-                        ->height('100%')
-                        ->width('100%'),
+                    Tables\Columns\ImageColumn::make('partner.avatar')
+                        ->height(250)
+                        ->width(300),
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('name')
                             ->weight(FontWeight::Bold)

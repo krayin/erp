@@ -18,4 +18,14 @@ class ViewEmployee extends ViewRecord
             Actions\EditAction::make(),
         ];
     }
+
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        $partner = $this->record->partner;
+
+        return [
+            ...$data,
+            ...$partner ? $partner->toArray() : [],
+        ];
+    }
 }
