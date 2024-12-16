@@ -25,6 +25,6 @@ class EditCalendar extends EditRecord
 
     protected function afterSave(): void
     {
-        $this->dispatch('refreshCalendarResource');
+        // $this->dispatch('refreshCalendarResource');
     }
 }

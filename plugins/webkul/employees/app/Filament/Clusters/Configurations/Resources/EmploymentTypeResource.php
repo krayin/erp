@@ -120,7 +120,7 @@ class EmploymentTypeResource extends Resource
                 Tables\Actions\CreateAction::make()
                     ->icon('heroicon-o-plus-circle'),
             ])
-            ->reorderable('sequence');
+            ->reorderable('sort');
     }
 
     public static function getPages(): array

@@ -13,6 +13,8 @@ class SkillType extends Model
 {
     use HasCustomFields, HasFactory, SoftDeletes;
 
+    protected $table = 'employees_skill_types';
+
     protected $fillable = [
         'name',
         'color',

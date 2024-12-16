@@ -11,20 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('calendars', function (Blueprint $table) {
+        Schema::create('employees_activity_plans', function (Blueprint $table) {
             $table->id();
+            $table->morphs('model');
             $table->string('name')->nullable();
-            $table->string('tz')->nullable();
-            $table->float('hours_per_day')->nullable();
-            $table->boolean('status')->nullable()->default(false);
-            $table->boolean('two_weeks_calendar')->nullable()->default(false);
-            $table->boolean('flexible_hours')->nullable()->default(false);
-            $table->float('full_time_required_hours')->nullable();
+            $table->boolean('active')->nullable()->default(true);
 
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('company_id')->nullable();
+            $table->unsignedBigInteger('department_id')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('department_id')->references('id')->on('employees_departments')->onDelete('set null');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('set null');
 
             $table->timestamps();
@@ -36,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('calendars');
+        Schema::dropIfExists('employees_activity_plans');
     }
 };

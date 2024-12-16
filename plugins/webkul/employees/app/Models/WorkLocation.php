@@ -17,6 +17,8 @@ class WorkLocation extends Model
 {
     use HasCustomFields, HasFactory, SoftDeletes;
 
+    protected $table = 'employees_work_locations';
+
     protected $fillable = [
         'company_id',
         'user_id',

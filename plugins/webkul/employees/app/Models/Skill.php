@@ -14,6 +14,8 @@ class Skill extends Model
 {
     use HasCustomFields, HasFactory, SoftDeletes;
 
+    protected $table = 'employees_skills';
+
     protected $fillable = [
         'name',
         'skill_type_id',

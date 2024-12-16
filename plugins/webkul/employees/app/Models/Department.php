@@ -5,6 +5,7 @@ namespace Webkul\Employee\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
@@ -16,6 +17,8 @@ use Webkul\Support\Models\Company;
 class Department extends Model
 {
     use HasChatter, HasCustomFields, HasFactory, HasLogActivity, SoftDeletes;
+
+    protected $table = 'employees_departments';
 
     protected $fillable = [
         'name',
@@ -29,15 +32,15 @@ class Department extends Model
         return $this->belongsTo(User::class);
     }
 
-    // public function jobPositions(): HasMany
-    // {
-    //     return $this->hasMany(JobPosition::class);
-    // }
+    public function jobPositions(): HasMany
+    {
+        return $this->hasMany(EmployeeJobPosition::class);
+    }
 
-    // public function employees(): HasMany
-    // {
-    //     return $this->hasMany(Employee::class);
-    // }
+    public function employees(): HasMany
+    {
+        return $this->hasMany(Employee::class);
+    }
 
     public function company(): BelongsTo
     {
@@ -46,7 +49,6 @@ class Department extends Model
 
     public function manager(): BelongsTo
     {
-        // Need to ask sir that manager will be user or employee
         return $this->belongsTo(User::class);
     }
 

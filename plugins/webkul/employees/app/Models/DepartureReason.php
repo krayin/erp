@@ -12,6 +12,8 @@ class DepartureReason extends Model
 {
     use HasCustomFields, HasFactory;
 
+    protected $table = 'employees_departure_reasons';
+
     protected $fillable = [
         'sequence',
         'reason_code',
@@ -28,15 +30,10 @@ class DepartureReason extends Model
         return $this->belongsTo(User::class);
     }
 
-    // public function departureWizards()
-    // {
-    //     return $this->hasMany(HrDepartureWizard::class, 'departure_reason_id');
-    // }
-
-    // public function employees()
-    // {
-    //     return $this->hasMany(HrEmployee::class, 'departure_reason_id');
-    // }
+    public function employees()
+    {
+        return $this->hasMany(Employee::class);
+    }
 
     /**
      * Get the factory instance for the model.

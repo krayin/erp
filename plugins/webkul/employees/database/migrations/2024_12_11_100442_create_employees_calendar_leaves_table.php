@@ -11,21 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('work_locations', function (Blueprint $table) {
+        Schema::create('employees_calendar_leaves', function (Blueprint $table) {
             $table->id();
+
             $table->string('name');
-            $table->string('location_type');
-            $table->string('location_number')->nullable();
-            $table->boolean('active')->default(true);
+            $table->string('time_type');
+            $table->string('date_from');
+            $table->string('date_to');
 
             $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('calendar_id');
             $table->unsignedBigInteger('user_id');
 
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->foreign('calendar_id')->references('id')->on('employees_calendars')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -34,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('work_locations');
+        Schema::dropIfExists('employees_calendar_leaves');
     }
 };

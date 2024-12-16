@@ -22,6 +22,8 @@ class Employee extends Model
 {
     use HasChatter, HasCustomFields, HasFactory, HasLogActivity, SoftDeletes;
 
+    protected $table = 'employees_employees';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -211,7 +213,7 @@ class Employee extends Model
 
     public function resumes()
     {
-        return $this->hasMany(EmployeeEmployeeResume::class, 'employee_id');
+        return $this->hasMany(EmployeeResume::class, 'employee_id');
     }
 
     /**

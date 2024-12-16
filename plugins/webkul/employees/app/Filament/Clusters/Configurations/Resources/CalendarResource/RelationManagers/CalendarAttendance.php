@@ -14,7 +14,7 @@ use Webkul\Employee\Enums;
 
 class CalendarAttendance extends RelationManager
 {
-    protected $listeners = ['refreshCalendarResource' => '$refresh'];
+    // protected $listeners = ['refreshCalendarResource' => '$refresh'];
 
     protected static string $relationship = 'attendance';
 
@@ -92,7 +92,7 @@ class CalendarAttendance extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query) => $query->withoutGlobalScopes([
+            ->modifyQueryUsing(fn(Builder $query) => $query->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]))
             ->columns([
@@ -101,12 +101,12 @@ class CalendarAttendance extends RelationManager
                     ->sortable(),
                 Tables\Columns\TextColumn::make('day_of_week')
                     ->label('Day')
-                    ->formatStateUsing(fn ($state) => ucfirst($state))
+                    ->formatStateUsing(fn($state) => ucfirst($state))
                     ->badge()
                     ->color('primary'),
                 Tables\Columns\TextColumn::make('day_period')
                     ->label('Period')
-                    ->formatStateUsing(fn ($state) => ucfirst($state))
+                    ->formatStateUsing(fn($state) => ucfirst($state))
                     ->badge()
                     ->color('secondary'),
                 Tables\Columns\TextColumn::make('hour_from')
@@ -136,7 +136,7 @@ class CalendarAttendance extends RelationManager
             ->headerActions([
                 Tables\Actions\CreateAction::make()
                     ->icon('heroicon-o-plus-circle')
-                    ->hidden(fn (RelationManager $livewire) => $livewire->getOwnerRecord()->flexible_hours ?? false)
+                    ->hidden(fn(RelationManager $livewire) => $livewire->getOwnerRecord()->flexible_hours ?? false)
                     ->mutateFormDataUsing(function (array $data) {
                         $data['sequence'] = $this->getOwnerRecord()->attendance()->count() + 1;
 
@@ -163,6 +163,6 @@ class CalendarAttendance extends RelationManager
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ])
-            ->reorderable('sequence');
+            ->reorderable('sort');
     }
 }

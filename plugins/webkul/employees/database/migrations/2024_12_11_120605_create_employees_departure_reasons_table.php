@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('departure_reasons', function (Blueprint $table) {
+        Schema::create('employees_departure_reasons', function (Blueprint $table) {
             $table->id();
-            $table->integer('sequence')->nullable();
+            $table->integer('sort')->nullable();
             $table->integer('reason_code')->nullable();
             $table->string('name')->nullable(false);
             $table->timestamps();
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('departure_reasons');
+        Schema::dropIfExists('employees_departure_reasons');
     }
 };

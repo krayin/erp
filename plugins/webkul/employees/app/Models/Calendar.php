@@ -13,13 +13,13 @@ class Calendar extends Model
 {
     use HasCustomFields, HasFactory;
 
-    protected $table = 'calendars';
+    protected $table = 'employees_calendars';
 
     protected $fillable = [
         'name',
         'tz',
         'hours_per_day',
-        'status',
+        'is_active',
         'two_weeks_calendar',
         'flexible_hours',
         'full_time_required_hours',

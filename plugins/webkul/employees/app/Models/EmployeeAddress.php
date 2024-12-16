@@ -10,6 +10,8 @@ class EmployeeAddress extends Model
 {
     use HasFactory;
 
+    protected $table = 'employees_addresses';
+
     /**
      * Get the factory instance for the model.
      */

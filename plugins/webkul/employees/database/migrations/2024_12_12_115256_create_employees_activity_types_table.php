@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('activity_types', function (Blueprint $table) {
+        Schema::create('employees_activity_types', function (Blueprint $table) {
             $table->id();
-            $table->integer('sequence')->nullable();
+            $table->integer('sort')->nullable();
             $table->integer('delay_count')->nullable();
             $table->string('delay_unit')->nullable();
             $table->string('delay_from')->nullable();
@@ -42,6 +42,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('activity_types');
+        Schema::dropIfExists('employees_activity_types');
     }
 };

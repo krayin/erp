@@ -96,7 +96,7 @@ class CalendarResource extends Resource
                             ->schema([
                                 Forms\Components\Section::make('Schedule Flexibility')
                                     ->schema([
-                                        Forms\Components\Toggle::make('status')
+                                        Forms\Components\Toggle::make('is_active')
                                             ->label('Status')
                                             ->default(true)
                                             ->inline(false),
@@ -137,7 +137,7 @@ class CalendarResource extends Resource
                     ->sortable()
                     ->label('Flexible Hours')
                     ->boolean(),
-                Tables\Columns\IconColumn::make('status')
+                Tables\Columns\IconColumn::make('is_active')
                     ->sortable()
                     ->label('Status')
                     ->boolean(),
@@ -170,7 +170,7 @@ class CalendarResource extends Resource
                 Tables\Grouping\Group::make('flexible_hours')
                     ->label('Flexible Hours')
                     ->collapsible(),
-                Tables\Grouping\Group::make('status')
+                Tables\Grouping\Group::make('is_active')
                     ->label('Status')
                     ->collapsible(),
                 Tables\Grouping\Group::make('hours_per_day')
@@ -188,7 +188,7 @@ class CalendarResource extends Resource
                 Tables\Filters\SelectFilter::make('company')
                     ->relationship('company', 'name')
                     ->label('Company'),
-                Tables\Filters\TernaryFilter::make('status')
+                Tables\Filters\TernaryFilter::make('is_active')
                     ->label('Active Status'),
                 Tables\Filters\TernaryFilter::make('flexible_hours')
                     ->label('Flexible Hours'),

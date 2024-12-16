@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('calendar_attendances', function (Blueprint $table) {
+        Schema::create('employees_calendar_attendances', function (Blueprint $table) {
             $table->id();
-            $table->integer('sequence')->nullable();
+            $table->integer('sort')->nullable();
             $table->string('name');
             $table->string('day_of_week');
             $table->string('day_period');
@@ -28,7 +28,7 @@ return new class extends Migration
             $table->unsignedBigInteger('calendar_id');
             $table->unsignedBigInteger('user_id');
 
-            $table->foreign('calendar_id')->references('id')->on('calendars')->onDelete('cascade');
+            $table->foreign('calendar_id')->references('id')->on('employees_calendars')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->timestamps();
@@ -40,6 +40,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('calendar_attendances');
+        Schema::dropIfExists('employees_calendar_attendances');
     }
 };

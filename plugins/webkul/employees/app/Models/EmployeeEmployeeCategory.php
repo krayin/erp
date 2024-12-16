@@ -12,7 +12,7 @@ class EmployeeEmployeeCategory extends Model
 
     public $timestamps = false;
 
-    protected $table = 'employee_employee_categories';
+    protected $table = 'employees_employee_categories';
 
     protected $fillable = ['employee_id', 'category_id'];
 
