@@ -5,11 +5,13 @@ namespace Webkul\Project\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Webkul\Project\Database\Factories\ProjectFactory;
 use Webkul\Security\Models\User;
 use Webkul\Security\Models\Company;
 use Webkul\Partner\Models\Partner;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Project extends Model
 {
@@ -29,9 +31,11 @@ class Project extends Model
      */
     protected $fillable = [
         'name',
+        'tasks_label',
         'description',
         'visibility',
         'color',
+        'tags',
         'sort',
         'start_date',
         'end_date',
@@ -55,11 +59,22 @@ class Project extends Model
     protected $casts = [
         'start_date' => 'date',
         'end_date' => 'date',
+        'tags' => 'array',
         'is_active' => 'boolean',
         'allow_timesheets' => 'boolean',
         'allow_milestones' => 'boolean',
         'allow_task_dependencies' => 'boolean',
     ];
+
+    /**
+     * Get the user's first name.
+     */
+    protected function plannedDate(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => $attributes['start_date'].' - '.$attributes['end_date'],
+        );
+    }
 
     public function partner(): BelongsTo
     {
@@ -84,6 +99,11 @@ class Project extends Model
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class, 'projects_project_tag', 'project_id', 'tag_id');
     }
 
     protected static function newFactory(): ProjectFactory

@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string('title')->index();
             $table->text('description')->nullable();
             $table->string('color')->nullable();
-            $table->string('priority')->nullable()->index();
+            $table->boolean('priority')->default(0)->index();
             $table->string('state')->index();
+            $table->json('tags')->nullable();
             $table->integer('sort')->nullable();
             $table->boolean('is_active')->default(1);
             $table->boolean('is_recurring')->default(0);
@@ -34,6 +35,11 @@ return new class extends Migration
             $table->foreignId('project_id')
                 ->nullable()
                 ->constrained('projects_projects')
+                ->nullOnDelete();
+
+            $table->foreignId('milestone_id')
+                ->nullable()
+                ->constrained('projects_milestone')
                 ->nullOnDelete();
 
             $table->foreignId('stage_id')

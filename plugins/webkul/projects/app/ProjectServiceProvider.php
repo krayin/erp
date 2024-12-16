@@ -19,6 +19,7 @@ class ProjectServiceProvider extends PackageServiceProvider
             ->hasMigrations([
                 '2024_12_12_074920_create_projects_project_stages_table',
                 '2024_12_12_074929_create_projects_projects_table',
+                '2024_12_12_074930_create_projects_milestones_table',
                 '2024_12_12_100227_create_projects_user_project_favorites_table',
                 '2024_12_12_100230_create_projects_tags_table',
                 '2024_12_12_100232_create_projects_project_tag_table',
@@ -27,7 +28,12 @@ class ProjectServiceProvider extends PackageServiceProvider
                 '2024_12_12_101350_create_projects_task_users_table',
                 '2024_12_12_101352_create_projects_task_tag_table',
             ])
-            ->runsMigrations();
+            ->runsMigrations()
+            ->hasSettings([
+                '2024_12_16_094021_create_project_task_settings',
+                '2024_12_16_094021_create_project_time_settings',
+            ])
+            ->runsSettings();
     }
 
     public function packageBooted(): void
