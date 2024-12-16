@@ -16,10 +16,11 @@ use Webkul\Support\Models\Bank;
 use Webkul\Support\Models\Company;
 use Webkul\Support\Models\Country;
 use Webkul\Support\Models\State;
+use Webkul\Chatter\Traits\HasLogActivity;
 
 class Employee extends Model
 {
-    use HasChatter, HasCustomFields, HasFactory, SoftDeletes;
+    use HasChatter, HasCustomFields, HasFactory, SoftDeletes, HasLogActivity;
 
     /**
      * The attributes that are mass assignable.
