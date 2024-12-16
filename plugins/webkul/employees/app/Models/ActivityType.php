@@ -11,6 +11,8 @@ class ActivityType extends Model
 {
     use HasFactory;
 
+    protected $table = 'employees_activity_types';
+
     protected $fillable = [
         'sequence',
         'delay_count',

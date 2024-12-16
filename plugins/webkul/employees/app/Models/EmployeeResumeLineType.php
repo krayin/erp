@@ -4,9 +4,9 @@ namespace Webkul\Employee\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class EmployeeEmployeeResumeLineType extends Model
+class EmployeeResumeLineType extends Model
 {
-    protected $table = 'employee_employee_resume_line_types';
+    protected $table = 'employees_employee_resume_line_types';
 
     protected $fillable = [
         'sort',
@@ -16,6 +16,6 @@ class EmployeeEmployeeResumeLineType extends Model
 
     public function resume()
     {
-        return $this->hasMany(EmployeeEmployeeResume::class);
+        return $this->hasMany(EmployeeResume::class);
     }
 }

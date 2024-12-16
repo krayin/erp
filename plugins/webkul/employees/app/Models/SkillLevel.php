@@ -13,6 +13,8 @@ class SkillLevel extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'employees_skill_levels';
+
     protected $fillable = [
         'name',
         'skill_type_id',

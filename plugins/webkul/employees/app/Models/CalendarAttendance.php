@@ -11,6 +11,8 @@ class CalendarAttendance extends Model
 {
     use HasFactory;
 
+    protected $table = 'employees_calendar_attendances';
+
     protected $fillable = [
         'sequence',
         'name',

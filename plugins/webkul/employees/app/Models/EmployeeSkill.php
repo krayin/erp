@@ -11,6 +11,8 @@ class EmployeeSkill extends Model
 {
     use HasFactory;
 
+    protected $table = 'employees_employee_skills';
+
     protected $fillable = [
         'employee_id',
         'skill_id',

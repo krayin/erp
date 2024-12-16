@@ -14,6 +14,8 @@ class ActivityPlan extends Model
 {
     use HasCustomFields, HasFactory;
 
+    protected $table = 'employees_activity_plans';
+
     /**
      * The attributes that are mass assignable.
      *

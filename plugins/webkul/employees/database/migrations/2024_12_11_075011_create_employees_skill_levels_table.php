@@ -11,16 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employee_employee_resume_line_types', function (Blueprint $table) {
+        Schema::create('employees_skill_levels', function (Blueprint $table) {
             $table->id();
-            $table->integer('sort');
             $table->string('name');
+            $table->integer('level')->default(0);
+            $table->boolean('default_level')->default(0);
 
-            $table->unsignedBigInteger('creator_id');
-
-            $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('skill_type_id')->index();
+            $table->foreign('skill_type_id')->references('id')->on('employees_skill_types')->onDelete('cascade');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employee_employee_resume_line_types');
+        Schema::dropIfExists('employees_skill_levels');
     }
 };

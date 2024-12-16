@@ -101,7 +101,7 @@ class EmploymentTypeResource extends Resource
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make()
                     ->mutateFormDataUsing(function (array $data): array {
-                        $data['sequence'] = EmploymentType::max('sequence') + 1;
+                        $data['sort'] = EmploymentType::max('sort') + 1;
 
                         $data['code'] = $data['code'] ?? $data['name'];
 
@@ -120,7 +120,7 @@ class EmploymentTypeResource extends Resource
                 Tables\Actions\CreateAction::make()
                     ->icon('heroicon-o-plus-circle'),
             ])
-            ->reorderable('sequence');
+            ->reorderable('sort');
     }
 
     public static function getPages(): array

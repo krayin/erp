@@ -14,12 +14,7 @@ class EmployeeJobPosition extends Model
 {
     use HasCustomFields, HasFactory;
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'employee_job_positions';
+    protected $table = 'employees_job_positions';
 
     /**
      * The attributes that are mass assignable.

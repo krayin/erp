@@ -142,8 +142,8 @@ class JobPositionResource extends Resource
                                             ->label('Position Opened Date')
                                             ->default(now())
                                             ->native(false),
-                                        Forms\Components\Toggle::make('status')
-                                            ->label('Active Status')
+                                        Forms\Components\Toggle::make('is_active')
+                                            ->label('Status')
                                             ->default(true),
                                     ])->columns(2),
                             ])
@@ -184,7 +184,7 @@ class JobPositionResource extends Resource
                     ->numeric()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\IconColumn::make('status')
+                Tables\Columns\IconColumn::make('is_active')
                     ->sortable()
                     ->label('Status')
                     ->boolean(),
@@ -247,7 +247,7 @@ class JobPositionResource extends Resource
                 Tables\Actions\CreateAction::make()
                     ->icon('heroicon-o-plus-circle'),
             ])
-            ->reorderable('sequence');
+            ->reorderable('sort');
     }
 
     public static function getPages(): array

@@ -110,7 +110,7 @@ class EmployeeResource extends Resource
                                                             ->label('Work Location'),
                                                         Forms\Components\TextInput::make('distance_home_work_unit')
                                                             ->label('Distance Unit'),
-                                                        Forms\Components\Select::make('employee_employee_categories')
+                                                        Forms\Components\Select::make('employees_employee_categories')
                                                             ->multiple()
                                                             ->relationship('categories', 'name')
                                                             ->searchable()

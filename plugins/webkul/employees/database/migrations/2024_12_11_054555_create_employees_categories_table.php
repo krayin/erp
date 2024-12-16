@@ -11,14 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('skill_levels', function (Blueprint $table) {
+        Schema::create('employees_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->foreignId('skill_type_id')->constrained('skill_types')->onDelete('cascade');
-            $table->integer('level')->default(0);
-            $table->boolean('default_level')->default(0);
-            $table->timestamps();
+            $table->string('name')->unique();
+            $table->string('color')->nullable();
+
+            $table->unsignedBigInteger('user_id')->nullable();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+
             $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('skill_levels');
+        Schema::dropIfExists('employees_categories');
     }
 };

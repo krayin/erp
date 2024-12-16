@@ -11,16 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employee_categories', function (Blueprint $table) {
+        Schema::create('employees_employment_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('color')->nullable();
+            $table->integer('sort')->nullable();
+            $table->string('name');
+            $table->string('code')->unique();
 
+            $table->unsignedBigInteger('company_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
 
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('set null');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
 
-            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employee_categories');
+        Schema::dropIfExists('employees_employment_types');
     }
 };

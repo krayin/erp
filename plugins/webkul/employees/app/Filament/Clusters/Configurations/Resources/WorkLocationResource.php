@@ -42,7 +42,8 @@ class WorkLocationResource extends Resource
                     ->required()
                     ->preload()
                     ->relationship('company', 'name'),
-                Forms\Components\Toggle::make('active')
+                Forms\Components\Toggle::make('is_active')
+                    ->label('Status')
                     ->required(),
                 Forms\Components\Section::make('Additional Information')
                     ->visible(! empty($customFormFields = static::getCustomFormFields()))
@@ -60,7 +61,8 @@ class WorkLocationResource extends Resource
                 Tables\Columns\TextColumn::make('location_type')
                     ->badge()
                     ->searchable(),
-                Tables\Columns\IconColumn::make('active')
+                Tables\Columns\IconColumn::make('is_active')
+                    ->label('Status')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('company.name')
                     ->numeric()
