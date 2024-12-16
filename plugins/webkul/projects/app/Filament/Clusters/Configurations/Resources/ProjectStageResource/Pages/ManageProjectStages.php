@@ -2,12 +2,12 @@
 
 namespace Webkul\Project\Filament\Clusters\Configurations\Resources\ProjectStageResource\Pages;
 
-use Webkul\Project\Filament\Clusters\Configurations\Resources\ProjectStageResource;
 use Filament\Actions;
-use Filament\Resources\Pages\ManageRecords;
 use Filament\Resources\Components\Tab;
-use Webkul\Project\Models\ProjectStage;
+use Filament\Resources\Pages\ManageRecords;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Project\Filament\Clusters\Configurations\Resources\ProjectStageResource;
+use Webkul\Project\Models\ProjectStage;
 
 class ManageProjectStages extends ManageRecords
 {
@@ -32,11 +32,11 @@ class ManageProjectStages extends ManageRecords
                 }),
         ];
     }
-    
+
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['creator_id'] = Auth::id();
-    
+
         return $data;
     }
 }

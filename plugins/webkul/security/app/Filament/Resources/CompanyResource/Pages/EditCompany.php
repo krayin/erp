@@ -6,7 +6,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Security\Filament\Resources\CompanyResource;
-use Webkul\Security\Models\Company;
+use Webkul\Support\Models\Company;
 
 class EditCompany extends EditRecord
 {
@@ -24,10 +24,10 @@ class EditCompany extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        $data['user_id'] = Auth::user()->id;
-
-        $data['sequence'] = Company::max('sequence') + 1;
-
-        return $data;
+        return [
+            'sequence' => Company::max('sequence') + 1,
+            'user_id'  => Auth::user()->id,
+            ...$data,
+        ];
     }
 }

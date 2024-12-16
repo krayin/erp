@@ -2,14 +2,13 @@
 
 namespace Webkul\Partner\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Webkul\Partner\Database\Factories\BankAccountFactory;
-use Webkul\Support\Models\Bank;
-use Webkul\Partner\Models\Partner;
-use Webkul\Security\Models\User;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Webkul\Partner\Database\Factories\BankAccountFactory;
+use Webkul\Security\Models\User;
+use Webkul\Support\Models\Bank;
 
 class BankAccount extends Model
 {
@@ -43,7 +42,7 @@ class BankAccount extends Model
      * @var string
      */
     protected $casts = [
-        'is_active' => 'boolean',
+        'is_active'      => 'boolean',
         'can_send_money' => 'boolean',
     ];
 

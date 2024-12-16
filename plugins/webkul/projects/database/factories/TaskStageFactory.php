@@ -27,13 +27,13 @@ class TaskStageFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'sort' => fake()->randomNumber(),
-            'is_active' => true,
+            'name'         => fake()->name(),
+            'sort'         => fake()->randomNumber(),
+            'is_active'    => true,
             'is_collapsed' => false,
-            'company_id' => Company::factory(),
-            'user_id' => User::factory(),
-            'creator_id' => User::factory(),
+            'company_id'   => Company::factory(),
+            'user_id'      => User::factory(),
+            'creator_id'   => User::factory(),
         ];
     }
 }

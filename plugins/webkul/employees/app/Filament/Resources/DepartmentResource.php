@@ -11,8 +11,8 @@ use Filament\Tables\Table;
 use Webkul\Employee\Filament\Resources\DepartmentResource\Pages;
 use Webkul\Employee\Models\Department;
 use Webkul\Fields\Filament\Traits\HasCustomFields;
-use Webkul\Security\Models\Company;
 use Webkul\Security\Models\User;
+use Webkul\Support\Models\Company;
 
 class DepartmentResource extends Resource
 {
@@ -23,6 +23,8 @@ class DepartmentResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-building-library';
 
     protected static ?string $navigationGroup = 'Employees';
+
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
@@ -127,7 +129,7 @@ class DepartmentResource extends Resource
             ->filters(static::mergeCustomTableFilters([]))
             ->contentGrid([
                 'xl'  => 2,
-                '2xl' => 2,
+                '2xl' => 3,
             ])
             ->paginated([
                 18,
@@ -139,6 +141,7 @@ class DepartmentResource extends Resource
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -158,6 +161,11 @@ class DepartmentResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getSlug(): string
+    {
+        return 'employees/departments';
     }
 
     public static function getPages(): array

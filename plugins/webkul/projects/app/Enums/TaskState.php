@@ -2,7 +2,8 @@
 
 namespace Webkul\Project\Enums;
 
-enum TaskState: string {
+enum TaskState: string
+{
     case IN_PROGRESS = 'in_progress';
     case CHANGE_REQUESTED = 'change_requested';
     case APPROVED = 'approved';

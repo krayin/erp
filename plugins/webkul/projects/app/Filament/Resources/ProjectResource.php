@@ -2,17 +2,14 @@
 
 namespace Webkul\Project\Filament\Resources;
 
-use Webkul\Project\Filament\Resources\ProjectResource\Pages;
-use Webkul\Project\Filament\Resources\ProjectResource\RelationManagers;
-use Webkul\Project\Models\Project;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Support\Enums\FontWeight;
+use Webkul\Project\Filament\Resources\ProjectResource\Pages;
+use Webkul\Project\Models\Project;
 
 class ProjectResource extends Resource
 {
@@ -75,7 +72,7 @@ class ProjectResource extends Resource
                                         Forms\Components\ColorPicker::make('color'),
                                     ]),
                                 Forms\Components\TextInput::make('allocated_hours')
-                                    ->label('Allocated Hours')
+                                    ->label('Allocated Hours'),
                             ])
                             ->columns(2),
                     ])
@@ -89,19 +86,18 @@ class ProjectResource extends Resource
                                     ->label('Visibility')
                                     ->default('public')
                                     ->options([
-                                        'private' => 'Private',
+                                        'private'  => 'Private',
                                         'internal' => 'Internal',
-                                        'public' => 'Public'
+                                        'public'   => 'Public',
                                     ])
                                     ->descriptions([
-                                        'private' => 'Invited internal users only.',
+                                        'private'  => 'Invited internal users only.',
                                         'internal' => 'All internal users can see.',
-                                        'public' => 'Invited portal users and all internal users'
+                                        'public'   => 'Invited portal users and all internal users',
                                     ])
                                     ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Grant employees access to your project or tasks by adding them as followers. Employees automatically get access to the tasks they are assigned to.'),
 
-                                Forms\Components\Fieldset::make('Time Customer
-Management')
+                                Forms\Components\Fieldset::make('Time Customer Management')
                                     ->schema([
                                         Forms\Components\Toggle::make('allow_timesheets')
                                             ->label('Allow Timesheets')
@@ -119,7 +115,7 @@ Management')
                                             ->helperText('Determine the order in which to perform tasks'),
                                     ])
                                     ->columns(1),
-                            ])
+                            ]),
                     ])
                     ->columnSpan(['lg' => 1]),
             ])
@@ -144,7 +140,7 @@ Management')
                         ->badge()
                         ->weight(FontWeight::Bold),
                 ])
-                ->space(3),
+                    ->space(3),
             ])
             ->actions([
                 Tables\Actions\Action::make('tasks')
@@ -153,7 +149,7 @@ Management')
                     ->color('primary')
                     ->url('https:example.com/tasks/{record}')
                     ->hidden(fn ($record) => $record->trashed()),
-                    // ->url(fn (Project $record): string => route('projects.tasks.index', $record)),
+                // ->url(fn (Project $record): string => route('projects.tasks.index', $record)),
                 Tables\Actions\Action::make('milestones')
                     ->label('0/1')
                     ->icon('heroicon-c-flag')
@@ -161,7 +157,7 @@ Management')
                     ->tooltip('0 milestones reached out of 10')
                     ->url('https:example.com/tasks/{record}')
                     ->hidden(fn ($record) => $record->trashed()),
-                    // ->url(fn (Project $record): string => route('projects.tasks.index', $record)),
+                // ->url(fn (Project $record): string => route('projects.tasks.index', $record)),
                 Tables\Actions\EditAction::make()
                     ->hidden(fn ($record) => $record->trashed()),
                 Tables\Actions\RestoreAction::make(),
@@ -178,6 +174,7 @@ Management')
                 'md' => 3,
                 'xl' => 4,
             ]);
+
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
@@ -251,6 +248,10 @@ Management')
                     Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
+            ])
+            ->emptyStateActions([
+                Tables\Actions\CreateAction::make()
+                    ->icon('heroicon-o-plus-circle'),
             ]);
     }
 
@@ -264,9 +265,9 @@ Management')
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProjects::route('/'),
+            'index'  => Pages\ListProjects::route('/'),
             'create' => Pages\CreateProject::route('/create'),
-            'edit' => Pages\EditProject::route('/{record}/edit'),
+            'edit'   => Pages\EditProject::route('/{record}/edit'),
         ];
     }
 

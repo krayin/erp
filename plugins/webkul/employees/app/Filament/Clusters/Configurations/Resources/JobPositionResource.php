@@ -12,8 +12,8 @@ use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\JobPositionResource\Pages;
 use Webkul\Employee\Models\EmployeeJobPosition;
 use Webkul\Fields\Filament\Traits\HasCustomFields;
-use Webkul\Security\Models\Company as ModelsCompany;
 use Webkul\Security\Models\User;
+use Webkul\Support\Models\Company;
 
 class JobPositionResource extends Resource
 {
@@ -52,13 +52,7 @@ class JobPositionResource extends Resource
                                             ->required()
                                             ->maxLength(255)
                                             ->live(onBlur: true)
-                                            ->hintAction(
-                                                Action::make('help')
-                                                    ->icon('heroicon-o-question-mark-circle')
-                                                    ->extraAttributes(['class' => 'text-gray-500'])
-                                                    ->hiddenLabel()
-                                                    ->tooltip('Enter the official job position title')
-                                            ),
+                                            ->hintIcon('heroicon-o-question-mark-circle', tooltip: 'Enter the official job position title'),
                                         Forms\Components\Select::make('department_id')
                                             ->label('Department')
                                             ->relationship(name: 'department', titleAttribute: 'name')
@@ -86,7 +80,7 @@ class JobPositionResource extends Resource
                                                         Forms\Components\Select::make('company_id')
                                                             ->label('Company')
                                                             ->relationship('company', 'name')
-                                                            ->options(fn () => ModelsCompany::pluck('name', 'id'))
+                                                            ->options(fn () => Company::pluck('name', 'id'))
                                                             ->searchable()
                                                             ->placeholder('Select a Company')
                                                             ->nullable(),
@@ -248,6 +242,10 @@ class JobPositionResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ])
+            ->emptyStateActions([
+                Tables\Actions\CreateAction::make()
+                    ->icon('heroicon-o-plus-circle'),
             ])
             ->reorderable('sequence');
     }

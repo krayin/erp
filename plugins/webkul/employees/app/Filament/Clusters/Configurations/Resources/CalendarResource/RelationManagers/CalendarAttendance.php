@@ -78,7 +78,7 @@ class CalendarAttendance extends RelationManager
                     ->schema([
                         Forms\Components\Select::make('display_type')
                             ->label('Display Type')
-                            ->options(Enums\DisplayType::options()),
+                            ->options(Enums\CalendarDisplayType::options()),
                         Forms\Components\TextInput::make('durations_days')
                             ->label('Duration (Days)')
                             ->numeric()
@@ -131,7 +131,7 @@ class CalendarAttendance extends RelationManager
                     ->label('Display Type')
                     ->searchable()
                     ->preload()
-                    ->options(Enums\DisplayType::options()),
+                    ->options(Enums\CalendarDisplayType::options()),
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()

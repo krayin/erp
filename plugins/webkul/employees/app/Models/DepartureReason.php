@@ -2,13 +2,15 @@
 
 namespace Webkul\Employee\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Webkul\Employee\Database\Factories\DepartureReasonFactory;
 use Webkul\Fields\Traits\HasCustomFields;
 use Webkul\Security\Models\User;
 
 class DepartureReason extends Model
 {
-    use HasCustomFields;
+    use HasCustomFields, HasFactory;
 
     protected $fillable = [
         'sequence',
@@ -35,4 +37,12 @@ class DepartureReason extends Model
     // {
     //     return $this->hasMany(HrEmployee::class, 'departure_reason_id');
     // }
+
+    /**
+     * Get the factory instance for the model.
+     */
+    protected static function newFactory(): DepartureReasonFactory
+    {
+        return DepartureReasonFactory::new();
+    }
 }

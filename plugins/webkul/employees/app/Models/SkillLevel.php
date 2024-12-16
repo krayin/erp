@@ -2,14 +2,16 @@
 
 namespace Webkul\Employee\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Webkul\Employee\Database\Factories\SkillLevelFactory;
 
 class SkillLevel extends Model
 {
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -26,5 +28,13 @@ class SkillLevel extends Model
     public function employeeSkills(): HasMany
     {
         return $this->hasMany(EmployeeSkill::class, 'skill_level_id');
+    }
+
+    /**
+     * Get the factory instance for the model.
+     */
+    protected static function newFactory(): SkillLevelFactory
+    {
+        return SkillLevelFactory::new();
     }
 }

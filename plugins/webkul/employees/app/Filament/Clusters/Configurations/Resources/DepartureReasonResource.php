@@ -74,6 +74,10 @@ class DepartureReasonResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
+            ->emptyStateActions([
+                Tables\Actions\CreateAction::make()
+                    ->icon('heroicon-o-plus-circle'),
+            ])
             ->reorderable('sequence');
     }
 

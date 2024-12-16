@@ -6,7 +6,11 @@ use Filament\Actions;
 use Filament\Forms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Webkul\Partner\Models\Partner;
 use Webkul\Security\Filament\Resources\UserResource;
 use Webkul\Security\Models\User;
 
@@ -21,7 +25,7 @@ class EditUser extends EditRecord
                 ->label(__('security::app.filament.resources.user.pages.edit.header-actions.action.title'))
                 ->action(function (User $record, array $data): void {
                     $record->update([
-                        'password' => $data['new_password'],
+                        'password' => Hash::make($data['new_password']),
                     ]);
 
                     Notification::make()
@@ -49,5 +53,39 @@ class EditUser extends EditRecord
     protected function getRedirectUrl(): string
     {
         return $this->previousUrl ?? $this->getResource()::getUrl('index');
+    }
+
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        $partner = $this->record->partner;
+
+        return [
+            ...$data,
+            ...$partner ? $partner->toArray() : [],
+        ];
+    }
+
+    protected function handleRecordUpdate(Model $record, array $data): Model
+    {
+        $partner = Partner::updateOrCreate(
+            [
+                'id' => $record->partner_id,
+            ],
+            [
+                'creator_id' => Auth::user()->id,
+                'user_id'    => $record->id,
+                'company_id' => $data['default_company_id'] ?? null,
+                'avatar'     => $data['avatar'] ?? null,
+                ...$data,
+            ],
+        );
+
+        if ($record->partner_id !== $partner->id) {
+            $record->partner_id = $partner->id;
+
+            $record->save();
+        }
+
+        return parent::handleRecordUpdate($record, $data);
     }
 }
