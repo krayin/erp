@@ -97,6 +97,15 @@ class UserResource extends Resource
 
                         Forms\Components\Group::make()
                             ->schema([
+                                Forms\Components\Section::make(__('security::app.filament.resources.user.form.sections.avatar.title'))
+                                    ->schema([
+                                        Forms\Components\FileUpload::make('avatar')
+                                            ->hiddenLabel()
+                                            ->image()
+                                            ->directory('users/avatars')
+                                            ->visibility('private'),
+                                    ])
+                                    ->columns(1),
                                 Forms\Components\Section::make('Language & Status')
                                     ->schema([
                                         Forms\Components\Select::make('language')
@@ -110,7 +119,6 @@ class UserResource extends Resource
                                             ->default(true),
                                     ])
                                     ->columns(1),
-
                                 Forms\Components\Section::make('Multi Company')
                                     ->schema([
                                         Forms\Components\Select::make('allowed_companies')
@@ -137,6 +145,9 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('partner.avatar')
+                    ->size(50)
+                    ->label(__('security::app.filament.resources.user.table.columns.avatar')),
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('security::app.filament.resources.user.table.columns.name'))
                     ->searchable()

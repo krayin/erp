@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
+use Webkul\Partner\Models\Partner;
 use Webkul\Support\Models\Company;
 
 class User extends BaseUser implements FilamentUser
@@ -47,6 +48,11 @@ class User extends BaseUser implements FilamentUser
     public function companies(): HasMany
     {
         return $this->hasMany(Company::class);
+    }
+
+    public function partner()
+    {
+        return $this->belongsTo(Partner::class, 'partner_id');
     }
 
     /**

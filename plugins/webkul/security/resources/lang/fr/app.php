@@ -92,11 +92,16 @@ return [
                                 'teams'               => 'Équipes',
                             ],
                         ],
+
+                        'avatar' => [
+                            'title'  => 'Avatar',
+                        ],
                     ],
                 ],
 
                 'table' => [
                     'columns' => [
+                        'avatar'              => 'Avatar',
                         'name'                => 'Nom',
                         'email'               => 'E-mail',
                         'teams'               => 'Équipes',

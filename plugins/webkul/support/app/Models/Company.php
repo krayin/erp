@@ -74,4 +74,9 @@ class Company extends Model
     {
         return $this->hasOne(CompanyAddress::class);
     }
+
+    protected static function newFactory(): CompanyFactory
+    {
+        return CompanyFactory::new();
+    }
 }
