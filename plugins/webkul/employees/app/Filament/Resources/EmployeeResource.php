@@ -623,6 +623,7 @@ class EmployeeResource extends Resource
     {
         return [
             RelationManagers\SkillsRelationManager::class,
+            RelationManagers\ResumeRelationManager::class,
         ];
     }
 

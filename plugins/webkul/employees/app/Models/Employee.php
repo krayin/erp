@@ -209,6 +209,11 @@ class Employee extends Model
         return $this->hasMany(EmployeeSkill::class, 'employee_id');
     }
 
+    public function resumes()
+    {
+        return $this->hasMany(EmployeeEmployeeResume::class, 'employee_id');
+    }
+
     /**
      * Get the factory instance for the model.
      */

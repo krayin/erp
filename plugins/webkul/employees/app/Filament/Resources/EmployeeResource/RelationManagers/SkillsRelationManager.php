@@ -81,7 +81,9 @@ class SkillsRelationManager extends RelationManager
             ])
             ->filters([])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+                    ->label('Add Skill')
+                    ->icon('heroicon-o-plus-circle'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
