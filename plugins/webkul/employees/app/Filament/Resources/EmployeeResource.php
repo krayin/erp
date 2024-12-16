@@ -4,20 +4,24 @@ namespace Webkul\Employee\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
+use Filament\Forms\Components\Livewire;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Enums\Gender;
 use Webkul\Employee\Enums\MaritalStatus;
 use Webkul\Employee\Filament\Resources\EmployeeResource\Pages;
 use Webkul\Employee\Filament\Resources\EmployeeResource\RelationManagers;
 use Webkul\Employee\Models\Employee;
 use Webkul\Fields\Filament\Traits\HasCustomFields;
+use Webkul\Security\Enums\PermissionType;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 use Webkul\Support\Models\Currency;
@@ -79,12 +83,44 @@ class EmployeeResource extends Resource
                                                             ->relationship('user', 'name')
                                                             ->searchable()
                                                             ->preload()
-                                                            ->label('Related User'),
+                                                            ->label('Related User')
+                                                            ->createOptionForm(static::getCreateUserFormSchema())
+                                                            ->createOptionAction(
+                                                                fn(Action $action) => $action
+                                                                    ->modalHeading('Create User')
+                                                                    ->modalSubmitActionLabel('Create User')
+                                                                    ->modalWidth(MaxWidth::MaxContent)
+                                                                    ->action(function (array $data, Livewire $component) {
+                                                                        $user = User::create($data);
+
+                                                                        $partner = $user->partner()->create([
+                                                                            'creator_id' => Auth::user()->id,
+                                                                            'user_id'    => $user->id,
+                                                                            'company_id' => $data['default_company_id'] ?? null,
+                                                                            'avatar'     => $data['avatar'] ?? null,
+                                                                            ...$data,
+                                                                        ]);
+
+                                                                        $user->update([
+                                                                            'partner_id' => $partner->id,
+                                                                        ]);
+
+                                                                        $component->state($user->id);
+
+                                                                        return $user;
+                                                                    })
+                                                            ),
                                                         Forms\Components\Select::make('job_id')
                                                             ->relationship('job', 'name')
                                                             ->searchable()
                                                             ->preload()
-                                                            ->label('Job Position'),
+                                                            ->label('Job Position')
+                                                            ->createOptionForm(static::getCreateJobPositionSchema())
+                                                            ->createOptionAction(
+                                                                fn(Action $action) => $action
+                                                                    ->modalHeading('Create User')
+                                                                    ->modalSubmitActionLabel('Create User')
+                                                            ),
                                                         Forms\Components\Select::make('parent_id')
                                                             ->relationship('parent', 'name')
                                                             ->searchable()
@@ -172,7 +208,7 @@ class EmployeeResource extends Resource
                                                                                 Forms\Components\Select::make('company_id')
                                                                                     ->label('Company')
                                                                                     ->relationship('company', 'name')
-                                                                                    ->options(fn () => Company::pluck('name', 'id'))
+                                                                                    ->options(fn() => Company::pluck('name', 'id'))
                                                                                     ->searchable()
                                                                                     ->placeholder('Select a Company')
                                                                                     ->nullable(),
@@ -235,22 +271,22 @@ class EmployeeResource extends Resource
                                                                     ->live(),
                                                                 Forms\Components\TextInput::make('spouse_complete_name')
                                                                     ->label('Spouse Name')
-                                                                    ->hidden(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                                    ->dehydrated(fn (Get $get) => $get('marital') !== MaritalStatus::Single->value)
-                                                                    ->required(fn (Get $get) => $get('marital') !== MaritalStatus::Single->value),
+                                                                    ->hidden(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                    ->dehydrated(fn(Get $get) => $get('marital') !== MaritalStatus::Single->value)
+                                                                    ->required(fn(Get $get) => $get('marital') !== MaritalStatus::Single->value),
                                                                 Forms\Components\DatePicker::make('spouse_birthdate')
                                                                     ->label('Spouse Birthdate')
                                                                     ->native(false)
-                                                                    ->disabled(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                                    ->hidden(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                                    ->dehydrated(fn (Get $get) => $get('marital') !== MaritalStatus::Single->value),
+                                                                    ->disabled(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                    ->hidden(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                    ->dehydrated(fn(Get $get) => $get('marital') !== MaritalStatus::Single->value),
                                                                 Forms\Components\TextInput::make('children')
                                                                     ->label('Number of Children')
                                                                     ->numeric()
                                                                     ->minValue(0)
-                                                                    ->disabled(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                                    ->hidden(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                                    ->dehydrated(fn (Get $get) => $get('marital') !== MaritalStatus::Single->value),
+                                                                    ->disabled(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                    ->hidden(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                    ->dehydrated(fn(Get $get) => $get('marital') !== MaritalStatus::Single->value),
                                                             ])->columns(2),
                                                     ])->columns(2),
                                                 Forms\Components\Section::make('Educational Information')
@@ -268,10 +304,10 @@ class EmployeeResource extends Resource
                                                         Forms\Components\Select::make('country_id')
                                                             ->label('Country')
                                                             ->relationship(name: 'country', titleAttribute: 'name')
-                                                            ->afterStateUpdated(fn (Set $set) => $set('state_id', null))
+                                                            ->afterStateUpdated(fn(Set $set) => $set('state_id', null))
                                                             ->createOptionForm([
                                                                 Forms\Components\Select::make('currency_id')
-                                                                    ->options(fn () => Currency::pluck('full_name', 'id'))
+                                                                    ->options(fn() => Currency::pluck('full_name', 'id'))
                                                                     ->searchable()
                                                                     ->preload()
                                                                     ->label('Currency Name')
@@ -294,7 +330,7 @@ class EmployeeResource extends Resource
                                                                     ->required(),
                                                             ])
                                                             ->createOptionAction(
-                                                                fn (Action $action) => $action
+                                                                fn(Action $action) => $action
                                                                     ->modalHeading('Create Country')
                                                                     ->modalSubmitActionLabel('Create Country')
                                                                     ->modalWidth('lg')
@@ -319,7 +355,7 @@ class EmployeeResource extends Resource
                                                                     ->maxLength(255),
                                                             ])
                                                             ->createOptionAction(
-                                                                fn (Action $action) => $action
+                                                                fn(Action $action) => $action
                                                                     ->modalHeading('Create State')
                                                                     ->modalSubmitActionLabel('Create State')
                                                                     ->modalWidth('lg')
@@ -329,10 +365,10 @@ class EmployeeResource extends Resource
                                                             ->searchable()
                                                             ->preload()
                                                             ->label('Private Country')
-                                                            ->afterStateUpdated(fn (Set $set) => $set('private_state_id', null))
+                                                            ->afterStateUpdated(fn(Set $set) => $set('private_state_id', null))
                                                             ->createOptionForm([
                                                                 Forms\Components\Select::make('currency_id')
-                                                                    ->options(fn () => Currency::pluck('full_name', 'id'))
+                                                                    ->options(fn() => Currency::pluck('full_name', 'id'))
                                                                     ->searchable()
                                                                     ->preload()
                                                                     ->label('Currency Name')
@@ -355,7 +391,7 @@ class EmployeeResource extends Resource
                                                                     ->required(),
                                                             ])
                                                             ->createOptionAction(
-                                                                fn (Action $action) => $action
+                                                                fn(Action $action) => $action
                                                                     ->modalHeading('Create Country')
                                                                     ->modalSubmitActionLabel('Create Country')
                                                                     ->modalWidth('lg')
@@ -380,7 +416,7 @@ class EmployeeResource extends Resource
                                                                     ->maxLength(255),
                                                             ])
                                                             ->createOptionAction(
-                                                                fn (Action $action) => $action
+                                                                fn(Action $action) => $action
                                                                     ->modalHeading('Create State')
                                                                     ->modalSubmitActionLabel('Create State')
                                                                     ->modalWidth('lg')
@@ -476,7 +512,7 @@ class EmployeeResource extends Resource
                                                                     ->required(),
                                                             ])
                                                             ->createOptionAction(
-                                                                fn (Action $action) => $action
+                                                                fn(Action $action) => $action
                                                                     ->modalHeading('Create Departure')
                                                                     ->modalSubmitActionLabel('Create Departure')
                                                                     ->modalWidth('lg')
@@ -620,6 +656,220 @@ class EmployeeResource extends Resource
                         }),
                 ]),
             ]);
+    }
+
+    public static function getCreateUserFormSchema(): array
+    {
+        return [
+            Forms\Components\Group::make()
+                ->schema([
+                    Forms\Components\Group::make()
+                        ->schema([
+                            Forms\Components\Section::make(__('security::app.filament.resources.user.form.sections.general.title'))
+                                ->schema([
+                                    Forms\Components\TextInput::make('name')
+                                        ->label(__('security::app.filament.resources.user.form.sections.general.fields.name'))
+                                        ->required()
+                                        ->maxLength(255)
+                                        ->live(onBlur: true),
+                                    Forms\Components\TextInput::make('email')
+                                        ->label(__('security::app.filament.resources.user.form.sections.general.fields.email'))
+                                        ->email()
+                                        ->required()
+                                        ->unique(ignoreRecord: true)
+                                        ->maxLength(255),
+                                    Forms\Components\TextInput::make('password')
+                                        ->label(__('security::app.filament.resources.user.form.sections.general.fields.password'))
+                                        ->password()
+                                        ->required()
+                                        ->hiddenOn('edit')
+                                        ->maxLength(255)
+                                        ->rule('min:8'),
+                                    Forms\Components\TextInput::make('password_confirmation')
+                                        ->label(__('security::app.filament.resources.user.form.sections.general.fields.password-confirmation'))
+                                        ->password()
+                                        ->hiddenOn('edit')
+                                        ->rule('required', fn($get) => (bool) $get('password'))
+                                        ->same('password'),
+                                ])
+                                ->columns(2),
+                            Forms\Components\Section::make(__('security::app.filament.resources.user.form.sections.permissions.title'))
+                                ->schema([
+                                    Forms\Components\Select::make('roles')
+                                        ->label(__('security::app.filament.resources.user.form.sections.permissions.fields.roles'))
+                                        ->relationship('roles', 'name')
+                                        ->multiple()
+                                        ->preload()
+                                        ->searchable(),
+                                    Forms\Components\Select::make('resource_permission')
+                                        ->label(__('security::app.filament.resources.user.form.sections.permissions.fields.resource-permission'))
+                                        ->options(PermissionType::options())
+                                        ->required()
+                                        ->preload()
+                                        ->searchable(),
+                                    Forms\Components\Select::make('teams')
+                                        ->label(__('security::app.filament.resources.user.form.sections.permissions.fields.teams'))
+                                        ->relationship('teams', 'name')
+                                        ->multiple()
+                                        ->preload()
+                                        ->searchable(),
+                                ])
+                                ->columns(2),
+                        ])
+                        ->columnSpan(['lg' => 2]),
+                    Forms\Components\Group::make()
+                        ->schema([
+                            Forms\Components\Section::make(__('security::app.filament.resources.user.form.sections.avatar.title'))
+                                ->schema([
+                                    Forms\Components\FileUpload::make('avatar')
+                                        ->hiddenLabel()
+                                        ->image()
+                                        ->directory('users/avatars')
+                                        ->visibility('private'),
+                                ])
+                                ->columns(1),
+                            Forms\Components\Section::make('Language & Status')
+                                ->schema([
+                                    Forms\Components\Select::make('language')
+                                        ->label(__('Preferred Language'))
+                                        ->options([
+                                            'en' => __('English'),
+                                        ])
+                                        ->searchable(),
+                                    Forms\Components\Toggle::make('is_active')
+                                        ->label(__('Active Status'))
+                                        ->default(true),
+                                ])
+                                ->columns(1),
+                            Forms\Components\Section::make('Multi Company')
+                                ->schema([
+                                    Forms\Components\Select::make('allowed_companies')
+                                        ->label(__('Allowed Companies'))
+                                        ->relationship('allowedCompanies', 'name')
+                                        ->multiple()
+                                        ->preload()
+                                        ->searchable(),
+                                    Forms\Components\Select::make('default_company_id')
+                                        ->label(__('Default Company'))
+                                        ->relationship('defaultCompany', 'name')
+                                        ->searchable()
+                                        ->preload(),
+                                ]),
+                        ])
+                        ->columnSpan(['lg' => 1]),
+                ])
+                ->columns(3),
+        ];
+    }
+
+    public static function getCreateJobPositionSchema(): array
+    {
+        return [
+            Forms\Components\Group::make()
+                ->schema([
+                    Forms\Components\Group::make()
+                        ->schema([
+                            Forms\Components\Section::make('Employment Information')
+                                ->schema([
+                                    Forms\Components\TextInput::make('name')
+                                        ->label('Job Position Title')
+                                        ->required()
+                                        ->maxLength(255)
+                                        ->live(onBlur: true)
+                                        ->hintIcon('heroicon-o-question-mark-circle', tooltip: 'Enter the official job position title'),
+                                    Forms\Components\Select::make('department_id')
+                                        ->label('Department')
+                                        ->relationship(name: 'department', titleAttribute: 'name')
+                                        ->searchable()
+                                        ->preload()
+                                        ->createOptionForm([
+                                            Forms\Components\Group::make()
+                                                ->schema([
+                                                    Forms\Components\TextInput::make('name')
+                                                        ->label('Name')
+                                                        ->required()
+                                                        ->maxLength(255)
+                                                        ->live(onBlur: true),
+                                                    Forms\Components\Select::make('manager_id')
+                                                        ->label('Manager')
+                                                        ->relationship('manager', 'name')
+                                                        ->options(function () {
+                                                            return User::whereHas('roles', function ($query) {
+                                                                $query->where('name', 'admin');
+                                                            })->pluck('name', 'id');
+                                                        })
+                                                        ->searchable()
+                                                        ->placeholder('Select a manager')
+                                                        ->nullable(),
+                                                    Forms\Components\Select::make('company_id')
+                                                        ->label('Company')
+                                                        ->relationship('company', 'name')
+                                                        ->options(fn() => Company::pluck('name', 'id'))
+                                                        ->searchable()
+                                                        ->placeholder('Select a Company')
+                                                        ->nullable(),
+                                                    Forms\Components\ColorPicker::make('color')
+                                                        ->label('Color'),
+                                                ])->columns(2),
+                                        ])
+                                        ->createOptionAction(function (Action $action) {
+                                            return $action
+                                                ->modalHeading('Create Department')
+                                                ->modalSubmitActionLabel('Create Department')
+                                                ->modalWidth('2xl');
+                                        }),
+                                    Forms\Components\Select::make('company_id')
+                                        ->label('Company')
+                                        ->relationship('company', 'name')
+                                        ->searchable()
+                                        ->preload(),
+                                ]),
+                            Forms\Components\Section::make('Job Description')
+                                ->schema([
+                                    Forms\Components\RichEditor::make('description')
+                                        ->label('Job Description')
+                                        ->columnSpanFull(),
+                                    Forms\Components\RichEditor::make('requirements')
+                                        ->label('Job Requirements')
+                                        ->columnSpanFull(),
+                                ]),
+                        ])
+                        ->columnSpan(['lg' => 2]),
+                    Forms\Components\Group::make()
+                        ->schema([
+                            Forms\Components\Section::make('Workforce Planning')
+                                ->schema([
+                                    Forms\Components\TextInput::make('expected_employees')
+                                        ->label('Expected Employees')
+                                        ->numeric()
+                                        ->minValue(0)
+                                        ->default(0),
+                                    Forms\Components\TextInput::make('no_of_employees')
+                                        ->label('Current Employees')
+                                        ->numeric()
+                                        ->minValue(0)
+                                        ->default(0),
+                                    Forms\Components\TextInput::make('no_of_recruitment')
+                                        ->label('Recruitment Target')
+                                        ->numeric()
+                                        ->minValue(0)
+                                        ->default(0),
+                                ])->columns(2),
+                            Forms\Components\Section::make('Position Status')
+                                ->schema([
+                                    Forms\Components\DatePicker::make('open_date')
+                                        ->label('Position Opened Date')
+                                        ->default(now())
+                                        ->native(false),
+                                    Forms\Components\Toggle::make('is_active')
+                                        ->label('Status')
+                                        ->default(true),
+                                ])->columns(2),
+                        ])
+                        ->columnSpan(['lg' => 1]),
+                ])
+                ->columns(3),
+        ];
     }
 
     public static function getRelations(): array
