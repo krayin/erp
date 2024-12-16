@@ -600,6 +600,9 @@ class EmployeeResource extends Resource
                 Tables\Actions\EditAction::make()
                     ->color('success')
                     ->outlined(),
+                Tables\Actions\RestoreAction::make()
+                    ->color('gray')
+                    ->outlined(),
                 Tables\Actions\DeleteAction::make()
                     ->color('danger')
                     ->requiresConfirmation()
