@@ -4,6 +4,7 @@ namespace Webkul\Project\Filament\Clusters\Configurations\Resources\MilestoneRes
 
 use Filament\Actions;
 use Filament\Resources\Pages\ManageRecords;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\MilestoneResource;
 
 class ManageMilestones extends ManageRecords
@@ -15,5 +16,12 @@ class ManageMilestones extends ManageRecords
         return [
             Actions\CreateAction::make(),
         ];
+    }
+
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['creator_id'] = Auth::id();
+
+        return $data;
     }
 }
