@@ -11,8 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employee_addresses', function (Blueprint $table) {
+        Schema::create('employees_employee_resume_line_types', function (Blueprint $table) {
             $table->id();
+            $table->integer('sort');
+            $table->string('name');
+
+            $table->unsignedBigInteger('creator_id');
+
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
@@ -22,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employee_addresses');
+        Schema::dropIfExists('employees_employee_resume_line_types');
     }
 };

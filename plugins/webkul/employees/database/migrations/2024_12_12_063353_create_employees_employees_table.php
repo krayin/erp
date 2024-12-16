@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employees', function (Blueprint $table) {
+        Schema::create('employees_employees', function (Blueprint $table) {
             $table->id();
 
             $table->unsignedBigInteger('company_id')->nullable();
@@ -77,7 +77,7 @@ return new class extends Migration
             $table->json('employee_properties')->nullable();
             $table->text('additional_note')->nullable();
             $table->text('notes')->nullable();
-            $table->boolean('is_active')->nullable();
+            $table->boolean('is_active')->default(false);
             $table->boolean('is_flexible')->nullable();
             $table->boolean('is_fully_flexible')->nullable();
             $table->boolean('work_permit_scheduled_activity')->nullable();
@@ -85,20 +85,20 @@ return new class extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('set null');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('calendar_id')->references('id')->on('calendars')->onDelete('set null');
-            $table->foreign('department_id')->references('id')->on('departments')->onDelete('set null');
-            $table->foreign('job_id')->references('id')->on('employee_job_positions')->onDelete('set null');
+            $table->foreign('calendar_id')->references('id')->on('employees_calendars')->onDelete('set null');
+            $table->foreign('department_id')->references('id')->on('employees_departments')->onDelete('set null');
+            $table->foreign('job_id')->references('id')->on('employees_job_positions')->onDelete('set null');
             $table->foreign('partner_id')->references('id')->on('partners_partners')->onDelete('set null');
-            $table->foreign('work_location_id')->references('id')->on('work_locations')->onDelete('set null');
-            $table->foreign('parent_id')->references('id')->on('employees')->onDelete('set null');
-            $table->foreign('coach_id')->references('id')->on('employees')->onDelete('set null');
+            $table->foreign('work_location_id')->references('id')->on('employees_work_locations')->onDelete('set null');
+            $table->foreign('parent_id')->references('id')->on('employees_employees')->onDelete('set null');
+            $table->foreign('coach_id')->references('id')->on('employees_employees')->onDelete('set null');
             $table->foreign('private_state_id')->references('id')->on('states')->onDelete('set null');
             $table->foreign('state_id')->references('id')->on('states')->onDelete('set null');
             $table->foreign('private_country_id')->references('id')->on('countries')->onDelete('set null');
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('set null');
             $table->foreign('country_of_birth')->references('id')->on('countries')->onDelete('set null');
             $table->foreign('bank_account_id')->references('id')->on('banks')->onDelete('set null');
-            $table->foreign('departure_reason_id')->references('id')->on('departure_reasons')->onDelete('set null');
+            $table->foreign('departure_reason_id')->references('id')->on('employees_departure_reasons')->onDelete('set null');
 
             $table->softDeletes();
             $table->timestamps();
@@ -110,6 +110,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employees');
+        Schema::dropIfExists('employees_employees');
     }
 };

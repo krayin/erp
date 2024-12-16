@@ -13,6 +13,8 @@ class EmploymentType extends Model
 {
     use HasCustomFields, HasFactory;
 
+    protected $table = 'employees_employment_types';
+
     protected $fillable = [
         'name',
         'company_id',

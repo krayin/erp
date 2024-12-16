@@ -17,7 +17,7 @@ class ListDepartureReasons extends ListRecords
             Actions\CreateAction::make()
                 ->icon('heroicon-o-plus-circle')
                 ->mutateFormDataUsing(function (array $data): array {
-                    $data['sequence'] = DepartureReason::max('sequence') + 1;
+                    $data['sort'] = DepartureReason::max('sort') + 1;
 
                     $data['reason_code'] = crc32($data['name']) % 100000;
 

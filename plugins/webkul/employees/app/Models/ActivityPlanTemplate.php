@@ -11,6 +11,8 @@ class ActivityPlanTemplate extends Model
 {
     use HasFactory;
 
+    protected $table = 'employees_activity_plan_templates';
+
     protected $fillable = [
         'plan_id',
         'sequence',

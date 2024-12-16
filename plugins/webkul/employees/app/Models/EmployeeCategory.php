@@ -13,6 +13,8 @@ class EmployeeCategory extends Model
 {
     use HasCustomFields, HasFactory, SoftDeletes;
 
+    protected $table = 'employees_categories';
+
     protected $fillable = ['name', 'color', 'user_id'];
 
     public function user()

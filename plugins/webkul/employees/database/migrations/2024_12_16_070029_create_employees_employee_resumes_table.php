@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employee_employee_resumes', function (Blueprint $table) {
+        Schema::create('employees_employee_resumes', function (Blueprint $table) {
             $table->id();
 
             $table->unsignedBigInteger('employee_id');
@@ -24,8 +24,8 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
 
-            $table->foreign('employee_id')->references('id')->on('employees')->cascadeOnDelete();
-            $table->foreign('employee_resume_line_type_id')->references('id')->on('employee_employee_resume_line_types')->nullOnDelete();
+            $table->foreign('employee_id')->references('id')->on('employees_employees')->cascadeOnDelete();
+            $table->foreign('employee_resume_line_type_id')->references('id')->on('employees_employee_resume_line_types')->nullOnDelete();
             $table->foreign('creator_id')->references('id')->on('users')->nullOnDelete();
             $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
 
@@ -38,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employee_employee_resumes');
+        Schema::dropIfExists('employees_employee_resumes');
     }
 };

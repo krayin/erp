@@ -15,7 +15,7 @@ class CreateJobPosition extends CreateRecord
     {
         $data['user_id'] = Auth::user()->id;
 
-        $data['sequence'] = EmployeeJobPosition::max('sequence') + 1;
+        $data['sort'] = EmployeeJobPosition::max('sort') + 1;
 
         return $data;
     }

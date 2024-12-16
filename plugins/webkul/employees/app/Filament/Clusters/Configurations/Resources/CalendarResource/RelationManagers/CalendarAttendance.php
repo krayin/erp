@@ -14,7 +14,7 @@ use Webkul\Employee\Enums;
 
 class CalendarAttendance extends RelationManager
 {
-    protected $listeners = ['refreshCalendarResource' => '$refresh'];
+    // protected $listeners = ['refreshCalendarResource' => '$refresh'];
 
     protected static string $relationship = 'attendance';
 
@@ -138,7 +138,7 @@ class CalendarAttendance extends RelationManager
                     ->icon('heroicon-o-plus-circle')
                     ->hidden(fn (RelationManager $livewire) => $livewire->getOwnerRecord()->flexible_hours ?? false)
                     ->mutateFormDataUsing(function (array $data) {
-                        $data['sequence'] = $this->getOwnerRecord()->attendance()->count() + 1;
+                        $data['sort'] = $this->getOwnerRecord()->attendance()->count() + 1;
 
                         return $data;
                     }),
@@ -148,7 +148,7 @@ class CalendarAttendance extends RelationManager
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make()
                         ->mutateFormDataUsing(function (array $data) {
-                            $data['sequence'] = $this->getOwnerRecord()->attendance()->count() + 1;
+                            $data['sort'] = $this->getOwnerRecord()->attendance()->count() + 1;
 
                             return $data;
                         }),
@@ -163,6 +163,6 @@ class CalendarAttendance extends RelationManager
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ])
-            ->reorderable('sequence');
+            ->reorderable('sort');
     }
 }

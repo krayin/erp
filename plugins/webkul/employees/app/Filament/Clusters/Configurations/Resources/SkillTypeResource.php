@@ -51,8 +51,8 @@ class SkillTypeResource extends Resource
                         })
                         ->native(false)
                         ->allowHtml(),
-                    Forms\Components\Toggle::make('status')
-                        ->label('Active Status')
+                    Forms\Components\Toggle::make('is_active')
+                        ->label('Status')
                         ->default(true),
                     Forms\Components\Section::make('Additional Information')
                         ->visible(! empty($customFormFields = static::getCustomFormFields()))
@@ -86,7 +86,7 @@ class SkillTypeResource extends Resource
                     ->badge()
                     ->color('gray')
                     ->searchable(),
-                Tables\Columns\IconColumn::make('status')
+                Tables\Columns\IconColumn::make('is_active')
                     ->sortable()
                     ->label('Status')
                     ->sortable()

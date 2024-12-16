@@ -4,9 +4,9 @@ namespace Webkul\Employee\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class EmployeeEmployeeResume extends Model
+class EmployeeResume extends Model
 {
-    protected $table = 'employee_employee_resumes';
+    protected $table = 'employees_employee_resumes';
 
     protected $fillable = [
         'employee_id',
@@ -27,6 +27,6 @@ class EmployeeEmployeeResume extends Model
 
     public function resumeType()
     {
-        return $this->belongsTo(EmployeeEmployeeResumeLineType::class, 'employee_resume_line_type_id');
+        return $this->belongsTo(EmployeeResumeLineType::class, 'employee_resume_line_type_id');
     }
 }
