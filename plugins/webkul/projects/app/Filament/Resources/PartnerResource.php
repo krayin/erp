@@ -7,6 +7,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Webkul\Partner\Enums\AccountType;
+use Illuminate\Support\Facades\Auth;
 
 class PartnerResource extends Resource
 {
@@ -35,7 +36,15 @@ class PartnerResource extends Resource
                     ->columnSpan(2)
                     ->placeholder(fn (Forms\Get $get): string => $get('account_type') === AccountType::INDIVIDUAL->value ? 'Jhon Doe' : 'ACME Corp')
                     ->extraInputAttributes(['style' => 'font-size: 1.5rem;height: 3rem;']),
+                Forms\Components\Select::make('company_id')
+                    ->label('Company')
+                    ->relationship('company', 'name')
+                    ->visible(fn (Forms\Get $get): bool => $get('account_type') === AccountType::INDIVIDUAL->value)
+                    ->searchable()
+                    ->preload()
+                    ->columnSpan(2),
                 Forms\Components\Group::make()
+                    ->label('Avatar')
                     ->schema([
                         Forms\Components\FileUpload::make('avatar')
                             ->image()
@@ -48,40 +57,102 @@ class PartnerResource extends Resource
                             ->visibility('private'),
                     ])
                     ->columnSpan(2),
-                Forms\Components\TextInput::make('avatar')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('email')
-                    ->email()
+                Forms\Components\TextInput::make('tax_id')
+                    ->label('Tax ID')
+                    ->placeholder('e.g. 29ABCDE1234F1Z5')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('job_title')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('website')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('tax_id')
+                    ->label('Job Title')
+                    ->placeholder('e.g. CEO')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('phone')
+                    ->label('Phone')
                     ->tel()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('mobile')
+                    ->label('Mobile')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('color')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('company_registry')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('reference')
-                    ->maxLength(255),
-                Forms\Components\Select::make('parent_id')
-                    ->relationship('parent', 'name'),
-                Forms\Components\Select::make('creator_id')
-                    ->relationship('creator', 'name'),
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name'),
+                Forms\Components\TextInput::make('email')
+                    ->label('Email')
+                    ->email()
+                    ->maxLength(255)
+                    ->unique(ignoreRecord: true),
+                Forms\Components\TextInput::make('website')
+                    ->label('Website')
+                    ->maxLength(255)
+                    ->url(),
                 Forms\Components\Select::make('title_id')
-                    ->relationship('title', 'name'),
-                Forms\Components\Select::make('company_id')
-                    ->relationship('company', 'name'),
-                Forms\Components\Select::make('industry_id')
-                    ->relationship('industry', 'name'),
+                    ->label('Title')
+                    ->relationship('title', 'name')
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('name')
+                            ->label('Name')
+                            ->required()
+                            ->unique('partners_titles'),
+                        Forms\Components\TextInput::make('short_name')
+                            ->label('Short Name')
+                            ->required()
+                            ->unique('partners_titles'),
+                        Forms\Components\Hidden::make('creator_id')
+                            ->default(Auth::user()->id),
+                    ]),
+                Forms\Components\Select::make('tags')
+                    ->label('Tags')
+                    ->relationship(name: 'tags', titleAttribute: 'name')
+                    ->multiple()
+                    ->searchable()
+                    ->preload()
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('name')
+                            ->label('Name')
+                            ->required()
+                            ->unique('partners_tags'),
+                        Forms\Components\ColorPicker::make('color'),
+                    ]),
+                Forms\Components\Tabs::make('Employee Information')
+                    ->tabs([
+                        Forms\Components\Tabs\Tab::make('Contacts')
+                            ->icon('heroicon-o-user-group')
+                            ->schema([
+                            ]),
+                        
+                        Forms\Components\Tabs\Tab::make('Addresses')
+                            ->icon('heroicon-o-currency-dollar')
+                            ->schema([
+                            ]),
+                        
+                        Forms\Components\Tabs\Tab::make('Sales and Purchases')
+                            ->icon('heroicon-o-currency-dollar')
+                            ->schema([
+                                Forms\Components\Fieldset::make('Sales')
+                                    ->schema([
+                                        Forms\Components\Select::make('user_id')
+                                            ->label('Responsible')
+                                            ->relationship('user', 'name')
+                                            ->searchable()
+                                            ->preload()
+                                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'This is internal salesperson responsible for this customer'),
+                                    ])
+                                    ->columns(1),
+
+                                Forms\Components\Fieldset::make('Others')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('company_registry')
+                                            ->label('Company Id')
+                                            ->maxLength(255)
+                                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'The registry number of the company. Use it if it is different from the Tax ID. It must be unique across all partners of a same country'),
+                                        Forms\Components\TextInput::make('reference')
+                                            ->label('Reference')
+                                            ->maxLength(255),
+                                        Forms\Components\Select::make('industry_id')
+                                            ->label('Industry')
+                                            ->relationship('industry', 'name'),
+                                    ])
+                                    ->columns(1),
+                            ])
+                            ->columns(2),
+                    ])
+                    ->columnSpan(2),
             ])
             ->columns(2);
     }

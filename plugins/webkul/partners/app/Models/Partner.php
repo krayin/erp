@@ -5,6 +5,8 @@ namespace Webkul\Partner\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Partner\Database\Factories\PartnerFactory;
 use Webkul\Security\Models\User;
@@ -84,6 +86,26 @@ class Partner extends Model
     public function industry(): BelongsTo
     {
         return $this->belongsTo(Industry::class);
+    }
+
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(Address::class);
+    }
+
+    public function contacts(): HasMany
+    {
+        return $this->hasMany(self::class);
+    }
+
+    public function bankAccounts(): HasMany
+    {
+        return $this->hasMany(BankAccount::class);
+    }
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class, 'partners_partner_tag', 'partner_id', 'tag_id');
     }
 
     protected static function newFactory(): PartnerFactory

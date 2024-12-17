@@ -66,18 +66,23 @@ class ProjectResource extends Resource
                                     ->relationship('partner', 'name')
                                     ->searchable()
                                     ->preload()
-                                    ->createOptionForm(fn (Form $form) => PartnerResource::form($form)),
+                                    ->createOptionForm(fn (Form $form) => PartnerResource::form($form))
+                                    ->editOptionForm(fn (Form $form) => PartnerResource::form($form)),
                                 Forms\Components\TextInput::make('allocated_hours')
                                     ->label('Allocated Hours')
                                     ->suffixIcon('heroicon-o-clock'),
                                 Forms\Components\DatePicker::make('start_date')
                                     ->label('Start Date')
                                     ->native(false)
-                                    ->suffixIcon('heroicon-o-calendar'),
+                                    ->suffixIcon('heroicon-o-calendar')
+                                    ->requiredWith('end_date')
+                                    ->beforeOrEqual('start_date'),
                                 Forms\Components\DatePicker::make('end_date')
                                     ->label('End Date')
                                     ->native(false)
-                                    ->suffixIcon('heroicon-o-calendar'),
+                                    ->suffixIcon('heroicon-o-calendar')
+                                    ->requiredWith('start_date')
+                                    ->afterOrEqual('start_date'),
                                 Forms\Components\Select::make('tags')
                                     ->label('Tags')
                                     ->relationship(name: 'tags', titleAttribute: 'name')
@@ -136,21 +141,33 @@ class ProjectResource extends Resource
 
     public static function table(Table $table): Table
     {
-
         return $table
             ->columns([
                 Tables\Columns\Layout\Stack::make([
                     Tables\Columns\TextColumn::make('name')
                         ->weight(FontWeight::Bold),
-                    Tables\Columns\TextColumn::make('plannedDate')
-                        ->icon('heroicon-o-clock'),
-                    Tables\Columns\TextColumn::make('user.name')
-                        ->icon('heroicon-m-user'),
-                    Tables\Columns\TextColumn::make('partner.name')
-                        ->icon('heroicon-m-phone'),
-                    Tables\Columns\TextColumn::make('tags.name')
-                        ->badge()
-                        ->weight(FontWeight::Bold),
+                    Tables\Columns\Layout\Stack::make([
+                        Tables\Columns\TextColumn::make('start_date')
+                            ->icon('heroicon-o-clock')
+                            ->formatStateUsing(fn (Project $record): string => $record->start_date->format('d M Y').' - '.$record->end_date->format('d M Y')),
+                    ])
+                        ->visible(fn (Project $record) => filled($record->start_date) && filled($record->end_date)),
+                    Tables\Columns\Layout\Stack::make([
+                        Tables\Columns\TextColumn::make('user.name')
+                            ->icon('heroicon-m-user'),
+                    ])
+                        ->visible(fn (Project $record) => filled($record->user)),
+                    Tables\Columns\Layout\Stack::make([
+                        Tables\Columns\TextColumn::make('partner.name')
+                            ->icon('heroicon-m-phone'),
+                    ])
+                        ->visible(fn (Project $record) => filled($record->partner)),
+                    Tables\Columns\Layout\Stack::make([
+                        Tables\Columns\TextColumn::make('tags.name')
+                            ->badge()
+                            ->weight(FontWeight::Bold),
+                    ])
+                        ->visible(fn (Project $record): bool => (bool) $record->tags()->get()?->count()),
                 ])
                     ->space(3),
             ])
