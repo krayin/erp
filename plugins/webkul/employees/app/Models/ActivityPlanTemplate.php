@@ -15,7 +15,7 @@ class ActivityPlanTemplate extends Model
 
     protected $fillable = [
         'plan_id',
-        'sequence',
+        'sort',
         'activity_type_id',
         'delay_count',
         'responsible_id',

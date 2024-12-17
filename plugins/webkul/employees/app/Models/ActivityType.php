@@ -14,7 +14,7 @@ class ActivityType extends Model
     protected $table = 'employees_activity_types';
 
     protected $fillable = [
-        'sequence',
+        'sort',
         'delay_count',
         'default_user_id',
         'user_id',
@@ -27,16 +27,16 @@ class ActivityType extends Model
         'name',
         'summary',
         'default_note',
-        'active',
+        'is_active',
         'keep_done',
     ];
 
     protected $casts = [
-        'name'         => 'array',
-        'summary'      => 'array',
-        'default_note' => 'array',
-        'active'       => 'boolean',
-        'keep_done'    => 'boolean',
+        'name'            => 'array',
+        'summary'         => 'array',
+        'default_note'    => 'array',
+        'is_active'       => 'boolean',
+        'keep_done'       => 'boolean',
     ];
 
     public function createdBy(): BelongsTo

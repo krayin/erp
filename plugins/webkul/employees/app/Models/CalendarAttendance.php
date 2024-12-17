@@ -14,7 +14,7 @@ class CalendarAttendance extends Model
     protected $table = 'employees_calendar_attendances';
 
     protected $fillable = [
-        'sequence',
+        'sort',
         'name',
         'day_of_week',
         'day_period',
