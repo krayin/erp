@@ -45,7 +45,7 @@ return new class extends Migration
             $table->foreignId('stage_id')
                 ->nullable()
                 ->constrained('projects_task_stages')
-                ->nullOnDelete();
+                ->restrictOnDelete();
 
             $table->foreignId('partner_id')
                 ->nullable()

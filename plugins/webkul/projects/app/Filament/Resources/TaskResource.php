@@ -7,20 +7,24 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
 use Webkul\Fields\Filament\Traits\HasCustomFields;
+use Webkul\Project\Enums\TaskState;
 use Webkul\Project\Filament\Resources\TaskResource\Pages;
 use Webkul\Project\Filament\Resources\TaskResource\RelationManagers;
 use Webkul\Project\Models\Task;
-use Filament\Tables\Columns\Summarizers\Sum;
-use Webkul\Project\Enums\TaskState;
+use Webkul\Project\Models\TaskStage;
+use Webkul\Project\Filament\Resources\ProjectResource\Pages\ManageProjectTasks;
 
 class TaskResource extends Resource
 {
     use HasCustomFields;
 
     protected static ?string $model = Task::class;
+
+    protected static ?string $slug = 'project/tasks';
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
@@ -32,12 +36,20 @@ class TaskResource extends Resource
             ->schema([
                 Forms\Components\Group::make()
                     ->schema([
+                        Forms\Components\ToggleButtons::make('stage_id')
+                            ->hiddenLabel()
+                            ->inline()
+                            ->required()
+                            ->options(fn () => TaskStage::all()->mapWithKeys(fn ($stage) => [$stage->id => $stage->name]))
+                            ->default(TaskStage::first()?->id),
                         Forms\Components\Section::make('General Information')
                             ->schema([
                                 Forms\Components\TextInput::make('title')
                                     ->label('Title')
                                     ->required()
-                                    ->maxLength(255),
+                                    ->maxLength(255)
+                                    ->placeholder('Task Title...')
+                                    ->extraInputAttributes(['style' => 'font-size: 1.5rem;height: 3rem;']),
                                 Forms\Components\ToggleButtons::make('state')
                                     ->required()
                                     ->default('in_progress')
@@ -144,9 +156,11 @@ class TaskResource extends Resource
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('project.name')
                     ->label('Project')
+                    ->hiddenOn(ManageProjectTasks::class)
                     ->searchable()
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->placeholder('Private Task'),
                 Tables\Columns\TextColumn::make('milestone.name')
                     ->label('Milestone')
                     ->searchable()
@@ -242,7 +256,7 @@ class TaskResource extends Resource
                                     ->multiple(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('stage')
-                            ->label('Project')
+                            ->label('Stage')
                             ->multiple()
                             ->selectable(
                                 IsRelatedToOperator::make()
@@ -254,11 +268,11 @@ class TaskResource extends Resource
                             ->label('State')
                             ->multiple()
                             ->options([
-                                TaskState::IN_PROGRESS->value => 'In Progress',
+                                TaskState::IN_PROGRESS->value      => 'In Progress',
                                 TaskState::CHANGE_REQUESTED->value => 'Change Requested',
-                                TaskState::APPROVED->value => 'Approved',
-                                TaskState::CANCELLED->value => 'Cancelled',
-                                TaskState::DONE->value => 'Done',
+                                TaskState::APPROVED->value         => 'Approved',
+                                TaskState::CANCELLED->value        => 'Cancelled',
+                                TaskState::DONE->value             => 'Done',
                             ]),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('tags')
                             ->label('Tags')
@@ -277,7 +291,7 @@ class TaskResource extends Resource
                             ->label('Remaining Hours'),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('deadline'),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at'),
-                    ])
+                    ]),
             ])
             ->filtersFormColumns(3)
             ->actions([
@@ -294,10 +308,7 @@ class TaskResource extends Resource
                     Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
-            ])
-            ->modifyQueryUsing(function ($query) {
-                $query->whereNull('parent_id');
-            });
+            ]);
     }
 
     public static function getRelations(): array
@@ -320,10 +331,5 @@ class TaskResource extends Resource
             'create' => Pages\CreateTask::route('/create'),
             'edit'   => Pages\EditTask::route('/{record}/edit'),
         ];
-    }
-
-    public static function getSlug(): string
-    {
-        return 'project/tasks';
     }
 }

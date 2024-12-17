@@ -4,8 +4,8 @@ namespace Webkul\Project\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Webkul\Project\Models\ProjectStage;
-use Webkul\Security\Models\Company;
 use Webkul\Security\Models\User;
+use Webkul\Support\Models\Company;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Webkul\Project\Models\ProjectStage>

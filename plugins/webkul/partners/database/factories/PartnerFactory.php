@@ -7,8 +7,8 @@ use Webkul\Partner\Enums\AccountType;
 use Webkul\Partner\Models\Industry;
 use Webkul\Partner\Models\Partner;
 use Webkul\Partner\Models\Title;
-use Webkul\Security\Models\Company;
 use Webkul\Security\Models\User;
+use Webkul\Support\Models\Company;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Webkul\Partner\Models\Partner>

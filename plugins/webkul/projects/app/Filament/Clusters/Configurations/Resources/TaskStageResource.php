@@ -8,16 +8,17 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Webkul\Project\Filament\Clusters\Configurations;
-use Webkul\Project\Filament\Clusters\Configurations\Resources\ProjectStageResource\Pages;
-use Webkul\Project\Models\ProjectStage;
+use Webkul\Project\Filament\Clusters\Configurations\Resources\TaskStageResource\Pages;
+use Webkul\Project\Filament\Resources\ProjectResource\RelationManagers\TaskStagesRelationManager;
+use Webkul\Project\Models\TaskStage;
 
-class ProjectStageResource extends Resource
+class TaskStageResource extends Resource
 {
-    protected static ?string $model = ProjectStage::class;
+    protected static ?string $model = TaskStage::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 2;
 
     protected static ?string $cluster = Configurations::class;
 
@@ -27,9 +28,15 @@ class ProjectStageResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255)
-                    ->unique(ignoreRecord: true),
-                Forms\Components\Toggle::make('is_collapsed'),
+                    ->maxLength(255),
+                Forms\Components\Toggle::make('is_collapsed')
+                    ->required(),
+                Forms\Components\Select::make('project_id')
+                    ->relationship('project', 'name')
+                    ->hiddenOn(TaskStagesRelationManager::class)
+                    ->required()
+                    ->searchable()
+                    ->preload(),
             ])
             ->columns(1);
     }
@@ -42,6 +49,10 @@ class ProjectStageResource extends Resource
                     ->label('Name')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('project.name')
+                    ->hiddenOn(TaskStagesRelationManager::class)
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\ToggleColumn::make('is_collapsed')
                     ->label('Collapsed')
                     ->sortable(),
@@ -49,8 +60,16 @@ class ProjectStageResource extends Resource
             ->filters([
                 Tables\Filters\TernaryFilter::make('is_collapsed')
                     ->label('Collapsed'),
+                Tables\Filters\SelectFilter::make('project_id')
+                    ->relationship('project', 'name')
+                    ->hiddenOn(TaskStagesRelationManager::class)
+                    ->label('Project')
+                    ->searchable()
+                    ->preload(),
             ])
             ->groups([
+                Tables\Grouping\Group::make('project.name')
+                    ->label('Project'),
                 Tables\Grouping\Group::make('is_collapsed')
                     ->label('Is Collapsed'),
                 Tables\Grouping\Group::make('created_at')
@@ -77,7 +96,7 @@ class ProjectStageResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageProjectStages::route('/'),
+            'index' => Pages\ManageTaskStages::route('/'),
         ];
     }
 }

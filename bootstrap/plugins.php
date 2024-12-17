@@ -5,6 +5,7 @@ return [
     Webkul\Support\SupportPlugin::class,
     Webkul\Security\SecurityPlugin::class,
     Webkul\Fields\FieldsPlugin::class,
+    Webkul\Partner\PartnerPlugin::class,
     Webkul\Employee\EmployeePlugin::class,
     Webkul\Project\ProjectPlugin::class,
 ];

@@ -9,6 +9,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Webkul\Project\Filament\Clusters\Configurations;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\MilestoneResource\Pages;
+use Webkul\Project\Filament\Resources\ProjectResource\Pages\ManageProjectMilestones;
+use Webkul\Project\Filament\Resources\ProjectResource\RelationManagers\MilestonesRelationManager;
 use Webkul\Project\Models\Milestone;
 
 class MilestoneResource extends Resource
@@ -16,6 +18,8 @@ class MilestoneResource extends Resource
     protected static ?string $model = Milestone::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-flag';
+
+    protected static ?int $navigationSort = 3;
 
     protected static ?string $cluster = Configurations::class;
 
@@ -32,6 +36,10 @@ class MilestoneResource extends Resource
                     ->required(),
                 Forms\Components\Select::make('project_id')
                     ->relationship('project', 'name')
+                    ->hiddenOn([
+                        MilestonesRelationManager::class,
+                        ManageProjectMilestones::class,
+                    ])
                     ->required()
                     ->searchable()
                     ->preload(),
@@ -56,6 +64,10 @@ class MilestoneResource extends Resource
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('project.name')
+                    ->hiddenOn([
+                        MilestonesRelationManager::class,
+                        ManageProjectMilestones::class,
+                    ])
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('creator.name')
@@ -71,7 +83,31 @@ class MilestoneResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\TernaryFilter::make('is_completed')
+                    ->label('Is Completed'),
+                Tables\Filters\SelectFilter::make('project_id')
+                    ->relationship('project', 'name')
+                    ->hiddenOn([
+                        MilestonesRelationManager::class,
+                        ManageProjectMilestones::class,
+                    ])
+                    ->label('Project')
+                    ->searchable()
+                    ->preload(),
+                Tables\Filters\SelectFilter::make('creator_id')
+                    ->relationship('creator', 'name')
+                    ->label('Creator')
+                    ->searchable()
+                    ->preload(),
+            ])
+            ->groups([
+                Tables\Grouping\Group::make('project.name')
+                    ->label('Project'),
+                Tables\Grouping\Group::make('is_completed')
+                    ->label('Is Completed'),
+                Tables\Grouping\Group::make('created_at')
+                    ->label('Created At')
+                    ->date(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
