@@ -15,7 +15,7 @@ class ProjectResource extends Resource
 {
     protected static ?string $model = Project::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
+    protected static ?string $navigationIcon = 'heroicon-o-folder';
 
     protected static ?string $navigationGroup = 'Project';
 
@@ -141,6 +141,15 @@ class ProjectResource extends Resource
                         ->weight(FontWeight::Bold),
                 ])
                     ->space(3),
+            ])
+            ->groups([
+                Tables\Grouping\Group::make('user.name')
+                    ->label('Project Manager'),
+                Tables\Grouping\Group::make('partner.name')
+                    ->label('Customer'),
+                Tables\Grouping\Group::make('created_at')
+                    ->label('Created At')
+                    ->date(),
             ])
             ->actions([
                 Tables\Actions\Action::make('tasks')

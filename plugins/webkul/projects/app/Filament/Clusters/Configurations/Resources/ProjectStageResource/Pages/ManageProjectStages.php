@@ -16,7 +16,12 @@ class ManageProjectStages extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->mutateFormDataUsing(function (array $data): array {
+                    $data['creator_id'] = Auth::id();
+            
+                    return $data;
+                }),
         ];
     }
 
@@ -31,12 +36,5 @@ class ManageProjectStages extends ManageRecords
                     return $query->onlyTrashed();
                 }),
         ];
-    }
-
-    protected function mutateFormDataBeforeCreate(array $data): array
-    {
-        $data['creator_id'] = Auth::id();
-
-        return $data;
     }
 }
