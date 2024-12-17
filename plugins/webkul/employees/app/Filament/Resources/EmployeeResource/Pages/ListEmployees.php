@@ -46,7 +46,7 @@ class ListEmployees extends ListRecords
             'archived' => PresetView::make('Archived')
                 ->icon('heroicon-s-archive-box')
                 ->favorite()
-                ->modifyQueryUsing(fn(Builder $query) => $query->onlyTrashed()),
+                ->modifyQueryUsing(fn (Builder $query) => $query->onlyTrashed()),
         ];
     }
 }

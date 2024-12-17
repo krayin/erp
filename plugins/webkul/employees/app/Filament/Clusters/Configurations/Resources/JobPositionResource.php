@@ -80,7 +80,7 @@ class JobPositionResource extends Resource
                                                         Forms\Components\Select::make('company_id')
                                                             ->label('Company')
                                                             ->relationship('company', 'name')
-                                                            ->options(fn() => Company::pluck('name', 'id'))
+                                                            ->options(fn () => Company::pluck('name', 'id'))
                                                             ->searchable()
                                                             ->placeholder('Select a Company')
                                                             ->nullable(),

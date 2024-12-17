@@ -25,12 +25,12 @@ class WorkLocation extends Model
         'name',
         'location_type',
         'location_number',
-        'active',
+        'is_active',
     ];
 
     protected $casts = [
-        'active'        => 'boolean',
-        'location_type' => WorkLocationEnum::class,
+        'is_active'        => 'boolean',
+        'location_type'    => WorkLocationEnum::class,
     ];
 
     public function company(): BelongsTo
@@ -48,7 +48,7 @@ class WorkLocation extends Model
      */
     public function scopeActive(Builder $query): Builder
     {
-        return $query->where('active', true);
+        return $query->where('is_active', true);
     }
 
     /**

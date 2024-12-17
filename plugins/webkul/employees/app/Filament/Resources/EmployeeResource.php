@@ -89,8 +89,8 @@ class EmployeeResource extends Resource
                                     ->relationship(name: 'department', titleAttribute: 'name')
                                     ->searchable()
                                     ->preload()
-                                    ->createOptionForm(fn(Form $form) => DepartmentResource::form($form))
-                                    ->editOptionForm(fn(Form $form) => DepartmentResource::form($form)),
+                                    ->createOptionForm(fn (Form $form) => DepartmentResource::form($form))
+                                    ->editOptionForm(fn (Form $form) => DepartmentResource::form($form)),
                                 Forms\Components\TextInput::make('mobile_phone')
                                     ->label('Work Mobile')
                                     ->tel(),
@@ -99,8 +99,8 @@ class EmployeeResource extends Resource
                                     ->searchable()
                                     ->preload()
                                     ->label('Job Position')
-                                    ->createOptionForm(fn(Form $form) => JobPositionResource::form($form))
-                                    ->editOptionForm(fn(Form $form) => JobPositionResource::form($form)),
+                                    ->createOptionForm(fn (Form $form) => JobPositionResource::form($form))
+                                    ->editOptionForm(fn (Form $form) => JobPositionResource::form($form)),
                                 Forms\Components\TextInput::make('work_phone')
                                     ->label('Work Phone')
                                     ->tel(),
@@ -115,7 +115,7 @@ class EmployeeResource extends Resource
                                     ->searchable()
                                     ->preload()
                                     ->label('Employee Tags')
-                                    ->createOptionForm(fn(Form $form) => EmployeeCategoryResource::form($form)),
+                                    ->createOptionForm(fn (Form $form) => EmployeeCategoryResource::form($form)),
                                 Forms\Components\Select::make('coach_id')
                                     ->searchable()
                                     ->preload()
@@ -160,10 +160,10 @@ class EmployeeResource extends Resource
                                                                     ->searchable()
                                                                     ->preload()
                                                                     ->label('Related User')
-                                                                    ->createOptionForm(fn(Form $form) => UserResource::form($form))
-                                                                    ->editOptionForm(fn(Form $form) => UserResource::form($form))
+                                                                    ->createOptionForm(fn (Form $form) => UserResource::form($form))
+                                                                    ->editOptionForm(fn (Form $form) => UserResource::form($form))
                                                                     ->createOptionAction(
-                                                                        fn(Action $action) => $action
+                                                                        fn (Action $action) => $action
                                                                             ->modalHeading('Create User')
                                                                             ->modalSubmitActionLabel('Create User')
                                                                             ->modalWidth(MaxWidth::MaxContent)
@@ -200,14 +200,8 @@ class EmployeeResource extends Resource
                                                                     ->searchable()
                                                                     ->preload()
                                                                     ->label('Work Location')
-                                                                    ->createOptionForm(fn(Form $form) => WorkLocationResource::form($form))
-                                                                    ->editOptionForm(fn(Form $form) => WorkLocationResource::form($form))
-                                                                    ->createOptionAction(
-                                                                        fn(Action $action) => $action
-                                                                            ->modalHeading('Create Work Location')
-                                                                            ->modalWidth(MaxWidth::FiveExtraLarge)
-                                                                            ->modalSubmitActionLabel('Create Work Location')
-                                                                    ),
+                                                                    ->createOptionForm(fn (Form $form) => WorkLocationResource::form($form))
+                                                                    ->editOptionForm(fn (Form $form) => WorkLocationResource::form($form)),
                                                                 Forms\Components\TextInput::make('distance_home_work_unit')
                                                                     ->label('Distance Unit'),
                                                             ])->columns(2),
@@ -226,16 +220,16 @@ class EmployeeResource extends Resource
                                                                             ->searchable()
                                                                             ->preload()
                                                                             ->label('Company')
-                                                                            ->createOptionForm(fn(Form $form) => CompanyResource::form($form))
-                                                                            ->editOptionForm(fn(Form $form) => CompanyResource::form($form)),
+                                                                            ->createOptionForm(fn (Form $form) => CompanyResource::form($form))
+                                                                            ->editOptionForm(fn (Form $form) => CompanyResource::form($form)),
                                                                         Forms\Components\Select::make('employee_type')
                                                                             ->relationship('employmentType', 'name')
                                                                             ->searchable()
                                                                             ->preload()
                                                                             ->label('Employment Type')
                                                                             ->required()
-                                                                            ->createOptionForm(fn(Form $form) => EmploymentTypeResource::form($form))
-                                                                            ->editOptionForm(fn(Form $form) => EmploymentTypeResource::form($form)),
+                                                                            ->createOptionForm(fn (Form $form) => EmploymentTypeResource::form($form))
+                                                                            ->editOptionForm(fn (Form $form) => EmploymentTypeResource::form($form)),
                                                                         Forms\Components\ColorPicker::make('color')
                                                                             ->label('Color'),
                                                                     ]),
@@ -267,22 +261,22 @@ class EmployeeResource extends Resource
                                                                             ->live(),
                                                                         Forms\Components\TextInput::make('spouse_complete_name')
                                                                             ->label('Spouse Name')
-                                                                            ->hidden(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                                            ->dehydrated(fn(Get $get) => $get('marital') !== MaritalStatus::Single->value)
-                                                                            ->required(fn(Get $get) => $get('marital') !== MaritalStatus::Single->value),
+                                                                            ->hidden(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                            ->dehydrated(fn (Get $get) => $get('marital') !== MaritalStatus::Single->value)
+                                                                            ->required(fn (Get $get) => $get('marital') !== MaritalStatus::Single->value),
                                                                         Forms\Components\DatePicker::make('spouse_birthdate')
                                                                             ->label('Spouse Birthdate')
                                                                             ->native(false)
-                                                                            ->disabled(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                                            ->hidden(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                                            ->dehydrated(fn(Get $get) => $get('marital') !== MaritalStatus::Single->value),
+                                                                            ->disabled(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                            ->hidden(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                            ->dehydrated(fn (Get $get) => $get('marital') !== MaritalStatus::Single->value),
                                                                         Forms\Components\TextInput::make('children')
                                                                             ->label('Number of Children')
                                                                             ->numeric()
                                                                             ->minValue(0)
-                                                                            ->disabled(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                                            ->hidden(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                                            ->dehydrated(fn(Get $get) => $get('marital') !== MaritalStatus::Single->value),
+                                                                            ->disabled(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                            ->hidden(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                            ->dehydrated(fn (Get $get) => $get('marital') !== MaritalStatus::Single->value),
                                                                     ])->columns(2),
                                                             ])->columns(2),
                                                         Forms\Components\Section::make('Educational Information')
@@ -300,10 +294,10 @@ class EmployeeResource extends Resource
                                                                 Forms\Components\Select::make('country_id')
                                                                     ->label('Country')
                                                                     ->relationship(name: 'country', titleAttribute: 'name')
-                                                                    ->afterStateUpdated(fn(Set $set) => $set('state_id', null))
+                                                                    ->afterStateUpdated(fn (Set $set) => $set('state_id', null))
                                                                     ->createOptionForm([
                                                                         Forms\Components\Select::make('currency_id')
-                                                                            ->options(fn() => Currency::pluck('full_name', 'id'))
+                                                                            ->options(fn () => Currency::pluck('full_name', 'id'))
                                                                             ->searchable()
                                                                             ->preload()
                                                                             ->label('Currency Name')
@@ -326,7 +320,7 @@ class EmployeeResource extends Resource
                                                                             ->required(),
                                                                     ])
                                                                     ->createOptionAction(
-                                                                        fn(Action $action) => $action
+                                                                        fn (Action $action) => $action
                                                                             ->modalHeading('Create Country')
                                                                             ->modalSubmitActionLabel('Create Country')
                                                                             ->modalWidth('lg')
@@ -351,7 +345,7 @@ class EmployeeResource extends Resource
                                                                             ->maxLength(255),
                                                                     ])
                                                                     ->createOptionAction(
-                                                                        fn(Action $action) => $action
+                                                                        fn (Action $action) => $action
                                                                             ->modalHeading('Create State')
                                                                             ->modalSubmitActionLabel('Create State')
                                                                             ->modalWidth('lg')
@@ -361,10 +355,10 @@ class EmployeeResource extends Resource
                                                                     ->searchable()
                                                                     ->preload()
                                                                     ->label('Private Country')
-                                                                    ->afterStateUpdated(fn(Set $set) => $set('private_state_id', null))
+                                                                    ->afterStateUpdated(fn (Set $set) => $set('private_state_id', null))
                                                                     ->createOptionForm([
                                                                         Forms\Components\Select::make('currency_id')
-                                                                            ->options(fn() => Currency::pluck('full_name', 'id'))
+                                                                            ->options(fn () => Currency::pluck('full_name', 'id'))
                                                                             ->searchable()
                                                                             ->preload()
                                                                             ->label('Currency Name')
@@ -387,7 +381,7 @@ class EmployeeResource extends Resource
                                                                             ->required(),
                                                                     ])
                                                                     ->createOptionAction(
-                                                                        fn(Action $action) => $action
+                                                                        fn (Action $action) => $action
                                                                             ->modalHeading('Create Country')
                                                                             ->modalSubmitActionLabel('Create Country')
                                                                             ->modalWidth('lg')
@@ -412,7 +406,7 @@ class EmployeeResource extends Resource
                                                                             ->maxLength(255),
                                                                     ])
                                                                     ->createOptionAction(
-                                                                        fn(Action $action) => $action
+                                                                        fn (Action $action) => $action
                                                                             ->modalHeading('Create State')
                                                                             ->modalSubmitActionLabel('Create State')
                                                                             ->modalWidth('lg')
@@ -502,8 +496,8 @@ class EmployeeResource extends Resource
                                                                     ->searchable()
                                                                     ->preload()
                                                                     ->label('Departure Reason')
-                                                                    ->createOptionForm(fn(Form $form) => DepartureReasonResource::form($form))
-                                                                    ->editOptionForm(fn(Form $form) => DepartureReasonResource::form($form)),
+                                                                    ->createOptionForm(fn (Form $form) => DepartureReasonResource::form($form))
+                                                                    ->editOptionForm(fn (Form $form) => DepartureReasonResource::form($form)),
                                                                 Forms\Components\DatePicker::make('departure_date')
                                                                     ->label('Departure Date')
                                                                     ->native(false),

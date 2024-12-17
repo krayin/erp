@@ -15,7 +15,7 @@ class DepartureReason extends Model
     protected $table = 'employees_departure_reasons';
 
     protected $fillable = [
-        'sequence',
+        'sort',
         'reason_code',
         'name',
     ];

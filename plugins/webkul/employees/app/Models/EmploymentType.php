@@ -20,7 +20,7 @@ class EmploymentType extends Model
         'company_id',
         'user_id',
         'code',
-        'sequence',
+        'sort',
     ];
 
     public function company()
