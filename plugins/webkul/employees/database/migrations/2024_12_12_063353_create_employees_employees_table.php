@@ -74,7 +74,6 @@ return new class extends Migration
             $table->string('work_permit_expiration_date')->nullable();
             $table->string('departure_date')->nullable();
             $table->text('departure_description')->nullable();
-            $table->json('employee_properties')->nullable();
             $table->text('additional_note')->nullable();
             $table->text('notes')->nullable();
             $table->boolean('is_active')->default(false);
