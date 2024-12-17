@@ -18,7 +18,7 @@ class SkillType extends Model
     protected $fillable = [
         'name',
         'color',
-        'status',
+        'is_active',
     ];
 
     public function skillLevels(): HasMany

@@ -22,13 +22,13 @@ class EmployeeJobPosition extends Model
      * @var array
      */
     protected $fillable = [
-        'sequence',
+        'sort',
         'name',
         'description',
         'requirements',
         'expected_employees',
         'no_of_employees',
-        'status',
+        'is_active',
         'no_of_recruitment',
         'department_id',
         'company_id',

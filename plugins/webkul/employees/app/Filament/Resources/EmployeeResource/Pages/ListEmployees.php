@@ -44,7 +44,7 @@ class ListEmployees extends ListRecords
                     return $query->where('parent_id', $user->employee->id);
                 }),
             'archived' => PresetView::make('Archived')
-                ->icon('heroicon-m-archive-box-x-mark')
+                ->icon('heroicon-s-archive-box')
                 ->favorite()
                 ->modifyQueryUsing(fn (Builder $query) => $query->onlyTrashed()),
         ];

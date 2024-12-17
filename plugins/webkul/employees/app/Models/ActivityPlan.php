@@ -28,7 +28,7 @@ class ActivityPlan extends Model
         'user_id',
         'name',
         'department_id',
-        'active',
+        'is_active',
     ];
 
     /**
