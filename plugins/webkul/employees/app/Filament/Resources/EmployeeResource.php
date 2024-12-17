@@ -49,7 +49,7 @@ class EmployeeResource extends Resource
                                 Forms\Components\Group::make()
                                     ->schema([
                                         Forms\Components\TextInput::make('name')
-                                            ->label('Full Name')
+                                            ->label('Name')
                                             ->placeholder('Employee\'s name')
                                             ->required()
                                             ->maxLength(255)
@@ -132,6 +132,7 @@ class EmployeeResource extends Resource
                                     ->createOptionAction(
                                         fn(Action $action) => $action
                                             ->modalHeading('Create User')
+                                            ->modalWidth(MaxWidth::Full)
                                             ->modalSubmitActionLabel('Create User')
                                     ),
                                 Forms\Components\TextInput::make('work_phone')
