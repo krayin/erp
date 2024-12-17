@@ -12,11 +12,11 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Oper
 use Filament\Tables\Table;
 use Webkul\Fields\Filament\Traits\HasCustomFields;
 use Webkul\Project\Enums\TaskState;
+use Webkul\Project\Filament\Resources\ProjectResource\Pages\ManageProjectTasks;
 use Webkul\Project\Filament\Resources\TaskResource\Pages;
 use Webkul\Project\Filament\Resources\TaskResource\RelationManagers;
 use Webkul\Project\Models\Task;
 use Webkul\Project\Models\TaskStage;
-use Webkul\Project\Filament\Resources\ProjectResource\Pages\ManageProjectTasks;
 
 class TaskResource extends Resource
 {

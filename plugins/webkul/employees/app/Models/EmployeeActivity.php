@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
+use Webkul\Support\Models\ActivityType;
 
 class EmployeeActivity extends Model
 {

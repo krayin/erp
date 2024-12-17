@@ -6,7 +6,7 @@ use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityTypeResource;
-use Webkul\Employee\Models\ActivityType;
+use Webkul\Support\Models\ActivityType;
 
 class ListActivityTypes extends ListRecords
 {

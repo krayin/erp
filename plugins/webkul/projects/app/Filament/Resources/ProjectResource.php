@@ -9,11 +9,11 @@ use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Webkul\Project\Filament\Clusters\Configurations\Resources\TagResource;
 use Webkul\Project\Filament\Resources\ProjectResource\Pages;
 use Webkul\Project\Filament\Resources\ProjectResource\RelationManagers;
 use Webkul\Project\Models\Project;
 use Webkul\Project\Models\ProjectStage;
-use Webkul\Project\Filament\Clusters\Configurations\Resources\TagResource;
 use Webkul\Security\Filament\Resources\UserResource;
 
 class ProjectResource extends Resource

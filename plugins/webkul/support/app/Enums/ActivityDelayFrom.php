@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\Employee\Enums;
+namespace Webkul\Support\Enums;
 
 enum ActivityDelayFrom: string
 {

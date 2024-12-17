@@ -1,20 +1,20 @@
 <?php
 
-namespace Webkul\Employee\Models;
+namespace Webkul\Support\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Webkul\Employee\Models\Department;
 use Webkul\Fields\Traits\HasCustomFields;
 use Webkul\Security\Models\User;
-use Webkul\Support\Models\Company;
 
 class ActivityPlan extends Model
 {
     use HasCustomFields, HasFactory;
 
-    protected $table = 'employees_activity_plans';
+    protected $table = 'activity_plans';
 
     protected $fillable = [
         'company_id',
@@ -47,11 +47,6 @@ class ActivityPlan extends Model
     public function activityTypes(): HasMany
     {
         return $this->hasMany(ActivityType::class, 'activity_plan_id');
-    }
-
-    public function activities(): HasMany
-    {
-        return $this->hasMany(EmployeeActivity::class, 'activity_type_id');
     }
 
     public function activityPlanTemplates(): HasMany

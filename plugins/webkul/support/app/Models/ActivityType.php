@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\Employee\Models;
+namespace Webkul\Support\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +14,7 @@ class ActivityType extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'employees_activity_types';
+    protected $table = 'activity_types';
 
     protected $fillable = [
         'activity_plan_id',
@@ -59,7 +59,7 @@ class ActivityType extends Model
 
     public function suggestedActivityTypes(): BelongsToMany
     {
-        return $this->belongsToMany(self::class, 'employees_activity_type_suggestions', 'activity_type_id', 'suggested_activity_type_id');
+        return $this->belongsToMany(self::class, 'activity_type_suggestions', 'activity_type_id', 'suggested_activity_type_id');
     }
 
     public function createdBy(): BelongsTo

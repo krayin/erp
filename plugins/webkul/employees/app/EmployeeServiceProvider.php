@@ -34,10 +34,6 @@ class EmployeeServiceProvider extends PackageServiceProvider
                 '2024_12_12_063353_create_employees_employees_table',
                 '2024_12_12_064149_create_employees_addresses_table',
                 '2024_12_12_115730_create_employees_activities_table',
-                '2024_12_12_114620_create_employees_activity_plans_table',
-                '2024_12_12_115256_create_employees_activity_types_table',
-                '2024_12_12_115728_create_employees_activity_plan_templates_table',
-                '2024_12_17_082318_create_employees_activity_type_suggestions_table',
                 '2024_12_16_065746_create_employees_employee_resume_line_types_table',
                 '2024_12_16_070029_create_employees_employee_resumes_table',
             ])

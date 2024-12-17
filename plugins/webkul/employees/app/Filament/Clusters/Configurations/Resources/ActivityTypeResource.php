@@ -8,17 +8,17 @@ use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Webkul\Employee\Enums\ActivityChainingType;
-use Webkul\Employee\Enums\ActivityDecorationType;
-use Webkul\Employee\Enums\ActivityDelayFrom;
-use Webkul\Employee\Enums\ActivityDelayUnit;
-use Webkul\Employee\Enums\ActivityTypeAction;
 use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityTypeResource\Pages;
-use Webkul\Employee\Models\ActivityType;
 use Webkul\Employee\Models\Department;
 use Webkul\Employee\Models\Employee;
 use Webkul\Security\Models\User;
+use Webkul\Support\Enums\ActivityChainingType;
+use Webkul\Support\Enums\ActivityDecorationType;
+use Webkul\Support\Enums\ActivityDelayFrom;
+use Webkul\Support\Enums\ActivityDelayUnit;
+use Webkul\Support\Enums\ActivityTypeAction;
+use Webkul\Support\Models\ActivityType;
 
 class ActivityTypeResource extends Resource
 {
@@ -109,7 +109,7 @@ class ActivityTypeResource extends Resource
                                             ->live()
                                             ->native(false)
                                             ->hidden(fn (Get $get) => $get('category') === 'upload_file'),
-                                        Forms\Components\Select::make('employees_activity_type_suggestions')
+                                        Forms\Components\Select::make('activity_type_suggestions')
                                             ->multiple()
                                             ->relationship('suggestedActivityTypes', 'name')
                                             ->searchable()
@@ -125,7 +125,7 @@ class ActivityTypeResource extends Resource
                                     ->schema([
                                         Forms\Components\Toggle::make('is_active')
                                             ->label('Status')
-                                            ->default(true),
+                                            ->default(false),
                                         Forms\Components\Toggle::make('keep_done')
                                             ->label('Keep Done Activities')
                                             ->default(false),

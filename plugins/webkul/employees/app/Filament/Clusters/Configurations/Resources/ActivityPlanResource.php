@@ -7,13 +7,12 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityPlanResource\Pages;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityPlanResource\RelationManagers;
 use Webkul\Employee\Filament\Resources\DepartmentResource;
-use Webkul\Employee\Models\ActivityPlan;
 use Webkul\Fields\Filament\Traits\HasCustomFields;
+use Webkul\Support\Models\ActivityPlan;
 
 class ActivityPlanResource extends Resource
 {
@@ -35,12 +34,6 @@ class ActivityPlanResource extends Resource
                             ->label('Plan Name')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\Select::make('company_id')
-                            ->relationship('company', 'name')
-                            ->searchable()
-                            ->default(fn () => Auth::user()->defaultCompany?->id)
-                            ->required()
-                            ->preload(),
                         Forms\Components\Select::make('department_id')
                             ->label('Department')
                             ->relationship(name: 'department', titleAttribute: 'name')

@@ -18,10 +18,13 @@ class ListActivityPlans extends ListRecords
             Actions\CreateAction::make()
                 ->icon('heroicon-o-plus-circle')
                 ->mutateFormDataUsing(function ($data) {
+                    $user = Auth::user();
+
                     return [
                         ...$data,
-                        'creator_id' => Auth::user()->id,
+                        'creator_id' => $user?->id,
                         'model_type' => Employee::class,
+                        'company_id' => $user->defaultCompany?->id,
                     ];
                 }),
         ];
