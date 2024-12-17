@@ -5,19 +5,21 @@ namespace Webkul\Employee\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Security\Models\User;
 
 class ActivityType extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'employees_activity_types';
 
     protected $fillable = [
+        'activity_plan_id',
         'sort',
         'delay_count',
-        'default_user_id',
-        'user_id',
         'delay_unit',
         'delay_from',
         'icon',
@@ -26,47 +28,47 @@ class ActivityType extends Model
         'category',
         'name',
         'summary',
+        'model_type',
         'default_note',
         'is_active',
         'keep_done',
+        'user_id',
+        'default_user_id',
+        'triggered_next_type_id',
     ];
 
     protected $casts = [
-        'name'            => 'array',
-        'summary'         => 'array',
-        'default_note'    => 'array',
         'is_active'       => 'boolean',
         'keep_done'       => 'boolean',
     ];
 
+    public function activityPlan(): BelongsTo
+    {
+        return $this->belongsTo(ActivityPlan::class, 'activity_plan_id');
+    }
+
+    public function triggeredNextType(): BelongsTo
+    {
+        return $this->belongsTo(self::class, 'triggered_next_type_id');
+    }
+
+    public function activityTypes(): HasMany
+    {
+        return $this->hasMany(self::class, 'triggered_next_type_id');
+    }
+
+    public function suggestedActivityTypes(): BelongsToMany
+    {
+        return $this->belongsToMany(self::class, 'employees_activity_type_suggestions', 'activity_type_id', 'suggested_activity_type_id');
+    }
+
     public function createdBy(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function defaultUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'default_user_id');
-    }
-
-    public function getLocalizedNameAttribute()
-    {
-        $locale = app()->getLocale();
-
-        return $this->name[$locale] ?? $this->name['en'] ?? null;
-    }
-
-    public function getLocalizedSummaryAttribute()
-    {
-        $locale = app()->getLocale();
-
-        return $this->summary[$locale] ?? $this->summary['en'] ?? null;
-    }
-
-    public function getLocalizedDefaultNoteAttribute()
-    {
-        $locale = app()->getLocale();
-
-        return $this->default_note[$locale] ?? $this->default_note['en'] ?? null;
     }
 }
