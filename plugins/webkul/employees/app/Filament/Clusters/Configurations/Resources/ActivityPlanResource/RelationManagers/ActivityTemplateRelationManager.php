@@ -35,7 +35,17 @@ class ActivityTemplateRelationManager extends RelationManager
                                             ->options(ActivityType::pluck('name', 'id'))
                                             ->searchable()
                                             ->preload()
-                                            ->label('Activity type'),
+                                            ->label('Activity type')
+                                            ->live()
+                                            ->afterStateUpdated(function ($state, callable $set) {
+                                                $activityType = ActivityType::find($state);
+
+                                                if ($activityType && $activityType->default_user_id) {
+                                                    $set('responsible_type', ActivityResponsibleType::OTHER->value);
+
+                                                    $set('responsible_id', $activityType->default_user_id);
+                                                }
+                                            }),
                                         Forms\Components\Textarea::make('summary')
                                             ->label('Summary'),
                                         Forms\Components\RichEditor::make('note')
@@ -55,8 +65,8 @@ class ActivityTemplateRelationManager extends RelationManager
                                             ->preload(),
                                         Forms\Components\Select::make('responsible_id')
                                             ->label('Assignee')
-                                            ->options(fn() => User::pluck('name', 'id'))
-                                            ->hidden(fn(Get $get) => $get('responsible_type') !== ActivityResponsibleType::OTHER->value)
+                                            ->options(fn () => User::pluck('name', 'id'))
+                                            ->hidden(fn (Get $get) => $get('responsible_type') !== ActivityResponsibleType::OTHER->value)
                                             ->searchable()
                                             ->preload(),
                                     ]),
@@ -92,7 +102,7 @@ class ActivityTemplateRelationManager extends RelationManager
                     ->searchable(),
                 Tables\Columns\TextColumn::make('delay_count')
                     ->label('Delay')
-                    ->formatStateUsing(fn($state, $record) => $state ? "$state {$record->delay_unit}" : 'No Delay')
+                    ->formatStateUsing(fn ($state, $record) => $state ? "$state {$record->delay_unit}" : 'No Delay')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created')
@@ -113,7 +123,7 @@ class ActivityTemplateRelationManager extends RelationManager
                     ->label('Active Status'),
                 Tables\Filters\Filter::make('has_delay')
                     ->label('Has Delay')
-                    ->query(fn($query) => $query->whereNotNull('delay_count')),
+                    ->query(fn ($query) => $query->whereNotNull('delay_count')),
             ])
             ->groups([
                 Tables\Grouping\Group::make('activityType.name')
