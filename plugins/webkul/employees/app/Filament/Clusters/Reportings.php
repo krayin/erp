@@ -6,7 +6,7 @@ use Filament\Clusters\Cluster;
 
 class Reportings extends Cluster
 {
-    protected static ?string $navigationIcon = 'heroicon-o-flag';
+    protected static ?string $navigationIcon = 'heroicon-o-document-chart-bar';
 
     protected static ?string $navigationGroup = 'Employees';
 
