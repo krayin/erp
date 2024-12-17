@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('employees_activity_plans', function (Blueprint $table) {
             $table->id();
-            $table->morphs('model');
+            $table->string('model_type');
             $table->string('name')->nullable();
-            $table->boolean('active')->nullable()->default(true);
+            $table->boolean('is_active')->nullable()->default(true);
 
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('creator_id')->nullable();
             $table->unsignedBigInteger('company_id')->nullable();
             $table->unsignedBigInteger('department_id')->nullable();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('department_id')->references('id')->on('employees_departments')->onDelete('set null');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('set null');
 

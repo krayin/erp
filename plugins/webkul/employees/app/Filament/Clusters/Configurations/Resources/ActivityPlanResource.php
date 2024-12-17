@@ -3,7 +3,6 @@
 namespace Webkul\Employee\Filament\Clusters\Configurations\Resources;
 
 use Filament\Forms;
-use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -11,11 +10,10 @@ use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityPlanResource\Pages;
+use Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityPlanResource\RelationManagers;
+use Webkul\Employee\Filament\Resources\DepartmentResource;
 use Webkul\Employee\Models\ActivityPlan;
-use Webkul\Employee\Models\Employee;
 use Webkul\Fields\Filament\Traits\HasCustomFields;
-use Webkul\Security\Models\User;
-use Webkul\Support\Models\Company;
 
 class ActivityPlanResource extends Resource
 {
@@ -37,64 +35,21 @@ class ActivityPlanResource extends Resource
                             ->label('Plan Name')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('model_type')
-                            ->readOnly()
-                            ->default(Employee::class),
-                        Forms\Components\Select::make('model_id')
-                            ->label('Employee')
-                            ->options(fn () => Employee::pluck('name', 'id'))
-                            ->required()
-                            ->searchable()
-                            ->preload(),
                         Forms\Components\Select::make('company_id')
                             ->relationship('company', 'name')
                             ->searchable()
                             ->default(fn () => Auth::user()->defaultCompany?->id)
                             ->required()
-                            ->suffixIcon('heroicon-o-building-office')
                             ->preload(),
                         Forms\Components\Select::make('department_id')
                             ->label('Department')
                             ->relationship(name: 'department', titleAttribute: 'name')
                             ->searchable()
                             ->preload()
-                            ->createOptionForm([
-                                Forms\Components\Group::make()
-                                    ->schema([
-                                        Forms\Components\TextInput::make('name')
-                                            ->label('Name')
-                                            ->required()
-                                            ->maxLength(255)
-                                            ->live(onBlur: true),
-                                        Forms\Components\Select::make('manager_id')
-                                            ->label('Manager')
-                                            ->relationship('manager', 'name')
-                                            ->options(function () {
-                                                return User::whereHas('roles', function ($query) {
-                                                    $query->where('name', 'admin');
-                                                })->pluck('name', 'id');
-                                            })
-                                            ->searchable()
-                                            ->placeholder('Select a manager')
-                                            ->nullable(),
-                                        Forms\Components\Select::make('company_id')
-                                            ->label('Company')
-                                            ->relationship('company', 'name')
-                                            ->options(fn () => Company::pluck('name', 'id'))
-                                            ->searchable()
-                                            ->placeholder('Select a Company')
-                                            ->nullable(),
-                                        Forms\Components\ColorPicker::make('color')
-                                            ->label('Color'),
-                                    ])->columns(2),
-                            ])
-                            ->createOptionAction(function (Action $action) {
-                                return $action
-                                    ->modalHeading('Create Department')
-                                    ->modalSubmitActionLabel('Create Department')
-                                    ->modalWidth('2xl');
-                            }),
-                        Forms\Components\Toggle::make('active')
+                            ->createOptionForm(fn (Form $form) => DepartmentResource::form($form))
+                            ->editOptionForm(fn (Form $form) => DepartmentResource::form($form)),
+                        Forms\Components\Toggle::make('is_active')
+                            ->label('Status')
                             ->default(true)
                             ->inline(false),
                         Forms\Components\Section::make('Additional Information')
@@ -110,28 +65,41 @@ class ActivityPlanResource extends Resource
     {
         return $table
             ->columns(static::mergeCustomTableColumns([
-                Tables\Columns\TextColumn::make('model.name')
+                Tables\Columns\TextColumn::make('model_type')
                     ->label('Related Entity')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('company.name')
                     ->numeric()
+                    ->badge()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('department.name')
                     ->numeric()
+                    ->badge()
                     ->sortable(),
-                Tables\Columns\IconColumn::make('active')
+                Tables\Columns\IconColumn::make('is_active')
+                    ->sortable()
+                    ->label('Status')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Created')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Updated')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ]))
             ->filters(static::mergeCustomTableFilters([]))
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -142,6 +110,13 @@ class ActivityPlanResource extends Resource
                 Tables\Actions\CreateAction::make()
                     ->icon('heroicon-o-plus-circle'),
             ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            RelationManagers\ActivityTemplateRelationManager::class,
+        ];
     }
 
     public static function getPages(): array
