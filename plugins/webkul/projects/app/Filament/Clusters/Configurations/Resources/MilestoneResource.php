@@ -48,8 +48,10 @@ class MilestoneResource extends Resource
                 Tables\Columns\TextColumn::make('deadline')
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\IconColumn::make('is_completed')
-                    ->boolean(),
+                Tables\Columns\ToggleColumn::make('is_completed')
+                    ->beforeStateUpdated(function ($record, $state) {
+                        $record->completed_at = $state ? now() : null;
+                    }),
                 Tables\Columns\TextColumn::make('completed_at')
                     ->dateTime()
                     ->sortable(),
