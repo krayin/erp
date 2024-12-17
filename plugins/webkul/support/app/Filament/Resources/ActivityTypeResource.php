@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\Employee\Filament\Clusters\Configurations\Resources;
+namespace Webkul\Support\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -8,8 +8,6 @@ use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Webkul\Employee\Filament\Clusters\Configurations;
-use Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityTypeResource\Pages;
 use Webkul\Employee\Models\Department;
 use Webkul\Employee\Models\Employee;
 use Webkul\Security\Models\User;
@@ -18,6 +16,7 @@ use Webkul\Support\Enums\ActivityDecorationType;
 use Webkul\Support\Enums\ActivityDelayFrom;
 use Webkul\Support\Enums\ActivityDelayUnit;
 use Webkul\Support\Enums\ActivityTypeAction;
+use Webkul\Support\Filament\Resources\ActivityTypeResource\Pages;
 use Webkul\Support\Models\ActivityType;
 
 class ActivityTypeResource extends Resource
@@ -26,7 +25,9 @@ class ActivityTypeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    protected static ?string $cluster = Configurations::class;
+    protected static ?string $slug = 'settings/activity-types';
+
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {

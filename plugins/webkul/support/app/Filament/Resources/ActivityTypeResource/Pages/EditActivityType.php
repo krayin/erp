@@ -1,10 +1,10 @@
 <?php
 
-namespace Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityTypeResource\Pages;
+namespace Webkul\Support\Filament\Resources\ActivityTypeResource\Pages;
 
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
-use Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityTypeResource;
+use Webkul\Support\Filament\Resources\ActivityTypeResource;
 
 class EditActivityType extends EditRecord
 {
@@ -13,7 +13,6 @@ class EditActivityType extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\ViewAction::make(),
             Actions\DeleteAction::make(),
         ];
     }
