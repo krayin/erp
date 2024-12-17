@@ -10,12 +10,12 @@ use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Employee\Enums\ActivityDelayFrom;
-use Webkul\Employee\Enums\ActivityDelayUnit;
-use Webkul\Employee\Enums\ActivityResponsibleType;
-use Webkul\Employee\Models\ActivityPlanTemplate;
-use Webkul\Employee\Models\ActivityType;
 use Webkul\Security\Models\User;
+use Webkul\Support\Enums\ActivityDelayFrom;
+use Webkul\Support\Enums\ActivityDelayUnit;
+use Webkul\Support\Enums\ActivityResponsibleType;
+use Webkul\Support\Models\ActivityPlanTemplate;
+use Webkul\Support\Models\ActivityType;
 
 class ActivityTemplateRelationManager extends RelationManager
 {

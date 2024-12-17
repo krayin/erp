@@ -2,11 +2,11 @@
 
 namespace Webkul\Project\Filament\Resources;
 
-use Webkul\Partner\Models\Partner;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Webkul\Partner\Enums\AccountType;
+use Webkul\Partner\Models\Partner;
 
 class PartnerResource extends Resource
 {
@@ -24,7 +24,7 @@ class PartnerResource extends Resource
                     ->columnSpan(2)
                     ->options([
                         AccountType::INDIVIDUAL->value => 'Individual',
-                        AccountType::COMPANY->value => 'Company',
+                        AccountType::COMPANY->value    => 'Company',
                     ])
                     ->default(AccountType::INDIVIDUAL->value)
                     ->live(),

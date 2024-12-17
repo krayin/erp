@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\Employee\Models;
+namespace Webkul\Support\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +12,7 @@ class ActivityPlanTemplate extends Model
 {
     use HasFactory;
 
-    protected $table = 'employees_activity_plan_templates';
+    protected $table = 'activity_plan_templates';
 
     protected $fillable = [
         'delay_count',

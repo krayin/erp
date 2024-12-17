@@ -89,7 +89,6 @@ class Employee extends Model
         'work_permit_expiration_date',
         'departure_date',
         'departure_description',
-        'employee_properties',
         'additional_note',
         'notes',
         'is_active',
@@ -104,7 +103,6 @@ class Employee extends Model
      * @var array
      */
     protected $casts = [
-        'employee_properties'            => 'array',
         'is_active'                      => 'boolean',
         'is_flexible'                    => 'boolean',
         'is_fully_flexible'              => 'boolean',

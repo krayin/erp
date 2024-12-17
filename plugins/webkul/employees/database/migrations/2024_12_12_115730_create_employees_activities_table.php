@@ -31,9 +31,9 @@ return new class extends Migration
             $table->boolean('automated')->default(false)->comment('Whether the activity was automated');
             $table->boolean('active')->default(true)->comment('Whether the activity is active');
 
-            $table->foreign('activity_type_id')->references('id')->on('employees_activity_types')->onDelete('restrict');
-            $table->foreign('recommended_activity_type_id')->references('id')->on('employees_activity_types')->onDelete('set null');
-            $table->foreign('previous_activity_type_id')->references('id')->on('employees_activity_types')->onDelete('set null');
+            $table->foreign('activity_type_id')->references('id')->on('activity_types')->onDelete('restrict');
+            $table->foreign('recommended_activity_type_id')->references('id')->on('activity_types')->onDelete('set null');
+            $table->foreign('previous_activity_type_id')->references('id')->on('activity_types')->onDelete('set null');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('request_partner_id')->references('id')->on('partners_partners')->onDelete('set null');
@@ -48,6 +48,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employees_activity_plans');
+        Schema::dropIfExists('activity_plans');
     }
 };

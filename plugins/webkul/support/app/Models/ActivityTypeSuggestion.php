@@ -1,12 +1,12 @@
 <?php
 
-namespace Webkul\Employee\Models;
+namespace Webkul\Support\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class ActivityTypeSuggestion extends Model
 {
-    protected $table = 'employees_activity_type_suggestions';
+    protected $table = 'activity_type_suggestions';
 
     public $timestamps = false;
 
