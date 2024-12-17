@@ -42,7 +42,7 @@ class ManageActivity extends SettingsPage
             ->schema([
                 Forms\Components\Actions::make([
                     Forms\Components\Actions\Action::make('manageActivityTypes')
-                        ->label('Manage Activity Types')
+                        ->label('Activity Types')
                         ->icon('heroicon-o-arrow-top-right-on-square')
                         ->link()
                         ->url(route('filament.admin.resources.settings.activity-types.index')),
