@@ -447,8 +447,7 @@ class EmployeeResource extends Resource
                                             ->columnSpan(['lg' => 2]),
                                         Forms\Components\Group::make()
                                             ->schema([
-                                                Forms\Components\Section::make('Emergency Contact')
-                                                    ->description('Person to contact in case of emergency')
+                                                Forms\Components\Fieldset::make('Emergency Contact')
                                                     ->schema([
                                                         Forms\Components\TextInput::make('emergency_contact')
                                                             ->label('Contact Name')
@@ -510,22 +509,11 @@ class EmployeeResource extends Resource
                                                             ->rows(3),
                                                         Forms\Components\Textarea::make('notes')
                                                             ->label('Notes'),
+                                                        ...static::getCustomFormFields(),
                                                     ])->columns(2),
                                             ])
                                             ->columnSpan(['lg' => 2]),
-                                        Forms\Components\Group::make()
-                                            ->schema([
-                                                Forms\Components\Fieldset::make('System Settings')
-                                                    ->schema([
-                                                        Forms\Components\KeyValue::make('employee_properties')
-                                                            ->label('Employee Properties')
-                                                            ->helperText('Key-value pairs for additional metadata'),
-                                                        ...static::getCustomFormFields(),
-                                                    ]),
-                                            ])
-                                            ->columnSpan(['lg' => 1]),
-                                    ])
-                                    ->columns(3),
+                                    ]),
                             ]),
                     ])
                     ->columnSpan('full')
