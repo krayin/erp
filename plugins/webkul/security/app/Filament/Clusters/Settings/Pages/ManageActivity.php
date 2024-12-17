@@ -40,6 +40,9 @@ class ManageActivity extends SettingsPage
     {
         return $form
             ->schema([
+                Forms\Components\Placeholder::make('activity_description')
+                    ->label('Activities')
+                    ->content('Configure your activity types.'),
                 Forms\Components\Actions::make([
                     Forms\Components\Actions\Action::make('manageActivityTypes')
                         ->label('Activity Types')
@@ -47,9 +50,6 @@ class ManageActivity extends SettingsPage
                         ->link()
                         ->url(route('filament.admin.resources.settings.activity-types.index')),
                 ]),
-                Forms\Components\Placeholder::make('activity_description')
-                    ->label('Activities')
-                    ->content('Configure your activity types.'),
             ])->columns(1);
     }
 
