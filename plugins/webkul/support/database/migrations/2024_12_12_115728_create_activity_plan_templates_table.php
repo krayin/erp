@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employees_activity_plan_templates', function (Blueprint $table) {
+        Schema::create('activity_plan_templates', function (Blueprint $table) {
             $table->id();
             $table->integer('sort')->nullable();
 
@@ -27,8 +27,8 @@ return new class extends Migration
             $table->string('responsible_type')->nullable();
             $table->text('note')->nullable();
 
-            $table->foreign('plan_id')->references('id')->on('employees_activity_plans')->onDelete('set null');
-            $table->foreign('activity_type_id')->references('id')->on('employees_activity_types')->onDelete('set null');
+            $table->foreign('plan_id')->references('id')->on('activity_plans')->onDelete('set null');
+            $table->foreign('activity_type_id')->references('id')->on('activity_types')->onDelete('set null');
             $table->foreign('responsible_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
 
@@ -41,6 +41,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employees_activity_plan_templates');
+        Schema::dropIfExists('activity_plan_templates');
     }
 };

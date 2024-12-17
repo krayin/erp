@@ -11,18 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employees_activity_type_suggestions', function (Blueprint $table) {
+        Schema::create('activity_type_suggestions', function (Blueprint $table) {
             $table->unsignedBigInteger('activity_type_id')->comment('The primary activity type');
             $table->unsignedBigInteger('suggested_activity_type_id')->comment('The suggested activity type');
 
             $table->foreign('activity_type_id', 'activity_type_id')
                 ->references('id')
-                ->on('employees_activity_types')
+                ->on('activity_types')
                 ->onDelete('cascade');
 
             $table->foreign('suggested_activity_type_id', 'suggested_activity_type_id')
                 ->references('id')
-                ->on('employees_activity_types')
+                ->on('activity_types')
                 ->onDelete('cascade');
         });
     }
@@ -32,11 +32,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('employees_activity_type_suggestions', function (Blueprint $table) {
+        Schema::table('activity_type_suggestions', function (Blueprint $table) {
             $table->dropForeign('activity_type_id');
             $table->dropForeign('suggested_activity_type_id');
         });
 
-        Schema::dropIfExists('employees_activity_type_suggestions');
+        Schema::dropIfExists('activity_type_suggestions');
     }
 };

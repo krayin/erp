@@ -185,8 +185,8 @@ class ProjectResource extends Resource
             ->actions([
                 Tables\Actions\Action::make('tasks')
                     ->label(fn (Project $record): string => $record->tasks->count().' Tasks')
-                    ->icon('heroicon-m-arrow-top-right-on-square')
-                    ->color('primary')
+                    ->icon('heroicon-o-clipboard-document-list')
+                    ->color('gray')
                     ->url('https:example.com/tasks/{record}')
                     ->hidden(fn ($record) => $record->trashed())
                     ->url(fn (Project $record): string => route('filament.admin.resources.project.projects.tasks', $record->id)),
@@ -198,6 +198,7 @@ class ProjectResource extends Resource
                     ->url('https:example.com/tasks/{record}')
                     ->hidden(fn ($record) => $record->trashed())
                     ->url(fn (Project $record): string => route('filament.admin.resources.project.projects.milestones', $record->id)),
+
                 Tables\Actions\EditAction::make()
                     ->hidden(fn ($record) => $record->trashed()),
                 Tables\Actions\RestoreAction::make(),

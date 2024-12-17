@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employees_activity_types', function (Blueprint $table) {
+        Schema::create('activity_types', function (Blueprint $table) {
             $table->id();
             $table->integer('sort')->nullable();
             $table->integer('delay_count')->nullable();
@@ -33,10 +33,10 @@ return new class extends Migration
             $table->unsignedBigInteger('activity_plan_id')->nullable();
             $table->unsignedBigInteger('triggered_next_type_id')->nullable();
 
-            $table->foreign('activity_plan_id')->references('id')->on('employees_activity_plans')->onDelete('cascade');
+            $table->foreign('activity_plan_id')->references('id')->on('activity_plans')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('default_user_id')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('triggered_next_type_id')->references('id')->on('employees_activity_types')->onDelete('set null');
+            $table->foreign('triggered_next_type_id')->references('id')->on('activity_types')->onDelete('set null');
 
             $table->softDeletes();
             $table->timestamps();
@@ -48,6 +48,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employees_activity_types');
+        Schema::dropIfExists('activity_types');
     }
 };
