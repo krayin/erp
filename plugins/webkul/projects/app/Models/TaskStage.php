@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Project\Database\Factories\TaskStageFactory;
-use Webkul\Security\Models\Company;
 use Webkul\Security\Models\User;
+use Webkul\Support\Models\Company;
 
 class TaskStage extends Model
 {
@@ -31,6 +31,7 @@ class TaskStage extends Model
         'is_active',
         'is_collapsed',
         'sort',
+        'project_id',
         'company_id',
         'user_id',
         'creator_id',
@@ -45,6 +46,11 @@ class TaskStage extends Model
         'is_active'    => 'boolean',
         'is_collapsed' => 'boolean',
     ];
+
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(Project::class);
+    }
 
     public function user(): BelongsTo
     {

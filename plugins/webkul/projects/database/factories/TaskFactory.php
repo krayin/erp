@@ -7,8 +7,8 @@ use Webkul\Partner\Models\Partner;
 use Webkul\Project\Models\Project;
 use Webkul\Project\Models\Task;
 use Webkul\Project\Models\TaskStage;
-use Webkul\Security\Models\Company;
 use Webkul\Security\Models\User;
+use Webkul\Support\Models\Company;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Webkul\Project\Models\Task>

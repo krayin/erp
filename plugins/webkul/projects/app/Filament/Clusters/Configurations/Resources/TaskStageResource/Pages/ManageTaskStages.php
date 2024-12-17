@@ -1,17 +1,17 @@
 <?php
 
-namespace Webkul\Project\Filament\Clusters\Configurations\Resources\TagResource\Pages;
+namespace Webkul\Project\Filament\Clusters\Configurations\Resources\TaskStageResource\Pages;
 
 use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ManageRecords;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Project\Filament\Clusters\Configurations\Resources\TagResource;
-use Webkul\Project\Models\Tag;
+use Webkul\Project\Filament\Clusters\Configurations\Resources\TaskStageResource;
+use Webkul\Project\Models\TaskStage;
 
-class ManageTags extends ManageRecords
+class ManageTaskStages extends ManageRecords
 {
-    protected static string $resource = TagResource::class;
+    protected static string $resource = TaskStageResource::class;
 
     protected function getHeaderActions(): array
     {
@@ -28,10 +28,10 @@ class ManageTags extends ManageRecords
     public function getTabs(): array
     {
         return [
-            'all' => Tab::make('All Tags')
-                ->badge(Tag::count()),
+            'all' => Tab::make('All Stages')
+                ->badge(TaskStage::count()),
             'archived' => Tab::make('Archived')
-                ->badge(Tag::onlyTrashed()->count())
+                ->badge(TaskStage::onlyTrashed()->count())
                 ->modifyQueryUsing(function ($query) {
                     return $query->onlyTrashed();
                 }),

@@ -18,6 +18,10 @@ return new class extends Migration
             $table->boolean('is_collapsed')->default(0);
             $table->integer('sort')->nullable();
 
+            $table->foreignId('project_id')
+                ->constrained('projects_projects')
+                ->cascadeOnDelete();
+
             $table->foreignId('company_id')
                 ->nullable()
                 ->constrained('companies')

@@ -17,7 +17,7 @@ class ManageMilestones extends ManageRecords
             Actions\CreateAction::make()
                 ->mutateFormDataUsing(function (array $data): array {
                     $data['creator_id'] = Auth::id();
-            
+
                     return $data;
                 }),
         ];
