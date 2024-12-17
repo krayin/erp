@@ -20,19 +20,25 @@ return new class extends Migration
             $table->string('icon')->nullable();
             $table->string('decoration_type')->nullable();
             $table->string('chaining_type');
+            $table->string('model_type')->nullable();
             $table->string('category')->nullable();
-            $table->jsonb('name');
-            $table->jsonb('summary')->nullable();
-            $table->jsonb('default_note')->nullable();
-            $table->boolean('active')->nullable()->default(true);
-            $table->boolean('keep_done')->nullable()->default(false);
+            $table->string('name');
+            $table->text('summary')->nullable();
+            $table->text('default_note')->nullable();
+            $table->boolean('is_active')->default(true);
+            $table->boolean('keep_done')->default(false);
 
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('default_user_id')->nullable();
+            $table->unsignedBigInteger('activity_plan_id')->nullable();
+            $table->unsignedBigInteger('triggered_next_type_id')->nullable();
 
+            $table->foreign('activity_plan_id')->references('id')->on('employees_activity_plans')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('default_user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('triggered_next_type_id')->references('id')->on('employees_activity_types')->onDelete('set null');
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

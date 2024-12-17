@@ -5,6 +5,7 @@ namespace Webkul\Employee\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Webkul\Security\Models\User;
 
 class ActivityPlanTemplate extends Model
@@ -14,49 +15,44 @@ class ActivityPlanTemplate extends Model
     protected $table = 'employees_activity_plan_templates';
 
     protected $fillable = [
-        'plan_id',
-        'sort',
-        'activity_type_id',
         'delay_count',
-        'responsible_id',
-        'create_uid',
-        'write_uid',
+        'sort',
         'delay_unit',
         'delay_from',
         'summary',
         'responsible_type',
         'note',
+        'plan_id',
+        'activity_type_id',
+        'responsible_id',
+        'creator_id',
     ];
 
     /**
-     * Get the plan associated with the activity.
+     * Relationships
      */
-    public function plan(): BelongsTo
+    public function activityPlan(): BelongsTo
     {
-        return $this->belongsTo(ActivityPlan::class);
+        return $this->belongsTo(ActivityPlan::class, 'plan_id');
     }
 
-    /**
-     * Get the activity type associated with the template.
-     */
-    public function activity_type(): BelongsTo
+    public function activityType(): BelongsTo
     {
-        return $this->belongsTo(ActivityType::class);
+        return $this->belongsTo(ActivityType::class, 'activity_type_id');
     }
 
-    /**
-     * Get the responsible user.
-     */
-    public function responsible(): BelongsTo
+    public function responsible(): MorphTo
     {
-        return $this->belongsTo(User::class, 'responsible_id');
+        return $this->morphTo('responsible', 'responsible_type', 'responsible_id');
     }
 
-    /**
-     * Get the creator user.
-     */
-    public function creator(): BelongsTo
+    public function createdBy(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    public function assignedUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
