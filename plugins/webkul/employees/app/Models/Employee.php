@@ -15,6 +15,7 @@ use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Bank;
 use Webkul\Support\Models\Company;
+use Webkul\Support\Models\CompanyAddress;
 use Webkul\Support\Models\Country;
 use Webkul\Support\Models\State;
 
@@ -84,6 +85,10 @@ class Employee extends Model
         'employee_type',
         'barcode',
         'pin',
+        'address_id',
+        'tz',
+        'work_permit',
+        'leave_manager_id',
         'private_car_plate',
         'visa_expire',
         'work_permit_expiration_date',
@@ -220,5 +225,15 @@ class Employee extends Model
     protected static function newFactory(): EmployeeFactory
     {
         return EmployeeFactory::new();
+    }
+
+    public function leaveManager(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'leave_manager_id');
+    }
+
+    public function companyAddress()
+    {
+        return $this->belongsTo(CompanyAddress::class, 'address_id');
     }
 }

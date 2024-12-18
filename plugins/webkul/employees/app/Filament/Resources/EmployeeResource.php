@@ -24,11 +24,13 @@ use Webkul\Employee\Filament\Clusters\Configurations\Resources\JobPositionResour
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\WorkLocationResource;
 use Webkul\Employee\Filament\Resources\EmployeeResource\Pages;
 use Webkul\Employee\Filament\Resources\EmployeeResource\RelationManagers;
+use Webkul\Employee\Models\Calendar;
 use Webkul\Employee\Models\Employee;
 use Webkul\Fields\Filament\Traits\HasCustomFields;
 use Webkul\Security\Filament\Resources\CompanyResource;
 use Webkul\Security\Filament\Resources\UserResource;
 use Webkul\Security\Models\User;
+use Webkul\Support\Models\Company;
 use Webkul\Support\Models\Currency;
 
 class EmployeeResource extends Resource
@@ -83,26 +85,55 @@ class EmployeeResource extends Resource
                             ->schema([
                                 Forms\Components\TextInput::make('work_email')
                                     ->label('Work Email')
+                                    ->suffixAction(
+                                        Action::make('open_mailbox')
+                                            ->icon('heroicon-o-envelope')
+                                            ->color('blue')
+                                            ->action(function (Set $set, $state) {
+                                                if (filter_var($state, FILTER_VALIDATE_EMAIL)) {
+                                                    $set('work_email', $state);
+                                                }
+                                            })
+                                            ->url(fn(string $state) => "mailto:{$state}")
+                                    )
                                     ->email(),
                                 Forms\Components\Select::make('department_id')
                                     ->label('Department')
                                     ->relationship(name: 'department', titleAttribute: 'name')
                                     ->searchable()
                                     ->preload()
-                                    ->createOptionForm(fn (Form $form) => DepartmentResource::form($form))
-                                    ->editOptionForm(fn (Form $form) => DepartmentResource::form($form)),
+                                    ->createOptionForm(fn(Form $form) => DepartmentResource::form($form))
+                                    ->editOptionForm(fn(Form $form) => DepartmentResource::form($form)),
                                 Forms\Components\TextInput::make('mobile_phone')
                                     ->label('Work Mobile')
+                                    ->suffixAction(
+                                        Action::make('open_mobile_phone')
+                                            ->icon('heroicon-o-phone')
+                                            ->color('blue')
+                                            ->action(function (Set $set, $state) {
+                                                $set('mobile_phone', $state);
+                                            })
+                                            ->url(fn(string $state) => "tel:{$state}")
+                                    )
                                     ->tel(),
                                 Forms\Components\Select::make('job_id')
                                     ->relationship('job', 'name')
                                     ->searchable()
                                     ->preload()
                                     ->label('Job Position')
-                                    ->createOptionForm(fn (Form $form) => JobPositionResource::form($form))
-                                    ->editOptionForm(fn (Form $form) => JobPositionResource::form($form)),
+                                    ->createOptionForm(fn(Form $form) => JobPositionResource::form($form))
+                                    ->editOptionForm(fn(Form $form) => JobPositionResource::form($form)),
                                 Forms\Components\TextInput::make('work_phone')
                                     ->label('Work Phone')
+                                    ->suffixAction(
+                                        Action::make('open_work_phone')
+                                            ->icon('heroicon-o-phone')
+                                            ->color('blue')
+                                            ->action(function (Set $set, $state) {
+                                                $set('work_phone', $state);
+                                            })
+                                            ->url(fn(string $state) => "tel:{$state}")
+                                    )
                                     ->tel(),
                                 Forms\Components\Select::make('parent_id')
                                     ->relationship('parent', 'name')
@@ -115,7 +146,7 @@ class EmployeeResource extends Resource
                                     ->searchable()
                                     ->preload()
                                     ->label('Employee Tags')
-                                    ->createOptionForm(fn (Form $form) => EmployeeCategoryResource::form($form)),
+                                    ->createOptionForm(fn(Form $form) => EmployeeCategoryResource::form($form)),
                                 Forms\Components\Select::make('coach_id')
                                     ->searchable()
                                     ->preload()
@@ -135,82 +166,73 @@ class EmployeeResource extends Resource
                                     ->schema([
                                         Forms\Components\Group::make()
                                             ->schema([
-                                                Forms\Components\Fieldset::make('Personal Details')
+                                                Forms\Components\Fieldset::make('Location')
                                                     ->schema([
-                                                        Forms\Components\Select::make('gender')
-                                                            ->label('Gender')
+                                                        Forms\Components\Select::make('address_id')
+                                                            ->options(fn() => Company::pluck('name', 'id'))
                                                             ->searchable()
                                                             ->preload()
-                                                            ->options(Gender::options()),
-                                                        Forms\Components\DatePicker::make('birthday')
-                                                            ->label('Date of Birth')
-                                                            ->native(false)
-                                                            ->maxDate(now()),
-                                                        Forms\Components\TextInput::make('place_of_birth')
-                                                            ->label('Place of Birth'),
-                                                        Forms\Components\Select::make('country_of_birth')
-                                                            ->relationship('countryOfBirth', 'name')
-                                                            ->searchable()
-                                                            ->preload()
-                                                            ->label('Country of Birth'),
-                                                    ])->columns(2),
-                                                Forms\Components\Fieldset::make('Employment Information')
-                                                    ->schema([
-                                                        Forms\Components\Select::make('user_id')
-                                                            ->relationship('user', 'name')
-                                                            ->searchable()
-                                                            ->preload()
-                                                            ->label('Related User')
-                                                            ->createOptionForm(fn (Form $form) => UserResource::form($form))
-                                                            ->editOptionForm(fn (Form $form) => UserResource::form($form))
-                                                            ->createOptionAction(
-                                                                fn (Action $action) => $action
-                                                                    ->modalHeading('Create User')
-                                                                    ->modalSubmitActionLabel('Create User')
-                                                                    ->modalWidth(MaxWidth::MaxContent)
-                                                                    ->action(function (array $data, Livewire $component) {
-                                                                        $user = User::create($data);
+                                                            ->live()
+                                                            ->label('Work Address'),
+                                                        Forms\Components\Placeholder::make('address')
+                                                            ->hiddenLabel()
+                                                            ->content(function (Get $get) {
+                                                                if ($get('address_id')) {
+                                                                    $address = Company::find($get('address_id'))?->address;
 
-                                                                        $partner = $user->partner()->create([
-                                                                            'creator_id' => Auth::user()->id,
-                                                                            'user_id'    => $user->id,
-                                                                            'company_id' => $data['default_company_id'] ?? null,
-                                                                            'avatar'     => $data['avatar'] ?? null,
-                                                                            ...$data,
-                                                                        ]);
+                                                                    if ($address) {
+                                                                        return implode(' ', array_filter([
+                                                                            "{$address->street1}, {$address->street2}",
+                                                                            "{$address->city}, {$address->state->name} - {$address->zip}",
+                                                                            $address->country->name,
+                                                                        ]));
+                                                                    }
+                                                                }
 
-                                                                        $user->update([
-                                                                            'partner_id' => $partner->id,
-                                                                        ]);
-
-                                                                        $component->state($user->id);
-
-                                                                        return $user;
-                                                                    })
-                                                            ),
-                                                        Forms\Components\TextInput::make('distance_home_work')
-                                                            ->label('Distance Home to Work')
-                                                            ->numeric()
-                                                            ->suffix('km'),
-                                                        Forms\Components\TextInput::make('km_home_work')
-                                                            ->label('KM Home to Work')
-                                                            ->numeric()
-                                                            ->suffix('km'),
+                                                                return null;
+                                                            })
+                                                            ->visible(fn(Get $get) => $get('address_id') != null),
                                                         Forms\Components\Select::make('work_location_id')
                                                             ->relationship('workLocation', 'name')
                                                             ->searchable()
                                                             ->preload()
                                                             ->label('Work Location')
-                                                            ->createOptionForm(fn (Form $form) => WorkLocationResource::form($form))
-                                                            ->editOptionForm(fn (Form $form) => WorkLocationResource::form($form)),
-                                                        Forms\Components\TextInput::make('distance_home_work_unit')
-                                                            ->label('Distance Unit'),
-                                                    ])->columns(2),
+                                                            ->createOptionForm(fn(Form $form) => WorkLocationResource::form($form))
+                                                            ->editOptionForm(fn(Form $form) => WorkLocationResource::form($form)),
+                                                    ])->columns(1),
+                                                Forms\Components\Fieldset::make('Approvers')
+                                                    ->schema([
+                                                        Forms\Components\Select::make('leave_manager_id')
+                                                            ->options(fn() => User::pluck('name', 'id'))
+                                                            ->searchable()
+                                                            ->preload()
+                                                            ->live()
+                                                            ->label('Time Off'),
+                                                    ])->columns(1),
+                                                Forms\Components\Fieldset::make('Schedule')
+                                                    ->schema([
+                                                        Forms\Components\Select::make('calendar_id')
+                                                            ->options(fn() => Calendar::pluck('name', 'id'))
+                                                            ->searchable()
+                                                            ->preload()
+                                                            ->live()
+                                                            ->label('Working Hours'),
+                                                        Forms\Components\Select::make('tz')
+                                                            ->label('Time Zone')
+                                                            ->options(function () {
+                                                                return collect(timezone_identifiers_list())->mapWithKeys(function ($timezone) {
+                                                                    return [$timezone => $timezone];
+                                                                });
+                                                            })
+                                                            ->default(date_default_timezone_get())
+                                                            ->preload()
+                                                            ->searchable()
+                                                            ->hintIcon('heroicon-o-question-mark-circle', tooltip: 'Specify the time zone for this work schedule'),
+                                                    ])->columns(1),
                                             ])
                                             ->columnSpan(['lg' => 2]),
                                         Forms\Components\Group::make()
                                             ->schema([
-
                                                 Forms\Components\Group::make()
                                                     ->schema([
                                                         Forms\Components\Fieldset::make('Organizational Details')
@@ -220,16 +242,8 @@ class EmployeeResource extends Resource
                                                                     ->searchable()
                                                                     ->preload()
                                                                     ->label('Company')
-                                                                    ->createOptionForm(fn (Form $form) => CompanyResource::form($form))
-                                                                    ->editOptionForm(fn (Form $form) => CompanyResource::form($form)),
-                                                                Forms\Components\Select::make('employee_type')
-                                                                    ->relationship('employmentType', 'name')
-                                                                    ->searchable()
-                                                                    ->preload()
-                                                                    ->label('Employment Type')
-                                                                    ->required()
-                                                                    ->createOptionForm(fn (Form $form) => EmploymentTypeResource::form($form))
-                                                                    ->editOptionForm(fn (Form $form) => EmploymentTypeResource::form($form)),
+                                                                    ->createOptionForm(fn(Form $form) => CompanyResource::form($form))
+                                                                    ->editOptionForm(fn(Form $form) => CompanyResource::form($form)),
                                                                 Forms\Components\ColorPicker::make('color')
                                                                     ->label('Color'),
                                                             ])->columns(1),
@@ -247,51 +261,199 @@ class EmployeeResource extends Resource
                                     ->schema([
                                         Forms\Components\Group::make()
                                             ->schema([
-                                                Forms\Components\Fieldset::make('Personal Background')
+                                                Forms\Components\Group::make()
                                                     ->schema([
-                                                        Forms\Components\Select::make('marital')
-                                                            ->label('Marital Status')
-                                                            ->searchable()
-                                                            ->preload()
-                                                            ->options(MaritalStatus::options())
-                                                            ->live(),
-                                                        Forms\Components\TextInput::make('spouse_complete_name')
-                                                            ->label('Spouse Name')
-                                                            ->hidden(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                            ->dehydrated(fn (Get $get) => $get('marital') !== MaritalStatus::Single->value)
-                                                            ->required(fn (Get $get) => $get('marital') !== MaritalStatus::Single->value),
-                                                        Forms\Components\DatePicker::make('spouse_birthdate')
-                                                            ->label('Spouse Birthdate')
-                                                            ->native(false)
-                                                            ->disabled(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                            ->hidden(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                            ->dehydrated(fn (Get $get) => $get('marital') !== MaritalStatus::Single->value),
-                                                        Forms\Components\TextInput::make('children')
-                                                            ->label('Number of Children')
-                                                            ->numeric()
-                                                            ->minValue(0)
-                                                            ->disabled(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                            ->hidden(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                            ->dehydrated(fn (Get $get) => $get('marital') !== MaritalStatus::Single->value),
-                                                    ])->columns(2),
-                                                Forms\Components\Fieldset::make('Educational Information')
-                                                    ->schema([
-                                                        Forms\Components\TextInput::make('certificate')
-                                                            ->label('Certificate'),
-                                                        Forms\Components\TextInput::make('study_field')
-                                                            ->label('Field of Study'),
-                                                        Forms\Components\TextInput::make('study_school')
-                                                            ->label('School'),
-                                                    ])->columns(2),
-                                                Forms\Components\Fieldset::make('Contact Details')
+                                                        Forms\Components\Fieldset::make('Private Contact')
+                                                            ->schema([
+                                                                Forms\Components\Select::make('private_country_id')
+                                                                    ->relationship('privateCountry', 'name')
+                                                                    ->searchable()
+                                                                    ->preload()
+                                                                    ->label('Private Country')
+                                                                    ->afterStateUpdated(fn(Set $set) => $set('private_state_id', null))
+                                                                    ->createOptionForm([
+                                                                        Forms\Components\Select::make('currency_id')
+                                                                            ->options(fn() => Currency::pluck('full_name', 'id'))
+                                                                            ->searchable()
+                                                                            ->preload()
+                                                                            ->label('Currency Name')
+                                                                            ->required(),
+                                                                        Forms\Components\TextInput::make('phone_code')
+                                                                            ->label('Phone Code')
+                                                                            ->required(),
+                                                                        Forms\Components\TextInput::make('code')
+                                                                            ->label('Code')
+                                                                            ->required()
+                                                                            ->rules('max:2'),
+                                                                        Forms\Components\TextInput::make('name')
+                                                                            ->label('Country Name')
+                                                                            ->required(),
+                                                                        Forms\Components\Toggle::make('state_required')
+                                                                            ->label('State Required')
+                                                                            ->required(),
+                                                                        Forms\Components\Toggle::make('zip_required')
+                                                                            ->label('Zip Required')
+                                                                            ->required(),
+                                                                    ])
+                                                                    ->createOptionAction(
+                                                                        fn(Action $action) => $action
+                                                                            ->modalHeading('Create Country')
+                                                                            ->modalSubmitActionLabel('Create Country')
+                                                                            ->modalWidth('lg')
+                                                                    )
+                                                                    ->searchable()
+                                                                    ->preload()
+                                                                    ->live()
+                                                                    ->required(),
+                                                                Forms\Components\Select::make('private_state_id')
+                                                                    ->relationship('privateState', 'name')
+                                                                    ->searchable()
+                                                                    ->preload()
+                                                                    ->label('Private State')
+                                                                    ->createOptionForm([
+                                                                        Forms\Components\TextInput::make('name')
+                                                                            ->label('Name')
+                                                                            ->required()
+                                                                            ->maxLength(255),
+                                                                        Forms\Components\TextInput::make('code')
+                                                                            ->label('Code')
+                                                                            ->required()
+                                                                            ->maxLength(255),
+                                                                    ])
+                                                                    ->createOptionAction(
+                                                                        fn(Action $action) => $action
+                                                                            ->modalHeading('Create State')
+                                                                            ->modalSubmitActionLabel('Create State')
+                                                                            ->modalWidth('lg')
+                                                                    ),
+                                                                Forms\Components\TextInput::make('private_street1')
+                                                                    ->label('Street Address'),
+                                                                Forms\Components\TextInput::make('private_street2')
+                                                                    ->label('Private Street 2'),
+                                                                Forms\Components\TextInput::make('private_city')
+                                                                    ->label('City'),
+                                                                Forms\Components\TextInput::make('private_zip')
+                                                                    ->label('Postal Code'),
+                                                                Forms\Components\TextInput::make('private_phone')
+                                                                    ->label('Private Phone')
+                                                                    ->suffixAction(
+                                                                        Action::make('open_private_phone')
+                                                                            ->icon('heroicon-o-phone')
+                                                                            ->color('blue')
+                                                                            ->action(function (Set $set, $state) {
+                                                                                $set('private_phone', $state);
+                                                                            })
+                                                                            ->url(fn(string $state) => "tel:{$state}")
+                                                                    )
+                                                                    ->tel(),
+                                                                Forms\Components\TextInput::make('private_email')
+                                                                    ->label('Private Email')
+                                                                    ->suffixAction(
+                                                                        Action::make('open_private_email')
+                                                                            ->icon('heroicon-o-envelope')
+                                                                            ->color('blue')
+                                                                            ->action(function (Set $set, $state) {
+                                                                                if (filter_var($state, FILTER_VALIDATE_EMAIL)) {
+                                                                                    $set('private_email', $state);
+                                                                                }
+                                                                            })
+                                                                            ->url(fn(string $state) => "mailto:{$state}")
+                                                                    )
+                                                                    ->email(),
+                                                                Forms\Components\TextInput::make('private_car_plate')
+                                                                    ->label('Private Car Plate'),
+                                                                Forms\Components\TextInput::make('distance_home_work')
+                                                                    ->label('Distance Home to Work')
+                                                                    ->numeric()
+                                                                    ->suffix('km'),
+                                                                Forms\Components\TextInput::make('km_home_work')
+                                                                    ->label('KM Home to Work')
+                                                                    ->numeric()
+                                                                    ->suffix('km'),
+                                                                Forms\Components\TextInput::make('distance_home_work_unit')
+                                                                    ->label('Distance Unit'),
+                                                            ])->columns(2),
+                                                        Forms\Components\Group::make()
+                                                            ->schema([
+                                                                Forms\Components\Fieldset::make('Emergency Contact')
+                                                                    ->schema([
+                                                                        Forms\Components\TextInput::make('emergency_contact')
+                                                                            ->label('Contact Name')
+                                                                            ->required(),
+                                                                        Forms\Components\TextInput::make('emergency_phone')
+                                                                            ->label('Contact Phone')
+                                                                            ->suffixAction(
+                                                                                Action::make('open_emergency_phone')
+                                                                                    ->icon('heroicon-o-phone')
+                                                                                    ->color('blue')
+                                                                                    ->action(function (Set $set, $state) {
+                                                                                        $set('emergency_phone', $state);
+                                                                                    })
+                                                                                    ->url(fn(string $state) => "tel:{$state}")
+                                                                            )
+                                                                            ->tel()
+                                                                            ->required(),
+                                                                    ])->columns(2),
+                                                            ])
+                                                            ->columnSpan(['lg' => 1]),
+                                                        Forms\Components\Fieldset::make('Family Status')
+                                                            ->schema([
+                                                                Forms\Components\Select::make('marital')
+                                                                    ->label('Marital Status')
+                                                                    ->searchable()
+                                                                    ->preload()
+                                                                    ->options(MaritalStatus::options())
+                                                                    ->live(),
+                                                                Forms\Components\TextInput::make('spouse_complete_name')
+                                                                    ->label('Spouse Name')
+                                                                    ->hidden(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                    ->dehydrated(fn(Get $get) => $get('marital') !== MaritalStatus::Single->value)
+                                                                    ->required(fn(Get $get) => $get('marital') !== MaritalStatus::Single->value),
+                                                                Forms\Components\DatePicker::make('spouse_birthdate')
+                                                                    ->label('Spouse Birthdate')
+                                                                    ->native(false)
+                                                                    ->disabled(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                    ->hidden(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                    ->dehydrated(fn(Get $get) => $get('marital') !== MaritalStatus::Single->value),
+                                                                Forms\Components\TextInput::make('children')
+                                                                    ->label('Number of Children')
+                                                                    ->numeric()
+                                                                    ->minValue(0)
+                                                                    ->disabled(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                    ->hidden(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                    ->dehydrated(fn(Get $get) => $get('marital') !== MaritalStatus::Single->value),
+                                                            ])->columns(2),
+                                                        Forms\Components\Fieldset::make('Education')
+                                                            ->schema([
+                                                                Forms\Components\Select::make('certificate')
+                                                                    ->options([
+                                                                        'graduate' => 'Graduate',
+                                                                        'bachelor' => 'Bachelor',
+                                                                        'master'   => 'Master',
+                                                                        'doctor'   => 'Doctor',
+                                                                        'other'    => 'Other',
+                                                                    ])
+                                                                    ->label('Certificate Level'),
+                                                                Forms\Components\TextInput::make('study_field')
+                                                                    ->label('Field of Study'),
+                                                                Forms\Components\TextInput::make('study_school')
+                                                                    ->label('School'),
+                                                            ])->columns(1),
+
+                                                    ]),
+                                            ])
+                                            ->columnSpan(['lg' => 2]),
+                                        Forms\Components\Group::make()
+                                            ->schema([
+                                                Forms\Components\Fieldset::make('Citizenship')
                                                     ->schema([
                                                         Forms\Components\Select::make('country_id')
                                                             ->label('Country')
                                                             ->relationship(name: 'country', titleAttribute: 'name')
-                                                            ->afterStateUpdated(fn (Set $set) => $set('state_id', null))
+                                                            ->afterStateUpdated(fn(Set $set) => $set('state_id', null))
                                                             ->createOptionForm([
                                                                 Forms\Components\Select::make('currency_id')
-                                                                    ->options(fn () => Currency::pluck('full_name', 'id'))
+                                                                    ->options(fn() => Currency::pluck('full_name', 'id'))
                                                                     ->searchable()
                                                                     ->preload()
                                                                     ->label('Currency Name')
@@ -314,7 +476,7 @@ class EmployeeResource extends Resource
                                                                     ->required(),
                                                             ])
                                                             ->createOptionAction(
-                                                                fn (Action $action) => $action
+                                                                fn(Action $action) => $action
                                                                     ->modalHeading('Create Country')
                                                                     ->modalSubmitActionLabel('Create Country')
                                                                     ->modalWidth('lg')
@@ -339,124 +501,54 @@ class EmployeeResource extends Resource
                                                                     ->maxLength(255),
                                                             ])
                                                             ->createOptionAction(
-                                                                fn (Action $action) => $action
+                                                                fn(Action $action) => $action
                                                                     ->modalHeading('Create State')
                                                                     ->modalSubmitActionLabel('Create State')
                                                                     ->modalWidth('lg')
                                                             ),
-                                                        Forms\Components\Select::make('private_country_id')
-                                                            ->relationship('privateCountry', 'name')
-                                                            ->searchable()
-                                                            ->preload()
-                                                            ->label('Private Country')
-                                                            ->afterStateUpdated(fn (Set $set) => $set('private_state_id', null))
-                                                            ->createOptionForm([
-                                                                Forms\Components\Select::make('currency_id')
-                                                                    ->options(fn () => Currency::pluck('full_name', 'id'))
-                                                                    ->searchable()
-                                                                    ->preload()
-                                                                    ->label('Currency Name')
-                                                                    ->required(),
-                                                                Forms\Components\TextInput::make('phone_code')
-                                                                    ->label('Phone Code')
-                                                                    ->required(),
-                                                                Forms\Components\TextInput::make('code')
-                                                                    ->label('Code')
-                                                                    ->required()
-                                                                    ->rules('max:2'),
-                                                                Forms\Components\TextInput::make('name')
-                                                                    ->label('Country Name')
-                                                                    ->required(),
-                                                                Forms\Components\Toggle::make('state_required')
-                                                                    ->label('State Required')
-                                                                    ->required(),
-                                                                Forms\Components\Toggle::make('zip_required')
-                                                                    ->label('Zip Required')
-                                                                    ->required(),
-                                                            ])
-                                                            ->createOptionAction(
-                                                                fn (Action $action) => $action
-                                                                    ->modalHeading('Create Country')
-                                                                    ->modalSubmitActionLabel('Create Country')
-                                                                    ->modalWidth('lg')
-                                                            )
-                                                            ->searchable()
-                                                            ->preload()
-                                                            ->live()
-                                                            ->required(),
-                                                        Forms\Components\Select::make('private_state_id')
-                                                            ->relationship('privateState', 'name')
-                                                            ->searchable()
-                                                            ->preload()
-                                                            ->label('Private State')
-                                                            ->createOptionForm([
-                                                                Forms\Components\TextInput::make('name')
-                                                                    ->label('Name')
-                                                                    ->required()
-                                                                    ->maxLength(255),
-                                                                Forms\Components\TextInput::make('code')
-                                                                    ->label('Code')
-                                                                    ->required()
-                                                                    ->maxLength(255),
-                                                            ])
-                                                            ->createOptionAction(
-                                                                fn (Action $action) => $action
-                                                                    ->modalHeading('Create State')
-                                                                    ->modalSubmitActionLabel('Create State')
-                                                                    ->modalWidth('lg')
-                                                            ),
-                                                        Forms\Components\TextInput::make('private_street1')
-                                                            ->label('Street Address'),
-                                                        Forms\Components\TextInput::make('private_street2')
-                                                            ->label('Private Street 2'),
-                                                        Forms\Components\TextInput::make('private_city')
-                                                            ->label('City'),
-                                                        Forms\Components\TextInput::make('private_zip')
-                                                            ->label('Postal Code'),
-                                                        Forms\Components\TextInput::make('private_phone')
-                                                            ->label('Private Phone')
-                                                            ->tel(),
-                                                        Forms\Components\TextInput::make('private_email')
-                                                            ->label('Private Email')
-                                                            ->email(),
-                                                    ])->columns(2),
-                                                Forms\Components\Fieldset::make('Identification')
-                                                    ->schema([
-                                                        Forms\Components\TextInput::make('private_car_plate')
-                                                            ->label('Private Car Plate'),
+                                                        Forms\Components\TextInput::make('identification_id')
+                                                            ->label('Identification No'),
                                                         Forms\Components\TextInput::make('ssnid')
-                                                            ->label('Social Security Number'),
+                                                            ->label('SSN No'),
                                                         Forms\Components\TextInput::make('sinid')
                                                             ->label('SIN ID'),
-                                                        Forms\Components\TextInput::make('identification_id')
-                                                            ->label('Identification ID'),
                                                         Forms\Components\TextInput::make('passport_id')
-                                                            ->label('Passport Number'),
-                                                        Forms\Components\TextInput::make('permit_no')
-                                                            ->label('Permit Number'),
+                                                            ->label('Passport No'),
+                                                        Forms\Components\Select::make('gender')
+                                                            ->label('Gender')
+                                                            ->searchable()
+                                                            ->preload()
+                                                            ->options(Gender::options()),
+                                                        Forms\Components\DatePicker::make('birthday')
+                                                            ->label('Date of Birth')
+                                                            ->native(false)
+                                                            ->maxDate(now()),
+                                                        Forms\Components\Select::make('country_of_birth')
+                                                            ->relationship('countryOfBirth', 'name')
+                                                            ->searchable()
+                                                            ->preload()
+                                                            ->label('Country of Birth'),
+
+                                                    ])->columns(1),
+                                                Forms\Components\Fieldset::make('Work Permit')
+                                                    ->schema([
                                                         Forms\Components\TextInput::make('visa_no')
                                                             ->label('Visa Number'),
+                                                        Forms\Components\TextInput::make('permit_no')
+                                                            ->label('Work Permit No'),
                                                         Forms\Components\DatePicker::make('visa_expire')
-                                                            ->label('Visa Expiration')
+                                                            ->label('Visa Expiration Date')
                                                             ->native(false),
                                                         Forms\Components\DatePicker::make('work_permit_expiration_date')
-                                                            ->label('Work Permit Expiration')
+                                                            ->label('Work Permit Expiration Date')
                                                             ->native(false),
-                                                    ])->columns(2),
-                                            ])
-                                            ->columnSpan(['lg' => 2]),
-                                        Forms\Components\Group::make()
-                                            ->schema([
-                                                Forms\Components\Fieldset::make('Emergency Contact')
-                                                    ->schema([
-                                                        Forms\Components\TextInput::make('emergency_contact')
-                                                            ->label('Contact Name')
-                                                            ->required(),
-                                                        Forms\Components\TextInput::make('emergency_phone')
-                                                            ->label('Contact Phone')
-                                                            ->tel()
-                                                            ->required(),
-                                                    ])->columns(2),
+                                                        Forms\Components\FileUpload::make('work_permit')
+                                                            ->label('Work Permit')
+                                                            ->panelAspectRatio('4:1')
+                                                            ->panelLayout('integrated')
+                                                            ->directory('employees/work-permit')
+                                                            ->visibility('private'),
+                                                    ])->columns(1),
                                             ])
                                             ->columnSpan(['lg' => 1]),
                                     ])
@@ -483,27 +575,71 @@ class EmployeeResource extends Resource
                                                             ->inline(false),
                                                         Forms\Components\Toggle::make('work_permit_scheduled_activity')
                                                             ->label('Work Permit Scheduled Activity'),
+                                                        Forms\Components\Select::make('employee_type')
+                                                            ->relationship('employmentType', 'name')
+                                                            ->searchable()
+                                                            ->preload()
+                                                            ->label('Employment Type')
+                                                            ->required()
+                                                            ->createOptionForm(fn(Form $form) => EmploymentTypeResource::form($form))
+                                                            ->editOptionForm(fn(Form $form) => EmploymentTypeResource::form($form)),
+                                                        Forms\Components\Select::make('user_id')
+                                                            ->relationship('user', 'name')
+                                                            ->searchable()
+                                                            ->preload()
+                                                            ->label('Related User')
+                                                            ->createOptionForm(fn(Form $form) => UserResource::form($form))
+                                                            ->editOptionForm(fn(Form $form) => UserResource::form($form))
+                                                            ->createOptionAction(
+                                                                fn(Action $action) => $action
+                                                                    ->modalHeading('Create User')
+                                                                    ->modalSubmitActionLabel('Create User')
+                                                                    ->modalWidth(MaxWidth::MaxContent)
+                                                                    ->action(function (array $data, Livewire $component) {
+                                                                        $user = User::create($data);
+
+                                                                        $partner = $user->partner()->create([
+                                                                            'creator_id' => Auth::user()->id,
+                                                                            'user_id'    => $user->id,
+                                                                            'company_id' => $data['default_company_id'] ?? null,
+                                                                            'avatar'     => $data['avatar'] ?? null,
+                                                                            ...$data,
+                                                                        ]);
+
+                                                                        $user->update([
+                                                                            'partner_id' => $partner->id,
+                                                                        ]);
+
+                                                                        $component->state($user->id);
+
+                                                                        return $user;
+                                                                    })
+                                                            ),
                                                         Forms\Components\Select::make('departure_reason_id')
                                                             ->relationship('departureReason', 'name')
                                                             ->searchable()
                                                             ->preload()
+                                                            ->live()
                                                             ->label('Departure Reason')
-                                                            ->createOptionForm(fn (Form $form) => DepartureReasonResource::form($form))
-                                                            ->editOptionForm(fn (Form $form) => DepartureReasonResource::form($form)),
+                                                            ->createOptionForm(fn(Form $form) => DepartureReasonResource::form($form))
+                                                            ->editOptionForm(fn(Form $form) => DepartureReasonResource::form($form)),
                                                         Forms\Components\DatePicker::make('departure_date')
                                                             ->label('Departure Date')
-                                                            ->native(false),
+                                                            ->native(false)
+                                                            ->hidden(fn(Get $get) => $get('departure_reason_id') === null)
+                                                            ->disabled(fn(Get $get) => $get('departure_reason_id') === null)
+                                                            ->required(fn(Get $get) => $get('departure_reason_id') !== null),
                                                         Forms\Components\Textarea::make('departure_description')
-                                                            ->label('Departure Description'),
+                                                            ->label('Departure Description')
+                                                            ->hidden(fn(Get $get) => $get('departure_reason_id') === null)
+                                                            ->disabled(fn(Get $get) => $get('departure_reason_id') === null)
+                                                            ->required(fn(Get $get) => $get('departure_reason_id') !== null),
                                                     ])->columns(2),
                                                 Forms\Components\Fieldset::make('Additional Information')
                                                     ->schema([
                                                         Forms\Components\TextInput::make('lang')
                                                             ->label('Primary Language'),
-                                                        Forms\Components\TextInput::make('barcode')
-                                                            ->label('Employee Barcode'),
-                                                        Forms\Components\TextInput::make('pin')
-                                                            ->label('Personal Identification Number'),
+
                                                         Forms\Components\Textarea::make('additional_note')
                                                             ->label('Additional Notes')
                                                             ->rows(3),
@@ -513,7 +649,30 @@ class EmployeeResource extends Resource
                                                     ])->columns(2),
                                             ])
                                             ->columnSpan(['lg' => 2]),
-                                    ]),
+                                        Forms\Components\Group::make()
+                                            ->schema([
+                                                Forms\Components\Fieldset::make('Attendance/Point of Sale')
+                                                    ->schema([
+                                                        Forms\Components\TextInput::make('barcode')
+                                                            ->label('Badge ID')
+                                                            ->prefixIcon('heroicon-o-qr-code')
+                                                            ->suffixAction(
+                                                                Action::make('generate_bar_code')
+                                                                    ->icon('heroicon-o-plus-circle')
+                                                                    ->color('gray')
+                                                                    ->action(function (Set $set) {
+                                                                        $barcode = strtoupper(bin2hex(random_bytes(4)));
+
+                                                                        $set('barcode', $barcode);
+                                                                    })
+                                                            ),
+                                                        Forms\Components\TextInput::make('pin')
+                                                            ->label('PIN'),
+                                                    ])->columns(1)
+                                            ])
+                                            ->columnSpan(['lg' => 1]),
+                                    ])
+                                    ->columns(3),
                             ]),
                     ])
                     ->columnSpan('full')
