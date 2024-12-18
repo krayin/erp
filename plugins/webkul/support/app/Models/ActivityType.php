@@ -17,7 +17,6 @@ class ActivityType extends Model
     protected $table = 'activity_types';
 
     protected $fillable = [
-        'activity_plan_id',
         'sort',
         'delay_count',
         'delay_unit',
@@ -25,15 +24,16 @@ class ActivityType extends Model
         'icon',
         'decoration_type',
         'chaining_type',
+        'plugin',
         'category',
         'name',
         'summary',
-        'model_type',
         'default_note',
         'is_active',
         'keep_done',
-        'user_id',
+        'creator_id',
         'default_user_id',
+        'activity_plan_id',
         'triggered_next_type_id',
     ];
 

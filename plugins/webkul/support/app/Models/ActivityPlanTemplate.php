@@ -15,17 +15,17 @@ class ActivityPlanTemplate extends Model
     protected $table = 'activity_plan_templates';
 
     protected $fillable = [
-        'delay_count',
         'sort',
+        'plan_id',
+        'activity_type_id',
+        'responsible_id',
+        'creator_id',
+        'delay_count',
         'delay_unit',
         'delay_from',
         'summary',
         'responsible_type',
         'note',
-        'plan_id',
-        'activity_type_id',
-        'responsible_id',
-        'creator_id',
     ];
 
     /**

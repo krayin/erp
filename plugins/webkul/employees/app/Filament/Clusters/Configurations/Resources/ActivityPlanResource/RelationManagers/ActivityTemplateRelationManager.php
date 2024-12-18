@@ -14,6 +14,7 @@ use Webkul\Security\Models\User;
 use Webkul\Support\Enums\ActivityDelayFrom;
 use Webkul\Support\Enums\ActivityDelayUnit;
 use Webkul\Support\Enums\ActivityResponsibleType;
+use Webkul\Support\Filament\Resources\ActivityTypeResource;
 use Webkul\Support\Models\ActivityPlanTemplate;
 use Webkul\Support\Models\ActivityType;
 
@@ -31,23 +32,28 @@ class ActivityTemplateRelationManager extends RelationManager
                             ->schema([
                                 Forms\Components\Section::make('Activity Details')
                                     ->schema([
-                                        Forms\Components\Select::make('activity_type_id')
-                                            ->options(ActivityType::pluck('name', 'id'))
-                                            ->searchable()
-                                            ->preload()
-                                            ->label('Activity type')
-                                            ->live()
-                                            ->afterStateUpdated(function ($state, callable $set) {
-                                                $activityType = ActivityType::find($state);
+                                        Forms\Components\Group::make()
+                                            ->schema([
+                                                Forms\Components\Select::make('activity_type_id')
+                                                    ->options(ActivityType::pluck('name', 'id'))
+                                                    ->relationship('activityType', 'name')
+                                                    ->searchable()
+                                                    ->createOptionForm(fn (Form $form) => ActivityTypeResource::form($form))
+                                                    ->preload()
+                                                    ->label('Activity type')
+                                                    ->live()
+                                                    ->afterStateUpdated(function ($state, callable $set) {
+                                                        $activityType = ActivityType::find($state);
 
-                                                if ($activityType && $activityType->default_user_id) {
-                                                    $set('responsible_type', ActivityResponsibleType::OTHER->value);
+                                                        if ($activityType && $activityType->default_user_id) {
+                                                            $set('responsible_type', ActivityResponsibleType::OTHER->value);
 
-                                                    $set('responsible_id', $activityType->default_user_id);
-                                                }
-                                            }),
-                                        Forms\Components\Textarea::make('summary')
-                                            ->label('Summary'),
+                                                            $set('responsible_id', $activityType->default_user_id);
+                                                        }
+                                                    }),
+                                                Forms\Components\TextInput::make('summary')
+                                                    ->label('Summary'),
+                                            ])->columns(2),
                                         Forms\Components\RichEditor::make('note')
                                             ->label('Note'),
                                     ]),
