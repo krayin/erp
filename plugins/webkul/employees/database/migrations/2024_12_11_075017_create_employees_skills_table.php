@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('employees_skills', function (Blueprint $table) {
             $table->id();
 
-            $table->integer('sort')->nullable();
-            $table->string('name');
+            $table->integer('sort')->nullable()->comment('Sort Order');
+            $table->string('name')->comment('Name');
 
-            $table->unsignedBigInteger('skill_type_id')->index();
-            $table->unsignedBigInteger('creator_id')->nullable()->index();
+            $table->unsignedBigInteger('skill_type_id')->nullable()->index()->comment('Skill Type');
+            $table->unsignedBigInteger('creator_id')->nullable()->index()->comment('Creator By');
 
             $table->foreign('skill_type_id')->references('id')->on('employees_skill_types')->onDelete('cascade');
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');

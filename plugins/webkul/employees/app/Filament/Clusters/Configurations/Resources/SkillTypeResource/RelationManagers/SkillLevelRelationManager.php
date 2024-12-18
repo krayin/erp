@@ -7,6 +7,7 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Tables as CustomTables;
 
 class SkillLevelRelationManager extends RelationManager
@@ -22,14 +23,14 @@ class SkillLevelRelationManager extends RelationManager
                 Forms\Components\TextInput::make('name')
                     ->label('Name')
                     ->required(),
+                Forms\Components\Hidden::make('creator_id')
+                    ->default(Auth::user()->id),
                 Forms\Components\TextInput::make('level')
                     ->label('Level')
                     ->numeric()
-                    ->rules(['numeric', 'min:0', 'max:100'])
-                    ->required(),
+                    ->rules(['numeric', 'min:0', 'max:100']),
                 Forms\Components\Toggle::make('default_level')
-                    ->label('Default Level')
-                    ->required(),
+                    ->label('Default Level'),
             ])->columns(2);
     }
 
