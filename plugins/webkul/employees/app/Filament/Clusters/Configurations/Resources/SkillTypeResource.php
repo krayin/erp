@@ -47,7 +47,7 @@ class SkillTypeResource extends Resource
                         ->options(function () {
                             return collect(Enums\Colors::options())->mapWithKeys(function ($value, $key) {
                                 return [
-                                    $key => '<div class="flex items-center gap-4"><span class="flex h-5 w-5 rounded-full" style="background: rgb(var(--'.$key.'-500))"></span> '.$value.'</span>',
+                                    $key => '<div class="flex items-center gap-4"><span class="flex h-5 w-5 rounded-full" style="background: rgb(var(--' . $key . '-500))"></span> ' . $value . '</span>',
                                 ];
                             });
                         })
@@ -75,13 +75,13 @@ class SkillTypeResource extends Resource
                 Tables\Columns\TextColumn::make('color')
                     ->label('Color')
                     ->toggleable(isToggledHiddenByDefault: false)
-                    ->formatStateUsing(fn (SkillType $skillType) => '<span class="flex h-5 w-5 rounded-full" style="background: rgb(var(--'.$skillType->color.'-500))"></span>')
+                    ->formatStateUsing(fn(SkillType $skillType) => '<span class="flex h-5 w-5 rounded-full" style="background: rgb(var(--' . $skillType->color . '-500))"></span>')
                     ->html()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('skills.name')
                     ->label('Skills')
                     ->badge()
-                    ->color(fn (SkillType $skillType) => $skillType->color)
+                    ->color(fn(SkillType $skillType) => $skillType->color)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('skillLevels.name')
                     ->label('Levels')
@@ -95,16 +95,17 @@ class SkillTypeResource extends Resource
                     ->boolean(),
                 Tables\Columns\TextColumn::make('createdBy.name')
                     ->label('Created By')
+                    ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created')
-                    ->date()
+                    ->label('Created At')
+                    ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Updated')
-                    ->date()
+                    ->label('Updated At')
+                    ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ]))

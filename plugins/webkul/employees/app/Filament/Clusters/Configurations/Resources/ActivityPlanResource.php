@@ -39,8 +39,8 @@ class ActivityPlanResource extends Resource
                             ->relationship(name: 'department', titleAttribute: 'name')
                             ->searchable()
                             ->preload()
-                            ->createOptionForm(fn (Form $form) => DepartmentResource::form($form))
-                            ->editOptionForm(fn (Form $form) => DepartmentResource::form($form)),
+                            ->createOptionForm(fn(Form $form) => DepartmentResource::form($form))
+                            ->editOptionForm(fn(Form $form) => DepartmentResource::form($form)),
                         Forms\Components\Toggle::make('is_active')
                             ->label('Status')
                             ->default(true)
@@ -75,13 +75,18 @@ class ActivityPlanResource extends Resource
                     ->sortable()
                     ->label('Status')
                     ->boolean(),
+                Tables\Columns\TextColumn::make('createdBy.name')
+                    ->label('Created By')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created')
+                    ->label('Created At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Updated')
+                    ->label('Updated At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
