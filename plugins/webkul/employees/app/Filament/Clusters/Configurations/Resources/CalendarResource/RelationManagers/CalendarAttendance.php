@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Enums;
+use Webkul\Employee\Enums\DayOfWeek;
 
 class CalendarAttendance extends RelationManager
 {
@@ -79,11 +80,11 @@ class CalendarAttendance extends RelationManager
                         Forms\Components\Select::make('display_type')
                             ->label('Display Type')
                             ->options(Enums\CalendarDisplayType::options()),
-                        Forms\Components\TextInput::make('durations_days')
+                        Forms\Components\TextInput::make('duration_days')
                             ->label('Duration (Days)')
                             ->numeric()
                             ->default(1),
-                        Forms\Components\Hidden::make('user_id')
+                        Forms\Components\Hidden::make('creator_id')
                             ->default(Auth::user()->id),
                     ]),
             ]);
@@ -100,10 +101,8 @@ class CalendarAttendance extends RelationManager
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('day_of_week')
-                    ->label('Day')
-                    ->formatStateUsing(fn ($state) => ucfirst($state))
-                    ->badge()
-                    ->color('primary'),
+                    ->label('Day Of Week')
+                    ->formatStateUsing(fn ($state) => DayOfWeek::options()[$state]),
                 Tables\Columns\TextColumn::make('day_period')
                     ->label('Period')
                     ->formatStateUsing(fn ($state) => ucfirst($state))

@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Webkul\Employee\Database\Seeders\CalendarAttendanceSeeder;
+use Webkul\Employee\Database\Seeders\CalendarSeeder;
 use Webkul\Employee\Database\Seeders\DepartureReasonSeeder;
 use Webkul\Employee\Database\Seeders\EmployeeCategorySeeder;
 use Webkul\Employee\Database\Seeders\EmployeeJobPositionSeeder;
@@ -24,6 +26,8 @@ class DatabaseSeeder extends Seeder
             WorkLocationSeeder::class,
             EmployeeCategorySeeder::class,
             DepartureReasonSeeder::class,
+            CalendarSeeder::class,
+            CalendarAttendanceSeeder::class,
         ]);
     }
 }

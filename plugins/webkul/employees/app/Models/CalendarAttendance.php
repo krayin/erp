@@ -24,9 +24,9 @@ class CalendarAttendance extends Model
         'date_to',
         'hour_from',
         'hour_to',
-        'durations_days',
+        'duration_days',
         'calendar_id',
-        'user_id',
+        'creator_id',
     ];
 
     public function calendar()
@@ -34,9 +34,9 @@ class CalendarAttendance extends Model
         return $this->belongsTo(Calendar::class);
     }
 
-    public function user()
+    public function createdBy()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'creator_id');
     }
 
     /**
