@@ -11,6 +11,7 @@ use Webkul\Employee\Database\Seeders\EmployeeJobPositionSeeder;
 use Webkul\Employee\Database\Seeders\EmploymentTypeSeeder;
 use Webkul\Employee\Database\Seeders\SkillTypeSeeder;
 use Webkul\Employee\Database\Seeders\WorkLocationSeeder;
+use Webkul\Support\Database\Seeders\ActivityPlanSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -28,6 +29,7 @@ class DatabaseSeeder extends Seeder
             DepartureReasonSeeder::class,
             CalendarSeeder::class,
             CalendarAttendanceSeeder::class,
+            ActivityPlanSeeder::class,
         ]);
     }
 }

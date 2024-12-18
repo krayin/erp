@@ -13,18 +13,20 @@ return new class extends Migration
     {
         Schema::create('activity_plans', function (Blueprint $table) {
             $table->id();
-            $table->string('model_type');
-            $table->string('name')->nullable();
-            $table->boolean('is_active')->nullable()->default(true);
 
-            $table->unsignedBigInteger('creator_id')->nullable();
-            $table->unsignedBigInteger('company_id')->nullable();
-            $table->unsignedBigInteger('department_id')->nullable();
+            $table->string('plugin')->nullable()->comment('Plugin name');
+            $table->string('name')->comment('Name of the plan');
+            $table->boolean('is_active')->nullable()->default(false)->comment('Status');
+
+            $table->unsignedBigInteger('creator_id')->nullable()->comment('Created By');
+            $table->unsignedBigInteger('company_id')->nullable()->comment('Company');
+            $table->unsignedBigInteger('department_id')->nullable()->comment('Department');
 
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('department_id')->references('id')->on('employees_departments')->onDelete('set null');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('set null');
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }
