@@ -19,7 +19,6 @@ use Webkul\Employee\Enums\Gender;
 use Webkul\Employee\Enums\MaritalStatus;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\DepartureReasonResource;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\EmployeeCategoryResource;
-use Webkul\Employee\Filament\Clusters\Configurations\Resources\EmploymentTypeResource;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\JobPositionResource;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\WorkLocationResource;
 use Webkul\Employee\Filament\Resources\EmployeeResource\Pages;
@@ -57,7 +56,6 @@ class EmployeeResource extends Resource
                                     ->schema([
                                         Forms\Components\TextInput::make('name')
                                             ->label('Name')
-                                            ->placeholder('Employee\'s name')
                                             ->required()
                                             ->maxLength(255)
                                             ->extraInputAttributes(['style' => 'font-size: 1.5rem;height: 3rem;'])
@@ -222,7 +220,7 @@ class EmployeeResource extends Resource
                                                             ->live()
                                                             ->suffixIcon('heroicon-o-clock')
                                                             ->label('Working Hours'),
-                                                        Forms\Components\Select::make('tz')
+                                                        Forms\Components\Select::make('timezone')
                                                             ->label('Time Zone')
                                                             ->options(function () {
                                                                 return collect(timezone_identifiers_list())->mapWithKeys(function ($timezone) {
@@ -310,8 +308,7 @@ class EmployeeResource extends Resource
                                                                     )
                                                                     ->searchable()
                                                                     ->preload()
-                                                                    ->live()
-                                                                    ->required(),
+                                                                    ->live(),
                                                                 Forms\Components\Select::make('private_state_id')
                                                                     ->relationship('privateState', 'name')
                                                                     ->searchable()
@@ -424,12 +421,15 @@ class EmployeeResource extends Resource
                                                                 Forms\Components\TextInput::make('distance_home_work')
                                                                     ->label('Distance Home to Work')
                                                                     ->numeric()
+                                                                    ->default(0)
                                                                     ->suffix('km'),
                                                                 Forms\Components\TextInput::make('km_home_work')
                                                                     ->label('KM Home to Work')
                                                                     ->numeric()
+                                                                    ->default(0)
                                                                     ->suffix('km'),
                                                                 Forms\Components\TextInput::make('distance_home_work_unit')
+                                                                    ->default(0)
                                                                     ->label('Distance Unit'),
                                                             ])->columns(2),
                                                         Forms\Components\Group::make()
@@ -437,8 +437,7 @@ class EmployeeResource extends Resource
                                                                 Forms\Components\Fieldset::make('Emergency Contact')
                                                                     ->schema([
                                                                         Forms\Components\TextInput::make('emergency_contact')
-                                                                            ->label('Contact Name')
-                                                                            ->required(),
+                                                                            ->label('Contact Name'),
                                                                         Forms\Components\TextInput::make('emergency_phone')
                                                                             ->label('Contact Phone')
                                                                             ->suffixAction(
@@ -450,8 +449,7 @@ class EmployeeResource extends Resource
                                                                                     })
                                                                                     ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
                                                                             )
-                                                                            ->tel()
-                                                                            ->required(),
+                                                                            ->tel(),
                                                                     ])->columns(2),
                                                             ])
                                                             ->columnSpan(['lg' => 1]),
@@ -461,6 +459,7 @@ class EmployeeResource extends Resource
                                                                     ->label('Marital Status')
                                                                     ->searchable()
                                                                     ->preload()
+                                                                    ->default(MaritalStatus::Single->value)
                                                                     ->options(MaritalStatus::options())
                                                                     ->live(),
                                                                 Forms\Components\TextInput::make('spouse_complete_name')
@@ -543,8 +542,7 @@ class EmployeeResource extends Resource
                                                             )
                                                             ->searchable()
                                                             ->preload()
-                                                            ->live()
-                                                            ->required(),
+                                                            ->live(),
                                                         Forms\Components\Select::make('state_id')
                                                             ->relationship('state', 'name')
                                                             ->searchable()
@@ -636,14 +634,6 @@ class EmployeeResource extends Resource
                                                             ->inline(false),
                                                         Forms\Components\Toggle::make('work_permit_scheduled_activity')
                                                             ->label('Work Permit Scheduled Activity'),
-                                                        Forms\Components\Select::make('employee_type')
-                                                            ->relationship('employmentType', 'name')
-                                                            ->searchable()
-                                                            ->preload()
-                                                            ->label('Employment Type')
-                                                            ->required()
-                                                            ->createOptionForm(fn (Form $form) => EmploymentTypeResource::form($form))
-                                                            ->editOptionForm(fn (Form $form) => EmploymentTypeResource::form($form)),
                                                         Forms\Components\Select::make('user_id')
                                                             ->relationship('user', 'name')
                                                             ->searchable()

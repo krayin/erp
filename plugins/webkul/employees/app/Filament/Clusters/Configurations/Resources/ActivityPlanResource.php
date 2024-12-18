@@ -44,8 +44,8 @@ class ActivityPlanResource extends Resource
                             ->relationship(name: 'department', titleAttribute: 'name')
                             ->searchable()
                             ->preload()
-                            ->createOptionForm(fn(Form $form) => DepartmentResource::form($form))
-                            ->editOptionForm(fn(Form $form) => DepartmentResource::form($form)),
+                            ->createOptionForm(fn (Form $form) => DepartmentResource::form($form))
+                            ->editOptionForm(fn (Form $form) => DepartmentResource::form($form)),
                         Forms\Components\Toggle::make('is_active')
                             ->label('Status')
                             ->default(true)
