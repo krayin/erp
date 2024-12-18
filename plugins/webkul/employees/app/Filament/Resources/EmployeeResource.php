@@ -346,6 +346,11 @@ class EmployeeResource extends Resource
                                                                             ->url(fn(string $state) => "tel:{$state}")
                                                                     )
                                                                     ->tel(),
+                                                                Forms\Components\Select::make('bank_account_id')
+                                                                    ->relationship('bankAccount', 'name')
+                                                                    ->searchable()
+                                                                    ->preload()
+                                                                    ->label('Bank Account'),
                                                                 Forms\Components\TextInput::make('private_email')
                                                                     ->label('Private Email')
                                                                     ->suffixAction(
