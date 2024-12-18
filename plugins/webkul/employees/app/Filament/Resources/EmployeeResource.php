@@ -199,7 +199,7 @@ class EmployeeResource extends Resource
                                                             ->searchable()
                                                             ->preload()
                                                             ->label('Work Location')
-                                                            ->suffixIcon('heroicon-o-map-pin')
+                                                            ->prefixIcon('heroicon-o-map-pin')
                                                             ->createOptionForm(fn (Form $form) => WorkLocationResource::form($form))
                                                             ->editOptionForm(fn (Form $form) => WorkLocationResource::form($form)),
                                                     ])->columns(1),
@@ -247,7 +247,7 @@ class EmployeeResource extends Resource
                                                                     ->relationship('company', 'name')
                                                                     ->searchable()
                                                                     ->preload()
-                                                                    ->suffixIcon('heroicon-o-building-office')
+                                                                    ->prefixIcon('heroicon-o-building-office')
                                                                     ->label('Company')
                                                                     ->createOptionForm(fn (Form $form) => CompanyResource::form($form))
                                                                     ->editOptionForm(fn (Form $form) => CompanyResource::form($form)),
@@ -748,31 +748,26 @@ class EmployeeResource extends Resource
             ->columns([
                 Tables\Columns\Layout\Stack::make([
                     Tables\Columns\ImageColumn::make('partner.avatar')
-                        ->height(250)
-                        ->width(300),
+                        ->height(150)
+                        ->width(200),
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('name')
                             ->weight(FontWeight::Bold)
                             ->sortable(),
                         Tables\Columns\TextColumn::make('job_title')
-                            ->label('Job Title')
-                            ->color('gray'),
-                        Tables\Columns\Layout\Split::make([
-                            Tables\Columns\Layout\Split::make([
-                                Tables\Columns\TextColumn::make('work_email')
-                                    ->icon('heroicon-o-envelope')
-                                    ->label('Work Email')
-                                    ->color('gray')
-                                    ->limit(30)
-                                    ->sortable(),
-                                Tables\Columns\TextColumn::make('work_phone')
-                                    ->icon('heroicon-o-phone')
-                                    ->label('Work Email')
-                                    ->color('gray')
-                                    ->limit(30)
-                                    ->sortable(),
-                            ]),
-                        ]),
+                            ->label('Job Title'),
+                        Tables\Columns\TextColumn::make('work_email')
+                            ->icon('heroicon-o-envelope')
+                            ->label('Work Email')
+                            ->color('gray')
+                            ->limit(30)
+                            ->sortable(),
+                        Tables\Columns\TextColumn::make('work_phone')
+                            ->icon('heroicon-o-phone')
+                            ->label('Work Email')
+                            ->color('gray')
+                            ->limit(30)
+                            ->sortable(),
                         Tables\Columns\TextColumn::make('categories.name')
                             ->badge(),
                     ])->space(1),
@@ -780,7 +775,7 @@ class EmployeeResource extends Resource
             ])
             ->contentGrid([
                 'md' => 2,
-                'xl' => 3,
+                'xl' => 4,
             ])
             ->paginated([
                 18,
@@ -810,16 +805,12 @@ class EmployeeResource extends Resource
             ->persistSortInSession()
             ->actions([
                 Tables\Actions\ViewAction::make()
-                    ->color('primary')
                     ->outlined(),
                 Tables\Actions\EditAction::make()
-                    ->color('success')
                     ->outlined(),
                 Tables\Actions\RestoreAction::make()
-                    ->color('gray')
                     ->outlined(),
                 Tables\Actions\DeleteAction::make()
-                    ->color('danger')
                     ->requiresConfirmation()
                     ->modalHeading('Delete Employee')
                     ->modalDescription('Are you sure you want to delete this employee?'),
