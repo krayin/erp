@@ -21,7 +21,7 @@ class WorkLocation extends Model
 
     protected $fillable = [
         'company_id',
-        'user_id',
+        'creator_id',
         'name',
         'location_type',
         'location_number',
@@ -38,9 +38,9 @@ class WorkLocation extends Model
         return $this->belongsTo(Company::class);
     }
 
-    public function user(): BelongsTo
+    public function createdBy(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'creator_id');
     }
 
     /**
