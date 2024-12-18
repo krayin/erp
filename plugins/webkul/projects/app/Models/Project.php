@@ -107,6 +107,11 @@ class Project extends Model
         return $this->hasMany(TaskStage::class);
     }
 
+    public function userFavorites(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class);
+    }
+
     public function milestones(): HasMany
     {
         return $this->hasMany(Milestone::class);

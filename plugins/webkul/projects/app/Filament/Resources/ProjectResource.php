@@ -144,8 +144,28 @@ class ProjectResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\Layout\Stack::make([
-                    Tables\Columns\TextColumn::make('name')
-                        ->weight(FontWeight::Bold),
+                    Tables\Columns\Layout\Split::make([
+                        Tables\Columns\TextColumn::make('name')
+                            ->weight(FontWeight::Bold)
+                            ->label('Name')
+                            ->searchable()
+                            ->sortable(),
+                        Tables\Columns\IconColumn::make('name')
+                            ->icon(fn (Project $record): string => $record->priority ? 'heroicon-s-star' : 'heroicon-o-star')
+                            ->color(fn (Project $record): string => $record->priority ? 'warning' : 'gray')
+                            ->alignRight()
+                            ->action(
+                                Tables\Actions\Action::make('select')
+                                    ->action(function (Project $record): void {
+                                        
+                                    })
+                            ),
+                    ]),
+                    Tables\Columns\Layout\Stack::make([
+                        Tables\Columns\TextColumn::make('partner.name')
+                            ->icon('heroicon-m-phone'),
+                    ])
+                        ->visible(fn (Project $record) => filled($record->partner)),
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('start_date')
                             ->icon('heroicon-o-clock')
@@ -157,11 +177,6 @@ class ProjectResource extends Resource
                             ->icon('heroicon-m-user'),
                     ])
                         ->visible(fn (Project $record) => filled($record->user)),
-                    Tables\Columns\Layout\Stack::make([
-                        Tables\Columns\TextColumn::make('partner.name')
-                            ->icon('heroicon-m-phone'),
-                    ])
-                        ->visible(fn (Project $record) => filled($record->partner)),
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('tags.name')
                             ->badge()
@@ -196,11 +211,11 @@ class ProjectResource extends Resource
                     ->color('gray')
                     ->tooltip(fn (Project $record): string => $record->milestones->where('is_completed', true)->count().' milestones completed out of '.$record->milestones->count())
                     ->url('https:example.com/tasks/{record}')
-                    ->hidden(fn ($record) => $record->trashed())
+                    ->hidden(fn (Project $record) => $record->trashed())
                     ->url(fn (Project $record): string => route('filament.admin.resources.project.projects.milestones', $record->id)),
 
                 Tables\Actions\EditAction::make()
-                    ->hidden(fn ($record) => $record->trashed()),
+                    ->hidden(fn (Project $record) => $record->trashed()),
                 Tables\Actions\RestoreAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])

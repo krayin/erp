@@ -17,6 +17,8 @@ use Webkul\Project\Filament\Resources\TaskResource\Pages;
 use Webkul\Project\Filament\Resources\TaskResource\RelationManagers;
 use Webkul\Project\Models\Task;
 use Webkul\Project\Models\TaskStage;
+use Illuminate\Support\Facades\Auth;
+use Webkul\Security\Filament\Resources\UserResource;
 
 class TaskResource extends Resource
 {
@@ -54,27 +56,9 @@ class TaskResource extends Resource
                                     ->required()
                                     ->default('in_progress')
                                     ->inline()
-                                    ->options([
-                                        'in_progress'      => 'In Progress',
-                                        'change_requested' => 'Change Requested',
-                                        'approved'         => 'Approved',
-                                        'cancelled'        => 'Cancelled',
-                                        'done'             => 'Done',
-                                    ])
-                                    ->colors([
-                                        'in_progress'      => 'gray',
-                                        'change_requested' => 'warning',
-                                        'approved'         => 'success',
-                                        'cancelled'        => 'danger',
-                                        'done'             => 'success',
-                                    ])
-                                    ->icons([
-                                        'in_progress'      => 'heroicon-m-play-circle',
-                                        'change_requested' => 'heroicon-s-exclamation-circle',
-                                        'approved'         => 'heroicon-o-check-circle',
-                                        'cancelled'        => 'heroicon-s-x-circle',
-                                        'done'             => 'heroicon-c-check-circle',
-                                    ]),
+                                    ->options(TaskState::options())
+                                    ->colors(TaskState::colors())
+                                    ->icons(TaskState::icons()),
                                 Forms\Components\Select::make('tags')
                                     ->label('Tags')
                                     ->relationship(name: 'tags', titleAttribute: 'name')
@@ -102,33 +86,59 @@ class TaskResource extends Resource
                                     ->label('Project')
                                     ->relationship('project', 'name')
                                     ->searchable()
-                                    ->preload(),
+                                    ->preload()
+                                    ->live()
+                                    ->createOptionForm(fn (Form $form): Form => ProjectResource::form($form))
+                                    ->afterStateUpdated(function (Forms\Set $set) {
+                                        $set('milestone_id', null);
+                                    }),
                                 Forms\Components\Select::make('milestone_id')
                                     ->label('Milestone')
-                                    ->relationship('milestone', 'name')
+                                    ->relationship(
+                                        name: 'milestone',
+                                        titleAttribute: 'name',
+                                        modifyQueryUsing: fn (Forms\Get $get, \Illuminate\Database\Eloquent\Builder $query) => $query->where('project_id', $get('project_id')),
+                                    )
                                     ->searchable()
-                                    ->preload(),
+                                    ->preload()
+                                    ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Deliver your services automatically when a milestone is reached by linking it to a sales order item.')
+                                    ->createOptionForm(fn ($get) => [
+                                        Forms\Components\TextInput::make('name')
+                                            ->required()
+                                            ->maxLength(255),
+                                        Forms\Components\DateTimePicker::make('deadline')
+                                            ->native(false)
+                                            ->suffixIcon('heroicon-o-clock'),
+                                        Forms\Components\Toggle::make('is_completed')
+                                            ->required(),
+                                        Forms\Components\Hidden::make('project_id')
+                                            ->default($get('project_id')),
+                                        Forms\Components\Hidden::make('creator_id')
+                                            ->default(fn () => Auth::user()->id),
+                                    ])
+                                    ->hidden(fn (Forms\Get $get) => ! $get('project_id')),
                                 Forms\Components\Select::make('partner_id')
                                     ->label('Customer')
                                     ->relationship('partner', 'name')
-                                    ->searchable(),
-                                Forms\Components\Select::make('partner_id')
-                                    ->label('Milestone')
-                                    ->relationship('partner', 'name')
                                     ->searchable()
-                                    ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Deliver your services automatically when a milestone is reached by linking it to a sales order item.'),
+                                    ->preload()
+                                    ->createOptionForm(fn (Form $form) => PartnerResource::form($form))
+                                    ->editOptionForm(fn (Form $form) => PartnerResource::form($form)),
                                 Forms\Components\Select::make('user_id')
                                     ->label('Assignees')
                                     ->relationship('users', 'name')
                                     ->searchable()
                                     ->multiple()
-                                    ->preload(),
+                                    ->preload()
+                                    ->createOptionForm(fn (Form $form) => UserResource::form($form)),
                                 Forms\Components\DateTimePicker::make('deadline')
                                     ->label('Deadline')
-                                    ->native(false),
+                                    ->native(false)
+                                    ->suffixIcon('heroicon-o-calendar'),
                                 Forms\Components\TextInput::make('allocated_hours')
                                     ->label('Allocated Hours')
-                                    ->numeric(),
+                                    ->numeric()
+                                    ->suffixIcon('heroicon-o-clock'),
                             ]),
                     ]),
             ])
@@ -144,11 +154,44 @@ class TaskResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\ToggleColumn::make('priority')
-                    ->onIcon('heroicon-s-star')
-                    ->onColor('warning')
-                    ->offIcon('heroicon-o-star')
-                    ->offColor('gray'),
+                Tables\Columns\IconColumn::make('priority')
+                    ->icon(fn (Task $record): string => $record->priority ? 'heroicon-s-star' : 'heroicon-o-star')
+                    ->color(fn (Task $record): string => $record->priority ? 'warning' : 'gray')
+                    ->action(
+                        Tables\Actions\Action::make('select')
+                            ->action(function (Task $record): void {
+                                $record->update([
+                                    'priority' => ! $record->priority,
+                                ]);
+                            }),
+                    ),
+                Tables\Columns\IconColumn::make('state')
+                    ->label('State')
+                    ->sortable()
+                    ->toggleable()
+                    ->icon(fn (string $state): string => TaskState::icons()[$state])
+                    ->color(fn (string $state): string => TaskState::colors()[$state])
+                    ->tooltip(fn (string $state): string => TaskState::options()[$state])
+                    ->action(
+                        Tables\Actions\Action::make('updateState')
+                            ->modalHeading('Update Task State')
+                            ->form(fn (Task $record): array => [
+                                Forms\Components\ToggleButtons::make('state')
+                                    ->label('New State')
+                                    ->required()
+                                    ->default($record->state)
+                                    ->inline()
+                                    ->options(TaskState::options())
+                                    ->colors(TaskState::colors())
+                                    ->icons(TaskState::icons()),
+                            ])
+                            ->modalSubmitActionLabel('Update State')
+                            ->action(function (Task $record, array $data): void {
+                                $record->update([
+                                    'state' => $data['state'],
+                                ]);
+                            })
+                    ),
                 Tables\Columns\TextColumn::make('title')
                     ->label('Title')
                     ->searchable()
@@ -267,13 +310,7 @@ class TaskResource extends Resource
                         Tables\Filters\QueryBuilder\Constraints\SelectConstraint::make('state')
                             ->label('State')
                             ->multiple()
-                            ->options([
-                                TaskState::IN_PROGRESS->value      => 'In Progress',
-                                TaskState::CHANGE_REQUESTED->value => 'Change Requested',
-                                TaskState::APPROVED->value         => 'Approved',
-                                TaskState::CANCELLED->value        => 'Cancelled',
-                                TaskState::DONE->value             => 'Done',
-                            ]),
+                            ->options(TaskState::options()),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('tags')
                             ->label('Tags')
                             ->multiple()
