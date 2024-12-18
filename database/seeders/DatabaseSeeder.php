@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Webkul\Employee\Database\Seeders\EmployeeCategorySeeder;
 use Webkul\Employee\Database\Seeders\EmployeeJobPositionSeeder;
 use Webkul\Employee\Database\Seeders\EmploymentTypeSeeder;
 use Webkul\Employee\Database\Seeders\SkillTypeSeeder;
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
             EmployeeJobPositionSeeder::class,
             SkillTypeSeeder::class,
             WorkLocationSeeder::class,
+            EmployeeCategorySeeder::class,
         ]);
     }
 }

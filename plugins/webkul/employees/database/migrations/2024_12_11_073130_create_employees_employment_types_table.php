@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('code')->nullable()->comment('Employment type code');
 
             $table->unsignedBigInteger('country_id')->nullable();
-            $table->unsignedBigInteger('creator_id')->nullable();
+            $table->unsignedBigInteger('creator_id')->nullable()->comment('Created by');
 
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('set null');
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');

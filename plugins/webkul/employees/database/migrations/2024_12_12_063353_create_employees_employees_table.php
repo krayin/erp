@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('company_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('creator_id')->nullable();
+            $table->unsignedBigInteger('creator_id')->nullable()->comment('Created by');
             $table->unsignedBigInteger('calendar_id')->nullable();
             $table->unsignedBigInteger('department_id')->nullable();
             $table->unsignedBigInteger('job_id')->nullable();

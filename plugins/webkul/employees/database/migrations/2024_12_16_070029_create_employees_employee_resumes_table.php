@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('employee_id');
             $table->unsignedBigInteger('employee_resume_line_type_id')->nullable();
-            $table->unsignedBigInteger('creator_id')->nullable();
+            $table->unsignedBigInteger('creator_id')->nullable()->comment('Created by');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('display_type');
             $table->date('start_date');

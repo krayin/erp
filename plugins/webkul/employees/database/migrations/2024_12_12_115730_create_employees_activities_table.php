@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('previous_activity_type_id')->nullable()->comment('The previous activity type');
             $table->unsignedBigInteger('activity_type_id')->nullable()->comment('The type of activity');
             $table->unsignedBigInteger('user_id')->nullable()->comment('The user who performed the activity');
-            $table->unsignedBigInteger('creator_id')->nullable()->comment('The user who created the activity');
+            $table->unsignedBigInteger('creator_id')->nullable()->comment('Created by');
 
             $table->string('name')->comment('The name of the activity');
             $table->text('summary')->nullable()->comment('The summary of the activity');

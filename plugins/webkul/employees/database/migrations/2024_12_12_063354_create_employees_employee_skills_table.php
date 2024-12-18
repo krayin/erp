@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('skill_id')->nullable();
             $table->unsignedBigInteger('skill_level_id')->nullable();
             $table->unsignedBigInteger('skill_type_id')->nullable();
-            $table->unsignedBigInteger('creator_id')->nullable();
+            $table->unsignedBigInteger('creator_id')->nullable()->comment('Created by');
             $table->unsignedBigInteger('user_id')->nullable();
 
             $table->foreign('employee_id')->references('id')->on('employees_employees')->onDelete('cascade');
