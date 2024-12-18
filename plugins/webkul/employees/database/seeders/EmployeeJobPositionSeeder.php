@@ -5,7 +5,7 @@ namespace Webkul\Employee\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class EmployeeJobPosition extends Seeder
+class EmployeeJobPositionSeeder extends Seeder
 {
     /**
      * Run the database seeds.

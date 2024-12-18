@@ -4,10 +4,12 @@ namespace Webkul\Employee\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Employee\Database\Factories\SkillTypeFactory;
 use Webkul\Fields\Traits\HasCustomFields;
+use Webkul\Security\Models\User;
 
 class SkillType extends Model
 {
@@ -18,6 +20,7 @@ class SkillType extends Model
     protected $fillable = [
         'name',
         'color',
+        'creator_id',
         'is_active',
     ];
 
@@ -29,6 +32,11 @@ class SkillType extends Model
     public function skills(): HasMany
     {
         return $this->hasMany(Skill::class, 'skill_type_id');
+    }
+
+    public function createdBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'creator_id');
     }
 
     /**

@@ -13,9 +13,14 @@ return new class extends Migration
     {
         Schema::create('employees_skill_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('color')->nullable(false);
-            $table->boolean('is_active')->default(false);
+
+            $table->string('name')->comment('Name');
+            $table->string('color')->nullable()->comment('Color');
+            $table->boolean('is_active')->default(false)->comment('Active Status');
+
+            $table->unsignedBigInteger('creator_id')->nullable()->comment('Created By');
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
+
             $table->timestamps();
             $table->softDeletes();
         });
