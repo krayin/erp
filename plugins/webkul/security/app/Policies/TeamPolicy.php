@@ -2,9 +2,9 @@
 
 namespace Webkul\Security\Policies;
 
-use Illuminate\Auth\Access\HandlesAuthorization;
-use Webkul\Security\Models\Team;
 use Webkul\Security\Models\User;
+use Webkul\Security\Models\Team;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TeamPolicy
 {

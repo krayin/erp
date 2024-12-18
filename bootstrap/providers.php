@@ -3,6 +3,7 @@
 return [
     App\Providers\AppServiceProvider::class,
     App\Providers\Filament\AdminPanelProvider::class,
+    Webkul\Analytic\AnalyticServiceProvider::class,
     Webkul\Chatter\ChatterServiceProvider::class,
     Webkul\Support\SupportServiceProvider::class,
     Webkul\Fields\FieldsServiceProvider::class,

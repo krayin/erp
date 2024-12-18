@@ -1,12 +1,12 @@
 <?php
 
-namespace Webkul\Fields\Policies;
+namespace Webkul\Project\Policies;
 
 use Webkul\Security\Models\User;
-use Webkul\Fields\Models\Field;
+use Webkul\Project\Models\TaskStage;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class FieldPolicy
+class TaskStagePolicy
 {
     use HandlesAuthorization;
 
@@ -15,15 +15,15 @@ class FieldPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_field');
+        return $user->can('view_any_task::stage');
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Field $field): bool
+    public function view(User $user, TaskStage $taskStage): bool
     {
-        return $user->can('view_field');
+        return $user->can('view_task::stage');
     }
 
     /**
@@ -31,23 +31,23 @@ class FieldPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_field');
+        return $user->can('create_task::stage');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Field $field): bool
+    public function update(User $user, TaskStage $taskStage): bool
     {
-        return $user->can('update_field');
+        return $user->can('update_task::stage');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Field $field): bool
+    public function delete(User $user, TaskStage $taskStage): bool
     {
-        return $user->can('delete_field');
+        return $user->can('delete_task::stage');
     }
 
     /**
@@ -55,15 +55,15 @@ class FieldPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_field');
+        return $user->can('delete_any_task::stage');
     }
 
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, Field $field): bool
+    public function forceDelete(User $user, TaskStage $taskStage): bool
     {
-        return $user->can('force_delete_field');
+        return $user->can('force_delete_task::stage');
     }
 
     /**
@@ -71,15 +71,15 @@ class FieldPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_field');
+        return $user->can('force_delete_any_task::stage');
     }
 
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, Field $field): bool
+    public function restore(User $user, TaskStage $taskStage): bool
     {
-        return $user->can('restore_field');
+        return $user->can('restore_task::stage');
     }
 
     /**
@@ -87,15 +87,15 @@ class FieldPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_field');
+        return $user->can('restore_any_task::stage');
     }
 
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, Field $field): bool
+    public function replicate(User $user, TaskStage $taskStage): bool
     {
-        return $user->can('replicate_field');
+        return $user->can('replicate_task::stage');
     }
 
     /**
@@ -103,6 +103,6 @@ class FieldPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_field');
+        return $user->can('reorder_task::stage');
     }
 }

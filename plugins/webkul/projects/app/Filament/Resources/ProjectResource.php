@@ -15,6 +15,9 @@ use Webkul\Project\Models\Project;
 use Webkul\Project\Models\ProjectStage;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\TagResource;
 use Webkul\Security\Filament\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
+use Webkul\Project\Settings\TaskSettings;
+use Webkul\Project\Settings\TimeSettings;
 
 class ProjectResource extends Resource
 {
@@ -35,6 +38,8 @@ class ProjectResource extends Resource
                         Forms\Components\ToggleButtons::make('stage_id')
                             ->hiddenLabel()
                             ->inline()
+                            ->required()
+                            ->visible(fn (TaskSettings $taskSettings) => $taskSettings->enable_project_stages)
                             ->options(fn () => ProjectStage::all()->mapWithKeys(fn ($stage) => [$stage->id => $stage->name]))
                             ->default(ProjectStage::first()?->id),
                         Forms\Components\Section::make('General Information')
@@ -101,7 +106,7 @@ class ProjectResource extends Resource
                             ->schema([
                                 Forms\Components\Radio::make('visibility')
                                     ->label('Visibility')
-                                    ->default('public')
+                                    ->default('internal')
                                     ->options([
                                         'private'  => 'Private',
                                         'internal' => 'Internal',
@@ -118,20 +123,26 @@ class ProjectResource extends Resource
                                     ->schema([
                                         Forms\Components\Toggle::make('allow_timesheets')
                                             ->label('Allow Timesheets')
-                                            ->helperText('Log time on tasks and track progress'),
+                                            ->helperText('Log time on tasks and track progress')
+                                            ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
                                     ])
-                                    ->columns(1),
+                                    ->columns(1)
+                                    ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets)
+                                    ->default(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
 
                                 Forms\Components\Fieldset::make('Task Management')
                                     ->schema([
                                         Forms\Components\Toggle::make('allow_milestones')
                                             ->label('Allow Milestones')
-                                            ->helperText('Track major progress points that must be reached to achieve success'),
-                                        Forms\Components\Toggle::make('allow_task_dependencies')
-                                            ->label('Allow Task Dependencies')
-                                            ->helperText('Determine the order in which to perform tasks'),
+                                            ->helperText('Track major progress points that must be reached to achieve success')
+                                            ->visible(fn (TaskSettings $taskSettings) => $taskSettings->enable_milestones)
+                                            ->default(fn (TaskSettings $taskSettings) => $taskSettings->enable_milestones),
+                                        // Forms\Components\Toggle::make('allow_task_dependencies')
+                                        //     ->label('Allow Task Dependencies')
+                                        //     ->helperText('Determine the order in which to perform tasks'),
                                     ])
-                                    ->columns(1),
+                                    ->columns(1)
+                                    ->visible(fn (TaskSettings $taskSettings) => $taskSettings->enable_milestones),
                             ]),
                     ])
                     ->columnSpan(['lg' => 1]),
@@ -150,16 +161,16 @@ class ProjectResource extends Resource
                             ->label('Name')
                             ->searchable()
                             ->sortable(),
-                        Tables\Columns\IconColumn::make('name')
-                            ->icon(fn (Project $record): string => $record->priority ? 'heroicon-s-star' : 'heroicon-o-star')
-                            ->color(fn (Project $record): string => $record->priority ? 'warning' : 'gray')
+                        Tables\Columns\IconColumn::make('is_favorite_by_user')
+                            ->boolean()
+                            ->trueIcon('heroicon-s-star')
+                            ->falseIcon('heroicon-o-star')
+                            ->trueColor('warning')
+                            ->falseColor('gray')
                             ->alignRight()
-                            ->action(
-                                Tables\Actions\Action::make('select')
-                                    ->action(function (Project $record): void {
-                                        
-                                    })
-                            ),
+                            ->action(function (Project $record): void {
+                                $record->favoriteUsers()->toggle([Auth::id()]);
+                            }),
                     ]),
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('partner.name')
@@ -212,6 +223,7 @@ class ProjectResource extends Resource
                     ->tooltip(fn (Project $record): string => $record->milestones->where('is_completed', true)->count().' milestones completed out of '.$record->milestones->count())
                     ->url('https:example.com/tasks/{record}')
                     ->hidden(fn (Project $record) => $record->trashed())
+                    ->visible(fn (TaskSettings $taskSettings, Project $record) => $taskSettings->enable_milestones && $record->allow_milestones)
                     ->url(fn (Project $record): string => route('filament.admin.resources.project.projects.milestones', $record->id)),
 
                 Tables\Actions\EditAction::make()
@@ -234,15 +246,19 @@ class ProjectResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
+        $relations = [
             RelationGroup::make('Task Stages', [
                 RelationManagers\TaskStagesRelationManager::class,
             ]),
-
-            RelationGroup::make('Milestones', [
-                RelationManagers\MilestonesRelationManager::class,
-            ]),
         ];
+
+        if (app(TaskSettings::class)->enable_milestones) {
+            $relations[] = RelationGroup::make('Milestones', [
+                RelationManagers\MilestonesRelationManager::class,
+            ]);
+        }
+        
+        return $relations;
     }
 
     public static function getPages(): array

@@ -10,6 +10,7 @@ use Filament\Tables\Table;
 use Webkul\Project\Filament\Clusters\Configurations;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\ProjectStageResource\Pages;
 use Webkul\Project\Models\ProjectStage;
+use Webkul\Project\Settings\TaskSettings;
 
 class ProjectStageResource extends Resource
 {
@@ -20,6 +21,11 @@ class ProjectStageResource extends Resource
     protected static ?int $navigationSort = 1;
 
     protected static ?string $cluster = Configurations::class;
+
+    public static function isDiscovered(): bool
+    {
+        return app(TaskSettings::class)->enable_project_stages;
+    }
 
     public static function form(Form $form): Form
     {

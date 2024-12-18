@@ -107,9 +107,14 @@ class Project extends Model
         return $this->hasMany(TaskStage::class);
     }
 
-    public function userFavorites(): BelongsToMany
+    public function favoriteUsers(): BelongsToMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'projects_user_project_favorites', 'project_id', 'user_id');
+    }
+
+    public function getIsFavoriteByUserAttribute(): bool
+    {
+        return $this->favoriteUsers()->where('user_id', auth()->id())->exists();
     }
 
     public function milestones(): HasMany
