@@ -88,7 +88,7 @@ class EmployeeResource extends Resource
                                     ->suffixAction(
                                         Action::make('open_mailbox')
                                             ->icon('heroicon-o-envelope')
-                                            ->color('blue')
+                                            ->color('gray')
                                             ->action(function (Set $set, ?string $state) {
                                                 if ($state && filter_var($state, FILTER_VALIDATE_EMAIL)) {
                                                     $set('work_email', $state);
@@ -139,6 +139,7 @@ class EmployeeResource extends Resource
                                     ->relationship('parent', 'name')
                                     ->searchable()
                                     ->preload()
+                                    ->suffixIcon('heroicon-o-user')
                                     ->label('Manager'),
                                 Forms\Components\Select::make('employees_employee_categories')
                                     ->multiple()
@@ -173,6 +174,7 @@ class EmployeeResource extends Resource
                                                             ->searchable()
                                                             ->preload()
                                                             ->live()
+                                                            ->suffixIcon('heroicon-o-map-pin')
                                                             ->label('Work Address'),
                                                         Forms\Components\Placeholder::make('address')
                                                             ->hiddenLabel()
@@ -197,6 +199,7 @@ class EmployeeResource extends Resource
                                                             ->searchable()
                                                             ->preload()
                                                             ->label('Work Location')
+                                                            ->suffixIcon('heroicon-o-map-pin')
                                                             ->createOptionForm(fn (Form $form) => WorkLocationResource::form($form))
                                                             ->editOptionForm(fn (Form $form) => WorkLocationResource::form($form)),
                                                     ])->columns(1),
@@ -207,6 +210,7 @@ class EmployeeResource extends Resource
                                                             ->searchable()
                                                             ->preload()
                                                             ->live()
+                                                            ->suffixIcon('heroicon-o-clock')
                                                             ->label('Time Off'),
                                                     ])->columns(1),
                                                 Forms\Components\Fieldset::make('Schedule')
@@ -216,6 +220,7 @@ class EmployeeResource extends Resource
                                                             ->searchable()
                                                             ->preload()
                                                             ->live()
+                                                            ->suffixIcon('heroicon-o-clock')
                                                             ->label('Working Hours'),
                                                         Forms\Components\Select::make('tz')
                                                             ->label('Time Zone')
@@ -226,6 +231,7 @@ class EmployeeResource extends Resource
                                                             })
                                                             ->default(date_default_timezone_get())
                                                             ->preload()
+                                                            ->suffixIcon('heroicon-o-clock')
                                                             ->searchable()
                                                             ->hintIcon('heroicon-o-question-mark-circle', tooltip: 'Specify the time zone for this work schedule'),
                                                     ])->columns(1),
@@ -241,6 +247,7 @@ class EmployeeResource extends Resource
                                                                     ->relationship('company', 'name')
                                                                     ->searchable()
                                                                     ->preload()
+                                                                    ->suffixIcon('heroicon-o-building-office')
                                                                     ->label('Company')
                                                                     ->createOptionForm(fn (Form $form) => CompanyResource::form($form))
                                                                     ->editOptionForm(fn (Form $form) => CompanyResource::form($form)),
@@ -464,6 +471,7 @@ class EmployeeResource extends Resource
                                                                 Forms\Components\DatePicker::make('spouse_birthdate')
                                                                     ->label('Spouse Birthdate')
                                                                     ->native(false)
+                                                                    ->suffixIcon('heroicon-o-calendar')
                                                                     ->disabled(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
                                                                     ->hidden(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
                                                                     ->dehydrated(fn (Get $get) => $get('marital') !== MaritalStatus::Single->value),
@@ -573,6 +581,7 @@ class EmployeeResource extends Resource
                                                             ->options(Gender::options()),
                                                         Forms\Components\DatePicker::make('birthday')
                                                             ->label('Date of Birth')
+                                                            ->suffixIcon('heroicon-o-calendar')
                                                             ->native(false)
                                                             ->maxDate(now()),
                                                         Forms\Components\Select::make('country_of_birth')
@@ -639,6 +648,7 @@ class EmployeeResource extends Resource
                                                             ->relationship('user', 'name')
                                                             ->searchable()
                                                             ->preload()
+                                                            ->suffixIcon('heroicon-o-user')
                                                             ->label('Related User')
                                                             ->createOptionForm(fn (Form $form) => UserResource::form($form))
                                                             ->editOptionForm(fn (Form $form) => UserResource::form($form))

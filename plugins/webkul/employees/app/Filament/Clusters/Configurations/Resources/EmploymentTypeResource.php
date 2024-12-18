@@ -40,9 +40,11 @@ class EmploymentTypeResource extends Resource
                     ->maxLength(255)
                     ->live(onBlur: true),
                 Forms\Components\TextInput::make('code')
+                    ->required()
                     ->label('Code'),
                 Forms\Components\Select::make('company_id')
                     ->searchable()
+                    ->required()
                     ->preload()
                     ->relationship('company', 'name'),
                 Forms\Components\Section::make('Additional Information')

@@ -33,6 +33,9 @@ class WorkLocationResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Hidden::make('user_id')
+                    ->required()
+                    ->default(Auth::user()->id),
                 Forms\Components\ToggleButtons::make('location_type')
                     ->inline()
                     ->options(WorkLocationEnum::class)
