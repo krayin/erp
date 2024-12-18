@@ -34,19 +34,19 @@ class EmploymentTypeResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Hidden::make('creator_id')
+                    ->default(Auth::user()->id),
                 Forms\Components\TextInput::make('name')
                     ->label('Name')
                     ->required()
                     ->maxLength(255)
                     ->live(onBlur: true),
                 Forms\Components\TextInput::make('code')
-                    ->required()
                     ->label('Code'),
-                Forms\Components\Select::make('company_id')
+                Forms\Components\Select::make('country_id')
                     ->searchable()
-                    ->required()
                     ->preload()
-                    ->relationship('company', 'name'),
+                    ->relationship('country', 'name'),
                 Forms\Components\Section::make('Additional Information')
                     ->visible(! empty($customFormFields = static::getCustomFormFields()))
                     ->description('Additional information about this work schedule')
@@ -68,14 +68,10 @@ class EmploymentTypeResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->label('Code'),
-                Tables\Columns\TextColumn::make('user.name')
+                Tables\Columns\TextColumn::make('country.name')
                     ->sortable()
                     ->searchable()
-                    ->label('User'),
-                Tables\Columns\TextColumn::make('company.name')
-                    ->sortable()
-                    ->searchable()
-                    ->label('Company'),
+                    ->label('Country'),
             ]))
             ->groups([
                 Tables\Grouping\Group::make('name')
@@ -84,11 +80,11 @@ class EmploymentTypeResource extends Resource
                 Tables\Grouping\Group::make('code')
                     ->label('Code')
                     ->collapsible(),
-                Tables\Grouping\Group::make('user.name')
-                    ->label('User')
+                Tables\Grouping\Group::make('createdBy.name')
+                    ->label('Created By')
                     ->collapsible(),
-                Tables\Grouping\Group::make('company.name')
-                    ->label('User')
+                Tables\Grouping\Group::make('country.name')
+                    ->label('Country')
                     ->collapsible(),
                 Tables\Grouping\Group::make('created_at')
                     ->label('Created At')
@@ -106,8 +102,6 @@ class EmploymentTypeResource extends Resource
                         $data['sort'] = EmploymentType::max('sort') + 1;
 
                         $data['code'] = $data['code'] ?? $data['name'];
-
-                        $data['user_id'] = Auth::user()->id;
 
                         return $data;
                     }),

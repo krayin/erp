@@ -13,15 +13,16 @@ return new class extends Migration
     {
         Schema::create('employees_employment_types', function (Blueprint $table) {
             $table->id();
-            $table->integer('sort')->nullable();
-            $table->string('name');
-            $table->string('code')->unique();
 
-            $table->unsignedBigInteger('company_id')->nullable();
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->integer('sort')->nullable()->comment('Sort order');
+            $table->string('name')->comment('Employment type name');
+            $table->string('code')->nullable()->comment('Employment type code');
 
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('set null');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->unsignedBigInteger('country_id')->nullable();
+            $table->unsignedBigInteger('creator_id')->nullable();
+
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('set null');
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
 
             $table->timestamps();
         });

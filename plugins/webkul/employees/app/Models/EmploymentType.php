@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Webkul\Employee\Database\Factories\EmploymentTypeFactory;
 use Webkul\Fields\Traits\HasCustomFields;
 use Webkul\Security\Models\User;
-use Webkul\Support\Models\Company;
+use Webkul\Support\Models\Country;
 
 class EmploymentType extends Model
 {
@@ -17,20 +17,20 @@ class EmploymentType extends Model
 
     protected $fillable = [
         'name',
-        'company_id',
-        'user_id',
+        'country_id',
+        'creator_id',
         'code',
         'sort',
     ];
 
-    public function company()
+    public function country()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Country::class);
     }
 
-    public function user()
+    public function createdBy()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'creator_id');
     }
 
     /**
