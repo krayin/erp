@@ -11,10 +11,11 @@ use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Employee\Database\Factories\EmployeeFactory;
 use Webkul\Fields\Traits\HasCustomFields;
+use Webkul\Partner\Models\BankAccount;
 use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
-use Webkul\Support\Models\Bank;
 use Webkul\Support\Models\Company;
+use Webkul\Support\Models\CompanyAddress;
 use Webkul\Support\Models\Country;
 use Webkul\Support\Models\State;
 
@@ -84,6 +85,10 @@ class Employee extends Model
         'employee_type',
         'barcode',
         'pin',
+        'address_id',
+        'tz',
+        'work_permit',
+        'leave_manager_id',
         'private_car_plate',
         'visa_expire',
         'work_permit_expiration_date',
@@ -184,9 +189,9 @@ class Employee extends Model
         return $this->belongsTo(Country::class, 'country_of_birth');
     }
 
-    public function bankAccount(): BelongsTo
+    public function bankAccount()
     {
-        return $this->belongsTo(Bank::class, 'bank_account_id');
+        return $this->belongsTo(BankAccount::class, 'bank_account_id');
     }
 
     public function departureReason(): BelongsTo
@@ -220,5 +225,15 @@ class Employee extends Model
     protected static function newFactory(): EmployeeFactory
     {
         return EmployeeFactory::new();
+    }
+
+    public function leaveManager(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'leave_manager_id');
+    }
+
+    public function companyAddress()
+    {
+        return $this->belongsTo(CompanyAddress::class, 'address_id');
     }
 }
