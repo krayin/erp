@@ -71,15 +71,11 @@ class WorkLocationResource extends Resource
                 Tables\Columns\TextColumn::make('company.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('createdBy.name')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('location_number')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('createdBy.name')
                     ->label('Created By')
-                    ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')

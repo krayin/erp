@@ -77,7 +77,6 @@ class ActivityPlanResource extends Resource
                     ->boolean(),
                 Tables\Columns\TextColumn::make('createdBy.name')
                     ->label('Created By')
-                    ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
