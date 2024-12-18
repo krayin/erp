@@ -16,16 +16,11 @@ return new class extends Migration
             $table->string('work_permit')->nullable()->comment('Work permit document')->after('tz');
             $table->unsignedBigInteger('address_id')->nullable()->comment('Company address ID')->after('work_permit');
             $table->unsignedBigInteger('leave_manager_id')->nullable()->comment('Leave manager ID')->after('address_id');
+            $table->unsignedBigInteger('bank_account_id')->nullable()->after('country_id');
 
-            $table->foreign('address_id')
-                ->references('id')
-                ->on('company_addresses')
-                ->onDelete('cascade');
-
-            $table->foreign('leave_manager_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
+            $table->foreign('bank_account_id')->references('id')->on('partners_bank_accounts')->onDelete('set null');
+            $table->foreign('address_id')->references('id')->on('company_addresses')->onDelete('cascade');
+            $table->foreign('leave_manager_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -37,12 +32,14 @@ return new class extends Migration
         Schema::table('employees_employees', function (Blueprint $table) {
             $table->dropForeign(['address_id']);
             $table->dropForeign(['leave_manager_id']);
+            $table->dropForeign(['bank_account_id']);
 
             $table->dropColumn([
                 'tz',
                 'work_permit',
                 'address_id',
                 'leave_manager_id',
+                'bank_account_id',
             ]);
         });
     }

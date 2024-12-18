@@ -11,9 +11,9 @@ use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Employee\Database\Factories\EmployeeFactory;
 use Webkul\Fields\Traits\HasCustomFields;
+use Webkul\Partner\Models\BankAccount;
 use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
-use Webkul\Support\Models\Bank;
 use Webkul\Support\Models\Company;
 use Webkul\Support\Models\CompanyAddress;
 use Webkul\Support\Models\Country;
@@ -189,9 +189,9 @@ class Employee extends Model
         return $this->belongsTo(Country::class, 'country_of_birth');
     }
 
-    public function bankAccount(): BelongsTo
+    public function bankAccount()
     {
-        return $this->belongsTo(Bank::class, 'bank_account_id');
+        return $this->belongsTo(BankAccount::class, 'bank_account_id');
     }
 
     public function departureReason(): BelongsTo
