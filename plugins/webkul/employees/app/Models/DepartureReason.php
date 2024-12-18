@@ -17,17 +17,13 @@ class DepartureReason extends Model
     protected $fillable = [
         'sort',
         'reason_code',
+        'creator_id',
         'name',
     ];
 
-    public function creator()
+    public function createdBy()
     {
-        return $this->belongsTo(User::class);
-    }
-
-    public function updater()
-    {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'creator_id');
     }
 
     public function employees()

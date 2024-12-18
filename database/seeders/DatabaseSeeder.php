@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Webkul\Employee\Database\Seeders\DepartureReasonSeeder;
 use Webkul\Employee\Database\Seeders\EmployeeCategorySeeder;
 use Webkul\Employee\Database\Seeders\EmployeeJobPositionSeeder;
 use Webkul\Employee\Database\Seeders\EmploymentTypeSeeder;
@@ -22,6 +23,7 @@ class DatabaseSeeder extends Seeder
             SkillTypeSeeder::class,
             WorkLocationSeeder::class,
             EmployeeCategorySeeder::class,
+            DepartureReasonSeeder::class,
         ]);
     }
 }

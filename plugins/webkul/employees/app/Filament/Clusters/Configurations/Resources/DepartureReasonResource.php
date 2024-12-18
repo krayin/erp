@@ -7,6 +7,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\DepartureReasonResource\Pages;
 use Webkul\Employee\Models\DepartureReason;
@@ -31,6 +32,8 @@ class DepartureReasonResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->label('Name')
                     ->required(),
+                Forms\Components\Hidden::make('creator_id')
+                    ->default(Auth::user()->id),
                 Forms\Components\Section::make('Additional Information')
                     ->visible(! empty($customFormFields = static::getCustomFormFields()))
                     ->description('Additional information about this work schedule')
@@ -61,9 +64,11 @@ class DepartureReasonResource extends Resource
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make()
                     ->mutateFormDataUsing(function (array $data): array {
-                        $data['sort'] = DepartureReason::max('sort') + 1;
+                        $data['sort'] = $data['sort'] ?? DepartureReason::max('sort') + 1;
 
-                        $data['reason_code'] = crc32($data['name']) % 100000;
+                        $data['reason_code'] = $data['reason_code'] ?? crc32($data['name']) % 100000;
+
+                        $data['creator_id'] = $data['creator_id'] ?? Auth::user()->id;
 
                         return $data;
                     }),
