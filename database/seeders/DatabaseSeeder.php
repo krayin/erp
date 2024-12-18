@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Webkul\Employee\Database\Seeders\EmployeeJobPosition;
 use Webkul\Employee\Database\Seeders\EmploymentTypeSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,6 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             EmploymentTypeSeeder::class,
+            EmployeeJobPosition::class,
         ]);
     }
 }
