@@ -11,7 +11,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Security\Models\User;
-use Webkul\Support\Enums\ActivityDelayFrom;
+use Webkul\Support\Enums\ActivityDelayInterval;
 use Webkul\Support\Enums\ActivityDelayUnit;
 use Webkul\Support\Enums\ActivityResponsibleType;
 use Webkul\Support\Filament\Resources\ActivityTypeResource;
@@ -81,13 +81,20 @@ class ActivityTemplateRelationManager extends RelationManager
                                         Forms\Components\TextInput::make('delay_count')
                                             ->label('Delay Count')
                                             ->numeric()
+                                            ->default(0)
                                             ->minValue(0),
                                         Forms\Components\Select::make('delay_unit')
                                             ->label('Delay Unit')
+                                            ->searchable()
+                                            ->preload()
+                                            ->default(ActivityDelayUnit::DAYS->value)
                                             ->options(ActivityDelayUnit::options()),
                                         Forms\Components\Select::make('delay_from')
                                             ->label('Delay From')
-                                            ->options(ActivityDelayFrom::options())
+                                            ->searchable()
+                                            ->preload()
+                                            ->default(ActivityDelayInterval::BEFORE_PLAN_DATE->value)
+                                            ->options(ActivityDelayInterval::options())
                                             ->helperText('Source of delay calculation'),
                                     ]),
                             ])
@@ -106,17 +113,41 @@ class ActivityTemplateRelationManager extends RelationManager
                     ->label('Activity Type')
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('summary')
+                    ->label('Summary')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('responsible_type')
+                    ->label('Assignment')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('responsible.name')
+                    ->label('Assigned To')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('delay_count')
-                    ->label('Delay')
-                    ->formatStateUsing(fn ($state, $record) => $state ? "$state {$record->delay_unit}" : 'No Delay')
-                    ->sortable(),
+                    ->label('Interval')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('delay_unit')
+                    ->label('Unit')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('delay_from')
+                    ->label('Interval')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('createdBy.name')
+                    ->label('Created By')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created')
+                    ->label('Created At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Updated')
+                    ->label('Updated At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -132,8 +163,11 @@ class ActivityTemplateRelationManager extends RelationManager
                     ->query(fn ($query) => $query->whereNotNull('delay_count')),
             ])
             ->groups([
-                Tables\Grouping\Group::make('activityType.name')
-                    ->label('Company')
+                Tables\Grouping\Group::make('responsible.name')
+                    ->label('Activity Type')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('responsible_type')
+                    ->label('Responsible Type')
                     ->collapsible(),
                 Tables\Grouping\Group::make('created_at')
                     ->label('Created At')
@@ -155,17 +189,19 @@ class ActivityTemplateRelationManager extends RelationManager
                     }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
-                    ->modalWidth(MaxWidth::FitContent)
-                    ->mutateFormDataUsing(function (array $data): array {
-                        return [
-                            ...$data,
-                            'sort'       => ActivityPlanTemplate::max('sort') + 1,
-                            'creator_id' => Auth::user()->id,
-                        ];
-                    }),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\ViewAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make()
+                        ->modalWidth(MaxWidth::FitContent)
+                        ->mutateFormDataUsing(function (array $data): array {
+                            return [
+                                ...$data,
+                                'sort'       => ActivityPlanTemplate::max('sort') + 1,
+                                'creator_id' => Auth::user()->id,
+                            ];
+                        }),
+                    Tables\Actions\DeleteAction::make(),
+                    Tables\Actions\ViewAction::make(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

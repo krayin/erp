@@ -68,10 +68,6 @@ class ActivityPlanResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('company.name')
-                    ->numeric()
-                    ->badge()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('department.name')
                     ->numeric()
                     ->badge()

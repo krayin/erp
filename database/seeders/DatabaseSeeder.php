@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Webkul\Employee\Database\Seeders\ActivityPlanTemplateSeeder;
 use Webkul\Employee\Database\Seeders\CalendarAttendanceSeeder;
 use Webkul\Employee\Database\Seeders\CalendarSeeder;
 use Webkul\Employee\Database\Seeders\DepartureReasonSeeder;
@@ -32,6 +33,7 @@ class DatabaseSeeder extends Seeder
             CalendarAttendanceSeeder::class,
             ActivityPlanSeeder::class,
             ActivityTypeSeeder::class,
+            ActivityPlanTemplateSeeder::class,
         ]);
     }
 }
