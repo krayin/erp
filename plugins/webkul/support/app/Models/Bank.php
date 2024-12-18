@@ -23,6 +23,7 @@ class Bank extends Model
         'code',
         'email',
         'phone',
+        'street1',
         'street2',
         'city',
         'zip',

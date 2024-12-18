@@ -29,7 +29,6 @@ return new class extends Migration
             $table->unsignedBigInteger('private_country_id')->nullable();
             $table->unsignedBigInteger('private_state_id')->nullable();
             $table->unsignedBigInteger('country_of_birth')->nullable();
-            $table->unsignedBigInteger('bank_account_id')->nullable();
             $table->unsignedBigInteger('departure_reason_id')->nullable();
 
             $table->string('name')->nullable();
@@ -96,7 +95,6 @@ return new class extends Migration
             $table->foreign('private_country_id')->references('id')->on('countries')->onDelete('set null');
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('set null');
             $table->foreign('country_of_birth')->references('id')->on('countries')->onDelete('set null');
-            $table->foreign('bank_account_id')->references('id')->on('banks')->onDelete('set null');
             $table->foreign('departure_reason_id')->references('id')->on('employees_departure_reasons')->onDelete('set null');
 
             $table->softDeletes();
