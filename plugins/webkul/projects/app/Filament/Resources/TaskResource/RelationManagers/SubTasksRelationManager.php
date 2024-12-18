@@ -7,7 +7,9 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Columns\Summarizers\Sum;
+use Webkul\Project\Enums\TaskState;
 use Filament\Tables\Table;
+use Webkul\Project\Models\Task;
 
 class SubTasksRelationManager extends RelationManager
 {
@@ -25,27 +27,9 @@ class SubTasksRelationManager extends RelationManager
                     ->required()
                     ->default('in_progress')
                     ->inline()
-                    ->options([
-                        'in_progress'      => 'In Progress',
-                        'change_requested' => 'Change Requested',
-                        'approved'         => 'Approved',
-                        'cancelled'        => 'Cancelled',
-                        'done'             => 'Done',
-                    ])
-                    ->colors([
-                        'in_progress'      => 'gray',
-                        'change_requested' => 'warning',
-                        'approved'         => 'success',
-                        'cancelled'        => 'danger',
-                        'done'             => 'success',
-                    ])
-                    ->icons([
-                        'in_progress'      => 'heroicon-m-play-circle',
-                        'change_requested' => 'heroicon-s-exclamation-circle',
-                        'approved'         => 'heroicon-o-check-circle',
-                        'cancelled'        => 'heroicon-s-x-circle',
-                        'done'             => 'heroicon-c-check-circle',
-                    ]),
+                    ->options(TaskState::options())
+                    ->colors(TaskState::colors())
+                    ->icons(TaskState::icons()),
                 Forms\Components\DateTimePicker::make('deadline')
                     ->label('Deadline')
                     ->native(false),
@@ -69,11 +53,44 @@ class SubTasksRelationManager extends RelationManager
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\ToggleColumn::make('priority')
-                    ->onIcon('heroicon-s-star')
-                    ->onColor('warning')
-                    ->offIcon('heroicon-o-star')
-                    ->offColor('gray'),
+                Tables\Columns\IconColumn::make('priority')
+                    ->icon(fn (Task $record): string => $record->priority ? 'heroicon-s-star' : 'heroicon-o-star')
+                    ->color(fn (Task $record): string => $record->priority ? 'warning' : 'gray')
+                    ->action(
+                        Tables\Actions\Action::make('select')
+                            ->action(function (Task $record): void {
+                                $record->update([
+                                    'priority' => ! $record->priority,
+                                ]);
+                            }),
+                    ),
+                Tables\Columns\IconColumn::make('state')
+                    ->label('State')
+                    ->sortable()
+                    ->toggleable()
+                    ->icon(fn (string $state): string => TaskState::icons()[$state])
+                    ->color(fn (string $state): string => TaskState::colors()[$state])
+                    ->tooltip(fn (string $state): string => TaskState::options()[$state])
+                    ->action(
+                        Tables\Actions\Action::make('updateState')
+                            ->modalHeading('Update Task State')
+                            ->form(fn (Task $record): array => [
+                                Forms\Components\ToggleButtons::make('state')
+                                    ->label('New State')
+                                    ->required()
+                                    ->default($record->state)
+                                    ->inline()
+                                    ->options(TaskState::options())
+                                    ->colors(TaskState::colors())
+                                    ->icons(TaskState::icons()),
+                            ])
+                            ->modalSubmitActionLabel('Update State')
+                            ->action(function (Task $record, array $data): void {
+                                $record->update([
+                                    'state' => $data['state'],
+                                ]);
+                            })
+                    ),
                 Tables\Columns\TextColumn::make('title')
                     ->label('Title')
                     ->searchable()

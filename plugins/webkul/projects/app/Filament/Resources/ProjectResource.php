@@ -9,11 +9,11 @@ use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Webkul\Project\Filament\Clusters\Configurations\Resources\TagResource;
 use Webkul\Project\Filament\Resources\ProjectResource\Pages;
 use Webkul\Project\Filament\Resources\ProjectResource\RelationManagers;
 use Webkul\Project\Models\Project;
 use Webkul\Project\Models\ProjectStage;
+use Webkul\Project\Filament\Clusters\Configurations\Resources\TagResource;
 use Webkul\Security\Filament\Resources\UserResource;
 
 class ProjectResource extends Resource
@@ -66,18 +66,23 @@ class ProjectResource extends Resource
                                     ->relationship('partner', 'name')
                                     ->searchable()
                                     ->preload()
-                                    ->createOptionForm(fn (Form $form) => PartnerResource::form($form)),
+                                    ->createOptionForm(fn (Form $form) => PartnerResource::form($form))
+                                    ->editOptionForm(fn (Form $form) => PartnerResource::form($form)),
                                 Forms\Components\TextInput::make('allocated_hours')
                                     ->label('Allocated Hours')
                                     ->suffixIcon('heroicon-o-clock'),
                                 Forms\Components\DatePicker::make('start_date')
                                     ->label('Start Date')
                                     ->native(false)
-                                    ->suffixIcon('heroicon-o-calendar'),
+                                    ->suffixIcon('heroicon-o-calendar')
+                                    ->requiredWith('end_date')
+                                    ->beforeOrEqual('start_date'),
                                 Forms\Components\DatePicker::make('end_date')
                                     ->label('End Date')
                                     ->native(false)
-                                    ->suffixIcon('heroicon-o-calendar'),
+                                    ->suffixIcon('heroicon-o-calendar')
+                                    ->requiredWith('start_date')
+                                    ->afterOrEqual('start_date'),
                                 Forms\Components\Select::make('tags')
                                     ->label('Tags')
                                     ->relationship(name: 'tags', titleAttribute: 'name')
@@ -136,21 +141,48 @@ class ProjectResource extends Resource
 
     public static function table(Table $table): Table
     {
-
         return $table
             ->columns([
                 Tables\Columns\Layout\Stack::make([
-                    Tables\Columns\TextColumn::make('name')
-                        ->weight(FontWeight::Bold),
-                    Tables\Columns\TextColumn::make('plannedDate')
-                        ->icon('heroicon-o-clock'),
-                    Tables\Columns\TextColumn::make('user.name')
-                        ->icon('heroicon-m-user'),
-                    Tables\Columns\TextColumn::make('partner.name')
-                        ->icon('heroicon-m-phone'),
-                    Tables\Columns\TextColumn::make('tags.name')
-                        ->badge()
-                        ->weight(FontWeight::Bold),
+                    Tables\Columns\Layout\Split::make([
+                        Tables\Columns\TextColumn::make('name')
+                            ->weight(FontWeight::Bold)
+                            ->label('Name')
+                            ->searchable()
+                            ->sortable(),
+                        Tables\Columns\IconColumn::make('name')
+                            ->icon(fn (Project $record): string => $record->priority ? 'heroicon-s-star' : 'heroicon-o-star')
+                            ->color(fn (Project $record): string => $record->priority ? 'warning' : 'gray')
+                            ->alignRight()
+                            ->action(
+                                Tables\Actions\Action::make('select')
+                                    ->action(function (Project $record): void {
+                                        
+                                    })
+                            ),
+                    ]),
+                    Tables\Columns\Layout\Stack::make([
+                        Tables\Columns\TextColumn::make('partner.name')
+                            ->icon('heroicon-m-phone'),
+                    ])
+                        ->visible(fn (Project $record) => filled($record->partner)),
+                    Tables\Columns\Layout\Stack::make([
+                        Tables\Columns\TextColumn::make('start_date')
+                            ->icon('heroicon-o-clock')
+                            ->formatStateUsing(fn (Project $record): string => $record->start_date->format('d M Y').' - '.$record->end_date->format('d M Y')),
+                    ])
+                        ->visible(fn (Project $record) => filled($record->start_date) && filled($record->end_date)),
+                    Tables\Columns\Layout\Stack::make([
+                        Tables\Columns\TextColumn::make('user.name')
+                            ->icon('heroicon-m-user'),
+                    ])
+                        ->visible(fn (Project $record) => filled($record->user)),
+                    Tables\Columns\Layout\Stack::make([
+                        Tables\Columns\TextColumn::make('tags.name')
+                            ->badge()
+                            ->weight(FontWeight::Bold),
+                    ])
+                        ->visible(fn (Project $record): bool => (bool) $record->tags()->get()?->count()),
                 ])
                     ->space(3),
             ])
@@ -168,8 +200,8 @@ class ProjectResource extends Resource
             ->actions([
                 Tables\Actions\Action::make('tasks')
                     ->label(fn (Project $record): string => $record->tasks->count().' Tasks')
-                    ->icon('heroicon-m-arrow-top-right-on-square')
-                    ->color('primary')
+                    ->icon('heroicon-o-clipboard-document-list')
+                    ->color('gray')
                     ->url('https:example.com/tasks/{record}')
                     ->hidden(fn ($record) => $record->trashed())
                     ->url(fn (Project $record): string => route('filament.admin.resources.project.projects.tasks', $record->id)),
@@ -179,10 +211,11 @@ class ProjectResource extends Resource
                     ->color('gray')
                     ->tooltip(fn (Project $record): string => $record->milestones->where('is_completed', true)->count().' milestones completed out of '.$record->milestones->count())
                     ->url('https:example.com/tasks/{record}')
-                    ->hidden(fn ($record) => $record->trashed())
+                    ->hidden(fn (Project $record) => $record->trashed())
                     ->url(fn (Project $record): string => route('filament.admin.resources.project.projects.milestones', $record->id)),
+
                 Tables\Actions\EditAction::make()
-                    ->hidden(fn ($record) => $record->trashed()),
+                    ->hidden(fn (Project $record) => $record->trashed()),
                 Tables\Actions\RestoreAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])

@@ -33,8 +33,9 @@ class ListTasks extends ListRecords
                 ->favorite()
                 ->modifyQueryUsing(function (Builder $query) {
                     return $query
-                        ->leftJoin('projects_task_users', 'projects_task_users.task_id', '=', 'projects_tasks.id')
-                        ->where('projects_task_users.user_id', Auth::id());
+                        ->whereHas('users', function ($q) {
+                            $q->where('user_id', Auth::id());
+                        });
                 }),
 
             'unassigned_tasks' => PresetView::make('Unassigned Tasks')
