@@ -62,20 +62,20 @@ class Task extends Model
      * @var string
      */
     protected $casts = [
-        'deadline'     => 'datetime',
-        'is_active'    => 'boolean',
-        'tags'         => 'array',
-        'deadline'     => 'datetime',
-        'priority'     => 'boolean',
-        'is_active'    => 'boolean',
-        'is_recurring' => 'boolean',
-        'working_hours_open' => 'float',
+        'deadline'            => 'datetime',
+        'is_active'           => 'boolean',
+        'tags'                => 'array',
+        'deadline'            => 'datetime',
+        'priority'            => 'boolean',
+        'is_active'           => 'boolean',
+        'is_recurring'        => 'boolean',
+        'working_hours_open'  => 'float',
         'working_hours_close' => 'float',
-        'allocated_hours' => 'float',
-        'remaining_hours' => 'float',
-        'effective_hours' => 'float',
-        'total_hours_spent' => 'float',
-        'overtime' => 'float',
+        'allocated_hours'     => 'float',
+        'remaining_hours'     => 'float',
+        'effective_hours'     => 'float',
+        'total_hours_spent'   => 'float',
+        'overtime'            => 'float',
     ];
 
     public function parent(): BelongsTo

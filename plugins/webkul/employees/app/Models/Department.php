@@ -49,7 +49,7 @@ class Department extends Model
 
     public function manager(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Employee::class, 'manager_id');
     }
 
     /**

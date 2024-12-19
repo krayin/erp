@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Enums\Gender;
@@ -92,7 +93,7 @@ class EmployeeResource extends Resource
                                                     $set('work_email', $state);
                                                 }
                                             })
-                                            ->url(fn(?string $state) => $state ? "mailto:{$state}" : '#')
+                                            ->url(fn (?string $state) => $state ? "mailto:{$state}" : '#')
                                     )
                                     ->email(),
                                 Forms\Components\Select::make('department_id')
@@ -100,8 +101,7 @@ class EmployeeResource extends Resource
                                     ->relationship(name: 'department', titleAttribute: 'name')
                                     ->searchable()
                                     ->preload()
-                                    ->createOptionForm(fn(Form $form) => DepartmentResource::form($form))
-                                    ->editOptionForm(fn(Form $form) => DepartmentResource::form($form)),
+                                    ->createOptionForm(fn (Form $form) => DepartmentResource::form($form)),
                                 Forms\Components\TextInput::make('mobile_phone')
                                     ->label('Work Mobile')
                                     ->suffixAction(
@@ -111,7 +111,7 @@ class EmployeeResource extends Resource
                                             ->action(function (Set $set, $state) {
                                                 $set('mobile_phone', $state);
                                             })
-                                            ->url(fn(?string $state) => $state ? "tel:{$state}" : '#')
+                                            ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
                                     )
                                     ->tel(),
                                 Forms\Components\Select::make('job_id')
@@ -119,8 +119,7 @@ class EmployeeResource extends Resource
                                     ->searchable()
                                     ->preload()
                                     ->label('Job Position')
-                                    ->createOptionForm(fn(Form $form) => JobPositionResource::form($form))
-                                    ->editOptionForm(fn(Form $form) => JobPositionResource::form($form)),
+                                    ->createOptionForm(fn (Form $form) => JobPositionResource::form($form)),
                                 Forms\Components\TextInput::make('work_phone')
                                     ->label('Work Phone')
                                     ->suffixAction(
@@ -130,11 +129,11 @@ class EmployeeResource extends Resource
                                             ->action(function (Set $set, $state) {
                                                 $set('work_phone', $state);
                                             })
-                                            ->url(fn(?string $state) => $state ? "tel:{$state}" : '#')
+                                            ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
                                     )
                                     ->tel(),
                                 Forms\Components\Select::make('parent_id')
-                                    ->relationship('parent', 'name')
+                                    ->options(fn () => Employee::pluck('name', 'id'))
                                     ->searchable()
                                     ->preload()
                                     ->suffixIcon('heroicon-o-user')
@@ -145,11 +144,11 @@ class EmployeeResource extends Resource
                                     ->searchable()
                                     ->preload()
                                     ->label('Employee Tags')
-                                    ->createOptionForm(fn(Form $form) => EmployeeCategoryResource::form($form)),
+                                    ->createOptionForm(fn (Form $form) => EmployeeCategoryResource::form($form)),
                                 Forms\Components\Select::make('coach_id')
                                     ->searchable()
                                     ->preload()
-                                    ->relationship('coach', 'name')
+                                    ->options(fn () => Employee::pluck('name', 'id'))
                                     ->label('Coach'),
                             ])
                             ->columns(2),
@@ -168,7 +167,7 @@ class EmployeeResource extends Resource
                                                 Forms\Components\Fieldset::make('Location')
                                                     ->schema([
                                                         Forms\Components\Select::make('address_id')
-                                                            ->options(fn() => Company::pluck('name', 'id'))
+                                                            ->options(fn () => Company::pluck('name', 'id'))
                                                             ->searchable()
                                                             ->preload()
                                                             ->live()
@@ -191,20 +190,20 @@ class EmployeeResource extends Resource
 
                                                                 return null;
                                                             })
-                                                            ->visible(fn(Get $get) => $get('address_id') != null),
+                                                            ->visible(fn (Get $get) => $get('address_id') != null),
                                                         Forms\Components\Select::make('work_location_id')
                                                             ->relationship('workLocation', 'name')
                                                             ->searchable()
                                                             ->preload()
                                                             ->label('Work Location')
                                                             ->prefixIcon('heroicon-o-map-pin')
-                                                            ->createOptionForm(fn(Form $form) => WorkLocationResource::form($form))
-                                                            ->editOptionForm(fn(Form $form) => WorkLocationResource::form($form)),
+                                                            ->createOptionForm(fn (Form $form) => WorkLocationResource::form($form))
+                                                            ->editOptionForm(fn (Form $form) => WorkLocationResource::form($form)),
                                                     ])->columns(1),
                                                 Forms\Components\Fieldset::make('Approvers')
                                                     ->schema([
                                                         Forms\Components\Select::make('leave_manager_id')
-                                                            ->options(fn() => User::pluck('name', 'id'))
+                                                            ->options(fn () => User::pluck('name', 'id'))
                                                             ->searchable()
                                                             ->preload()
                                                             ->live()
@@ -214,7 +213,7 @@ class EmployeeResource extends Resource
                                                 Forms\Components\Fieldset::make('Schedule')
                                                     ->schema([
                                                         Forms\Components\Select::make('calendar_id')
-                                                            ->options(fn() => Calendar::pluck('name', 'id'))
+                                                            ->options(fn () => Calendar::pluck('name', 'id'))
                                                             ->searchable()
                                                             ->preload()
                                                             ->live()
@@ -247,8 +246,7 @@ class EmployeeResource extends Resource
                                                                     ->preload()
                                                                     ->prefixIcon('heroicon-o-building-office')
                                                                     ->label('Company')
-                                                                    ->createOptionForm(fn(Form $form) => CompanyResource::form($form))
-                                                                    ->editOptionForm(fn(Form $form) => CompanyResource::form($form)),
+                                                                    ->createOptionForm(fn (Form $form) => CompanyResource::form($form)),
                                                                 Forms\Components\ColorPicker::make('color')
                                                                     ->label('Color'),
                                                             ])->columns(1),
@@ -275,10 +273,10 @@ class EmployeeResource extends Resource
                                                                     ->searchable()
                                                                     ->preload()
                                                                     ->label('Private Country')
-                                                                    ->afterStateUpdated(fn(Set $set) => $set('private_state_id', null))
+                                                                    ->afterStateUpdated(fn (Set $set) => $set('private_state_id', null))
                                                                     ->createOptionForm([
                                                                         Forms\Components\Select::make('currency_id')
-                                                                            ->options(fn() => Currency::pluck('full_name', 'id'))
+                                                                            ->options(fn () => Currency::pluck('full_name', 'id'))
                                                                             ->searchable()
                                                                             ->preload()
                                                                             ->label('Currency Name')
@@ -301,7 +299,7 @@ class EmployeeResource extends Resource
                                                                             ->required(),
                                                                     ])
                                                                     ->createOptionAction(
-                                                                        fn(Action $action) => $action
+                                                                        fn (Action $action) => $action
                                                                             ->modalHeading('Create Country')
                                                                             ->modalSubmitActionLabel('Create Country')
                                                                             ->modalWidth('lg')
@@ -325,7 +323,7 @@ class EmployeeResource extends Resource
                                                                             ->maxLength(255),
                                                                     ])
                                                                     ->createOptionAction(
-                                                                        fn(Action $action) => $action
+                                                                        fn (Action $action) => $action
                                                                             ->modalHeading('Create State')
                                                                             ->modalSubmitActionLabel('Create State')
                                                                             ->modalWidth('lg')
@@ -347,7 +345,7 @@ class EmployeeResource extends Resource
                                                                             ->action(function (Set $set, $state) {
                                                                                 $set('private_phone', $state);
                                                                             })
-                                                                            ->url(fn(?string $state) => $state ? "tel:{$state}" : '#')
+                                                                            ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
                                                                     )
                                                                     ->tel(),
                                                                 Forms\Components\Select::make('bank_account_id')
@@ -373,7 +371,7 @@ class EmployeeResource extends Resource
                                                                                     })
                                                                                     ->required(),
                                                                                 Forms\Components\Hidden::make('creator_id')
-                                                                                    ->default(fn() => Auth::user()->id),
+                                                                                    ->default(fn () => Auth::user()->id),
                                                                                 Forms\Components\Select::make('bank_id')
                                                                                     ->relationship('bank', 'name')
                                                                                     ->label('Bank')
@@ -381,7 +379,7 @@ class EmployeeResource extends Resource
                                                                                     ->preload()
                                                                                     ->createOptionForm(static::getBankCreateSchema())
                                                                                     ->editOptionForm(static::getBankCreateSchema())
-                                                                                    ->createOptionAction(fn(Action $action) => $action->modalHeading('Create Bank'))
+                                                                                    ->createOptionAction(fn (Action $action) => $action->modalHeading('Create Bank'))
                                                                                     ->live()
                                                                                     ->required(),
                                                                                 Forms\Components\Toggle::make('is_active')
@@ -396,7 +394,7 @@ class EmployeeResource extends Resource
                                                                             ])->columns(2),
                                                                     ])
                                                                     ->createOptionAction(
-                                                                        fn(Action $action) => $action
+                                                                        fn (Action $action) => $action
                                                                             ->modalHeading('Create Bank Account')
                                                                             ->modalSubmitActionLabel('Create Bank Account')
                                                                     )
@@ -413,7 +411,7 @@ class EmployeeResource extends Resource
                                                                                     $set('private_email', $state);
                                                                                 }
                                                                             })
-                                                                            ->url(fn(?string $state) => $state ? "mailto:{$state}" : '#')
+                                                                            ->url(fn (?string $state) => $state ? "mailto:{$state}" : '#')
                                                                     )
                                                                     ->email(),
                                                                 Forms\Components\TextInput::make('private_car_plate')
@@ -447,7 +445,7 @@ class EmployeeResource extends Resource
                                                                                     ->action(function (Set $set, $state) {
                                                                                         $set('emergency_phone', $state);
                                                                                     })
-                                                                                    ->url(fn(?string $state) => $state ? "tel:{$state}" : '#')
+                                                                                    ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
                                                                             )
                                                                             ->tel(),
                                                                     ])->columns(2),
@@ -464,23 +462,23 @@ class EmployeeResource extends Resource
                                                                     ->live(),
                                                                 Forms\Components\TextInput::make('spouse_complete_name')
                                                                     ->label('Spouse Name')
-                                                                    ->hidden(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                                    ->dehydrated(fn(Get $get) => $get('marital') !== MaritalStatus::Single->value)
-                                                                    ->required(fn(Get $get) => $get('marital') !== MaritalStatus::Single->value),
+                                                                    ->hidden(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                    ->dehydrated(fn (Get $get) => $get('marital') !== MaritalStatus::Single->value)
+                                                                    ->required(fn (Get $get) => $get('marital') !== MaritalStatus::Single->value),
                                                                 Forms\Components\DatePicker::make('spouse_birthdate')
                                                                     ->label('Spouse Birthdate')
                                                                     ->native(false)
                                                                     ->suffixIcon('heroicon-o-calendar')
-                                                                    ->disabled(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                                    ->hidden(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                                    ->dehydrated(fn(Get $get) => $get('marital') !== MaritalStatus::Single->value),
+                                                                    ->disabled(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                    ->hidden(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                    ->dehydrated(fn (Get $get) => $get('marital') !== MaritalStatus::Single->value),
                                                                 Forms\Components\TextInput::make('children')
                                                                     ->label('Number of Children')
                                                                     ->numeric()
                                                                     ->minValue(0)
-                                                                    ->disabled(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                                    ->hidden(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                                    ->dehydrated(fn(Get $get) => $get('marital') !== MaritalStatus::Single->value),
+                                                                    ->disabled(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                    ->hidden(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                    ->dehydrated(fn (Get $get) => $get('marital') !== MaritalStatus::Single->value),
                                                             ])->columns(2),
                                                         Forms\Components\Fieldset::make('Education')
                                                             ->schema([
@@ -509,10 +507,10 @@ class EmployeeResource extends Resource
                                                         Forms\Components\Select::make('country_id')
                                                             ->label('Country')
                                                             ->relationship(name: 'country', titleAttribute: 'name')
-                                                            ->afterStateUpdated(fn(Set $set) => $set('state_id', null))
+                                                            ->afterStateUpdated(fn (Set $set) => $set('state_id', null))
                                                             ->createOptionForm([
                                                                 Forms\Components\Select::make('currency_id')
-                                                                    ->options(fn() => Currency::pluck('full_name', 'id'))
+                                                                    ->options(fn () => Currency::pluck('full_name', 'id'))
                                                                     ->searchable()
                                                                     ->preload()
                                                                     ->label('Currency Name')
@@ -535,7 +533,7 @@ class EmployeeResource extends Resource
                                                                     ->required(),
                                                             ])
                                                             ->createOptionAction(
-                                                                fn(Action $action) => $action
+                                                                fn (Action $action) => $action
                                                                     ->modalHeading('Create Country')
                                                                     ->modalSubmitActionLabel('Create Country')
                                                                     ->modalWidth('lg')
@@ -559,7 +557,7 @@ class EmployeeResource extends Resource
                                                                     ->maxLength(255),
                                                             ])
                                                             ->createOptionAction(
-                                                                fn(Action $action) => $action
+                                                                fn (Action $action) => $action
                                                                     ->modalHeading('Create State')
                                                                     ->modalSubmitActionLabel('Create State')
                                                                     ->modalWidth('lg')
@@ -640,10 +638,10 @@ class EmployeeResource extends Resource
                                                             ->preload()
                                                             ->suffixIcon('heroicon-o-user')
                                                             ->label('Related User')
-                                                            ->createOptionForm(fn(Form $form) => UserResource::form($form))
-                                                            ->editOptionForm(fn(Form $form) => UserResource::form($form))
+                                                            ->createOptionForm(fn (Form $form) => UserResource::form($form))
+                                                            ->editOptionForm(fn (Form $form) => UserResource::form($form))
                                                             ->createOptionAction(
-                                                                fn(Action $action) => $action
+                                                                fn (Action $action) => $action
                                                                     ->modalHeading('Create User')
                                                                     ->modalSubmitActionLabel('Create User')
                                                                     ->modalWidth(MaxWidth::MaxContent)
@@ -673,19 +671,19 @@ class EmployeeResource extends Resource
                                                             ->preload()
                                                             ->live()
                                                             ->label('Departure Reason')
-                                                            ->createOptionForm(fn(Form $form) => DepartureReasonResource::form($form))
-                                                            ->editOptionForm(fn(Form $form) => DepartureReasonResource::form($form)),
+                                                            ->createOptionForm(fn (Form $form) => DepartureReasonResource::form($form))
+                                                            ->editOptionForm(fn (Form $form) => DepartureReasonResource::form($form)),
                                                         Forms\Components\DatePicker::make('departure_date')
                                                             ->label('Departure Date')
                                                             ->native(false)
-                                                            ->hidden(fn(Get $get) => $get('departure_reason_id') === null)
-                                                            ->disabled(fn(Get $get) => $get('departure_reason_id') === null)
-                                                            ->required(fn(Get $get) => $get('departure_reason_id') !== null),
+                                                            ->hidden(fn (Get $get) => $get('departure_reason_id') === null)
+                                                            ->disabled(fn (Get $get) => $get('departure_reason_id') === null)
+                                                            ->required(fn (Get $get) => $get('departure_reason_id') !== null),
                                                         Forms\Components\Textarea::make('departure_description')
                                                             ->label('Departure Description')
-                                                            ->hidden(fn(Get $get) => $get('departure_reason_id') === null)
-                                                            ->disabled(fn(Get $get) => $get('departure_reason_id') === null)
-                                                            ->required(fn(Get $get) => $get('departure_reason_id') !== null),
+                                                            ->hidden(fn (Get $get) => $get('departure_reason_id') === null)
+                                                            ->disabled(fn (Get $get) => $get('departure_reason_id') === null)
+                                                            ->required(fn (Get $get) => $get('departure_reason_id') !== null),
                                                     ])->columns(2),
                                                 Forms\Components\Fieldset::make('Additional Information')
                                                     ->schema([
@@ -743,23 +741,42 @@ class EmployeeResource extends Resource
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('name')
                             ->weight(FontWeight::Bold)
+                            ->searchable()
                             ->sortable(),
-                        Tables\Columns\TextColumn::make('job_title')
-                            ->label('Job Title'),
-                        Tables\Columns\TextColumn::make('work_email')
-                            ->icon('heroicon-o-envelope')
-                            ->label('Work Email')
-                            ->color('gray')
-                            ->limit(30)
-                            ->sortable(),
-                        Tables\Columns\TextColumn::make('work_phone')
-                            ->icon('heroicon-o-phone')
-                            ->label('Work Email')
-                            ->color('gray')
-                            ->limit(30)
-                            ->sortable(),
-                        Tables\Columns\TextColumn::make('categories.name')
-                            ->badge(),
+                        Tables\Columns\Layout\Stack::make([
+                            Tables\Columns\TextColumn::make('job_title')
+                                ->icon('heroicon-m-briefcase')
+                                ->searchable()
+                                ->sortable()
+                                ->label('Job Title'),
+                        ])
+                            ->visible(fn ($record) => filled($record->job_title)),
+                        Tables\Columns\Layout\Stack::make([
+                            Tables\Columns\TextColumn::make('work_email')
+                                ->icon('heroicon-o-envelope')
+                                ->searchable()
+                                ->sortable()
+                                ->label('Work Email')
+                                ->color('gray')
+                                ->limit(30),
+                        ])
+                            ->visible(fn ($record) => filled($record->work_email)),
+                        Tables\Columns\Layout\Stack::make([
+                            Tables\Columns\TextColumn::make('work_phone')
+                                ->icon('heroicon-o-phone')
+                                ->searchable()
+                                ->label('Work Phone')
+                                ->color('gray')
+                                ->limit(30)
+                                ->sortable(),
+                        ])
+                            ->visible(fn ($record) => filled($record->work_phone)),
+                        Tables\Columns\Layout\Stack::make([
+                            Tables\Columns\TextColumn::make('categories.name')
+                                ->badge()
+                                ->weight(FontWeight::Bold),
+                        ])
+                            ->visible(fn ($record): bool => (bool) $record->categories()->get()?->count()),
                     ])->space(1),
                 ])->space(4),
             ])
@@ -773,6 +790,376 @@ class EmployeeResource extends Resource
                 72,
                 'all',
             ])
+            ->filtersFormColumns(3)
+            ->filters([
+                Tables\Filters\SelectFilter::make('skills')
+                    ->relationship('skills.skill', 'name')
+                    ->searchable()
+                    ->multiple()
+                    ->preload(),
+                Tables\Filters\SelectFilter::make('resumes')
+                    ->relationship('resumes', 'name')
+                    ->searchable()
+                    ->multiple()
+                    ->preload(),
+                Tables\Filters\SelectFilter::make('time_zone')
+                    ->options(function () {
+                        return collect(timezone_identifiers_list())->mapWithKeys(function ($timezone) {
+                            return [$timezone => $timezone];
+                        });
+                    })
+                    ->searchable()
+                    ->multiple()
+                    ->preload(),
+                Tables\Filters\QueryBuilder::make()
+                    ->constraintPickerColumns(5)
+                    ->constraints([
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('job_title')
+                            ->label('Job Title')
+                            ->icon('heroicon-o-user-circle'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('birthday')
+                            ->label('Birthday')
+                            ->icon('heroicon-o-cake'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('work_email')
+                            ->label('Work Email')
+                            ->icon('heroicon-o-at-symbol'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('mobile_phone')
+                            ->label('Work Mobile')
+                            ->icon('heroicon-o-phone'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('work_phone')
+                            ->label('Work Phone')
+                            ->icon('heroicon-o-phone'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('is_flexible')
+                            ->label('Is Flexible')
+                            ->icon('heroicon-o-cube'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('is_fully_flexible')
+                            ->label('Is Fully Flexible')
+                            ->icon('heroicon-o-cube'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('is_active')
+                            ->label('Is Active')
+                            ->icon('heroicon-o-cube'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('work_permit_scheduled_activity')
+                            ->label('Work Permit Scheduled Activity')
+                            ->icon('heroicon-o-cube'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('emergency_contact')
+                            ->label('Emergency Contact')
+                            ->icon('heroicon-o-phone'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('emergency_phone')
+                            ->label('Emergency Phone')
+                            ->icon('heroicon-o-phone'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_street1')
+                            ->label('Private Street1')
+                            ->icon('heroicon-o-map'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_street2')
+                            ->label('Private Street2')
+                            ->icon('heroicon-o-map'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_city')
+                            ->label('Private City')
+                            ->icon('heroicon-o-map'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_zip')
+                            ->label('Private Zip')
+                            ->icon('heroicon-o-map'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_phone')
+                            ->label('Private Phone')
+                            ->icon('heroicon-o-phone'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_email')
+                            ->label('Private Email')
+                            ->icon('heroicon-o-at-symbol'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_car_plate')
+                            ->label('Private Car Plate')
+                            ->icon('heroicon-o-clipboard-document'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('distance_home_work')
+                            ->label('Distance Home Work')
+                            ->icon('heroicon-o-map'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('km_home_work')
+                            ->label('Km Home Work')
+                            ->icon('heroicon-o-map'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('distance_home_work_unit')
+                            ->label('Distance Home Work Unit')
+                            ->icon('heroicon-o-map'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('marital')
+                            ->label('Marital Status')
+                            ->icon('heroicon-o-user'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('spouse_complete_name')
+                            ->label('Spouse Name')
+                            ->icon('heroicon-o-user'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('spouse_birthdate')
+                            ->label('Spouse Birthdate')
+                            ->icon('heroicon-o-cake'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('certificate')
+                            ->label('Certificate')
+                            ->icon('heroicon-o-document'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('study_field')
+                            ->label('Study Field')
+                            ->icon('heroicon-o-academic-cap'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('study_school')
+                            ->label('Study School')
+                            ->icon('heroicon-o-academic-cap'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('identification_id')
+                            ->label('Identification Id')
+                            ->icon('heroicon-o-credit-card'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('ssnid')
+                            ->label('SSNID')
+                            ->icon('heroicon-o-credit-card'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('sinid')
+                            ->label('SINID')
+                            ->icon('heroicon-o-credit-card'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('passport_id')
+                            ->label('Passport ID')
+                            ->icon('heroicon-o-credit-card'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('gender')
+                            ->label('Gender')
+                            ->icon('heroicon-o-user'),
+                        Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('children')
+                            ->label('Children')
+                            ->icon('heroicon-o-user'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('visa_no')
+                            ->label('Visa No')
+                            ->icon('heroicon-o-credit-card'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('permit_no')
+                            ->label('Permit No')
+                            ->icon('heroicon-o-credit-card'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('lang')
+                            ->label('Language')
+                            ->icon('heroicon-o-language'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('additional_note')
+                            ->label('Additional Note')
+                            ->icon('heroicon-o-language'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('notes')
+                            ->label('Notes')
+                            ->icon('heroicon-o-language'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('barcode')
+                            ->label('Barcode')
+                            ->icon('heroicon-o-qr-code'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('visa_expire')
+                            ->label('Visa Expire')
+                            ->icon('heroicon-o-credit-card'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('work_permit_expiration_date')
+                            ->label('Work Permit Expiration Date')
+                            ->icon('heroicon-o-calendar'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('departure_date')
+                            ->label('Departure Date')
+                            ->icon('heroicon-o-calendar'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('departure_description')
+                            ->label('Departure Description')
+                            ->icon('heroicon-o-cube'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('visa_no')
+                            ->label('Visa No')
+                            ->icon('heroicon-o-credit-card'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at'),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('company')
+                            ->label('Company')
+                            ->icon('heroicon-o-building-office-2')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('creator')
+                            ->label('Created By')
+                            ->icon('heroicon-o-user')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('calendar')
+                            ->label('Calendar')
+                            ->icon('heroicon-o-calendar')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('department')
+                            ->label('Department')
+                            ->multiple()
+                            ->icon('heroicon-o-building-office-2')
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('job')
+                            ->label('Job')
+                            ->icon('heroicon-o-briefcase')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('partner')
+                            ->label('Partner')
+                            ->icon('heroicon-o-user-group')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('leaveManager')
+                            ->label('Leave Approvers')
+                            ->icon('heroicon-o-user-group')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('workLocation')
+                            ->label('Work Location')
+                            ->multiple()
+                            ->icon('heroicon-o-map-pin')
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('parent')
+                            ->label('Manager')
+                            ->icon('heroicon-o-user')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('coach')
+                            ->label('Coach')
+                            ->multiple()
+                            ->icon('heroicon-o-user')
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('privateState')
+                            ->label('Private State')
+                            ->multiple()
+                            ->icon('heroicon-o-map-pin')
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('privateCountry')
+                            ->label('Private Country')
+                            ->icon('heroicon-o-map-pin')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('country')
+                            ->label('Country')
+                            ->icon('heroicon-o-map-pin')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('state')
+                            ->label('State')
+                            ->icon('heroicon-o-map-pin')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('countryOfBirth')
+                            ->label('Country Of Birth')
+                            ->multiple()
+                            ->icon('heroicon-o-calendar')
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('bankAccount')
+                            ->label('Bank Account')
+                            ->multiple()
+                            ->icon('heroicon-o-banknotes')
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('account_holder_name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('departureReason')
+                            ->label('Departure Reason')
+                            ->icon('heroicon-o-fire')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('employmentType')
+                            ->label('Employment Type')
+                            ->multiple()
+                            ->icon('heroicon-o-academic-cap')
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('categories')
+                            ->label('Tags')
+                            ->icon('heroicon-o-tag')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                    ]),
+
+            ])
             ->groups([
                 Tables\Grouping\Group::make('name')
                     ->label('Name')
@@ -780,11 +1167,39 @@ class EmployeeResource extends Resource
                 Tables\Grouping\Group::make('company.name')
                     ->label('Company')
                     ->collapsible(),
-                Tables\Grouping\Group::make('manager.name')
+                Tables\Grouping\Group::make('parent.name')
                     ->label('Manager')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('coach.name')
+                    ->label('Coach')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('department.name')
+                    ->label('Department')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('employmentType.name')
+                    ->label('Employment Type')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('categories.name')
+                    ->label('Tags')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('departureReason.name')
+                    ->label('Departure Reason')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('privateState.name')
+                    ->label('Private State')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('privateCountry.name')
+                    ->label('Private Country')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('country.name')
+                    ->label('Country')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('state.name')
+                    ->label('State')
                     ->collapsible(),
                 Tables\Grouping\Group::make('created_at')
                     ->label('Created At')
+                    ->date()
                     ->collapsible(),
                 Tables\Grouping\Group::make('updated_at')
                     ->label('Update At')
@@ -847,10 +1262,10 @@ class EmployeeResource extends Resource
                     Forms\Components\Select::make('country_id')
                         ->label('Country')
                         ->relationship(name: 'country', titleAttribute: 'name')
-                        ->afterStateUpdated(fn(Set $set) => $set('state_id', null))
+                        ->afterStateUpdated(fn (Set $set) => $set('state_id', null))
                         ->createOptionForm([
                             Forms\Components\Select::make('currency_id')
-                                ->options(fn() => Currency::pluck('full_name', 'id'))
+                                ->options(fn () => Currency::pluck('full_name', 'id'))
                                 ->searchable()
                                 ->preload()
                                 ->label('Currency Name')
@@ -873,7 +1288,7 @@ class EmployeeResource extends Resource
                                 ->required(),
                         ])
                         ->createOptionAction(
-                            fn(Action $action) => $action
+                            fn (Action $action) => $action
                                 ->modalHeading('Create Country')
                                 ->modalSubmitActionLabel('Create Country')
                                 ->modalWidth('lg')
@@ -898,13 +1313,13 @@ class EmployeeResource extends Resource
                                 ->maxLength(255),
                         ])
                         ->createOptionAction(
-                            fn(Action $action) => $action
+                            fn (Action $action) => $action
                                 ->modalHeading('Create State')
                                 ->modalSubmitActionLabel('Create State')
                                 ->modalWidth('lg')
                         ),
                     Forms\Components\Hidden::make('creator_id')
-                        ->default(fn() => Auth::user()->id),
+                        ->default(fn () => Auth::user()->id),
                 ])->columns(2),
         ];
     }

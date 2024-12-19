@@ -9,15 +9,15 @@ use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\TagResource;
 use Webkul\Project\Filament\Resources\ProjectResource\Pages;
 use Webkul\Project\Filament\Resources\ProjectResource\RelationManagers;
 use Webkul\Project\Models\Project;
 use Webkul\Project\Models\ProjectStage;
-use Webkul\Security\Filament\Resources\UserResource;
-use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Settings\TaskSettings;
 use Webkul\Project\Settings\TimeSettings;
+use Webkul\Security\Filament\Resources\UserResource;
 
 class ProjectResource extends Resource
 {
@@ -276,7 +276,7 @@ class ProjectResource extends Resource
                 RelationManagers\MilestonesRelationManager::class,
             ]);
         }
-        
+
         return $relations;
     }
 

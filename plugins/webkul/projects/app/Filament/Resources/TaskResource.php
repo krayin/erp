@@ -19,10 +19,9 @@ use Webkul\Project\Filament\Resources\TaskResource\RelationManagers;
 use Webkul\Project\Models\Project;
 use Webkul\Project\Models\Task;
 use Webkul\Project\Models\TaskStage;
-use Webkul\Security\Filament\Resources\UserResource;
 use Webkul\Project\Settings\TaskSettings;
-use Webkul\Project\Settings\TimeSettings;
-use Webkul\Employee\Filament\Tables\Columns\ProgressBarEntry;
+use Webkul\Security\Filament\Resources\UserResource;
+use Webkul\Support\Filament\Tables\Columns\ProgressBarEntry;
 
 class TaskResource extends Resource
 {
@@ -135,19 +134,19 @@ class TaskResource extends Resource
                                         return ! $project->allow_milestones;
                                     })
                                     ->visible(fn (TaskSettings $taskSettings) => $taskSettings->enable_milestones),
-                                    // ->visible(function (TaskSettings $taskSettings, Forms\Get $get) {
-                                    //     if ($taskSettings->enable_milestones) {
-                                    //         return true;
-                                    //     }
+                                // ->visible(function (TaskSettings $taskSettings, Forms\Get $get) {
+                                //     if ($taskSettings->enable_milestones) {
+                                //         return true;
+                                //     }
 
-                                    //     $project = Project::find($get('project_id'));
+                                //     $project = Project::find($get('project_id'));
 
-                                    //     if (! $project) {
-                                    //         return false;
-                                    //     }
+                                //     if (! $project) {
+                                //         return false;
+                                //     }
 
-                                    //     return $project->allow_milestones;
-                                    // }),
+                                //     return $project->allow_milestones;
+                                // }),
                                 Forms\Components\Select::make('partner_id')
                                     ->label('Customer')
                                     ->relationship('partner', 'name')
@@ -259,7 +258,7 @@ class TaskResource extends Resource
                         $hours = floor($state);
                         $minutes = ($state - $hours) * 60;
 
-                        return $hours . ':' . $minutes;
+                        return $hours.':'.$minutes;
                     })
                     ->summarize(
                         Sum::make()
@@ -270,7 +269,7 @@ class TaskResource extends Resource
                                 $hours = floor($state);
                                 $minutes = ($state - $hours) * 60;
 
-                                return $hours . ':' . $minutes;
+                                return $hours.':'.$minutes;
                             })
                     )
                     ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
@@ -283,7 +282,7 @@ class TaskResource extends Resource
                         $hours = floor($state);
                         $minutes = ($state - $hours) * 60;
 
-                        return $hours . ':' . $minutes;
+                        return $hours.':'.$minutes;
                     })
                     ->summarize(
                         Sum::make()
@@ -293,7 +292,7 @@ class TaskResource extends Resource
                                 $hours = floor($state);
                                 $minutes = ($state - $hours) * 60;
 
-                                return $hours . ':' . $minutes;
+                                return $hours.':'.$minutes;
                             })
                     )
                     ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
@@ -305,7 +304,7 @@ class TaskResource extends Resource
                         $hours = floor($state);
                         $minutes = ($state - $hours) * 60;
 
-                        return $hours . ':' . $minutes;
+                        return $hours.':'.$minutes;
                     })
                     ->summarize(
                         Sum::make()
@@ -316,7 +315,7 @@ class TaskResource extends Resource
                                 $hours = floor($state);
                                 $minutes = ($state - $hours) * 60;
 
-                                return $hours . ':' . $minutes;
+                                return $hours.':'.$minutes;
                             })
                     )
                     ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),

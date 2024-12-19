@@ -6,6 +6,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Enums;
@@ -13,12 +14,9 @@ use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\SkillTypeResource\Pages;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\SkillTypeResource\RelationManagers;
 use Webkul\Employee\Models\SkillType;
-use Webkul\Fields\Filament\Traits\HasCustomFields;
 
 class SkillTypeResource extends Resource
 {
-    use HasCustomFields;
-
     protected static ?string $model = SkillType::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
@@ -47,7 +45,7 @@ class SkillTypeResource extends Resource
                         ->options(function () {
                             return collect(Enums\Colors::options())->mapWithKeys(function ($value, $key) {
                                 return [
-                                    $key => '<div class="flex items-center gap-4"><span class="flex h-5 w-5 rounded-full" style="background: rgb(var(--'.$key.'-500))"></span> '.$value.'</span>',
+                                    $key => '<div class="flex items-center gap-4"><span class="flex w-5 h-5 rounded-full" style="background: rgb(var(--'.$key.'-500))"></span> '.$value.'</span>',
                                 ];
                             });
                         })
@@ -56,10 +54,6 @@ class SkillTypeResource extends Resource
                     Forms\Components\Toggle::make('is_active')
                         ->label('Status')
                         ->default(true),
-                    Forms\Components\Section::make('Additional Information')
-                        ->visible(! empty($customFormFields = static::getCustomFormFields()))
-                        ->description('Additional information about this work schedule')
-                        ->schema($customFormFields),
                 ])->columns(2),
             ]);
     }
@@ -67,7 +61,12 @@ class SkillTypeResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns(static::mergeCustomTableColumns([
+            ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Skill Type')
                     ->searchable()
@@ -75,7 +74,7 @@ class SkillTypeResource extends Resource
                 Tables\Columns\TextColumn::make('color')
                     ->label('Color')
                     ->toggleable(isToggledHiddenByDefault: false)
-                    ->formatStateUsing(fn (SkillType $skillType) => '<span class="flex h-5 w-5 rounded-full" style="background: rgb(var(--'.$skillType->color.'-500))"></span>')
+                    ->formatStateUsing(fn (SkillType $skillType) => '<span class="flex w-5 h-5 rounded-full" style="background: rgb(var(--'.$skillType->color.'-500))"></span>')
                     ->html()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('skills.name')
@@ -107,12 +106,51 @@ class SkillTypeResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ]))
+            ])
             ->columnToggleFormColumns(2)
-            ->filters(static::mergeCustomTableFilters([
+            ->filters([
                 Tables\Filters\TernaryFilter::make('is_active')
                     ->label('Active Status'),
-            ]))
+                Tables\Filters\QueryBuilder::make()
+                    ->constraintPickerColumns(2)
+                    ->constraints([
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('skillLevels')
+                            ->label('Skill Levels')
+                            ->icon('heroicon-o-bolt')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('skills')
+                            ->label('Skill')
+                            ->icon('heroicon-o-bolt')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('createdBy')
+                            ->label('Created By')
+                            ->icon('heroicon-o-user')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at'),
+                    ]),
+            ])
             ->filtersFormColumns(2)
             ->groups([
                 Tables\Grouping\Group::make('name')
