@@ -10,7 +10,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Enums;
-use Webkul\Employee\Models\EmployeeEmployeeResumeLineType;
+use Webkul\Employee\Models\EmployeeResumeLineType;
 
 class ResumeRelationManager extends RelationManager
 {
@@ -44,7 +44,7 @@ class ResumeRelationManager extends RelationManager
                                         ->default(Auth::user()->id)
                                         ->required(),
                                     Forms\Components\Hidden::make('sort')
-                                        ->default(EmployeeEmployeeResumeLineType::max('sort') + 1)
+                                        ->default(EmployeeResumeLineType::max('sort') + 1)
                                         ->required(),
                                 ])->columns(2),
                         ])

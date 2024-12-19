@@ -20,6 +20,7 @@ use Webkul\Project\Models\Project;
 use Webkul\Project\Models\Task;
 use Webkul\Project\Models\TaskStage;
 use Webkul\Project\Settings\TaskSettings;
+use Webkul\Project\Settings\TimeSettings;
 use Webkul\Security\Filament\Resources\UserResource;
 use Webkul\Support\Filament\Tables\Columns\ProgressBarEntry;
 
@@ -474,8 +475,12 @@ class TaskResource extends Resource
                                     ->preload(),
                             ),
                     ])->filter()->values()->all()),
-            ])
-            ->filtersFormColumns(3)
+            ], layout: \Filament\Tables\Enums\FiltersLayout::Modal)
+            ->filtersTriggerAction(
+                fn (Tables\Actions\Action $action) => $action
+                    ->slideOver(),
+            )
+            ->filtersFormColumns(2)
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make()
