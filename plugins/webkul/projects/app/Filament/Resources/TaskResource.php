@@ -475,8 +475,12 @@ class TaskResource extends Resource
                                     ->preload(),
                             ),
                     ])->filter()->values()->all()),
-            ])
-            ->filtersFormColumns(3)
+            ], layout: \Filament\Tables\Enums\FiltersLayout::Modal)
+            ->filtersTriggerAction(
+                fn (Tables\Actions\Action $action) => $action
+                    ->slideOver(),
+            )
+            ->filtersFormColumns(2)
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make()

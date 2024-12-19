@@ -221,6 +221,18 @@ class ProjectResource extends Resource
                     ->label('Created At')
                     ->date(),
             ])
+            ->filters([
+                Tables\Filters\QueryBuilder::make()
+                    ->constraints([
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('name')
+                            ->label('Name'),
+                    ]),
+            ], layout: \Filament\Tables\Enums\FiltersLayout::Modal)
+            ->filtersTriggerAction(
+                fn (Tables\Actions\Action $action) => $action
+                    ->slideOver(),
+            )
+            ->filtersFormColumns(2)
             ->actions([
                 Tables\Actions\Action::make('tasks')
                     ->label(fn (Project $record): string => $record->tasks->count().' Tasks')
