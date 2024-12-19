@@ -2,9 +2,9 @@
 
 namespace Webkul\Support\Policies;
 
+use Illuminate\Auth\Access\HandlesAuthorization;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\ActivityType;
-use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ActivityTypePolicy
 {

@@ -7,12 +7,12 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Webkul\Fields\Filament\Traits\HasCustomFields;
 use Webkul\Project\Filament\Clusters\Configurations;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\ActivityPlanResource\Pages;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\ActivityPlanResource\RelationManagers;
-use Webkul\Fields\Filament\Traits\HasCustomFields;
-use Webkul\Support\Models\ActivityPlan;
 use Webkul\Project\Models\Project;
+use Webkul\Support\Models\ActivityPlan;
 
 class ActivityPlanResource extends Resource
 {
@@ -32,20 +32,20 @@ class ActivityPlanResource extends Resource
             ->schema([
                 Forms\Components\Section::make()
                     ->schema([
-                    Forms\Components\TextInput::make('name')
-                        ->label('Plan Name')
-                        ->required()
-                        ->maxLength(255),
-                    Forms\Components\Toggle::make('is_active')
-                        ->label('Status')
-                        ->default(true)
-                        ->inline(false),
-                    Forms\Components\Section::make('Additional Information')
-                        ->visible(! empty($customFormFields = static::getCustomFormFields()))
-                        ->description('Additional information about this work schedule')
-                        ->schema($customFormFields)
-                        ->columns(),
-                ]),
+                        Forms\Components\TextInput::make('name')
+                            ->label('Plan Name')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Toggle::make('is_active')
+                            ->label('Status')
+                            ->default(true)
+                            ->inline(false),
+                        Forms\Components\Section::make('Additional Information')
+                            ->visible(! empty($customFormFields = static::getCustomFormFields()))
+                            ->description('Additional information about this work schedule')
+                            ->schema($customFormFields)
+                            ->columns(),
+                    ]),
             ]);
     }
 

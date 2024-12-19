@@ -7,6 +7,7 @@ use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
 use Webkul\Employee\Filament\Resources\DepartmentResource\Pages;
 use Webkul\Employee\Models\Department;
@@ -86,12 +87,15 @@ class DepartmentResource extends Resource
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('name')
                             ->label('Department Name')
+                            ->searchable()
                             ->weight('bold'),
                         Tables\Columns\TextColumn::make('manager.name')
                             ->label('Manager')
+                            ->searchable()
                             ->color('gray'),
                         Tables\Columns\TextColumn::make('company.name')
                             ->label('Company')
+                            ->searchable()
                             ->color('blue')
                             ->limit(30),
                     ]),
@@ -126,7 +130,40 @@ class DepartmentResource extends Resource
                     ->date()
                     ->collapsible(),
             ])
-            ->filters(static::mergeCustomTableFilters([]))
+            ->filtersFormColumns(2)
+            ->filters(static::mergeCustomTableFilters([
+                Tables\Filters\QueryBuilder::make()
+                    ->constraintPickerColumns(2)
+                    ->constraints([
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('name')
+                            ->label('Name')
+                            ->icon('heroicon-o-building-office-2'),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('manager.name')
+                            ->label('Manager')
+                            ->icon('heroicon-o-user')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('company')
+                            ->label('Company')
+                            ->icon('heroicon-o-building-office-2')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at'),
+                    ]),
+            ]))
             ->contentGrid([
                 'xl'  => 2,
                 '2xl' => 3,

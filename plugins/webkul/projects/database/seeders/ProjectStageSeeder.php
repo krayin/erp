@@ -16,26 +16,26 @@ class TaskStageSeeder extends Seeder
 
         DB::table('	projects_project_stages')->insert([
             [
-                'name' => 'To Do',
-                'is_active' => 1,
+                'name'       => 'To Do',
+                'is_active'  => 1,
                 'creator_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ], [
-                'name' => 'In Progress',
-                'is_active' => 1,
+                'name'       => 'In Progress',
+                'is_active'  => 1,
                 'creator_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ], [
-                'name' => 'Done',
-                'is_active' => 1,
+                'name'       => 'Done',
+                'is_active'  => 1,
                 'creator_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ], [
-                'name' => 'Cancelled',
-                'is_active' => 1,
+                'name'       => 'Cancelled',
+                'is_active'  => 1,
                 'creator_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),

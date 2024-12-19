@@ -2,9 +2,9 @@
 
 namespace Webkul\Project\Policies;
 
-use Webkul\Security\Models\User;
-use Webkul\Project\Models\TaskStage;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Webkul\Project\Models\TaskStage;
+use Webkul\Security\Models\User;
 
 class TaskStagePolicy
 {

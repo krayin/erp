@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Webkul\Analytic\Models\Record;
 use Webkul\Partner\Models\Partner;
 use Webkul\Project\Database\Factories\TaskFactory;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
-use Webkul\Analytic\Models\Record;
 
 class Task extends Model
 {
