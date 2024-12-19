@@ -3,10 +3,11 @@
 namespace Webkul\Project\Filament\Clusters\Configurations\Resources\ActivityPlanResource\Pages;
 
 use Filament\Actions;
+use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\ActivityPlanResource;
-use Webkul\Project\Models\Project;
+use Webkul\Support\Models\ActivityPlan;
 
 class ListActivityPlans extends ListRecords
 {
@@ -20,12 +21,26 @@ class ListActivityPlans extends ListRecords
                 ->mutateFormDataUsing(function ($data) {
                     $user = Auth::user();
 
-                    return [
-                        ...$data,
-                        'creator_id' => $user?->id,
-                        'model_type' => Project::class,
-                        'company_id' => $user->defaultCompany?->id,
-                    ];
+                    $data['plugin'] = 'projects';
+
+                    $data['creator_id'] = $user->id;
+
+                    $data['company_id'] = $user->defaultCompany?->id;
+
+                    return $data;
+                }),
+        ];
+    }
+
+    public function getTabs(): array
+    {
+        return [
+            'all' => Tab::make('All')
+                ->badge(ActivityPlan::where('plugin', 'projects')->count()),
+            'archived' => Tab::make('Archived')
+                ->badge(ActivityPlan::where('plugin', 'projects')->onlyTrashed()->count())
+                ->modifyQueryUsing(function ($query) {
+                    return $query->onlyTrashed();
                 }),
         ];
     }
