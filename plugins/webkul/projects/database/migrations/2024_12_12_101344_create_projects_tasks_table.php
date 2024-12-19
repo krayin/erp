@@ -23,14 +23,14 @@ return new class extends Migration
             $table->boolean('is_active')->default(1);
             $table->boolean('is_recurring')->default(0);
             $table->datetime('deadline')->nullable()->index();
-            $table->decimal('working_hours_open')->nullable();
-            $table->decimal('working_hours_close')->nullable();
-            $table->decimal('allocated_hours')->nullable();
-            $table->decimal('remaining_hours')->nullable();
-            $table->decimal('effective_hours')->nullable();
-            $table->decimal('total_hours_spent')->nullable();
-            $table->decimal('overtime')->nullable();
-            $table->decimal('progress')->nullable();
+            $table->decimal('working_hours_open')->default(0);
+            $table->decimal('working_hours_close')->default(0);
+            $table->decimal('allocated_hours')->default(0);
+            $table->decimal('remaining_hours')->default(0);
+            $table->decimal('effective_hours')->default(0);
+            $table->decimal('total_hours_spent')->default(0);
+            $table->decimal('overtime')->default(0);
+            $table->decimal('progress')->default(0);
 
             $table->foreignId('project_id')
                 ->nullable()
