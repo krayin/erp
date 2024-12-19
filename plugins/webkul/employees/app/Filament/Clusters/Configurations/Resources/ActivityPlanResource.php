@@ -6,6 +6,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Clusters\Configurations;
@@ -63,8 +64,14 @@ class ActivityPlanResource extends Resource
     {
         return $table
             ->columns(static::mergeCustomTableColumns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('plugin')
                     ->label('Related Plugin')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
@@ -90,7 +97,55 @@ class ActivityPlanResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ]))
-            ->filters(static::mergeCustomTableFilters([]))
+            ->filters(static::mergeCustomTableFilters([
+                Tables\Filters\TernaryFilter::make('is_active')
+                    ->label('Active Status'),
+                Tables\Filters\QueryBuilder::make()
+                    ->constraintPickerColumns(2)
+                    ->constraints([
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('name')
+                            ->label('Name')
+                            ->icon('heroicon-o-briefcase'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('plugin')
+                            ->label('Plugin')
+                            ->icon('heroicon-o-briefcase'),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('activityTypes')
+                            ->label('Activity Types')
+                            ->icon('heroicon-o-briefcase')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('company')
+                            ->label('Company')
+                            ->icon('heroicon-o-building-office-2')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('department')
+                            ->label('Department')
+                            ->icon('heroicon-o-building-office-2')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at'),
+                    ]),
+            ]))
             ->groups([
                 Tables\Grouping\Group::make('name')
                     ->label('Name')

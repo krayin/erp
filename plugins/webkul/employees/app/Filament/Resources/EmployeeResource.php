@@ -747,6 +747,7 @@ class EmployeeResource extends Resource
                             Tables\Columns\TextColumn::make('job_title')
                                 ->icon('heroicon-m-briefcase')
                                 ->searchable()
+                                ->sortable()
                                 ->label('Job Title'),
                         ])
                             ->visible(fn ($record) => filled($record->job_title)),
@@ -754,10 +755,10 @@ class EmployeeResource extends Resource
                             Tables\Columns\TextColumn::make('work_email')
                                 ->icon('heroicon-o-envelope')
                                 ->searchable()
+                                ->sortable()
                                 ->label('Work Email')
                                 ->color('gray')
-                                ->limit(30)
-                                ->sortable(),
+                                ->limit(30),
                         ])
                             ->visible(fn ($record) => filled($record->work_email)),
                         Tables\Columns\Layout\Stack::make([
@@ -796,7 +797,6 @@ class EmployeeResource extends Resource
                     ->searchable()
                     ->multiple()
                     ->preload(),
-
                 Tables\Filters\SelectFilter::make('resumes')
                     ->relationship('resumes', 'name')
                     ->searchable()

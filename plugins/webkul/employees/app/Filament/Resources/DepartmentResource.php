@@ -6,13 +6,13 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
 use Webkul\Employee\Filament\Resources\DepartmentResource\Pages;
 use Webkul\Employee\Models\Department;
 use Webkul\Fields\Filament\Traits\HasCustomFields;
-use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 
 class DepartmentResource extends Resource
@@ -45,12 +45,8 @@ class DepartmentResource extends Resource
                                         Forms\Components\Select::make('manager_id')
                                             ->label('Manager')
                                             ->relationship('manager', 'name')
-                                            ->options(function () {
-                                                return User::whereHas('roles', function ($query) {
-                                                    $query->where('name', 'admin');
-                                                })->pluck('name', 'id');
-                                            })
                                             ->searchable()
+                                            ->preload()
                                             ->placeholder('Select a manager')
                                             ->nullable(),
                                         Forms\Components\Select::make('company_id')
@@ -77,41 +73,39 @@ class DepartmentResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns(static::mergeCustomTableColumns([
+            ->columns([
                 Tables\Columns\Layout\Stack::make([
-                    Tables\Columns\ImageColumn::make('manager.image')
-                        ->defaultImageUrl(fn ($record): string => 'https://ui-avatars.com/api/?name='.$record->name)
-                        ->label('Manager Photo')
-                        ->height('100%')
-                        ->width('100%'),
+                    Tables\Columns\ImageColumn::make('manager.partner.avatar')
+                        ->height(150)
+                        ->width(200),
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('name')
-                            ->label('Department Name')
+                            ->weight(FontWeight::Bold)
                             ->searchable()
-                            ->weight('bold'),
-                        Tables\Columns\TextColumn::make('manager.name')
-                            ->label('Manager')
-                            ->searchable()
-                            ->color('gray'),
-                        Tables\Columns\TextColumn::make('company.name')
-                            ->label('Company')
-                            ->searchable()
-                            ->color('blue')
-                            ->limit(30),
-                    ]),
-                ])->space(3),
-                Tables\Columns\Layout\Panel::make([
-                    Tables\Columns\Layout\Split::make([
-                        Tables\Columns\ColorColumn::make('color')
-                            ->label('Color')
-                            ->grow(false),
-
-                        Tables\Columns\TextColumn::make('description')
-                            ->label('Description')
-                            ->color('gray'),
-                    ]),
-                ])->collapsible(),
-            ]))
+                            ->sortable(),
+                        Tables\Columns\Layout\Stack::make([
+                            Tables\Columns\TextColumn::make('manager.name')
+                                ->icon('heroicon-m-briefcase')
+                                ->sortable()
+                                ->searchable()
+                                ->label('Job Title'),
+                        ])
+                            ->visible(fn ($record) => filled($record?->manager?->name)),
+                        Tables\Columns\Layout\Stack::make([
+                            Tables\Columns\TextColumn::make('company.name')
+                                ->searchable()
+                                ->icon('heroicon-m-building-office-2')
+                                ->searchable()
+                                ->label('Job Title'),
+                        ])
+                            ->visible(fn ($record) => filled($record?->company?->name)),
+                    ])->space(1),
+                ])->space(4),
+            ])
+            ->contentGrid([
+                'md' => 2,
+                'xl' => 4,
+            ])
             ->groups([
                 Tables\Grouping\Group::make('name')
                     ->label('Name')
@@ -164,10 +158,6 @@ class DepartmentResource extends Resource
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at'),
                     ]),
             ]))
-            ->contentGrid([
-                'xl'  => 2,
-                '2xl' => 3,
-            ])
             ->paginated([
                 18,
                 36,

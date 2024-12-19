@@ -179,7 +179,7 @@ class ProjectResource extends Resource
                         ->visible(fn (Project $record) => filled($record->partner)),
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('start_date')
-                            ->icon('heroicon-o-clock')
+                            ->icon('heroicon-o-calendar')
                             ->formatStateUsing(fn (Project $record): string => $record->start_date->format('d M Y').' - '.$record->end_date->format('d M Y')),
                     ])
                         ->visible(fn (Project $record) => filled($record->start_date) && filled($record->end_date)),

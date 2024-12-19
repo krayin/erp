@@ -6,6 +6,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Enums\WorkLocationEnum;
@@ -60,6 +61,11 @@ class WorkLocationResource extends Resource
     {
         return $table
             ->columns(static::mergeCustomTableColumns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('location_type')
@@ -117,7 +123,47 @@ class WorkLocationResource extends Resource
                     ->date()
                     ->collapsible(),
             ])
-            ->filters(static::mergeCustomTableFilters([]))
+            ->filters(static::mergeCustomTableFilters([
+                Tables\Filters\TernaryFilter::make('is_active')
+                    ->label('Active Status'),
+                Tables\Filters\QueryBuilder::make()
+                    ->constraintPickerColumns(2)
+                    ->constraints([
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('name')
+                            ->label('Name')
+                            ->icon('heroicon-o-user'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('location_type')
+                            ->label('Location Type')
+                            ->icon('heroicon-o-map'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('location_number')
+                            ->label('Location Number')
+                            ->icon('heroicon-o-map'),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('company')
+                            ->label('Company')
+                            ->icon('heroicon-o-building-office')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('createdBy')
+                            ->label('Created By')
+                            ->icon('heroicon-o-user')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at'),
+                    ]),
+            ]))
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),

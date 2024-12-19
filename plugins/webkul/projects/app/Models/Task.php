@@ -70,6 +70,13 @@ class Task extends Model
         'priority'     => 'boolean',
         'is_active'    => 'boolean',
         'is_recurring' => 'boolean',
+        'working_hours_open' => 'float',
+        'working_hours_close' => 'float',
+        'allocated_hours' => 'float',
+        'remaining_hours' => 'float',
+        'effective_hours' => 'float',
+        'total_hours_spent' => 'float',
+        'overtime' => 'float',
     ];
 
     public function parent(): BelongsTo
@@ -124,7 +131,7 @@ class Task extends Model
 
     public function timesheets(): HasMany
     {
-        return $this->hasMany(Record::class);
+        return $this->hasMany(Timesheet::class);
     }
 
     protected static function newFactory(): TaskFactory

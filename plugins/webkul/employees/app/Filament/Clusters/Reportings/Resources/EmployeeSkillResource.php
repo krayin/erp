@@ -6,6 +6,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Webkul\Employee\Filament\Clusters\Reportings;
@@ -65,7 +66,6 @@ class EmployeeSkillResource extends Resource
                             ->relationship('creator', 'name')
                             ->searchable()
                             ->preload(),
-
                         Forms\Components\Select::make('user_id')
                             ->label('Updated By')
                             ->relationship('user', 'name')
@@ -80,6 +80,10 @@ class EmployeeSkillResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('employee.name')
                     ->label('Employee')
                     ->searchable()
@@ -133,26 +137,70 @@ class EmployeeSkillResource extends Resource
                     ->collapsible(),
             ])
             ->defaultGroup('employee.name')
+            ->filtersFormColumns(2)
             ->filters([
                 SelectFilter::make('employee')
                     ->relationship('employee', 'name')
+                    ->preload()
                     ->searchable()
-                    ->label('Filter by Employee'),
-
+                    ->label('Employee'),
                 SelectFilter::make('skill')
                     ->relationship('skill', 'name')
                     ->searchable()
-                    ->label('Filter by Skill'),
-
+                    ->preload()
+                    ->label('Skill'),
                 SelectFilter::make('skill_level')
                     ->relationship('skillLevel', 'name')
                     ->searchable()
-                    ->label('Filter by Skill Level'),
-
+                    ->preload()
+                    ->label('Skill Level'),
                 SelectFilter::make('skill_type')
                     ->relationship('skillType', 'name')
+                    ->preload()
                     ->searchable()
-                    ->label('Filter by Skill Type'),
+                    ->label('Skill Type'),
+                Tables\Filters\QueryBuilder::make()
+                    ->constraintPickerColumns(2)
+                    ->constraints([
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('name')
+                            ->label('Name')
+                            ->icon('heroicon-o-building-office-2'),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('employee')
+                            ->label('Employee')
+                            ->icon('heroicon-o-user')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('creator')
+                            ->label('Created By')
+                            ->icon('heroicon-o-user')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('user')
+                            ->label('User')
+                            ->icon('heroicon-o-user')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at'),
+                    ]),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
