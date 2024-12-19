@@ -22,6 +22,7 @@ use Webkul\Project\Models\TaskStage;
 use Webkul\Security\Filament\Resources\UserResource;
 use Webkul\Project\Settings\TaskSettings;
 use Webkul\Project\Settings\TimeSettings;
+use Webkul\Employee\Filament\Tables\Columns\ProgressBarEntry;
 
 class TaskResource extends Resource
 {
@@ -251,22 +252,73 @@ class TaskResource extends Resource
                     ->label('Allocated Time')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->summarize(Sum::make()->numeric()),
+                    ->formatStateUsing(function ($state) {
+                        $hours = floor($state);
+                        $minutes = ($state - $hours) * 60;
+
+                        return $hours . ':' . $minutes;
+                    })
+                    ->summarize(
+                        Sum::make()
+                            ->label('Allocated Time')
+                            ->numeric()
+                            ->numeric()
+                            ->formatStateUsing(function ($state) {
+                                $hours = floor($state);
+                                $minutes = ($state - $hours) * 60;
+
+                                return $hours . ':' . $minutes;
+                            })
+                    ),
                 Tables\Columns\TextColumn::make('total_hours_spent')
                     ->label('Time Spent')
                     ->sortable()
                     ->toggleable()
                     ->numeric()
-                    ->summarize(Sum::make()->numeric()),
+                    ->formatStateUsing(function ($state) {
+                        $hours = floor($state);
+                        $minutes = ($state - $hours) * 60;
+
+                        return $hours . ':' . $minutes;
+                    })
+                    ->summarize(
+                        Sum::make()
+                            ->label('Time Spent')
+                            ->numeric()
+                            ->formatStateUsing(function ($state) {
+                                $hours = floor($state);
+                                $minutes = ($state - $hours) * 60;
+
+                                return $hours . ':' . $minutes;
+                            })
+                    ),
                 Tables\Columns\TextColumn::make('remaining_hours')
                     ->label('Time Remaining')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->summarize(Sum::make()->numeric()),
-                Tables\Columns\TextColumn::make('progress')
+                    ->formatStateUsing(function ($state) {
+                        $hours = floor($state);
+                        $minutes = ($state - $hours) * 60;
+
+                        return $hours . ':' . $minutes;
+                    })
+                    ->summarize(
+                        Sum::make()
+                            ->label('Time Remaining')
+                            ->numeric()
+                            ->numeric()
+                            ->formatStateUsing(function ($state) {
+                                $hours = floor($state);
+                                $minutes = ($state - $hours) * 60;
+
+                                return $hours . ':' . $minutes;
+                            })
+                    ),
+                ProgressBarEntry::make('progress')
                     ->label('Progress')
                     ->sortable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->color(fn (Task $record): string => $record->progress > 100 ? 'danger' : ($record->progress < 100 ? 'warning' : 'success')),
                 Tables\Columns\TextColumn::make('deadline')
                     ->label('Deadline')
                     ->sortable()
@@ -281,6 +333,9 @@ class TaskResource extends Resource
                     ->toggleable(),
             ])
             ->groups([
+                Tables\Grouping\Group::make('state')
+                    ->label('State')
+                    ->getTitleFromRecordUsing(fn (Task $record): string => TaskState::options()[$record->state]),
                 Tables\Grouping\Group::make('project.name')
                     ->label('Project'),
                 Tables\Grouping\Group::make('deadline')
@@ -299,6 +354,39 @@ class TaskResource extends Resource
             ->filters([
                 Tables\Filters\QueryBuilder::make()
                     ->constraints([
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('title')
+                            ->label('Title'),
+                        Tables\Filters\QueryBuilder\Constraints\SelectConstraint::make('priority')
+                            ->options([
+                                0 => 'Low',
+                                1 => 'High',
+                            ]),
+                        Tables\Filters\QueryBuilder\Constraints\SelectConstraint::make('state')
+                            ->label('State')
+                            ->multiple()
+                            ->options(TaskState::options()),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('tags')
+                            ->label('Tags')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('allocated_hours')
+                            ->label('Allocated Hours'),
+                        Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('total_hours_spent')
+                            ->label('Total Hours Spent'),
+                        Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('remaining_hours')
+                            ->label('Remaining Hours'),
+                        Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('overtime')
+                            ->label('Overtime'),
+                        Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('progress')
+                            ->label('Progress'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('deadline'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at'),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('users')
                             ->label('Assignees')
                             ->multiple()
@@ -349,12 +437,8 @@ class TaskResource extends Resource
                                     ->multiple()
                                     ->preload(),
                             ),
-                        Tables\Filters\QueryBuilder\Constraints\SelectConstraint::make('state')
-                            ->label('State')
-                            ->multiple()
-                            ->options(TaskState::options()),
-                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('tags')
-                            ->label('Tags')
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('company')
+                            ->label('Company')
                             ->multiple()
                             ->selectable(
                                 IsRelatedToOperator::make()
@@ -363,14 +447,16 @@ class TaskResource extends Resource
                                     ->multiple()
                                     ->preload(),
                             ),
-                        Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('allocated_hours')
-                            ->label('Allocated Hours'),
-                        Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('total_hours_spent')
-                            ->label('Total Hours Spent'),
-                        Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('remaining_hours')
-                            ->label('Remaining Hours'),
-                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('deadline'),
-                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at'),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('creator')
+                            ->label('Creator')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
                     ]),
             ])
             ->filtersFormColumns(3)

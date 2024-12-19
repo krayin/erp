@@ -3,10 +3,12 @@
     $progress = ($getState() / $total) * 100;
 
     $displayProgress = $progress == 100 ? number_format($progress, 0) : number_format($progress, 2);
+
+    $color = $getColor($state) ?? 'primary';
 @endphp
 
 <div class="progress-container">
-    <div class="progress-bar" style="width: {{ $displayProgress }}%; background-color: rgb(var(--primary-500));"></div>
+    <div class="progress-bar" style="width: {{ $displayProgress }}%; background-color: rgb(var(--{{ $color }}-500));"></div>
 
     <div class="progress-text">
         @if (
@@ -54,13 +56,5 @@
         justify-content: center;
         font-weight: 600;
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-    }
-    .progress-bar::after {
-        content: '';
-        display: block;
-        height: 100%;
-        border-radius: 0.375rem;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 25%, rgba(255, 255, 255, 0) 25%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0) 100%);
-        background-size: 40px 40px;
     }
 </style>
