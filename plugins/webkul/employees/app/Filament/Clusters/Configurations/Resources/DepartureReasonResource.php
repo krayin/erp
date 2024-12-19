@@ -12,12 +12,9 @@ use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\DepartureReasonResource\Pages;
 use Webkul\Employee\Models\DepartureReason;
-use Webkul\Fields\Filament\Traits\HasCustomFields;
 
 class DepartureReasonResource extends Resource
 {
-    use HasCustomFields;
-
     protected static ?string $model = DepartureReason::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-fire';
@@ -35,17 +32,13 @@ class DepartureReasonResource extends Resource
                     ->required(),
                 Forms\Components\Hidden::make('creator_id')
                     ->default(Auth::user()->id),
-                Forms\Components\Section::make('Additional Information')
-                    ->visible(! empty($customFormFields = static::getCustomFormFields()))
-                    ->description('Additional information about this work schedule')
-                    ->schema($customFormFields),
             ])->columns('full');
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->columns(static::mergeCustomTableColumns([
+            ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID')
                     ->searchable()
@@ -69,8 +62,8 @@ class DepartureReasonResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ]))
-            ->filters(static::mergeCustomTableFilters([
+            ])
+            ->filters([
                 Tables\Filters\QueryBuilder::make()
                     ->constraintPickerColumns(2)
                     ->constraints([
@@ -102,7 +95,7 @@ class DepartureReasonResource extends Resource
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at'),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at'),
                     ]),
-            ]))
+            ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make()

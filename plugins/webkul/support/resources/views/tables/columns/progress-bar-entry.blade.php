@@ -12,7 +12,7 @@
 
     <div class="progress-text">
         @if (
-            $column instanceof \Webkul\Employee\Filament\Tables\Columns\ProgressBarEntry
+            $column instanceof \Webkul\Support\Filament\Tables\Columns\ProgressBarEntry
             && $column->getCanShow()
         )
             <small

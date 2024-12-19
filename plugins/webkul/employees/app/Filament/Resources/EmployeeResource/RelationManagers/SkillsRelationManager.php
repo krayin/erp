@@ -7,8 +7,8 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Webkul\Employee\Filament\Tables as CustomTables;
 use Webkul\Employee\Models\SkillType;
+use Webkul\Support\Filament\Tables as CustomTables;
 
 class SkillsRelationManager extends RelationManager
 {

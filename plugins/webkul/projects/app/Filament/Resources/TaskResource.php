@@ -20,8 +20,8 @@ use Webkul\Project\Models\Project;
 use Webkul\Project\Models\Task;
 use Webkul\Project\Models\TaskStage;
 use Webkul\Project\Settings\TaskSettings;
-use Webkul\Project\Settings\TimeSettings;
-use Webkul\Employee\Filament\Tables\Columns\ProgressBarEntry;
+use Webkul\Security\Filament\Resources\UserResource;
+use Webkul\Support\Filament\Tables\Columns\ProgressBarEntry;
 
 class TaskResource extends Resource
 {
@@ -45,7 +45,7 @@ class TaskResource extends Resource
                             ->hiddenLabel()
                             ->inline()
                             ->required()
-                            ->options(fn() => TaskStage::all()->mapWithKeys(fn($stage) => [$stage->id => $stage->name]))
+                            ->options(fn () => TaskStage::all()->mapWithKeys(fn ($stage) => [$stage->id => $stage->name]))
                             ->default(TaskStage::first()?->id),
                         Forms\Components\Section::make('General Information')
                             ->schema([
@@ -91,7 +91,7 @@ class TaskResource extends Resource
                                     ->searchable()
                                     ->preload()
                                     ->live()
-                                    ->createOptionForm(fn(Form $form): Form => ProjectResource::form($form))
+                                    ->createOptionForm(fn (Form $form): Form => ProjectResource::form($form))
                                     ->afterStateUpdated(function (Forms\Set $set) {
                                         $set('milestone_id', null);
                                     }),
@@ -100,12 +100,12 @@ class TaskResource extends Resource
                                     ->relationship(
                                         name: 'milestone',
                                         titleAttribute: 'name',
-                                        modifyQueryUsing: fn(Forms\Get $get, \Illuminate\Database\Eloquent\Builder $query) => $query->where('project_id', $get('project_id')),
+                                        modifyQueryUsing: fn (Forms\Get $get, \Illuminate\Database\Eloquent\Builder $query) => $query->where('project_id', $get('project_id')),
                                     )
                                     ->searchable()
                                     ->preload()
                                     ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Deliver your services automatically when a milestone is reached by linking it to a sales order item.')
-                                    ->createOptionForm(fn($get) => [
+                                    ->createOptionForm(fn ($get) => [
                                         Forms\Components\TextInput::make('name')
                                             ->required()
                                             ->maxLength(255),
@@ -117,7 +117,7 @@ class TaskResource extends Resource
                                         Forms\Components\Hidden::make('project_id')
                                             ->default($get('project_id')),
                                         Forms\Components\Hidden::make('creator_id')
-                                            ->default(fn() => Auth::user()->id),
+                                            ->default(fn () => Auth::user()->id),
                                     ])
                                     // ->hidden(fn (Forms\Get $get) => ! $get('project_id'))
                                     ->hidden(function (TaskSettings $taskSettings, Forms\Get $get) {
@@ -133,7 +133,7 @@ class TaskResource extends Resource
 
                                         return ! $project->allow_milestones;
                                     })
-                                    ->visible(fn(TaskSettings $taskSettings) => $taskSettings->enable_milestones),
+                                    ->visible(fn (TaskSettings $taskSettings) => $taskSettings->enable_milestones),
                                 // ->visible(function (TaskSettings $taskSettings, Forms\Get $get) {
                                 //     if ($taskSettings->enable_milestones) {
                                 //         return true;
@@ -152,15 +152,15 @@ class TaskResource extends Resource
                                     ->relationship('partner', 'name')
                                     ->searchable()
                                     ->preload()
-                                    ->createOptionForm(fn(Form $form) => PartnerResource::form($form))
-                                    ->editOptionForm(fn(Form $form) => PartnerResource::form($form)),
+                                    ->createOptionForm(fn (Form $form) => PartnerResource::form($form))
+                                    ->editOptionForm(fn (Form $form) => PartnerResource::form($form)),
                                 Forms\Components\Select::make('user_id')
                                     ->label('Assignees')
                                     ->relationship('users', 'name')
                                     ->searchable()
                                     ->multiple()
                                     ->preload()
-                                    ->createOptionForm(fn(Form $form) => UserResource::form($form)),
+                                    ->createOptionForm(fn (Form $form) => UserResource::form($form)),
                                 Forms\Components\DateTimePicker::make('deadline')
                                     ->label('Deadline')
                                     ->native(false)
@@ -185,8 +185,8 @@ class TaskResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\IconColumn::make('priority')
-                    ->icon(fn(Task $record): string => $record->priority ? 'heroicon-s-star' : 'heroicon-o-star')
-                    ->color(fn(Task $record): string => $record->priority ? 'warning' : 'gray')
+                    ->icon(fn (Task $record): string => $record->priority ? 'heroicon-s-star' : 'heroicon-o-star')
+                    ->color(fn (Task $record): string => $record->priority ? 'warning' : 'gray')
                     ->action(function (Task $record): void {
                         $record->update([
                             'priority' => ! $record->priority,
@@ -196,13 +196,13 @@ class TaskResource extends Resource
                     ->label('State')
                     ->sortable()
                     ->toggleable()
-                    ->icon(fn(string $state): string => TaskState::icons()[$state])
-                    ->color(fn(string $state): string => TaskState::colors()[$state])
-                    ->tooltip(fn(string $state): string => TaskState::options()[$state])
+                    ->icon(fn (string $state): string => TaskState::icons()[$state])
+                    ->color(fn (string $state): string => TaskState::colors()[$state])
+                    ->tooltip(fn (string $state): string => TaskState::options()[$state])
                     ->action(
                         Tables\Actions\Action::make('updateState')
                             ->modalHeading('Update Task State')
-                            ->form(fn(Task $record): array => [
+                            ->form(fn (Task $record): array => [
                                 Forms\Components\ToggleButtons::make('state')
                                     ->label('New State')
                                     ->required()
@@ -236,7 +236,7 @@ class TaskResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->visible(fn(TaskSettings $taskSettings) => $taskSettings->enable_milestones),
+                    ->visible(fn (TaskSettings $taskSettings) => $taskSettings->enable_milestones),
                 Tables\Columns\TextColumn::make('partner.name')
                     ->label('Customer')
                     ->searchable()
@@ -255,7 +255,7 @@ class TaskResource extends Resource
                         $hours = floor($state);
                         $minutes = ($state - $hours) * 60;
 
-                        return $hours . ':' . $minutes;
+                        return $hours.':'.$minutes;
                     })
                     ->summarize(
                         Sum::make()
@@ -266,7 +266,7 @@ class TaskResource extends Resource
                                 $hours = floor($state);
                                 $minutes = ($state - $hours) * 60;
 
-                                return $hours . ':' . $minutes;
+                                return $hours.':'.$minutes;
                             })
                     ),
                 Tables\Columns\TextColumn::make('total_hours_spent')
@@ -278,7 +278,7 @@ class TaskResource extends Resource
                         $hours = floor($state);
                         $minutes = ($state - $hours) * 60;
 
-                        return $hours . ':' . $minutes;
+                        return $hours.':'.$minutes;
                     })
                     ->summarize(
                         Sum::make()
@@ -288,7 +288,7 @@ class TaskResource extends Resource
                                 $hours = floor($state);
                                 $minutes = ($state - $hours) * 60;
 
-                                return $hours . ':' . $minutes;
+                                return $hours.':'.$minutes;
                             })
                     ),
                 Tables\Columns\TextColumn::make('remaining_hours')
@@ -299,7 +299,7 @@ class TaskResource extends Resource
                         $hours = floor($state);
                         $minutes = ($state - $hours) * 60;
 
-                        return $hours . ':' . $minutes;
+                        return $hours.':'.$minutes;
                     })
                     ->summarize(
                         Sum::make()
@@ -310,14 +310,14 @@ class TaskResource extends Resource
                                 $hours = floor($state);
                                 $minutes = ($state - $hours) * 60;
 
-                                return $hours . ':' . $minutes;
+                                return $hours.':'.$minutes;
                             })
                     ),
                 ProgressBarEntry::make('progress')
                     ->label('Progress')
                     ->sortable()
                     ->toggleable()
-                    ->color(fn(Task $record): string => $record->progress > 100 ? 'danger' : ($record->progress < 100 ? 'warning' : 'success')),
+                    ->color(fn (Task $record): string => $record->progress > 100 ? 'danger' : ($record->progress < 100 ? 'warning' : 'success')),
                 Tables\Columns\TextColumn::make('deadline')
                     ->label('Deadline')
                     ->sortable()
@@ -334,7 +334,7 @@ class TaskResource extends Resource
             ->groups([
                 Tables\Grouping\Group::make('state')
                     ->label('State')
-                    ->getTitleFromRecordUsing(fn(Task $record): string => TaskState::options()[$record->state]),
+                    ->getTitleFromRecordUsing(fn (Task $record): string => TaskState::options()[$record->state]),
                 Tables\Grouping\Group::make('project.name')
                     ->label('Project'),
                 Tables\Grouping\Group::make('deadline')
@@ -462,7 +462,7 @@ class TaskResource extends Resource
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make()
-                        ->hidden(fn($record) => $record->trashed()),
+                        ->hidden(fn ($record) => $record->trashed()),
                     Tables\Actions\DeleteAction::make(),
                     Tables\Actions\RestoreAction::make(),
                 ]),
@@ -474,7 +474,7 @@ class TaskResource extends Resource
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ])
-            ->modifyQueryUsing(fn($query) => $query->whereNull('parent_id'));
+            ->modifyQueryUsing(fn ($query) => $query->whereNull('parent_id'));
     }
 
     public static function getRelations(): array

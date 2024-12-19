@@ -13,12 +13,9 @@ use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\CalendarResource\Pages;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\CalendarResource\RelationManagers;
 use Webkul\Employee\Models\Calendar;
-use Webkul\Fields\Filament\Traits\HasCustomFields;
 
 class CalendarResource extends Resource
 {
-    use HasCustomFields;
-
     protected static ?string $model = Calendar::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-clock';
@@ -84,11 +81,6 @@ class CalendarResource extends Resource
                                             ->default(40)
                                             ->suffix('hours per week'),
                                     ])->columns(2),
-                                Forms\Components\Section::make('Additional Information')
-                                    ->visible(! empty($customFormFields = static::getCustomFormFields()))
-                                    ->description('Additional information about this work schedule')
-                                    ->schema($customFormFields)
-                                    ->columns(2),
                             ])
                             ->columnSpan(['lg' => 2]),
                         Forms\Components\Group::make()
@@ -120,7 +112,7 @@ class CalendarResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns(static::mergeCustomTableColumns([
+            ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID')
                     ->searchable()
@@ -164,7 +156,7 @@ class CalendarResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ]))
+            ])
             ->groups([
                 Tables\Grouping\Group::make('name')
                     ->label('Name')

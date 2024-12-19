@@ -12,12 +12,9 @@ use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\EmployeeCategoryResource\Pages;
 use Webkul\Employee\Models\EmployeeCategory;
-use Webkul\Fields\Filament\Traits\HasCustomFields;
 
 class EmployeeCategoryResource extends Resource
 {
-    use HasCustomFields;
-
     protected static ?string $model = EmployeeCategory::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-at-symbol';
@@ -44,10 +41,6 @@ class EmployeeCategoryResource extends Resource
                     ->label('Color'),
                 Forms\Components\Hidden::make('creator_id')
                     ->default(Auth::user()->id),
-                Forms\Components\Section::make('Additional Information')
-                    ->visible(! empty($customFormFields = static::getCustomFormFields()))
-                    ->description('Additional information about this work schedule')
-                    ->schema($customFormFields),
             ]);
     }
 
@@ -83,7 +76,7 @@ class EmployeeCategoryResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ]))
-            ->filters(static::mergeCustomTableFilters([
+            ->filters([
                 Tables\Filters\QueryBuilder::make()
                     ->constraintPickerColumns(2)
                     ->constraints([
@@ -104,7 +97,7 @@ class EmployeeCategoryResource extends Resource
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at'),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at'),
                     ]),
-            ]))
+            ])
             ->groups([
                 Tables\Grouping\Group::make('name')
                     ->label('Job Position')

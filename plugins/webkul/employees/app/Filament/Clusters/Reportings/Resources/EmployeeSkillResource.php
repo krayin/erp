@@ -11,8 +11,8 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Webkul\Employee\Filament\Clusters\Reportings;
 use Webkul\Employee\Filament\Clusters\Reportings\Resources\EmployeeSkillResource\Pages;
-use Webkul\Employee\Filament\Tables as CustomTables;
 use Webkul\Employee\Models\EmployeeSkill;
+use Webkul\Support\Filament\Tables as CustomTables;
 
 class EmployeeSkillResource extends Resource
 {

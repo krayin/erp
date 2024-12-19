@@ -6,8 +6,8 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
-use Filament\Tables\Table;
 use Filament\Tables\Columns\Summarizers\Sum;
+use Filament\Tables\Table;
 
 class TimesheetsRelationManager extends RelationManager
 {
@@ -59,7 +59,7 @@ class TimesheetsRelationManager extends RelationManager
                         $hours = floor($state);
                         $minutes = ($state - $hours) * 60;
 
-                        return $hours . ':' . $minutes;
+                        return $hours.':'.$minutes;
                     })
                     ->summarize([
                         Sum::make()
@@ -68,7 +68,7 @@ class TimesheetsRelationManager extends RelationManager
                                 $hours = floor($state);
                                 $minutes = ($state - $hours) * 60;
 
-                                return $hours . ':' . $minutes;
+                                return $hours.':'.$minutes;
                             }),
                         Sum::make()
                             ->label('Remaining Time')
@@ -78,7 +78,7 @@ class TimesheetsRelationManager extends RelationManager
                                 $hours = floor($remainingHours);
                                 $minutes = ($remainingHours - $hours) * 60;
 
-                                return $hours . ':' . $minutes;
+                                return $hours.':'.$minutes;
                             })
                             ->visible((bool) $this->getOwnerRecord()->allocated_hours),
                     ]),
