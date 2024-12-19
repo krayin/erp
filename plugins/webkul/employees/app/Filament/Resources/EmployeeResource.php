@@ -21,10 +21,13 @@ use Webkul\Employee\Filament\Clusters\Configurations\Resources\DepartureReasonRe
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\EmployeeCategoryResource;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\JobPositionResource;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\WorkLocationResource;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
+use Illuminate\Database\Eloquent\Builder;
 use Webkul\Employee\Filament\Resources\EmployeeResource\Pages;
 use Webkul\Employee\Filament\Resources\EmployeeResource\RelationManagers;
 use Webkul\Employee\Models\Calendar;
 use Webkul\Employee\Models\Employee;
+use Webkul\Employee\Models\Skill;
 use Webkul\Fields\Filament\Traits\HasCustomFields;
 use Webkul\Security\Filament\Resources\CompanyResource;
 use Webkul\Security\Filament\Resources\UserResource;
@@ -100,8 +103,7 @@ class EmployeeResource extends Resource
                                     ->relationship(name: 'department', titleAttribute: 'name')
                                     ->searchable()
                                     ->preload()
-                                    ->createOptionForm(fn(Form $form) => DepartmentResource::form($form))
-                                    ->editOptionForm(fn(Form $form) => DepartmentResource::form($form)),
+                                    ->createOptionForm(fn(Form $form) => DepartmentResource::form($form)),
                                 Forms\Components\TextInput::make('mobile_phone')
                                     ->label('Work Mobile')
                                     ->suffixAction(
@@ -119,8 +121,7 @@ class EmployeeResource extends Resource
                                     ->searchable()
                                     ->preload()
                                     ->label('Job Position')
-                                    ->createOptionForm(fn(Form $form) => JobPositionResource::form($form))
-                                    ->editOptionForm(fn(Form $form) => JobPositionResource::form($form)),
+                                    ->createOptionForm(fn(Form $form) => JobPositionResource::form($form)),
                                 Forms\Components\TextInput::make('work_phone')
                                     ->label('Work Phone')
                                     ->suffixAction(
@@ -134,7 +135,7 @@ class EmployeeResource extends Resource
                                     )
                                     ->tel(),
                                 Forms\Components\Select::make('parent_id')
-                                    ->relationship('parent', 'name')
+                                    ->options(fn() => Employee::pluck('name', 'id'))
                                     ->searchable()
                                     ->preload()
                                     ->suffixIcon('heroicon-o-user')
@@ -149,7 +150,7 @@ class EmployeeResource extends Resource
                                 Forms\Components\Select::make('coach_id')
                                     ->searchable()
                                     ->preload()
-                                    ->relationship('coach', 'name')
+                                    ->options(fn() => Employee::pluck('name', 'id'))
                                     ->label('Coach'),
                             ])
                             ->columns(2),
@@ -247,8 +248,7 @@ class EmployeeResource extends Resource
                                                                     ->preload()
                                                                     ->prefixIcon('heroicon-o-building-office')
                                                                     ->label('Company')
-                                                                    ->createOptionForm(fn(Form $form) => CompanyResource::form($form))
-                                                                    ->editOptionForm(fn(Form $form) => CompanyResource::form($form)),
+                                                                    ->createOptionForm(fn(Form $form) => CompanyResource::form($form)),
                                                                 Forms\Components\ColorPicker::make('color')
                                                                     ->label('Color'),
                                                             ])->columns(1),
@@ -743,17 +743,21 @@ class EmployeeResource extends Resource
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('name')
                             ->weight(FontWeight::Bold)
+                            ->searchable()
                             ->sortable(),
                         Tables\Columns\TextColumn::make('job_title')
+                            ->searchable()
                             ->label('Job Title'),
                         Tables\Columns\TextColumn::make('work_email')
                             ->icon('heroicon-o-envelope')
+                            ->searchable()
                             ->label('Work Email')
                             ->color('gray')
                             ->limit(30)
                             ->sortable(),
                         Tables\Columns\TextColumn::make('work_phone')
                             ->icon('heroicon-o-phone')
+                            ->searchable()
                             ->label('Work Email')
                             ->color('gray')
                             ->limit(30)
@@ -773,6 +777,375 @@ class EmployeeResource extends Resource
                 72,
                 'all',
             ])
+            ->filtersFormColumns(3)
+            ->filters([
+                Tables\Filters\SelectFilter::make('skills')
+                    ->relationship('skills.skill', 'name')
+                    ->searchable()
+                    ->multiple()
+                    ->preload(),
+
+                Tables\Filters\SelectFilter::make('resumes')
+                    ->relationship('resumes', 'name')
+                    ->searchable()
+                    ->multiple()
+                    ->preload(),
+                Tables\Filters\SelectFilter::make('time_zone')
+                    ->options(function () {
+                        return collect(timezone_identifiers_list())->mapWithKeys(function ($timezone) {
+                            return [$timezone => $timezone];
+                        });
+                    })
+                    ->searchable()
+                    ->multiple()
+                    ->preload(),
+                Tables\Filters\QueryBuilder::make()
+                    ->constraintPickerColumns(5)
+                    ->constraints([
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('job_title')
+                            ->label('Job Title')
+                            ->icon('heroicon-o-user-circle'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('birthday')
+                            ->label('Birthday')
+                            ->icon('heroicon-o-cake'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('work_email')
+                            ->label('Work Email')
+                            ->icon('heroicon-o-at-symbol'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('mobile_phone')
+                            ->label('Work Mobile')
+                            ->icon('heroicon-o-phone'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('work_phone')
+                            ->label('Work Phone')
+                            ->icon('heroicon-o-phone'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('is_flexible')
+                            ->label('Is Flexible')
+                            ->icon('heroicon-o-cube'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('is_fully_flexible')
+                            ->label('Is Fully Flexible')
+                            ->icon('heroicon-o-cube'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('is_active')
+                            ->label('Is Active')
+                            ->icon('heroicon-o-cube'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('work_permit_scheduled_activity')
+                            ->label('Work Permit Scheduled Activity')
+                            ->icon('heroicon-o-cube'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('emergency_contact')
+                            ->label('Emergency Contact')
+                            ->icon('heroicon-o-phone'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('emergency_phone')
+                            ->label('Emergency Phone')
+                            ->icon('heroicon-o-phone'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_street1')
+                            ->label('Private Street1')
+                            ->icon('heroicon-o-map'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_street2')
+                            ->label('Private Street2')
+                            ->icon('heroicon-o-map'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_city')
+                            ->label('Private City')
+                            ->icon('heroicon-o-map'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_zip')
+                            ->label('Private Zip')
+                            ->icon('heroicon-o-map'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_phone')
+                            ->label('Private Phone')
+                            ->icon('heroicon-o-phone'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_email')
+                            ->label('Private Email')
+                            ->icon('heroicon-o-at-symbol'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_car_plate')
+                            ->label('Private Car Plate')
+                            ->icon('heroicon-o-clipboard-document'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('distance_home_work')
+                            ->label('Distance Home Work')
+                            ->icon('heroicon-o-map'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('km_home_work')
+                            ->label('Km Home Work')
+                            ->icon('heroicon-o-map'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('distance_home_work_unit')
+                            ->label('Distance Home Work Unit')
+                            ->icon('heroicon-o-map'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('marital')
+                            ->label('Marital Status')
+                            ->icon('heroicon-o-user'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('spouse_complete_name')
+                            ->label('Spouse Name')
+                            ->icon('heroicon-o-user'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('spouse_birthdate')
+                            ->label('Spouse Birthdate')
+                            ->icon('heroicon-o-cake'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('certificate')
+                            ->label('Certificate')
+                            ->icon('heroicon-o-document'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('study_field')
+                            ->label('Study Field')
+                            ->icon('heroicon-o-academic-cap'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('study_school')
+                            ->label('Study School')
+                            ->icon('heroicon-o-academic-cap'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('identification_id')
+                            ->label('Identification Id')
+                            ->icon('heroicon-o-credit-card'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('ssnid')
+                            ->label('SSNID')
+                            ->icon('heroicon-o-credit-card'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('sinid')
+                            ->label('SINID')
+                            ->icon('heroicon-o-credit-card'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('passport_id')
+                            ->label('Passport ID')
+                            ->icon('heroicon-o-credit-card'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('gender')
+                            ->label('Gender')
+                            ->icon('heroicon-o-user'),
+                        Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('children')
+                            ->label('Children')
+                            ->icon('heroicon-o-user'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('visa_no')
+                            ->label('Visa No')
+                            ->icon('heroicon-o-credit-card'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('permit_no')
+                            ->label('Permit No')
+                            ->icon('heroicon-o-credit-card'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('lang')
+                            ->label('Language')
+                            ->icon('heroicon-o-language'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('additional_note')
+                            ->label('Additional Note')
+                            ->icon('heroicon-o-language'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('notes')
+                            ->label('Notes')
+                            ->icon('heroicon-o-language'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('barcode')
+                            ->label('Barcode')
+                            ->icon('heroicon-o-qr-code'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('visa_expire')
+                            ->label('Visa Expire')
+                            ->icon('heroicon-o-credit-card'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('work_permit_expiration_date')
+                            ->label('Work Permit Expiration Date')
+                            ->icon('heroicon-o-calendar'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('departure_date')
+                            ->label('Departure Date')
+                            ->icon('heroicon-o-calendar'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('departure_description')
+                            ->label('Departure Description')
+                            ->icon('heroicon-o-cube'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('visa_no')
+                            ->label('Visa No')
+                            ->icon('heroicon-o-credit-card'),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('company')
+                            ->label('Company')
+                            ->icon('heroicon-o-building-office-2')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('creator')
+                            ->label('Created By')
+                            ->icon('heroicon-o-user')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('calendar')
+                            ->label('Calendar')
+                            ->icon('heroicon-o-calendar')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('department')
+                            ->label('Department')
+                            ->multiple()
+                            ->icon('heroicon-o-building-office-2')
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('job')
+                            ->label('Job')
+                            ->icon('heroicon-o-briefcase')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('partner')
+                            ->label('Partner')
+                            ->icon('heroicon-o-user-group')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('leaveManager')
+                            ->label('Leave Approvers')
+                            ->icon('heroicon-o-user-group')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('workLocation')
+                            ->label('Work Location')
+                            ->multiple()
+                            ->icon('heroicon-o-map-pin')
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('parent')
+                            ->label('Manager')
+                            ->icon('heroicon-o-user')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('coach')
+                            ->label('Coach')
+                            ->multiple()
+                            ->icon('heroicon-o-user')
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('privateState')
+                            ->label('Private State')
+                            ->multiple()
+                            ->icon('heroicon-o-map-pin')
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('privateCountry')
+                            ->label('Private Country')
+                            ->icon('heroicon-o-map-pin')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('country')
+                            ->label('Country')
+                            ->icon('heroicon-o-map-pin')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('state')
+                            ->label('State')
+                            ->icon('heroicon-o-map-pin')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('countryOfBirth')
+                            ->label('Country Of Birth')
+                            ->multiple()
+                            ->icon('heroicon-o-calendar')
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('bankAccount')
+                            ->label('Bank Account')
+                            ->multiple()
+                            ->icon('heroicon-o-banknotes')
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('account_holder_name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('departureReason')
+                            ->label('Departure Reason')
+                            ->icon('heroicon-o-fire')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('employmentType')
+                            ->label('Employment Type')
+                            ->multiple()
+                            ->icon('heroicon-o-academic-cap')
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('categories')
+                            ->label('Tags')
+                            ->icon('heroicon-o-tag')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                    ]),
+
+            ])
             ->groups([
                 Tables\Grouping\Group::make('name')
                     ->label('Name')
@@ -780,8 +1153,32 @@ class EmployeeResource extends Resource
                 Tables\Grouping\Group::make('company.name')
                     ->label('Company')
                     ->collapsible(),
-                Tables\Grouping\Group::make('manager.name')
+                Tables\Grouping\Group::make('parent.name')
                     ->label('Manager')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('coach.name')
+                    ->label('Coach')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('department.name')
+                    ->label('Department')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('employmentType.name')
+                    ->label('Employment Type')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('departureReason.name')
+                    ->label('Departure Reason')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('privateState.name')
+                    ->label('Private State')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('privateCountry.name')
+                    ->label('Private Country')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('country.name')
+                    ->label('Country')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('state.name')
+                    ->label('State')
                     ->collapsible(),
                 Tables\Grouping\Group::make('created_at')
                     ->label('Created At')

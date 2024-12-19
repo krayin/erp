@@ -38,16 +38,7 @@ class ListEmployees extends ListRecords
                         return $query->whereNull('id');
                     }
 
-                    return $query->where(function (Builder $query) use ($user) {
-                        $query->where('parent_id', $user->employee->id)
-                            ->orWhere(function (Builder $subQuery) use ($user) {
-                                $subQuery->whereIn('parent_id', function ($q) use ($user) {
-                                    $q->select('id')
-                                        ->from('employees_employees')
-                                        ->where('parent_id', $user->employee->id);
-                                });
-                            });
-                    });
+                    return $query->where('parent_id', $user->employee->id);
                 }),
 
             'my_department' => PresetView::make('My Department')
@@ -66,8 +57,7 @@ class ListEmployees extends ListRecords
             'archived' => PresetView::make('Archived')
                 ->icon('heroicon-s-archive-box')
                 ->favorite()
-                ->modifyQueryUsing(fn (Builder $query) => $query->onlyTrashed()),
-
+                ->modifyQueryUsing(fn(Builder $query) => $query->onlyTrashed()),
             'newly_hired' => PresetView::make('Newly Hired')
                 ->icon('heroicon-s-calendar')
                 ->favorite()

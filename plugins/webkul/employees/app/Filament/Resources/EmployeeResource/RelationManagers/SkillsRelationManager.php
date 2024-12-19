@@ -22,24 +22,27 @@ class SkillsRelationManager extends RelationManager
                     Forms\Components\Radio::make('skill_type_id')
                         ->label('Skill Type')
                         ->options(SkillType::pluck('name', 'id'))
-                        ->default(fn () => SkillType::first()?->id)
+                        ->default(fn() => SkillType::first()?->id)
                         ->required()
                         ->reactive()
-                        ->afterStateUpdated(fn (callable $set) => $set('skill_id', null)),
-                    Forms\Components\Select::make('skill_id')
-                        ->label('Skill')
-                        ->options(
-                            fn (callable $get) => SkillType::find($get('skill_type_id'))?->skills->pluck('name', 'id') ?? []
-                        )
-                        ->required()
-                        ->reactive()
-                        ->afterStateUpdated(fn (callable $set) => $set('skill_level_id', null)),
-                    Forms\Components\Select::make('skill_level_id')
-                        ->label('Skill Level')
-                        ->options(
-                            fn (callable $get) => SkillType::find($get('skill_type_id'))?->skillLevels->pluck('name', 'id') ?? []
-                        )
-                        ->required(),
+                        ->afterStateUpdated(fn(callable $set) => $set('skill_id', null)),
+                    Forms\Components\Group::make()
+                        ->schema([
+                            Forms\Components\Select::make('skill_id')
+                                ->label('Skill')
+                                ->options(
+                                    fn(callable $get) => SkillType::find($get('skill_type_id'))?->skills->pluck('name', 'id') ?? []
+                                )
+                                ->required()
+                                ->reactive()
+                                ->afterStateUpdated(fn(callable $set) => $set('skill_level_id', null)),
+                            Forms\Components\Select::make('skill_level_id')
+                                ->label('Skill Level')
+                                ->options(
+                                    fn(callable $get) => SkillType::find($get('skill_type_id'))?->skillLevels->pluck('name', 'id') ?? []
+                                )
+                                ->required(),
+                        ])
                 ])->columns(2),
             ]);
     }
@@ -57,9 +60,9 @@ class SkillsRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('skillLevel.name')
                     ->label('Skill Level')
                     ->badge()
-                    ->color(fn ($record) => $record->skillType->color),
+                    ->color(fn($record) => $record->skillType->color),
                 CustomTables\Columns\ProgressBarEntry::make('skillLevel.level')
-                    ->getStateUsing(fn ($record) => $record->skillLevel->level)
+                    ->getStateUsing(fn($record) => $record->skillLevel->level)
                     ->label('Level Percent'),
                 Tables\Columns\TextColumn::make('creator.name')
                     ->label('Creator')

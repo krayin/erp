@@ -45,7 +45,7 @@ class TaskResource extends Resource
                             ->hiddenLabel()
                             ->inline()
                             ->required()
-                            ->options(fn () => TaskStage::all()->mapWithKeys(fn ($stage) => [$stage->id => $stage->name]))
+                            ->options(fn() => TaskStage::all()->mapWithKeys(fn($stage) => [$stage->id => $stage->name]))
                             ->default(TaskStage::first()?->id),
                         Forms\Components\Section::make('General Information')
                             ->schema([
@@ -91,7 +91,7 @@ class TaskResource extends Resource
                                     ->searchable()
                                     ->preload()
                                     ->live()
-                                    ->createOptionForm(fn (Form $form): Form => ProjectResource::form($form))
+                                    ->createOptionForm(fn(Form $form): Form => ProjectResource::form($form))
                                     ->afterStateUpdated(function (Forms\Set $set) {
                                         $set('milestone_id', null);
                                     }),
@@ -100,12 +100,12 @@ class TaskResource extends Resource
                                     ->relationship(
                                         name: 'milestone',
                                         titleAttribute: 'name',
-                                        modifyQueryUsing: fn (Forms\Get $get, \Illuminate\Database\Eloquent\Builder $query) => $query->where('project_id', $get('project_id')),
+                                        modifyQueryUsing: fn(Forms\Get $get, \Illuminate\Database\Eloquent\Builder $query) => $query->where('project_id', $get('project_id')),
                                     )
                                     ->searchable()
                                     ->preload()
                                     ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Deliver your services automatically when a milestone is reached by linking it to a sales order item.')
-                                    ->createOptionForm(fn ($get) => [
+                                    ->createOptionForm(fn($get) => [
                                         Forms\Components\TextInput::make('name')
                                             ->required()
                                             ->maxLength(255),
@@ -117,7 +117,7 @@ class TaskResource extends Resource
                                         Forms\Components\Hidden::make('project_id')
                                             ->default($get('project_id')),
                                         Forms\Components\Hidden::make('creator_id')
-                                            ->default(fn () => Auth::user()->id),
+                                            ->default(fn() => Auth::user()->id),
                                     ])
                                     // ->hidden(fn (Forms\Get $get) => ! $get('project_id'))
                                     ->hidden(function (TaskSettings $taskSettings, Forms\Get $get) {
@@ -133,34 +133,34 @@ class TaskResource extends Resource
 
                                         return ! $project->allow_milestones;
                                     })
-                                    ->visible(fn (TaskSettings $taskSettings) => $taskSettings->enable_milestones),
-                                    // ->visible(function (TaskSettings $taskSettings, Forms\Get $get) {
-                                    //     if ($taskSettings->enable_milestones) {
-                                    //         return true;
-                                    //     }
+                                    ->visible(fn(TaskSettings $taskSettings) => $taskSettings->enable_milestones),
+                                // ->visible(function (TaskSettings $taskSettings, Forms\Get $get) {
+                                //     if ($taskSettings->enable_milestones) {
+                                //         return true;
+                                //     }
 
-                                    //     $project = Project::find($get('project_id'));
+                                //     $project = Project::find($get('project_id'));
 
-                                    //     if (! $project) {
-                                    //         return false;
-                                    //     }
+                                //     if (! $project) {
+                                //         return false;
+                                //     }
 
-                                    //     return $project->allow_milestones;
-                                    // }),
+                                //     return $project->allow_milestones;
+                                // }),
                                 Forms\Components\Select::make('partner_id')
                                     ->label('Customer')
                                     ->relationship('partner', 'name')
                                     ->searchable()
                                     ->preload()
-                                    ->createOptionForm(fn (Form $form) => PartnerResource::form($form))
-                                    ->editOptionForm(fn (Form $form) => PartnerResource::form($form)),
+                                    ->createOptionForm(fn(Form $form) => PartnerResource::form($form))
+                                    ->editOptionForm(fn(Form $form) => PartnerResource::form($form)),
                                 Forms\Components\Select::make('user_id')
                                     ->label('Assignees')
                                     ->relationship('users', 'name')
                                     ->searchable()
                                     ->multiple()
                                     ->preload()
-                                    ->createOptionForm(fn (Form $form) => UserResource::form($form)),
+                                    ->createOptionForm(fn(Form $form) => UserResource::form($form)),
                                 Forms\Components\DateTimePicker::make('deadline')
                                     ->label('Deadline')
                                     ->native(false)
@@ -185,8 +185,8 @@ class TaskResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\IconColumn::make('priority')
-                    ->icon(fn (Task $record): string => $record->priority ? 'heroicon-s-star' : 'heroicon-o-star')
-                    ->color(fn (Task $record): string => $record->priority ? 'warning' : 'gray')
+                    ->icon(fn(Task $record): string => $record->priority ? 'heroicon-s-star' : 'heroicon-o-star')
+                    ->color(fn(Task $record): string => $record->priority ? 'warning' : 'gray')
                     ->action(function (Task $record): void {
                         $record->update([
                             'priority' => ! $record->priority,
@@ -196,13 +196,13 @@ class TaskResource extends Resource
                     ->label('State')
                     ->sortable()
                     ->toggleable()
-                    ->icon(fn (string $state): string => TaskState::icons()[$state])
-                    ->color(fn (string $state): string => TaskState::colors()[$state])
-                    ->tooltip(fn (string $state): string => TaskState::options()[$state])
+                    ->icon(fn(string $state): string => TaskState::icons()[$state])
+                    ->color(fn(string $state): string => TaskState::colors()[$state])
+                    ->tooltip(fn(string $state): string => TaskState::options()[$state])
                     ->action(
                         Tables\Actions\Action::make('updateState')
                             ->modalHeading('Update Task State')
-                            ->form(fn (Task $record): array => [
+                            ->form(fn(Task $record): array => [
                                 Forms\Components\ToggleButtons::make('state')
                                     ->label('New State')
                                     ->required()
@@ -236,7 +236,7 @@ class TaskResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->visible(fn (TaskSettings $taskSettings) => $taskSettings->enable_milestones),
+                    ->visible(fn(TaskSettings $taskSettings) => $taskSettings->enable_milestones),
                 Tables\Columns\TextColumn::make('partner.name')
                     ->label('Customer')
                     ->searchable()
@@ -299,6 +299,7 @@ class TaskResource extends Resource
             ->filters([
                 Tables\Filters\QueryBuilder::make()
                     ->constraints([
+                        
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('users')
                             ->label('Assignees')
                             ->multiple()
@@ -377,7 +378,7 @@ class TaskResource extends Resource
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make()
-                        ->hidden(fn ($record) => $record->trashed()),
+                        ->hidden(fn($record) => $record->trashed()),
                     Tables\Actions\DeleteAction::make(),
                     Tables\Actions\RestoreAction::make(),
                 ]),
@@ -389,7 +390,7 @@ class TaskResource extends Resource
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ])
-            ->modifyQueryUsing(fn ($query) => $query->whereNull('parent_id'));
+            ->modifyQueryUsing(fn($query) => $query->whereNull('parent_id'));
     }
 
     public static function getRelations(): array
