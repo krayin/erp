@@ -56,10 +56,10 @@ class ProjectResource extends Resource
 
                         Forms\Components\Section::make('Additional Information')
                             ->schema([
-                                Forms\Components\TextInput::make('tasks_label')
-                                    ->label('Tasks Label')
-                                    ->maxLength(255)
-                                    ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Name used to refer to the tasks of your project e.g. tasks, tickets, sprints, etc...'),
+                                // Forms\Components\TextInput::make('tasks_label')
+                                //     ->label('Tasks Label')
+                                //     ->maxLength(255)
+                                //     ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Name used to refer to the tasks of your project e.g. tasks, tickets, sprints, etc...'),
                                 Forms\Components\Select::make('user_id')
                                     ->label('Project Manager')
                                     ->relationship('user', 'name')
@@ -73,9 +73,6 @@ class ProjectResource extends Resource
                                     ->preload()
                                     ->createOptionForm(fn (Form $form) => PartnerResource::form($form))
                                     ->editOptionForm(fn (Form $form) => PartnerResource::form($form)),
-                                Forms\Components\TextInput::make('allocated_hours')
-                                    ->label('Allocated Hours')
-                                    ->suffixIcon('heroicon-o-clock'),
                                 Forms\Components\DatePicker::make('start_date')
                                     ->label('Start Date')
                                     ->native(false)
@@ -88,6 +85,12 @@ class ProjectResource extends Resource
                                     ->suffixIcon('heroicon-o-calendar')
                                     ->requiredWith('start_date')
                                     ->afterOrEqual('start_date'),
+                                Forms\Components\TextInput::make('allocated_hours')
+                                    ->label('Allocated Hours')
+                                    ->suffixIcon('heroicon-o-clock')
+                                    ->minValue(0)
+                                    ->helperText('In hours (Eg. 1.5 hours means 1 hour 30 minutes)')
+                                    ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
                                 Forms\Components\Select::make('tags')
                                     ->label('Tags')
                                     ->relationship(name: 'tags', titleAttribute: 'name')
@@ -184,6 +187,16 @@ class ProjectResource extends Resource
                     ])
                         ->visible(fn (Project $record) => filled($record->start_date) && filled($record->end_date)),
                     Tables\Columns\Layout\Stack::make([
+                        Tables\Columns\TextColumn::make('remaining_hours')
+                            ->icon('heroicon-m-clock')
+                            ->badge()
+                            ->color('success')
+                            ->color(fn (Project $record): string => $record->remaining_hours < 0 ? 'danger' : 'success')
+                            ->formatStateUsing(fn (Project $record): string => $record->remaining_hours.' Hours')
+                            ->tooltip('Remaining Hours'),
+                    ])
+                        ->visible(fn (TimeSettings $timeSettings, Project $record) => $timeSettings->enable_timesheets && $record->allow_milestones && $record->remaining_hours),
+                    Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('user.name')
                             ->icon('heroicon-m-user'),
                     ])
@@ -246,13 +259,19 @@ class ProjectResource extends Resource
 
     public static function getRelations(): array
     {
+        if (! preg_match('/\d+/', request()->getPathInfo(), $matches)) {
+            return [];
+        }
+
+        $project = Project::find($matches[0]);
+
         $relations = [
             RelationGroup::make('Task Stages', [
                 RelationManagers\TaskStagesRelationManager::class,
             ]),
         ];
 
-        if (app(TaskSettings::class)->enable_milestones) {
+        if (app(TaskSettings::class)->enable_milestones && $project?->allow_milestones) {
             $relations[] = RelationGroup::make('Milestones', [
                 RelationManagers\MilestonesRelationManager::class,
             ]);

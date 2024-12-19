@@ -168,7 +168,8 @@ class TaskResource extends Resource
                                 Forms\Components\TextInput::make('allocated_hours')
                                     ->label('Allocated Hours')
                                     ->numeric()
-                                    ->suffixIcon('heroicon-o-clock'),
+                                    ->suffixIcon('heroicon-o-clock')
+                                    ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
                             ]),
                     ]),
             ])
@@ -177,6 +178,8 @@ class TaskResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $isTimesheetEnabled = app(TimeSettings::class)->enable_timesheets;
+
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
@@ -268,7 +271,8 @@ class TaskResource extends Resource
 
                                 return $hours.':'.$minutes;
                             })
-                    ),
+                    )
+                    ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
                 Tables\Columns\TextColumn::make('total_hours_spent')
                     ->label('Time Spent')
                     ->sortable()
@@ -290,7 +294,8 @@ class TaskResource extends Resource
 
                                 return $hours.':'.$minutes;
                             })
-                    ),
+                    )
+                    ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
                 Tables\Columns\TextColumn::make('remaining_hours')
                     ->label('Time Remaining')
                     ->sortable()
@@ -312,12 +317,14 @@ class TaskResource extends Resource
 
                                 return $hours.':'.$minutes;
                             })
-                    ),
+                    )
+                    ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
                 ProgressBarEntry::make('progress')
                     ->label('Progress')
                     ->sortable()
                     ->toggleable()
-                    ->color(fn (Task $record): string => $record->progress > 100 ? 'danger' : ($record->progress < 100 ? 'warning' : 'success')),
+                    ->color(fn (Task $record): string => $record->progress > 100 ? 'danger' : ($record->progress < 100 ? 'warning' : 'success'))
+                    ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
                 Tables\Columns\TextColumn::make('deadline')
                     ->label('Deadline')
                     ->sortable()
@@ -352,7 +359,7 @@ class TaskResource extends Resource
             ])
             ->filters([
                 Tables\Filters\QueryBuilder::make()
-                    ->constraints([
+                    ->constraints(collect([
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('title')
                             ->label('Title'),
                         Tables\Filters\QueryBuilder\Constraints\SelectConstraint::make('priority')
@@ -374,16 +381,26 @@ class TaskResource extends Resource
                                     ->multiple()
                                     ->preload(),
                             ),
-                        Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('allocated_hours')
-                            ->label('Allocated Hours'),
-                        Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('total_hours_spent')
-                            ->label('Total Hours Spent'),
-                        Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('remaining_hours')
-                            ->label('Remaining Hours'),
-                        Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('overtime')
-                            ->label('Overtime'),
-                        Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('progress')
-                            ->label('Progress'),
+                        $isTimesheetEnabled
+                            ? Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('allocated_hours')
+                                ->label('Allocated Hours')
+                            : null,
+                        $isTimesheetEnabled
+                            ? Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('total_hours_spent')
+                                ->label('Total Hours Spent')
+                            : null,
+                        $isTimesheetEnabled
+                            ? Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('remaining_hours')
+                                ->label('Remaining Hours')
+                            : null,
+                        $isTimesheetEnabled
+                            ? Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('overtime')
+                                ->label('Overtime')
+                            : null,
+                        $isTimesheetEnabled
+                            ? Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('progress')
+                                ->label('Progress')
+                            : null,
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('deadline'),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at'),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('users')
@@ -456,7 +473,7 @@ class TaskResource extends Resource
                                     ->multiple()
                                     ->preload(),
                             ),
-                    ]),
+                    ])->filter()->values()->all()),
             ])
             ->filtersFormColumns(3)
             ->actions([
@@ -479,15 +496,25 @@ class TaskResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            RelationGroup::make('Timesheets', [
-                RelationManagers\TimesheetsRelationManager::class,
-            ]),
+        if (! preg_match('/\d+/', request()->getPathInfo(), $matches)) {
+            return [];
+        }
 
-            RelationGroup::make('Sub Tasks', [
-                RelationManagers\SubTasksRelationManager::class,
-            ]),
-        ];
+        $task = Task::find($matches[0]);
+
+        $relations = [];
+
+        if (app(TimeSettings::class)->enable_timesheets && $task?->project?->allow_timesheets) {
+            $relations[] = RelationGroup::make('Timesheets', [
+                RelationManagers\TimesheetsRelationManager::class,
+            ]);
+        }
+
+        $relations[] = RelationGroup::make('Sub Tasks', [
+            RelationManagers\SubTasksRelationManager::class,
+        ]);
+
+        return $relations;
     }
 
     public static function getPages(): array
