@@ -99,6 +99,11 @@ class JobPositionResource extends Resource
                                             ->relationship('company', 'name')
                                             ->searchable()
                                             ->preload(),
+                                        Forms\Components\Select::make('employment_type_id')
+                                            ->label('Employment Type')
+                                            ->relationship('employmentType', 'name')
+                                            ->searchable()
+                                            ->preload(),
                                     ])->columns(2),
                                 Forms\Components\Section::make('Job Description')
                                     ->schema([
@@ -125,7 +130,7 @@ class JobPositionResource extends Resource
                                             ->numeric()
                                             ->minValue(0)
                                             ->default(0),
-                                        Forms\Components\TextInput::make('no_of_employees')
+                                        Forms\Components\TextInput::make('no_of_employee')
                                             ->label('Current Employees')
                                             ->numeric()
                                             ->minValue(0)
@@ -138,10 +143,6 @@ class JobPositionResource extends Resource
                                     ])->columns(2),
                                 Forms\Components\Section::make('Position Status')
                                     ->schema([
-                                        Forms\Components\DatePicker::make('open_date')
-                                            ->label('Position Opened Date')
-                                            ->default(now())
-                                            ->native(false),
                                         Forms\Components\Toggle::make('is_active')
                                             ->label('Status')
                                             ->default(true),
@@ -170,16 +171,12 @@ class JobPositionResource extends Resource
                     ->label('Company')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('open_date')
-                    ->label('Opened Date')
-                    ->searchable()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('expected_employees')
                     ->label('Expected Employees')
                     ->numeric()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('no_of_employees')
+                Tables\Columns\TextColumn::make('no_of_employee')
                     ->label('Current Employees')
                     ->numeric()
                     ->sortable()
@@ -188,13 +185,17 @@ class JobPositionResource extends Resource
                     ->sortable()
                     ->label('Status')
                     ->boolean(),
+                Tables\Columns\TextColumn::make('createdBy.name')
+                    ->label('Created By')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created')
+                    ->label('Created At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Updated')
+                    ->label('Updated At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -204,12 +205,16 @@ class JobPositionResource extends Resource
                 Tables\Filters\SelectFilter::make('department')
                     ->relationship('department', 'name')
                     ->label('Department'),
+                Tables\Filters\SelectFilter::make('employmentType')
+                    ->relationship('employmentType', 'name')
+                    ->label('Employment Type'),
                 Tables\Filters\SelectFilter::make('company')
                     ->relationship('company', 'name')
                     ->label('Company'),
-                Tables\Filters\TernaryFilter::make('active')
+                Tables\Filters\TernaryFilter::make('is_active')
                     ->label('Active Status'),
             ]))
+            ->filtersFormColumns(2)
             ->groups([
                 Tables\Grouping\Group::make('name')
                     ->label('Job Position')
@@ -220,8 +225,8 @@ class JobPositionResource extends Resource
                 Tables\Grouping\Group::make('department.name')
                     ->label('Department')
                     ->collapsible(),
-                Tables\Grouping\Group::make('open_date')
-                    ->label('Open Date')
+                Tables\Grouping\Group::make('employmentType.name')
+                    ->label('Employment Type')
                     ->collapsible(),
                 Tables\Grouping\Group::make('created_at')
                     ->label('Created At')
@@ -236,11 +241,13 @@ class JobPositionResource extends Resource
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\DeleteAction::make(),
+                    Tables\Actions\RestoreAction::make(),
                 ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\ForceDeleteBulkAction::make(),
                 ]),
             ])
             ->emptyStateActions([

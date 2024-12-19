@@ -6,19 +6,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Employee\Models\Department;
 use Webkul\Fields\Traits\HasCustomFields;
 use Webkul\Security\Models\User;
 
 class ActivityPlan extends Model
 {
-    use HasCustomFields, HasFactory;
+    use HasCustomFields, HasFactory, SoftDeletes;
 
     protected $table = 'activity_plans';
 
     protected $fillable = [
         'company_id',
-        'model_type',
+        'plugin',
         'creator_id',
         'name',
         'department_id',

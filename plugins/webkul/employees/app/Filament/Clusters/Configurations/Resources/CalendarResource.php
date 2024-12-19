@@ -7,6 +7,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\CalendarResource\Pages;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\CalendarResource\RelationManagers;
@@ -40,12 +41,14 @@ class CalendarResource extends Resource
                             ->schema([
                                 Forms\Components\Section::make('Work Schedule Details')
                                     ->schema([
+                                        Forms\Components\Hidden::make('creator_id')
+                                            ->default(Auth::user()->id),
                                         Forms\Components\TextInput::make('name')
                                             ->label('Schedule Name')
                                             ->maxLength(255)
                                             ->required()
                                             ->hintIcon('heroicon-o-question-mark-circle', tooltip: 'Enter a descriptive name for this work schedule'),
-                                        Forms\Components\Select::make('tz')
+                                        Forms\Components\Select::make('timezone')
                                             ->label('Time Zone')
                                             ->options(function () {
                                                 return collect(timezone_identifiers_list())->mapWithKeys(function ($timezone) {
@@ -55,16 +58,11 @@ class CalendarResource extends Resource
                                             ->default(date_default_timezone_get())
                                             ->preload()
                                             ->searchable()
+                                            ->required()
                                             ->hintIcon('heroicon-o-question-mark-circle', tooltip: 'Specify the time zone for this work schedule'),
                                         Forms\Components\Select::make('company_id')
                                             ->label('Company')
                                             ->relationship('company', 'name')
-                                            ->searchable()
-                                            ->preload()
-                                            ->required(),
-                                        Forms\Components\Select::make('user_id')
-                                            ->label('Primary Contact')
-                                            ->relationship('user', 'name')
                                             ->searchable()
                                             ->preload(),
                                     ])->columns(2),
@@ -103,12 +101,12 @@ class CalendarResource extends Resource
                                         Forms\Components\Toggle::make('two_weeks_calendar')
                                             ->label('Two Weeks Calendar')
                                             ->inline(false)
-                                            ->hint('Enable alternating two-week work schedule'),
+                                            ->hintIcon('heroicon-o-question-mark-circle', tooltip: 'Enable alternating two-week work schedule'),
                                         Forms\Components\Toggle::make('flexible_hours')
                                             ->label('Flexible Hours')
                                             ->inline(false)
                                             ->live()
-                                            ->hint('Allow employees to have flexible work hours'),
+                                            ->hintIcon('heroicon-o-question-mark-circle', tooltip: 'Allow employees to have flexible work hours'),
                                     ]),
                             ])
                             ->columnSpan(['lg' => 1]),
@@ -126,7 +124,7 @@ class CalendarResource extends Resource
                     ->label('Schedule Name')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('tz')
+                Tables\Columns\TextColumn::make('timezone')
                     ->label('Time Zone')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('company.name')
@@ -146,13 +144,17 @@ class CalendarResource extends Resource
                     ->numeric()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('createdBy.name')
+                    ->label('Created By')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created')
+                    ->label('Created At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Updated')
+                    ->label('Updated At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -161,11 +163,8 @@ class CalendarResource extends Resource
                 Tables\Grouping\Group::make('name')
                     ->label('Name')
                     ->collapsible(),
-                Tables\Grouping\Group::make('tz')
+                Tables\Grouping\Group::make('timezone')
                     ->label('Time Zone')
-                    ->collapsible(),
-                Tables\Grouping\Group::make('country.name')
-                    ->label('Country')
                     ->collapsible(),
                 Tables\Grouping\Group::make('flexible_hours')
                     ->label('Flexible Hours')
@@ -198,11 +197,13 @@ class CalendarResource extends Resource
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
+                    Tables\Actions\RestoreAction::make(),
                 ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\ForceDeleteBulkAction::make(),
                 ]),
             ])
             ->emptyStateActions([

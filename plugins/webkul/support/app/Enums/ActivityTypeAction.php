@@ -12,6 +12,8 @@ enum ActivityTypeAction: string
 
     case PHONE_CALL = 'phone_call';
 
+    case MEETING = 'meeting';
+
     public static function options(): array
     {
         return [
@@ -19,6 +21,7 @@ enum ActivityTypeAction: string
             self::UPLOAD_FILE->value => 'Upload File',
             self::DEFAULT->value     => 'Default',
             self::PHONE_CALL->value  => 'Phone Call',
+            self::MEETING->value     => 'Meeting',
         ];
     }
 }

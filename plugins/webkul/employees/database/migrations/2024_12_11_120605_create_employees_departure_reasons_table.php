@@ -13,9 +13,14 @@ return new class extends Migration
     {
         Schema::create('employees_departure_reasons', function (Blueprint $table) {
             $table->id();
-            $table->integer('sort')->nullable();
-            $table->integer('reason_code')->nullable();
-            $table->string('name')->nullable(false);
+
+            $table->integer('sort')->nullable()->comment('Sort Order');
+            $table->integer('reason_code')->nullable()->comment('Reason Code');
+            $table->string('name')->comment('Name');
+
+            $table->unsignedBigInteger('creator_id')->nullable()->comment('Created By');
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
+
             $table->timestamps();
         });
     }

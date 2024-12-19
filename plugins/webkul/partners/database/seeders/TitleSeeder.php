@@ -16,36 +16,36 @@ class TitleSeeder extends Seeder
 
         DB::table('partners_titles')->insert([
             [
-                'name' => 'Doctor',
+                'name'       => 'Doctor',
                 'short_name' => 'Dr.',
                 'creator_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ], [
-                'name' => 'Madam',
+                'name'       => 'Madam',
                 'short_name' => 'Mrs',
                 'creator_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ], [
-                'name' => 'Miss',
+                'name'       => 'Miss',
                 'short_name' => 'Miss',
                 'creator_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ], [
-                'name' => 'Mister',
+                'name'       => 'Mister',
                 'short_name' => 'Mr.',
                 'creator_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ], [
-                'name' => 'Professor',
+                'name'       => 'Professor',
                 'short_name' => 'Prof.',
                 'creator_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
-            ]
+            ],
         ]);
     }
 }

@@ -36,7 +36,6 @@ class EmployeeServiceProvider extends PackageServiceProvider
                 '2024_12_12_115730_create_employees_activities_table',
                 '2024_12_16_065746_create_employees_employee_resume_line_types_table',
                 '2024_12_16_070029_create_employees_employee_resumes_table',
-                '2024_12_18_043452_employees_add_columns_to_employees_employees_table',
             ])
             ->runsMigrations();
     }

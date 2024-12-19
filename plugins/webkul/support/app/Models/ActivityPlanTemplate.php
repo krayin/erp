@@ -5,7 +5,6 @@ namespace Webkul\Support\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Webkul\Security\Models\User;
 
 class ActivityPlanTemplate extends Model
@@ -15,17 +14,17 @@ class ActivityPlanTemplate extends Model
     protected $table = 'activity_plan_templates';
 
     protected $fillable = [
-        'delay_count',
         'sort',
+        'plan_id',
+        'activity_type_id',
+        'responsible_id',
+        'creator_id',
+        'delay_count',
         'delay_unit',
         'delay_from',
         'summary',
         'responsible_type',
         'note',
-        'plan_id',
-        'activity_type_id',
-        'responsible_id',
-        'creator_id',
     ];
 
     /**
@@ -41,9 +40,9 @@ class ActivityPlanTemplate extends Model
         return $this->belongsTo(ActivityType::class, 'activity_type_id');
     }
 
-    public function responsible(): MorphTo
+    public function responsible(): BelongsTo
     {
-        return $this->morphTo('responsible', 'responsible_type', 'responsible_id');
+        return $this->belongsTo(User::class, 'responsible_id');
     }
 
     public function createdBy(): BelongsTo

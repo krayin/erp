@@ -51,7 +51,7 @@ class User extends BaseUser implements FilamentUser
 
     public function departments()
     {
-        return $this->hasMany(Department::class);
+        return $this->hasMany(Department::class, 'manager_id');
     }
 
     /**

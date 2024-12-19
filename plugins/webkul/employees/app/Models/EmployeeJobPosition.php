@@ -5,6 +5,7 @@ namespace Webkul\Employee\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Employee\Database\Factories\EmployeeJobPositionFactory;
 use Webkul\Fields\Traits\HasCustomFields;
 use Webkul\Security\Models\User;
@@ -12,7 +13,7 @@ use Webkul\Support\Models\Company;
 
 class EmployeeJobPosition extends Model
 {
-    use HasCustomFields, HasFactory;
+    use HasCustomFields, HasFactory, SoftDeletes;
 
     protected $table = 'employees_job_positions';
 
@@ -27,51 +28,39 @@ class EmployeeJobPosition extends Model
         'description',
         'requirements',
         'expected_employees',
-        'no_of_employees',
+        'no_of_employee',
         'is_active',
         'no_of_recruitment',
         'department_id',
+        'employment_type_id',
         'company_id',
-        'open_date',
-        'user_id',
+        'creator_id',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
     protected $casts = [
-        'active' => 'boolean',
+        'is_active' => 'boolean',
     ];
 
-    /**
-     * Department Relationship
-     */
     public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class);
     }
 
-    /**
-     * Company Relationship
-     */
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }
 
-    /**
-     * Creator User Relationship
-     */
     public function creator(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'creator_id');
     }
 
-    /**
-     * Get the factory instance for the model.
-     */
+    public function employmentType()
+    {
+        return $this->belongsTo(EmploymentType::class, 'employment_type_id');
+    }
+
     protected static function newFactory(): EmployeeJobPositionFactory
     {
         return EmployeeJobPositionFactory::new();
