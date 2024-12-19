@@ -4,6 +4,7 @@ namespace Webkul\Employee\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Employee\Database\Factories\CalendarFactory;
 use Webkul\Fields\Traits\HasCustomFields;
 use Webkul\Security\Models\User;
@@ -11,25 +12,25 @@ use Webkul\Support\Models\Company;
 
 class Calendar extends Model
 {
-    use HasCustomFields, HasFactory;
+    use HasCustomFields, HasFactory, SoftDeletes;
 
     protected $table = 'employees_calendars';
 
     protected $fillable = [
         'name',
-        'tz',
+        'timezone',
         'hours_per_day',
         'is_active',
         'two_weeks_calendar',
         'flexible_hours',
         'full_time_required_hours',
-        'user_id',
+        'creator_id',
         'company_id',
     ];
 
-    public function user()
+    public function createdBy()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'creator_id');
     }
 
     public function company()

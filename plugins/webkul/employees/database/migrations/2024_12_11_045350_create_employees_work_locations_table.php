@@ -13,16 +13,17 @@ return new class extends Migration
     {
         Schema::create('employees_work_locations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('location_type');
-            $table->string('location_number')->nullable();
-            $table->boolean('is_active')->default(false);
 
-            $table->unsignedBigInteger('company_id');
-            $table->unsignedBigInteger('user_id');
+            $table->string('name')->comment('Work Location');
+            $table->string('location_type')->comment('Cover Image');
+            $table->string('location_number')->nullable()->comment('Location Number');
+            $table->boolean('is_active')->nullable()->default(false)->comment('Status');
+
+            $table->unsignedBigInteger('company_id')->comment('Company');
+            $table->unsignedBigInteger('creator_id')->nullable()->comment('Created by');
 
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->timestamps();
             $table->softDeletes();

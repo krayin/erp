@@ -2,6 +2,7 @@
 
 namespace Webkul\Employee\Filament\Resources\EmployeeResource\Pages;
 
+use Carbon\Carbon;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
@@ -33,20 +34,46 @@ class ListEmployees extends ListRecords
                 ->modifyQueryUsing(function (Builder $query) {
                     $user = Auth::user();
 
-                    return $query->where('parent_id', $user->employee->id);
+                    if (! $user->employee) {
+                        return $query->whereNull('id');
+                    }
+
+                    return $query->where(function (Builder $query) use ($user) {
+                        $query->where('parent_id', $user->employee->id)
+                            ->orWhere(function (Builder $subQuery) use ($user) {
+                                $subQuery->whereIn('parent_id', function ($q) use ($user) {
+                                    $q->select('id')
+                                        ->from('employees_employees')
+                                        ->where('parent_id', $user->employee->id);
+                                });
+                            });
+                    });
                 }),
+
             'my_department' => PresetView::make('My Department')
                 ->icon('heroicon-m-user-group')
                 ->favorite()
                 ->modifyQueryUsing(function (Builder $query) {
                     $user = Auth::user();
 
-                    return $query->where('parent_id', $user->employee->id);
+                    if (! $user->employee) {
+                        return $query->whereNull('id');
+                    }
+
+                    return $query->where('department_id', $user->employee->department_id);
                 }),
+
             'archived' => PresetView::make('Archived')
                 ->icon('heroicon-s-archive-box')
                 ->favorite()
                 ->modifyQueryUsing(fn (Builder $query) => $query->onlyTrashed()),
+
+            'newly_hired' => PresetView::make('Newly Hired')
+                ->icon('heroicon-s-calendar')
+                ->favorite()
+                ->modifyQueryUsing(function (Builder $query) {
+                    return $query->where('created_at', '>=', Carbon::now()->subMonth());
+                }),
         ];
     }
 }

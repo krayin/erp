@@ -7,6 +7,8 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
+use Webkul\Employee\Models\Skill;
 
 class SkillsRelationManager extends RelationManager
 {
@@ -21,6 +23,8 @@ class SkillsRelationManager extends RelationManager
                 Forms\Components\TextInput::make('name')
                     ->label('Name')
                     ->required(),
+                Forms\Components\Hidden::make('creator_id')
+                    ->default(Auth::user()->id),
             ])->columns('full');
     }
 
@@ -52,7 +56,13 @@ class SkillsRelationManager extends RelationManager
             ->headerActions([
                 Tables\Actions\CreateAction::make()
                     ->icon('heroicon-o-plus-circle')
-                    ->modal('form'),
+                    ->modal('form')
+                    ->mutateFormDataUsing(function (array $data) {
+                        return [
+                            ...$data,
+                            'sort' => Skill::max('sort') + 1,
+                        ];
+                    }),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
@@ -60,7 +70,13 @@ class SkillsRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\EditAction::make()
+                        ->mutateFormDataUsing(function (array $data) {
+                            return [
+                                ...$data,
+                                'sort' => Skill::max('sort') + 1,
+                            ];
+                        }),
                     Tables\Actions\DeleteAction::make(),
                     Tables\Actions\RestoreAction::make(),
                 ]),

@@ -8,8 +8,6 @@ use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Webkul\Employee\Models\Department;
-use Webkul\Employee\Models\Employee;
 use Webkul\Security\Models\User;
 use Webkul\Support\Enums\ActivityChainingType;
 use Webkul\Support\Enums\ActivityDecorationType;
@@ -56,14 +54,9 @@ class ActivityTypeResource extends Resource
                                             ->options(fn () => User::query()->pluck('name', 'id'))
                                             ->searchable()
                                             ->preload(),
-                                        Forms\Components\Select::make('model_type')
-                                            ->label('Model')
-                                            ->options([
-                                                Employee::class   => 'Employee',
-                                                Department::class => 'Department',
-                                            ])
-                                            ->searchable()
-                                            ->preload(),
+                                        Forms\Components\TextInput::make('plugin')
+                                            ->default('employees')
+                                            ->label('Plugin'),
                                         Forms\Components\Textarea::make('summary')
                                             ->label('Summary')
                                             ->columnSpanFull(),
@@ -77,12 +70,18 @@ class ActivityTypeResource extends Resource
                                         Forms\Components\TextInput::make('delay_count')
                                             ->label('Delay Count')
                                             ->numeric()
+                                            ->required()
+                                            ->default(0)
                                             ->minValue(0),
                                         Forms\Components\Select::make('delay_unit')
                                             ->label('Delay Unit')
+                                            ->required()
+                                            ->default(ActivityDelayUnit::MINUTES->value)
                                             ->options(ActivityDelayUnit::options()),
                                         Forms\Components\Select::make('delay_from')
                                             ->label('Delay From')
+                                            ->required()
+                                            ->default(ActivityDelayFrom::PREVIOUS_ACTIVITY->value)
                                             ->options(ActivityDelayFrom::options())
                                             ->helperText('Source of delay calculation'),
                                     ])
@@ -106,8 +105,9 @@ class ActivityTypeResource extends Resource
                                         Forms\Components\Select::make('chaining_type')
                                             ->label('Chaining Type')
                                             ->options(ActivityChainingType::options())
-                                            ->default('suggest')
+                                            ->default(ActivityChainingType::SUGGEST->value)
                                             ->live()
+                                            ->required()
                                             ->native(false)
                                             ->hidden(fn (Get $get) => $get('category') === 'upload_file'),
                                         Forms\Components\Select::make('activity_type_suggestions')

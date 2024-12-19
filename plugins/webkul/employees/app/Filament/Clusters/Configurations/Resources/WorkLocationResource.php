@@ -33,13 +33,14 @@ class WorkLocationResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Hidden::make('user_id')
+                Forms\Components\Hidden::make('creator_id')
                     ->required()
                     ->default(Auth::user()->id),
                 Forms\Components\ToggleButtons::make('location_type')
                     ->inline()
                     ->options(WorkLocationEnum::class)
                     ->required(),
+                Forms\Components\TextInput::make('location_number'),
                 Forms\Components\Select::make('company_id')
                     ->searchable()
                     ->required()
@@ -70,17 +71,20 @@ class WorkLocationResource extends Resource
                 Tables\Columns\TextColumn::make('company.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('user.name')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('location_number')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
+                Tables\Columns\TextColumn::make('createdBy.name')
+                    ->label('Created By')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Created At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Updated At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -89,16 +93,35 @@ class WorkLocationResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ]))
+            ->groups([
+                Tables\Grouping\Group::make('name')
+                    ->label('Job Position')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('createdBy.name')
+                    ->label('Created By')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('location_type')
+                    ->label('Location Type')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('company.name')
+                    ->label('Company')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('is_active')
+                    ->label('Status')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('created_at')
+                    ->label('Created At')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('updated_at')
+                    ->label('Update At')
+                    ->date()
+                    ->collapsible(),
+            ])
             ->filters(static::mergeCustomTableFilters([]))
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make()
-                        ->mutateFormDataUsing(function (array $data): array {
-                            $data['user_id'] = Auth::user()->id;
-
-                            return $data;
-                        }),
+                    Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
                 ]),
             ])

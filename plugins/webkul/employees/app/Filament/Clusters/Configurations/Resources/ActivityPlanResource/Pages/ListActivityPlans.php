@@ -3,10 +3,11 @@
 namespace Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityPlanResource\Pages;
 
 use Filament\Actions;
+use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityPlanResource;
-use Webkul\Employee\Models\Employee;
+use Webkul\Support\Models\ActivityPlan;
 
 class ListActivityPlans extends ListRecords
 {
@@ -22,10 +23,21 @@ class ListActivityPlans extends ListRecords
 
                     return [
                         ...$data,
-                        'creator_id' => $user?->id,
-                        'model_type' => Employee::class,
                         'company_id' => $user->defaultCompany?->id,
                     ];
+                }),
+        ];
+    }
+
+    public function getTabs(): array
+    {
+        return [
+            'all' => Tab::make('All')
+                ->badge(ActivityPlan::count()),
+            'archived' => Tab::make('Archived')
+                ->badge(ActivityPlan::onlyTrashed()->count())
+                ->modifyQueryUsing(function ($query) {
+                    return $query->onlyTrashed();
                 }),
         ];
     }

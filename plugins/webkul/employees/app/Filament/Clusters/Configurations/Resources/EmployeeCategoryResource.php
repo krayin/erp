@@ -7,6 +7,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\EmployeeCategoryResource\Pages;
 use Webkul\Employee\Models\EmployeeCategory;
@@ -40,6 +41,8 @@ class EmployeeCategoryResource extends Resource
                     ->placeholder('Enter the name of the tag'),
                 Forms\Components\ColorPicker::make('color')
                     ->label('Color'),
+                Forms\Components\Hidden::make('creator_id')
+                    ->default(Auth::user()->id),
                 Forms\Components\Section::make('Additional Information')
                     ->visible(! empty($customFormFields = static::getCustomFormFields()))
                     ->description('Additional information about this work schedule')
@@ -59,8 +62,40 @@ class EmployeeCategoryResource extends Resource
                     ->label('Color')
                     ->toggleable(isToggledHiddenByDefault: false)
                     ->sortable(),
+                Tables\Columns\TextColumn::make('createdBy.name')
+                    ->label('Created By')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Created At')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Updated At')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ]))
             ->filters(static::mergeCustomTableFilters([]))
+            ->groups([
+                Tables\Grouping\Group::make('name')
+                    ->label('Job Position')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('color')
+                    ->label('Color')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('createdBy.name')
+                    ->label('Created By')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('created_at')
+                    ->label('Created At')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('updated_at')
+                    ->label('Update At')
+                    ->date()
+                    ->collapsible(),
+            ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),

@@ -13,24 +13,27 @@ return new class extends Migration
     {
         Schema::create('employees_job_positions', function (Blueprint $table) {
             $table->id('id');
-            $table->integer('sort')->nullable();
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->text('requirements')->nullable();
-            $table->boolean('is_active')->default(false);
-            $table->date('open_date')->nullable();
-            $table->integer('expected_employees')->nullable();
-            $table->integer('no_of_employees')->nullable();
-            $table->integer('no_of_recruitment')->nullable();
 
-            $table->unsignedBigInteger('department_id')->nullable();
-            $table->unsignedBigInteger('company_id')->nullable();
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->integer('sort')->nullable()->comment('Sort order');
+            $table->string('name')->comment('Job Position Name');
+            $table->text('description')->nullable()->comment('Job Description');
+            $table->text('requirements')->nullable()->comment('Requirements');
+            $table->boolean('is_active')->default(false)->comment('Active Status');
+            $table->integer('expected_employees')->nullable()->comment('Expected Employees');
+            $table->integer('no_of_employee')->nullable()->comment('No of employees');
+            $table->integer('no_of_recruitment')->nullable()->comment('No of recruitment');
+
+            $table->unsignedBigInteger('department_id')->nullable()->comment('Department');
+            $table->unsignedBigInteger('company_id')->nullable()->comment('Company');
+            $table->unsignedBigInteger('creator_id')->nullable()->comment('Created By');
+            $table->unsignedBigInteger('employment_type_id')->nullable()->comment('Employment Type');
 
             $table->foreign('department_id')->references('id')->on('employees_departments')->onDelete('set null');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('set null');
+            $table->foreign('employment_type_id')->references('id')->on('employees_employment_types')->onDelete('set null');
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

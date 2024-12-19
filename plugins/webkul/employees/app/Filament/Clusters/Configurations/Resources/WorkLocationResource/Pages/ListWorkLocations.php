@@ -15,10 +15,7 @@ class ListWorkLocations extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-                ->icon('heroicon-o-plus-circle')
-                ->mutateFormDataUsing(function (array $data): array {
-                    return $data;
-                }),
+                ->icon('heroicon-o-plus-circle'),
         ];
     }
 

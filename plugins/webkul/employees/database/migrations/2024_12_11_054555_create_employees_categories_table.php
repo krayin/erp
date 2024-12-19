@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('employees_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('color')->nullable();
 
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('name')->unique()->comment('Name');
+            $table->string('color')->nullable()->comment('Color');
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->unsignedBigInteger('creator_id')->nullable()->comment('Created by');
 
-            $table->softDeletes();
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
+
             $table->timestamps();
         });
     }

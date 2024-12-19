@@ -7,6 +7,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Enums;
 use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\SkillTypeResource\Pages;
@@ -39,9 +40,10 @@ class SkillTypeResource extends Resource
                         ->unique(ignoreRecord: true)
                         ->maxLength(255)
                         ->placeholder('Enter skill type name'),
+                    Forms\Components\Hidden::make('creator_id')
+                        ->default(Auth::user()->id),
                     Forms\Components\Select::make('color')
                         ->label('Color')
-                        ->required()
                         ->options(function () {
                             return collect(Enums\Colors::options())->mapWithKeys(function ($value, $key) {
                                 return [
@@ -91,21 +93,48 @@ class SkillTypeResource extends Resource
                     ->label('Status')
                     ->sortable()
                     ->boolean(),
+                Tables\Columns\TextColumn::make('createdBy.name')
+                    ->label('Created By')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created')
-                    ->date()
+                    ->label('Created At')
+                    ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Updated')
-                    ->date()
+                    ->label('Updated At')
+                    ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ]))
+            ->columnToggleFormColumns(2)
             ->filters(static::mergeCustomTableFilters([
                 Tables\Filters\TernaryFilter::make('is_active')
                     ->label('Active Status'),
             ]))
+            ->filtersFormColumns(2)
+            ->groups([
+                Tables\Grouping\Group::make('name')
+                    ->label('Job Position')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('color')
+                    ->label('Color')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('createdBy.name')
+                    ->label('Created By')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('is_active')
+                    ->label('Status')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('created_at')
+                    ->label('Created At')
+                    ->collapsible(),
+                Tables\Grouping\Group::make('updated_at')
+                    ->label('Update At')
+                    ->date()
+                    ->collapsible(),
+            ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
@@ -116,6 +145,7 @@ class SkillTypeResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\ForceDeleteBulkAction::make(),
                 ]),
             ])
             ->emptyStateActions([

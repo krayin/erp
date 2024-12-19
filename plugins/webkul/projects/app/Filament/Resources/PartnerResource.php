@@ -5,8 +5,8 @@ namespace Webkul\Project\Filament\Resources;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Webkul\Partner\Enums\AccountType;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Partner\Enums\AccountType;
 use Webkul\Partner\Models\Partner;
 
 class PartnerResource extends Resource
@@ -115,12 +115,12 @@ class PartnerResource extends Resource
                             ->icon('heroicon-o-user-group')
                             ->schema([
                             ]),
-                        
+
                         Forms\Components\Tabs\Tab::make('Addresses')
                             ->icon('heroicon-o-currency-dollar')
                             ->schema([
                             ]),
-                        
+
                         Forms\Components\Tabs\Tab::make('Sales and Purchases')
                             ->icon('heroicon-o-currency-dollar')
                             ->schema([
