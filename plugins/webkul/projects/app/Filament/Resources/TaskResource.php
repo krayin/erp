@@ -79,6 +79,10 @@ class TaskResource extends Resource
                                 Forms\Components\RichEditor::make('description')
                                     ->label('Description'),
                             ]),
+                        
+                        Forms\Components\Section::make('Additional Information')
+                            ->visible(! empty($customFormFields = static::getCustomFormFields()))
+                            ->schema($customFormFields),
                     ])
                     ->columnSpan(['lg' => 2]),
 
@@ -182,7 +186,7 @@ class TaskResource extends Resource
         $isTimesheetEnabled = app(TimeSettings::class)->enable_timesheets;
 
         return $table
-            ->columns([
+            ->columns(static::mergeCustomTableColumns([
                 Tables\Columns\TextColumn::make('id')
                     ->label('Id')
                     ->searchable()
@@ -338,7 +342,7 @@ class TaskResource extends Resource
                     ->label('Stage')
                     ->sortable()
                     ->toggleable(),
-            ])
+            ]))
             ->groups([
                 Tables\Grouping\Group::make('state')
                     ->label('State')
@@ -360,7 +364,7 @@ class TaskResource extends Resource
             ])
             ->filters([
                 Tables\Filters\QueryBuilder::make()
-                    ->constraints(collect([
+                    ->constraints(collect(static::mergeCustomTableQueryBuilderConstraints([
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('title')
                             ->label('Title'),
                         Tables\Filters\QueryBuilder\Constraints\SelectConstraint::make('priority')
@@ -402,8 +406,12 @@ class TaskResource extends Resource
                             ? Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('progress')
                                 ->label('Progress')
                             : null,
-                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('deadline'),
-                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('deadline')
+                            ->label('Deadline'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at')
+                            ->label('Created At'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at')
+                            ->label('Updated At'),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('users')
                             ->label('Assignees')
                             ->multiple()
@@ -474,7 +482,7 @@ class TaskResource extends Resource
                                     ->multiple()
                                     ->preload(),
                             ),
-                    ])->filter()->values()->all()),
+                    ]))->filter()->values()->all()),
             ], layout: \Filament\Tables\Enums\FiltersLayout::Modal)
             ->filtersTriggerAction(
                 fn (Tables\Actions\Action $action) => $action
@@ -483,6 +491,7 @@ class TaskResource extends Resource
             ->filtersFormColumns(2)
             ->actions([
                 Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make()
                         ->hidden(fn ($record) => $record->trashed()),
                     Tables\Actions\DeleteAction::make(),
@@ -528,6 +537,7 @@ class TaskResource extends Resource
             'index'  => Pages\ListTasks::route('/'),
             'create' => Pages\CreateTask::route('/create'),
             'edit'   => Pages\EditTask::route('/{record}/edit'),
+            'view'   => Pages\ViewTask::route('/{record}'),
         ];
     }
 }

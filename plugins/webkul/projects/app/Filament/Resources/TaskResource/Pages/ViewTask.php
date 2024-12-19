@@ -1,13 +1,13 @@
 <?php
 
-namespace Webkul\Chatter\Filament\Resources\TaskResource\Pages;
+namespace Webkul\Project\Filament\Resources\TaskResource\Pages;
 
 use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
+use Filament\Resources\Pages\ViewRecord;
 use Webkul\Chatter\Filament\Actions as ChatterActions;
-use Webkul\Chatter\Filament\Resources\TaskResource;
+use Webkul\Project\Filament\Resources\TaskResource;
 
-class EditTask extends EditRecord
+class ViewTask extends ViewRecord
 {
     protected static string $resource = TaskResource::class;
 
@@ -15,8 +15,7 @@ class EditTask extends EditRecord
     {
         return [
             ChatterActions\ChatterAction::make(),
-            Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
+            Actions\EditAction::make(),
         ];
     }
 }
