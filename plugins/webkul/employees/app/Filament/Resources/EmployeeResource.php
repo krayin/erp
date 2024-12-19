@@ -220,7 +220,7 @@ class EmployeeResource extends Resource
                                                             ->live()
                                                             ->suffixIcon('heroicon-o-clock')
                                                             ->label('Working Hours'),
-                                                        Forms\Components\Select::make('timezone')
+                                                        Forms\Components\Select::make('time_zone')
                                                             ->label('Time Zone')
                                                             ->options(function () {
                                                                 return collect(timezone_identifiers_list())->mapWithKeys(function ($timezone) {
