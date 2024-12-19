@@ -117,6 +117,11 @@ class Project extends Model
         return $this->favoriteUsers()->where('user_id', auth()->id())->exists();
     }
 
+    public function getRemainingHoursAttribute(): float
+    {
+        return $this->allocated_hours - $this->tasks->sum('remaining_hours');
+    }
+
     public function milestones(): HasMany
     {
         return $this->hasMany(Milestone::class);

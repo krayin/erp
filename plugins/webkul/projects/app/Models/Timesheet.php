@@ -39,6 +39,7 @@ class Timesheet extends Record
             'effective_hours' => $totalTime,
             'overtime' => $totalTime > $this->task->allocated_hours ? $totalTime - $this->task->allocated_hours : 0,
             'remaining_hours' => $this->task->allocated_hours - $totalTime,
+            'progress' => $this->task->allocated_hours ? ($totalTime / $this->task->allocated_hours) * 100 : 0,
         ]);
     }
 
