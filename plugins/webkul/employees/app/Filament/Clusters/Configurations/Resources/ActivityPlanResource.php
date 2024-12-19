@@ -18,8 +18,6 @@ use Webkul\Support\Models\ActivityPlan;
 
 class ActivityPlanResource extends Resource
 {
-    use HasCustomFields;
-
     protected static ?string $model = ActivityPlan::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
@@ -36,26 +34,17 @@ class ActivityPlanResource extends Resource
                             ->label('Plan Name')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\Hidden::make('creator_id')
-                            ->default(Auth::user()->id),
-                        Forms\Components\Hidden::make('plugin')
-                            ->default('employees'),
                         Forms\Components\Select::make('department_id')
                             ->label('Department')
                             ->relationship(name: 'department', titleAttribute: 'name')
                             ->searchable()
                             ->preload()
-                            ->createOptionForm(fn (Form $form) => DepartmentResource::form($form))
-                            ->editOptionForm(fn (Form $form) => DepartmentResource::form($form)),
+                            ->createOptionForm(fn(Form $form) => DepartmentResource::form($form))
+                            ->editOptionForm(fn(Form $form) => DepartmentResource::form($form)),
                         Forms\Components\Toggle::make('is_active')
                             ->label('Status')
                             ->default(true)
                             ->inline(false),
-                        Forms\Components\Section::make('Additional Information')
-                            ->visible(! empty($customFormFields = static::getCustomFormFields()))
-                            ->description('Additional information about this work schedule')
-                            ->schema($customFormFields)
-                            ->columns(),
                     ])->columns(2),
             ]);
     }
@@ -63,16 +52,12 @@ class ActivityPlanResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns(static::mergeCustomTableColumns([
+            ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID')
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('plugin')
-                    ->label('Related Plugin')
-                    ->sortable()
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('department.name')
@@ -96,8 +81,8 @@ class ActivityPlanResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ]))
-            ->filters(static::mergeCustomTableFilters([
+            ])
+            ->filters([
                 Tables\Filters\TernaryFilter::make('is_active')
                     ->label('Active Status'),
                 Tables\Filters\QueryBuilder::make()
@@ -145,7 +130,7 @@ class ActivityPlanResource extends Resource
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at'),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at'),
                     ]),
-            ]))
+            ])
             ->groups([
                 Tables\Grouping\Group::make('name')
                     ->label('Name')
