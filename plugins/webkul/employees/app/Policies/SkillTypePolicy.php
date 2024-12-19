@@ -2,9 +2,9 @@
 
 namespace Webkul\Employee\Policies;
 
-use Illuminate\Auth\Access\HandlesAuthorization;
-use Webkul\Employee\Models\SkillType;
 use Webkul\Security\Models\User;
+use Webkul\Employee\Models\SkillType;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class SkillTypePolicy
 {

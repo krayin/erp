@@ -16,9 +16,12 @@ use Webkul\Project\Enums\TaskState;
 use Webkul\Project\Filament\Resources\ProjectResource\Pages\ManageProjectTasks;
 use Webkul\Project\Filament\Resources\TaskResource\Pages;
 use Webkul\Project\Filament\Resources\TaskResource\RelationManagers;
+use Webkul\Project\Models\Project;
 use Webkul\Project\Models\Task;
 use Webkul\Project\Models\TaskStage;
 use Webkul\Security\Filament\Resources\UserResource;
+use Webkul\Project\Settings\TaskSettings;
+use Webkul\Project\Settings\TimeSettings;
 
 class TaskResource extends Resource
 {
@@ -116,7 +119,34 @@ class TaskResource extends Resource
                                         Forms\Components\Hidden::make('creator_id')
                                             ->default(fn () => Auth::user()->id),
                                     ])
-                                    ->hidden(fn (Forms\Get $get) => ! $get('project_id')),
+                                    // ->hidden(fn (Forms\Get $get) => ! $get('project_id'))
+                                    ->hidden(function (TaskSettings $taskSettings, Forms\Get $get) {
+                                        $project = Project::find($get('project_id'));
+
+                                        if (! $project) {
+                                            return true;
+                                        }
+
+                                        if (! $taskSettings->enable_milestones) {
+                                            return true;
+                                        }
+
+                                        return ! $project->allow_milestones;
+                                    })
+                                    ->visible(fn (TaskSettings $taskSettings) => $taskSettings->enable_milestones),
+                                    // ->visible(function (TaskSettings $taskSettings, Forms\Get $get) {
+                                    //     if ($taskSettings->enable_milestones) {
+                                    //         return true;
+                                    //     }
+
+                                    //     $project = Project::find($get('project_id'));
+
+                                    //     if (! $project) {
+                                    //         return false;
+                                    //     }
+
+                                    //     return $project->allow_milestones;
+                                    // }),
                                 Forms\Components\Select::make('partner_id')
                                     ->label('Customer')
                                     ->relationship('partner', 'name')
@@ -157,14 +187,11 @@ class TaskResource extends Resource
                 Tables\Columns\IconColumn::make('priority')
                     ->icon(fn (Task $record): string => $record->priority ? 'heroicon-s-star' : 'heroicon-o-star')
                     ->color(fn (Task $record): string => $record->priority ? 'warning' : 'gray')
-                    ->action(
-                        Tables\Actions\Action::make('select')
-                            ->action(function (Task $record): void {
-                                $record->update([
-                                    'priority' => ! $record->priority,
-                                ]);
-                            }),
-                    ),
+                    ->action(function (Task $record): void {
+                        $record->update([
+                            'priority' => ! $record->priority,
+                        ]);
+                    }),
                 Tables\Columns\IconColumn::make('state')
                     ->label('State')
                     ->sortable()
@@ -208,7 +235,8 @@ class TaskResource extends Resource
                     ->label('Milestone')
                     ->searchable()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->visible(fn (TaskSettings $taskSettings) => $taskSettings->enable_milestones),
                 Tables\Columns\TextColumn::make('partner.name')
                     ->label('Customer')
                     ->searchable()
@@ -278,7 +306,8 @@ class TaskResource extends Resource
                                 IsRelatedToOperator::make()
                                     ->titleAttribute('name')
                                     ->searchable()
-                                    ->multiple(),
+                                    ->multiple()
+                                    ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('partner')
                             ->label('Customer')
@@ -287,7 +316,8 @@ class TaskResource extends Resource
                                 IsRelatedToOperator::make()
                                     ->titleAttribute('name')
                                     ->searchable()
-                                    ->multiple(),
+                                    ->multiple()
+                                    ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('project')
                             ->label('Project')
@@ -296,7 +326,8 @@ class TaskResource extends Resource
                                 IsRelatedToOperator::make()
                                     ->titleAttribute('name')
                                     ->searchable()
-                                    ->multiple(),
+                                    ->multiple()
+                                    ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('stage')
                             ->label('Stage')
@@ -305,7 +336,18 @@ class TaskResource extends Resource
                                 IsRelatedToOperator::make()
                                     ->titleAttribute('name')
                                     ->searchable()
-                                    ->multiple(),
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('milestone')
+                            ->label('Milestone')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\SelectConstraint::make('state')
                             ->label('State')
@@ -318,7 +360,8 @@ class TaskResource extends Resource
                                 IsRelatedToOperator::make()
                                     ->titleAttribute('name')
                                     ->searchable()
-                                    ->multiple(),
+                                    ->multiple()
+                                    ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('allocated_hours')
                             ->label('Allocated Hours'),
@@ -345,14 +388,15 @@ class TaskResource extends Resource
                     Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->modifyQueryUsing(fn ($query) => $query->whereNull('parent_id'));
     }
 
     public static function getRelations(): array
     {
         return [
             RelationGroup::make('Timesheets', [
-                RelationManagers\SubTasksRelationManager::class,
+                RelationManagers\TimesheetsRelationManager::class,
             ]),
 
             RelationGroup::make('Sub Tasks', [

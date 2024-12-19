@@ -30,12 +30,12 @@ return new class extends Migration
             $table->foreignId('stage_id')
                 ->nullable()
                 ->constrained('projects_project_stages')
-                ->nullOnDelete();
+                ->restrictOnDelete();
 
             $table->foreignId('partner_id')
                 ->nullable()
                 ->constrained('partners_partners')
-                ->restrictOnDelete();
+                ->nullOnDelete();
 
             $table->foreignId('company_id')
                 ->nullable()

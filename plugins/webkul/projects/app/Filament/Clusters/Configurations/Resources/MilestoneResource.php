@@ -12,6 +12,7 @@ use Webkul\Project\Filament\Clusters\Configurations\Resources\MilestoneResource\
 use Webkul\Project\Filament\Resources\ProjectResource\Pages\ManageProjectMilestones;
 use Webkul\Project\Filament\Resources\ProjectResource\RelationManagers\MilestonesRelationManager;
 use Webkul\Project\Models\Milestone;
+use Webkul\Project\Settings\TaskSettings;
 
 class MilestoneResource extends Resource
 {
@@ -22,6 +23,11 @@ class MilestoneResource extends Resource
     protected static ?int $navigationSort = 3;
 
     protected static ?string $cluster = Configurations::class;
+
+    public static function isDiscovered(): bool
+    {
+        return app(TaskSettings::class)->enable_milestones;
+    }
 
     public static function form(Form $form): Form
     {

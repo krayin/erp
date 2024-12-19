@@ -12,6 +12,7 @@ use Webkul\Partner\Models\Partner;
 use Webkul\Project\Database\Factories\TaskFactory;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
+use Webkul\Analytic\Models\Record;
 
 class Task extends Model
 {
@@ -119,6 +120,11 @@ class Task extends Model
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class, 'projects_task_tag', 'task_id', 'tag_id');
+    }
+
+    public function timesheets(): HasMany
+    {
+        return $this->hasMany(Record::class);
     }
 
     protected static function newFactory(): TaskFactory

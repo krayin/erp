@@ -2,9 +2,9 @@
 
 namespace Webkul\Project\Policies;
 
-use Illuminate\Auth\Access\HandlesAuthorization;
-use Webkul\Project\Models\Project;
 use Webkul\Security\Models\User;
+use Webkul\Project\Models\Project;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ProjectPolicy
 {

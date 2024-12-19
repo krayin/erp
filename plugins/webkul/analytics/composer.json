@@ -1,0 +1,30 @@
+{
+    "name": "webkul/analytics",
+    "description": "",
+    "authors": [
+        {
+            "name": "Jitendra Singh",
+            "email": "jitendra@webkul.in"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webkul\\Analytic\\Providers\\AnalyticServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Webkul\\Analytic\\": "app/",
+            "Webkul\\Analytic\\Database\\Factories\\": "database/factories/",
+            "Webkul\\Analytic\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webkul\\Analytic\\Tests\\": "tests/"
+        }
+    }
+}
