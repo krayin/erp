@@ -6,6 +6,7 @@ use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Resources\EmployeeResource;
+use Webkul\Employee\Models\EmployeeSkill;
 use Webkul\Partner\Models\Partner;
 
 class CreateEmployee extends CreateRecord
@@ -40,6 +41,8 @@ class CreateEmployee extends CreateRecord
 
         $record->partner_id = $partner->id;
         $record->save();
+
+        EmployeeSkill::create(['employee_id' => $record->id]);
 
         return $record;
     }

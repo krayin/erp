@@ -4,12 +4,13 @@ namespace Webkul\Employee\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Employee\Database\Factories\EmployeeSkillFactory;
 use Webkul\Security\Models\User;
 
 class EmployeeSkill extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'employees_employee_skills';
 

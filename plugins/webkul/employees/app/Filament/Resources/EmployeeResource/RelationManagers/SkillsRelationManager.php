@@ -7,8 +7,8 @@ use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Webkul\Employee\Filament\Tables as CustomTables;
 use Webkul\Employee\Models\SkillType;
+use Webkul\Support\Filament\Tables as CustomTables;
 
 class SkillsRelationManager extends RelationManager
 {
@@ -26,20 +26,23 @@ class SkillsRelationManager extends RelationManager
                         ->required()
                         ->reactive()
                         ->afterStateUpdated(fn (callable $set) => $set('skill_id', null)),
-                    Forms\Components\Select::make('skill_id')
-                        ->label('Skill')
-                        ->options(
-                            fn (callable $get) => SkillType::find($get('skill_type_id'))?->skills->pluck('name', 'id') ?? []
-                        )
-                        ->required()
-                        ->reactive()
-                        ->afterStateUpdated(fn (callable $set) => $set('skill_level_id', null)),
-                    Forms\Components\Select::make('skill_level_id')
-                        ->label('Skill Level')
-                        ->options(
-                            fn (callable $get) => SkillType::find($get('skill_type_id'))?->skillLevels->pluck('name', 'id') ?? []
-                        )
-                        ->required(),
+                    Forms\Components\Group::make()
+                        ->schema([
+                            Forms\Components\Select::make('skill_id')
+                                ->label('Skill')
+                                ->options(
+                                    fn (callable $get) => SkillType::find($get('skill_type_id'))?->skills->pluck('name', 'id') ?? []
+                                )
+                                ->required()
+                                ->reactive()
+                                ->afterStateUpdated(fn (callable $set) => $set('skill_level_id', null)),
+                            Forms\Components\Select::make('skill_level_id')
+                                ->label('Skill Level')
+                                ->options(
+                                    fn (callable $get) => SkillType::find($get('skill_type_id'))?->skillLevels->pluck('name', 'id') ?? []
+                                )
+                                ->required(),
+                        ]),
                 ])->columns(2),
             ]);
     }

@@ -21,10 +21,13 @@ class ListActivityPlans extends ListRecords
                 ->mutateFormDataUsing(function ($data) {
                     $user = Auth::user();
 
-                    return [
-                        ...$data,
-                        'company_id' => $user->defaultCompany?->id,
-                    ];
+                    $data['plugin'] = 'employees';
+
+                    $data['creator_id'] = $user->id;
+
+                    $data['company_id'] = $user->defaultCompany?->id;
+
+                    return $data;
                 }),
         ];
     }
@@ -33,9 +36,9 @@ class ListActivityPlans extends ListRecords
     {
         return [
             'all' => Tab::make('All')
-                ->badge(ActivityPlan::count()),
+                ->badge(ActivityPlan::where('plugin', 'employees')->count()),
             'archived' => Tab::make('Archived')
-                ->badge(ActivityPlan::onlyTrashed()->count())
+                ->badge(ActivityPlan::where('plugin', 'employees')->onlyTrashed()->count())
                 ->modifyQueryUsing(function ($query) {
                     return $query->onlyTrashed();
                 }),

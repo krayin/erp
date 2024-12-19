@@ -6,18 +6,16 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\CalendarResource\Pages;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\CalendarResource\RelationManagers;
 use Webkul\Employee\Models\Calendar;
-use Webkul\Fields\Filament\Traits\HasCustomFields;
 
 class CalendarResource extends Resource
 {
-    use HasCustomFields;
-
     protected static ?string $model = Calendar::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-clock';
@@ -83,11 +81,6 @@ class CalendarResource extends Resource
                                             ->default(40)
                                             ->suffix('hours per week'),
                                     ])->columns(2),
-                                Forms\Components\Section::make('Additional Information')
-                                    ->visible(! empty($customFormFields = static::getCustomFormFields()))
-                                    ->description('Additional information about this work schedule')
-                                    ->schema($customFormFields)
-                                    ->columns(2),
                             ])
                             ->columnSpan(['lg' => 2]),
                         Forms\Components\Group::make()
@@ -119,7 +112,12 @@ class CalendarResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns(static::mergeCustomTableColumns([
+            ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Schedule Name')
                     ->searchable()
@@ -158,7 +156,7 @@ class CalendarResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ]))
+            ])
             ->groups([
                 Tables\Grouping\Group::make('name')
                     ->label('Name')
@@ -183,14 +181,68 @@ class CalendarResource extends Resource
                     ->date()
                     ->collapsible(),
             ])
+            ->filtersFormColumns(2)
             ->filters([
                 Tables\Filters\SelectFilter::make('company')
                     ->relationship('company', 'name')
                     ->label('Company'),
                 Tables\Filters\TernaryFilter::make('is_active')
                     ->label('Active Status'),
+                Tables\Filters\TernaryFilter::make('two_weeks_calendar')
+                    ->label('Two Weeks Calendar'),
                 Tables\Filters\TernaryFilter::make('flexible_hours')
                     ->label('Flexible Hours'),
+                Tables\Filters\QueryBuilder::make()
+                    ->constraintPickerColumns(2)
+                    ->constraints([
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('name')
+                            ->label('Name')
+                            ->icon('heroicon-o-user'),
+                        Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('hours_per_day')
+                            ->label('Hours Per Day')
+                            ->icon('heroicon-o-clock'),
+                        Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('full_time_required_hours')
+                            ->label('Full Time Required Hours')
+                            ->icon('heroicon-o-clock'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('timezone')
+                            ->label('Timezone')
+                            ->icon('heroicon-o-clock'),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('attendance')
+                            ->label('Attendance')
+                            ->icon('heroicon-o-building-office')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('company')
+                            ->label('Company')
+                            ->icon('heroicon-o-building-office')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('createdBy')
+                            ->label('Created By')
+                            ->icon('heroicon-o-user')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at'),
+                    ]),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([

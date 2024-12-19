@@ -8,7 +8,7 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Employee\Filament\Tables as CustomTables;
+use Webkul\Support\Filament\Tables as CustomTables;
 
 class SkillLevelRelationManager extends RelationManager
 {
@@ -43,7 +43,13 @@ class SkillLevelRelationManager extends RelationManager
                     ->searchable()
                     ->sortable(),
                 CustomTables\Columns\ProgressBarEntry::make('level')
-                    ->getStateUsing(fn ($record) => $record->level),
+                    ->getStateUsing(fn ($record) => $record->level)
+                    ->color(fn ($record): string => match (true) {
+                        $record->level === 100                      => 'success',
+                        $record->level >= 50 && $record->level < 80 => 'warning',
+                        $record->level < 20                         => 'danger',
+                        default                                     => 'info',
+                    }),
                 Tables\Columns\IconColumn::make('default_level')
                     ->sortable()
                     ->label('Default Level')

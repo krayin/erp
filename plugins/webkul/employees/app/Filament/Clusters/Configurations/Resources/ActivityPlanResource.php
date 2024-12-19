@@ -6,6 +6,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Clusters\Configurations;
@@ -17,8 +18,6 @@ use Webkul\Support\Models\ActivityPlan;
 
 class ActivityPlanResource extends Resource
 {
-    use HasCustomFields;
-
     protected static ?string $model = ActivityPlan::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
@@ -35,26 +34,17 @@ class ActivityPlanResource extends Resource
                             ->label('Plan Name')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\Hidden::make('creator_id')
-                            ->default(Auth::user()->id),
-                        Forms\Components\Hidden::make('plugin')
-                            ->default('employees'),
                         Forms\Components\Select::make('department_id')
                             ->label('Department')
                             ->relationship(name: 'department', titleAttribute: 'name')
                             ->searchable()
                             ->preload()
-                            ->createOptionForm(fn (Form $form) => DepartmentResource::form($form))
-                            ->editOptionForm(fn (Form $form) => DepartmentResource::form($form)),
+                            ->createOptionForm(fn(Form $form) => DepartmentResource::form($form))
+                            ->editOptionForm(fn(Form $form) => DepartmentResource::form($form)),
                         Forms\Components\Toggle::make('is_active')
                             ->label('Status')
                             ->default(true)
                             ->inline(false),
-                        Forms\Components\Section::make('Additional Information')
-                            ->visible(! empty($customFormFields = static::getCustomFormFields()))
-                            ->description('Additional information about this work schedule')
-                            ->schema($customFormFields)
-                            ->columns(),
                     ])->columns(2),
             ]);
     }
@@ -62,10 +52,12 @@ class ActivityPlanResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns(static::mergeCustomTableColumns([
-                Tables\Columns\TextColumn::make('plugin')
-                    ->label('Related Plugin')
-                    ->searchable(),
+            ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('department.name')
@@ -89,8 +81,56 @@ class ActivityPlanResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ]))
-            ->filters(static::mergeCustomTableFilters([]))
+            ])
+            ->filters([
+                Tables\Filters\TernaryFilter::make('is_active')
+                    ->label('Active Status'),
+                Tables\Filters\QueryBuilder::make()
+                    ->constraintPickerColumns(2)
+                    ->constraints([
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('name')
+                            ->label('Name')
+                            ->icon('heroicon-o-briefcase'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('plugin')
+                            ->label('Plugin')
+                            ->icon('heroicon-o-briefcase'),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('activityTypes')
+                            ->label('Activity Types')
+                            ->icon('heroicon-o-briefcase')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('company')
+                            ->label('Company')
+                            ->icon('heroicon-o-building-office-2')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('department')
+                            ->label('Department')
+                            ->icon('heroicon-o-building-office-2')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at'),
+                    ]),
+            ])
             ->groups([
                 Tables\Grouping\Group::make('name')
                     ->label('Name')
