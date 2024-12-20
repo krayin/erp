@@ -10,7 +10,7 @@ class TaskByStateChart extends ChartWidget
 {
     protected static ?string $heading = 'Tasks By State';
 
-    protected static ?string $maxHeight = '350px';
+    protected static ?string $maxHeight = '250px';
 
     protected static ?int $sort = 1;
  
