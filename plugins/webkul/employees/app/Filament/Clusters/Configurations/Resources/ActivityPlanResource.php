@@ -8,12 +8,10 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityPlanResource\Pages;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityPlanResource\RelationManagers;
 use Webkul\Employee\Filament\Resources\DepartmentResource;
-use Webkul\Fields\Filament\Traits\HasCustomFields;
 use Webkul\Support\Models\ActivityPlan;
 
 class ActivityPlanResource extends Resource
@@ -39,8 +37,8 @@ class ActivityPlanResource extends Resource
                             ->relationship(name: 'department', titleAttribute: 'name')
                             ->searchable()
                             ->preload()
-                            ->createOptionForm(fn(Form $form) => DepartmentResource::form($form))
-                            ->editOptionForm(fn(Form $form) => DepartmentResource::form($form)),
+                            ->createOptionForm(fn (Form $form) => DepartmentResource::form($form))
+                            ->editOptionForm(fn (Form $form) => DepartmentResource::form($form)),
                         Forms\Components\Toggle::make('is_active')
                             ->label('Status')
                             ->default(true)

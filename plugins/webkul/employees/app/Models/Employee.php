@@ -11,6 +11,8 @@ use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Employee\Database\Factories\EmployeeFactory;
 use Webkul\Fields\Traits\HasCustomFields;
+use Webkul\Partner\Enums\AddressType;
+use Webkul\Partner\Models\Address;
 use Webkul\Partner\Models\BankAccount;
 use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
@@ -127,6 +129,21 @@ class Employee extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    public function address()
+    {
+        return $this->hasOne(EmployeeAddress::class);
+    }
+
+    public function permanentAddress()
+    {
+        return $this->address()->where('type', AddressType::PERMANENT);
+    }
+
+    public function presentAddress()
+    {
+        return $this->address()->where('type', AddressType::PRESENT);
     }
 
     public function calendar(): BelongsTo

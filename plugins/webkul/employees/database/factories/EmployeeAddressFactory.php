@@ -22,6 +22,17 @@ class EmployeeAddressFactory extends Factory
     public function definition(): array
     {
         return [
+            'state_id'           => null,
+            'country_id'         => null,
+            'creator_id'         => null,
+            'partner_address_id' => null,
+            'name'               => $this->faker->name,
+            'email'              => $this->faker->unique()->safeEmail,
+            'phone'              => $this->faker->phoneNumber,
+            'street1'            => $this->faker->streetAddress,
+            'street2'            => $this->faker->secondaryAddress,
+            'city'               => $this->faker->city,
+            'zip'                => $this->faker->postcode,
         ];
     }
 }

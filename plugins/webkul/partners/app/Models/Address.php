@@ -42,15 +42,6 @@ class Address extends Model
         'partner_id',
     ];
 
-    /**
-     * Table name.
-     *
-     * @var string
-     */
-    protected $casts = [
-        'type' => AccountType::class,
-    ];
-
     public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);

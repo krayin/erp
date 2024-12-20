@@ -14,32 +14,28 @@ return new class extends Migration
         Schema::create('partners_addresses', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->string('name');
-            $table->string('email');
-            $table->string('phone');
-            $table->string('street1');
-            $table->string('street2')->nullable();
-            $table->string('city');
-            $table->string('zip');
 
-            $table->foreignId('state_id')
-                ->nullable()
-                ->constrained('states')
-                ->restrictOnDelete();
+            $table->unsignedBigInteger('state_id')->nullable()->comment('State');
+            $table->unsignedBigInteger('country_id')->nullable()->comment('Country');
+            $table->unsignedBigInteger('creator_id')->nullable()->comment('Created By');
+            $table->unsignedBigInteger('partner_id')->comment('Partner');
 
-            $table->foreignId('country_id')
-                ->nullable()
-                ->constrained('countries')
-                ->restrictOnDelete();
+            $table->string('name')->nullable()->comment('Name');
+            $table->string('email')->nullable()->comment('Email');
+            $table->string('phone')->nullable()->comment('Phone');
+            $table->string('street1')->nullable()->comment('Street 1');
+            $table->string('street2')->nullable()->comment('Street 2');
+            $table->string('city')->comment('City');
+            $table->string('zip')->comment('Zip');
 
-            $table->foreignId('creator_id')
-                ->nullable()
-                ->constrained('users')
-                ->nullOnDelete();
 
-            $table->foreignId('partner_id')
-                ->constrained('partners_partners')
-                ->cascadeOnDelete();
+            $table->foreign('state_id')->references('id')->on('states')->onDelete('restrict');
+
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('restrict');
+
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
+
+            $table->foreign('partner_id')->references('id')->on('partners_partners')->onDelete('cascade');
 
             $table->timestamps();
         });

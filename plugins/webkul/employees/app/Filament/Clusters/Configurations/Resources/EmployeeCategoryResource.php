@@ -47,7 +47,7 @@ class EmployeeCategoryResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns(static::mergeCustomTableColumns([
+            ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID')
                     ->searchable()
@@ -75,7 +75,7 @@ class EmployeeCategoryResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ]))
+            ])
             ->filters([
                 Tables\Filters\QueryBuilder::make()
                     ->constraintPickerColumns(2)
