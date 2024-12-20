@@ -6,27 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::table('employees_employees', function (Blueprint $table) {
-            $table->string('distance_home_work')->nullable()->change();
-            $table->string('km_home_work')->nullable()->change();
-            $table->string('distance_home_work_unit')->nullable()->change();
+            $table->integer('distance_home_work')->default(0)->nullable()->change();
+            $table->integer('km_home_work')->default(0)->nullable()->change();
+            $table->string('distance_home_work_unit')->default('km')->nullable()->change();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('employees_employees', function (Blueprint $table) {
-            $table->string('distance_home_work')->nullable(false)->change();
-            $table->string('km_home_work')->nullable(false)->change();
-            $table->string('distance_home_work_unit')->nullable(false)->change();
+            $table->integer('distance_home_work')->default(0)->nullable(false)->change();
+            $table->integer('km_home_work')->default(0)->nullable(false)->change();
+            $table->string('distance_home_work_unit')->default('km')->nullable(false)->change();
         });
     }
 };
