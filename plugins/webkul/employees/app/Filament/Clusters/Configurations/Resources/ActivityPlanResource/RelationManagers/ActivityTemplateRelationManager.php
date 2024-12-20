@@ -111,38 +111,18 @@ class ActivityTemplateRelationManager extends RelationManager
     {
         return $infolist
             ->schema([
-                Infolists\Components\Group::make()
+                Infolists\Components\Grid::make(['default' => 3])
                     ->schema([
                         Infolists\Components\Group::make()
                             ->schema([
                                 Infolists\Components\Section::make('Activity Details')
                                     ->schema([
-                                        Infolists\Components\Group::make()
-                                            ->schema([
-                                                Infolists\Components\TextEntry::make('activityType.name')
-                                                    ->label('Activity Type')
-                                                    ->icon('heroicon-o-briefcase'),
-                                                Infolists\Components\TextEntry::make('summary')
-                                                    ->label('Summary')
-                                                    ->icon('heroicon-o-document-text'),
-                                            ])->columns(2),
-                                        Infolists\Components\TextEntry::make('note')
-                                            ->label('Note')
-                                            ->html()
-                                            ->icon('heroicon-o-document'),
-                                    ]),
-                            ])
-                            ->columnSpan('full'),
-                        Infolists\Components\Group::make()
-                            ->schema([
-                                Infolists\Components\Section::make('Assignment')
-                                    ->schema([
-                                        Infolists\Components\TextEntry::make('responsible_type')
-                                            ->label('Assignment')
-                                            ->icon('heroicon-o-user-circle'),
-                                        Infolists\Components\TextEntry::make('responsible.name')
-                                            ->label('Assignee')
-                                            ->icon('heroicon-o-user'),
+                                        Infolists\Components\TextEntry::make('activityType.name')
+                                            ->label('Activity Type')
+                                            ->icon('heroicon-o-briefcase'),
+                                        Infolists\Components\TextEntry::make('summary')
+                                            ->label('Summary')
+                                            ->icon('heroicon-o-document-text'),
                                     ])->columns(2),
                                 Infolists\Components\Section::make('Delay Information')
                                     ->schema([
@@ -154,13 +134,27 @@ class ActivityTemplateRelationManager extends RelationManager
                                             ->icon('heroicon-o-calendar'),
                                         Infolists\Components\TextEntry::make('delay_from')
                                             ->label('Delay From')
+                                            ->formatStateUsing(fn ($state) => ActivityDelayInterval::options()[$state])
                                             ->helperText('Source of delay calculation')
                                             ->icon('heroicon-o-ellipsis-horizontal-circle'),
                                     ])->columns(2),
-                            ])
-                            ->columnSpan(['lg' => 1]),
-                    ])
-                    ->columnSpan('full'),
+                                Infolists\Components\TextEntry::make('note')
+                                    ->label('Note')
+                                    ->html()
+                                    ->icon('heroicon-o-document'),
+                            ])->columnSpan(2),
+                        Infolists\Components\Group::make([
+                            Infolists\Components\Section::make('Assignment')
+                                ->schema([
+                                    Infolists\Components\TextEntry::make('responsible_type')
+                                        ->label('Assignment')
+                                        ->icon('heroicon-o-user-circle'),
+                                    Infolists\Components\TextEntry::make('responsible.name')
+                                        ->label('Assignee')
+                                        ->icon('heroicon-o-user'),
+                                ]),
+                        ])->columnSpan(1),
+                    ]),
             ]);
     }
 

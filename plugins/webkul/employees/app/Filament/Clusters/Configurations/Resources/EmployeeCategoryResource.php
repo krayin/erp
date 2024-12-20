@@ -4,6 +4,8 @@ namespace Webkul\Employee\Filament\Clusters\Configurations\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
@@ -41,6 +43,18 @@ class EmployeeCategoryResource extends Resource
                     ->label('Color'),
                 Forms\Components\Hidden::make('creator_id')
                     ->default(Auth::user()->id),
+            ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\TextEntry::make('name')
+                    ->icon('heroicon-o-tag')
+                    ->label('Name'),
+                Infolists\Components\ColorEntry::make('color')
+                    ->label('Color'),
             ]);
     }
 

@@ -101,7 +101,8 @@ class UserResource extends Resource
                                     ->schema([
                                         Forms\Components\FileUpload::make('avatar')
                                             ->hiddenLabel()
-                                            ->image()
+                                            ->imageResizeMode('cover')
+                                            ->imageEditor()
                                             ->directory('users/avatars')
                                             ->visibility('private'),
                                     ])

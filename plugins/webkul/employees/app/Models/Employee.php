@@ -38,6 +38,7 @@ class Employee extends Model
         'calendar_id',
         'department_id',
         'job_id',
+        'attendance_manager_id',
         'partner_id',
         'work_location_id',
         'parent_id',
@@ -166,12 +167,12 @@ class Employee extends Model
 
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(Employee::class, 'parent_id');
+        return $this->belongsTo(self::class, 'parent_id');
     }
 
     public function coach(): BelongsTo
     {
-        return $this->belongsTo(Employee::class, 'coach_id');
+        return $this->belongsTo(self::class, 'coach_id');
     }
 
     public function country(): BelongsTo
@@ -230,6 +231,11 @@ class Employee extends Model
     public function leaveManager(): BelongsTo
     {
         return $this->belongsTo(User::class, 'leave_manager_id');
+    }
+
+    public function attendanceManager(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'attendance_manager_id');
     }
 
     public function companyAddress()

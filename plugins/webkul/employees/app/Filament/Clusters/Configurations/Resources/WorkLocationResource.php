@@ -4,6 +4,8 @@ namespace Webkul\Employee\Filament\Clusters\Configurations\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
@@ -47,6 +49,28 @@ class WorkLocationResource extends Resource
                 Forms\Components\Toggle::make('is_active')
                     ->label('Status')
                     ->required(),
+            ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\TextEntry::make('name')
+                    ->icon('heroicon-o-map')
+                    ->label('Name'),
+                Infolists\Components\TextEntry::make('location_type')
+                    ->icon('heroicon-o-map')
+                    ->label('Location Type'),
+                Infolists\Components\TextEntry::make('location_number')
+                    ->icon('heroicon-o-map')
+                    ->label('Location Number'),
+                Infolists\Components\TextEntry::make('company.name')
+                    ->icon('heroicon-o-building-office')
+                    ->label('Country'),
+                Infolists\Components\IconEntry::make('is_active')
+                    ->boolean()
+                    ->label('Status'),
             ]);
     }
 

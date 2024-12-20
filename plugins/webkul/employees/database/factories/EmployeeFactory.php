@@ -35,6 +35,7 @@ class EmployeeFactory extends Factory
             'creator_id'                     => User::factory(),
             'calendar_id'                    => null,
             'department_id'                  => Department::factory(),
+            'attendance_manager_id'          => User::factory(),
             'job_id'                         => EmployeeJobPosition::factory(),
             'partner_id'                     => null,
             'work_location_id'               => WorkLocation::factory(),

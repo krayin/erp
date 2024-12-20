@@ -4,6 +4,8 @@ namespace Webkul\Employee\Filament\Clusters\Configurations\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
@@ -79,7 +81,7 @@ class CalendarResource extends Resource
                                             ->minValue(0)
                                             ->maxValue(168)
                                             ->default(40)
-                                            ->suffix('hours per week'),
+                                            ->suffix('Hours per week'),
                                     ])->columns(2),
                             ])
                             ->columnSpan(['lg' => 2]),
@@ -107,6 +109,53 @@ class CalendarResource extends Resource
                     ->columns(3),
             ])
             ->columns('full');
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\Grid::make(['default' => 3])
+                    ->schema([
+                        Infolists\Components\Group::make()
+                            ->schema([
+                                Infolists\Components\Section::make('Work Schedule Details')
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('name')
+                                            ->icon('heroicon-o-clock')
+                                            ->label('Schedule Name'),
+                                        Infolists\Components\TextEntry::make('timezone')
+                                            ->icon('heroicon-o-clock')
+                                            ->label('Time Zone'),
+                                        Infolists\Components\TextEntry::make('company.name')
+                                            ->icon('heroicon-o-building-office-2')
+                                            ->label('Company'),
+                                    ])->columns(2),
+                                Infolists\Components\Section::make('Work Hours Configuration')
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('hours_per_day')
+                                            ->label('Hours Per Day')
+                                            ->icon('heroicon-o-clock')
+                                            ->date(),
+                                    ]),
+                            ])->columnSpan(2),
+                        Infolists\Components\Group::make([
+
+                            Infolists\Components\Section::make('Schedule Flexibility')
+                                ->schema([
+                                    Infolists\Components\IconEntry::make('is_active')
+                                        ->boolean()
+                                        ->label('Status'),
+                                    Infolists\Components\IconEntry::make('two_weeks_calendar')
+                                        ->boolean()
+                                        ->label('Two Week Calendar'),
+                                    Infolists\Components\IconEntry::make('flexible_hours')
+                                        ->boolean()
+                                        ->label('Flexible Hours'),
+                                ]),
+                        ])->columnSpan(1),
+                    ]),
+            ]);
     }
 
     public static function table(Table $table): Table

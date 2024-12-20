@@ -14,6 +14,7 @@ use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityPlanResource\Pages;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityPlanResource\RelationManagers;
 use Webkul\Employee\Filament\Resources\DepartmentResource;
+use Webkul\Security\Filament\Resources\CompanyResource;
 use Webkul\Support\Models\ActivityPlan;
 
 class ActivityPlanResource extends Resource
@@ -41,6 +42,13 @@ class ActivityPlanResource extends Resource
                             ->preload()
                             ->createOptionForm(fn (Form $form) => DepartmentResource::form($form))
                             ->editOptionForm(fn (Form $form) => DepartmentResource::form($form)),
+                        Forms\Components\Select::make('company_id')
+                            ->label('Company')
+                            ->relationship(name: 'company', titleAttribute: 'name')
+                            ->searchable()
+                            ->preload()
+                            ->createOptionForm(fn (Form $form) => CompanyResource::form($form))
+                            ->editOptionForm(fn (Form $form) => CompanyResource::form($form)),
                         Forms\Components\Toggle::make('is_active')
                             ->label('Status')
                             ->default(true)
@@ -60,13 +68,17 @@ class ActivityPlanResource extends Resource
                                 Infolists\Components\Section::make('General Information')
                                     ->schema([
                                         Infolists\Components\TextEntry::make('name')
+                                            ->icon('heroicon-o-briefcase')
                                             ->label('Name'),
-                                        Infolists\Components\TextEntry::make('manager.name')
+                                        Infolists\Components\TextEntry::make('department.manager.name')
+                                            ->icon('heroicon-o-user')
                                             ->label('Manager'),
                                         Infolists\Components\TextEntry::make('company.name')
+                                            ->icon('heroicon-o-building-office')
                                             ->label('Company'),
-                                        Infolists\Components\ColorEntry::make('color')
-                                            ->label('Color'),
+                                        Infolists\Components\IconEntry::make('is_active')
+                                            ->boolean()
+                                            ->label('Status'),
                                     ])
                                     ->columns(2),
                             ]),
