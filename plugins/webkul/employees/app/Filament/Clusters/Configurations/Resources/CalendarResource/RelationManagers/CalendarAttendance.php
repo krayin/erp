@@ -101,10 +101,12 @@ class CalendarAttendance extends RelationManager
                                 Infolists\Components\Section::make('General Information')
                                     ->schema([
                                         Infolists\Components\TextEntry::make('name')
+                                            ->placeholder('—')
                                             ->icon('heroicon-o-clock')
                                             ->label('Attendance Name'),
                                         Infolists\Components\TextEntry::make('day_of_week')
                                             ->formatStateUsing(fn ($state) => Enums\DayOfWeek::options()[$state])
+                                            ->placeholder('—')
                                             ->icon('heroicon-o-clock')
                                             ->label('Day of week'),
                                     ])->columns(2),
@@ -112,17 +114,21 @@ class CalendarAttendance extends RelationManager
                                     ->schema([
                                         Infolists\Components\TextEntry::make('day_period')
                                             ->label('Day Period')
+                                            ->placeholder('—')
                                             ->formatStateUsing(fn ($state) => Enums\DayPeriod::options()[$state])
                                             ->icon('heroicon-o-clock'),
                                         Infolists\Components\TextEntry::make('week_type')
                                             ->formatStateUsing(fn ($state) => Enums\WeekType::options()[$state])
                                             ->label('Week Type')
+                                            ->placeholder('—')
                                             ->icon('heroicon-o-clock'),
                                         Infolists\Components\TextEntry::make('hour_from')
                                             ->label('Hours From')
+                                            ->placeholder('—')
                                             ->icon('heroicon-o-clock'),
                                         Infolists\Components\TextEntry::make('hour_to')
                                             ->label('Hours To')
+                                            ->placeholder('—')
                                             ->icon('heroicon-o-clock'),
                                     ])->columns(2),
 
@@ -132,10 +138,12 @@ class CalendarAttendance extends RelationManager
                                 ->schema([
                                     Infolists\Components\TextEntry::make('date_from')
                                         ->icon('heroicon-o-calendar')
+                                        ->placeholder('—')
                                         ->date()
                                         ->label('Starting Date'),
                                     Infolists\Components\TextEntry::make('date_to')
                                         ->icon('heroicon-o-calendar')
+                                        ->placeholder('—')
                                         ->date()
                                         ->label('Ending Date'),
                                 ]),
@@ -143,9 +151,11 @@ class CalendarAttendance extends RelationManager
                                 ->schema([
                                     Infolists\Components\TextEntry::make('display_type')
                                         ->formatStateUsing(fn ($state) => Enums\CalendarDisplayType::options()[$state])
+                                        ->placeholder('—')
                                         ->label('Display Type')
                                         ->icon('heroicon-o-clock'),
                                     Infolists\Components\TextEntry::make('duration_days')
+                                        ->placeholder('—')
                                         ->label('Duration (Days)')
                                         ->icon('heroicon-o-clock'),
                                 ]),

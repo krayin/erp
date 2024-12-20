@@ -42,8 +42,10 @@ class SkillLevelRelationManager extends RelationManager
         return $infolist
             ->schema([
                 Infolists\Components\TextEntry::make('name')
+                    ->placeholder('—')
                     ->label('Name'),
                 Infolists\Components\TextEntry::make('level')
+                    ->placeholder('—')
                     ->label('Level'),
                 ProgressBarEntry::make('level')
                     ->getStateUsing(fn ($record) => $record->level)

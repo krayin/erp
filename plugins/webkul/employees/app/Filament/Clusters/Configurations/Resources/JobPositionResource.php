@@ -162,14 +162,18 @@ class JobPositionResource extends Resource
                                     ->schema([
                                         Infolists\Components\TextEntry::make('name')
                                             ->icon('heroicon-o-briefcase')
+                                            ->placeholder('—')
                                             ->label('Job Position Title'),
                                         Infolists\Components\TextEntry::make('department.name')
+                                            ->placeholder('—')
                                             ->icon('heroicon-o-building-office')
                                             ->label('Department'),
                                         Infolists\Components\TextEntry::make('company.name')
+                                            ->placeholder('—')
                                             ->icon('heroicon-o-building-office-2')
                                             ->label('Company'),
                                         Infolists\Components\TextEntry::make('employmentType.name')
+                                            ->placeholder('—')
                                             ->icon('heroicon-o-briefcase')
                                             ->label('Employment Type'),
                                     ])->columns(2),
@@ -177,9 +181,11 @@ class JobPositionResource extends Resource
                                     ->schema([
                                         Infolists\Components\TextEntry::make('description')
                                             ->label('Job Description')
+                                            ->placeholder('—')
                                             ->columnSpanFull(),
                                         Infolists\Components\TextEntry::make('requirements')
                                             ->label('Job Requirements')
+                                            ->placeholder('—')
                                             ->columnSpanFull(),
                                     ]),
                             ])->columnSpan(2),
@@ -188,14 +194,17 @@ class JobPositionResource extends Resource
                                 ->schema([
                                     Infolists\Components\TextEntry::make('expected_employees')
                                         ->label('Expected Employees')
+                                        ->placeholder('—')
                                         ->icon('heroicon-o-user-group')
                                         ->numeric(),
                                     Infolists\Components\TextEntry::make('no_of_employee')
                                         ->icon('heroicon-o-user-group')
+                                        ->placeholder('—')
                                         ->label('Current Employees')
                                         ->numeric(),
                                     Infolists\Components\TextEntry::make('no_of_recruitment')
                                         ->icon('heroicon-o-user-group')
+                                        ->placeholder('—')
                                         ->label('Recruitment Target')
                                         ->numeric(),
                                 ]),

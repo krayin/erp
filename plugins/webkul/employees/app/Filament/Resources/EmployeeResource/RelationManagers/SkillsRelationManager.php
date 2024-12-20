@@ -58,10 +58,13 @@ class SkillsRelationManager extends RelationManager
                         Infolists\Components\Group::make()
                             ->schema([
                                 Infolists\Components\TextEntry::make('skillType.name')
+                                    ->placeholder('—')
                                     ->label('Skill Type'),
                                 Infolists\Components\TextEntry::make('skill.name')
+                                    ->placeholder('—')
                                     ->label('Skill'),
                                 Infolists\Components\TextEntry::make('skillLevel.name')
+                                    ->placeholder('—')
                                     ->badge()
                                     ->color(fn ($record) => $record->skillType?->color)
                                     ->label('Skill Level'),

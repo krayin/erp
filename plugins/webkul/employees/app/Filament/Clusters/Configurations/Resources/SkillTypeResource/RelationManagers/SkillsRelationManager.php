@@ -35,6 +35,7 @@ class SkillsRelationManager extends RelationManager
         return $infolist
             ->schema([
                 Infolists\Components\TextEntry::make('name')
+                    ->placeholder('—')
                     ->label('Name'),
             ]);
     }

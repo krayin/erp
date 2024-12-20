@@ -67,8 +67,10 @@ class SkillTypeResource extends Resource
                 Infolists\Components\Section::make()
                     ->schema([
                         Infolists\Components\TextEntry::make('name')
+                            ->placeholder('—')
                             ->label('Skill Type'),
                         Infolists\Components\TextEntry::make('color')
+                            ->placeholder('—')
                             ->html()
                             ->formatStateUsing(fn (SkillType $skillType) => '<span class="flex h-5 w-5 rounded-full" style="background: rgb(var(--'.$skillType->color.'-500))"></span>')
                             ->label('Color'),

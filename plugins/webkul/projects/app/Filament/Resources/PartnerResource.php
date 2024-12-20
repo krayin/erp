@@ -3,13 +3,13 @@
 namespace Webkul\Project\Filament\Resources;
 
 use Filament\Forms;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Partner\Enums\AccountType;
 use Webkul\Partner\Models\Partner;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Forms\Components\Actions\Action;
 
 class PartnerResource extends Resource
 {
@@ -133,40 +133,40 @@ class PartnerResource extends Resource
                             ]),
                     ]),
 
-                    Forms\Components\Tabs::make('Employee Information')
-                        ->tabs([
-                            Forms\Components\Tabs\Tab::make('Sales and Purchases')
-                                ->icon('heroicon-o-currency-dollar')
-                                ->schema([
-                                    Forms\Components\Fieldset::make('Sales')
-                                        ->schema([
-                                            Forms\Components\Select::make('user_id')
-                                                ->label('Responsible')
-                                                ->relationship('user', 'name')
-                                                ->searchable()
-                                                ->preload()
-                                                ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'This is internal salesperson responsible for this customer'),
-                                        ])
-                                        ->columns(1),
+                Forms\Components\Tabs::make('Employee Information')
+                    ->tabs([
+                        Forms\Components\Tabs\Tab::make('Sales and Purchases')
+                            ->icon('heroicon-o-currency-dollar')
+                            ->schema([
+                                Forms\Components\Fieldset::make('Sales')
+                                    ->schema([
+                                        Forms\Components\Select::make('user_id')
+                                            ->label('Responsible')
+                                            ->relationship('user', 'name')
+                                            ->searchable()
+                                            ->preload()
+                                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'This is internal salesperson responsible for this customer'),
+                                    ])
+                                    ->columns(1),
 
-                                    Forms\Components\Fieldset::make('Others')
-                                        ->schema([
-                                            Forms\Components\TextInput::make('company_registry')
-                                                ->label('Company Id')
-                                                ->maxLength(255)
-                                                ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'The registry number of the company. Use it if it is different from the Tax ID. It must be unique across all partners of a same country'),
-                                            Forms\Components\TextInput::make('reference')
-                                                ->label('Reference')
-                                                ->maxLength(255),
-                                            Forms\Components\Select::make('industry_id')
-                                                ->label('Industry')
-                                                ->relationship('industry', 'name'),
-                                        ])
-                                        ->columns(2),
-                                ])
-                                ->columns(2),
-                        ])
-                        ->columnSpan(2),
+                                Forms\Components\Fieldset::make('Others')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('company_registry')
+                                            ->label('Company Id')
+                                            ->maxLength(255)
+                                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'The registry number of the company. Use it if it is different from the Tax ID. It must be unique across all partners of a same country'),
+                                        Forms\Components\TextInput::make('reference')
+                                            ->label('Reference')
+                                            ->maxLength(255),
+                                        Forms\Components\Select::make('industry_id')
+                                            ->label('Industry')
+                                            ->relationship('industry', 'name'),
+                                    ])
+                                    ->columns(2),
+                            ])
+                            ->columns(2),
+                    ])
+                    ->columnSpan(2),
             ])
             ->columns(2);
     }
