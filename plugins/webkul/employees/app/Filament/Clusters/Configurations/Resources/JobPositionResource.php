@@ -5,6 +5,8 @@ namespace Webkul\Employee\Filament\Clusters\Configurations\Resources;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
+use Filament\Infolists\Infolist;
+use Filament\Infolists;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
@@ -14,6 +16,7 @@ use Webkul\Employee\Filament\Clusters\Configurations\Resources\JobPositionResour
 use Webkul\Employee\Models\EmployeeJobPosition;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
+
 
 class JobPositionResource extends Resource
 {
@@ -78,7 +81,7 @@ class JobPositionResource extends Resource
                                                         Forms\Components\Select::make('company_id')
                                                             ->label('Company')
                                                             ->relationship('company', 'name')
-                                                            ->options(fn () => Company::pluck('name', 'id'))
+                                                            ->options(fn() => Company::pluck('name', 'id'))
                                                             ->searchable()
                                                             ->placeholder('Select a Company')
                                                             ->nullable(),
@@ -146,6 +149,61 @@ class JobPositionResource extends Resource
                     ->columns(3),
             ])
             ->columns('full');
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\Group::make()
+                    ->schema([
+                        Infolists\Components\Group::make()
+                            ->schema([
+                                Infolists\Components\Section::make('Employment Information')
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('name')
+                                            ->label('Job Position Title'),
+                                        Infolists\Components\TextEntry::make('department.name')
+                                            ->label('Department'),
+                                        Infolists\Components\TextEntry::make('company.name')
+                                            ->label('Company'),
+                                        Infolists\Components\TextEntry::make('employmentType.name')
+                                            ->label('Employment Type'),
+                                    ])->columns(2),
+                                Infolists\Components\Section::make('Job Description')
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('description')
+                                            ->label('Job Description')
+                                            ->columnSpanFull(),
+                                        Infolists\Components\TextEntry::make('requirements')
+                                            ->label('Job Requirements')
+                                            ->columnSpanFull(),
+                                    ]),
+                            ])
+                            ->columnSpan(['lg' => 2]),
+                        Infolists\Components\Group::make()
+                            ->schema([
+                                Infolists\Components\Section::make('Workforce Planning')
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('expected_employees')
+                                            ->label('Expected Employees')
+                                            ->numeric(),
+                                        Infolists\Components\TextEntry::make('no_of_employee')
+                                            ->label('Current Employees')
+                                            ->numeric(),
+                                        Infolists\Components\TextEntry::make('no_of_recruitment')
+                                            ->label('Recruitment Target')
+                                            ->numeric(),
+                                    ])->columns(2),
+                                Infolists\Components\Section::make('Position Status')
+                                    ->schema([
+                                        Infolists\Components\IconEntry::make('is_active')
+                                            ->label('Status')
+                                            ->default(true),
+                                    ])->columns(2),
+                            ])
+                    ])
+            ]);
     }
 
     public static function table(Table $table): Table
