@@ -11,6 +11,7 @@ use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Employee\Database\Factories\EmployeeFactory;
 use Webkul\Fields\Traits\HasCustomFields;
+use Webkul\Partner\Enums\AddressType;
 use Webkul\Partner\Models\BankAccount;
 use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
@@ -37,14 +38,13 @@ class Employee extends Model
         'calendar_id',
         'department_id',
         'job_id',
+        'attendance_manager_id',
         'partner_id',
         'work_location_id',
         'parent_id',
         'coach_id',
         'country_id',
         'state_id',
-        'private_state_id',
-        'private_country_id',
         'country_of_birth',
         'bank_account_id',
         'departure_reason_id',
@@ -58,10 +58,6 @@ class Employee extends Model
         'distance_home_work',
         'km_home_work',
         'distance_home_work_unit',
-        'private_street1',
-        'private_street2',
-        'private_city',
-        'private_zip',
         'private_phone',
         'private_email',
         'lang',
@@ -129,6 +125,21 @@ class Employee extends Model
         return $this->belongsTo(User::class, 'creator_id');
     }
 
+    public function address()
+    {
+        return $this->hasOne(EmployeeAddress::class);
+    }
+
+    public function permanentAddress()
+    {
+        return $this->address()->where('type', AddressType::PERMANENT);
+    }
+
+    public function presentAddress()
+    {
+        return $this->address()->where('type', AddressType::PRESENT);
+    }
+
     public function calendar(): BelongsTo
     {
         return $this->belongsTo(Calendar::class, 'calendar_id');
@@ -156,22 +167,12 @@ class Employee extends Model
 
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(Employee::class, 'parent_id');
+        return $this->belongsTo(self::class, 'parent_id');
     }
 
     public function coach(): BelongsTo
     {
-        return $this->belongsTo(Employee::class, 'coach_id');
-    }
-
-    public function privateState(): BelongsTo
-    {
-        return $this->belongsTo(State::class, 'private_state_id');
-    }
-
-    public function privateCountry(): BelongsTo
-    {
-        return $this->belongsTo(Country::class, 'private_country_id');
+        return $this->belongsTo(self::class, 'coach_id');
     }
 
     public function country(): BelongsTo
@@ -230,6 +231,11 @@ class Employee extends Model
     public function leaveManager(): BelongsTo
     {
         return $this->belongsTo(User::class, 'leave_manager_id');
+    }
+
+    public function attendanceManager(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'attendance_manager_id');
     }
 
     public function companyAddress()

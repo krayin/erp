@@ -4,6 +4,8 @@ namespace Webkul\Employee\Filament\Clusters\Configurations\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
@@ -47,6 +49,22 @@ class EmploymentTypeResource extends Resource
                     ->relationship('country', 'name'),
             ])
             ->columns(2);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\TextEntry::make('name')
+                    ->icon('heroicon-o-user')
+                    ->label('Name'),
+                Infolists\Components\TextEntry::make('code')
+                    ->icon('heroicon-o-user')
+                    ->label('Code'),
+                Infolists\Components\TextEntry::make('country.name')
+                    ->icon('heroicon-o-map')
+                    ->label('Country'),
+            ]);
     }
 
     public static function table(Table $table): Table

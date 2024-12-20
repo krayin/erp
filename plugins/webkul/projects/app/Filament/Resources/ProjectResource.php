@@ -8,19 +8,19 @@ use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Fields\Filament\Traits\HasCustomFields;
+use Webkul\Project\Enums\ProjectVisibility;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\TagResource;
-use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Webkul\Project\Filament\Resources\ProjectResource\Pages;
 use Webkul\Project\Filament\Resources\ProjectResource\RelationManagers;
 use Webkul\Project\Models\Project;
 use Webkul\Project\Models\ProjectStage;
 use Webkul\Project\Settings\TaskSettings;
 use Webkul\Project\Settings\TimeSettings;
-use Webkul\Fields\Filament\Traits\HasCustomFields;
 use Webkul\Security\Filament\Resources\UserResource;
-use Webkul\Project\Enums\ProjectVisibility;
 
 class ProjectResource extends Resource
 {
@@ -251,7 +251,7 @@ class ProjectResource extends Resource
                         Tables\Filters\QueryBuilder\Constraints\BooleanConstraint::make('allow_milestones')
                             ->label('Allow Milestones'),
                         Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('allocated_hours')
-                                ->label('Allocated Hours'),
+                            ->label('Allocated Hours'),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at')
                             ->label('Created At'),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at')

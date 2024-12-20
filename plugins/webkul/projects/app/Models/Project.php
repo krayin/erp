@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Fields\Traits\HasCustomFields;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Partner\Models\Partner;
 use Webkul\Project\Database\Factories\ProjectFactory;
 use Webkul\Security\Models\User;
@@ -19,7 +19,7 @@ use Webkul\Support\Models\Company;
 
 class Project extends Model
 {
-    use HasChatter, HasLogActivity, HasCustomFields, HasFactory, SoftDeletes;
+    use HasChatter, HasCustomFields, HasFactory, HasLogActivity, SoftDeletes;
 
     /**
      * Table name.

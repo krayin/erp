@@ -29,8 +29,8 @@ class WorkLocation extends Model
     ];
 
     protected $casts = [
-        'is_active'        => 'boolean',
-        'location_type'    => WorkLocationEnum::class,
+        'is_active'      => 'boolean',
+        'location_type'  => WorkLocationEnum::class,
     ];
 
     public function company(): BelongsTo

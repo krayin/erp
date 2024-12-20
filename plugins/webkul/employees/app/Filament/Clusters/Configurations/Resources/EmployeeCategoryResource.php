@@ -4,6 +4,8 @@ namespace Webkul\Employee\Filament\Clusters\Configurations\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
@@ -44,10 +46,22 @@ class EmployeeCategoryResource extends Resource
             ]);
     }
 
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\TextEntry::make('name')
+                    ->icon('heroicon-o-tag')
+                    ->label('Name'),
+                Infolists\Components\ColorEntry::make('color')
+                    ->label('Color'),
+            ]);
+    }
+
     public static function table(Table $table): Table
     {
         return $table
-            ->columns(static::mergeCustomTableColumns([
+            ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label('ID')
                     ->searchable()
@@ -75,7 +89,7 @@ class EmployeeCategoryResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ]))
+            ])
             ->filters([
                 Tables\Filters\QueryBuilder::make()
                     ->constraintPickerColumns(2)

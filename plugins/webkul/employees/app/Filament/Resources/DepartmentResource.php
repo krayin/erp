@@ -4,6 +4,8 @@ namespace Webkul\Employee\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
@@ -68,6 +70,32 @@ class DepartmentResource extends Resource
                     ]),
             ])
             ->columns('full');
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\Group::make()
+                    ->schema([
+                        Infolists\Components\Group::make()
+                            ->schema([
+                                Infolists\Components\Section::make('General Information')
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('name')
+                                            ->label('Name'),
+                                        Infolists\Components\TextEntry::make('manager.name')
+                                            ->label('Manager'),
+                                        Infolists\Components\TextEntry::make('company.name')
+                                            ->label('Company'),
+                                        Infolists\Components\ColorEntry::make('color')
+                                            ->label('Color'),
+                                    ])
+                                    ->columns(2),
+                            ]),
+                    ])
+                    ->columnSpan('full'),
+            ]);
     }
 
     public static function table(Table $table): Table

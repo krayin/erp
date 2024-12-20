@@ -79,7 +79,7 @@ class TaskResource extends Resource
                                 Forms\Components\RichEditor::make('description')
                                     ->label('Description'),
                             ]),
-                        
+
                         Forms\Components\Section::make('Additional Information')
                             ->visible(! empty($customFormFields = static::getCustomFormFields()))
                             ->schema($customFormFields),

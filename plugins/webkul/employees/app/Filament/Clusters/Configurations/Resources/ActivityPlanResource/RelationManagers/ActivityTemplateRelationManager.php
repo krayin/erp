@@ -5,6 +5,8 @@ namespace Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityPla
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
@@ -103,6 +105,57 @@ class ActivityTemplateRelationManager extends RelationManager
                     ->columns(3),
             ])
             ->columns('full');
+    }
+
+    public function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\Grid::make(['default' => 3])
+                    ->schema([
+                        Infolists\Components\Group::make()
+                            ->schema([
+                                Infolists\Components\Section::make('Activity Details')
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('activityType.name')
+                                            ->label('Activity Type')
+                                            ->icon('heroicon-o-briefcase'),
+                                        Infolists\Components\TextEntry::make('summary')
+                                            ->label('Summary')
+                                            ->icon('heroicon-o-document-text'),
+                                    ])->columns(2),
+                                Infolists\Components\Section::make('Delay Information')
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('delay_count')
+                                            ->label('Delay Count')
+                                            ->icon('heroicon-o-clock'),
+                                        Infolists\Components\TextEntry::make('delay_unit')
+                                            ->label('Delay Unit')
+                                            ->icon('heroicon-o-calendar'),
+                                        Infolists\Components\TextEntry::make('delay_from')
+                                            ->label('Delay From')
+                                            ->formatStateUsing(fn ($state) => ActivityDelayInterval::options()[$state])
+                                            ->helperText('Source of delay calculation')
+                                            ->icon('heroicon-o-ellipsis-horizontal-circle'),
+                                    ])->columns(2),
+                                Infolists\Components\TextEntry::make('note')
+                                    ->label('Note')
+                                    ->html()
+                                    ->icon('heroicon-o-document'),
+                            ])->columnSpan(2),
+                        Infolists\Components\Group::make([
+                            Infolists\Components\Section::make('Assignment')
+                                ->schema([
+                                    Infolists\Components\TextEntry::make('responsible_type')
+                                        ->label('Assignment')
+                                        ->icon('heroicon-o-user-circle'),
+                                    Infolists\Components\TextEntry::make('responsible.name')
+                                        ->label('Assignee')
+                                        ->icon('heroicon-o-user'),
+                                ]),
+                        ])->columnSpan(1),
+                    ]),
+            ]);
     }
 
     public function table(Table $table): Table

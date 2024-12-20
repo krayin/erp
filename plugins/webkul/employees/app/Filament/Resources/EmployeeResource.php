@@ -8,10 +8,13 @@ use Filament\Forms\Components\Livewire;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Infolists;
+use Filament\Infolists\Components\Tabs;
+use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
@@ -31,7 +34,8 @@ use Webkul\Security\Filament\Resources\CompanyResource;
 use Webkul\Security\Filament\Resources\UserResource;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
-use Webkul\Support\Models\Currency;
+use Webkul\Support\Models\Country;
+use Webkul\Support\Models\State;
 
 class EmployeeResource extends Resource
 {
@@ -71,11 +75,11 @@ class EmployeeResource extends Resource
                                     ->schema([
                                         Forms\Components\FileUpload::make('avatar')
                                             ->image()
+                                            ->hiddenLabel()
                                             ->imageResizeMode('cover')
                                             ->imageEditor()
-                                            ->imagePreviewHeight('140')
-                                            ->panelAspectRatio('4:1')
-                                            ->panelLayout('integrated')
+                                            ->alignRight()
+                                            ->avatar()
                                             ->directory('employees/avatar')
                                             ->visibility('private'),
                                     ]),
@@ -175,6 +179,7 @@ class EmployeeResource extends Resource
                                                             ->label('Work Address'),
                                                         Forms\Components\Placeholder::make('address')
                                                             ->hiddenLabel()
+                                                            ->hidden(fn (Get $get) => ! Company::find($get('address_id'))?->address)
                                                             ->content(function (Get $get) {
                                                                 if ($get('address_id')) {
                                                                     $address = Company::find($get('address_id'))?->address;
@@ -189,8 +194,7 @@ class EmployeeResource extends Resource
                                                                 }
 
                                                                 return null;
-                                                            })
-                                                            ->visible(fn (Get $get) => $get('address_id') != null),
+                                                            }),
                                                         Forms\Components\Select::make('work_location_id')
                                                             ->relationship('workLocation', 'name')
                                                             ->searchable()
@@ -209,6 +213,13 @@ class EmployeeResource extends Resource
                                                             ->live()
                                                             ->suffixIcon('heroicon-o-clock')
                                                             ->label('Time Off'),
+                                                        Forms\Components\Select::make('attendance_manager_id')
+                                                            ->options(fn () => User::pluck('name', 'id'))
+                                                            ->searchable()
+                                                            ->preload()
+                                                            ->live()
+                                                            ->suffixIcon('heroicon-o-clock')
+                                                            ->label('Attendance'),
                                                     ])->columns(1),
                                                 Forms\Components\Fieldset::make('Schedule')
                                                     ->schema([
@@ -266,31 +277,20 @@ class EmployeeResource extends Resource
                                             ->schema([
                                                 Forms\Components\Group::make()
                                                     ->schema([
-                                                        Forms\Components\Fieldset::make('Private Contact')
+                                                        Forms\Components\Fieldset::make('Permanent Address')
+                                                            ->relationship('permanentAddress')
                                                             ->schema([
-                                                                Forms\Components\Select::make('private_country_id')
-                                                                    ->relationship('privateCountry', 'name')
-                                                                    ->searchable()
-                                                                    ->preload()
-                                                                    ->label('Private Country')
-                                                                    ->afterStateUpdated(fn (Set $set) => $set('private_state_id', null))
+                                                                Forms\Components\Select::make('country_id')
+                                                                    ->label('Country')
+                                                                    ->relationship(name: 'country', titleAttribute: 'name')
                                                                     ->createOptionForm([
-                                                                        Forms\Components\Select::make('currency_id')
-                                                                            ->options(fn () => Currency::pluck('full_name', 'id'))
-                                                                            ->searchable()
-                                                                            ->preload()
-                                                                            ->label('Currency Name')
-                                                                            ->required(),
-                                                                        Forms\Components\TextInput::make('phone_code')
-                                                                            ->label('Phone Code')
+                                                                        Forms\Components\TextInput::make('name')
+                                                                            ->label('Country Name')
                                                                             ->required(),
                                                                         Forms\Components\TextInput::make('code')
                                                                             ->label('Code')
                                                                             ->required()
                                                                             ->rules('max:2'),
-                                                                        Forms\Components\TextInput::make('name')
-                                                                            ->label('Country Name')
-                                                                            ->required(),
                                                                         Forms\Components\Toggle::make('state_required')
                                                                             ->label('State Required')
                                                                             ->required(),
@@ -304,14 +304,17 @@ class EmployeeResource extends Resource
                                                                             ->modalSubmitActionLabel('Create Country')
                                                                             ->modalWidth('lg')
                                                                     )
+                                                                    ->afterStateUpdated(fn (Set $set) => $set('state_id', null))
                                                                     ->searchable()
                                                                     ->preload()
                                                                     ->live(),
-                                                                Forms\Components\Select::make('private_state_id')
-                                                                    ->relationship('privateState', 'name')
-                                                                    ->searchable()
-                                                                    ->preload()
-                                                                    ->label('Private State')
+                                                                Forms\Components\Select::make('state_id')
+                                                                    ->label('State')
+                                                                    ->options(
+                                                                        fn (Get $get) => State::query()
+                                                                            ->where('country_id', $get('country_id'))
+                                                                            ->pluck('name', 'id')
+                                                                    )
                                                                     ->createOptionForm([
                                                                         Forms\Components\TextInput::make('name')
                                                                             ->label('Name')
@@ -327,15 +330,100 @@ class EmployeeResource extends Resource
                                                                             ->modalHeading('Create State')
                                                                             ->modalSubmitActionLabel('Create State')
                                                                             ->modalWidth('lg')
-                                                                    ),
-                                                                Forms\Components\TextInput::make('private_street1')
+                                                                    )
+                                                                    ->searchable()
+                                                                    ->preload()
+                                                                    ->required(fn (Get $get) => Country::find($get('country_id'))?->state_required),
+                                                                Forms\Components\TextInput::make('street1')
                                                                     ->label('Street Address'),
-                                                                Forms\Components\TextInput::make('private_street2')
-                                                                    ->label('Private Street 2'),
-                                                                Forms\Components\TextInput::make('private_city')
+                                                                Forms\Components\TextInput::make('street2')
+                                                                    ->label('Street Address Line 2'),
+                                                                Forms\Components\TextInput::make('city')
                                                                     ->label('City'),
-                                                                Forms\Components\TextInput::make('private_zip')
-                                                                    ->label('Postal Code'),
+                                                                Forms\Components\TextInput::make('zip')
+                                                                    ->label('Postal Code')
+                                                                    ->required(fn (Get $get) => Country::find($get('country_id'))?->zip_required),
+                                                                Forms\Components\Hidden::make('type')
+                                                                    ->default('permanent'),
+                                                                Forms\Components\Hidden::make('creator_id')
+                                                                    ->default(Auth::user()->id),
+                                                            ]),
+                                                        Forms\Components\Fieldset::make('Present Address')
+                                                            ->relationship('presentAddress')
+                                                            ->schema([
+                                                                Forms\Components\Hidden::make('is_primary')
+                                                                    ->default(true)
+                                                                    ->required(),
+                                                                Forms\Components\Select::make('country_id')
+                                                                    ->label('Country')
+                                                                    ->relationship(name: 'country', titleAttribute: 'name')
+                                                                    ->createOptionForm([
+                                                                        Forms\Components\TextInput::make('name')
+                                                                            ->label('Country Name')
+                                                                            ->required(),
+                                                                        Forms\Components\TextInput::make('code')
+                                                                            ->label('Code')
+                                                                            ->required()
+                                                                            ->rules('max:2'),
+                                                                        Forms\Components\Toggle::make('state_required')
+                                                                            ->label('State Required')
+                                                                            ->required(),
+                                                                        Forms\Components\Toggle::make('zip_required')
+                                                                            ->label('Zip Required')
+                                                                            ->required(),
+                                                                    ])
+                                                                    ->createOptionAction(
+                                                                        fn (Action $action) => $action
+                                                                            ->modalHeading('Create Country')
+                                                                            ->modalSubmitActionLabel('Create Country')
+                                                                            ->modalWidth('lg')
+                                                                    )
+                                                                    ->afterStateUpdated(fn (Set $set) => $set('state_id', null))
+                                                                    ->searchable()
+                                                                    ->preload()
+                                                                    ->live(),
+                                                                Forms\Components\Select::make('state_id')
+                                                                    ->label('State')
+                                                                    ->options(
+                                                                        fn (Get $get) => State::query()
+                                                                            ->where('country_id', $get('country_id'))
+                                                                            ->pluck('name', 'id')
+                                                                    )
+                                                                    ->createOptionForm([
+                                                                        Forms\Components\TextInput::make('name')
+                                                                            ->label('Name')
+                                                                            ->required()
+                                                                            ->maxLength(255),
+                                                                        Forms\Components\TextInput::make('code')
+                                                                            ->label('Code')
+                                                                            ->required()
+                                                                            ->maxLength(255),
+                                                                    ])
+                                                                    ->createOptionAction(
+                                                                        fn (Action $action) => $action
+                                                                            ->modalHeading('Create State')
+                                                                            ->modalSubmitActionLabel('Create State')
+                                                                            ->modalWidth('lg')
+                                                                    )
+                                                                    ->searchable()
+                                                                    ->preload()
+                                                                    ->required(fn (Get $get) => Country::find($get('country_id'))?->state_required),
+                                                                Forms\Components\TextInput::make('street1')
+                                                                    ->label('Street Address'),
+                                                                Forms\Components\TextInput::make('street2')
+                                                                    ->label('Street Address Line 2'),
+                                                                Forms\Components\TextInput::make('city')
+                                                                    ->label('City'),
+                                                                Forms\Components\TextInput::make('zip')
+                                                                    ->label('Postal Code')
+                                                                    ->required(fn (Get $get) => Country::find($get('country_id'))?->zip_required),
+                                                                Forms\Components\Hidden::make('type')
+                                                                    ->default('present'),
+                                                                Forms\Components\Hidden::make('creator_id')
+                                                                    ->default(Auth::user()->id),
+                                                            ]),
+                                                        Forms\Components\Fieldset::make('Private Contact')
+                                                            ->schema([
                                                                 Forms\Components\TextInput::make('private_phone')
                                                                     ->label('Private Phone')
                                                                     ->suffixAction(
@@ -398,7 +486,7 @@ class EmployeeResource extends Resource
                                                                             ->modalHeading('Create Bank Account')
                                                                             ->modalSubmitActionLabel('Create Bank Account')
                                                                     )
-                                                                    ->disabledOn('create')
+                                                                    ->disabled(fn ($livewire) => ! $livewire->record?->user)
                                                                     ->label('Bank Account'),
                                                                 Forms\Components\TextInput::make('private_email')
                                                                     ->label('Private Email')
@@ -427,7 +515,6 @@ class EmployeeResource extends Resource
                                                                     ->default(0)
                                                                     ->suffix('km'),
                                                                 Forms\Components\TextInput::make('distance_home_work_unit')
-                                                                    ->default(0)
                                                                     ->label('Distance Unit'),
                                                             ])->columns(2),
                                                         Forms\Components\Group::make()
@@ -507,24 +594,14 @@ class EmployeeResource extends Resource
                                                         Forms\Components\Select::make('country_id')
                                                             ->label('Country')
                                                             ->relationship(name: 'country', titleAttribute: 'name')
-                                                            ->afterStateUpdated(fn (Set $set) => $set('state_id', null))
                                                             ->createOptionForm([
-                                                                Forms\Components\Select::make('currency_id')
-                                                                    ->options(fn () => Currency::pluck('full_name', 'id'))
-                                                                    ->searchable()
-                                                                    ->preload()
-                                                                    ->label('Currency Name')
-                                                                    ->required(),
-                                                                Forms\Components\TextInput::make('phone_code')
-                                                                    ->label('Phone Code')
+                                                                Forms\Components\TextInput::make('name')
+                                                                    ->label('Country Name')
                                                                     ->required(),
                                                                 Forms\Components\TextInput::make('code')
                                                                     ->label('Code')
                                                                     ->required()
                                                                     ->rules('max:2'),
-                                                                Forms\Components\TextInput::make('name')
-                                                                    ->label('Country Name')
-                                                                    ->required(),
                                                                 Forms\Components\Toggle::make('state_required')
                                                                     ->label('State Required')
                                                                     ->required(),
@@ -538,14 +615,17 @@ class EmployeeResource extends Resource
                                                                     ->modalSubmitActionLabel('Create Country')
                                                                     ->modalWidth('lg')
                                                             )
+                                                            ->afterStateUpdated(fn (Set $set) => $set('state_id', null))
                                                             ->searchable()
                                                             ->preload()
                                                             ->live(),
                                                         Forms\Components\Select::make('state_id')
-                                                            ->relationship('state', 'name')
-                                                            ->searchable()
-                                                            ->preload()
                                                             ->label('State')
+                                                            ->options(
+                                                                fn (Get $get) => State::query()
+                                                                    ->where('country_id', $get('country_id'))
+                                                                    ->pluck('name', 'id')
+                                                            )
                                                             ->createOptionForm([
                                                                 Forms\Components\TextInput::make('name')
                                                                     ->label('Name')
@@ -561,7 +641,10 @@ class EmployeeResource extends Resource
                                                                     ->modalHeading('Create State')
                                                                     ->modalSubmitActionLabel('Create State')
                                                                     ->modalWidth('lg')
-                                                            ),
+                                                            )
+                                                            ->searchable()
+                                                            ->preload()
+                                                            ->required(fn (Get $get) => Country::find($get('country_id'))?->state_required),
                                                         Forms\Components\TextInput::make('identification_id')
                                                             ->label('Identification No'),
                                                         Forms\Components\TextInput::make('ssnid')
@@ -595,9 +678,11 @@ class EmployeeResource extends Resource
                                                             ->label('Work Permit No'),
                                                         Forms\Components\DatePicker::make('visa_expire')
                                                             ->label('Visa Expiration Date')
+                                                            ->suffixIcon('heroicon-o-calendar')
                                                             ->native(false),
                                                         Forms\Components\DatePicker::make('work_permit_expiration_date')
                                                             ->label('Work Permit Expiration Date')
+                                                            ->suffixIcon('heroicon-o-calendar')
                                                             ->native(false),
                                                         Forms\Components\FileUpload::make('work_permit')
                                                             ->label('Work Permit')
@@ -633,18 +718,22 @@ class EmployeeResource extends Resource
                                                         Forms\Components\Toggle::make('work_permit_scheduled_activity')
                                                             ->label('Work Permit Scheduled Activity'),
                                                         Forms\Components\Select::make('user_id')
-                                                            ->relationship('user', 'name')
+                                                            ->relationship(name: 'user', titleAttribute: 'name')
                                                             ->searchable()
                                                             ->preload()
-                                                            ->suffixIcon('heroicon-o-user')
                                                             ->label('Related User')
+                                                            ->prefixIcon('heroicon-o-user')
                                                             ->createOptionForm(fn (Form $form) => UserResource::form($form))
-                                                            ->editOptionForm(fn (Form $form) => UserResource::form($form))
                                                             ->createOptionAction(
-                                                                fn (Action $action) => $action
+                                                                fn (Action $action, Get $get) => $action
+                                                                    ->fillForm(function (array $arguments) use ($get): array {
+                                                                        return [
+                                                                            'name'  => $get('name'),
+                                                                            'email' => $get('work_email'),
+                                                                        ];
+                                                                    })
                                                                     ->modalHeading('Create User')
                                                                     ->modalSubmitActionLabel('Create User')
-                                                                    ->modalWidth(MaxWidth::MaxContent)
                                                                     ->action(function (array $data, Livewire $component) {
                                                                         $user = User::create($data);
 
@@ -671,8 +760,7 @@ class EmployeeResource extends Resource
                                                             ->preload()
                                                             ->live()
                                                             ->label('Departure Reason')
-                                                            ->createOptionForm(fn (Form $form) => DepartureReasonResource::form($form))
-                                                            ->editOptionForm(fn (Form $form) => DepartureReasonResource::form($form)),
+                                                            ->createOptionForm(fn (Form $form) => DepartureReasonResource::form($form)),
                                                         Forms\Components\DatePicker::make('departure_date')
                                                             ->label('Departure Date')
                                                             ->native(false)
@@ -758,7 +846,7 @@ class EmployeeResource extends Resource
                                 ->sortable()
                                 ->label('Work Email')
                                 ->color('gray')
-                                ->limit(30),
+                                ->limit(20),
                         ])
                             ->visible(fn ($record) => filled($record->work_email)),
                         Tables\Columns\Layout\Stack::make([
@@ -847,18 +935,6 @@ class EmployeeResource extends Resource
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('emergency_phone')
                             ->label('Emergency Phone')
                             ->icon('heroicon-o-phone'),
-                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_street1')
-                            ->label('Private Street1')
-                            ->icon('heroicon-o-map'),
-                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_street2')
-                            ->label('Private Street2')
-                            ->icon('heroicon-o-map'),
-                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_city')
-                            ->label('Private City')
-                            ->icon('heroicon-o-map'),
-                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_zip')
-                            ->label('Private Zip')
-                            ->icon('heroicon-o-map'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_phone')
                             ->label('Private Phone')
                             ->icon('heroicon-o-phone'),
@@ -1016,6 +1092,17 @@ class EmployeeResource extends Resource
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('leaveManager')
                             ->label('Leave Approvers')
+                            ->icon('heroicon-o-user-group')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('attendanceManager')
+                            ->label('Attendance')
                             ->icon('heroicon-o-user-group')
                             ->multiple()
                             ->selectable(
@@ -1233,6 +1320,365 @@ class EmployeeResource extends Resource
             ]);
     }
 
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\Section::make()
+                    ->schema([
+                        Infolists\Components\Grid::make(['default' => 2])
+                            ->schema([
+                                Infolists\Components\Group::make([
+                                    Infolists\Components\TextEntry::make('name')
+                                        ->label('Name')
+                                        ->weight(FontWeight::Bold)
+                                        ->size(Infolists\Components\TextEntry\TextEntrySize::Large),
+                                    Infolists\Components\TextEntry::make('job_title')
+                                        ->label('Job Title'),
+                                ])->columnSpan(1),
+                                Infolists\Components\Group::make([
+                                    Infolists\Components\ImageEntry::make('partner.avatar')
+                                        ->label('Profile Picture')
+                                        ->height(140)
+                                        ->circular(),
+                                ])->columnSpan(1),
+                            ]),
+                        Infolists\Components\Grid::make(['default' => 2])
+                            ->schema([
+                                Infolists\Components\TextEntry::make('work_email')
+                                    ->label('Work Email')
+                                    ->url(fn (?string $state) => $state ? "mailto:{$state}" : '#')
+                                    ->icon('heroicon-o-envelope')
+                                    ->iconPosition(IconPosition::Before),
+                                Infolists\Components\TextEntry::make('department.name')
+                                    ->label('Department'),
+                                Infolists\Components\TextEntry::make('mobile_phone')
+                                    ->label('Work Mobile')
+                                    ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
+                                    ->icon('heroicon-o-phone')
+                                    ->iconPosition(IconPosition::Before),
+                                Infolists\Components\TextEntry::make('job.name')
+                                    ->label('Job Position'),
+                                Infolists\Components\TextEntry::make('work_phone')
+                                    ->label('Work Phone')
+                                    ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
+                                    ->icon('heroicon-o-phone')
+                                    ->iconPosition(IconPosition::Before),
+                                Infolists\Components\TextEntry::make('parent.name')
+                                    ->label('Manager'),
+                                Infolists\Components\TextEntry::make('categories.name')
+                                    ->label('Employee Tags')
+                                    ->listWithLineBreaks()
+                                    ->bulleted(),
+                                Infolists\Components\TextEntry::make('coach.name')
+                                    ->label('Coach'),
+                            ]),
+                    ]),
+
+                Tabs::make('Employee Information')
+                    ->tabs([
+                        Tabs\Tab::make('Work Information')
+                            ->icon('heroicon-o-briefcase')
+                            ->schema([
+                                Infolists\Components\Grid::make(['default' => 3])
+                                    ->schema([
+                                        Infolists\Components\Group::make([
+                                            Infolists\Components\Fieldset::make('Location')
+                                                ->schema([
+                                                    Infolists\Components\TextEntry::make('companyAddress.company.name')
+                                                        ->label('Work Address')
+                                                        ->icon('heroicon-o-map'),
+                                                    Infolists\Components\TextEntry::make('address')
+                                                        ->visible(fn ($record) => $record->address)
+                                                        ->formatStateUsing(fn ($record) => $record->address
+                                                            ? implode(', ', array_filter([
+                                                                $record->address->street1,
+                                                                $record->address->street2,
+                                                                $record->address->city,
+                                                                $record->address->state?->name,
+                                                                $record->address->country?->name,
+                                                                $record->address->zip,
+                                                            ]))
+                                                            : 'No Address Available')
+                                                        ->icon('heroicon-o-map')
+                                                        ->hiddenLabel(),
+                                                    Infolists\Components\TextEntry::make('workLocation.name')
+                                                        ->label('Work Location')
+                                                        ->icon('heroicon-o-building-office'),
+                                                ]),
+                                            Infolists\Components\Fieldset::make('Approvers')
+                                                ->schema([
+                                                    Infolists\Components\TextEntry::make('leaveManager.name')
+                                                        ->label('Time Off')
+                                                        ->icon('heroicon-o-user-group'),
+                                                    Infolists\Components\TextEntry::make('attendanceManager.name')
+                                                        ->label('Attendance')
+                                                        ->icon('heroicon-o-user-group'),
+                                                ]),
+                                            Infolists\Components\Fieldset::make('Schedule')
+                                                ->schema([
+                                                    Infolists\Components\TextEntry::make('calendar.name')
+                                                        ->label('Working Hours')
+                                                        ->icon('heroicon-o-clock'),
+                                                    Infolists\Components\TextEntry::make('time_zone')
+                                                        ->label('Time Zone')
+                                                        ->icon('heroicon-o-clock'),
+                                                ]),
+                                        ])->columnSpan(2),
+                                        Infolists\Components\Group::make([
+                                            Infolists\Components\Fieldset::make('Organizational Details')
+                                                ->schema([
+                                                    Infolists\Components\TextEntry::make('company.name')
+                                                        ->label('Company')
+                                                        ->icon('heroicon-o-briefcase'),
+                                                    Infolists\Components\ColorEntry::make('color')
+                                                        ->label('Color'),
+                                                ]),
+                                        ])->columnSpan(1),
+                                    ]),
+                            ]),
+                        Tabs\Tab::make('Private Information')
+                            ->icon('heroicon-o-lock-closed')
+                            ->schema([
+                                Infolists\Components\Grid::make(['default' => 3])
+                                    ->schema([
+                                        Infolists\Components\Group::make([
+                                            Infolists\Components\Fieldset::make('Permanent Address')
+                                                ->schema([
+                                                    Infolists\Components\TextEntry::make('permanentAddress.country.name')
+                                                        ->label('Country')
+                                                        ->icon('heroicon-o-globe-alt'),
+                                                    Infolists\Components\TextEntry::make('permanentAddress.state.name')
+                                                        ->label('State')
+                                                        ->icon('heroicon-o-map'),
+                                                    Infolists\Components\TextEntry::make('permanentAddress.street1')
+                                                        ->label('Street Address')
+                                                        ->icon('heroicon-o-map'),
+                                                    Infolists\Components\TextEntry::make('permanentAddress.street2')
+                                                        ->label('Street Address Line 2')
+                                                        ->icon('heroicon-o-map'),
+                                                    Infolists\Components\TextEntry::make('permanentAddress.city')
+                                                        ->label('City')
+                                                        ->icon('heroicon-o-building-office'),
+                                                    Infolists\Components\TextEntry::make('permanentAddress.zip')
+                                                        ->label('Postal Code')
+                                                        ->icon('heroicon-o-document-text'),
+                                                ])
+                                                ->columns(2),
+                                            Infolists\Components\Fieldset::make('Present Address')
+                                                ->schema([
+                                                    Infolists\Components\TextEntry::make('presentAddress.country.name')
+                                                        ->label('Country')
+                                                        ->icon('heroicon-o-globe-alt'),
+                                                    Infolists\Components\TextEntry::make('presentAddress.state.name')
+                                                        ->label('State')
+                                                        ->icon('heroicon-o-map'),
+                                                    Infolists\Components\TextEntry::make('presentAddress.street1')
+                                                        ->label('Street Address')
+                                                        ->icon('heroicon-o-map'),
+                                                    Infolists\Components\TextEntry::make('presentAddress.street2')
+                                                        ->label('Street Address Line 2')
+                                                        ->icon('heroicon-o-map'),
+                                                    Infolists\Components\TextEntry::make('presentAddress.city')
+                                                        ->label('City')
+                                                        ->icon('heroicon-o-building-office'),
+                                                    Infolists\Components\TextEntry::make('presentAddress.zip')
+                                                        ->label('Postal Code')
+                                                        ->icon('heroicon-o-document-text'),
+                                                ])
+                                                ->columns(2),
+                                            Infolists\Components\Fieldset::make('Private Contact')
+                                                ->schema([
+                                                    Infolists\Components\TextEntry::make('private_phone')
+                                                        ->label('Private Phone')
+                                                        ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
+                                                        ->icon('heroicon-o-phone'),
+                                                    Infolists\Components\TextEntry::make('private_email')
+                                                        ->label('Private Email')
+                                                        ->url(fn (?string $state) => $state ? "mailto:{$state}" : '#')
+                                                        ->icon('heroicon-o-envelope'),
+                                                    Infolists\Components\TextEntry::make('private_car_plate')
+                                                        ->label('Private Car Plate')
+                                                        ->icon('heroicon-o-rectangle-stack'),
+                                                    Infolists\Components\TextEntry::make('distance_home_work')
+                                                        ->label('Distance Home to Work')
+                                                        ->suffix('km')
+                                                        ->icon('heroicon-o-map'),
+                                                ]),
+                                            Infolists\Components\Fieldset::make('Emergency Contact')
+                                                ->schema([
+                                                    Infolists\Components\TextEntry::make('emergency_contact')
+                                                        ->label('Contact Name')
+                                                        ->icon('heroicon-o-user'),
+                                                    Infolists\Components\TextEntry::make('emergency_phone')
+                                                        ->label('Contact Phone')
+                                                        ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
+                                                        ->icon('heroicon-o-phone'),
+                                                ]),
+                                            Infolists\Components\Fieldset::make('Work Permit')
+                                                ->schema([
+                                                    Infolists\Components\TextEntry::make('visa_no')
+                                                        ->label('Visa Number')
+                                                        ->icon('heroicon-o-document-text')
+                                                        ->copyable()
+                                                        ->copyMessage('Visa number copied')
+                                                        ->copyMessageDuration(1500),
+                                                    Infolists\Components\TextEntry::make('permit_no')
+                                                        ->label('Work Permit No')
+                                                        ->icon('heroicon-o-rectangle-stack')
+                                                        ->copyable()
+                                                        ->copyMessage('Permit number copied')
+                                                        ->copyMessageDuration(1500),
+                                                    Infolists\Components\TextEntry::make('visa_expire')
+                                                        ->label('Visa Expiration Date')
+                                                        ->icon('heroicon-o-calendar-days')
+                                                        ->date('F j, Y')
+                                                        ->color(
+                                                            fn ($record) => $record->visa_expire && now()->diffInDays($record->visa_expire, false) <= 30
+                                                                ? 'danger'
+                                                                : 'success'
+                                                        ),
+                                                    Infolists\Components\TextEntry::make('work_permit_expiration_date')
+                                                        ->label('Work Permit Expiration Date')
+                                                        ->icon('heroicon-o-calendar-days')
+                                                        ->date('F j, Y')
+                                                        ->color(
+                                                            fn ($record) => $record->work_permit_expiration_date && now()->diffInDays($record->work_permit_expiration_date, false) <= 30
+                                                                ? 'danger'
+                                                                : 'success'
+                                                        ),
+                                                    Infolists\Components\ImageEntry::make('work_permit')
+                                                        ->label('Work Permit Document')
+                                                        ->columnSpanFull()
+                                                        ->height(200),
+                                                ]),
+                                        ])->columnSpan(2),
+                                        Infolists\Components\Group::make([
+                                            Infolists\Components\Fieldset::make('Citizenship')
+                                                ->columns(1)
+                                                ->schema([
+                                                    Infolists\Components\TextEntry::make('country.name')
+                                                        ->label('Country')
+                                                        ->icon('heroicon-o-globe-alt'),
+                                                    Infolists\Components\TextEntry::make('state.name')
+                                                        ->label('State')
+                                                        ->icon('heroicon-o-map'),
+                                                    Infolists\Components\TextEntry::make('identification_id')
+                                                        ->label('Identification No')
+                                                        ->icon('heroicon-o-document-text')
+                                                        ->copyable()
+                                                        ->copyMessage('ID copied')
+                                                        ->copyMessageDuration(1500),
+                                                    Infolists\Components\TextEntry::make('ssnid')
+                                                        ->label('SSN No')
+                                                        ->icon('heroicon-o-document-check')
+                                                        ->copyable()
+                                                        ->copyMessage('SSN copied')
+                                                        ->copyMessageDuration(1500),
+                                                    Infolists\Components\TextEntry::make('sinid')
+                                                        ->label('SIN ID')
+                                                        ->icon('heroicon-o-document')
+                                                        ->copyable()
+                                                        ->copyMessage('SIN ID copied')
+                                                        ->copyMessageDuration(1500),
+                                                    Infolists\Components\TextEntry::make('passport_id')
+                                                        ->label('Passport No')
+                                                        ->icon('heroicon-o-identification')
+                                                        ->copyable()
+                                                        ->copyMessage('Passport copied')
+                                                        ->copyMessageDuration(1500),
+                                                    Infolists\Components\TextEntry::make('gender')
+                                                        ->label('Gender')
+                                                        ->icon('heroicon-o-user')
+                                                        ->badge()
+                                                        ->color(fn (string $state): string => match ($state) {
+                                                            'male'   => 'info',
+                                                            'female' => 'success',
+                                                            default  => 'warning',
+                                                        }),
+                                                    Infolists\Components\TextEntry::make('birthday')
+                                                        ->label('Date of Birth')
+                                                        ->icon('heroicon-o-calendar')
+                                                        ->date('F j, Y'),
+                                                    Infolists\Components\TextEntry::make('countryOfBirth.name')
+                                                        ->label('Country of Birth')
+                                                        ->icon('heroicon-o-globe-alt'),
+                                                    Infolists\Components\TextEntry::make('country.phone_code')
+                                                        ->label('Phone Code')
+                                                        ->icon('heroicon-o-phone')
+                                                        ->prefix('+'),
+                                                ]),
+                                        ])->columnSpan(1),
+                                    ]),
+                            ]),
+                        Tabs\Tab::make('Settings')
+                            ->icon('heroicon-o-cog-8-tooth')
+                            ->schema([
+                                Infolists\Components\Group::make()
+                                    ->schema([
+                                        Infolists\Components\Group::make()
+                                            ->schema([
+                                                Infolists\Components\Fieldset::make('Employment Status')
+                                                    ->schema([
+                                                        Infolists\Components\IconEntry::make('is_active')
+                                                            ->label('Active Employee')
+                                                            ->color(fn ($state) => $state ? 'success' : 'danger'),
+                                                        Infolists\Components\IconEntry::make('is_flexible')
+                                                            ->label('Flexible Work Arrangement')
+                                                            ->color(fn ($state) => $state ? 'success' : 'danger'),
+                                                        Infolists\Components\IconEntry::make('is_fully_flexible')
+                                                            ->label('Fully Flexible Schedule')
+                                                            ->color(fn ($state) => $state ? 'success' : 'danger'),
+                                                        Infolists\Components\IconEntry::make('work_permit_scheduled_activity')
+                                                            ->label('Work Permit Scheduled Activity')
+                                                            ->color(fn ($state) => $state ? 'success' : 'danger'),
+                                                        Infolists\Components\TextEntry::make('user.name')
+                                                            ->label('Related User')
+                                                            ->icon('heroicon-o-user'),
+                                                        Infolists\Components\TextEntry::make('departureReason.name')
+                                                            ->label('Departure Reason'),
+                                                        Infolists\Components\TextEntry::make('departure_date')
+                                                            ->label('Departure Date')
+                                                            ->icon('heroicon-o-calendar-days'),
+                                                        Infolists\Components\TextEntry::make('departure_description')
+                                                            ->label('Departure Description'),
+                                                    ])
+                                                    ->columns(2),
+                                                Infolists\Components\Fieldset::make('Additional Information')
+                                                    ->schema([
+                                                        Infolists\Components\TextEntry::make('lang')
+                                                            ->label('Primary Language'),
+                                                        Infolists\Components\TextEntry::make('additional_note')
+                                                            ->label('Additional Notes')
+                                                            ->columnSpanFull(),
+                                                        Infolists\Components\TextEntry::make('notes')
+                                                            ->label('Notes'),
+                                                    ])
+                                                    ->columns(2),
+                                            ])
+                                            ->columnSpan(['lg' => 2]),
+                                        Infolists\Components\Group::make()
+                                            ->schema([
+                                                Infolists\Components\Fieldset::make('Attendance/Point of Sale')
+                                                    ->schema([
+                                                        Infolists\Components\TextEntry::make('barcode')
+                                                            ->label('Badge ID')
+                                                            ->icon('heroicon-o-qr-code'),
+                                                        Infolists\Components\TextEntry::make('pin')
+                                                            ->label('PIN'),
+                                                    ])
+                                                    ->columns(1),
+                                            ])
+                                            ->columnSpan(['lg' => 1]),
+                                    ])
+                                    ->columns(3),
+
+                            ]),
+                    ])
+                    ->columnSpan('full'),
+            ]);
+    }
+
     public static function getBankCreateSchema(): array
     {
         return [
@@ -1262,24 +1708,14 @@ class EmployeeResource extends Resource
                     Forms\Components\Select::make('country_id')
                         ->label('Country')
                         ->relationship(name: 'country', titleAttribute: 'name')
-                        ->afterStateUpdated(fn (Set $set) => $set('state_id', null))
                         ->createOptionForm([
-                            Forms\Components\Select::make('currency_id')
-                                ->options(fn () => Currency::pluck('full_name', 'id'))
-                                ->searchable()
-                                ->preload()
-                                ->label('Currency Name')
-                                ->required(),
-                            Forms\Components\TextInput::make('phone_code')
-                                ->label('Phone Code')
+                            Forms\Components\TextInput::make('name')
+                                ->label('Country Name')
                                 ->required(),
                             Forms\Components\TextInput::make('code')
                                 ->label('Code')
                                 ->required()
                                 ->rules('max:2'),
-                            Forms\Components\TextInput::make('name')
-                                ->label('Country Name')
-                                ->required(),
                             Forms\Components\Toggle::make('state_required')
                                 ->label('State Required')
                                 ->required(),
@@ -1293,15 +1729,17 @@ class EmployeeResource extends Resource
                                 ->modalSubmitActionLabel('Create Country')
                                 ->modalWidth('lg')
                         )
+                        ->afterStateUpdated(fn (Set $set) => $set('state_id', null))
                         ->searchable()
                         ->preload()
-                        ->live()
-                        ->required(),
+                        ->live(),
                     Forms\Components\Select::make('state_id')
-                        ->relationship('state', 'name')
-                        ->searchable()
-                        ->preload()
                         ->label('State')
+                        ->options(
+                            fn (Get $get) => State::query()
+                                ->where('country_id', $get('country_id'))
+                                ->pluck('name', 'id')
+                        )
                         ->createOptionForm([
                             Forms\Components\TextInput::make('name')
                                 ->label('Name')
@@ -1317,7 +1755,10 @@ class EmployeeResource extends Resource
                                 ->modalHeading('Create State')
                                 ->modalSubmitActionLabel('Create State')
                                 ->modalWidth('lg')
-                        ),
+                        )
+                        ->searchable()
+                        ->preload()
+                        ->required(fn (Get $get) => Country::find($get('country_id'))?->state_required),
                     Forms\Components\Hidden::make('creator_id')
                         ->default(fn () => Auth::user()->id),
                 ])->columns(2),

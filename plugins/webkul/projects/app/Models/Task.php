@@ -18,7 +18,7 @@ use Webkul\Support\Models\Company;
 
 class Task extends Model
 {
-    use HasChatter, HasLogActivity, HasCustomFields, HasFactory, SoftDeletes;
+    use HasChatter, HasCustomFields, HasFactory, HasLogActivity, SoftDeletes;
 
     /**
      * Table name.

@@ -32,8 +32,6 @@ return new class extends Migration
             $table->unsignedBigInteger('coach_id')->nullable()->comment('Coach');
             $table->unsignedBigInteger('country_id')->nullable()->comment('Country');
             $table->unsignedBigInteger('state_id')->nullable()->comment('State');
-            $table->unsignedBigInteger('private_country_id')->nullable()->comment('Private Country');
-            $table->unsignedBigInteger('private_state_id')->nullable()->comment('Private State');
             $table->unsignedBigInteger('country_of_birth')->nullable()->comment('Country of Birth');
             $table->unsignedBigInteger('departure_reason_id')->nullable()->comment('Departure Reason');
 
@@ -47,10 +45,6 @@ return new class extends Migration
             $table->integer('km_home_work')->default(0)->comment('Km Home Work');
             $table->string('distance_home_work_unit')->default('km')->comment('Distance Home Work Unit');
             $table->string('work_email')->nullable()->comment('Work Email');
-            $table->string('private_street1')->nullable()->comment('Private Street 1');
-            $table->string('private_street2')->nullable()->comment('Private Street 2');
-            $table->string('private_city')->nullable()->comment('Private City');
-            $table->string('private_zip')->nullable()->comment('Private Zip');
             $table->string('private_phone')->nullable()->comment('Private Phone');
             $table->string('private_email')->nullable()->comment('Private Email');
             $table->string('lang')->nullable()->comment('Language');
@@ -96,15 +90,12 @@ return new class extends Migration
             $table->foreign('work_location_id')->references('id')->on('employees_work_locations')->onDelete('set null');
             $table->foreign('parent_id')->references('id')->on('employees_employees')->onDelete('set null');
             $table->foreign('coach_id')->references('id')->on('employees_employees')->onDelete('set null');
-            $table->foreign('private_state_id')->references('id')->on('states')->onDelete('set null');
             $table->foreign('state_id')->references('id')->on('states')->onDelete('set null');
-            $table->foreign('private_country_id')->references('id')->on('countries')->onDelete('set null');
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('set null');
             $table->foreign('country_of_birth')->references('id')->on('countries')->onDelete('set null');
             $table->foreign('departure_reason_id')->references('id')->on('employees_departure_reasons')->onDelete('set null');
 
             $table->foreign('bank_account_id')->references('id')->on('partners_bank_accounts')->onDelete('set null');
-            $table->foreign('address_id')->references('id')->on('company_addresses')->onDelete('cascade');
             $table->foreign('leave_manager_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->softDeletes();

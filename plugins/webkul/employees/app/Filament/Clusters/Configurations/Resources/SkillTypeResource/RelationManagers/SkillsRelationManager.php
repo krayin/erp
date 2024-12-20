@@ -4,6 +4,8 @@ namespace Webkul\Employee\Filament\Clusters\Configurations\Resources\SkillTypeRe
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -26,6 +28,15 @@ class SkillsRelationManager extends RelationManager
                 Forms\Components\Hidden::make('creator_id')
                     ->default(Auth::user()->id),
             ])->columns('full');
+    }
+
+    public function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\TextEntry::make('name')
+                    ->label('Name'),
+            ]);
     }
 
     public function table(Table $table): Table

@@ -23,6 +23,7 @@ class ActivityPlanTemplateSeeder extends Seeder
                 'summary'          => 'Organize knowledge transfer inside the team',
                 'responsible_type' => 'manager',
                 'note'             => '<p>Organize knowledge transfer inside the team</p>',
+                'creator_id'       => 1,
             ],
             [
                 'sort'             => 2,
@@ -34,6 +35,7 @@ class ActivityPlanTemplateSeeder extends Seeder
                 'summary'          => 'Take Back HR Materials',
                 'responsible_type' => 'manager',
                 'note'             => '<p>Take Back HR Materials</p>',
+                'creator_id'       => 1,
             ],
             [
                 'sort'             => 3,
@@ -45,6 +47,7 @@ class ActivityPlanTemplateSeeder extends Seeder
                 'summary'          => 'Setup IT Materials',
                 'responsible_type' => 'manager',
                 'note'             => '<p>Setup IT Materials</p>',
+                'creator_id'       => 1,
             ],
             [
                 'sort'             => 4,
@@ -56,6 +59,7 @@ class ActivityPlanTemplateSeeder extends Seeder
                 'summary'          => 'Plan Training',
                 'responsible_type' => 'manager',
                 'note'             => '<p>Plan Training</p>',
+                'creator_id'       => 1,
             ],
             [
                 'sort'             => 5,
@@ -67,6 +71,7 @@ class ActivityPlanTemplateSeeder extends Seeder
                 'summary'          => 'Training',
                 'responsible_type' => 'manager',
                 'note'             => '<p>Training</p>',
+                'creator_id'       => 1,
             ],
         ];
 

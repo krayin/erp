@@ -4,6 +4,8 @@ namespace Webkul\Employee\Filament\Clusters\Configurations\Resources\CalendarRes
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -15,8 +17,6 @@ use Webkul\Employee\Enums\DayOfWeek;
 
 class CalendarAttendance extends RelationManager
 {
-    // protected $listeners = ['refreshCalendarResource' => '$refresh'];
-
     protected static string $relationship = 'attendance';
 
     protected static ?string $recordTitleAttribute = 'name';
@@ -86,6 +86,70 @@ class CalendarAttendance extends RelationManager
                             ->default(1),
                         Forms\Components\Hidden::make('creator_id')
                             ->default(Auth::user()->id),
+                    ]),
+            ]);
+    }
+
+    public function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\Grid::make(['default' => 3])
+                    ->schema([
+                        Infolists\Components\Group::make()
+                            ->schema([
+                                Infolists\Components\Section::make('General Information')
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('name')
+                                            ->icon('heroicon-o-clock')
+                                            ->label('Attendance Name'),
+                                        Infolists\Components\TextEntry::make('day_of_week')
+                                            ->formatStateUsing(fn ($state) => Enums\DayOfWeek::options()[$state])
+                                            ->icon('heroicon-o-clock')
+                                            ->label('Day of week'),
+                                    ])->columns(2),
+                                Infolists\Components\Section::make('Timing Information')
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('day_period')
+                                            ->label('Day Period')
+                                            ->formatStateUsing(fn ($state) => Enums\DayPeriod::options()[$state])
+                                            ->icon('heroicon-o-clock'),
+                                        Infolists\Components\TextEntry::make('week_type')
+                                            ->formatStateUsing(fn ($state) => Enums\WeekType::options()[$state])
+                                            ->label('Week Type')
+                                            ->icon('heroicon-o-clock'),
+                                        Infolists\Components\TextEntry::make('hour_from')
+                                            ->label('Hours From')
+                                            ->icon('heroicon-o-clock'),
+                                        Infolists\Components\TextEntry::make('hour_to')
+                                            ->label('Hours To')
+                                            ->icon('heroicon-o-clock'),
+                                    ])->columns(2),
+
+                            ])->columnSpan(2),
+                        Infolists\Components\Group::make([
+                            Infolists\Components\Section::make('Date Information')
+                                ->schema([
+                                    Infolists\Components\TextEntry::make('date_from')
+                                        ->icon('heroicon-o-calendar')
+                                        ->date()
+                                        ->label('Starting Date'),
+                                    Infolists\Components\TextEntry::make('date_to')
+                                        ->icon('heroicon-o-calendar')
+                                        ->date()
+                                        ->label('Ending Date'),
+                                ]),
+                            Infolists\Components\Section::make('Additional Details')
+                                ->schema([
+                                    Infolists\Components\TextEntry::make('display_type')
+                                        ->formatStateUsing(fn ($state) => Enums\CalendarDisplayType::options()[$state])
+                                        ->label('Display Type')
+                                        ->icon('heroicon-o-clock'),
+                                    Infolists\Components\TextEntry::make('duration_days')
+                                        ->label('Duration (Days)')
+                                        ->icon('heroicon-o-clock'),
+                                ]),
+                        ])->columnSpan(1),
                     ]),
             ]);
     }

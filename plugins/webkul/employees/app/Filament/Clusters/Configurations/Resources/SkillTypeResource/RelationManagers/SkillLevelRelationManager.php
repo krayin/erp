@@ -4,11 +4,14 @@ namespace Webkul\Employee\Filament\Clusters\Configurations\Resources\SkillTypeRe
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Support\Filament\Tables as CustomTables;
+use Webkul\Support\Filament\Tables\Infolists\ProgressBarEntry;
 
 class SkillLevelRelationManager extends RelationManager
 {
@@ -32,6 +35,28 @@ class SkillLevelRelationManager extends RelationManager
                 Forms\Components\Toggle::make('default_level')
                     ->label('Default Level'),
             ])->columns(2);
+    }
+
+    public function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\TextEntry::make('name')
+                    ->label('Name'),
+                Infolists\Components\TextEntry::make('level')
+                    ->label('Level'),
+                ProgressBarEntry::make('level')
+                    ->getStateUsing(fn ($record) => $record->level)
+                    ->color(fn ($record): string => match (true) {
+                        $record->level === 100                      => 'success',
+                        $record->level >= 50 && $record->level < 80 => 'warning',
+                        $record->level < 20                         => 'danger',
+                        default                                     => 'info',
+                    }),
+                Infolists\Components\IconEntry::make('default_level')
+                    ->boolean()
+                    ->label('Default Level'),
+            ]);
     }
 
     public function table(Table $table): Table
