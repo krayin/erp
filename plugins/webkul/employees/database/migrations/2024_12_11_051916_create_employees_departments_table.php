@@ -20,7 +20,7 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('manager_id')->references('id')->on('employees_employees')->onDelete('set null');
+            $table->foreign('manager_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });
     }
