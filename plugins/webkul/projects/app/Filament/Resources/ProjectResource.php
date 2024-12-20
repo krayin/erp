@@ -11,16 +11,21 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\TagResource;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Webkul\Project\Filament\Resources\ProjectResource\Pages;
 use Webkul\Project\Filament\Resources\ProjectResource\RelationManagers;
 use Webkul\Project\Models\Project;
 use Webkul\Project\Models\ProjectStage;
 use Webkul\Project\Settings\TaskSettings;
 use Webkul\Project\Settings\TimeSettings;
+use Webkul\Fields\Filament\Traits\HasCustomFields;
 use Webkul\Security\Filament\Resources\UserResource;
+use Webkul\Project\Enums\ProjectVisibility;
 
 class ProjectResource extends Resource
 {
+    use HasCustomFields;
+
     protected static ?string $model = Project::class;
 
     protected static ?string $slug = 'project/projects';
@@ -55,7 +60,7 @@ class ProjectResource extends Resource
                             ]),
 
                         Forms\Components\Section::make('Additional Information')
-                            ->schema([
+                            ->schema(static::mergeCustomFormFields([
                                 // Forms\Components\TextInput::make('tasks_label')
                                 //     ->label('Tasks Label')
                                 //     ->maxLength(255)
@@ -98,7 +103,7 @@ class ProjectResource extends Resource
                                     ->searchable()
                                     ->preload()
                                     ->createOptionForm(fn (Form $form) => TagResource::form($form)),
-                            ])
+                            ]))
                             ->columns(2),
                     ])
                     ->columnSpan(['lg' => 2]),
@@ -110,11 +115,7 @@ class ProjectResource extends Resource
                                 Forms\Components\Radio::make('visibility')
                                     ->label('Visibility')
                                     ->default('internal')
-                                    ->options([
-                                        'private'  => 'Private',
-                                        'internal' => 'Internal',
-                                        'public'   => 'Public',
-                                    ])
+                                    ->options(ProjectVisibility::options())
                                     ->descriptions([
                                         'private'  => 'Invited internal users only.',
                                         'internal' => 'All internal users can see.',
@@ -156,7 +157,7 @@ class ProjectResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
+            ->columns(static::mergeCustomTableColumns([
                 Tables\Columns\Layout\Stack::make([
                     Tables\Columns\Layout\Split::make([
                         Tables\Columns\TextColumn::make('name')
@@ -177,18 +178,27 @@ class ProjectResource extends Resource
                     ]),
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('partner.name')
-                            ->icon('heroicon-m-phone'),
+                            ->icon('heroicon-o-phone')
+                            ->tooltip('Customer')
+                            ->sortable(),
                     ])
                         ->visible(fn (Project $record) => filled($record->partner)),
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('start_date')
+                            ->sortable()
+                            ->extraAttributes(['class' => 'hidden']),
+                        Tables\Columns\TextColumn::make('end_date')
+                            ->sortable()
+                            ->extraAttributes(['class' => 'hidden']),
+                        Tables\Columns\TextColumn::make('planned_date')
                             ->icon('heroicon-o-calendar')
+                            ->tooltip('Planned Date')
                             ->formatStateUsing(fn (Project $record): string => $record->start_date->format('d M Y').' - '.$record->end_date->format('d M Y')),
                     ])
                         ->visible(fn (Project $record) => filled($record->start_date) && filled($record->end_date)),
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('remaining_hours')
-                            ->icon('heroicon-m-clock')
+                            ->icon('heroicon-o-clock')
                             ->badge()
                             ->color('success')
                             ->color(fn (Project $record): string => $record->remaining_hours < 0 ? 'danger' : 'success')
@@ -198,7 +208,9 @@ class ProjectResource extends Resource
                         ->visible(fn (TimeSettings $timeSettings, Project $record) => $timeSettings->enable_timesheets && $record->allow_milestones && $record->remaining_hours),
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('user.name')
-                            ->icon('heroicon-m-user'),
+                            ->icon('heroicon-o-user')
+                            ->tooltip('Assignees')
+                            ->sortable(),
                     ])
                         ->visible(fn (Project $record) => filled($record->user)),
                     Tables\Columns\Layout\Stack::make([
@@ -209,7 +221,7 @@ class ProjectResource extends Resource
                         ->visible(fn (Project $record): bool => (bool) $record->tags()->get()?->count()),
                 ])
                     ->space(3),
-            ])
+            ]))
             ->groups([
                 Tables\Grouping\Group::make('stage.name')
                     ->label('Stage'),
@@ -223,10 +235,88 @@ class ProjectResource extends Resource
             ])
             ->filters([
                 Tables\Filters\QueryBuilder::make()
-                    ->constraints([
+                    ->constraints(static::mergeCustomTableQueryBuilderConstraints([
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('name')
                             ->label('Name'),
-                    ]),
+                        Tables\Filters\QueryBuilder\Constraints\SelectConstraint::make('visibility')
+                            ->label('Visibility')
+                            ->multiple()
+                            ->options(ProjectVisibility::options()),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('start_date')
+                            ->label('Start Date'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('end_date')
+                            ->label('End Date'),
+                        Tables\Filters\QueryBuilder\Constraints\BooleanConstraint::make('allow_timesheets')
+                            ->label('Allow Timesheets'),
+                        Tables\Filters\QueryBuilder\Constraints\BooleanConstraint::make('allow_milestones')
+                            ->label('Allow Milestones'),
+                        Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('allocated_hours')
+                                ->label('Allocated Hours'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at')
+                            ->label('Created At'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at')
+                            ->label('Updated At'),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('stage')
+                            ->label('Stage')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('partner')
+                            ->label('Customer')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('user')
+                            ->label('Project Manager')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('company')
+                            ->label('Company')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('creator')
+                            ->label('Creator')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('tags')
+                            ->label('Tags')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                    ])),
             ], layout: \Filament\Tables\Enums\FiltersLayout::Modal)
             ->filtersTriggerAction(
                 fn (Tables\Actions\Action $action) => $action
@@ -236,14 +326,14 @@ class ProjectResource extends Resource
             ->actions([
                 Tables\Actions\Action::make('tasks')
                     ->label(fn (Project $record): string => $record->tasks->count().' Tasks')
-                    ->icon('heroicon-o-clipboard-document-list')
+                    ->icon('heroicon-m-clipboard-document-list')
                     ->color('gray')
                     ->url('https:example.com/tasks/{record}')
                     ->hidden(fn ($record) => $record->trashed())
                     ->url(fn (Project $record): string => route('filament.admin.resources.project.projects.tasks', $record->id)),
                 Tables\Actions\Action::make('milestones')
                     ->label(fn (Project $record): string => $record->milestones->where('is_completed', true)->count().'/'.$record->milestones->count())
-                    ->icon('heroicon-c-flag')
+                    ->icon('heroicon-m-flag')
                     ->color('gray')
                     ->tooltip(fn (Project $record): string => $record->milestones->where('is_completed', true)->count().' milestones completed out of '.$record->milestones->count())
                     ->url('https:example.com/tasks/{record}')
@@ -263,6 +353,7 @@ class ProjectResource extends Resource
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ])
+            ->recordUrl(fn (Project $record): string => static::getUrl('view', ['record' => $record]))
             ->contentGrid([
                 'md' => 3,
                 'xl' => 4,
@@ -298,6 +389,7 @@ class ProjectResource extends Resource
             'index'      => Pages\ListProjects::route('/'),
             'create'     => Pages\CreateProject::route('/create'),
             'edit'       => Pages\EditProject::route('/{record}/edit'),
+            'view'       => Pages\ViewProject::route('/{record}'),
             'milestones' => Pages\ManageProjectMilestones::route('/{record}/milestones'),
             'tasks'      => Pages\ManageProjectTasks::route('/{record}/tasks'),
         ];

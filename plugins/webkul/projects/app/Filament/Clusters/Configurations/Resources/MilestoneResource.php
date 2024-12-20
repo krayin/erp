@@ -26,6 +26,10 @@ class MilestoneResource extends Resource
 
     public static function isDiscovered(): bool
     {
+        if (app()->runningInConsole()) {
+            return true;
+        }
+
         return app(TaskSettings::class)->enable_milestones;
     }
 

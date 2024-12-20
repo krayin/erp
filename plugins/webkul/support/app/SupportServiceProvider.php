@@ -27,7 +27,7 @@ class SupportServiceProvider extends PackageServiceProvider
                 '2024_12_10_100833_create_branches_table',
                 '2024_12_10_100944_create_user_allowed_companies_table',
                 '2024_12_10_101420_create_banks_table',
-                '2024_12_12_064135_create_company_addresses_table',
+                '2024_12_10_101421_create_company_addresses_table',
                 '2024_12_12_064139_create_branch_addresses_table',
                 '2024_12_12_114620_create_activity_plans_table',
                 '2024_12_12_115256_create_activity_types_table',

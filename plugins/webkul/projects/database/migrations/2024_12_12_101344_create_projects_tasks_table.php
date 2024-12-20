@@ -39,7 +39,7 @@ return new class extends Migration
 
             $table->foreignId('milestone_id')
                 ->nullable()
-                ->constrained('projects_milestone')
+                ->constrained('projects_milestones')
                 ->nullOnDelete();
 
             $table->foreignId('stage_id')
