@@ -15,7 +15,6 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconPosition;
-use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
@@ -718,18 +717,22 @@ class EmployeeResource extends Resource
                                                         Forms\Components\Toggle::make('work_permit_scheduled_activity')
                                                             ->label('Work Permit Scheduled Activity'),
                                                         Forms\Components\Select::make('user_id')
-                                                            ->relationship('user', 'name')
+                                                            ->relationship(name: 'user', titleAttribute: 'name')
                                                             ->searchable()
                                                             ->preload()
-                                                            ->suffixIcon('heroicon-o-user')
                                                             ->label('Related User')
+                                                            ->prefixIcon('heroicon-o-user')
                                                             ->createOptionForm(fn (Form $form) => UserResource::form($form))
-                                                            ->editOptionForm(fn (Form $form) => UserResource::form($form))
                                                             ->createOptionAction(
-                                                                fn (Action $action) => $action
+                                                                fn (Action $action, Get $get) => $action
+                                                                    ->fillForm(function (array $arguments) use ($get): array {
+                                                                        return [
+                                                                            'name'  => $get('name'),
+                                                                            'email' => $get('work_email'),
+                                                                        ];
+                                                                    })
                                                                     ->modalHeading('Create User')
                                                                     ->modalSubmitActionLabel('Create User')
-                                                                    ->modalWidth(MaxWidth::MaxContent)
                                                                     ->action(function (array $data, Livewire $component) {
                                                                         $user = User::create($data);
 
@@ -756,8 +759,7 @@ class EmployeeResource extends Resource
                                                             ->preload()
                                                             ->live()
                                                             ->label('Departure Reason')
-                                                            ->createOptionForm(fn (Form $form) => DepartureReasonResource::form($form))
-                                                            ->editOptionForm(fn (Form $form) => DepartureReasonResource::form($form)),
+                                                            ->createOptionForm(fn (Form $form) => DepartureReasonResource::form($form)),
                                                         Forms\Components\DatePicker::make('departure_date')
                                                             ->label('Departure Date')
                                                             ->native(false)
