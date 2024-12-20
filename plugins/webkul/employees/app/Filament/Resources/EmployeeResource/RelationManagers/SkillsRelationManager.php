@@ -4,6 +4,8 @@ namespace Webkul\Employee\Filament\Resources\EmployeeResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -47,6 +49,43 @@ class SkillsRelationManager extends RelationManager
             ]);
     }
 
+    public function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\Group::make()
+                    ->schema([
+                        Infolists\Components\Group::make()
+                            ->schema([
+                                Infolists\Components\TextEntry::make('skillType.name')
+                                    ->label('Skill Type'),
+                                Infolists\Components\TextEntry::make('skill.name')
+                                    ->label('Skill'),
+                                Infolists\Components\TextEntry::make('skillLevel.name')
+                                    ->badge()
+                                    ->color(fn ($record) => $record->skillType?->color)
+                                    ->label('Skill Level'),
+                                CustomTables\Infolists\ProgressBarEntry::make('skillLevel.level')
+                                    ->getStateUsing(fn ($record) => $record->skillLevel?->level)
+                                    ->color(function ($record) {
+                                        if ($record->skillLevel->level === 100) {
+                                            return 'success';
+                                        } elseif ($record->skillLevel->level >= 50 && $record->skillLevel->level < 80) {
+                                            return 'warning';
+                                        } elseif ($record->skillLevel->level < 20) {
+                                            return 'danger';
+                                        } else {
+                                            return 'info';
+                                        }
+                                    })
+                                    ->label('Level Percent'),
+                            ])
+                            ->columns(2),
+                    ])
+                    ->columnSpan('full'),
+            ]);
+    }
+
     public function table(Table $table): Table
     {
         return $table
@@ -63,6 +102,17 @@ class SkillsRelationManager extends RelationManager
                     ->color(fn ($record) => $record->skillType?->color),
                 CustomTables\Columns\ProgressBarEntry::make('skillLevel.level')
                     ->getStateUsing(fn ($record) => $record->skillLevel?->level)
+                    ->color(function ($record) {
+                        if ($record->skillLevel->level === 100) {
+                            return 'success';
+                        } elseif ($record->skillLevel->level >= 50 && $record->skillLevel->level < 80) {
+                            return 'warning';
+                        } elseif ($record->skillLevel->level < 20) {
+                            return 'danger';
+                        } else {
+                            return 'info';
+                        }
+                    })
                     ->label('Level Percent'),
                 Tables\Columns\TextColumn::make('creator.name')
                     ->label('Creator')
@@ -89,6 +139,7 @@ class SkillsRelationManager extends RelationManager
                     ->icon('heroicon-o-plus-circle'),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])

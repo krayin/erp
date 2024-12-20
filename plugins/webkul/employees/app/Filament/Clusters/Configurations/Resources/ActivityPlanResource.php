@@ -4,6 +4,8 @@ namespace Webkul\Employee\Filament\Clusters\Configurations\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
@@ -44,6 +46,31 @@ class ActivityPlanResource extends Resource
                             ->default(true)
                             ->inline(false),
                     ])->columns(2),
+            ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\Group::make()
+                    ->schema([
+                        Infolists\Components\Group::make()
+                            ->schema([
+                                Infolists\Components\Section::make('General Information')
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('name')
+                                            ->label('Name'),
+                                        Infolists\Components\TextEntry::make('manager.name')
+                                            ->label('Manager'),
+                                        Infolists\Components\TextEntry::make('company.name')
+                                            ->label('Company'),
+                                        Infolists\Components\ColorEntry::make('color')
+                                            ->label('Color'),
+                                    ])
+                                    ->columns(2),
+                            ]),
+                    ])->columnSpan('full'),
             ]);
     }
 

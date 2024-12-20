@@ -8,9 +8,13 @@ use Filament\Forms\Components\Livewire;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Infolists;
+use Filament\Infolists\Components\Tabs;
+use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\IconPosition;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
@@ -1299,6 +1303,362 @@ class EmployeeResource extends Resource
                                 ->send();
                         }),
                 ]),
+            ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\Section::make()
+                    ->schema([
+                        Infolists\Components\Grid::make(['default' => 2])
+                            ->schema([
+                                Infolists\Components\Group::make([
+                                    Infolists\Components\TextEntry::make('name')
+                                        ->label('Name')
+                                        ->weight(FontWeight::Bold)
+                                        ->size(Infolists\Components\TextEntry\TextEntrySize::Large),
+                                    Infolists\Components\TextEntry::make('job_title')
+                                        ->label('Job Title'),
+                                ])->columnSpan(1),
+                                Infolists\Components\Group::make([
+                                    Infolists\Components\ImageEntry::make('partner.avatar')
+                                        ->label('Profile Picture')
+                                        ->height(140)
+                                        ->circular(),
+                                ])->columnSpan(1),
+                            ]),
+                        Infolists\Components\Grid::make(['default' => 2])
+                            ->schema([
+                                Infolists\Components\TextEntry::make('work_email')
+                                    ->label('Work Email')
+                                    ->url(fn (?string $state) => $state ? "mailto:{$state}" : '#')
+                                    ->icon('heroicon-o-envelope')
+                                    ->iconPosition(IconPosition::Before),
+                                Infolists\Components\TextEntry::make('department.name')
+                                    ->label('Department'),
+                                Infolists\Components\TextEntry::make('mobile_phone')
+                                    ->label('Work Mobile')
+                                    ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
+                                    ->icon('heroicon-o-phone')
+                                    ->iconPosition(IconPosition::Before),
+                                Infolists\Components\TextEntry::make('job.name')
+                                    ->label('Job Position'),
+                                Infolists\Components\TextEntry::make('work_phone')
+                                    ->label('Work Phone')
+                                    ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
+                                    ->icon('heroicon-o-phone')
+                                    ->iconPosition(IconPosition::Before),
+                                Infolists\Components\TextEntry::make('parent.name')
+                                    ->label('Manager'),
+                                Infolists\Components\TextEntry::make('categories.name')
+                                    ->label('Employee Tags')
+                                    ->listWithLineBreaks()
+                                    ->bulleted(),
+                                Infolists\Components\TextEntry::make('coach.name')
+                                    ->label('Coach'),
+                            ]),
+                    ]),
+
+                Tabs::make('Employee Information')
+                    ->tabs([
+                        Tabs\Tab::make('Work Information')
+                            ->icon('heroicon-o-briefcase')
+                            ->schema([
+                                Infolists\Components\Grid::make(['default' => 3])
+                                    ->schema([
+                                        Infolists\Components\Group::make([
+                                            Infolists\Components\Fieldset::make('Location')
+                                                ->schema([
+                                                    Infolists\Components\TextEntry::make('companyAddress.company.name')
+                                                        ->label('Work Address')
+                                                        ->icon('heroicon-o-map'),
+                                                    Infolists\Components\TextEntry::make('address')
+                                                        ->visible(fn ($record) => $record->address)
+                                                        ->formatStateUsing(fn ($record) => $record->address
+                                                            ? implode(', ', array_filter([
+                                                                $record->address->street1,
+                                                                $record->address->street2,
+                                                                $record->address->city,
+                                                                $record->address->state?->name,
+                                                                $record->address->country?->name,
+                                                                $record->address->zip,
+                                                            ]))
+                                                            : 'No Address Available')
+                                                        ->icon('heroicon-o-map')
+                                                        ->hiddenLabel(),
+                                                    Infolists\Components\TextEntry::make('workLocation.name')
+                                                        ->label('Work Location')
+                                                        ->icon('heroicon-o-building-office'),
+                                                ]),
+                                            Infolists\Components\Fieldset::make('Approvers')
+                                                ->schema([
+                                                    Infolists\Components\TextEntry::make('leaveManager.name')
+                                                        ->label('Time Off')
+                                                        ->icon('heroicon-o-user-group'),
+                                                ]),
+                                            Infolists\Components\Fieldset::make('Schedule')
+                                                ->schema([
+                                                    Infolists\Components\TextEntry::make('calendar.name')
+                                                        ->label('Working Hours')
+                                                        ->icon('heroicon-o-clock'),
+                                                    Infolists\Components\TextEntry::make('time_zone')
+                                                        ->label('Time Zone')
+                                                        ->icon('heroicon-o-clock'),
+                                                ]),
+                                        ])->columnSpan(2),
+                                        Infolists\Components\Group::make([
+                                            Infolists\Components\Fieldset::make('Organizational Details')
+                                                ->schema([
+                                                    Infolists\Components\TextEntry::make('company.name')
+                                                        ->label('Company')
+                                                        ->icon('heroicon-o-briefcase'),
+                                                    Infolists\Components\ColorEntry::make('color')
+                                                        ->label('Color'),
+                                                ]),
+                                        ])->columnSpan(1),
+                                    ]),
+                            ]),
+                        Tabs\Tab::make('Private Information')
+                            ->icon('heroicon-o-lock-closed')
+                            ->schema([
+                                Infolists\Components\Grid::make(['default' => 3])
+                                    ->schema([
+                                        Infolists\Components\Group::make([
+                                            Infolists\Components\Fieldset::make('Permanent Address')
+                                                ->schema([
+                                                    Infolists\Components\TextEntry::make('permanentAddress.country.name')
+                                                        ->label('Country')
+                                                        ->icon('heroicon-o-globe-alt'),
+                                                    Infolists\Components\TextEntry::make('permanentAddress.state.name')
+                                                        ->label('State')
+                                                        ->icon('heroicon-o-map'),
+                                                    Infolists\Components\TextEntry::make('permanentAddress.street1')
+                                                        ->label('Street Address')
+                                                        ->icon('heroicon-o-map'),
+                                                    Infolists\Components\TextEntry::make('permanentAddress.street2')
+                                                        ->label('Street Address Line 2')
+                                                        ->icon('heroicon-o-map'),
+                                                    Infolists\Components\TextEntry::make('permanentAddress.city')
+                                                        ->label('City')
+                                                        ->icon('heroicon-o-building-office'),
+                                                    Infolists\Components\TextEntry::make('permanentAddress.zip')
+                                                        ->label('Postal Code')
+                                                        ->icon('heroicon-o-document-text'),
+                                                ])
+                                                ->columns(2),
+                                            Infolists\Components\Fieldset::make('Present Address')
+                                                ->schema([
+                                                    Infolists\Components\TextEntry::make('presentAddress.country.name')
+                                                        ->label('Country')
+                                                        ->icon('heroicon-o-globe-alt'),
+                                                    Infolists\Components\TextEntry::make('presentAddress.state.name')
+                                                        ->label('State')
+                                                        ->icon('heroicon-o-map'),
+                                                    Infolists\Components\TextEntry::make('presentAddress.street1')
+                                                        ->label('Street Address')
+                                                        ->icon('heroicon-o-map'),
+                                                    Infolists\Components\TextEntry::make('presentAddress.street2')
+                                                        ->label('Street Address Line 2')
+                                                        ->icon('heroicon-o-map'),
+                                                    Infolists\Components\TextEntry::make('presentAddress.city')
+                                                        ->label('City')
+                                                        ->icon('heroicon-o-building-office'),
+                                                    Infolists\Components\TextEntry::make('presentAddress.zip')
+                                                        ->label('Postal Code')
+                                                        ->icon('heroicon-o-document-text'),
+                                                ])
+                                                ->columns(2),
+                                            Infolists\Components\Fieldset::make('Private Contact')
+                                                ->schema([
+                                                    Infolists\Components\TextEntry::make('private_phone')
+                                                        ->label('Private Phone')
+                                                        ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
+                                                        ->icon('heroicon-o-phone'),
+                                                    Infolists\Components\TextEntry::make('private_email')
+                                                        ->label('Private Email')
+                                                        ->url(fn (?string $state) => $state ? "mailto:{$state}" : '#')
+                                                        ->icon('heroicon-o-envelope'),
+                                                    Infolists\Components\TextEntry::make('private_car_plate')
+                                                        ->label('Private Car Plate')
+                                                        ->icon('heroicon-o-rectangle-stack'),
+                                                    Infolists\Components\TextEntry::make('distance_home_work')
+                                                        ->label('Distance Home to Work')
+                                                        ->suffix('km')
+                                                        ->icon('heroicon-o-map'),
+                                                ]),
+                                            Infolists\Components\Fieldset::make('Emergency Contact')
+                                                ->schema([
+                                                    Infolists\Components\TextEntry::make('emergency_contact')
+                                                        ->label('Contact Name')
+                                                        ->icon('heroicon-o-user'),
+                                                    Infolists\Components\TextEntry::make('emergency_phone')
+                                                        ->label('Contact Phone')
+                                                        ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
+                                                        ->icon('heroicon-o-phone'),
+                                                ]),
+                                            Infolists\Components\Fieldset::make('Work Permit')
+                                                ->schema([
+                                                    Infolists\Components\TextEntry::make('visa_no')
+                                                        ->label('Visa Number')
+                                                        ->icon('heroicon-o-document-text')
+                                                        ->copyable()
+                                                        ->copyMessage('Visa number copied')
+                                                        ->copyMessageDuration(1500),
+                                                    Infolists\Components\TextEntry::make('permit_no')
+                                                        ->label('Work Permit No')
+                                                        ->icon('heroicon-o-rectangle-stack')
+                                                        ->copyable()
+                                                        ->copyMessage('Permit number copied')
+                                                        ->copyMessageDuration(1500),
+                                                    Infolists\Components\TextEntry::make('visa_expire')
+                                                        ->label('Visa Expiration Date')
+                                                        ->icon('heroicon-o-calendar-days')
+                                                        ->date('F j, Y')
+                                                        ->color(
+                                                            fn ($record) => $record->visa_expire && now()->diffInDays($record->visa_expire, false) <= 30
+                                                                ? 'danger'
+                                                                : 'success'
+                                                        ),
+                                                    Infolists\Components\TextEntry::make('work_permit_expiration_date')
+                                                        ->label('Work Permit Expiration Date')
+                                                        ->icon('heroicon-o-calendar-days')
+                                                        ->date('F j, Y')
+                                                        ->color(
+                                                            fn ($record) => $record->work_permit_expiration_date && now()->diffInDays($record->work_permit_expiration_date, false) <= 30
+                                                                ? 'danger'
+                                                                : 'success'
+                                                        ),
+                                                    Infolists\Components\ImageEntry::make('work_permit')
+                                                        ->label('Work Permit Document')
+                                                        ->columnSpanFull()
+                                                        ->height(200),
+                                                ]),
+                                        ])->columnSpan(2),
+                                        Infolists\Components\Group::make([
+                                            Infolists\Components\Fieldset::make('Citizenship')
+                                                ->columns(1)
+                                                ->schema([
+                                                    Infolists\Components\TextEntry::make('country.name')
+                                                        ->label('Country')
+                                                        ->icon('heroicon-o-globe-alt'),
+                                                    Infolists\Components\TextEntry::make('state.name')
+                                                        ->label('State')
+                                                        ->icon('heroicon-o-map'),
+                                                    Infolists\Components\TextEntry::make('identification_id')
+                                                        ->label('Identification No')
+                                                        ->icon('heroicon-o-document-text')
+                                                        ->copyable()
+                                                        ->copyMessage('ID copied')
+                                                        ->copyMessageDuration(1500),
+                                                    Infolists\Components\TextEntry::make('ssnid')
+                                                        ->label('SSN No')
+                                                        ->icon('heroicon-o-document-check')
+                                                        ->copyable()
+                                                        ->copyMessage('SSN copied')
+                                                        ->copyMessageDuration(1500),
+                                                    Infolists\Components\TextEntry::make('sinid')
+                                                        ->label('SIN ID')
+                                                        ->icon('heroicon-o-document')
+                                                        ->copyable()
+                                                        ->copyMessage('SIN ID copied')
+                                                        ->copyMessageDuration(1500),
+                                                    Infolists\Components\TextEntry::make('passport_id')
+                                                        ->label('Passport No')
+                                                        ->icon('heroicon-o-identification')
+                                                        ->copyable()
+                                                        ->copyMessage('Passport copied')
+                                                        ->copyMessageDuration(1500),
+                                                    Infolists\Components\TextEntry::make('gender')
+                                                        ->label('Gender')
+                                                        ->icon('heroicon-o-user')
+                                                        ->badge()
+                                                        ->color(fn (string $state): string => match ($state) {
+                                                            'male'   => 'info',
+                                                            'female' => 'success',
+                                                            default  => 'warning',
+                                                        }),
+                                                    Infolists\Components\TextEntry::make('birthday')
+                                                        ->label('Date of Birth')
+                                                        ->icon('heroicon-o-calendar')
+                                                        ->date('F j, Y'),
+                                                    Infolists\Components\TextEntry::make('countryOfBirth.name')
+                                                        ->label('Country of Birth')
+                                                        ->icon('heroicon-o-globe-alt'),
+                                                    Infolists\Components\TextEntry::make('country.phone_code')
+                                                        ->label('Phone Code')
+                                                        ->icon('heroicon-o-phone')
+                                                        ->prefix('+'),
+                                                ]),
+                                        ])->columnSpan(1),
+                                    ]),
+                            ]),
+                        Tabs\Tab::make('Settings')
+                            ->icon('heroicon-o-cog-8-tooth')
+                            ->schema([
+                                Infolists\Components\Group::make()
+                                    ->schema([
+                                        Infolists\Components\Group::make()
+                                            ->schema([
+                                                Infolists\Components\Fieldset::make('Employment Status')
+                                                    ->schema([
+                                                        Infolists\Components\IconEntry::make('is_active')
+                                                            ->label('Active Employee')
+                                                            ->color(fn ($state) => $state ? 'success' : 'danger'),
+                                                        Infolists\Components\IconEntry::make('is_flexible')
+                                                            ->label('Flexible Work Arrangement')
+                                                            ->color(fn ($state) => $state ? 'success' : 'danger'),
+                                                        Infolists\Components\IconEntry::make('is_fully_flexible')
+                                                            ->label('Fully Flexible Schedule')
+                                                            ->color(fn ($state) => $state ? 'success' : 'danger'),
+                                                        Infolists\Components\IconEntry::make('work_permit_scheduled_activity')
+                                                            ->label('Work Permit Scheduled Activity')
+                                                            ->color(fn ($state) => $state ? 'success' : 'danger'),
+                                                        Infolists\Components\TextEntry::make('user.name')
+                                                            ->label('Related User')
+                                                            ->icon('heroicon-o-user'),
+                                                        Infolists\Components\TextEntry::make('departureReason.name')
+                                                            ->label('Departure Reason'),
+                                                        Infolists\Components\TextEntry::make('departure_date')
+                                                            ->label('Departure Date')
+                                                            ->icon('heroicon-o-calendar-days'),
+                                                        Infolists\Components\TextEntry::make('departure_description')
+                                                            ->label('Departure Description'),
+                                                    ])
+                                                    ->columns(2),
+                                                Infolists\Components\Fieldset::make('Additional Information')
+                                                    ->schema([
+                                                        Infolists\Components\TextEntry::make('lang')
+                                                            ->label('Primary Language'),
+                                                        Infolists\Components\TextEntry::make('additional_note')
+                                                            ->label('Additional Notes')
+                                                            ->columnSpanFull(),
+                                                        Infolists\Components\TextEntry::make('notes')
+                                                            ->label('Notes'),
+                                                    ])
+                                                    ->columns(2),
+                                            ])
+                                            ->columnSpan(['lg' => 2]),
+                                        Infolists\Components\Group::make()
+                                            ->schema([
+                                                Infolists\Components\Fieldset::make('Attendance/Point of Sale')
+                                                    ->schema([
+                                                        Infolists\Components\TextEntry::make('barcode')
+                                                            ->label('Badge ID')
+                                                            ->icon('heroicon-o-qr-code'),
+                                                        Infolists\Components\TextEntry::make('pin')
+                                                            ->label('PIN'),
+                                                    ])
+                                                    ->columns(1),
+                                            ])
+                                            ->columnSpan(['lg' => 1]),
+                                    ])
+                                    ->columns(3),
+
+                            ]),
+                    ])
+                    ->columnSpan('full'),
             ]);
     }
 
