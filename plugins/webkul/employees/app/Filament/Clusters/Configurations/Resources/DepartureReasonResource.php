@@ -42,6 +42,7 @@ class DepartureReasonResource extends Resource
         return $infolist
             ->schema([
                 Infolists\Components\TextEntry::make('name')
+                    ->placeholder('—')
                     ->label('Name'),
             ]);
     }

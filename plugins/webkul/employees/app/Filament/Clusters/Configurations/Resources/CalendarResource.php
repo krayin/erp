@@ -123,17 +123,21 @@ class CalendarResource extends Resource
                                     ->schema([
                                         Infolists\Components\TextEntry::make('name')
                                             ->icon('heroicon-o-clock')
+                                            ->placeholder('—')
                                             ->label('Schedule Name'),
                                         Infolists\Components\TextEntry::make('timezone')
+                                            ->placeholder('—')
                                             ->icon('heroicon-o-clock')
                                             ->label('Time Zone'),
                                         Infolists\Components\TextEntry::make('company.name')
                                             ->icon('heroicon-o-building-office-2')
+                                            ->placeholder('—')
                                             ->label('Company'),
                                     ])->columns(2),
                                 Infolists\Components\Section::make('Work Hours Configuration')
                                     ->schema([
                                         Infolists\Components\TextEntry::make('hours_per_day')
+                                            ->placeholder('—')
                                             ->label('Hours Per Day')
                                             ->icon('heroicon-o-clock')
                                             ->date(),
@@ -148,8 +152,10 @@ class CalendarResource extends Resource
                                         ->label('Status'),
                                     Infolists\Components\IconEntry::make('two_weeks_calendar')
                                         ->boolean()
+                                        ->placeholder('—')
                                         ->label('Two Week Calendar'),
                                     Infolists\Components\IconEntry::make('flexible_hours')
+                                        ->placeholder('—')
                                         ->boolean()
                                         ->label('Flexible Hours'),
                                 ]),

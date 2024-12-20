@@ -4,7 +4,6 @@ namespace Webkul\Employee\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Components\Livewire;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
@@ -734,7 +733,7 @@ class EmployeeResource extends Resource
                                                                     })
                                                                     ->modalHeading('Create User')
                                                                     ->modalSubmitActionLabel('Create User')
-                                                                    ->action(function (array $data, Livewire $component) {
+                                                                    ->action(function (array $data, $component) {
                                                                         $user = User::create($data);
 
                                                                         $partner = $user->partner()->create([
@@ -1332,8 +1331,10 @@ class EmployeeResource extends Resource
                                     Infolists\Components\TextEntry::make('name')
                                         ->label('Name')
                                         ->weight(FontWeight::Bold)
+                                        ->placeholder('—')
                                         ->size(Infolists\Components\TextEntry\TextEntrySize::Large),
                                     Infolists\Components\TextEntry::make('job_title')
+                                        ->placeholder('—')
                                         ->label('Job Title'),
                                 ])->columnSpan(1),
                                 Infolists\Components\Group::make([
@@ -1347,30 +1348,38 @@ class EmployeeResource extends Resource
                             ->schema([
                                 Infolists\Components\TextEntry::make('work_email')
                                     ->label('Work Email')
+                                    ->placeholder('—')
                                     ->url(fn (?string $state) => $state ? "mailto:{$state}" : '#')
                                     ->icon('heroicon-o-envelope')
                                     ->iconPosition(IconPosition::Before),
                                 Infolists\Components\TextEntry::make('department.name')
+                                    ->placeholder('—')
                                     ->label('Department'),
                                 Infolists\Components\TextEntry::make('mobile_phone')
                                     ->label('Work Mobile')
+                                    ->placeholder('—')
                                     ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
                                     ->icon('heroicon-o-phone')
                                     ->iconPosition(IconPosition::Before),
                                 Infolists\Components\TextEntry::make('job.name')
+                                    ->placeholder('—')
                                     ->label('Job Position'),
                                 Infolists\Components\TextEntry::make('work_phone')
+                                    ->placeholder('—')
                                     ->label('Work Phone')
                                     ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
                                     ->icon('heroicon-o-phone')
                                     ->iconPosition(IconPosition::Before),
                                 Infolists\Components\TextEntry::make('parent.name')
+                                    ->placeholder('—')
                                     ->label('Manager'),
                                 Infolists\Components\TextEntry::make('categories.name')
+                                    ->placeholder('—')
                                     ->label('Employee Tags')
                                     ->listWithLineBreaks()
                                     ->bulleted(),
                                 Infolists\Components\TextEntry::make('coach.name')
+                                    ->placeholder('—')
                                     ->label('Coach'),
                             ]),
                     ]),
@@ -1387,9 +1396,11 @@ class EmployeeResource extends Resource
                                                 ->schema([
                                                     Infolists\Components\TextEntry::make('companyAddress.company.name')
                                                         ->label('Work Address')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-map'),
                                                     Infolists\Components\TextEntry::make('address')
                                                         ->visible(fn ($record) => $record->address)
+                                                        ->placeholder('—')
                                                         ->formatStateUsing(fn ($record) => $record->address
                                                             ? implode(', ', array_filter([
                                                                 $record->address->street1,
@@ -1403,6 +1414,7 @@ class EmployeeResource extends Resource
                                                         ->icon('heroicon-o-map')
                                                         ->hiddenLabel(),
                                                     Infolists\Components\TextEntry::make('workLocation.name')
+                                                        ->placeholder('—')
                                                         ->label('Work Location')
                                                         ->icon('heroicon-o-building-office'),
                                                 ]),
@@ -1410,8 +1422,10 @@ class EmployeeResource extends Resource
                                                 ->schema([
                                                     Infolists\Components\TextEntry::make('leaveManager.name')
                                                         ->label('Time Off')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-user-group'),
                                                     Infolists\Components\TextEntry::make('attendanceManager.name')
+                                                        ->placeholder('—')
                                                         ->label('Attendance')
                                                         ->icon('heroicon-o-user-group'),
                                                 ]),
@@ -1419,9 +1433,11 @@ class EmployeeResource extends Resource
                                                 ->schema([
                                                     Infolists\Components\TextEntry::make('calendar.name')
                                                         ->label('Working Hours')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-clock'),
                                                     Infolists\Components\TextEntry::make('time_zone')
                                                         ->label('Time Zone')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-clock'),
                                                 ]),
                                         ])->columnSpan(2),
@@ -1430,8 +1446,10 @@ class EmployeeResource extends Resource
                                                 ->schema([
                                                     Infolists\Components\TextEntry::make('company.name')
                                                         ->label('Company')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-briefcase'),
                                                     Infolists\Components\ColorEntry::make('color')
+                                                        ->placeholder('—')
                                                         ->label('Color'),
                                                 ]),
                                         ])->columnSpan(1),
@@ -1447,18 +1465,23 @@ class EmployeeResource extends Resource
                                                 ->schema([
                                                     Infolists\Components\TextEntry::make('permanentAddress.country.name')
                                                         ->label('Country')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-globe-alt'),
                                                     Infolists\Components\TextEntry::make('permanentAddress.state.name')
                                                         ->label('State')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-map'),
                                                     Infolists\Components\TextEntry::make('permanentAddress.street1')
                                                         ->label('Street Address')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-map'),
                                                     Infolists\Components\TextEntry::make('permanentAddress.street2')
                                                         ->label('Street Address Line 2')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-map'),
                                                     Infolists\Components\TextEntry::make('permanentAddress.city')
                                                         ->label('City')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-building-office'),
                                                     Infolists\Components\TextEntry::make('permanentAddress.zip')
                                                         ->label('Postal Code')
@@ -1469,21 +1492,27 @@ class EmployeeResource extends Resource
                                                 ->schema([
                                                     Infolists\Components\TextEntry::make('presentAddress.country.name')
                                                         ->label('Country')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-globe-alt'),
                                                     Infolists\Components\TextEntry::make('presentAddress.state.name')
                                                         ->label('State')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-map'),
                                                     Infolists\Components\TextEntry::make('presentAddress.street1')
                                                         ->label('Street Address')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-map'),
                                                     Infolists\Components\TextEntry::make('presentAddress.street2')
                                                         ->label('Street Address Line 2')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-map'),
                                                     Infolists\Components\TextEntry::make('presentAddress.city')
                                                         ->label('City')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-building-office'),
                                                     Infolists\Components\TextEntry::make('presentAddress.zip')
                                                         ->label('Postal Code')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-document-text'),
                                                 ])
                                                 ->columns(2),
@@ -1491,17 +1520,21 @@ class EmployeeResource extends Resource
                                                 ->schema([
                                                     Infolists\Components\TextEntry::make('private_phone')
                                                         ->label('Private Phone')
+                                                        ->placeholder('—')
                                                         ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
                                                         ->icon('heroicon-o-phone'),
                                                     Infolists\Components\TextEntry::make('private_email')
                                                         ->label('Private Email')
+                                                        ->placeholder('—')
                                                         ->url(fn (?string $state) => $state ? "mailto:{$state}" : '#')
                                                         ->icon('heroicon-o-envelope'),
                                                     Infolists\Components\TextEntry::make('private_car_plate')
                                                         ->label('Private Car Plate')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-rectangle-stack'),
                                                     Infolists\Components\TextEntry::make('distance_home_work')
                                                         ->label('Distance Home to Work')
+                                                        ->placeholder('—')
                                                         ->suffix('km')
                                                         ->icon('heroicon-o-map'),
                                                 ]),
@@ -1509,9 +1542,11 @@ class EmployeeResource extends Resource
                                                 ->schema([
                                                     Infolists\Components\TextEntry::make('emergency_contact')
                                                         ->label('Contact Name')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-user'),
                                                     Infolists\Components\TextEntry::make('emergency_phone')
                                                         ->label('Contact Phone')
+                                                        ->placeholder('—')
                                                         ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
                                                         ->icon('heroicon-o-phone'),
                                                 ]),
@@ -1519,18 +1554,21 @@ class EmployeeResource extends Resource
                                                 ->schema([
                                                     Infolists\Components\TextEntry::make('visa_no')
                                                         ->label('Visa Number')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-document-text')
                                                         ->copyable()
                                                         ->copyMessage('Visa number copied')
                                                         ->copyMessageDuration(1500),
                                                     Infolists\Components\TextEntry::make('permit_no')
                                                         ->label('Work Permit No')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-rectangle-stack')
                                                         ->copyable()
                                                         ->copyMessage('Permit number copied')
                                                         ->copyMessageDuration(1500),
                                                     Infolists\Components\TextEntry::make('visa_expire')
                                                         ->label('Visa Expiration Date')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-calendar-days')
                                                         ->date('F j, Y')
                                                         ->color(
@@ -1540,6 +1578,7 @@ class EmployeeResource extends Resource
                                                         ),
                                                     Infolists\Components\TextEntry::make('work_permit_expiration_date')
                                                         ->label('Work Permit Expiration Date')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-calendar-days')
                                                         ->date('F j, Y')
                                                         ->color(
@@ -1550,6 +1589,7 @@ class EmployeeResource extends Resource
                                                     Infolists\Components\ImageEntry::make('work_permit')
                                                         ->label('Work Permit Document')
                                                         ->columnSpanFull()
+                                                        ->placeholder('—')
                                                         ->height(200),
                                                 ]),
                                         ])->columnSpan(2),
@@ -1559,24 +1599,29 @@ class EmployeeResource extends Resource
                                                 ->schema([
                                                     Infolists\Components\TextEntry::make('country.name')
                                                         ->label('Country')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-globe-alt'),
                                                     Infolists\Components\TextEntry::make('state.name')
                                                         ->label('State')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-map'),
                                                     Infolists\Components\TextEntry::make('identification_id')
                                                         ->label('Identification No')
                                                         ->icon('heroicon-o-document-text')
+                                                        ->placeholder('—')
                                                         ->copyable()
                                                         ->copyMessage('ID copied')
                                                         ->copyMessageDuration(1500),
                                                     Infolists\Components\TextEntry::make('ssnid')
                                                         ->label('SSN No')
                                                         ->icon('heroicon-o-document-check')
+                                                        ->placeholder('—')
                                                         ->copyable()
                                                         ->copyMessage('SSN copied')
                                                         ->copyMessageDuration(1500),
                                                     Infolists\Components\TextEntry::make('sinid')
                                                         ->label('SIN ID')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-document')
                                                         ->copyable()
                                                         ->copyMessage('SIN ID copied')
@@ -1585,10 +1630,12 @@ class EmployeeResource extends Resource
                                                         ->label('Passport No')
                                                         ->icon('heroicon-o-identification')
                                                         ->copyable()
+                                                        ->placeholder('—')
                                                         ->copyMessage('Passport copied')
                                                         ->copyMessageDuration(1500),
                                                     Infolists\Components\TextEntry::make('gender')
                                                         ->label('Gender')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-user')
                                                         ->badge()
                                                         ->color(fn (string $state): string => match ($state) {
@@ -1599,13 +1646,16 @@ class EmployeeResource extends Resource
                                                     Infolists\Components\TextEntry::make('birthday')
                                                         ->label('Date of Birth')
                                                         ->icon('heroicon-o-calendar')
+                                                        ->placeholder('—')
                                                         ->date('F j, Y'),
                                                     Infolists\Components\TextEntry::make('countryOfBirth.name')
                                                         ->label('Country of Birth')
+                                                        ->placeholder('—')
                                                         ->icon('heroicon-o-globe-alt'),
                                                     Infolists\Components\TextEntry::make('country.phone_code')
                                                         ->label('Phone Code')
                                                         ->icon('heroicon-o-phone')
+                                                        ->placeholder('—')
                                                         ->prefix('+'),
                                                 ]),
                                         ])->columnSpan(1),
@@ -1634,24 +1684,31 @@ class EmployeeResource extends Resource
                                                             ->color(fn ($state) => $state ? 'success' : 'danger'),
                                                         Infolists\Components\TextEntry::make('user.name')
                                                             ->label('Related User')
+                                                            ->placeholder('—')
                                                             ->icon('heroicon-o-user'),
                                                         Infolists\Components\TextEntry::make('departureReason.name')
+                                                            ->placeholder('—')
                                                             ->label('Departure Reason'),
                                                         Infolists\Components\TextEntry::make('departure_date')
+                                                            ->placeholder('—')
                                                             ->label('Departure Date')
                                                             ->icon('heroicon-o-calendar-days'),
                                                         Infolists\Components\TextEntry::make('departure_description')
+                                                            ->placeholder('—')
                                                             ->label('Departure Description'),
                                                     ])
                                                     ->columns(2),
                                                 Infolists\Components\Fieldset::make('Additional Information')
                                                     ->schema([
                                                         Infolists\Components\TextEntry::make('lang')
+                                                            ->placeholder('—')
                                                             ->label('Primary Language'),
                                                         Infolists\Components\TextEntry::make('additional_note')
+                                                            ->placeholder('—')
                                                             ->label('Additional Notes')
                                                             ->columnSpanFull(),
                                                         Infolists\Components\TextEntry::make('notes')
+                                                            ->placeholder('—')
                                                             ->label('Notes'),
                                                     ])
                                                     ->columns(2),
@@ -1662,9 +1719,11 @@ class EmployeeResource extends Resource
                                                 Infolists\Components\Fieldset::make('Attendance/Point of Sale')
                                                     ->schema([
                                                         Infolists\Components\TextEntry::make('barcode')
+                                                            ->placeholder('—')
                                                             ->label('Badge ID')
                                                             ->icon('heroicon-o-qr-code'),
                                                         Infolists\Components\TextEntry::make('pin')
+                                                            ->placeholder('—')
                                                             ->label('PIN'),
                                                     ])
                                                     ->columns(1),

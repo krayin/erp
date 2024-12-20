@@ -69,12 +69,15 @@ class ActivityPlanResource extends Resource
                                     ->schema([
                                         Infolists\Components\TextEntry::make('name')
                                             ->icon('heroicon-o-briefcase')
+                                            ->placeholder('—')
                                             ->label('Name'),
                                         Infolists\Components\TextEntry::make('department.manager.name')
                                             ->icon('heroicon-o-user')
+                                            ->placeholder('—')
                                             ->label('Manager'),
                                         Infolists\Components\TextEntry::make('company.name')
                                             ->icon('heroicon-o-building-office')
+                                            ->placeholder('—')
                                             ->label('Company'),
                                         Infolists\Components\IconEntry::make('is_active')
                                             ->boolean()

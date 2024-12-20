@@ -51,9 +51,11 @@ class EmployeeCategoryResource extends Resource
         return $infolist
             ->schema([
                 Infolists\Components\TextEntry::make('name')
+                    ->placeholder('—')
                     ->icon('heroicon-o-tag')
                     ->label('Name'),
                 Infolists\Components\ColorEntry::make('color')
+                    ->placeholder('—')
                     ->label('Color'),
             ]);
     }

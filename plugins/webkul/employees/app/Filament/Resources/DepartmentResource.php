@@ -83,12 +83,16 @@ class DepartmentResource extends Resource
                                 Infolists\Components\Section::make('General Information')
                                     ->schema([
                                         Infolists\Components\TextEntry::make('name')
+                                            ->placeholder('—')
                                             ->label('Name'),
                                         Infolists\Components\TextEntry::make('manager.name')
+                                            ->placeholder('—')
                                             ->label('Manager'),
                                         Infolists\Components\TextEntry::make('company.name')
+                                            ->placeholder('—')
                                             ->label('Company'),
                                         Infolists\Components\ColorEntry::make('color')
+                                            ->placeholder('—')
                                             ->label('Color'),
                                     ])
                                     ->columns(2),

@@ -3,14 +3,14 @@
 namespace Webkul\Project\Filament\Resources\TaskResource\RelationManagers;
 
 use Filament\Forms\Form;
+use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Infolists\Infolist;
-use Webkul\Project\Filament\Resources\TaskResource;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Project\Models\TaskStage;
 use Webkul\Project\Enums\TaskState;
+use Webkul\Project\Filament\Resources\TaskResource;
+use Webkul\Project\Models\TaskStage;
 
 class SubTasksRelationManager extends RelationManager
 {
@@ -31,12 +31,12 @@ class SubTasksRelationManager extends RelationManager
                     ->label('Add Task Stage')
                     ->fillForm(function (array $arguments): array {
                         return [
-                            'stage_id' => TaskStage::first()?->id,
-                            'state' => TaskState::IN_PROGRESS,
-                            'project_id' => $this->getOwnerRecord()->project_id,
+                            'stage_id'     => TaskStage::first()?->id,
+                            'state'        => TaskState::IN_PROGRESS,
+                            'project_id'   => $this->getOwnerRecord()->project_id,
                             'milestone_id' => $this->getOwnerRecord()->milestone_id,
-                            'partner_id' => $this->getOwnerRecord()->partner_id,
-                            'users' => $this->getOwnerRecord()->users->pluck('id')->toArray(),
+                            'partner_id'   => $this->getOwnerRecord()->partner_id,
+                            'users'        => $this->getOwnerRecord()->users->pluck('id')->toArray(),
                         ];
                     })
                     ->mutateFormDataUsing(function (array $data): array {

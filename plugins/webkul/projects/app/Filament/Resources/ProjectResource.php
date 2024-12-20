@@ -4,6 +4,8 @@ namespace Webkul\Project\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
@@ -21,10 +23,6 @@ use Webkul\Project\Models\ProjectStage;
 use Webkul\Project\Settings\TaskSettings;
 use Webkul\Project\Settings\TimeSettings;
 use Webkul\Security\Filament\Resources\UserResource;
-use Filament\Infolists;
-use Filament\Infolists\Infolist;
-use Illuminate\Support\Str;
-use Webkul\Field\Filament\Forms\Components\StateFlow;
 
 class ProjectResource extends Resource
 {
@@ -374,7 +372,7 @@ class ProjectResource extends Resource
                                     ->label('Name')
                                     ->size(Infolists\Components\TextEntry\TextEntrySize::Large)
                                     ->weight(\Filament\Support\Enums\FontWeight::Bold),
-                                
+
                                 Infolists\Components\TextEntry::make('description')
                                     ->label('Description')
                                     ->markdown(),
@@ -398,10 +396,10 @@ class ProjectResource extends Resource
                                             ->label('Project Timeline')
                                             ->icon('heroicon-o-calendar')
                                             ->state(function (Project $record): ?string {
-                                                if (!$record->start_date || !$record->end_date) {
+                                                if (! $record->start_date || ! $record->end_date) {
                                                     return '—';
                                                 }
-                                                
+
                                                 return $record->start_date->format('d M Y').' - '.$record->end_date->format('d M Y');
                                             }),
 
@@ -447,11 +445,11 @@ class ProjectResource extends Resource
                                             ->state(function (Project $record): string {
                                                 $completed = $record->milestones()->where('is_completed', true)->count();
                                                 $total = $record->milestones()->count();
+
                                                 return "{$completed}/{$total}";
                                             })
                                             ->icon('heroicon-m-flag')
-                                            ->visible(fn (TaskSettings $taskSettings, Project $record) => 
-                                                $taskSettings->enable_milestones && $record->allow_milestones),
+                                            ->visible(fn (TaskSettings $taskSettings, Project $record) => $taskSettings->enable_milestones && $record->allow_milestones),
                                     ]),
                             ]),
                     ])

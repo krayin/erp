@@ -91,24 +91,30 @@ class ResumeRelationManager extends RelationManager
                             ->schema([
                                 Infolists\Components\TextEntry::make('name')
                                     ->label('Title')
+                                    ->placeholder('—')
                                     ->icon('heroicon-o-document-text'),
                                 Infolists\Components\TextEntry::make('display_type')
                                     ->label('Display Type')
+                                    ->placeholder('—')
                                     ->icon('heroicon-o-document'),
                                 Infolists\Components\Group::make()
                                     ->schema([
                                         Infolists\Components\TextEntry::make('resumeType.name')
+                                            ->placeholder('—')
                                             ->label('Type'),
                                     ]),
                                 Infolists\Components\TextEntry::make('description')
+                                    ->placeholder('—')
                                     ->label('Description'),
                             ])->columns(2),
                         Infolists\Components\Fieldset::make('Duration')
                             ->schema([
                                 Infolists\Components\TextEntry::make('start_date')
+                                    ->placeholder('—')
                                     ->label('Start Date')
                                     ->icon('heroicon-o-calendar'),
                                 Infolists\Components\TextEntry::make('end_date')
+                                    ->placeholder('—')
                                     ->label('End Date')
                                     ->icon('heroicon-o-calendar'),
                             ])

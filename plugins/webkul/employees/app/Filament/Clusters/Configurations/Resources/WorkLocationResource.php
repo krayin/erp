@@ -58,14 +58,18 @@ class WorkLocationResource extends Resource
             ->schema([
                 Infolists\Components\TextEntry::make('name')
                     ->icon('heroicon-o-map')
+                    ->placeholder('—')
                     ->label('Name'),
                 Infolists\Components\TextEntry::make('location_type')
                     ->icon('heroicon-o-map')
+                    ->placeholder('—')
                     ->label('Location Type'),
                 Infolists\Components\TextEntry::make('location_number')
+                    ->placeholder('—')
                     ->icon('heroicon-o-map')
                     ->label('Location Number'),
                 Infolists\Components\TextEntry::make('company.name')
+                    ->placeholder('—')
                     ->icon('heroicon-o-building-office')
                     ->label('Country'),
                 Infolists\Components\IconEntry::make('is_active')

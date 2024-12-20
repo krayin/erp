@@ -4,6 +4,8 @@ namespace Webkul\Project\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -23,9 +25,6 @@ use Webkul\Project\Settings\TaskSettings;
 use Webkul\Project\Settings\TimeSettings;
 use Webkul\Security\Filament\Resources\UserResource;
 use Webkul\Support\Filament\Tables\Columns\ProgressBarEntry;
-use Filament\Infolists;
-use Filament\Infolists\Infolist;
-use Webkul\Field\Filament\Forms\Components\StateFlow;
 
 class TaskResource extends Resource
 {
@@ -583,6 +582,7 @@ class TaskResource extends Resource
                                             ->formatStateUsing(function ($state) {
                                                 $hours = floor($state);
                                                 $minutes = ($state - $hours) * 60;
+
                                                 return $hours.':'.$minutes;
                                             })
                                             ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
@@ -594,6 +594,7 @@ class TaskResource extends Resource
                                             ->formatStateUsing(function ($state) {
                                                 $hours = floor($state);
                                                 $minutes = ($state - $hours) * 60;
+
                                                 return $hours.':'.$minutes;
                                             })
                                             ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
@@ -605,6 +606,7 @@ class TaskResource extends Resource
                                             ->formatStateUsing(function ($state) {
                                                 $hours = floor($state);
                                                 $minutes = ($state - $hours) * 60;
+
                                                 return $hours.':'.$minutes;
                                             })
                                             ->color(fn ($state): string => $state < 0 ? 'danger' : 'success')
@@ -614,9 +616,8 @@ class TaskResource extends Resource
                                             ->label('Progress')
                                             ->icon('heroicon-o-chart-bar')
                                             ->suffix('%')
-                                            ->color(fn ($record): string => 
-                                                $record->progress > 100 
-                                                    ? 'danger' 
+                                            ->color(fn ($record): string => $record->progress > 100
+                                                    ? 'danger'
                                                     : ($record->progress < 100 ? 'warning' : 'success')
                                             )
                                             ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
@@ -624,7 +625,6 @@ class TaskResource extends Resource
                             ])
                             ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
 
-                        
                         Infolists\Components\Section::make('Additional Information')
                             ->visible(! empty($customInfolistEntries = static::getCustomInfolistEntries()))
                             ->schema($customInfolistEntries),

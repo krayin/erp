@@ -57,11 +57,14 @@ class EmploymentTypeResource extends Resource
             ->schema([
                 Infolists\Components\TextEntry::make('name')
                     ->icon('heroicon-o-user')
+                    ->placeholder('—')
                     ->label('Name'),
                 Infolists\Components\TextEntry::make('code')
+                    ->placeholder('—')
                     ->icon('heroicon-o-user')
                     ->label('Code'),
                 Infolists\Components\TextEntry::make('country.name')
+                    ->placeholder('—')
                     ->icon('heroicon-o-map')
                     ->label('Country'),
             ]);

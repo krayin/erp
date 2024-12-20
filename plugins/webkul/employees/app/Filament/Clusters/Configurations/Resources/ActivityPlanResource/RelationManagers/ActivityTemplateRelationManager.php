@@ -119,21 +119,26 @@ class ActivityTemplateRelationManager extends RelationManager
                                     ->schema([
                                         Infolists\Components\TextEntry::make('activityType.name')
                                             ->label('Activity Type')
+                                            ->placeholder('—')
                                             ->icon('heroicon-o-briefcase'),
                                         Infolists\Components\TextEntry::make('summary')
                                             ->label('Summary')
+                                            ->placeholder('—')
                                             ->icon('heroicon-o-document-text'),
                                     ])->columns(2),
                                 Infolists\Components\Section::make('Delay Information')
                                     ->schema([
                                         Infolists\Components\TextEntry::make('delay_count')
                                             ->label('Delay Count')
+                                            ->placeholder('—')
                                             ->icon('heroicon-o-clock'),
                                         Infolists\Components\TextEntry::make('delay_unit')
                                             ->label('Delay Unit')
+                                            ->placeholder('—')
                                             ->icon('heroicon-o-calendar'),
                                         Infolists\Components\TextEntry::make('delay_from')
                                             ->label('Delay From')
+                                            ->placeholder('—')
                                             ->formatStateUsing(fn ($state) => ActivityDelayInterval::options()[$state])
                                             ->helperText('Source of delay calculation')
                                             ->icon('heroicon-o-ellipsis-horizontal-circle'),
@@ -141,6 +146,7 @@ class ActivityTemplateRelationManager extends RelationManager
                                 Infolists\Components\TextEntry::make('note')
                                     ->label('Note')
                                     ->html()
+                                    ->placeholder('—')
                                     ->icon('heroicon-o-document'),
                             ])->columnSpan(2),
                         Infolists\Components\Group::make([
@@ -148,8 +154,10 @@ class ActivityTemplateRelationManager extends RelationManager
                                 ->schema([
                                     Infolists\Components\TextEntry::make('responsible_type')
                                         ->label('Assignment')
+                                        ->placeholder('—')
                                         ->icon('heroicon-o-user-circle'),
                                     Infolists\Components\TextEntry::make('responsible.name')
+                                        ->placeholder('—')
                                         ->label('Assignee')
                                         ->icon('heroicon-o-user'),
                                 ]),

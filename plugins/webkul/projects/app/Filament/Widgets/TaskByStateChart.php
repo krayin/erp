@@ -1,11 +1,11 @@
 <?php
- 
+
 namespace Webkul\Project\Filament\Widgets;
- 
+
 use Filament\Widgets\ChartWidget;
-use Webkul\Project\Models\Task;
 use Webkul\Project\Enums\TaskState;
- 
+use Webkul\Project\Models\Task;
+
 class TaskByStateChart extends ChartWidget
 {
     protected static ?string $heading = 'Tasks By State';
@@ -13,7 +13,7 @@ class TaskByStateChart extends ChartWidget
     protected static ?string $maxHeight = '350px';
 
     protected static ?int $sort = 1;
- 
+
     protected function getData(): array
     {
         foreach (TaskState::cases() as $state) {
@@ -26,13 +26,13 @@ class TaskByStateChart extends ChartWidget
             'datasets' => [
                 [
                     'label' => 'Tasks created',
-                    'data' => $datasets['datasets'],
+                    'data'  => $datasets['datasets'],
                 ],
             ],
             'labels' => $datasets['labels'],
         ];
     }
- 
+
     protected function getType(): string
     {
         return 'pie';
