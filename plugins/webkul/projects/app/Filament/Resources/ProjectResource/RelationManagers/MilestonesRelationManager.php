@@ -21,6 +21,8 @@ class MilestonesRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return MilestoneResource::table($table)
+            ->filters([])
+            ->groups([])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
                     ->label('Add Task Stage')

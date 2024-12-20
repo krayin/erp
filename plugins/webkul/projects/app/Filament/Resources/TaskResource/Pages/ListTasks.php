@@ -6,6 +6,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Filament\Tables\Table;
 use Webkul\Project\Enums\TaskState;
 use Webkul\Project\Filament\Resources\TaskResource;
 use Webkul\TableViews\Components\PresetView;
@@ -16,6 +17,14 @@ class ListTasks extends ListRecords
     use HasTableViews;
 
     protected static string $resource = TaskResource::class;
+
+    public function table(Table $table): Table
+    {
+        $table = parent::table($table)
+            ->modifyQueryUsing(fn ($query) => $query->whereNull('parent_id'));
+
+        return $table;
+    } 
 
     public function getPresetTableViews(): array
     {

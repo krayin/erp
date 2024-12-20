@@ -9,7 +9,7 @@ class FieldsPlugin implements Plugin
 {
     public function getId(): string
     {
-        return 'field';
+        return 'fields';
     }
 
     public static function make(): static

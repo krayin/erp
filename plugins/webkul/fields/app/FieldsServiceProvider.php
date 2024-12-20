@@ -10,9 +10,9 @@ use Webkul\Support\PackageServiceProvider;
 
 class FieldsServiceProvider extends PackageServiceProvider
 {
-    public static string $name = 'field';
+    public static string $name = 'fields';
 
-    public static string $viewNamespace = 'field';
+    public static string $viewNamespace = 'fields';
 
     public function configureCustomPackage(Package $package): void
     {

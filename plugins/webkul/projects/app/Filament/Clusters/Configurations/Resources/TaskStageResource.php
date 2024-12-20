@@ -27,11 +27,11 @@ class TaskStageResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('Name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Toggle::make('is_collapsed')
-                    ->required(),
                 Forms\Components\Select::make('project_id')
+                    ->label('Project')
                     ->relationship('project', 'name')
                     ->hiddenOn(TaskStagesRelationManager::class)
                     ->required()
@@ -50,16 +50,12 @@ class TaskStageResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('project.name')
+                    ->label('Project')
                     ->hiddenOn(TaskStagesRelationManager::class)
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\ToggleColumn::make('is_collapsed')
-                    ->label('Collapsed')
-                    ->sortable(),
             ])
             ->filters([
-                Tables\Filters\TernaryFilter::make('is_collapsed')
-                    ->label('Collapsed'),
                 Tables\Filters\SelectFilter::make('project_id')
                     ->relationship('project', 'name')
                     ->hiddenOn(TaskStagesRelationManager::class)
@@ -70,8 +66,6 @@ class TaskStageResource extends Resource
             ->groups([
                 Tables\Grouping\Group::make('project.name')
                     ->label('Project'),
-                Tables\Grouping\Group::make('is_collapsed')
-                    ->label('Is Collapsed'),
                 Tables\Grouping\Group::make('created_at')
                     ->label('Created At')
                     ->date(),

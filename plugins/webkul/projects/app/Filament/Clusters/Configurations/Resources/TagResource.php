@@ -26,10 +26,11 @@ class TagResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->name('name')
                     ->required()
                     ->maxLength(255)
                     ->unique(ignoreRecord: true),
-                Forms\Components\ColorPicker::make('color'),
+                // Forms\Components\ColorPicker::make('color'),
             ]);
     }
 
@@ -39,8 +40,8 @@ class TagResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\ColorColumn::make('color')
-                    ->wrap(),
+                // Tables\Columns\ColorColumn::make('color')
+                //     ->wrap(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
