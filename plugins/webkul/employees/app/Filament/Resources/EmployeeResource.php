@@ -674,9 +674,11 @@ class EmployeeResource extends Resource
                                                             ->label('Work Permit No'),
                                                         Forms\Components\DatePicker::make('visa_expire')
                                                             ->label('Visa Expiration Date')
+                                                            ->suffixIcon('heroicon-o-calendar')
                                                             ->native(false),
                                                         Forms\Components\DatePicker::make('work_permit_expiration_date')
                                                             ->label('Work Permit Expiration Date')
+                                                            ->suffixIcon('heroicon-o-calendar')
                                                             ->native(false),
                                                         Forms\Components\FileUpload::make('work_permit')
                                                             ->label('Work Permit')
@@ -926,18 +928,6 @@ class EmployeeResource extends Resource
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('emergency_phone')
                             ->label('Emergency Phone')
                             ->icon('heroicon-o-phone'),
-                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_street1')
-                            ->label('Private Street1')
-                            ->icon('heroicon-o-map'),
-                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_street2')
-                            ->label('Private Street2')
-                            ->icon('heroicon-o-map'),
-                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_city')
-                            ->label('Private City')
-                            ->icon('heroicon-o-map'),
-                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_zip')
-                            ->label('Private Zip')
-                            ->icon('heroicon-o-map'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_phone')
                             ->label('Private Phone')
                             ->icon('heroicon-o-phone'),

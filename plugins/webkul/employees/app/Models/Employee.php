@@ -45,8 +45,6 @@ class Employee extends Model
         'coach_id',
         'country_id',
         'state_id',
-        'private_state_id',
-        'private_country_id',
         'country_of_birth',
         'bank_account_id',
         'departure_reason_id',
@@ -60,10 +58,6 @@ class Employee extends Model
         'distance_home_work',
         'km_home_work',
         'distance_home_work_unit',
-        'private_street1',
-        'private_street2',
-        'private_city',
-        'private_zip',
         'private_phone',
         'private_email',
         'lang',
@@ -179,16 +173,6 @@ class Employee extends Model
     public function coach(): BelongsTo
     {
         return $this->belongsTo(Employee::class, 'coach_id');
-    }
-
-    public function privateState(): BelongsTo
-    {
-        return $this->belongsTo(State::class, 'private_state_id');
-    }
-
-    public function privateCountry(): BelongsTo
-    {
-        return $this->belongsTo(Country::class, 'private_country_id');
     }
 
     public function country(): BelongsTo
