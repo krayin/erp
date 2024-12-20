@@ -1,9 +1,9 @@
 <?php
 
-namespace Webkul\Fields\Policies;
+namespace Webkul\Field\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Webkul\Fields\Models\Field;
+use Webkul\Field\Models\Field;
 use Webkul\Security\Models\User;
 
 class FieldPolicy

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Employee\Database\Factories\EmployeeFactory;
-use Webkul\Fields\Traits\HasCustomFields;
+use Webkul\Field\Traits\HasCustomFields;
 use Webkul\Partner\Enums\AddressType;
 use Webkul\Partner\Models\BankAccount;
 use Webkul\Partner\Models\Partner;

@@ -12,6 +12,7 @@
         "bezhansalleh/filament-shield": "^3.2",
         "filament/filament": "^3.2",
         "filament/spatie-laravel-settings-plugin": "^3.2",
+        "flowframe/laravel-trend": "^0.3.0",
         "guava/filament-icon-picker": "^2.0",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",

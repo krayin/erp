@@ -36,10 +36,10 @@ class ProjectStageResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('Name')
                     ->required()
                     ->maxLength(255)
                     ->unique(ignoreRecord: true),
-                Forms\Components\Toggle::make('is_collapsed'),
             ])
             ->columns(1);
     }
@@ -52,17 +52,8 @@ class ProjectStageResource extends Resource
                     ->label('Name')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\ToggleColumn::make('is_collapsed')
-                    ->label('Collapsed')
-                    ->sortable(),
-            ])
-            ->filters([
-                Tables\Filters\TernaryFilter::make('is_collapsed')
-                    ->label('Collapsed'),
             ])
             ->groups([
-                Tables\Grouping\Group::make('is_collapsed')
-                    ->label('Is Collapsed'),
                 Tables\Grouping\Group::make('created_at')
                     ->label('Created At')
                     ->date(),

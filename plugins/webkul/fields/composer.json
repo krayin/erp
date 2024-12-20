@@ -10,21 +10,21 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Webkul\\Fields\\Providers\\FieldsServiceProvider"
+                "Webkul\\Field\\Providers\\FieldServiceProvider"
             ],
             "aliases": {}
         }
     },
     "autoload": {
         "psr-4": {
-            "Webkul\\Fields\\": "app/",
-            "Webkul\\Fields\\Database\\Factories\\": "database/factories/",
-            "Webkul\\Fields\\Database\\Seeders\\": "database/seeders/"
+            "Webkul\\Field\\": "app/",
+            "Webkul\\Field\\Database\\Factories\\": "database/factories/",
+            "Webkul\\Field\\Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Webkul\\Fields\\Tests\\": "tests/"
+            "Webkul\\Field\\Tests\\": "tests/"
         }
     }
 }

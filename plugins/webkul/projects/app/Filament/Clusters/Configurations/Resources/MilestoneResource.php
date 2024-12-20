@@ -38,13 +38,17 @@ class MilestoneResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('Name')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\DateTimePicker::make('deadline')
+                    ->label('Deadline')
                     ->native(false),
                 Forms\Components\Toggle::make('is_completed')
+                    ->label('Is Completed')
                     ->required(),
                 Forms\Components\Select::make('project_id')
+                    ->label('Project')
                     ->relationship('project', 'name')
                     ->hiddenOn([
                         MilestonesRelationManager::class,
@@ -62,18 +66,23 @@ class MilestoneResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('deadline')
+                    ->label('Deadline')
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\ToggleColumn::make('is_completed')
+                    ->label('Is Completed')
                     ->beforeStateUpdated(function ($record, $state) {
                         $record->completed_at = $state ? now() : null;
                     }),
                 Tables\Columns\TextColumn::make('completed_at')
+                    ->label('Completed At')
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('project.name')
+                    ->label('Project')
                     ->hiddenOn([
                         MilestonesRelationManager::class,
                         ManageProjectMilestones::class,
@@ -81,13 +90,16 @@ class MilestoneResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('creator.name')
+                    ->label('Creator')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Created At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Updated At')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -96,17 +108,17 @@ class MilestoneResource extends Resource
                 Tables\Filters\TernaryFilter::make('is_completed')
                     ->label('Is Completed'),
                 Tables\Filters\SelectFilter::make('project_id')
+                    ->label('Project')
                     ->relationship('project', 'name')
                     ->hiddenOn([
                         MilestonesRelationManager::class,
                         ManageProjectMilestones::class,
                     ])
-                    ->label('Project')
                     ->searchable()
                     ->preload(),
                 Tables\Filters\SelectFilter::make('creator_id')
-                    ->relationship('creator', 'name')
                     ->label('Creator')
+                    ->relationship('creator', 'name')
                     ->searchable()
                     ->preload(),
             ])

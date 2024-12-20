@@ -1,12 +1,12 @@
 <?php
 
-namespace Webkul\Fields\Filament\Infolists\Components;
+namespace Webkul\Field\Filament\Infolists\Components;
 
 use Filament\Infolists;
 use Filament\Infolists\Components\Component;
 use Filament\Support\Enums\FontWeight;
 use Illuminate\Support\Collection;
-use Webkul\Fields\Models\Field;
+use Webkul\Field\Models\Field;
 
 class CustomEntries extends Component
 {

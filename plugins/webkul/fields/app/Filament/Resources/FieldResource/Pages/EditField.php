@@ -1,11 +1,11 @@
 <?php
 
-namespace Webkul\Fields\Filament\Resources\FieldResource\Pages;
+namespace Webkul\Field\Filament\Resources\FieldResource\Pages;
 
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
-use Webkul\Fields\FieldsColumnManager;
-use Webkul\Fields\Filament\Resources\FieldResource;
+use Webkul\Field\FieldsColumnManager;
+use Webkul\Field\Filament\Resources\FieldResource;
 
 class EditField extends EditRecord
 {

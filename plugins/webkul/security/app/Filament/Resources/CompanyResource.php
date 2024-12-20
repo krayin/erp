@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Fields\Filament\Traits\HasCustomFields;
+use Webkul\Field\Filament\Traits\HasCustomFields;
 use Webkul\Security\Filament\Resources\CompanyResource\Pages;
 use Webkul\Security\Filament\Resources\CompanyResource\RelationManagers;
 use Webkul\Support\Models\Company;

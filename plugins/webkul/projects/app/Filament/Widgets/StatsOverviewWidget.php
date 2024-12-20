@@ -14,7 +14,7 @@ class StatsOverviewWidget extends BaseWidget
 
     protected static ?int $sort = 0;
 
-    protected static bool $isDiscovered = false;
+    // protected static bool $isDiscovered = false;
 
     protected function getStats(): array
     {

@@ -21,6 +21,8 @@ class TaskStagesRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return TaskStageResource::table($table)
+            ->filters([])
+            ->groups([])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
                     ->label('Add Task Stage')

@@ -11,7 +11,7 @@ use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Fields\Filament\Traits\HasCustomFields;
+use Webkul\Field\Filament\Traits\HasCustomFields;
 use Webkul\Project\Enums\TaskState;
 use Webkul\Project\Filament\Resources\ProjectResource\Pages\ManageProjectTasks;
 use Webkul\Project\Filament\Resources\TaskResource\Pages;
@@ -23,6 +23,9 @@ use Webkul\Project\Settings\TaskSettings;
 use Webkul\Project\Settings\TimeSettings;
 use Webkul\Security\Filament\Resources\UserResource;
 use Webkul\Support\Filament\Tables\Columns\ProgressBarEntry;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
+use Webkul\Field\Filament\Forms\Components\StateFlow;
 
 class TaskResource extends Resource
 {
@@ -58,7 +61,7 @@ class TaskResource extends Resource
                                     ->extraInputAttributes(['style' => 'font-size: 1.5rem;height: 3rem;']),
                                 Forms\Components\ToggleButtons::make('state')
                                     ->required()
-                                    ->default('in_progress')
+                                    ->default(TaskState::IN_PROGRESS)
                                     ->inline()
                                     ->options(TaskState::options())
                                     ->colors(TaskState::colors())
@@ -74,7 +77,6 @@ class TaskResource extends Resource
                                             ->label('Name')
                                             ->required()
                                             ->unique('projects_tags'),
-                                        Forms\Components\ColorPicker::make('color'),
                                     ]),
                                 Forms\Components\RichEditor::make('description')
                                     ->label('Description'),
@@ -124,7 +126,6 @@ class TaskResource extends Resource
                                         Forms\Components\Hidden::make('creator_id')
                                             ->default(fn () => Auth::user()->id),
                                     ])
-                                    // ->hidden(fn (Forms\Get $get) => ! $get('project_id'))
                                     ->hidden(function (TaskSettings $taskSettings, Forms\Get $get) {
                                         $project = Project::find($get('project_id'));
 
@@ -139,27 +140,14 @@ class TaskResource extends Resource
                                         return ! $project->allow_milestones;
                                     })
                                     ->visible(fn (TaskSettings $taskSettings) => $taskSettings->enable_milestones),
-                                // ->visible(function (TaskSettings $taskSettings, Forms\Get $get) {
-                                //     if ($taskSettings->enable_milestones) {
-                                //         return true;
-                                //     }
-
-                                //     $project = Project::find($get('project_id'));
-
-                                //     if (! $project) {
-                                //         return false;
-                                //     }
-
-                                //     return $project->allow_milestones;
-                                // }),
                                 Forms\Components\Select::make('partner_id')
                                     ->label('Customer')
                                     ->relationship('partner', 'name')
                                     ->searchable()
                                     ->preload()
-                                    ->createOptionForm(fn (Form $form) => PartnerResource::form($form))
-                                    ->editOptionForm(fn (Form $form) => PartnerResource::form($form)),
-                                Forms\Components\Select::make('user_id')
+                                    ->createOptionForm(fn (Form $form): Form => PartnerResource::form($form))
+                                    ->editOptionForm(fn (Form $form): Form => PartnerResource::form($form)),
+                                Forms\Components\Select::make('users')
                                     ->label('Assignees')
                                     ->relationship('users', 'name')
                                     ->searchable()
@@ -173,7 +161,9 @@ class TaskResource extends Resource
                                 Forms\Components\TextInput::make('allocated_hours')
                                     ->label('Allocated Hours')
                                     ->numeric()
+                                    ->minValue(0)
                                     ->suffixIcon('heroicon-o-clock')
+                                    ->dehydrateStateUsing(fn ($state) => $state ?: 0)
                                     ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
                             ]),
                     ]),
@@ -504,21 +494,186 @@ class TaskResource extends Resource
                     Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
                 ]),
+            ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\Group::make()
+                    ->schema([
+                        Infolists\Components\Section::make('General Information')
+                            ->schema([
+                                Infolists\Components\TextEntry::make('title')
+                                    ->label('Title')
+                                    ->size(Infolists\Components\TextEntry\TextEntrySize::Large)
+                                    ->weight(\Filament\Support\Enums\FontWeight::Bold),
+
+                                Infolists\Components\TextEntry::make('state')
+                                    ->badge()
+                                    ->icon(fn (string $state): string => TaskState::icons()[$state])
+                                    ->color(fn (string $state): string => TaskState::colors()[$state])
+                                    ->formatStateUsing(fn (string $state): string => TaskState::options()[$state]),
+
+                                Infolists\Components\IconEntry::make('priority')
+                                    ->label('Priority')
+                                    ->icon(fn ($record): string => $record->priority ? 'heroicon-s-star' : 'heroicon-o-star')
+                                    ->color(fn ($record): string => $record->priority ? 'warning' : 'gray'),
+
+                                Infolists\Components\TextEntry::make('description')
+                                    ->label('Description')
+                                    ->html(),
+
+                                Infolists\Components\TextEntry::make('tags.name')
+                                    ->label('Tags')
+                                    ->badge()
+                                    ->separator(', '),
+                            ]),
+
+                        Infolists\Components\Section::make('Project Details')
+                            ->schema([
+                                Infolists\Components\Grid::make(2)
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('project.name')
+                                            ->label('Project')
+                                            ->icon('heroicon-o-folder')
+                                            ->placeholder('—'),
+
+                                        Infolists\Components\TextEntry::make('milestone.name')
+                                            ->label('Milestone')
+                                            ->icon('heroicon-o-flag')
+                                            ->placeholder('—')
+                                            ->visible(fn (TaskSettings $taskSettings) => $taskSettings->enable_milestones),
+
+                                        Infolists\Components\TextEntry::make('stage.name')
+                                            ->label('Stage')
+                                            ->icon('heroicon-o-queue-list')
+                                            ->badge(),
+
+                                        Infolists\Components\TextEntry::make('partner.name')
+                                            ->label('Customer')
+                                            ->icon('heroicon-o-phone')
+                                            ->listWithLineBreaks()
+                                            ->placeholder('—'),
+
+                                        Infolists\Components\TextEntry::make('users.name')
+                                            ->label('Assignees')
+                                            ->icon('heroicon-o-users')
+                                            ->listWithLineBreaks()
+                                            ->placeholder('—'),
+
+                                        Infolists\Components\TextEntry::make('deadline')
+                                            ->label('Deadline')
+                                            ->icon('heroicon-o-calendar')
+                                            ->dateTime()
+                                            ->placeholder('—'),
+                                    ]),
+                            ]),
+
+                        Infolists\Components\Section::make('Time Tracking')
+                            ->schema([
+                                Infolists\Components\Grid::make(2)
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('allocated_hours')
+                                            ->label('Allocated Time')
+                                            ->icon('heroicon-o-clock')
+                                            ->suffix(' Hours')
+                                            ->placeholder('—')
+                                            ->formatStateUsing(function ($state) {
+                                                $hours = floor($state);
+                                                $minutes = ($state - $hours) * 60;
+                                                return $hours.':'.$minutes;
+                                            })
+                                            ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
+
+                                        Infolists\Components\TextEntry::make('total_hours_spent')
+                                            ->label('Time Spent')
+                                            ->icon('heroicon-o-clock')
+                                            ->suffix(' Hours')
+                                            ->formatStateUsing(function ($state) {
+                                                $hours = floor($state);
+                                                $minutes = ($state - $hours) * 60;
+                                                return $hours.':'.$minutes;
+                                            })
+                                            ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
+
+                                        Infolists\Components\TextEntry::make('remaining_hours')
+                                            ->label('Time Remaining')
+                                            ->icon('heroicon-o-clock')
+                                            ->suffix(' Hours')
+                                            ->formatStateUsing(function ($state) {
+                                                $hours = floor($state);
+                                                $minutes = ($state - $hours) * 60;
+                                                return $hours.':'.$minutes;
+                                            })
+                                            ->color(fn ($state): string => $state < 0 ? 'danger' : 'success')
+                                            ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
+
+                                        Infolists\Components\TextEntry::make('progress')
+                                            ->label('Progress')
+                                            ->icon('heroicon-o-chart-bar')
+                                            ->suffix('%')
+                                            ->color(fn ($record): string => 
+                                                $record->progress > 100 
+                                                    ? 'danger' 
+                                                    : ($record->progress < 100 ? 'warning' : 'success')
+                                            )
+                                            ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
+                                    ]),
+                            ])
+                            ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
+
+                        
+                        Infolists\Components\Section::make('Additional Information')
+                            ->visible(! empty($customInfolistEntries = static::getCustomInfolistEntries()))
+                            ->schema($customInfolistEntries),
+                    ])
+                    ->columnSpan(['lg' => 2]),
+
+                Infolists\Components\Group::make()
+                    ->schema([
+                        Infolists\Components\Section::make('Record Details')
+                            ->schema([
+                                Infolists\Components\TextEntry::make('created_at')
+                                    ->label('Created At')
+                                    ->dateTime()
+                                    ->icon('heroicon-m-calendar'),
+
+                                Infolists\Components\TextEntry::make('creator.name')
+                                    ->label('Created By')
+                                    ->icon('heroicon-m-user'),
+
+                                Infolists\Components\TextEntry::make('updated_at')
+                                    ->label('Last Updated')
+                                    ->dateTime()
+                                    ->icon('heroicon-m-calendar-days'),
+                            ]),
+
+                        Infolists\Components\Section::make('Statistics')
+                            ->schema([
+                                Infolists\Components\TextEntry::make('subtasks_count')
+                                    ->label('Sub Tasks')
+                                    ->state(fn (Task $record): int => $record->subTasks()->count())
+                                    ->icon('heroicon-o-clipboard-document-list'),
+
+                                Infolists\Components\TextEntry::make('timesheets_count')
+                                    ->label('Timesheet Entries')
+                                    ->state(fn (Task $record): int => $record->timesheets()->count())
+                                    ->icon('heroicon-o-clock')
+                                    ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
+                            ]),
+                    ])
+                    ->columnSpan(['lg' => 1]),
             ])
-            ->modifyQueryUsing(fn ($query) => $query->whereNull('parent_id'));
+            ->columns(3);
     }
 
     public static function getRelations(): array
     {
-        if (! preg_match('/\d+/', request()->getPathInfo(), $matches)) {
-            return [];
-        }
-
-        $task = Task::find($matches[0]);
-
         $relations = [];
 
-        if (app(TimeSettings::class)->enable_timesheets && $task?->project?->allow_timesheets) {
+        if (app(TimeSettings::class)->enable_timesheets) {
             $relations[] = RelationGroup::make('Timesheets', [
                 RelationManagers\TimesheetsRelationManager::class,
             ]);

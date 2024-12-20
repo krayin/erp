@@ -1,18 +1,18 @@
 <?php
 
-namespace Webkul\Fields;
+namespace Webkul\Field;
 
 use Illuminate\Support\Facades\Gate;
-use Webkul\Fields\Models\Field;
-use Webkul\Fields\Policies\FieldPolicy;
+use Webkul\Field\Models\Field;
+use Webkul\Field\Policies\FieldPolicy;
 use Webkul\Support\Package;
 use Webkul\Support\PackageServiceProvider;
 
-class FieldsServiceProvider extends PackageServiceProvider
+class FieldServiceProvider extends PackageServiceProvider
 {
-    public static string $name = 'field';
+    public static string $name = 'fields';
 
-    public static string $viewNamespace = 'field';
+    public static string $viewNamespace = 'fields';
 
     public function configureCustomPackage(Package $package): void
     {

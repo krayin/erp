@@ -1,13 +1,13 @@
 <?php
 
-namespace Webkul\Fields\Filament\Tables\Filters;
+namespace Webkul\Field\Filament\Tables\Filters;
 
 use Filament\Support\Components\Component;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Webkul\Fields\Models\Field;
+use Webkul\Field\Models\Field;
 
 class CustomFilters extends Component
 {
