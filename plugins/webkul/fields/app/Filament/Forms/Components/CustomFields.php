@@ -1,11 +1,11 @@
 <?php
 
-namespace Webkul\Fields\Filament\Forms\Components;
+namespace Webkul\Field\Filament\Forms\Components;
 
 use Filament\Forms;
 use Filament\Forms\Components\Component;
 use Illuminate\Support\Collection;
-use Webkul\Fields\Models\Field;
+use Webkul\Field\Models\Field;
 
 class CustomFields extends Component
 {

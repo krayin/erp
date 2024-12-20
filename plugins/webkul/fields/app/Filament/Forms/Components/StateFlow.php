@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\Fields\Filament\Forms\Components;
+namespace Webkul\Field\Filament\Forms\Components;
 
 use Filament\Forms\Components\ToggleButtons;
 

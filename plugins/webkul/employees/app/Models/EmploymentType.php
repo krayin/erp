@@ -5,7 +5,7 @@ namespace Webkul\Employee\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Webkul\Employee\Database\Factories\EmploymentTypeFactory;
-use Webkul\Fields\Traits\HasCustomFields;
+use Webkul\Field\Traits\HasCustomFields;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Country;
 

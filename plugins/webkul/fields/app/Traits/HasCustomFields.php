@@ -1,8 +1,8 @@
 <?php
 
-namespace Webkul\Fields\Traits;
+namespace Webkul\Field\Traits;
 
-use Webkul\Fields\Models\Field;
+use Webkul\Field\Models\Field;
 
 trait HasCustomFields
 {

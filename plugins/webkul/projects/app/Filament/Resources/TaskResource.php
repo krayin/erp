@@ -11,7 +11,7 @@ use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Fields\Filament\Traits\HasCustomFields;
+use Webkul\Field\Filament\Traits\HasCustomFields;
 use Webkul\Project\Enums\TaskState;
 use Webkul\Project\Filament\Resources\ProjectResource\Pages\ManageProjectTasks;
 use Webkul\Project\Filament\Resources\TaskResource\Pages;
@@ -25,7 +25,7 @@ use Webkul\Security\Filament\Resources\UserResource;
 use Webkul\Support\Filament\Tables\Columns\ProgressBarEntry;
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
-use Webkul\Fields\Filament\Forms\Components\StateFlow;
+use Webkul\Field\Filament\Forms\Components\StateFlow;
 
 class TaskResource extends Resource
 {

@@ -29,7 +29,7 @@ use Webkul\Employee\Filament\Resources\EmployeeResource\Pages;
 use Webkul\Employee\Filament\Resources\EmployeeResource\RelationManagers;
 use Webkul\Employee\Models\Calendar;
 use Webkul\Employee\Models\Employee;
-use Webkul\Fields\Filament\Traits\HasCustomFields;
+use Webkul\Field\Filament\Traits\HasCustomFields;
 use Webkul\Security\Filament\Resources\CompanyResource;
 use Webkul\Security\Filament\Resources\UserResource;
 use Webkul\Security\Models\User;

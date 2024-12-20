@@ -11,7 +11,7 @@ use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Fields\Filament\Traits\HasCustomFields;
+use Webkul\Field\Filament\Traits\HasCustomFields;
 use Webkul\Project\Enums\ProjectVisibility;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\TagResource;
 use Webkul\Project\Filament\Resources\ProjectResource\Pages;
@@ -24,7 +24,7 @@ use Webkul\Security\Filament\Resources\UserResource;
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
 use Illuminate\Support\Str;
-use Webkul\Fields\Filament\Forms\Components\StateFlow;
+use Webkul\Field\Filament\Forms\Components\StateFlow;
 
 class ProjectResource extends Resource
 {

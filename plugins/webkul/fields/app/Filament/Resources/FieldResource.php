@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\Fields\Filament\Resources;
+namespace Webkul\Field\Filament\Resources;
 
 use Filament\Facades\Filament;
 use Filament\Forms;
@@ -12,9 +12,9 @@ use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Webkul\Fields\FieldsColumnManager;
-use Webkul\Fields\Filament\Resources\FieldResource\Pages;
-use Webkul\Fields\Models\Field;
+use Webkul\Field\FieldsColumnManager;
+use Webkul\Field\Filament\Resources\FieldResource\Pages;
+use Webkul\Field\Models\Field;
 
 class FieldResource extends Resource
 {
@@ -148,7 +148,7 @@ class FieldResource extends Resource
                                     ->searchable()
                                     ->native(false)
                                     ->disabledOn('edit')
-                                    ->options(fn () => collect(Filament::getResources())->filter(fn ($resource) => in_array('Webkul\Fields\Filament\Traits\HasCustomFields', class_uses($resource)))->mapWithKeys(fn ($resource) => [
+                                    ->options(fn () => collect(Filament::getResources())->filter(fn ($resource) => in_array('Webkul\Field\Filament\Traits\HasCustomFields', class_uses($resource)))->mapWithKeys(fn ($resource) => [
                                         $resource::getModel() => str($resource)->afterLast('\\')->toString(),
                                     ])),
                             ]),
@@ -194,7 +194,7 @@ class FieldResource extends Resource
                     ]),
                 Tables\Filters\SelectFilter::make('customizable_type')
                     ->label(__('fields::app.table.filters.resource.label'))
-                    ->options(fn () => collect(Filament::getResources())->filter(fn ($resource) => in_array('Webkul\Fields\Filament\Traits\HasCustomFields', class_uses($resource)))->mapWithKeys(fn ($resource) => [
+                    ->options(fn () => collect(Filament::getResources())->filter(fn ($resource) => in_array('Webkul\Field\Filament\Traits\HasCustomFields', class_uses($resource)))->mapWithKeys(fn ($resource) => [
                         $resource::getModel() => str($resource)->afterLast('\\')->toString(),
                     ])),
             ])

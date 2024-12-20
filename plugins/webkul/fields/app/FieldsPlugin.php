@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\Fields;
+namespace Webkul\Field;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
@@ -20,10 +20,10 @@ class FieldsPlugin implements Plugin
     public function register(Panel $panel): void
     {
         $panel
-            ->discoverResources(in: $this->getPluginBasePath('/Filament/Resources'), for: 'Webkul\\Fields\\Filament\\Resources')
-            ->discoverPages(in: $this->getPluginBasePath('/Filament/Pages'), for: 'Webkul\\Fields\\Filament\\Pages')
-            ->discoverClusters(in: $this->getPluginBasePath('/Filament/Clusters'), for: 'Webkul\\Fields\\Filament\\Clusters')
-            ->discoverClusters(in: $this->getPluginBasePath('/Filament/Widgets'), for: 'Webkul\\Fields\\Filament\\Widgets');
+            ->discoverResources(in: $this->getPluginBasePath('/Filament/Resources'), for: 'Webkul\\Field\\Filament\\Resources')
+            ->discoverPages(in: $this->getPluginBasePath('/Filament/Pages'), for: 'Webkul\\Field\\Filament\\Pages')
+            ->discoverClusters(in: $this->getPluginBasePath('/Filament/Clusters'), for: 'Webkul\\Field\\Filament\\Clusters')
+            ->discoverClusters(in: $this->getPluginBasePath('/Filament/Widgets'), for: 'Webkul\\Field\\Filament\\Widgets');
     }
 
     public function boot(Panel $panel): void

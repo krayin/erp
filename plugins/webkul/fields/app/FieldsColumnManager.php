@@ -1,10 +1,10 @@
 <?php
 
-namespace Webkul\Fields;
+namespace Webkul\Field;
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Webkul\Fields\Models\Field;
+use Webkul\Field\Models\Field;
 
 class FieldsColumnManager
 {

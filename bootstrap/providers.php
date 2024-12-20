@@ -6,7 +6,7 @@ return [
     Webkul\Analytic\AnalyticServiceProvider::class,
     Webkul\Chatter\ChatterServiceProvider::class,
     Webkul\Support\SupportServiceProvider::class,
-    Webkul\Fields\FieldsServiceProvider::class,
+    Webkul\Field\FieldServiceProvider::class,
     Webkul\Partner\PartnerServiceProvider::class,
     Webkul\Project\ProjectServiceProvider::class,
     Webkul\TableViews\TableViewsServiceProvider::class,

@@ -1,12 +1,12 @@
 <?php
 
-namespace Webkul\Fields\Filament\Resources\FieldResource\Pages;
+namespace Webkul\Field\Filament\Resources\FieldResource\Pages;
 
 use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
-use Webkul\Fields\Filament\Resources\FieldResource;
-use Webkul\Fields\Models\Field;
+use Webkul\Field\Filament\Resources\FieldResource;
+use Webkul\Field\Models\Field;
 
 class ListFields extends ListRecords
 {
