@@ -13,6 +13,27 @@ return new class extends Migration
     {
         Schema::create('employees_addresses', function (Blueprint $table) {
             $table->id();
+
+            $table->unsignedBigInteger('employee_id')->comment('Employee');
+            $table->unsignedBigInteger('state_id')->nullable()->comment('State');
+            $table->unsignedBigInteger('country_id')->nullable()->comment('Country');
+            $table->unsignedBigInteger('creator_id')->nullable()->comment('Created By');
+            $table->unsignedBigInteger('partner_address_id')->comment('Partner Address');
+
+            $table->string('type')->nullable()->comment('Address Type');
+            $table->string('street1')->nullable()->comment('Street 1');
+            $table->string('street2')->nullable()->comment('Street 2');
+            $table->string('city')->nullable()->comment('City');
+            $table->string('zip')->nullable()->comment('zip');
+            $table->boolean('is_primary')->default(0)->comment('Primary Address');
+
+            $table->foreign('employee_id')->references('id')->on('employees_employees')->onDelete('cascade');
+            $table->foreign('state_id')->references('id')->on('states')->onDelete('set null');
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('set null');
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('partner_address_id')->references('id')->on('partners_addresses')->onDelete('cascade');
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }

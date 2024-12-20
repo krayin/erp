@@ -29,8 +29,8 @@ class StatsOverviewWidget extends BaseWidget
         $isBusinessCustomersOnly = $this->filters['businessCustomersOnly'] ?? null;
         $businessCustomerMultiplier = match (true) {
             boolval($isBusinessCustomersOnly) => 2 / 3,
-            blank($isBusinessCustomersOnly) => 1,
-            default => 1 / 3,
+            blank($isBusinessCustomersOnly)   => 1,
+            default                           => 1 / 3,
         };
 
         $diffInDays = $startDate ? $startDate->diffInDays($endDate) : 0;
@@ -45,14 +45,14 @@ class StatsOverviewWidget extends BaseWidget
             }
 
             if ($number < 1000000) {
-                return Number::format($number / 1000, 2) . 'k';
+                return Number::format($number / 1000, 2).'k';
             }
 
-            return Number::format($number / 1000000, 2) . 'm';
+            return Number::format($number / 1000000, 2).'m';
         };
 
         return [
-            Stat::make('Revenue', '$' . $formatNumber($revenue))
+            Stat::make('Revenue', '$'.$formatNumber($revenue))
                 ->description('32k increase')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->chart([7, 2, 10, 3, 15, 4, 17])

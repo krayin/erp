@@ -13,7 +13,7 @@ class WorkLocationSeeder extends Seeder
      */
     public function run(): void
     {
-        $company = Company::find(1) ?? Company::factory();
+        $company = Company::find(1) ?? Company::factory()->create();
 
         $workLocations = [
             [
@@ -21,6 +21,7 @@ class WorkLocationSeeder extends Seeder
                 'company_id'         => $company->id,
                 'location_type'      => 'home',
                 'is_active'          => 1,
+                'creator_id'         => 1,
                 'created_at'         => now(),
                 'updated_at'         => now(),
             ],
@@ -29,6 +30,7 @@ class WorkLocationSeeder extends Seeder
                 'company_id'         => $company->id,
                 'location_type'      => 'office',
                 'is_active'          => 1,
+                'creator_id'         => 1,
                 'created_at'         => now(),
                 'updated_at'         => now(),
             ],
@@ -37,6 +39,7 @@ class WorkLocationSeeder extends Seeder
                 'company_id'         => $company->id,
                 'location_type'      => 'other',
                 'is_active'          => 1,
+                'creator_id'         => 1,
                 'created_at'         => now(),
                 'updated_at'         => now(),
             ],

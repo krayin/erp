@@ -5,6 +5,8 @@ namespace Webkul\Employee\Filament\Clusters\Configurations\Resources;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
@@ -146,6 +148,65 @@ class JobPositionResource extends Resource
                     ->columns(3),
             ])
             ->columns('full');
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\Grid::make(['default' => 3])
+                    ->schema([
+                        Infolists\Components\Group::make()
+                            ->schema([
+                                Infolists\Components\Section::make('Employment Information')
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('name')
+                                            ->icon('heroicon-o-briefcase')
+                                            ->label('Job Position Title'),
+                                        Infolists\Components\TextEntry::make('department.name')
+                                            ->icon('heroicon-o-building-office')
+                                            ->label('Department'),
+                                        Infolists\Components\TextEntry::make('company.name')
+                                            ->icon('heroicon-o-building-office-2')
+                                            ->label('Company'),
+                                        Infolists\Components\TextEntry::make('employmentType.name')
+                                            ->icon('heroicon-o-briefcase')
+                                            ->label('Employment Type'),
+                                    ])->columns(2),
+                                Infolists\Components\Section::make('Job Description')
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('description')
+                                            ->label('Job Description')
+                                            ->columnSpanFull(),
+                                        Infolists\Components\TextEntry::make('requirements')
+                                            ->label('Job Requirements')
+                                            ->columnSpanFull(),
+                                    ]),
+                            ])->columnSpan(2),
+                        Infolists\Components\Group::make([
+                            Infolists\Components\Section::make('Workforce Planning')
+                                ->schema([
+                                    Infolists\Components\TextEntry::make('expected_employees')
+                                        ->label('Expected Employees')
+                                        ->icon('heroicon-o-user-group')
+                                        ->numeric(),
+                                    Infolists\Components\TextEntry::make('no_of_employee')
+                                        ->icon('heroicon-o-user-group')
+                                        ->label('Current Employees')
+                                        ->numeric(),
+                                    Infolists\Components\TextEntry::make('no_of_recruitment')
+                                        ->icon('heroicon-o-user-group')
+                                        ->label('Recruitment Target')
+                                        ->numeric(),
+                                ]),
+                            Infolists\Components\Section::make('Position Status')
+                                ->schema([
+                                    Infolists\Components\IconEntry::make('is_active')
+                                        ->label('Status'),
+                                ]),
+                        ])->columnSpan(1),
+                    ]),
+            ]);
     }
 
     public static function table(Table $table): Table

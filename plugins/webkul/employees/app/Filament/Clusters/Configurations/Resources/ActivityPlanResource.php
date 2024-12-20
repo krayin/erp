@@ -4,16 +4,17 @@ namespace Webkul\Employee\Filament\Clusters\Configurations\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityPlanResource\Pages;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityPlanResource\RelationManagers;
 use Webkul\Employee\Filament\Resources\DepartmentResource;
-use Webkul\Fields\Filament\Traits\HasCustomFields;
+use Webkul\Security\Filament\Resources\CompanyResource;
 use Webkul\Support\Models\ActivityPlan;
 
 class ActivityPlanResource extends Resource
@@ -39,13 +40,49 @@ class ActivityPlanResource extends Resource
                             ->relationship(name: 'department', titleAttribute: 'name')
                             ->searchable()
                             ->preload()
-                            ->createOptionForm(fn(Form $form) => DepartmentResource::form($form))
-                            ->editOptionForm(fn(Form $form) => DepartmentResource::form($form)),
+                            ->createOptionForm(fn (Form $form) => DepartmentResource::form($form))
+                            ->editOptionForm(fn (Form $form) => DepartmentResource::form($form)),
+                        Forms\Components\Select::make('company_id')
+                            ->label('Company')
+                            ->relationship(name: 'company', titleAttribute: 'name')
+                            ->searchable()
+                            ->preload()
+                            ->createOptionForm(fn (Form $form) => CompanyResource::form($form))
+                            ->editOptionForm(fn (Form $form) => CompanyResource::form($form)),
                         Forms\Components\Toggle::make('is_active')
                             ->label('Status')
                             ->default(true)
                             ->inline(false),
                     ])->columns(2),
+            ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\Group::make()
+                    ->schema([
+                        Infolists\Components\Group::make()
+                            ->schema([
+                                Infolists\Components\Section::make('General Information')
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('name')
+                                            ->icon('heroicon-o-briefcase')
+                                            ->label('Name'),
+                                        Infolists\Components\TextEntry::make('department.manager.name')
+                                            ->icon('heroicon-o-user')
+                                            ->label('Manager'),
+                                        Infolists\Components\TextEntry::make('company.name')
+                                            ->icon('heroicon-o-building-office')
+                                            ->label('Company'),
+                                        Infolists\Components\IconEntry::make('is_active')
+                                            ->boolean()
+                                            ->label('Status'),
+                                    ])
+                                    ->columns(2),
+                            ]),
+                    ])->columnSpan('full'),
             ]);
     }
 

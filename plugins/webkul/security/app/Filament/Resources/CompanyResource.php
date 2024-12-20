@@ -54,11 +54,11 @@ class CompanyResource extends Resource
                                             ->label('Registration Number'),
                                         Forms\Components\TextInput::make('company_id')
                                             ->label('Company ID')
+                                            ->required()
                                             ->unique(ignoreRecord: true)
                                             ->hintIcon('heroicon-o-question-mark-circle', tooltip: 'The Company ID is a unique identifier for your company.'),
                                         Forms\Components\TextInput::make('tax_id')
                                             ->label('Tax ID')
-                                            ->required()
                                             ->unique(ignoreRecord: true)
                                             ->hintIcon('heroicon-o-question-mark-circle', tooltip: 'The Tax ID is a unique identifier for your company.'),
                                     ])
@@ -227,7 +227,6 @@ class CompanyResource extends Resource
                                             ->label('Mobile Number'),
                                         Forms\Components\TextInput::make('email')
                                             ->label('Email Address')
-                                            ->required()
                                             ->email(),
                                     ]),
                             ])

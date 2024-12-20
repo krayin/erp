@@ -5,6 +5,8 @@ namespace Webkul\Employee\Filament\Resources\EmployeeResource\RelationManagers;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -76,6 +78,43 @@ class ResumeRelationManager extends RelationManager
                     Forms\Components\Textarea::make('description')
                         ->label('Description'),
                 ])->columns(2),
+            ]);
+    }
+
+    public function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\Group::make()
+                    ->schema([
+                        Infolists\Components\Group::make()
+                            ->schema([
+                                Infolists\Components\TextEntry::make('name')
+                                    ->label('Title')
+                                    ->icon('heroicon-o-document-text'),
+                                Infolists\Components\TextEntry::make('display_type')
+                                    ->label('Display Type')
+                                    ->icon('heroicon-o-document'),
+                                Infolists\Components\Group::make()
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('resumeType.name')
+                                            ->label('Type'),
+                                    ]),
+                                Infolists\Components\TextEntry::make('description')
+                                    ->label('Description'),
+                            ])->columns(2),
+                        Infolists\Components\Fieldset::make('Duration')
+                            ->schema([
+                                Infolists\Components\TextEntry::make('start_date')
+                                    ->label('Start Date')
+                                    ->icon('heroicon-o-calendar'),
+                                Infolists\Components\TextEntry::make('end_date')
+                                    ->label('End Date')
+                                    ->icon('heroicon-o-calendar'),
+                            ])
+                            ->columns(2),
+                    ])
+                    ->columnSpan('full'),
             ]);
     }
 
@@ -188,6 +227,7 @@ class ResumeRelationManager extends RelationManager
                     }),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])

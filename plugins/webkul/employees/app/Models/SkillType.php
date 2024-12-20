@@ -24,6 +24,10 @@ class SkillType extends Model
         'is_active',
     ];
 
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
     public function skillLevels(): HasMany
     {
         return $this->hasMany(SkillLevel::class, 'skill_type_id');
