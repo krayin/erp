@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 use Webkul\Employee\Database\Factories\EmployeeAddressFactory;
 use Webkul\Partner\Models\Address;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Country;
 use Webkul\Support\Models\State;
-use Illuminate\Support\Facades\DB;
 
 class EmployeeAddress extends Model
 {

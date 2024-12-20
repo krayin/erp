@@ -25,16 +25,12 @@ return new class extends Migration
             $table->string('phone')->nullable()->comment('Phone');
             $table->string('street1')->nullable()->comment('Street 1');
             $table->string('street2')->nullable()->comment('Street 2');
-            $table->string('city')->comment('City');
-            $table->string('zip')->comment('Zip');
-
+            $table->string('city')->nullable()->comment('City');
+            $table->string('zip')->nullable()->comment('Zip');
 
             $table->foreign('state_id')->references('id')->on('states')->onDelete('restrict');
-
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('restrict');
-
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
-
             $table->foreign('partner_id')->references('id')->on('partners_partners')->onDelete('cascade');
 
             $table->timestamps();

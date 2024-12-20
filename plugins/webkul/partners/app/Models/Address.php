@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Webkul\Partner\Database\Factories\AddressFactory;
-use Webkul\Partner\Enums\AccountType;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Country;
 use Webkul\Support\Models\State;

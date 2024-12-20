@@ -60,9 +60,9 @@ class SkillsRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('skillLevel.name')
                     ->label('Skill Level')
                     ->badge()
-                    ->color(fn ($record) => $record->skillType->color),
+                    ->color(fn ($record) => $record->skillType?->color),
                 CustomTables\Columns\ProgressBarEntry::make('skillLevel.level')
-                    ->getStateUsing(fn ($record) => $record->skillLevel->level)
+                    ->getStateUsing(fn ($record) => $record->skillLevel?->level)
                     ->label('Level Percent'),
                 Tables\Columns\TextColumn::make('creator.name')
                     ->label('Creator')

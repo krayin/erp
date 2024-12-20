@@ -12,7 +12,6 @@ use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Employee\Database\Factories\EmployeeFactory;
 use Webkul\Fields\Traits\HasCustomFields;
 use Webkul\Partner\Enums\AddressType;
-use Webkul\Partner\Models\Address;
 use Webkul\Partner\Models\BankAccount;
 use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;

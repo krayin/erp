@@ -621,7 +621,11 @@ class SkillSeeder extends Seeder
             ],
         ];
 
-        DB::table('employees_skills')->insert($skills);
+        DB::table('employees_skills')->insert(collect($skills)->map(function ($skill) {
+            $skill['creator_id'] = 1;
+
+            return $skill;
+        })->toArray());
 
         $this->call(SkillLevelSeeder::class);
     }
