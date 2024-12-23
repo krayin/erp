@@ -8,6 +8,8 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
+use Webkul\Project\Models\Task;
 
 class TimesheetsRelationManager extends RelationManager
 {
@@ -57,13 +59,13 @@ class TimesheetsRelationManager extends RelationManager
                     ->label('Time Spent')
                     ->formatStateUsing(function ($state) {
                         $hours = floor($state);
-                        $minutes = ($state - $hours) * 60;
+                        $minutes = ($hours - $hours) * 60;
 
                         return $hours.':'.$minutes;
                     })
                     ->summarize([
                         Sum::make()
-                            ->label('Total Time Spent')
+                            ->label('Time Spent')
                             ->formatStateUsing(function ($state) {
                                 $hours = floor($state);
                                 $minutes = ($state - $hours) * 60;
@@ -71,9 +73,27 @@ class TimesheetsRelationManager extends RelationManager
                                 return $hours.':'.$minutes;
                             }),
                         Sum::make()
-                            ->label('Remaining Time')
+                            ->label('Time Spent on Subtasks')
                             ->formatStateUsing(function ($state) {
-                                $remainingHours = $this->getOwnerRecord()->allocated_hours - $state;
+                                $subtaskHours = $this->getOwnerRecord()->subtask_effective_hours;
+                                $hours = floor($subtaskHours);
+                                $minutes = ($subtaskHours - $hours) * 60;
+
+                                return $hours.':'.$minutes;
+                            }),
+                        Sum::make()
+                            ->label('Total Time Spent')
+                            ->formatStateUsing(function ($state) {
+                                $subtaskHours = $this->getOwnerRecord()->total_hours_spent;
+                                $hours = floor($subtaskHours);
+                                $minutes = ($subtaskHours - $hours) * 60;
+
+                                return $hours.':'.$minutes;
+                            }),
+                        Sum::make()
+                            ->label('Remaining Time')
+                            ->formatStateUsing(function () {
+                                $remainingHours = $this->getOwnerRecord()->remaining_hours;
 
                                 $hours = floor($remainingHours);
                                 $minutes = ($remainingHours - $hours) * 60;
@@ -84,7 +104,18 @@ class TimesheetsRelationManager extends RelationManager
                     ]),
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+                    ->mutateFormDataUsing(function (array $data): array {
+                        $data['creator_id'] = Auth::id();
+
+                        $ownerRecord = $this->getOwnerRecord();
+
+                        $data['project_id'] = $ownerRecord->project_id;
+
+                        $data['partner_id'] = $ownerRecord->partner_id ?? $ownerRecord->project?->partner_id;
+
+                        return $data;
+                    }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

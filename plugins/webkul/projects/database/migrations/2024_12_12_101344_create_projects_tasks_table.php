@@ -31,6 +31,7 @@ return new class extends Migration
             $table->decimal('total_hours_spent')->default(0);
             $table->decimal('overtime')->default(0);
             $table->decimal('progress')->default(0);
+            $table->decimal('subtask_effective_hours')->default(0);
 
             $table->foreignId('project_id')
                 ->nullable()
