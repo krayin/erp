@@ -2,8 +2,8 @@
 
 namespace Webkul\Project\Filament\Pages;
 
-use Webkul\Support\Filament\Clusters\Dashboard as DashboardCluster;
 use Filament\Pages\Dashboard as BaseDashboard;
+use Webkul\Support\Filament\Clusters\Dashboard as DashboardCluster;
 
 class Dashboard extends BaseDashboard
 {

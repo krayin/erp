@@ -2,8 +2,8 @@
 
 namespace Webkul\Support\Filament\Clusters;
 
-use Filament\Facades\Filament;
 use Filament\Clusters\Cluster;
+use Filament\Facades\Filament;
 use Filament\Widgets\Widget;
 
 class Dashboard extends Cluster
@@ -45,7 +45,7 @@ class Dashboard extends Cluster
     /**
      * @return int | string | array<string, int | string | null>
      */
-    public function getColumns(): int | string | array
+    public function getColumns(): int|string|array
     {
         return 2;
     }
