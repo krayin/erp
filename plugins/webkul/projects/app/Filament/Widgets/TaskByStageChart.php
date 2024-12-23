@@ -3,11 +3,15 @@
 namespace Webkul\Project\Filament\Widgets;
 
 use Filament\Widgets\ChartWidget;
+use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Webkul\Project\Models\Task;
 use Webkul\Project\Models\TaskStage;
+use Illuminate\Support\Carbon;
 
 class TaskByStageChart extends ChartWidget
 {
+    use InteractsWithPageFilters;
+
     protected static ?string $heading = 'Tasks By Stage';
 
     protected static ?string $maxHeight = '250px';
@@ -28,7 +32,40 @@ class TaskByStageChart extends ChartWidget
                 $datasets['labels'][] = $stage->name;
             }
 
-            $datasets['datasets'][] = Task::where('stage_id', $stage->id)->count();
+            $query = Task::query();
+
+            if (! empty($this->filters['selectedProjects'])) {
+                $query->whereIn('project_id', $this->filters['selectedProjects']);
+            }
+            
+            if (! empty($this->filters['selectedAssignees'])) {
+                $query->whereHas('users', function ($q) {
+                    $q->whereIn('users.id', $this->filters['selectedAssignees']);
+                });
+            }
+
+            if (! empty($this->filters['selectedTags'])) {
+                $query->whereHas('tags', function ($q) {
+                    $q->whereIn('projects_task_tag.tag_id', $this->filters['selectedTags']);
+                });
+            }
+            
+            if (! empty($this->filters['selectedPartners'])) {
+                $query->whereIn('parent_id', $this->filters['selectedPartners']);
+            }
+
+            $startDate = ! is_null($this->filters['startDate'] ?? null) ?
+                Carbon::parse($this->filters['startDate']) :
+                null;
+
+            $endDate = ! is_null($this->filters['endDate'] ?? null) ?
+                Carbon::parse($this->filters['endDate']) :
+                now();
+
+            $datasets['datasets'][] = $query
+                ->whereBetween('created_at', [$startDate, $endDate])
+                ->where('stage_id', $stage->id)
+                ->count();
         }
 
         return [
