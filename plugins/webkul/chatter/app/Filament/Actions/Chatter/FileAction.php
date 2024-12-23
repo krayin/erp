@@ -25,6 +25,7 @@ class FileAction extends Action
         $this
             ->color('gray')
             ->outlined()
+            ->badge(fn($record) => $record->attachments()->count())
             ->form([
                 Forms\Components\FileUpload::make('files')
                     ->label(__('chatter::app.filament.actions.chatter.file.form.file'))

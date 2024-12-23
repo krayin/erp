@@ -18,13 +18,6 @@ class MessageAction extends Action
         return 'message.action';
     }
 
-    public function record(Model|Closure|null $record = null): static
-    {
-        $this->record = $record;
-
-        return $this;
-    }
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -41,7 +34,6 @@ class MessageAction extends Action
                         ->hiddenLabel()
                         ->placeholder(__('chatter::app.filament.actions.chatter.activity.form.type-your-message-here'))
                         ->required()
-                        ->default('This is sample test message')
                         ->columnSpanFull(),
                     Forms\Components\Hidden::make('type')
                         ->default('comment'),
