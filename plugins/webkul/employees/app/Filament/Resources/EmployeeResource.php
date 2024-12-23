@@ -78,7 +78,6 @@ class EmployeeResource extends Resource
                                             ->hiddenLabel()
                                             ->imageResizeMode('cover')
                                             ->imageEditor()
-                                            ->alignRight()
                                             ->avatar()
                                             ->directory('employees/avatar')
                                             ->visibility('private'),
