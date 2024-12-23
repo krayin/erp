@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\Chatter\Filament\Infolists\Components;
+namespace Webkul\Chatter\Filament\Infolists\Components\Messages;
 
 use Filament\Infolists\Components\RepeatableEntry;
 
@@ -20,5 +20,5 @@ class ChatsRepeatableEntry extends RepeatableEntry
             ->hiddenLabel();
     }
 
-    protected string $view = 'chatter::filament.infolists.components.chats-repeatable-entry';
+    protected string $view = 'chatter::filament.infolists.components.messages.repeatable-entry';
 }

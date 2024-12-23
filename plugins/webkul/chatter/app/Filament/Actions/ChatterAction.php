@@ -23,10 +23,10 @@ class ChatterAction extends Action
             ->icon('heroicon-s-chat-bubble-left-right')
             ->modalIcon('heroicon-s-chat-bubble-left-right')
             ->slideOver()
-            ->modalContentFooter(fn (Model $record): View => view('chatter::filament.widgets.chatter', compact('record')))
+            ->modalContentFooter(fn(Model $record): View => view('chatter::filament.widgets.chatter', compact('record')))
             ->modalHeading(__('chatter::app.filament.actions.chatter.action.modal.label'))
             ->modalDescription(__('chatter::app.filament.actions.chatter.action.modal.description'))
-            ->badge(fn (Model $record): int => $record->chats()->count())
+            ->badge(fn(Model $record): int => $record->messages()->count())
             ->modalWidth(MaxWidth::ThreeExtraLarge)
             ->modalSubmitAction(false)
             ->modalCancelAction(false);

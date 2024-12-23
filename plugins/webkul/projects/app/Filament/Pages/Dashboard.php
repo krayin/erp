@@ -2,8 +2,8 @@
 
 namespace Webkul\Project\Filament\Pages;
 
-use Webkul\Support\Filament\Clusters\Dashboard as DashboardCluster;
 use Filament\Pages\Dashboard as BaseDashboard;
+use Webkul\Support\Filament\Clusters\Dashboard as DashboardCluster;
 use Filament\View\LegacyComponents\Widget;
 use Webkul\Project\Filament\Widgets;
 use Filament\Forms\Components\DatePicker;
@@ -40,7 +40,7 @@ class Dashboard extends BaseDashboard
                             ->multiple()
                             ->searchable()
                             ->preload()
-                            ->options(fn () => Project::pluck('name', 'id'))
+                            ->options(fn() => Project::pluck('name', 'id'))
                             ->placeholder('Projects')
                             ->reactive(),
                         Select::make('selectedAssignees')
@@ -48,30 +48,30 @@ class Dashboard extends BaseDashboard
                             ->multiple()
                             ->searchable()
                             ->preload()
-                            ->options(fn () => User::pluck('name', 'id'))
+                            ->options(fn() => User::pluck('name', 'id'))
                             ->reactive(),
                         Select::make('selectedTags')
                             ->label('Tags')
                             ->multiple()
                             ->searchable()
                             ->preload()
-                            ->options(fn () => Tag::pluck('name', 'id'))
+                            ->options(fn() => Tag::pluck('name', 'id'))
                             ->reactive(),
                         Select::make('selectedPartners')
                             ->label('Customer')
                             ->multiple()
                             ->searchable()
                             ->preload()
-                            ->options(fn () => Partner::pluck('name', 'id'))
+                            ->options(fn() => Partner::pluck('name', 'id'))
                             ->reactive(),
                         DatePicker::make('startDate')
                             ->label('Start Date')
-                            ->maxDate(fn (Get $get) => $get('endDate') ?: now())
+                            ->maxDate(fn(Get $get) => $get('endDate') ?: now())
                             ->default(now()->subMonth()->format('Y-m-d'))
                             ->native(false),
                         DatePicker::make('endDate')
                             ->label('End Date')
-                            ->minDate(fn (Get $get) => $get('startDate') ?: now())
+                            ->minDate(fn(Get $get) => $get('startDate') ?: now())
                             ->maxDate(now())
                             ->default(now())
                             ->native(false),

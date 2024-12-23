@@ -18,6 +18,7 @@ use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Employee\Enums\DistanceUnit;
 use Webkul\Employee\Enums\Gender;
 use Webkul\Employee\Enums\MaritalStatus;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\DepartureReasonResource;
@@ -77,7 +78,6 @@ class EmployeeResource extends Resource
                                             ->hiddenLabel()
                                             ->imageResizeMode('cover')
                                             ->imageEditor()
-                                            ->alignRight()
                                             ->avatar()
                                             ->directory('employees/avatar')
                                             ->visibility('private'),
@@ -513,7 +513,8 @@ class EmployeeResource extends Resource
                                                                     ->numeric()
                                                                     ->default(0)
                                                                     ->suffix('km'),
-                                                                Forms\Components\TextInput::make('distance_home_work_unit')
+                                                                Forms\Components\Select::make('distance_home_work_unit')
+                                                                    ->options(DistanceUnit::options())
                                                                     ->label('Distance Unit'),
                                                             ])->columns(2),
                                                         Forms\Components\Group::make()

@@ -16,13 +16,6 @@ class LogAction extends Action
         return 'log.action';
     }
 
-    public function record(Model|Closure|null $record = null): static
-    {
-        $this->record = $record;
-
-        return $this;
-    }
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -31,11 +24,15 @@ class LogAction extends Action
             ->color('gray')
             ->outlined()
             ->form(
-                fn ($form) => $form->schema([
-                    Forms\Components\RichEditor::make('content')
+                fn($form) => $form->schema([
+                    Forms\Components\TextInput::make('subject')
+                        ->placeholder('Subject')
+                        ->columnSpanFull(),
+                    Forms\Components\RichEditor::make('body')
                         ->hiddenLabel()
-                        ->placeholder(__('chatter::app.filament.actions.chatter.log.form.type-your-message-here'))
-                        ->required(),
+                        ->placeholder(__('chatter::app.filament.actions.chatter.activity.form.type-your-message-here'))
+                        ->required()
+                        ->columnSpanFull(),
                     Forms\Components\Hidden::make('type')
                         ->default('note'),
                 ])
@@ -43,18 +40,20 @@ class LogAction extends Action
             )
             ->action(function (array $data, ?Model $record = null) {
                 try {
-                    $record->addChat($data, Auth::user()->id);
+                    $data['name'] = $record->name;
+
+                    $chat = $record->addMessage($data, Auth::user()->id);
 
                     Notification::make()
                         ->success()
-                        ->title(__('chatter::app.filament.actions.chatter.log.action.notification.success.title'))
-                        ->body(__('chatter::app.filament.actions.chatter.log.action.notification.success.body'))
+                        ->title('Success')
+                        ->body('Lognote sent successfully')
                         ->send();
                 } catch (\Exception $e) {
                     Notification::make()
                         ->danger()
-                        ->title(__('chatter::app.filament.actions.chatter.log.action.notification.danger.title'))
-                        ->body(__('chatter::app.filament.actions.chatter.log.action.notification.danger.body'))
+                        ->title('Error')
+                        ->body('An error occurred while sending the lognote')
                         ->send();
 
                     report($e);

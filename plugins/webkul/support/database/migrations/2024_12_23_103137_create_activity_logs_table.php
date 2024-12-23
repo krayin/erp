@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tasks', function (Blueprint $table) {
+        Schema::create('activity_logs', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('log_name')->nullable();
             $table->text('description')->nullable();
-            $table->enum('status', ['pending', 'in_progress', 'completed'])->default('pending');
-            $table->date('due_date')->nullable();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->morphs('subject');
+            $table->morphs('causer');
+            $table->string('event')->nullable();
+            $table->json('properties')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('activity_logs');
     }
 };

@@ -23,7 +23,7 @@ class StatsOverviewWidget extends BaseWidget
         if (! empty($this->filters['selectedProjects'])) {
             $query->whereIn('project_id', $this->filters['selectedProjects']);
         }
-        
+
         if (! empty($this->filters['selectedAssignees'])) {
             $query->whereHas('users', function ($q) {
                 $q->whereIn('users.id', $this->filters['selectedAssignees']);
@@ -35,7 +35,7 @@ class StatsOverviewWidget extends BaseWidget
                 $q->whereIn('projects_task_tag.tag_id', $this->filters['selectedTags']);
             });
         }
-        
+
         if (! empty($this->filters['selectedPartners'])) {
             $query->whereIn('parent_id', $this->filters['selectedPartners']);
         }
@@ -54,7 +54,7 @@ class StatsOverviewWidget extends BaseWidget
         $previousPeriodEnd = (clone $currentPeriodEnd)->subDays($daysDifference);
 
         $currentStats = $this->calculatePeriodStats($query->clone(), $currentPeriodStart, $currentPeriodEnd);
-        
+
         $previousStats = $this->calculatePeriodStats($query->clone(), $previousPeriodStart, $previousPeriodEnd);
 
         $tasksChart = $this->generateTrendData($query->clone(), 'COUNT', '*', $currentPeriodStart, $currentPeriodEnd);
@@ -105,7 +105,7 @@ class StatsOverviewWidget extends BaseWidget
             ->perDay()
             ->aggregate($column, $aggregate);
 
-        return $trend->map(fn (TrendValue $value) => round((float) $value->aggregate, 2))->toArray();
+        return $trend->map(fn(TrendValue $value) => round((float) $value->aggregate, 2))->toArray();
     }
 
     protected function calculatePercentageChange($current, $previous): array

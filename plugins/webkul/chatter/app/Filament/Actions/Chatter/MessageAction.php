@@ -18,13 +18,6 @@ class MessageAction extends Action
         return 'message.action';
     }
 
-    public function record(Model|Closure|null $record = null): static
-    {
-        $this->record = $record;
-
-        return $this;
-    }
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -33,33 +26,36 @@ class MessageAction extends Action
             ->color('gray')
             ->outlined()
             ->form(
-                fn ($form) => $form->schema([
-                    Forms\Components\RichEditor::make('content')
+                fn($form) => $form->schema([
+                    Forms\Components\TextInput::make('subject')
+                        ->placeholder('Subject')
+                        ->columnSpanFull(),
+                    Forms\Components\RichEditor::make('body')
                         ->hiddenLabel()
                         ->placeholder(__('chatter::app.filament.actions.chatter.activity.form.type-your-message-here'))
                         ->required()
                         ->columnSpanFull(),
                     Forms\Components\Hidden::make('type')
-                        ->default('message'),
+                        ->default('comment'),
                 ])
                     ->columns(1)
             )
             ->action(function (array $data, ?Model $record = null) {
                 try {
-                    $chat = $record->addChat($data, Auth::user()->id);
+                    $data['name'] = $record->name;
 
-                    $this->notifyToFollowers($chat);
+                    $record->addMessage($data, Auth::user()->id);
 
                     Notification::make()
                         ->success()
-                        ->title(__('chatter::app.filament.actions.chatter.activity.action.notification.success.title'))
-                        ->body(__('chatter::app.filament.actions.chatter.activity.action.notification.success.body'))
+                        ->title('Success')
+                        ->body('Message sent successfully')
                         ->send();
                 } catch (\Exception $e) {
                     Notification::make()
                         ->danger()
-                        ->title(__('chatter::app.filament.actions.chatter.activity.action.notification.danger.title'))
-                        ->body(__('chatter::app.filament.actions.chatter.activity.action.notification.danger.body'))
+                        ->title('Error')
+                        ->body('Failed to send message')
                         ->send();
                 }
             })

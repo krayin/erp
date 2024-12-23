@@ -242,4 +242,9 @@ class Employee extends Model
     {
         return $this->belongsTo(CompanyAddress::class, 'address_id');
     }
+
+    public function activityPlan()
+    {
+        return \Webkul\Support\Models\ActivityPlan::where('plugin', 'employees')->get();
+    }
 }
