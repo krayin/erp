@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Collection;
 use Webkul\Chatter\Models\Message;
 use Carbon\Carbon;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Chatter\Models\Attachment;
+use Illuminate\Support\Facades\Storage;
 
 trait HasChatter
 {
@@ -156,5 +159,124 @@ trait HasChatter
             })
             ->orderBy('created_at', 'asc')
             ->get();
+    }
+
+    /**
+     * Get all attachments for this model
+     */
+    public function attachments(): MorphMany
+    {
+        return $this->morphMany(Attachment::class, 'messageable')->orderBy('created_at', 'desc');
+    }
+
+    /**
+     * Add a new attachment
+     */
+    public function addAttachment(array|UploadedFile $file, array $additionalData = []): Attachment
+    {
+        if ($file instanceof UploadedFile) {
+            $path = $file->store('chats-attachments', 'public');
+            $fileData = [
+                'file_path' => $path,
+                'original_file_name' => $file->getClientOriginalName(),
+                'mime_type' => $file->getMimeType(),
+                'file_size' => $file->getSize(),
+            ];
+        } else {
+            $fileData = $file;
+        }
+
+        $attachment = new Attachment();
+        $attachment->fill(array_merge($fileData, $additionalData, [
+            'creator_id' => Auth::user()->id,
+            'company_id' => $additionalData['company_id'] ?? $this->company_id ?? null,
+        ]));
+
+        $this->attachments()->save($attachment);
+
+        return $attachment;
+    }
+
+    /**
+     * Add multiple attachments
+     */
+    public function addAttachments(array $files, array $additionalData = []): Collection
+    {
+        $attachments = collect($files)->map(function ($file) use ($additionalData) {
+            return $this->addAttachment($file, $additionalData);
+        });
+
+        return new Collection($attachments);
+    }
+
+    /**
+     * Remove an attachment
+     */
+    public function removeAttachment($attachmentId): bool
+    {
+        $attachment = $this->attachments()->find($attachmentId);
+
+        if (
+            !$attachment ||
+            $attachment->messageable_id !== $this->id ||
+            $attachment->messageable_type !== get_class($this)
+        ) {
+            return false;
+        }
+
+        // Delete the physical file
+        if (Storage::exists('public/' . $attachment->file_path)) {
+            Storage::delete('public/' . $attachment->file_path);
+        }
+
+        return $attachment->delete();
+    }
+
+    /**
+     * Get attachments by type
+     */
+    public function getAttachmentsByType(string $mimeType): Collection
+    {
+        return $this->attachments()
+            ->where('mime_type', 'LIKE', $mimeType . '%')
+            ->get();
+    }
+
+    /**
+     * Get attachments by date range
+     */
+    public function getAttachmentsByDateRange(Carbon $startDate, Carbon $endDate): Collection
+    {
+        return $this->attachments()
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->get();
+    }
+
+    /**
+     * Get all image attachments
+     */
+    public function getImageAttachments(): Collection
+    {
+        return $this->getAttachmentsByType('image/');
+    }
+
+    /**
+     * Get all document attachments
+     */
+    public function getDocumentAttachments(): Collection
+    {
+        return $this->attachments()
+            ->where('mime_type', 'NOT LIKE', 'image/%')
+            ->get();
+    }
+
+    /**
+     * Check if file exists
+     */
+    public function attachmentExists($attachmentId): bool
+    {
+        $attachment = $this->attachments()->find($attachmentId);
+
+        return $attachment && Storage::exists('public/' . $attachment->file_path);
     }
 }

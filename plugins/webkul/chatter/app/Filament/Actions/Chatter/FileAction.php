@@ -7,20 +7,15 @@ use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
+use Filament\Support\Enums\IconPosition;
+use Filament\Support\Enums\MaxWidth;
+use Illuminate\View\View;
 
 class FileAction extends Action
 {
     public static function getDefaultName(): ?string
     {
-        return 'log.action';
-    }
-
-    public function record(Model|Closure|null $record = null): static
-    {
-        $this->record = $record;
-
-        return $this;
+        return 'file.action';
     }
 
     protected function setUp(): void
@@ -30,30 +25,39 @@ class FileAction extends Action
         $this
             ->color('gray')
             ->outlined()
-            ->form(
-                fn ($form) => $form->schema([
-                    Forms\Components\FileUpload::make('file')
-                        ->label(__('chatter::app.filament.actions.chatter.file.form.file'))
-                        ->multiple()
-                        ->directory('chats-attachments')
-                        ->panelLayout('grid')
-                        ->required(),
-                    Forms\Components\Hidden::make('type')
-                        ->default('file'),
-                ])
-                    ->columns(1)
-            )
-            ->action(function (array $data, ?Model $record = null) {
+            ->form([
+                Forms\Components\FileUpload::make('files')
+                    ->label(__('chatter::app.filament.actions.chatter.file.form.file'))
+                    ->multiple()
+                    ->directory('chats-attachments')
+                    ->preserveFilenames()
+                    ->downloadable()
+                    ->openable()
+                    ->previewable(true)
+                    ->imagePreviewHeight('100')
+                    ->acceptedFileTypes([
+                        'image/*',
+                        'application/pdf',
+                        'application/msword',
+                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                        'application/vnd.ms-excel',
+                        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                        'text/plain'
+                    ])
+                    ->maxSize(10240)
+                    ->helperText('Max file size: 10MB. Allowed types: Images, PDF, Word, Excel, Text')
+                    ->columnSpanFull()
+                    ->required(),
+            ])
+            ->action(function (array $data, ?Model $record): void {
                 try {
-                    $chat = $record->addChat($data, Auth::user()->id);
-
-                    $chat->attachments()
+                    $record->attachments()
                         ->createMany(
-                            collect($data['file'] ?? [])
-                                ->map(fn ($filePath) => [
+                            collect($data['files'] ?? [])
+                                ->map(fn($filePath) => [
                                     'file_path'          => $filePath,
                                     'original_file_name' => basename($filePath),
-                                    'mime_type'          => mime_content_type($storagePath = storage_path('app/public/'.$filePath)) ?: 'application/octet-stream',
+                                    'mime_type'          => mime_content_type($storagePath = storage_path('app/public/' . $filePath)) ?: 'application/octet-stream',
                                     'file_size'          => filesize($storagePath) ?: 0,
                                 ])
                                 ->filter()
@@ -63,24 +67,28 @@ class FileAction extends Action
                     Notification::make()
                         ->success()
                         ->title(__('chatter::app.filament.actions.chatter.file.action.notification.success.title'))
-                        ->body(__('chatter::app.filament.actions.chatter.file.action.notification.success.body'))
+                        ->body(__('Files uploaded successfully'))
                         ->send();
                 } catch (\Exception $e) {
                     Notification::make()
                         ->danger()
                         ->title(__('chatter::app.filament.actions.chatter.file.action.notification.danger.title'))
-                        ->body(__('chatter::app.filament.actions.chatter.file.action.notification.danger.body'))
+                        ->body(__('Failed to upload files'))
                         ->send();
 
                     report($e);
                 }
             })
-            ->label(__('chatter::app.filament.actions.chatter.file.action.label'))
-            ->icon('heroicon-o-document-text')
-            ->modalSubmitAction(function ($action) {
-                $action->label(__('chatter::app.filament.actions.chatter.file.action.modal-submit-action.title'));
-                $action->icon('heroicon-m-paper-airplane');
-            })
+            ->modalContentFooter(fn(Model $record): View => view('chatter::filament.actions.files', [
+                'attachments' => $record->attachments()->latest()->get() ?? collect(),
+            ]))
+            ->label('Attachments')
+            ->icon('heroicon-o-paper-clip')
+            ->iconPosition(IconPosition::Before)
+            ->modalSubmitAction(fn($action) => $action
+                ->label('Upload')
+                ->icon('heroicon-m-paper-airplane'))
+            ->modalWidth(MaxWidth::ThreeExtraLarge)
             ->slideOver(false);
     }
 }

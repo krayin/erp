@@ -52,7 +52,7 @@ class MessageAction extends Action
                 try {
                     $data['name'] = $record->name;
 
-                    $chat = $record->addMessage($data, Auth::user()->id);
+                    $record->addMessage($data, Auth::user()->id);
 
                     Notification::make()
                         ->success()

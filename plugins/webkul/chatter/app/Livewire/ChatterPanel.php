@@ -20,10 +20,11 @@ use Webkul\Chatter\Filament\Actions\Chatter\FileAction;
 use Webkul\Chatter\Filament\Actions\Chatter\FollowerAction;
 use Webkul\Chatter\Filament\Actions\Chatter\LogAction;
 use Webkul\Chatter\Filament\Actions\Chatter\MessageAction;
-use Webkul\Chatter\Filament\Infolists\Components\ChatsRepeatableEntry;
-use Webkul\Chatter\Filament\Infolists\Components\ContentTextEntry;
-use Webkul\Chatter\Filament\Infolists\Components\TitleTextEntry;
+use Webkul\Chatter\Filament\Infolists\Components\Messages\ChatsRepeatableEntry;
+use Webkul\Chatter\Filament\Infolists\Components\Messages\ContentTextEntry;
+use Webkul\Chatter\Filament\Infolists\Components\Messages\TitleTextEntry;
 use Webkul\Security\Models\User;
+use Filament\Infolists;
 
 class ChatterPanel extends Component implements HasActions, HasForms, HasInfolists
 {
@@ -40,11 +41,11 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
         $this->record = $record;
     }
 
-    public function followerAction(): FollowerAction
-    {
-        return FollowerAction::make('follower')
-            ->record($this->record);
-    }
+    // public function followerAction(): FollowerAction
+    // {
+    //     return FollowerAction::make('follower')
+    //         ->record($this->record);
+    // }
 
     public function messageAction(): MessageAction
     {
@@ -58,76 +59,85 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
             ->record($this->record);
     }
 
-    public function activityAction(): ActivityAction
-    {
-        return ActivityAction::make('activity')
-            ->record($this->record);
-    }
-
     public function fileAction(): FileAction
     {
         return FileAction::make('file')
             ->record($this->record);
     }
 
-    public function getFollowersProperty()
+    public function deleteAttachmentAction($id)
     {
-        return $this->record->followers()
-            ->select('users.*')
-            ->orderBy('name')
-            ->get();
-    }
-
-    public function getNonFollowersProperty()
-    {
-        $followerIds = $this->record->followers()
-            ->select('users.id')
-            ->pluck('users.id')
-            ->toArray();
-
-        return User::query()
-            ->whereNotIn('users.id', array_merge($followerIds, [$this->record->user_id]))
-            ->when($this->searchQuery, function ($query) {
-                $query->where('users.name', 'like', '%' . $this->searchQuery . '%')
-                    ->orWhere('users.email', 'like', '%' . $this->searchQuery . '%');
-            })
-            ->orderBy('name')
-            ->limit(50)
-            ->get();
-    }
-
-    public function toggleFollower($userId): void
-    {
-        try {
-            if ($this->record->isFollowedBy($userId)) {
-                $this->record->removeFollower($userId);
-                $message = __('chatter::app.livewire.chatter_panel.actions.follower.remove_success');
-            } else {
-                $this->record->addFollower($userId);
-                $message = __('chatter::app.livewire.chatter_panel.actions.follower.add_success');
-            }
-
-            $this->dispatch('refreshFollowers');
-
-            Notification::make()
-                ->title($message)
-                ->success()
-                ->send();
-        } catch (\Exception $e) {
-            Notification::make()
-                ->title(__('chatter::app.livewire.chatter_panel.actions.follower.error'))
-                ->body($e->getMessage())
-                ->danger()
-                ->send();
-        }
-    }
-
-    public function deleteChatAction(): Action
-    {
-        return Action::make('deleteChat')
+        return Action::make('deleteAttachment')
             ->requiresConfirmation()
-            ->action(fn(array $arguments, $record) => $this->record->removeMessage($arguments['id']));
+            ->action(fn(array $arguments) => dd('fasfs'));
     }
+
+    // public function activityAction(): ActivityAction
+    // {
+    //     return ActivityAction::make('activity')
+    //         ->record($this->record);
+    // }
+
+
+
+    // public function getFollowersProperty()
+    // {
+    //     return $this->record->followers()
+    //         ->select('users.*')
+    //         ->orderBy('name')
+    //         ->get();
+    // }
+
+    // public function getNonFollowersProperty()
+    // {
+    //     $followerIds = $this->record->followers()
+    //         ->select('users.id')
+    //         ->pluck('users.id')
+    //         ->toArray();
+
+    //     return User::query()
+    //         ->whereNotIn('users.id', array_merge($followerIds, [$this->record->user_id]))
+    //         ->when($this->searchQuery, function ($query) {
+    //             $query->where('users.name', 'like', '%' . $this->searchQuery . '%')
+    //                 ->orWhere('users.email', 'like', '%' . $this->searchQuery . '%');
+    //         })
+    //         ->orderBy('name')
+    //         ->limit(50)
+    //         ->get();
+    // }
+
+    // public function toggleFollower($userId): void
+    // {
+    //     try {
+    //         if ($this->record->isFollowedBy($userId)) {
+    //             $this->record->removeFollower($userId);
+    //             $message = __('chatter::app.livewire.chatter_panel.actions.follower.remove_success');
+    //         } else {
+    //             $this->record->addFollower($userId);
+    //             $message = __('chatter::app.livewire.chatter_panel.actions.follower.add_success');
+    //         }
+
+    //         $this->dispatch('refreshFollowers');
+
+    //         Notification::make()
+    //             ->title($message)
+    //             ->success()
+    //             ->send();
+    //     } catch (\Exception $e) {
+    //         Notification::make()
+    //             ->title(__('chatter::app.livewire.chatter_panel.actions.follower.error'))
+    //             ->body($e->getMessage())
+    //             ->danger()
+    //             ->send();
+    //     }
+    // }
+
+    // public function deleteChatAction(): Action
+    // {
+    //     return Action::make('deleteChat')
+    //         ->requiresConfirmation()
+    //         ->action(fn(array $arguments, $record) => $this->record->removeMessage($arguments['id']));
+    // }
 
     public function chatInfolist(Infolist $infolist): Infolist
     {

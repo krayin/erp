@@ -14,8 +14,8 @@
         {{-- {{ $this->followerAction }} --}}
     </div>
 
-    <!-- Chats -->
-    {{ $this->chatInfolist }}    
+    <!-- Messages -->
+    {{ $this->chatInfolist }}
 
     <x-filament-actions::modals />
 </div>
