@@ -88,8 +88,8 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
         return User::query()
             ->whereNotIn('users.id', array_merge($followerIds, [$this->record->user_id]))
             ->when($this->searchQuery, function ($query) {
-                $query->where('users.name', 'like', '%'.$this->searchQuery.'%')
-                    ->orWhere('users.email', 'like', '%'.$this->searchQuery.'%');
+                $query->where('users.name', 'like', '%' . $this->searchQuery . '%')
+                    ->orWhere('users.email', 'like', '%' . $this->searchQuery . '%');
             })
             ->orderBy('name')
             ->limit(50)
@@ -126,7 +126,7 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
     {
         return Action::make('deleteChat')
             ->requiresConfirmation()
-            ->action(fn (array $arguments) => $this->record->removeChat($arguments['id']));
+            ->action(fn(array $arguments, $record) => $this->record->removeMessage($arguments['id']));
     }
 
     public function chatInfolist(Infolist $infolist): Infolist
@@ -134,11 +134,10 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
         return $infolist
             ->record($this->record)
             ->schema([
-                ChatsRepeatableEntry::make('chats')
+                ChatsRepeatableEntry::make('messages')
                     ->hiddenLabel()
                     ->schema([
                         TitleTextEntry::make('user')
-                            ->extraAttributes(['class' => 'text-sm'])
                             ->hiddenLabel(),
                         ContentTextEntry::make('content')
                             ->hiddenLabel(),

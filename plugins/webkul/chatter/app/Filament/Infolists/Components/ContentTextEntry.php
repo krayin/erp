@@ -11,7 +11,7 @@ class ContentTextEntry extends Entry
     use CanAllowHtml;
     use HasExtraAttributes;
 
-    protected string $view = 'chatter::filament.infolists.components.content-text-entry';
+    protected string $view = 'chatter::filament.infolists.components.messages.content-text-entry';
 
     protected function setUp(): void
     {

@@ -6,16 +6,16 @@
 
             {{ $this->logAction }}
 
-            {{ $this->activityAction }}
+            {{-- {{ $this->activityAction }}  --}}
 
             {{ $this->fileAction }}
         </div>
 
-        {{ $this->followerAction }}
+        {{-- {{ $this->followerAction }} --}}
     </div>
 
     <!-- Chats -->
-    {{ $this->chatInfolist }}
+    {{ $this->chatInfolist }}    
 
     <x-filament-actions::modals />
 </div>

@@ -2,67 +2,159 @@
 
 namespace Webkul\Chatter\Traits;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Webkul\Chatter\Models\Chat;
-use Webkul\Security\Models\User;
+use Illuminate\Database\Eloquent\Collection;
+use Webkul\Chatter\Models\Message;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 trait HasChatter
 {
-    public function chats(): MorphMany
+    /**
+     * Get all messages for this model
+     */
+    public function messages(): MorphMany
     {
-        return $this->morphMany(Chat::class, 'chattable')
-            ->latest();
+        return $this->morphMany(Message::class, 'messageable')->orderBy('created_at', 'desc');
     }
 
-    public function followers(): MorphToMany
+    /**
+     * Add a new message
+     */
+    public function addMessage(array $data): Message
     {
-        return $this->morphToMany(User::class, 'followable', 'followers')
-            ->withTimestamps()
-            ->withPivot('followed_at')
-            ->select('users.*');
+        $message = new Message();
+
+        $message->fill(array_merge($data, [
+            'creator_id' => Auth::user()->id,
+            'date' => $data['date'] ?? now(),
+            'company_id' => $data['company_id'] ?? $this->company_id ?? null,
+        ]));
+
+        $this->messages()->save($message);
+
+        return $message;
     }
 
-    public function addChat($data, $userId): Model
+    /**
+     * Add a reply to an existing message
+     */
+    public function replyToMessage(Message $parentMessage, array $data): Message
     {
-        return $this->chats()->create([
-            ...$data,
-            'user_id' => $userId,
-        ]);
+        return $this->addMessage(array_merge($data, [
+            'parent_id' => $parentMessage->id,
+            'company_id' => $parentMessage->company_id,
+            'activity_type_id' => $parentMessage->activity_type_id,
+        ]));
     }
 
-    public function removeChat($chatId): bool
+    /**
+     * Remove a message
+     */
+    public function removeMessage($messageId): bool
     {
-        return $this->chats()->where('id', $chatId)->delete();
-    }
+        $message = $this->messages()->find($messageId);
 
-    public function isFollowedBy($userId): bool
-    {
-        return $this->followers()->where('user_id', $userId)->exists();
-    }
-
-    public function addFollower($userId): void
-    {
-        if (! $this->isFollowedBy($userId)) {
-            $this->followers()->attach($userId, ['followed_at' => now()]);
+        if (
+            $message->messageable_id !== $this->id
+            || $message->messageable_type !== get_class($this)
+        ) {
+            return false;
         }
+
+        return $message->delete();
     }
 
-    public function removeFollower($userId): void
+    /**
+     * Pin a message
+     */
+    public function pinMessage(Message $message): bool
     {
-        $this->followers()->detach($userId);
+        if (
+            $message->messageable_id !== $this->id
+            || $message->messageable_type !== get_class($this)
+        ) {
+            return false;
+        }
+
+        $message->pinned_at = now();
+        return $message->save();
     }
 
-    public function getFollowerIds(): array
+    /**
+     * Unpin a message
+     */
+    public function unpinMessage(Message $message): bool
     {
-        return $this->followers()->pluck('id')->toArray();
+        if (
+            $message->messageable_id !== $this->id
+            || $message->messageable_type !== get_class($this)
+        ) {
+            return false;
+        }
+
+        $message->pinned_at = null;
+
+        return $message->save();
     }
 
-    public function canSendMessage(Model $followable): bool
+    /**
+     * Get all pinned messages
+     */
+    public function getPinnedMessages(): Collection
     {
-        return $followable->followers()
-            ->where('user_id', $this->id)
-            ->exists();
+        return $this->messages()->whereNotNull('pinned_at')->orderBy('pinned_at', 'desc')->get();
+    }
+
+    /**
+     * Get messages by type
+     */
+    public function getMessagesByType(string $type): Collection
+    {
+        return $this->messages()->where('type', $type)->get();
+    }
+
+    /**
+     * Get internal messages
+     */
+    public function getInternalMessages(): Collection
+    {
+        return $this->messages()->where('is_internal', true)->get();
+    }
+
+    /**
+     * Get messages by date range
+     */
+    public function getMessagesByDateRange(Carbon $startDate, Carbon $endDate): Collection
+    {
+        return $this->messages()
+            ->whereBetween('date', [$startDate, $endDate])
+            ->get();
+    }
+
+    /**
+     * Get messages by activity type
+     */
+    public function getMessagesByActivityType(int $activityTypeId): Collection
+    {
+        return $this->messages()
+            ->where('activity_type_id', $activityTypeId)
+            ->get();
+    }
+
+    /**
+     * Get thread messages (messages with same parent)
+     */
+    public function getThreadMessages(Message $message): Collection
+    {
+        $parentId = $message->parent_id ?? $message->id;
+
+        return $this->messages()
+            ->where(function ($query) use ($parentId) {
+                $query->where('id', $parentId)
+                    ->orWhere('parent_id', $parentId);
+            })
+            ->orderBy('created_at', 'asc')
+            ->get();
     }
 }

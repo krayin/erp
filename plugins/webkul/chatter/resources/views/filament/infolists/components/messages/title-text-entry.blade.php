@@ -12,7 +12,7 @@
             <div class="flex items-center justify-between gap-x-2">
                 <div class="flex items-center gap-x-2">
                     <div class="text-sm font-medium text-gray-950 dark:text-white">
-                        {{ $getRecord()->user->name }}
+                        {{ $getRecord()->createdBy->name }}
                     </div>
 
                     <div class="text-xs font-medium text-gray-400 dark:text-gray-500">
