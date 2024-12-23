@@ -132,12 +132,29 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
     //     }
     // }
 
-    // public function deleteChatAction(): Action
-    // {
-    //     return Action::make('deleteChat')
-    //         ->requiresConfirmation()
-    //         ->action(fn(array $arguments, $record) => $this->record->removeMessage($arguments['id']));
-    // }
+    public function deleteChatAction(): Action
+    {
+        return Action::make('deleteChat')
+            ->requiresConfirmation()
+            ->action(fn(array $arguments, $record) => $this->record->removeMessage($arguments['id']));
+    }
+
+    public function viewProfileAction(): Action
+    {
+        return Action::make('viewProfile')
+            ->infolist(function (Infolist $infolist, array $arguments) {
+                return $infolist
+                    ->record(User::find($arguments['id'])->first())
+                    ->schema([
+                        TitleTextEntry::make('name')
+                            ->hiddenLabel(),
+                        TitleTextEntry::make('email')
+                            ->hiddenLabel(),
+                        TitleTextEntry::make('created_at')
+                            ->hiddenLabel(),
+                    ]);
+            });
+    }
 
     public function chatInfolist(Infolist $infolist): Infolist
     {

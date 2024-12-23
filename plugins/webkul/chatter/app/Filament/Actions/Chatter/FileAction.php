@@ -35,6 +35,7 @@ class FileAction extends Action
                     ->downloadable()
                     ->openable()
                     ->previewable(true)
+                    ->panelLayout('grid')
                     ->imagePreviewHeight('100')
                     ->acceptedFileTypes([
                         'image/*',

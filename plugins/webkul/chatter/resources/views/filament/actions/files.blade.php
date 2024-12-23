@@ -1,5 +1,5 @@
 {{-- resources/views/vendor/chatter/filament/components/file-list.blade.php --}}
-<div class="space-y-3">
+<div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
     @forelse($attachments as $attachment)
         @php
             $isImage = str_starts_with($attachment->mime_type, 'image/');
@@ -24,58 +24,51 @@
             };
         @endphp
 
-        <div class="group relative rounded-lg bg-gray-50 p-3 transition duration-150 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700">
-            <div class="flex items-center gap-x-4">
+        <div class="group relative rounded-lg bg-gray-50 p-2 transition duration-150 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700">
+            <div class="flex flex-col gap-y-2">
                 {{-- File Preview/Icon --}}
-                <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center">
-                    @if($isImage && $attachment->url)
-                        <div class="relative h-10 w-10 overflow-hidden rounded">
-                            <img
-                                src="{{ $attachment->url }}"
-                                alt="{{ $attachment->original_file_name }}"
-                                class="h-full w-full object-cover"
-                            />
-                        </div>
-                    @else
-                        <x-filament::icon
-                            :icon="$icon"
-                            @class([$iconColor, 'w-6 h-6'])
-                        />
-                    @endif
-                </div>
-
-                {{-- File Info --}}
-                <div class="min-w-0 flex-grow">
-                    <div class="flex items-center justify-between gap-x-2">
-                        <div class="truncate">
-                            <p class="truncate text-sm font-medium text-gray-900 dark:text-white">
-                                {{ $attachment->original_file_name }}
-                            </p>
-                            <div class="mt-0.5 flex items-center gap-x-2">
-                                <span class="text-xs text-gray-500 dark:text-gray-400">
-                                    {{ number_format($attachment->file_size / 1024, 1) }} KB
-                                </span>
-                                <span class="text-xs text-gray-400">•</span>
-                                <span class="text-xs text-gray-500 dark:text-gray-400">
-                                    {{ $attachment->created_at->diffForHumans() }}
-                                </span>
-                                @if($attachment->creator_id)
-                                    <span class="text-xs text-gray-400">•</span>
-                                    <span class="text-xs text-gray-500 dark:text-gray-400">
-                                        {{ $attachment->createdBy->name ?? 'Unknown' }}
-                                    </span>
-                                @endif
+                <div class="flex justify-center">
+                    <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-white dark:bg-gray-700">
+                        @if($isImage && $attachment->url)
+                            <div class="relative h-10 w-10 overflow-hidden rounded-lg">
+                                <img
+                                    src="{{ $attachment->url }}"
+                                    alt="{{ $attachment->original_file_name }}"
+                                    class="h-full w-full object-cover"
+                                />
                             </div>
-                        </div>
+                        @else
+                            <x-filament::icon
+                                :icon="$icon"
+                                @class([$iconColor, 'w-6 h-6'])
+                            />
+                        @endif
                     </div>
                 </div>
 
+                {{-- File Info --}}
+                <div class="flex-grow text-center">
+                    <p class="truncate text-xs font-medium text-gray-900 dark:text-white" title="{{ $attachment->original_file_name }}">
+                        {{ $attachment->original_file_name }}
+                    </p>
+                    <div class="mt-0.5 flex items-center justify-center gap-x-1 text-[10px] text-gray-500 dark:text-gray-400">
+                        <span>{{ number_format($attachment->file_size / 1024, 1) }} KB</span>
+                        <span>•</span>
+                        <span>{{ $attachment->created_at->diffForHumans(parts: 1) }}</span>
+                    </div>
+                    @if($attachment->creator_id)
+                        <div class="mt-0.5 truncate text-[10px] text-gray-500 dark:text-gray-400">
+                            {{ $attachment->createdBy->name ?? 'Unknown' }}
+                        </div>
+                    @endif
+                </div>
+
                 {{-- Actions --}}
-                <div class="flex flex-shrink-0 items-center gap-x-2">
+                <div class="flex justify-center gap-x-1">
                     @if($attachment->url)
                         @if($isImage || $isPdf)
                             <x-filament::button
-                                size="sm"
+                                size="xs"
                                 color="gray"
                                 icon="heroicon-m-eye"
                                 icon-only
@@ -86,9 +79,8 @@
                             />
                         @endif
 
-                        {{-- Download Button --}}
                         <x-filament::button
-                            size="sm"
+                            size="xs"
                             color="gray"
                             icon="heroicon-m-arrow-down-tray"
                             icon-only
@@ -98,7 +90,7 @@
                             :tooltip="__('Download')"
                         />
                     @else
-                        <x-filament::badge color="danger" size="sm">
+                        <x-filament::badge color="danger" size="xs">
                             {{ __('File not found') }}
                         </x-filament::badge>
                     @endif
@@ -106,7 +98,7 @@
             </div>
         </div>
     @empty
-        <div class="py-4 text-center text-sm text-gray-500 dark:text-gray-400">
+        <div class="col-span-full py-4 text-center text-sm text-gray-500 dark:text-gray-400">
             {{ __('No files uploaded yet') }}
         </div>
     @endforelse
