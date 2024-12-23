@@ -49,6 +49,7 @@ class Task extends Model
         'remaining_hours',
         'effective_hours',
         'total_hours_spent',
+        'subtask_effective_hours',
         'overtime',
         'progress',
         'stage_id',
@@ -134,6 +135,22 @@ class Task extends Model
     public function timesheets(): HasMany
     {
         return $this->hasMany(Timesheet::class);
+    }
+
+    /**
+     * Bootstrap any application services.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($task) {
+            $task->timesheets()->update([
+                'project_id' => $task->project_id,
+                'partner_id' => $task->partner_id ?? $task->project?->partner_id,
+                'company_id' => $task->company_id ?? $task->project?->company_id,
+            ]);
+        });
     }
 
     protected static function newFactory(): TaskFactory

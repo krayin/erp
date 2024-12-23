@@ -162,6 +162,7 @@ class TaskResource extends Resource
                                     ->numeric()
                                     ->minValue(0)
                                     ->suffixIcon('heroicon-o-clock')
+                                    ->helperText('In hours (Eg. 1.5 hours means 1 hour 30 minutes)')
                                     ->dehydrateStateUsing(fn ($state) => $state ?: 0)
                                     ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
                             ]),

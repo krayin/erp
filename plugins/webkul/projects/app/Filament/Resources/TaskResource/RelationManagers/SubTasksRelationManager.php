@@ -10,6 +10,7 @@ use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Enums\TaskState;
 use Webkul\Project\Filament\Resources\TaskResource;
+use Webkul\Project\Models\Task;
 use Webkul\Project\Models\TaskStage;
 
 class SubTasksRelationManager extends RelationManager
@@ -52,7 +53,8 @@ class SubTasksRelationManager extends RelationManager
                         ->modalWidth('6xl'),
                     Tables\Actions\EditAction::make()
                         ->hidden(fn ($record) => $record->trashed())
-                        ->modalWidth('6xl'),
+                        ->modalWidth('6xl')
+                        ->url(fn (Task $record): string => route('filament.admin.resources.project.tasks.edit', $record->id)),
                     Tables\Actions\DeleteAction::make(),
                     Tables\Actions\RestoreAction::make(),
                 ]),
