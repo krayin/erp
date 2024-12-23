@@ -25,6 +25,16 @@ class Message extends Model
         'is_internal',
         'date',
         'pinned_at',
+        'log_name',
+        'description',
+        'event',
+        'causer_type',
+        'causer_id',
+        'properties',
+    ];
+
+    protected $casts = [
+        'properties' => 'array',
     ];
 
     public function messageable(): MorphTo
@@ -45,5 +55,25 @@ class Message extends Model
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    public function causer()
+    {
+        return $this->morphTo();
+    }
+
+    public function getPropertiesAttribute($value)
+    {
+        return json_decode($value, true);
+    }
+
+    public function setPropertiesAttribute($value)
+    {
+        $this->attributes['properties'] = json_encode($value);
+    }
+
+    public function getBodyAttribute($value)
+    {
+        return json_decode($value, true);
     }
 }

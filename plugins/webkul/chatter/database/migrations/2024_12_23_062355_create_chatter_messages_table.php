@@ -26,6 +26,11 @@ return new class extends Migration
             $table->date('date')->nullable()->comment('Date');
             $table->date('pinned_at')->nullable()->comment('Pinned At');
 
+            $table->string('log_name')->nullable();
+            $table->text('description')->nullable();
+            $table->morphs('causer');
+            $table->string('event')->nullable();
+            $table->json('properties')->nullable();
 
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->foreign('activity_type_id')->references('id')->on('activity_types')->onDelete('cascade');
