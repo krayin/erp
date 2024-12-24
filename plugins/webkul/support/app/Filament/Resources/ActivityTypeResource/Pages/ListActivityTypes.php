@@ -5,6 +5,8 @@ namespace Webkul\Support\Filament\Resources\ActivityTypeResource\Pages;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Webkul\Support\Filament\Resources\ActivityTypeResource;
+use Filament\Resources\Components\Tab;
+use Webkul\Support\Models\ActivityType;
 
 class ListActivityTypes extends ListRecords
 {
@@ -14,6 +16,19 @@ class ListActivityTypes extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+        ];
+    }
+
+    public function getTabs(): array
+    {
+        return [
+            'all' => Tab::make('All')
+                ->badge(ActivityType::count()),
+            'archived' => Tab::make('Archived')
+                ->badge(ActivityType::onlyTrashed()->count())
+                ->modifyQueryUsing(function ($query) {
+                    return $query->onlyTrashed();
+                }),
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace Webkul\Chatter\Filament\Actions\Chatter;
 
 use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Infolists\Components\ImageEntry;
 use Filament\Notifications\Notification;
 use Filament\Support\Enums\IconPosition;
 use Filament\Support\Enums\MaxWidth;
@@ -24,7 +25,7 @@ class FileAction extends Action
         $this
             ->color('gray')
             ->outlined()
-            ->badge(fn ($record) => $record->attachments()->count())
+            ->badge(fn($record) => $record->attachments()->count())
             ->form([
                 Forms\Components\FileUpload::make('files')
                     ->label(__('chatter::app.filament.actions.chatter.file.form.file'))
@@ -55,10 +56,10 @@ class FileAction extends Action
                     $record->attachments()
                         ->createMany(
                             collect($data['files'] ?? [])
-                                ->map(fn ($filePath) => [
+                                ->map(fn($filePath) => [
                                     'file_path'          => $filePath,
                                     'original_file_name' => basename($filePath),
-                                    'mime_type'          => mime_content_type($storagePath = storage_path('app/public/'.$filePath)) ?: 'application/octet-stream',
+                                    'mime_type'          => mime_content_type($storagePath = storage_path('app/public/' . $filePath)) ?: 'application/octet-stream',
                                     'file_size'          => filesize($storagePath) ?: 0,
                                 ])
                                 ->filter()
@@ -80,14 +81,14 @@ class FileAction extends Action
                     report($e);
                 }
             })
-            ->modalContentFooter(fn (Model $record): View => view('chatter::filament.actions.files', [
+            ->modalContentFooter(fn(Model $record): View => view('chatter::filament.actions.files', [
                 'attachments' => $record->attachments()->latest()->get() ?? collect(),
             ]))
             ->label('Attachments')
             ->icon('heroicon-o-paper-clip')
             ->iconPosition(IconPosition::Before)
             ->modalSubmitAction(
-                fn ($action) => $action
+                fn($action) => $action
                     ->label('Upload')
                     ->icon('heroicon-m-paper-airplane')
             )

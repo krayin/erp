@@ -61,7 +61,7 @@
                 <div class="space-y-3">
                     <!-- Due Date -->
                     @if($record->date_deadline)
-                        <div class="flex items-center gap-3 rounded-lg p-2">
+                        <div class="flex items-center gap-3">
                             <x-heroicon-m-calendar class="h-5 w-5 text-gray-400"/>
 
                             <div>

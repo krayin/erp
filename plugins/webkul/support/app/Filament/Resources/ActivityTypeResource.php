@@ -51,7 +51,7 @@ class ActivityTypeResource extends Resource
                                             ->preload(),
                                         Forms\Components\Select::make('default_user_id')
                                             ->label('Default User')
-                                            ->options(fn () => User::query()->pluck('name', 'id'))
+                                            ->options(fn() => User::query()->pluck('name', 'id'))
                                             ->searchable()
                                             ->preload(),
                                         Forms\Components\TextInput::make('plugin')
@@ -109,18 +109,18 @@ class ActivityTypeResource extends Resource
                                             ->live()
                                             ->required()
                                             ->native(false)
-                                            ->hidden(fn (Get $get) => $get('category') === 'upload_file'),
+                                            ->hidden(fn(Get $get) => $get('category') === 'upload_file'),
                                         Forms\Components\Select::make('activity_type_suggestions')
                                             ->multiple()
                                             ->relationship('suggestedActivityTypes', 'name')
                                             ->searchable()
                                             ->preload()
                                             ->label('Suggest')
-                                            ->hidden(fn (Get $get) => $get('chaining_type') === 'trigger' || $get('category') === 'upload_file'),
+                                            ->hidden(fn(Get $get) => $get('chaining_type') === 'trigger' || $get('category') === 'upload_file'),
                                         Forms\Components\Select::make('triggered_next_type_id')
                                             ->relationship('activityTypes', 'name')
                                             ->label('Trigger')
-                                            ->hidden(fn (Get $get) => $get('chaining_type') === 'suggest' && $get('category') !== 'upload_file'),
+                                            ->hidden(fn(Get $get) => $get('chaining_type') === 'suggest' && $get('category') !== 'upload_file'),
                                     ]),
                                 Forms\Components\Section::make('Status and Configuration')
                                     ->schema([
@@ -157,7 +157,7 @@ class ActivityTypeResource extends Resource
                     }),
                 Tables\Columns\TextColumn::make('delay_from')
                     ->label('Type')
-                    ->formatStateUsing(fn ($state) => ActivityDelayFrom::options()[$state])
+                    ->formatStateUsing(fn($state) => ActivityDelayFrom::options()[$state])
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('category')
@@ -228,13 +228,14 @@ class ActivityTypeResource extends Resource
                     ->label('Active Status'),
                 Tables\Filters\Filter::make('has_delay')
                     ->label('Has Delay')
-                    ->query(fn ($query) => $query->whereNotNull('delay_count')),
+                    ->query(fn($query) => $query->whereNotNull('delay_count')),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
+                    Tables\Actions\ForceDeleteAction::make(),
                     Tables\Actions\RestoreAction::make(),
                 ]),
             ])
