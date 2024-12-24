@@ -25,6 +25,7 @@ use Webkul\Chatter\Filament\Infolists\Components\Messages\ContentTextEntry;
 use Webkul\Chatter\Filament\Infolists\Components\Messages\TitleTextEntry;
 use Webkul\Security\Models\User;
 use Filament\Infolists;
+use Filament\Infolists\Components\TextEntry;
 
 class ChatterPanel extends Component implements HasActions, HasForms, HasInfolists
 {

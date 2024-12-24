@@ -18,7 +18,14 @@ trait HasChatter
      */
     public function messages(): MorphMany
     {
-        return $this->morphMany(Message::class, 'messageable')->orderBy('created_at', 'desc');
+        return $this->morphMany(Message::class, 'messageable')
+            ->orderBy('created_at', 'desc');
+    }
+
+    public function activities()
+    {
+        return $this->messages()
+            ->where('type', 'activity');
     }
 
     /**

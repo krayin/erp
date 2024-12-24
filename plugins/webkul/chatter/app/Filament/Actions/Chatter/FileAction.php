@@ -87,9 +87,11 @@ class FileAction extends Action
             ->label('Attachments')
             ->icon('heroicon-o-paper-clip')
             ->iconPosition(IconPosition::Before)
-            ->modalSubmitAction(fn($action) => $action
-                ->label('Upload')
-                ->icon('heroicon-m-paper-airplane'))
+            ->modalSubmitAction(
+                fn($action) => $action
+                    ->label('Upload')
+                    ->icon('heroicon-m-paper-airplane')
+            )
             ->modalWidth(MaxWidth::ThreeExtraLarge)
             ->slideOver(false);
     }
