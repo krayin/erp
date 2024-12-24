@@ -66,9 +66,7 @@ class MessageAction extends Action
             ->action(function (array $data, ?Model $record = null) {
                 try {
                     $data['name'] = $record->name;
-                    $data['causer_type'] = Auth::user()?->getMorphClass();
-                    $data['causer_id'] = Auth::id();
-
+                    
                     $record->addMessage($data, Auth::user()->id);
 
                     Notification::make()

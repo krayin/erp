@@ -4,6 +4,8 @@ namespace Webkul\Chatter\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\ActivityType;
 use Webkul\Support\Models\Company;
@@ -72,5 +74,22 @@ class Message extends Model
     public function setPropertiesAttribute($value)
     {
         $this->attributes['properties'] = json_encode($value);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($data) {
+            DB::transaction(function () use ($data) {
+                $data->causer_type = Auth::user()?->getMorphClass();
+                $data->causer_id = Auth::id();
+            });
+        });
+
+        static::updating(function ($data) {
+            $data->causer_type = Auth::user()?->getMorphClass();
+            $data->causer_id = Auth::id();
+        });
     }
 }

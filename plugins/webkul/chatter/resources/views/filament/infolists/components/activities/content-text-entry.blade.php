@@ -8,7 +8,13 @@
     :entry="$entry"
 >
     <div {{ $attributes->merge($getExtraAttributes())->class('rounded-lg shadow-md') }}>
-        <div class="rounded-lg bg-white shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-800 dark:ring-white/10">
+        @if($record->body)
+            <div class="text-sm">
+                {!! $record->body !!}
+            </div>
+        @endif
+
+        <div class="mt-2 rounded-lg bg-white shadow-sm ring-1 ring-gray-950/5 dark:bg-gray-800 dark:ring-white/10">
             <div class="border-b border-gray-200 px-4 py-3 dark:border-gray-700">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2">

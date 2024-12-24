@@ -22,11 +22,15 @@
                 </div>
 
                 <div class="flex-shrink-0">
-                    <x-filament::icon-button
-                        wire:click="mountAction('deleteActivity',  { id: {{ $getRecord()->id }} })"
-                        icon="heroicon-s-trash"
-                        color="danger"
-                        :tooltip="trans('chatter::app.views.filament.infolists.components.title-text-entry.tooltip.delete')"
+                    <x-filament-actions::group
+                        size="md"
+                        tooltip="More actions"
+                        dropdown-placement="bottom-start"
+                        :actions="[
+                            ($this->markAsDoneAction)(['id' => $getRecord()->id]),
+                            ($this->editActivity)(['id' => $getRecord()->id]),
+                            ($this->cancelActivity)(['id' => $getRecord()->id]),
+                        ]"
                     />
                 </div>
             </div>
