@@ -5,10 +5,11 @@ namespace Webkul\Project\Policies;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Webkul\Project\Models\Task;
 use Webkul\Security\Models\User;
+use Webkul\Security\Traits\HasScopedPermissions;
 
 class TaskPolicy
 {
-    use HandlesAuthorization;
+    use HandlesAuthorization, HasScopedPermissions;
 
     /**
      * Determine whether the user can view any models.
@@ -23,7 +24,11 @@ class TaskPolicy
      */
     public function view(User $user, Task $task): bool
     {
-        return $user->can('view_task');
+        if (! $user->can('view_task')) {
+            return false;
+        }
+
+        return $this->hasAccess($user, $task, 'users');
     }
 
     /**
@@ -39,7 +44,11 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
-        return $user->can('update_task');
+        if (! $user->can('update_task')) {
+            return false;
+        }
+
+        return $this->hasAccess($user, $task, 'users');
     }
 
     /**
@@ -47,7 +56,11 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task): bool
     {
-        return $user->can('delete_task');
+        if (! $user->can('delete_task')) {
+            return false;
+        }
+
+        return $this->hasAccess($user, $task, 'users');
     }
 
     /**
@@ -63,7 +76,11 @@ class TaskPolicy
      */
     public function forceDelete(User $user, Task $task): bool
     {
-        return $user->can('force_delete_task');
+        if (! $user->can('force_delete_task')) {
+            return false;
+        }
+
+        return $this->hasAccess($user, $task, 'users');
     }
 
     /**
@@ -79,7 +96,11 @@ class TaskPolicy
      */
     public function restore(User $user, Task $task): bool
     {
-        return $user->can('restore_task');
+        if (! $user->can('restore_task')) {
+            return false;
+        }
+
+        return $this->hasAccess($user, $task, 'users');
     }
 
     /**
@@ -95,7 +116,11 @@ class TaskPolicy
      */
     public function replicate(User $user, Task $task): bool
     {
-        return $user->can('replicate_task');
+        if (! $user->can('replicate_task')) {
+            return false;
+        }
+
+        return $this->hasAccess($user, $task, 'users');
     }
 
     /**

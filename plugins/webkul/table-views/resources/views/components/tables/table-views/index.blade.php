@@ -61,7 +61,7 @@
                         {{ $label }}
                     </h3>
 
-                    <x-filament::icon-button
+                    {{-- <x-filament::icon-button
                         icon="heroicon-o-arrows-up-down"
                         color="gray"
                         size="sm"
@@ -75,7 +75,7 @@
                         size="sm"
                         x-on:click="reorderViews = false"
                         x-show="reorderViews === true"
-                    />
+                    /> --}}
                 </div>
 
                 <div

@@ -2,7 +2,6 @@
 
 namespace Webkul\Chatter\Filament\Actions\Chatter;
 
-use Closure;
 use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Notifications\Notification;
@@ -24,7 +23,7 @@ class LogAction extends Action
             ->color('gray')
             ->outlined()
             ->form(
-                fn($form) => $form->schema([
+                fn ($form) => $form->schema([
                     Forms\Components\TextInput::make('subject')
                         ->placeholder('Subject')
                         ->columnSpanFull(),

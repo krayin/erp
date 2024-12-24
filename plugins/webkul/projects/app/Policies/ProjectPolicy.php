@@ -5,10 +5,11 @@ namespace Webkul\Project\Policies;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Webkul\Project\Models\Project;
 use Webkul\Security\Models\User;
+use Webkul\Security\Traits\HasScopedPermissions;
 
 class ProjectPolicy
 {
-    use HandlesAuthorization;
+    use HandlesAuthorization, HasScopedPermissions;
 
     /**
      * Determine whether the user can view any models.
@@ -23,7 +24,11 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project): bool
     {
-        return $user->can('view_project');
+        if (! $user->can('view_project')) {
+            return false;
+        }
+
+        return $this->hasAccess($user, $project);
     }
 
     /**
@@ -39,7 +44,11 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project): bool
     {
-        return $user->can('update_project');
+        if (! $user->can('update_project')) {
+            return false;
+        }
+
+        return $this->hasAccess($user, $project);
     }
 
     /**
@@ -47,7 +56,11 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project): bool
     {
-        return $user->can('delete_project');
+        if (! $user->can('delete_project')) {
+            return false;
+        }
+
+        return $this->hasAccess($user, $project);
     }
 
     /**
@@ -63,7 +76,11 @@ class ProjectPolicy
      */
     public function forceDelete(User $user, Project $project): bool
     {
-        return $user->can('force_delete_project');
+        if (! $user->can('force_delete_project')) {
+            return false;
+        }
+
+        return $this->hasAccess($user, $project);
     }
 
     /**
@@ -79,7 +96,11 @@ class ProjectPolicy
      */
     public function restore(User $user, Project $project): bool
     {
-        return $user->can('restore_project');
+        if (! $user->can('restore_project')) {
+            return false;
+        }
+
+        return $this->hasAccess($user, $project);
     }
 
     /**
@@ -95,7 +116,11 @@ class ProjectPolicy
      */
     public function replicate(User $user, Project $project): bool
     {
-        return $user->can('replicate_project');
+        if (! $user->can('replicate_project')) {
+            return false;
+        }
+
+        return $this->hasAccess($user, $project);
     }
 
     /**

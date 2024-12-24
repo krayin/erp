@@ -39,9 +39,9 @@ trait HasTableViews
 
     protected TableViewsLayout|Closure|null $tableViewsLayout = null;
 
-    public function mount(): void
+    public function bootedInteractsWithTable(): void
     {
-        parent::mount();
+        parent::bootedInteractsWithTable();
 
         $this->loadDefaultActiveTableView();
     }
@@ -198,7 +198,11 @@ trait HasTableViews
 
     public function getDefaultActiveTableView(): string|int|null
     {
-        return array_key_first($this->getCachedFavoriteTableViews());
+        $defaultViewKey = array_key_first(array_filter($this->getCachedFavoriteTableViews(), function ($view) {
+            return $view->isDefault() === true;
+        }));
+
+        return $defaultViewKey ?? array_key_first($this->getCachedFavoriteTableViews());
     }
 
     public function updatedActiveTableView(): void

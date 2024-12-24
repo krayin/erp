@@ -50,11 +50,11 @@ class SubTasksRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make()
-                        ->modalWidth('6xl'),
+                        ->url(fn (Task $record): string => route('filament.admin.resources.project.tasks.view', $record->id))
+                        ->hidden(fn ($record) => $record->trashed()),
                     Tables\Actions\EditAction::make()
-                        ->hidden(fn ($record) => $record->trashed())
-                        ->modalWidth('6xl')
-                        ->url(fn (Task $record): string => route('filament.admin.resources.project.tasks.edit', $record->id)),
+                        ->url(fn (Task $record): string => route('filament.admin.resources.project.tasks.edit', $record->id))
+                        ->hidden(fn ($record) => $record->trashed()),
                     Tables\Actions\DeleteAction::make(),
                     Tables\Actions\RestoreAction::make(),
                 ]),

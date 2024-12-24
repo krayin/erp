@@ -8,6 +8,8 @@ class Settings extends Cluster
 {
     protected static ?string $navigationIcon = 'heroicon-o-wrench';
 
+    protected static ?int $navigationSort = 1;
+
     public static function getNavigationLabel(): string
     {
         return __('security::app.filament.clusters.settings.name');

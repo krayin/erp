@@ -344,19 +344,14 @@ class ProjectResource extends Resource
                     Tables\Actions\DeleteAction::make(),
                 ])
                     ->link()
-                    ->label('Actions'),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
-                ]),
+                    ->hiddenLabel(),
             ])
             ->recordUrl(fn (Project $record): string => static::getUrl('view', ['record' => $record]))
             ->contentGrid([
-                'md' => 3,
-                'xl' => 4,
+                'sm'  => 1,
+                'md'  => 2,
+                'xl'  => 3,
+                '2xl' => 4,
             ]);
     }
 
@@ -438,7 +433,10 @@ class ProjectResource extends Resource
                                         Infolists\Components\TextEntry::make('tasks_count')
                                             ->label('Total Tasks')
                                             ->state(fn (Project $record): int => $record->tasks()->count())
-                                            ->icon('heroicon-m-clipboard-document-list'),
+                                            ->icon('heroicon-m-clipboard-document-list')
+                                            ->iconColor('primary')
+                                            ->color('primary')
+                                            ->url(fn (Project $record): string => route('filament.admin.resources.project.projects.tasks', $record->id)),
 
                                         Infolists\Components\TextEntry::make('milestones_completion')
                                             ->label('Milestones Progress')
@@ -449,6 +447,9 @@ class ProjectResource extends Resource
                                                 return "{$completed}/{$total}";
                                             })
                                             ->icon('heroicon-m-flag')
+                                            ->iconColor('primary')
+                                            ->color('primary')
+                                            ->url(fn (Project $record): string => route('filament.admin.resources.project.projects.milestones', $record->id))
                                             ->visible(fn (TaskSettings $taskSettings, Project $record) => $taskSettings->enable_milestones && $record->allow_milestones),
                                     ]),
                             ]),
