@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Webkul\Chatter\LogOptions;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Employee\Database\Factories\EmployeeFactory;
@@ -28,21 +27,21 @@ class Employee extends Model
     protected $table = 'employees_employees';
 
     protected array $logAttributes = [
-        'company.name' => 'Company',
-        'user.name' => 'User',
-        'creator.name' => 'Creator',
-        'calendar.name' => 'Calendar',
-        'department.name' => 'Department',
-        'job.name' => 'Job',
+        'company.name'            => 'Company',
+        'user.name'               => 'User',
+        'creator.name'            => 'Creator',
+        'calendar.name'           => 'Calendar',
+        'department.name'         => 'Department',
+        'job.name'                => 'Job',
         'attendance_manager.name' => 'Attendance Manager',
-        'partner.name' => 'Partner',
-        'work_location.name' => 'Work Location',
-        'parent.name' => 'Manager',
-        'coach.name' => 'Coach',
-        'country.name' => 'Country',
-        'state.name' => 'State',
+        'partner.name'            => 'Partner',
+        'work_location.name'      => 'Work Location',
+        'parent.name'             => 'Manager',
+        'coach.name'              => 'Coach',
+        'country.name'            => 'Country',
+        'state.name'              => 'State',
         'country_of_birth',
-        'bank_account.name' => 'Bank Account',
+        'bank_account.name'     => 'Bank Account',
         'departure_reason.name' => 'Departure Reason',
         'name',
         'job_title',

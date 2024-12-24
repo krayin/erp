@@ -2,6 +2,7 @@
 
 namespace Webkul\Project\Filament\Clusters\Configurations\Pages;
 
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
@@ -10,6 +11,8 @@ use Webkul\Security\Filament\Clusters\Settings;
 
 class ManageTime extends SettingsPage
 {
+    use HasPageShield;
+
     protected static ?string $navigationIcon = 'heroicon-o-clock';
 
     protected static ?string $navigationGroup = 'Project';

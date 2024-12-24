@@ -14,8 +14,8 @@ trait HasLogActivity
      */
     public static function bootHasLogActivity()
     {
-        static::created(fn(Model $model) => $model->logModelActivity('created'));
-        static::updated(fn(Model $model) => $model->logModelActivity('updated'));
+        static::created(fn (Model $model) => $model->logModelActivity('created'));
+        static::updated(fn (Model $model) => $model->logModelActivity('updated'));
 
         if (method_exists(static::class, 'bootSoftDeletes')) {
             static::deleted(function (Model $model) {
@@ -25,9 +25,9 @@ trait HasLogActivity
                     $model->logModelActivity('hard_deleted');
                 }
             });
-            static::restored(fn(Model $model) => $model->logModelActivity('restored'));
+            static::restored(fn (Model $model) => $model->logModelActivity('restored'));
         } else {
-            static::deleting(fn(Model $model) => $model->logModelActivity('deleted'));
+            static::deleting(fn (Model $model) => $model->logModelActivity('deleted'));
         }
     }
 
@@ -42,15 +42,15 @@ trait HasLogActivity
 
         try {
             return $this->addMessage([
-                'type' => 'notification',
-                'log_name' => 'default',
-                'description' => $this->generateActivityDescription($event),
+                'type'         => 'notification',
+                'log_name'     => 'default',
+                'description'  => $this->generateActivityDescription($event),
                 'subject_type' => $this->getMorphClass(),
-                'subject_id' => $this->getKey(),
-                'causer_type' => Auth::user()?->getMorphClass(),
-                'causer_id' => Auth::id(),
-                'event' => $event,
-                'properties' => $this->determineChanges($event),
+                'subject_id'   => $this->getKey(),
+                'causer_type'  => Auth::user()?->getMorphClass(),
+                'causer_id'    => Auth::id(),
+                'event'        => $event,
+                'properties'   => $this->determineChanges($event),
             ]);
         } catch (\Exception $e) {
             Log::error(
@@ -77,6 +77,7 @@ trait HasLogActivity
                 $normalized[$key] = $value;
             }
         }
+
         return $normalized;
     }
 
@@ -85,7 +86,7 @@ trait HasLogActivity
      */
     protected function parseRelationAttribute(string $key): ?array
     {
-        if (!str_contains($key, '.')) {
+        if (! str_contains($key, '.')) {
             return null;
         }
 
@@ -102,7 +103,7 @@ trait HasLogActivity
     protected function getRelatedValue($relation, $id, $attribute)
     {
         try {
-            if (!method_exists($this, $relation)) {
+            if (! method_exists($this, $relation)) {
                 return null;
             }
 
@@ -111,7 +112,8 @@ trait HasLogActivity
 
             return $instance ? $instance->$attribute : null;
         } catch (\Exception $e) {
-            Log::error("Error getting related value for {$relation}.{$attribute}: " . $e->getMessage());
+            Log::error("Error getting related value for {$relation}.{$attribute}: ".$e->getMessage());
+
             return null;
         }
     }
@@ -144,7 +146,7 @@ trait HasLogActivity
     protected function getRelationshipChanges(string $relation, string $attribute, array $original, array $current): ?array
     {
         try {
-            if (!method_exists($this, $relation)) {
+            if (! method_exists($this, $relation)) {
                 return null;
             }
 
@@ -156,16 +158,16 @@ trait HasLogActivity
 
                 if ($oldValue !== $newValue) {
                     return [
-                        'type' => 'modified',
+                        'type'      => 'modified',
                         'old_value' => $oldValue,
                         'new_value' => $newValue,
-                        'relation' => $relation,
-                        'attribute' => $attribute
+                        'relation'  => $relation,
+                        'attribute' => $attribute,
                     ];
                 }
             }
         } catch (\Exception $e) {
-            Log::error("Error tracking relationship changes for {$relation}.{$attribute}: " . $e->getMessage());
+            Log::error("Error tracking relationship changes for {$relation}.{$attribute}: ".$e->getMessage());
         }
 
         return null;
@@ -179,9 +181,9 @@ trait HasLogActivity
 
             if ($oldValue !== $newValue) {
                 return [
-                    'type' => array_key_exists($key, $original) ? 'modified' : 'added',
+                    'type'      => array_key_exists($key, $original) ? 'modified' : 'added',
                     'old_value' => $oldValue,
-                    'new_value' => $newValue
+                    'new_value' => $newValue,
                 ];
             }
         }
@@ -245,7 +247,7 @@ trait HasLogActivity
 
                     if ($oldValue !== $newValue) {
                         $changes[$key] = [
-                            'type' => 'modified',
+                            'type'      => 'modified',
                             'old_value' => $oldValue,
                             'new_value' => $newValue,
                         ];
@@ -258,7 +260,7 @@ trait HasLogActivity
 
                     if ($oldValue !== $newValue) {
                         $changes[$key] = [
-                            'type' => array_key_exists($key, $original) ? 'modified' : 'added',
+                            'type'      => array_key_exists($key, $original) ? 'modified' : 'added',
                             'old_value' => $oldValue,
                             'new_value' => $newValue,
                         ];
@@ -283,7 +285,7 @@ trait HasLogActivity
             return $value ? \Carbon\Carbon::parse($value)->format('F j, Y') : null;
         }
 
-        if (!is_array($value) && json_decode($value, true)) {
+        if (! is_array($value) && json_decode($value, true)) {
             $value = json_decode($value, true);
         }
 
@@ -299,7 +301,7 @@ trait HasLogActivity
      */
     protected static function ksortRecursive(&$array)
     {
-        if (!is_array($array)) {
+        if (! is_array($array)) {
             return;
         }
 

@@ -87,7 +87,7 @@ class FileAction extends Action
             ->icon('heroicon-o-paper-clip')
             ->iconPosition(IconPosition::Before)
             ->modalSubmitAction(
-                fn($action) => $action
+                fn ($action) => $action
                     ->label('Upload')
                     ->icon('heroicon-m-paper-airplane')
             )

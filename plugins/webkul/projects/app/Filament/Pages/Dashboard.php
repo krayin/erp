@@ -2,6 +2,7 @@
 
 namespace Webkul\Project\Filament\Pages;
 
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -18,7 +19,7 @@ use Webkul\Support\Filament\Clusters\Dashboard as DashboardCluster;
 
 class Dashboard extends BaseDashboard
 {
-    use BaseDashboard\Concerns\HasFiltersForm;
+    use BaseDashboard\Concerns\HasFiltersForm, HasPageShield;
 
     protected static string $routePath = 'project';
 

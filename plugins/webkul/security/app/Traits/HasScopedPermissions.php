@@ -2,11 +2,12 @@
 
 namespace Webkul\Security\Traits;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Webkul\Security\Enums\PermissionType;
 use Webkul\Security\Models\User;
 
-trait HasGroupPermissions
+trait HasScopedPermissions
 {
     /**
      * Check if the user has global access to any resource.
@@ -33,7 +34,15 @@ trait HasGroupPermissions
             $owner
             && $hasGroupAccess
         ) {
-            return $owner->teams->intersect($user->teams)->isNotEmpty();
+            $userTeamIds = $user->teams->pluck('id');
+
+            if ($owner instanceof Collection) {
+                $ownerTeamIds = $owner->pluck('teams')->flatten()->pluck('id');
+            } else {
+                $ownerTeamIds = $owner->teams->pluck('id');
+            }
+
+            return $ownerTeamIds->intersect($userTeamIds)->isNotEmpty();
         }
 
         return false;
@@ -54,7 +63,7 @@ trait HasGroupPermissions
 
         return $hasIndividualAccess
             && $owner
-            && $owner->id === $user->id;
+            && $owner instanceof Collection ? $owner->pluck('id')->contains($user->id) : $owner->id === $user->id;
     }
 
     /**

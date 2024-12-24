@@ -3,18 +3,18 @@
 namespace Webkul\Project\Filament\Resources\ProjectResource\Pages;
 
 use Filament\Forms\Form;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Tables;
-use Filament\Infolists\Infolist;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
+use Webkul\Project\Enums\TaskState;
 use Webkul\Project\Filament\Resources\ProjectResource;
 use Webkul\Project\Filament\Resources\TaskResource;
 use Webkul\Project\Models\Task;
-use Webkul\TableViews\Filament\Traits\HasTableViews;
-use Illuminate\Database\Eloquent\Builder;
-use Webkul\Project\Enums\TaskState;
-use Illuminate\Support\Facades\Auth;
 use Webkul\TableViews\Components\PresetView;
+use Webkul\TableViews\Filament\Traits\HasTableViews;
 
 class ManageProjectTasks extends ManageRelatedRecords
 {
@@ -62,7 +62,7 @@ class ManageProjectTasks extends ManageRelatedRecords
     {
         return TaskResource::infolist($infolist);
     }
-    
+
     public function getPresetTableViews(): array
     {
         return [

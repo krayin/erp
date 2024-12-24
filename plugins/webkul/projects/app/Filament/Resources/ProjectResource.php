@@ -346,18 +346,11 @@ class ProjectResource extends Resource
                     ->link()
                     ->hiddenLabel(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
-                ]),
-            ])
             ->recordUrl(fn (Project $record): string => static::getUrl('view', ['record' => $record]))
             ->contentGrid([
-                'sm' => 1,
-                'md' => 2,
-                'xl' => 3,
+                'sm'  => 1,
+                'md'  => 2,
+                'xl'  => 3,
                 '2xl' => 4,
             ]);
     }

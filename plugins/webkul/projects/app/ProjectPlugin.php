@@ -3,8 +3,8 @@
 namespace Webkul\Project;
 
 use Filament\Contracts\Plugin;
-use Filament\Panel;
 use Filament\Navigation\NavigationItem;
+use Filament\Panel;
 
 class ProjectPlugin implements Plugin
 {

@@ -21,7 +21,7 @@ class ListTasks extends ListRecords
     public function getHeaderWidgets(): array
     {
         return [
-            \Webkul\Project\Filament\Widgets\StatsOverviewWidget::make()
+            \Webkul\Project\Filament\Widgets\StatsOverviewWidget::make(),
         ];
     }
 
