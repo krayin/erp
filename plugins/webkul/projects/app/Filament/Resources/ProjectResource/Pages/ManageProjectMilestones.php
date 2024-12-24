@@ -9,6 +9,7 @@ use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\MilestoneResource;
 use Webkul\Project\Filament\Resources\ProjectResource;
+use Filament\Actions;
 
 class ManageProjectMilestones extends ManageRelatedRecords
 {

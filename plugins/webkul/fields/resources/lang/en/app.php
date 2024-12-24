@@ -40,6 +40,7 @@ return [
             'name'              => 'Name',
             'validation'        => 'Validation',
             'code'              => 'Code',
+            'code-helper-text'  => 'Code must start with a letter or underscore, and can only contain letters, numbers, and underscores.',
             'type'              => 'Type',
             'value'             => 'Value',
             'row'               => 'Row',

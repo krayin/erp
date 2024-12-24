@@ -7,7 +7,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
 use Spatie\Permission\Models\Role;
-use Webkul\Security\Filament\Clusters\Settings;
+use Webkul\Support\Filament\Clusters\Settings;
 use Webkul\Security\Settings\UserSettings;
 
 class ManageUsers extends SettingsPage

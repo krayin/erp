@@ -7,7 +7,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
 use Webkul\Project\Settings\TimeSettings;
-use Webkul\Security\Filament\Clusters\Settings;
+use Webkul\Support\Filament\Clusters\Settings;
 
 class ManageTime extends SettingsPage
 {

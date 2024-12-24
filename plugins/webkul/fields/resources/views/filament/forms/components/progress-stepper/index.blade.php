@@ -35,6 +35,7 @@
             \Filament\Support\prepare_inherited_attributes($attributes)
                 ->merge($getExtraAttributes(), escape: false)
                 ->class([
+                    'state-container justify-end',
                     'fi-fo-radio',
                     '-mt-3' => (! $isInline) && ($gridDirection === 'column'),
                     'flex flex-wrap' => $isInline,
@@ -49,6 +50,8 @@
 
             <div
                 @class([
+                    'state' => true,
+                    'border-primary-500',
                     'break-inside-avoid pt-3' => (! $isInline) && ($gridDirection === 'column'),
                 ])
             >
@@ -66,7 +69,7 @@
                 />
 
                 <x-filament::button
-                    class="stage"
+                    class="stage-button"
                     :color="$getColor($value)"
                     :disabled="$shouldOptionBeDisabled"
                     :for="$inputId"
@@ -81,32 +84,56 @@
 </x-dynamic-component>
 
 <style>
-    .stage {
-        background-color: #2563eb !important;
-        color: #fff;
+    .stage-button {
         border-radius: 0;
+        padding-left: 30px;
+        padding-right: 20px;
+        border: 1px solid rgba(var(--gray-950), 0.2);
+        box-shadow: none;
     }
 
-    .stage:last-child {
-        content: "";
-    }
-
-    .stage:after {
+    .stage-button:after {
         content: "";
         position: absolute;
         top: 50%;
-        right: -8px;
-        width: 26px;
-        height: 26px;
+        right: -14px;
+        width: 27px;
+        height: 27px;
         z-index: 1;
         border-radius: 0 0 0 25px;
         transform: translateY(-50%) rotate(45deg);
-        background-color: #2563eb;
-        border-right: 4px solid #f9fafb;
-        border-top: 4px solid #f9fafb;
+        background-color: #ffffff;
+        border-right: 1px solid rgba(var(--gray-950), 0.3);
+        border-top: 1px solid rgba(var(--gray-950), 0.3);
+        transition-duration: 75ms;
     }
 
-    .stage:after:hover {
-        background-color: #3b82f6;
+    .state-container .state:last-child .stage-button {
+        border-radius: 0 8px 8px 0;
+    }
+
+    .state-container .state:first-child .stage-button {
+        border-radius: 8px 0 0 8px;
+    }
+
+
+    .state-container .state:last-child .stage-button:after {
+        content: none;
+    }
+
+    input:checked + .stage-button {
+        color: #fff;
+        border: 1px solid rgba(var(--c-500), var(--tw-bg-opacity));
+    }
+
+    input:checked + .stage-button:after {
+        background-color: #2563eb;
+        border-right: 1px solid rgba(var(--c-500));
+        border-top: 1px solid rgba(var(--c-500));
+    }
+
+    input:checked + .stage-button:hover:after {
+        background-color: rgba(var(--c-500), var(--tw-bg-opacity));
+        transition-duration: 75ms;
     }
 </style>
