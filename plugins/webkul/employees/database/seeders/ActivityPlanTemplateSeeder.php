@@ -16,7 +16,7 @@ class ActivityPlanTemplateSeeder extends Seeder
             [
                 'sort'             => 1,
                 'plan_id'          => 1,
-                'activity_type_id' => 4,
+                'activity_type_id' => 3,
                 'delay_count'      => 0,
                 'delay_unit'       => 'days',
                 'delay_from'       => 'before_plan_date',
@@ -28,7 +28,7 @@ class ActivityPlanTemplateSeeder extends Seeder
             [
                 'sort'             => 2,
                 'plan_id'          => 1,
-                'activity_type_id' => 4,
+                'activity_type_id' => 3,
                 'delay_count'      => 0,
                 'delay_unit'       => 'days',
                 'delay_from'       => 'before_plan_date',
@@ -40,7 +40,7 @@ class ActivityPlanTemplateSeeder extends Seeder
             [
                 'sort'             => 3,
                 'plan_id'          => 2,
-                'activity_type_id' => 4,
+                'activity_type_id' => 3,
                 'delay_count'      => 0,
                 'delay_unit'       => 'days',
                 'delay_from'       => 'before_plan_date',
@@ -52,7 +52,7 @@ class ActivityPlanTemplateSeeder extends Seeder
             [
                 'sort'             => 4,
                 'plan_id'          => 2,
-                'activity_type_id' => 4,
+                'activity_type_id' => 3,
                 'delay_count'      => 0,
                 'delay_unit'       => 'days',
                 'delay_from'       => 'before_plan_date',
@@ -64,7 +64,7 @@ class ActivityPlanTemplateSeeder extends Seeder
             [
                 'sort'             => 5,
                 'plan_id'          => 2,
-                'activity_type_id' => 4,
+                'activity_type_id' => 3,
                 'delay_count'      => 0,
                 'delay_unit'       => 'days',
                 'delay_from'       => 'before_plan_date',

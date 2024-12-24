@@ -44,8 +44,7 @@ class ActivityAction extends Action
                                         ->label('Plan Date')
                                         ->hidden(fn(Get $get) => ! $get('activity_plan_id'))
                                         ->live()
-                                        ->native(false)
-                                        ->required(),
+                                        ->native(false),
                                 ])
                                 ->columns(2),
 
@@ -63,9 +62,9 @@ class ActivityAction extends Action
                                             $html = '<div class="space-y-2">';
                                             foreach ($activityPlanTemplates as $activityPlanTemplate) {
                                                 $planDate = $get('date_deadline') ? Carbon::parse($get('date_deadline'))->format('m/d/Y') : '';
-                                                $html .= '<div class="flex items-center space-x-2">
+                                                $html .= '<div class="flex items-center space-x-2" style="margin-left: 20px;">
                                                             <span>•</span>
-                                                            <span>' . $activityPlanTemplate->summary . ($planDate ? ' (' . $planDate . ')' : '') . '</span>
+                                                            <span style="margin-left:2px;">' . $activityPlanTemplate->summary . ($planDate ? ' (' . $planDate . ')' : '') . '</span>
                                                           </div>';
                                             }
                                             $html .= '</div>';
@@ -85,7 +84,8 @@ class ActivityAction extends Action
                                         ->native(false)
                                         ->visible(fn(Get $get) => ! $get('activity_plan_id')),
                                     Forms\Components\TextInput::make('summary')
-                                        ->label(__('chatter::app.filament.actions.chatter.activity.form.summary')),
+                                        ->label(__('chatter::app.filament.actions.chatter.activity.form.summary'))
+                                        ->visible(fn(Get $get) => ! $get('activity_plan_id')),
                                     Forms\Components\Select::make('assigned_to')
                                         ->label(__('chatter::app.filament.actions.chatter.activity.form.assigned-to'))
                                         ->searchable()
@@ -107,10 +107,11 @@ class ActivityAction extends Action
             ->action(function (array $data, ?Model $record = null) {
                 try {
                     if (isset($data['activity_plan_id'])) {
-                        $activityPlanTemplates = ActivityPlan::find($data['activity_plan_id'])
-                            ->activityPlanTemplates;
+                        $activityPlan =  ActivityPlan::find($data['activity_plan_id']);
 
-                        foreach ($activityPlanTemplates as $activityPlanTemplate) {
+                        $body = "The plan \"{$activityPlan->name}\" has been started";
+
+                        foreach ($activityPlan->activityPlanTemplates as $activityPlanTemplate) {
                             $data = [
                                 ...$data,
                                 ...$activityPlanTemplate->toArray(),
@@ -119,8 +120,23 @@ class ActivityAction extends Action
                                 'causer_id' => Auth::id(),
                             ];
 
+                            $body .= '<div class="space-y-2" style="margin-left: 20px;">
+                                <div class="flex items-center space-x-2">
+                                    <span>•</span>
+                                    <span style="margin-left:2px;">' .
+                                $activityPlanTemplate->summary .
+                                ' (' . (isset($data['date_deadline']) ? $data['date_deadline'] : now()->format('m/d/Y')) . ')' .
+                                '</span>
+                                </div>
+                            </div>';
+
                             $record->addMessage($data, Auth::user()->id);
                         }
+
+                        $data['type'] = 'comment';
+                        $data['body'] = $body;
+
+                        $record->addMessage($data, Auth::user()->id);
                     } else {
                         $data = [
                             ...$data,

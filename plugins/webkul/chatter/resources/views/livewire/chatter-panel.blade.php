@@ -14,6 +14,9 @@
         {{-- {{ $this->followerAction }} --}}
     </div>
 
+    <!-- Activities -->
+    {{ $this->activityInfolist }}
+
     <!-- Messages -->
     {{ $this->chatInfolist }}
 

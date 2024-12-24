@@ -7,6 +7,7 @@ use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Infolists\Components\Section;
 use Filament\Infolists\Concerns\InteractsWithInfolists;
 use Filament\Infolists\Contracts\HasInfolists;
 use Filament\Infolists\Infolist;
@@ -20,9 +21,12 @@ use Webkul\Chatter\Filament\Actions\Chatter\FileAction;
 use Webkul\Chatter\Filament\Actions\Chatter\FollowerAction;
 use Webkul\Chatter\Filament\Actions\Chatter\LogAction;
 use Webkul\Chatter\Filament\Actions\Chatter\MessageAction;
-use Webkul\Chatter\Filament\Infolists\Components\Messages\ChatsRepeatableEntry;
-use Webkul\Chatter\Filament\Infolists\Components\Messages\ContentTextEntry;
-use Webkul\Chatter\Filament\Infolists\Components\Messages\TitleTextEntry;
+use Webkul\Chatter\Filament\Infolists\Components\Messages\MessageRepeatableEntry;
+use Webkul\Chatter\Filament\Infolists\Components\Activities\ActivitiesRepeatableEntry;
+use Webkul\Chatter\Filament\Infolists\Components\Messages\ContentTextEntry as MessageContentTextEntry;
+use Webkul\Chatter\Filament\Infolists\Components\Activities\ContentTextEntry as ActivityContentTextEntry;
+use Webkul\Chatter\Filament\Infolists\Components\Messages\TitleTextEntry as MessageTitleTextEntry;
+use Webkul\Chatter\Filament\Infolists\Components\Activities\TitleTextEntry as ActivityTitleTextEntry;
 use Webkul\Security\Models\User;
 
 class ChatterPanel extends Component implements HasActions, HasForms, HasInfolists
@@ -136,38 +140,51 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
             ->action(fn(array $arguments, $record) => $this->record->removeMessage($arguments['id']));
     }
 
-    public function viewProfileAction(): Action
-    {
-        return Action::make('viewProfile')
-            ->infolist(function (Infolist $infolist, array $arguments) {
-                return $infolist
-                    ->record(User::find($arguments['id'])->first())
-                    ->schema([
-                        TitleTextEntry::make('name')
-                            ->hiddenLabel(),
-                        TitleTextEntry::make('email')
-                            ->hiddenLabel(),
-                        TitleTextEntry::make('created_at')
-                            ->hiddenLabel(),
-                    ]);
-            });
-    }
-
     public function chatInfolist(Infolist $infolist): Infolist
     {
         return $infolist
             ->record($this->record)
             ->schema([
-                ChatsRepeatableEntry::make('messages')
+                MessageRepeatableEntry::make('messages')
                     ->hiddenLabel()
                     ->schema([
-                        TitleTextEntry::make('user')
+                        MessageTitleTextEntry::make('user')
                             ->hiddenLabel(),
-                        ContentTextEntry::make('content')
+                        MessageContentTextEntry::make('content')
                             ->hiddenLabel(),
                     ])
                     ->placeholder(__('chatter::app.livewire.chatter_panel.placeholders.no_record_found')),
             ]);
+    }
+
+
+    public function activityInfolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->record($this->record)
+            ->schema(function () {
+
+                if ($this->record->activities->isEmpty()) {
+                    return [];
+                }
+
+                return [
+                    Section::make('Activities')
+                        ->collapsible()
+                        ->collapsed()
+                        ->schema([
+                            ActivitiesRepeatableEntry::make('activities')
+                                ->hiddenLabel()
+                                ->schema([
+                                    ActivityTitleTextEntry::make('user')
+                                        ->hiddenLabel(),
+                                    ActivityContentTextEntry::make('content')
+                                        ->hiddenLabel(),
+                                ])
+                                ->placeholder(__('chatter::app.livewire.chatter_panel.placeholders.no_record_found')),
+                        ])
+                ];
+            });
     }
 
     public function placeholder()

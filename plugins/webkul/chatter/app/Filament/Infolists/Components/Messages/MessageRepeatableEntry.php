@@ -4,7 +4,7 @@ namespace Webkul\Chatter\Filament\Infolists\Components\Messages;
 
 use Filament\Infolists\Components\RepeatableEntry;
 
-class ChatsRepeatableEntry extends RepeatableEntry
+class MessageRepeatableEntry extends RepeatableEntry
 {
     protected function setup(): void
     {
