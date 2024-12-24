@@ -3,6 +3,7 @@
 namespace Webkul\Project;
 
 use Filament\Contracts\Plugin;
+use Filament\Navigation\NavigationItem;
 use Filament\Panel;
 
 class ProjectPlugin implements Plugin
@@ -23,7 +24,14 @@ class ProjectPlugin implements Plugin
             ->discoverResources(in: $this->getPluginBasePath('/Filament/Resources'), for: 'Webkul\\Project\\Filament\\Resources')
             ->discoverPages(in: $this->getPluginBasePath('/Filament/Pages'), for: 'Webkul\\Project\\Filament\\Pages')
             ->discoverClusters(in: $this->getPluginBasePath('/Filament/Clusters'), for: 'Webkul\\Project\\Filament\\Clusters')
-            ->discoverWidgets(in: $this->getPluginBasePath('/Filament/Widgets'), for: 'Webkul\\Project\\Filament\\Widgets');
+            ->discoverWidgets(in: $this->getPluginBasePath('/Filament/Widgets'), for: 'Webkul\\Project\\Filament\\Widgets')
+            ->navigationItems([
+                NavigationItem::make('Settings')
+                    ->url(fn () => route('filament.admin.settings.pages.manage-tasks'))
+                    ->icon('heroicon-o-wrench')
+                    ->group('Project')
+                    ->sort(3),
+            ]);
     }
 
     public function boot(Panel $panel): void

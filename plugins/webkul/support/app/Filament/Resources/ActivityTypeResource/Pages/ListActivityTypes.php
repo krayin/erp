@@ -3,9 +3,9 @@
 namespace Webkul\Support\Filament\Resources\ActivityTypeResource\Pages;
 
 use Filament\Actions;
+use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Webkul\Support\Filament\Resources\ActivityTypeResource;
-use Filament\Resources\Components\Tab;
 use Webkul\Support\Models\ActivityType;
 
 class ListActivityTypes extends ListRecords

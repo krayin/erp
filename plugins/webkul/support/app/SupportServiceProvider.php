@@ -19,6 +19,7 @@ class SupportServiceProvider extends PackageServiceProvider
     {
         $package->name(static::$name)
             ->hasViews()
+            ->hasTranslations()
             ->hasMigrations([
                 '2024_12_06_061927_create_currencies_table',
                 '2024_12_10_092651_create_countries_table',

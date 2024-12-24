@@ -15,6 +15,7 @@ class ViewProject extends ViewRecord
     {
         return [
             ChatterActions\ChatterAction::make(),
+            Actions\DeleteAction::make(),
             Actions\EditAction::make(),
         ];
     }

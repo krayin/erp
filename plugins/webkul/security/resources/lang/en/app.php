@@ -14,11 +14,6 @@ return [
                     'default-role-helper-text'           => 'Role assigned to users upon registration via invitation.',
                 ],
             ],
-
-            'settings' => [
-                'name'  => 'Settings',
-                'group' => 'Settings',
-            ],
         ],
 
         'resources' => [

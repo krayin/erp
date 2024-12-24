@@ -2,6 +2,7 @@
 
 namespace Webkul\Project\Filament\Widgets;
 
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Widgets\ChartWidget;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Illuminate\Support\Carbon;
@@ -10,7 +11,7 @@ use Webkul\Project\Models\Task;
 
 class TaskByStateChart extends ChartWidget
 {
-    use InteractsWithPageFilters;
+    use HasWidgetShield, InteractsWithPageFilters;
 
     protected static ?string $heading = 'Tasks By State';
 
@@ -20,6 +21,11 @@ class TaskByStateChart extends ChartWidget
 
     protected function getData(): array
     {
+        $datasets = [
+            'datasets' => [],
+            'labels'   => [],
+        ];
+
         foreach (TaskState::cases() as $state) {
             $query = Task::query();
 
@@ -59,11 +65,23 @@ class TaskByStateChart extends ChartWidget
                 ->count();
         }
 
+        $colors = TaskState::colors();
+
         return [
             'datasets' => [
                 [
-                    'label' => 'Tasks created',
-                    'data'  => $datasets['datasets'],
+                    'label'           => 'Tasks created',
+                    'data'            => $datasets['datasets'],
+                    'backgroundColor' => array_map(
+                        fn ($state) => match ($colors[$state] ?? 'gray') {
+                            'gray'    => '#a1a1aa',
+                            'warning' => '#fbbf24',
+                            'success' => '#22c55e',
+                            'danger'  => '#ef4444',
+                            default   => '#cccccc',
+                        },
+                        array_keys(TaskState::options())
+                    ),
                 ],
             ],
             'labels' => $datasets['labels'],

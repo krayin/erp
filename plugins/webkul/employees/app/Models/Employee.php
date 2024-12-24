@@ -29,10 +29,12 @@ class Employee extends Model
     protected array $logAttributes = [
         'company.name'            => 'Company',
         'user.name'               => 'User',
+        'creator.name'            => 'Creator',
         'calendar.name'           => 'Calendar',
         'department.name'         => 'Department',
-        'job.name'                => 'Job Position',
+        'job.name'                => 'Job',
         'attendance_manager.name' => 'Attendance Manager',
+        'partner.name'            => 'Partner',
         'work_location.name'      => 'Work Location',
         'parent.name'             => 'Manager',
         'coach.name'              => 'Coach',

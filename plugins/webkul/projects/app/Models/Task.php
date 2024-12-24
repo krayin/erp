@@ -13,6 +13,7 @@ use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Field\Traits\HasCustomFields;
 use Webkul\Partner\Models\Partner;
 use Webkul\Project\Database\Factories\TaskFactory;
+use Webkul\Security\Models\Scopes\UserPermissionScope;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 
@@ -82,6 +83,34 @@ class Task extends Model
         'overtime'            => 'float',
     ];
 
+    protected array $logAttributes = [
+        'title',
+        'description',
+        'color',
+        'priority',
+        'state',
+        'tags',
+        'sort',
+        'is_active',
+        'is_recurring',
+        'deadline',
+        'working_hours_open',
+        'working_hours_close',
+        'allocated_hours',
+        'remaining_hours',
+        'effective_hours',
+        'total_hours_spent',
+        'subtask_effective_hours',
+        'overtime',
+        'progress',
+        'stage.name'   => 'Stage',
+        'project.name' => 'Project',
+        'partner.name' => 'Partner',
+        'parent.title' => 'Parent',
+        'company.name' => 'Company',
+        'creator.name' => 'Creator',
+    ];
+
     public function parent(): BelongsTo
     {
         return $this->belongsTo(self::class);
@@ -135,6 +164,11 @@ class Task extends Model
     public function timesheets(): HasMany
     {
         return $this->hasMany(Timesheet::class);
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new UserPermissionScope('users'));
     }
 
     /**

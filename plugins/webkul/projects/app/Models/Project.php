@@ -14,6 +14,7 @@ use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Field\Traits\HasCustomFields;
 use Webkul\Partner\Models\Partner;
 use Webkul\Project\Database\Factories\ProjectFactory;
+use Webkul\Security\Models\Scopes\UserPermissionScope;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 
@@ -73,6 +74,28 @@ class Project extends Model
         'allow_timesheets'        => 'boolean',
         'allow_milestones'        => 'boolean',
         'allow_task_dependencies' => 'boolean',
+    ];
+
+    protected array $logAttributes = [
+        'name',
+        'tasks_label',
+        'description',
+        'visibility',
+        'color',
+        'tags',
+        'sort',
+        'start_date',
+        'end_date',
+        'allocated_hours',
+        'allow_timesheets',
+        'allow_milestones',
+        'allow_task_dependencies',
+        'is_active',
+        'stage.name'   => 'Stage',
+        'partner.name' => 'Customer',
+        'company.name' => 'Company',
+        'user.name'    => 'Project Manager',
+        'creator.name' => 'Creator',
     ];
 
     /**
@@ -143,6 +166,11 @@ class Project extends Model
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class, 'projects_project_tag', 'project_id', 'tag_id');
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new UserPermissionScope('user'));
     }
 
     protected static function newFactory(): ProjectFactory

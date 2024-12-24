@@ -12,6 +12,7 @@ use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Schema;
 use Webkul\Field\FieldsColumnManager;
 use Webkul\Field\Filament\Resources\FieldResource\Pages;
 use Webkul\Field\Models\Field;
@@ -53,7 +54,21 @@ class FieldResource extends Resource
                                     ->required()
                                     ->label(__('fields::app.form.fields.code'))
                                     ->maxLength(255)
-                                    ->disabledOn('edit'),
+                                    ->disabledOn('edit')
+                                    ->helperText(__('fields::app.form.fields.code-helper-text'))
+                                    ->unique(ignoreRecord: true)
+                                    ->notIn(function (Forms\Get $get) {
+                                        if ($get('id')) {
+                                            return [];
+                                        }
+
+                                        $table = app($get('customizable_type'))->getTable();
+
+                                        return Schema::getColumnListing($table);
+                                    })
+                                    ->rules([
+                                        'regex:/^[a-zA-Z_][a-zA-Z0-9_]*$/',
+                                    ]),
                             ])
                             ->columns(2),
 

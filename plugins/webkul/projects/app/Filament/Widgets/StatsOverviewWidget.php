@@ -2,6 +2,7 @@
 
 namespace Webkul\Project\Filament\Widgets;
 
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -12,7 +13,7 @@ use Webkul\Project\Models\Task;
 
 class StatsOverviewWidget extends BaseWidget
 {
-    use InteractsWithPageFilters;
+    use HasWidgetShield, InteractsWithPageFilters;
 
     protected static ?string $pollingInterval = '15s';
 
@@ -42,7 +43,7 @@ class StatsOverviewWidget extends BaseWidget
 
         $currentPeriodStart = ! is_null($this->filters['startDate'] ?? null) ?
             Carbon::parse($this->filters['startDate']) :
-            null;
+            now()->subMonth();
 
         $currentPeriodEnd = ! is_null($this->filters['endDate'] ?? null) ?
             Carbon::parse($this->filters['endDate']) :
@@ -147,6 +148,13 @@ class StatsOverviewWidget extends BaseWidget
             $previous['total_remaining_hours']
         );
 
+        $formatHours = function ($state): string {
+            $hours = floor($state);
+            $minutes = ($state - $hours) * 60;
+
+            return $hours.':'.$minutes;
+        };
+
         return [
             Stat::make('Total Tasks', $current['total_tasks'])
                 ->description($tasksChange['percentage'].'% '.($tasksChange['trend'] === 'success' ? 'increase' : 'decrease'))
@@ -154,13 +162,13 @@ class StatsOverviewWidget extends BaseWidget
                 ->color($tasksChange['trend'])
                 ->chart($data['charts']['tasks']),
 
-            Stat::make('Total Hours Spent', number_format($current['total_hours_spent'], 2))
+            Stat::make('Total Hours Spent', $formatHours($current['total_hours_spent']))
                 ->description($hoursSpentChange['percentage'].'% '.($hoursSpentChange['trend'] === 'success' ? 'increase' : 'decrease'))
                 ->descriptionIcon($hoursSpentChange['trend'] === 'success' ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($hoursSpentChange['trend'])
                 ->chart($data['charts']['hoursSpent']),
 
-            Stat::make('Total Time Remaining', number_format($current['total_remaining_hours'], 2))
+            Stat::make('Total Time Remaining', $formatHours($current['total_remaining_hours']))
                 ->description($remainingHoursChange['percentage'].'% '.($remainingHoursChange['trend'] === 'success' ? 'increase' : 'decrease'))
                 ->descriptionIcon($remainingHoursChange['trend'] === 'success' ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($remainingHoursChange['trend'])

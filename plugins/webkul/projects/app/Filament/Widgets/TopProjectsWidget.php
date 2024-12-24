@@ -2,6 +2,7 @@
 
 namespace Webkul\Project\Filament\Widgets;
 
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Tables;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\TableWidget as BaseWidget;
@@ -11,7 +12,7 @@ use Webkul\Project\Models\Timesheet;
 
 class TopProjectsWidget extends BaseWidget
 {
-    use InteractsWithPageFilters;
+    use HasWidgetShield, InteractsWithPageFilters;
 
     protected static ?string $pollingInterval = '15s';
 
@@ -69,7 +70,7 @@ class TopProjectsWidget extends BaseWidget
                 ->label('Hours Spent')
                 ->sortable(),
             Tables\Columns\TextColumn::make('total_tasks')
-                ->label('Hours Tasks')
+                ->label('Tasks')
                 ->sortable(),
         ];
     }

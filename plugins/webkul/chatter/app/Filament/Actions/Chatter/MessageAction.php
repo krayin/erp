@@ -66,7 +66,7 @@ class MessageAction extends Action
             ->action(function (array $data, ?Model $record = null) {
                 try {
                     $data['name'] = $record->name;
-                    
+
                     $record->addMessage($data, Auth::user()->id);
 
                     Notification::make()

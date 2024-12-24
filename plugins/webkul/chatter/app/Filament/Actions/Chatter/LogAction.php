@@ -24,7 +24,6 @@ class LogAction extends Action
             ->outlined()
             ->form(
                 fn ($form) => $form->schema([
-
                     Forms\Components\TextInput::make('subject')
                         ->placeholder('Subject')
                         ->live()
@@ -76,7 +75,6 @@ class LogAction extends Action
                         ->body('Lognote sent successfully')
                         ->send();
                 } catch (\Exception $e) {
-                    dd($e);
                     Notification::make()
                         ->danger()
                         ->title('Error')

@@ -2,6 +2,7 @@
 
 namespace Webkul\Project\Filament\Widgets;
 
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Widgets\ChartWidget;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Illuminate\Support\Carbon;
@@ -10,7 +11,7 @@ use Webkul\Project\Models\TaskStage;
 
 class TaskByStageChart extends ChartWidget
 {
-    use InteractsWithPageFilters;
+    use HasWidgetShield, InteractsWithPageFilters;
 
     protected static ?string $heading = 'Tasks By Stage';
 

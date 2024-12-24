@@ -2,6 +2,7 @@
 
 namespace Webkul\Project\Filament\Widgets;
 
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Tables;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\TableWidget as BaseWidget;
@@ -11,7 +12,7 @@ use Webkul\Project\Models\Timesheet;
 
 class TopAssigneesWidget extends BaseWidget
 {
-    use InteractsWithPageFilters;
+    use HasWidgetShield, InteractsWithPageFilters;
 
     protected static ?string $pollingInterval = '15s';
 
@@ -28,7 +29,7 @@ class TopAssigneesWidget extends BaseWidget
         }
 
         if (! empty($this->filters['selectedPartners'])) {
-            $query->whereIn('partner_id', $this->filters['selectedPartners']);
+            $query->whereIn('analytic_records.partner_id', $this->filters['selectedPartners']);
         }
 
         $startDate = ! is_null($this->filters['startDate'] ?? null) ?
@@ -63,7 +64,7 @@ class TopAssigneesWidget extends BaseWidget
                 ->label('Hours Spent')
                 ->sortable(),
             Tables\Columns\TextColumn::make('total_tasks')
-                ->label('Hours Tasks')
+                ->label('Tasks')
                 ->sortable(),
         ];
     }
