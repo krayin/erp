@@ -44,12 +44,6 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
         $this->record = $record;
     }
 
-    // public function followerAction(): FollowerAction
-    // {
-    //     return FollowerAction::make('follower')
-    //         ->record($this->record);
-    // }
-
     public function messageAction(): MessageAction
     {
         return MessageAction::make('message')
@@ -68,18 +62,104 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
             ->record($this->record);
     }
 
-    public function deleteAttachmentAction($id)
-    {
-        return Action::make('deleteAttachment')
-            ->requiresConfirmation()
-            ->action(fn (array $arguments) => dd('fasfs'));
-    }
-
     public function activityAction(): ActivityAction
     {
         return ActivityAction::make('activity')
             ->record($this->record);
     }
+
+    public function deleteMessageAction(): Action
+    {
+        return Action::make('deleteMessage')
+            ->requiresConfirmation()
+            ->action(fn (array $arguments) => $this->record->removeMessage($arguments['id']));
+    }
+
+    public function deleteActivityAction(): Action
+    {
+        return Action::make('deleteActivity')
+            ->requiresConfirmation()
+            ->action(fn (array $arguments) => $this->record->removeMessage($arguments['id'], 'activities'));
+    }
+
+    public function deleteAttachmentAction(): Action
+    {
+        return Action::make('deleteAttachment')
+            ->requiresConfirmation()
+            ->action(fn (array $arguments) => dd($arguments));
+    }
+
+    public function chatInfolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->record($this->record)
+            ->schema([
+                MessageRepeatableEntry::make('messages')
+                    ->hiddenLabel()
+                    ->schema([
+                        MessageTitleTextEntry::make('user')
+                            ->hiddenLabel(),
+                        MessageContentTextEntry::make('content')
+                            ->hiddenLabel(),
+                    ])
+                    ->placeholder(__('chatter::app.livewire.chatter_panel.placeholders.no_record_found')),
+            ]);
+    }
+
+    public function activityInfolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->record($this->record)
+            ->schema(function () {
+
+                if ($this->record->activities->isEmpty()) {
+                    return [];
+                }
+
+                return [
+                    Section::make('Activities')
+                        ->collapsible()
+                        ->collapsed()
+                        ->compact()
+                        ->schema([
+                            ActivitiesRepeatableEntry::make('activities')
+                                ->hiddenLabel()
+                                ->schema([
+                                    ActivityTitleTextEntry::make('user')
+                                        ->hiddenLabel(),
+                                    ActivityContentTextEntry::make('content')
+                                        ->hiddenLabel(),
+                                ])
+                                ->placeholder(__('chatter::app.livewire.chatter_panel.placeholders.no_record_found')),
+                        ]),
+                ];
+            });
+    }
+
+    public function placeholder()
+    {
+        return <<<'HTML'
+            <div class="flex w-full items-center justify-center">
+                <div class="flex flex-col items-center space-y-4">
+                    <x-filament::loading-indicator class="text-primary-500 h-10 w-10 animate-spin" />
+                    <p class="text-sm font-medium tracking-wide text-gray-600 dark:text-gray-300">
+                        {{ __('chatter::app.livewire.chatter_panel.placeholders.loading') }}
+                    </p>
+                </div>
+            </div>
+        HTML;
+    }
+
+    public function render(): View
+    {
+        return view('chatter::livewire.chatter-panel');
+    }
+
+    // public function followerAction(): FollowerAction
+    // {
+    //     return FollowerAction::make('follower')
+    //         ->record($this->record);
+    // }
 
     // public function getFollowersProperty()
     // {
@@ -133,75 +213,4 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
     //     }
     // }
 
-    public function deleteChatAction(): Action
-    {
-        return Action::make('deleteChat')
-            ->requiresConfirmation()
-            ->action(fn (array $arguments, $record) => $this->record->removeMessage($arguments['id']));
-    }
-
-    public function chatInfolist(Infolist $infolist): Infolist
-    {
-        return $infolist
-            ->record($this->record)
-            ->schema([
-                MessageRepeatableEntry::make('messages')
-                    ->hiddenLabel()
-                    ->schema([
-                        MessageTitleTextEntry::make('user')
-                            ->hiddenLabel(),
-                        MessageContentTextEntry::make('content')
-                            ->hiddenLabel(),
-                    ])
-                    ->placeholder(__('chatter::app.livewire.chatter_panel.placeholders.no_record_found')),
-            ]);
-    }
-
-    public function activityInfolist(Infolist $infolist): Infolist
-    {
-        return $infolist
-            ->record($this->record)
-            ->schema(function () {
-
-                if ($this->record->activities->isEmpty()) {
-                    return [];
-                }
-
-                return [
-                    Section::make('Activities')
-                        ->collapsible()
-                        ->collapsed()
-                        ->schema([
-                            ActivitiesRepeatableEntry::make('activities')
-                                ->hiddenLabel()
-                                ->schema([
-                                    ActivityTitleTextEntry::make('user')
-                                        ->hiddenLabel(),
-                                    ActivityContentTextEntry::make('content')
-                                        ->hiddenLabel(),
-                                ])
-                                ->placeholder(__('chatter::app.livewire.chatter_panel.placeholders.no_record_found')),
-                        ]),
-                ];
-            });
-    }
-
-    public function placeholder()
-    {
-        return <<<'HTML'
-            <div class="flex w-full items-center justify-center">
-                <div class="flex flex-col items-center space-y-4">
-                    <x-filament::loading-indicator class="text-primary-500 h-10 w-10 animate-spin" />
-                    <p class="text-sm font-medium tracking-wide text-gray-600 dark:text-gray-300">
-                        {{ __('chatter::app.livewire.chatter_panel.placeholders.loading') }}
-                    </p>
-                </div>
-            </div>
-        HTML;
-    }
-
-    public function render(): View
-    {
-        return view('chatter::livewire.chatter-panel');
-    }
 }

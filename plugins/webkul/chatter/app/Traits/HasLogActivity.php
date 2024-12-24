@@ -14,8 +14,8 @@ trait HasLogActivity
      */
     public static function bootHasLogActivity()
     {
-        static::created(fn(Model $model) => $model->logModelActivity('created'));
-        static::updated(fn(Model $model) => $model->logModelActivity('updated'));
+        static::created(fn (Model $model) => $model->logModelActivity('created'));
+        static::updated(fn (Model $model) => $model->logModelActivity('updated'));
 
         if (method_exists(static::class, 'bootSoftDeletes')) {
             static::deleted(function (Model $model) {
@@ -25,9 +25,9 @@ trait HasLogActivity
                     $model->logModelActivity('hard_deleted');
                 }
             });
-            static::restored(fn(Model $model) => $model->logModelActivity('restored'));
+            static::restored(fn (Model $model) => $model->logModelActivity('restored'));
         } else {
-            static::deleting(fn(Model $model) => $model->logModelActivity('deleted'));
+            static::deleting(fn (Model $model) => $model->logModelActivity('deleted'));
         }
     }
 
@@ -118,7 +118,7 @@ trait HasLogActivity
 
             return $instance ? $instance->$attribute : null;
         } catch (\Exception $e) {
-            Log::error("Error getting related value for {$relation}.{$attribute}: " . $e->getMessage());
+            Log::error("Error getting related value for {$relation}.{$attribute}: ".$e->getMessage());
 
             return null;
         }
@@ -173,7 +173,7 @@ trait HasLogActivity
                 }
             }
         } catch (\Exception $e) {
-            Log::error("Error tracking relationship changes for {$relation}.{$attribute}: " . $e->getMessage());
+            Log::error("Error tracking relationship changes for {$relation}.{$attribute}: ".$e->getMessage());
         }
 
         return null;

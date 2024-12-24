@@ -72,25 +72,28 @@
                                 @php
                                     $deadline = \Carbon\Carbon::parse($record->date_deadline);
                                     $now = \Carbon\Carbon::now();
-
                                     $daysDifference = $now->diffInDays($deadline, false);
+                                    $roundedDays = ceil(abs($daysDifference));
 
                                     $deadlineDescription = $deadline->isToday()
                                         ? __('Today')
                                         : ($deadline->isFuture()
-                                            ? ($daysDifference === 1
+                                            ? ($roundedDays === 1
                                                 ? __('Tomorrow')
-                                                : __('Due in :days days', ['days' => (int)($daysDifference)]))
-                                            : ($daysDifference === -1
+                                                : __('Due in :days days', ['days' => $roundedDays])
+                                            )
+                                            : ($roundedDays === 1
                                                 ? __('1 day overdue')
-                                                : __(':days days overdue', ['days' => (int)($daysDifference)]))
+                                                : __(':days days overdue', ['days' => $roundedDays])
+                                            )
                                         );
 
                                     $textColor = $deadline->isToday()
                                         ? 'color: RGBA(154, 107, 1, var(--text-opacity, 1));'
                                         : ($deadline->isPast()
                                             ? 'color: RGBA(210, 63, 58, var(--text-opacity, 1));'
-                                            : 'color: RGBA(0, 136, 24, var(--text-opacity, 1));');
+                                            : 'color: RGBA(0, 136, 24, var(--text-opacity, 1));'
+                                        );
                                 @endphp
 
                                 <span class="text-sm font-bold" @style([$textColor])>

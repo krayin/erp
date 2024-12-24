@@ -63,9 +63,9 @@ trait HasChatter
     /**
      * Remove a message
      */
-    public function removeMessage($messageId): bool
+    public function removeMessage($messageId, $type = 'messages'): bool
     {
-        $message = $this->messages()->find($messageId);
+        $message = $this->{$type}()->find($messageId);
 
         if (
             $message->messageable_id !== $this->id
