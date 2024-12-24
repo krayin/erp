@@ -25,8 +25,31 @@ class LogAction extends Action
             ->outlined()
             ->form(
                 fn($form) => $form->schema([
+                    Forms\Components\Group::make([
+                        Forms\Components\Actions::make([
+                            Forms\Components\Actions\Action::make('add_subject')
+                                ->label(function ($get) {
+                                    return $get('showSubject') ? 'Hide Subject' : 'Add Subject';
+                                })
+                                ->action(function ($set, $get) {
+                                    if ($get('showSubject')) {
+                                        $set('showSubject', false);
+                                        return;
+                                    }
+
+                                    $set('showSubject', true);
+                                })
+                                ->link()
+                                ->size('sm')
+                                ->icon('heroicon-s-plus'),
+                        ])
+                            ->columnSpan('full')
+                            ->alignRight(),
+                    ]),
                     Forms\Components\TextInput::make('subject')
                         ->placeholder('Subject')
+                        ->live()
+                        ->visible(fn($get) => $get('showSubject'))
                         ->columnSpanFull(),
                     Forms\Components\RichEditor::make('body')
                         ->hiddenLabel()

@@ -44,7 +44,7 @@ class Employee extends Model
         'country_of_birth',
         'bank_account.name' => 'Bank Account',
         'departure_reason.name' => 'Departure Reason',
-        'name',
+        'name' => 'Employee Name',
         'job_title',
         'work_phone',
         'mobile_phone',

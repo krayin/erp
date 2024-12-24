@@ -2,7 +2,6 @@
 
 namespace Webkul\Chatter\Filament\Actions\Chatter;
 
-use Closure;
 use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Notifications\Notification;
@@ -25,10 +24,33 @@ class MessageAction extends Action
         $this
             ->color('gray')
             ->outlined()
-            ->form(
-                fn($form) => $form->schema([
+            ->form(function ($form) {
+                return $form->schema([
+                    Forms\Components\Group::make([
+                        Forms\Components\Actions::make([
+                            Forms\Components\Actions\Action::make('add_subject')
+                                ->label(function ($get) {
+                                    return $get('showSubject') ? 'Hide Subject' : 'Add Subject';
+                                })
+                                ->action(function ($set, $get) {
+                                    if ($get('showSubject')) {
+                                        $set('showSubject', false);
+                                        return;
+                                    }
+
+                                    $set('showSubject', true);
+                                })
+                                ->link()
+                                ->size('sm')
+                                ->icon('heroicon-s-plus'),
+                        ])
+                            ->columnSpan('full')
+                            ->alignRight(),
+                    ]),
                     Forms\Components\TextInput::make('subject')
                         ->placeholder('Subject')
+                        ->live()
+                        ->visible(fn($get) => $get('showSubject'))
                         ->columnSpanFull(),
                     Forms\Components\RichEditor::make('body')
                         ->hiddenLabel()
@@ -38,8 +60,8 @@ class MessageAction extends Action
                     Forms\Components\Hidden::make('type')
                         ->default('comment'),
                 ])
-                    ->columns(1)
-            )
+                    ->columns(1);
+            })
             ->action(function (array $data, ?Model $record = null) {
                 try {
                     $data['name'] = $record->name;
@@ -54,7 +76,7 @@ class MessageAction extends Action
                         ->body('Message sent successfully')
                         ->send();
                 } catch (\Exception $e) {
-                    dd($e);
+                    report($e);
                     Notification::make()
                         ->danger()
                         ->title('Error')
