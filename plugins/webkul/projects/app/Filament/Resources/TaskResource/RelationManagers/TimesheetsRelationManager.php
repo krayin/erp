@@ -9,7 +9,6 @@ use Filament\Tables;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Project\Models\Task;
 
 class TimesheetsRelationManager extends RelationManager
 {

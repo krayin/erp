@@ -2,7 +2,6 @@
 
 namespace Webkul\Chatter\Filament\Actions\Chatter;
 
-use Closure;
 use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Notifications\Notification;
@@ -24,7 +23,18 @@ class LogAction extends Action
             ->color('gray')
             ->outlined()
             ->form(
-                fn($form) => $form->schema([
+                fn ($form) => $form->schema([
+
+                    Forms\Components\TextInput::make('subject')
+                        ->placeholder('Subject')
+                        ->live()
+                        ->visible(fn ($get) => $get('showSubject'))
+                        ->columnSpanFull(),
+                    Forms\Components\RichEditor::make('body')
+                        ->hiddenLabel()
+                        ->placeholder(__('chatter::app.filament.actions.chatter.activity.form.type-your-message-here'))
+                        ->required()
+                        ->columnSpanFull(),
                     Forms\Components\Group::make([
                         Forms\Components\Actions::make([
                             Forms\Components\Actions\Action::make('add_subject')
@@ -34,6 +44,7 @@ class LogAction extends Action
                                 ->action(function ($set, $get) {
                                     if ($get('showSubject')) {
                                         $set('showSubject', false);
+
                                         return;
                                     }
 
@@ -46,16 +57,6 @@ class LogAction extends Action
                             ->columnSpan('full')
                             ->alignRight(),
                     ]),
-                    Forms\Components\TextInput::make('subject')
-                        ->placeholder('Subject')
-                        ->live()
-                        ->visible(fn($get) => $get('showSubject'))
-                        ->columnSpanFull(),
-                    Forms\Components\RichEditor::make('body')
-                        ->hiddenLabel()
-                        ->placeholder(__('chatter::app.filament.actions.chatter.activity.form.type-your-message-here'))
-                        ->required()
-                        ->columnSpanFull(),
                     Forms\Components\Hidden::make('type')
                         ->default('note'),
                 ])

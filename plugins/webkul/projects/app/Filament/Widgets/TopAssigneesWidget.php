@@ -4,10 +4,10 @@ namespace Webkul\Project\Filament\Widgets;
 
 use Filament\Tables;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
-use Illuminate\Database\Eloquent\Builder;
 use Filament\Widgets\TableWidget as BaseWidget;
-use Webkul\Project\Models\Timesheet;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
+use Webkul\Project\Models\Timesheet;
 
 class TopAssigneesWidget extends BaseWidget
 {
@@ -22,11 +22,11 @@ class TopAssigneesWidget extends BaseWidget
         if (! empty($this->filters['selectedProjects'])) {
             $query->whereIn('project_id', $this->filters['selectedProjects']);
         }
-        
+
         if (! empty($this->filters['selectedAssignees'])) {
             $query->whereIn('user_id', $this->filters['selectedAssignees']);
         }
-        
+
         if (! empty($this->filters['selectedPartners'])) {
             $query->whereIn('partner_id', $this->filters['selectedPartners']);
         }

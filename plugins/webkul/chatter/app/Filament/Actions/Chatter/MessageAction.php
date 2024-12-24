@@ -26,6 +26,16 @@ class MessageAction extends Action
             ->outlined()
             ->form(function ($form) {
                 return $form->schema([
+                    Forms\Components\TextInput::make('subject')
+                        ->placeholder('Subject')
+                        ->live()
+                        ->visible(fn ($get) => $get('showSubject'))
+                        ->columnSpanFull(),
+                    Forms\Components\RichEditor::make('body')
+                        ->hiddenLabel()
+                        ->placeholder(__('chatter::app.filament.actions.chatter.activity.form.type-your-message-here'))
+                        ->required()
+                        ->columnSpanFull(),
                     Forms\Components\Group::make([
                         Forms\Components\Actions::make([
                             Forms\Components\Actions\Action::make('add_subject')
@@ -35,6 +45,7 @@ class MessageAction extends Action
                                 ->action(function ($set, $get) {
                                     if ($get('showSubject')) {
                                         $set('showSubject', false);
+
                                         return;
                                     }
 
@@ -47,16 +58,6 @@ class MessageAction extends Action
                             ->columnSpan('full')
                             ->alignRight(),
                     ]),
-                    Forms\Components\TextInput::make('subject')
-                        ->placeholder('Subject')
-                        ->live()
-                        ->visible(fn($get) => $get('showSubject'))
-                        ->columnSpanFull(),
-                    Forms\Components\RichEditor::make('body')
-                        ->hiddenLabel()
-                        ->placeholder(__('chatter::app.filament.actions.chatter.activity.form.type-your-message-here'))
-                        ->required()
-                        ->columnSpanFull(),
                     Forms\Components\Hidden::make('type')
                         ->default('comment'),
                 ])

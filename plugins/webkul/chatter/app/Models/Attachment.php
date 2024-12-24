@@ -3,9 +3,9 @@
 namespace Webkul\Chatter\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
-use Illuminate\Support\Facades\Storage;
 
 class Attachment extends Model
 {

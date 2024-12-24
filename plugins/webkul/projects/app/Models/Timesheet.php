@@ -2,8 +2,8 @@
 
 namespace Webkul\Project\Models;
 
-use Webkul\Analytic\Models\Record;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Webkul\Analytic\Models\Record;
 
 class Timesheet extends Record
 {
@@ -39,7 +39,7 @@ class Timesheet extends Record
 
     public function updateTaskTimes()
     {
-        if (!$this->task) {
+        if (! $this->task) {
             return;
         }
 
@@ -52,7 +52,7 @@ class Timesheet extends Record
                 return $carry + $subTask->timesheets()->sum('unit_amount');
             }, 0);
         }
-        
+
         $task->update([
             'total_hours_spent' => $hoursSpent,
             'effective_hours'   => $effectiveHours,

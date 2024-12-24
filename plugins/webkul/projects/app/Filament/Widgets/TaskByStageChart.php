@@ -4,9 +4,9 @@ namespace Webkul\Project\Filament\Widgets;
 
 use Filament\Widgets\ChartWidget;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
+use Illuminate\Support\Carbon;
 use Webkul\Project\Models\Task;
 use Webkul\Project\Models\TaskStage;
-use Illuminate\Support\Carbon;
 
 class TaskByStageChart extends ChartWidget
 {
@@ -37,7 +37,7 @@ class TaskByStageChart extends ChartWidget
             if (! empty($this->filters['selectedProjects'])) {
                 $query->whereIn('project_id', $this->filters['selectedProjects']);
             }
-            
+
             if (! empty($this->filters['selectedAssignees'])) {
                 $query->whereHas('users', function ($q) {
                     $q->whereIn('users.id', $this->filters['selectedAssignees']);
@@ -49,7 +49,7 @@ class TaskByStageChart extends ChartWidget
                     $q->whereIn('projects_task_tag.tag_id', $this->filters['selectedTags']);
                 });
             }
-            
+
             if (! empty($this->filters['selectedPartners'])) {
                 $query->whereIn('parent_id', $this->filters['selectedPartners']);
             }

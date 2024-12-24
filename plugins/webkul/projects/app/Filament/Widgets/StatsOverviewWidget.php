@@ -2,13 +2,13 @@
 
 namespace Webkul\Project\Filament\Widgets;
 
-use Webkul\Project\Models\Task;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
-use Illuminate\Support\Carbon;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
+use Illuminate\Support\Carbon;
+use Webkul\Project\Models\Task;
 
 class StatsOverviewWidget extends BaseWidget
 {
@@ -62,11 +62,11 @@ class StatsOverviewWidget extends BaseWidget
         $remainingHoursChart = $this->generateTrendData($query->whereNull('parent_id')->clone(), 'SUM', 'remaining_hours', $currentPeriodStart, $currentPeriodEnd);
 
         return [
-            'current' => $currentStats,
+            'current'  => $currentStats,
             'previous' => $previousStats,
-            'charts' => [
-                'tasks' => $tasksChart,
-                'hoursSpent' => $hoursSpentChart,
+            'charts'   => [
+                'tasks'          => $tasksChart,
+                'hoursSpent'     => $hoursSpentChart,
                 'remainingHours' => $remainingHoursChart,
             ],
         ];
@@ -89,8 +89,8 @@ class StatsOverviewWidget extends BaseWidget
             ->first();
 
         return [
-            'total_tasks' => $taskStats->total_tasks ?? 0,
-            'total_hours_spent' => $stats->total_hours_spent ?? 0,
+            'total_tasks'           => $taskStats->total_tasks ?? 0,
+            'total_hours_spent'     => $stats->total_hours_spent ?? 0,
             'total_remaining_hours' => $stats->total_remaining_hours ?? 0,
         ];
     }
@@ -105,7 +105,7 @@ class StatsOverviewWidget extends BaseWidget
             ->perDay()
             ->aggregate($column, $aggregate);
 
-        return $trend->map(fn(TrendValue $value) => round((float) $value->aggregate, 2))->toArray();
+        return $trend->map(fn (TrendValue $value) => round((float) $value->aggregate, 2))->toArray();
     }
 
     protected function calculatePercentageChange($current, $previous): array
@@ -113,7 +113,7 @@ class StatsOverviewWidget extends BaseWidget
         if ($previous == 0) {
             return [
                 'percentage' => 100,
-                'trend' => 'success'
+                'trend'      => 'success',
             ];
         }
 
@@ -121,7 +121,7 @@ class StatsOverviewWidget extends BaseWidget
 
         return [
             'percentage' => abs(round($change, 1)),
-            'trend' => $change >= 0 ? 'success' : 'danger'
+            'trend'      => $change >= 0 ? 'success' : 'danger',
         ];
     }
 
@@ -149,19 +149,19 @@ class StatsOverviewWidget extends BaseWidget
 
         return [
             Stat::make('Total Tasks', $current['total_tasks'])
-                ->description($tasksChange['percentage'] . '% ' . ($tasksChange['trend'] === 'success' ? 'increase' : 'decrease'))
+                ->description($tasksChange['percentage'].'% '.($tasksChange['trend'] === 'success' ? 'increase' : 'decrease'))
                 ->descriptionIcon($tasksChange['trend'] === 'success' ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($tasksChange['trend'])
                 ->chart($data['charts']['tasks']),
 
             Stat::make('Total Hours Spent', number_format($current['total_hours_spent'], 2))
-                ->description($hoursSpentChange['percentage'] . '% ' . ($hoursSpentChange['trend'] === 'success' ? 'increase' : 'decrease'))
+                ->description($hoursSpentChange['percentage'].'% '.($hoursSpentChange['trend'] === 'success' ? 'increase' : 'decrease'))
                 ->descriptionIcon($hoursSpentChange['trend'] === 'success' ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($hoursSpentChange['trend'])
                 ->chart($data['charts']['hoursSpent']),
 
             Stat::make('Total Time Remaining', number_format($current['total_remaining_hours'], 2))
-                ->description($remainingHoursChange['percentage'] . '% ' . ($remainingHoursChange['trend'] === 'success' ? 'increase' : 'decrease'))
+                ->description($remainingHoursChange['percentage'].'% '.($remainingHoursChange['trend'] === 'success' ? 'increase' : 'decrease'))
                 ->descriptionIcon($remainingHoursChange['trend'] === 'success' ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($remainingHoursChange['trend'])
                 ->chart($data['charts']['remainingHours']),
