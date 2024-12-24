@@ -62,18 +62,8 @@ class Message extends Model
         return $this->morphTo();
     }
 
-    public function getPropertiesAttribute($value)
-    {
-        return json_decode($value, true);
-    }
-
     public function setPropertiesAttribute($value)
     {
         $this->attributes['properties'] = json_encode($value);
-    }
-
-    public function getBodyAttribute($value)
-    {
-        return json_decode($value, true);
     }
 }

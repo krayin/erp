@@ -2,250 +2,220 @@
 
 namespace Webkul\Chatter\Traits;
 
-use Carbon\CarbonInterval;
-use DateInterval;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+use Webkul\Security\Models\User;
 
 trait HasLogActivity
 {
-    protected array $oldAttributes = [];
-
-    protected static function bootHasLogActivity(): void
+    public static function bootHasLogActivity()
     {
-        static::eventsToBeRecorded()->each(function ($eventName) {
-            if ($eventName === 'updated') {
-                static::updating(function (Model $model) {
-                    $oldValues = (new static())->setRawAttributes($model->getRawOriginal());
-                    $model->oldAttributes = static::logChanges($oldValues);
-                });
-            }
+        static::created(fn(Model $model) => $model->logModelActivity('created'));
 
-            static::$eventName(function (Model $model) use ($eventName) {
-                if (!$model->shouldLogEvent($eventName)) {
-                    return;
+        static::updated(fn(Model $model) => $model->logModelActivity('updated'));
+
+        if (method_exists(static::class, 'bootSoftDeletes')) {
+            static::deleted(function (Model $model) {
+                if (method_exists($model, 'trashed') && $model->trashed()) {
+                    $model->logModelActivity('soft_deleted');
+                } else {
+                    $model->logModelActivity('hard_deleted');
                 }
-
-                $changes = $model->attributeValuesToBeLogged($eventName);
-
-                if ($model->isLogEmpty($changes)) {
-                    return;
-                }
-
-                $model->recordActivity($eventName, $changes);
             });
-        });
+
+            static::restored(fn(Model $model) => $model->logModelActivity('restored'));
+        } else {
+            static::deleting(fn(Model $model) => $model->logModelActivity('deleted'));
+        }
     }
 
-    protected static function eventsToBeRecorded(): Collection
+    public function logModelActivity(string $event): ?Model
     {
-        $events = collect([
-            'created',
-            'updated',
-            'deleted',
-        ]);
-
-        if (collect(class_uses_recursive(static::class))->contains(SoftDeletes::class)) {
-            $events->push('restored');
+        if (! Auth::check()) {
+            return null;
         }
 
-        return $events;
-    }
-
-    protected function shouldLogEvent(string $eventName): bool
-    {
-        if (!Auth::check()) {
-            return false;
-        }
-
-        if (!in_array($eventName, ['created', 'updated'])) {
-            return true;
-        }
-
-        if ($this->isRestoring()) {
-            return false;
-        }
-
-        return (bool) count(Arr::except($this->getDirty(), $this->getExcludedAttributes()));
-    }
-
-    protected function isRestoring(): bool
-    {
-        $deletedAtColumn = method_exists($this, 'getDeletedAtColumn')
-            ? $this->getDeletedAtColumn()
-            : 'deleted_at';
-
-        return $this->isDirty($deletedAtColumn) && count($this->getDirty()) === 1;
-    }
-
-    public function isLogEmpty(array $changes): bool
-    {
-        return empty($changes['attributes'] ?? []) && empty($changes['old'] ?? []);
-    }
-
-    protected function attributeValuesToBeLogged(string $eventName): array
-    {
-        $properties['new'] = static::logChanges(
-            $eventName == 'retrieved'
-                ? $this
-                : ($this->exists ? $this->fresh() ?? $this : $this)
-        );
-
-        if ($eventName === 'updated') {
-            $properties['old'] = $this->oldAttributes;
-            $this->oldAttributes = [];
-
-            $changedProperties = array_udiff_assoc(
-                $properties['new'],
-                $properties['old'],
-                function ($new, $old) {
-                    if ($old === null || $new === null) {
-                        return $new === $old ? 0 : 1;
-                    }
-
-                    if ($old instanceof DateInterval) {
-                        return CarbonInterval::make($old)->equalTo($new) ? 0 : 1;
-                    } elseif ($new instanceof DateInterval) {
-                        return CarbonInterval::make($new)->equalTo($old) ? 0 : 1;
-                    }
-
-                    return $new <=> $old;
-                }
+        try {
+            return $this->addMessage([
+                'type' => 'notification',
+                'log_name' => 'default',
+                'description' => $this->generateActivityDescription($event),
+                'subject_type' => $this->getMorphClass(),
+                'subject_id' => $this->getKey(),
+                'causer_type' => Auth::user()?->getMorphClass(),
+                'causer_id' => Auth::id(),
+                'event' => $event,
+                'properties' => $this->determineChanges($event),
+            ]);
+        } catch (\Exception $e) {
+            dd($e);
+            Log::error(
+                __('chatter::app.trait.has-log-activity.errors.activity-log-failed', [
+                    'message' => $e->getMessage(),
+                ])
             );
 
-            $properties['new'] = $changedProperties;
-            $properties['old'] = array_intersect_key($properties['old'], $changedProperties);
+            return null;
         }
-
-        if ($eventName === 'deleted') {
-            $properties['old'] = $properties['new'];
-            unset($properties['new']);
-        }
-
-        return $properties;
     }
 
-    public static function logChanges(Model $model): array
+    protected function determineChanges(string $event): ?array
     {
+        return match ($event) {
+            'created' => $this->getModelAttributes(),
+            'updated' => $this->getUpdatedAttributes(),
+            default   => null
+        };
+    }
+
+    protected function generateActivityDescription(string $event): string
+    {
+        $modelName = Str::headline(class_basename(static::class));
+
+        return match ($event) {
+            'created'      => __('chatter::app.trait.activity-log-failed.events.created', [
+                'model' => $modelName,
+            ]),
+            'updated'      => __('chatter::app.trait.activity-log-failed.events.updated', [
+                'model' => $modelName,
+            ]),
+            'deleted'      => __('chatter::app.trait.activity-log-failed.events.deleted', [
+                'model' => $modelName,
+            ]),
+            'soft_deleted' => __('chatter::app.trait.activity-log-failed.events.soft-deleted', [
+                'model' => $modelName,
+            ]),
+            'hard_deleted' => __('chatter::app.trait.activity-log-failed.events.hard-deleted', [
+                'model' => $modelName,
+            ]),
+            'restored'     => __('chatter::app.trait.activity-log-failed.events.restored', [
+                'model' => $modelName,
+            ]),
+            default        => $event
+        };
+    }
+
+    protected function getModelAttributes(): array
+    {
+        return collect($this->getAttributes())
+            ->except($this->getExcludedAttributes())
+            ->map(fn($value, $key) => $this->formatAttributeValue($key, $value))
+            ->toArray();
+    }
+
+    protected function getUpdatedAttributes(): array
+    {
+        $original = $this->getOriginal();
+        $current = $this->getDirty();
+
         $changes = [];
-        $attributes = $model->getAttributes();
 
-        foreach ($attributes as $attribute => $value) {
-            if (in_array($attribute, $model->getExcludedAttributes())) {
+        foreach ($current as $key => $value) {
+            if (in_array($key, $this->getExcludedAttributes())) {
                 continue;
             }
 
-            if (method_exists($model, Str::camel(str_replace('_id', '', $attribute)))) {
-                $relation = Str::camel(str_replace('_id', '', $attribute));
-                if (method_exists($model, $relation)) {
-                    $relatedModel = $model->$relation()->getRelated();
-                    if ($value && $related = $relatedModel->find($value)) {
-                        $changes[$attribute] = [
-                            'id' => $value,
-                            'label' => $related->name ?? $related->title ?? $value
-                        ];
-                        continue;
-                    }
-                }
-            }
+            if (
+                ! array_key_exists($key, $original)
+                || $original[$key] !== $value
+            ) {
 
-            // Handle JSON attributes
-            if (Str::contains($attribute, '->')) {
-                Arr::set(
-                    $changes,
-                    str_replace('->', '.', $attribute),
-                    static::getModelAttributeJsonValue($model, $attribute)
-                );
-                continue;
-            }
+                $newValue = static::decodeValueIfJson($value);
 
-            // Handle date attributes
-            if ($model->isDateAttribute($attribute)) {
-                $changes[$attribute] = $model->serializeDate(
-                    $model->asDateTime($value)
-                );
-                continue;
-            }
+                $oldValue = static::decodeValueIfJson($original[$key] ?? null);
 
-            // Handle enum attributes
-            if ($model->hasCast($attribute)) {
-                $cast = $model->getCasts()[$attribute];
-                if ($model->isEnumCastable($attribute)) {
-                    try {
-                        $changes[$attribute] = $model->getStorableEnumValue($value);
-                    } catch (\ArgumentCountError $e) {
-                        $changes[$attribute] = $model->getStorableEnumValue($cast, $value);
-                    }
-                    continue;
-                }
+                $changes[$key] = [
+                    'type'      => array_key_exists($key, $original) ? 'modified' : 'added',
+                    'old_value' => $this->formatAttributeValue($key, $oldValue),
+                    'new_value' => $this->formatAttributeValue($key, $newValue),
+                ];
             }
-
-            $changes[$attribute] = $value;
         }
 
         return $changes;
     }
 
-    protected static function getModelAttributeJsonValue(Model $model, string $attribute): mixed
+    protected function formatAttributeValue(string $key, $value): mixed
     {
-        $path = explode('->', $attribute);
-        $modelAttribute = array_shift($path);
-        $modelAttribute = collect($model->getAttribute($modelAttribute));
+        $userFields = [
+            'created_by',
+            'assigned_to',
+            'user_id',
+        ];
 
-        return data_get($modelAttribute, implode('.', $path));
-    }
+        if (
+            in_array($key, $userFields)
+            && $value !== null
+        ) {
+            try {
+                $user = User::find($value);
 
-    protected function getActivityDescription(string $event): string
-    {
-        $modelName = Str::headline(class_basename($this));
+                return $user ? $user->name : __('chatter::app.trait.has-log-activity.attributes.unassigned');
+            } catch (\Exception $e) {
+                Log::error(
+                    __('chatter::app.trait.has-log-activity.errors.user-fetch-failed', [
+                        'field' => $key,
+                    ])
+                );
 
-        return match ($event) {
-            'created' => "{$modelName} was created",
-            'updated' => "{$modelName} was updated",
-            'deleted' => "{$modelName} was deleted",
-            'soft_deleted' => "{$modelName} was archived",
-            'restored' => "{$modelName} was restored",
-            default => $event
-        };
+                return $value;
+            }
+        }
+
+        if (in_array($key, ['due_date', 'created_at', 'updated_at'])) {
+            return $value ? \Carbon\Carbon::parse($value)->format('F j, Y') : null;
+        }
+
+        return $value;
     }
 
     protected function getExcludedAttributes(): array
     {
         return [
-            'password',
-            'remember_token',
             'created_at',
             'updated_at',
             'deleted_at',
         ];
     }
 
-    protected function recordActivity(string $event, array $changes = []): ?Model
+    protected static function decodeValueIfJson($value)
     {
-        try {
-            return $this->addMessage([
-                'notification' => 'activity',
-                'log_name' => 'default',
-                'description' => $this->getActivityDescription($event),
-                'subject_type' => $this->getMorphClass(),
-                'subject_id' => $this->getKey(),
-                'causer_type' => Auth::user()?->getMorphClass(),
-                'causer_id' => Auth::id(),
-                'properties' => [
-                    'event' => $event,
-                    'user_id' => Auth::id(),
-                    'changes' => $changes,
-                    'ip_address' => request()->ip(),
-                    'user_agent' => request()->userAgent(),
-                ],
-            ]);
-        } catch (\Exception $e) {
-            \Log::error('Failed to record activity: ' . $e->getMessage());
-            return null;
+        if (is_bool($value)) {
+            return $value ? 'Yes' : 'No';
+        }
+
+        if (
+            ! is_array($value)
+            && json_decode($value, true)
+        ) {
+            $value = json_decode($value, true);
+        }
+
+        if (! is_array($value)) {
+            return $value;
+        }
+
+        static::ksortRecursive($value);
+
+        return $value;
+    }
+
+    protected static function ksortRecursive(&$array)
+    {
+        if (! is_array($array)) {
+            return;
+        }
+
+        ksort($array);
+
+        foreach ($array as &$value) {
+            if (! is_array($value)) {
+                continue;
+            }
+
+            static::ksortRecursive($value);
         }
     }
 }
