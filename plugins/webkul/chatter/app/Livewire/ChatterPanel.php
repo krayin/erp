@@ -47,11 +47,15 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
 
     public string $searchQuery = '';
 
+    public mixed $activityPlans;
+
     protected $listeners = ['refreshFollowers' => '$refresh'];
 
-    public function mount(Model $record): void
+    public function mount(Model $record, mixed $activityPlans): void
     {
         $this->record = $record;
+
+        $this->activityPlans = $activityPlans;
     }
 
     public function messageAction(): MessageAction
@@ -75,6 +79,7 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
     public function activityAction(): ActivityAction
     {
         return ActivityAction::make('activity')
+            ->setActivityPlans($this->activityPlans)
             ->record($this->record);
     }
 
@@ -177,7 +182,7 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
                                 ->schema([
                                     Forms\Components\Select::make('activity_plan_id')
                                         ->label(__('Activity Plan'))
-                                        ->options($this->record->activityPlan()->pluck('name', 'id'))
+                                        ->options($this->activityPlans)
                                         ->searchable()
                                         ->preload()
                                         ->live(),

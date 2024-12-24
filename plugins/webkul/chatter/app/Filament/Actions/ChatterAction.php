@@ -9,9 +9,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class ChatterAction extends Action
 {
+    protected mixed $activityPlans;
+
     public static function getDefaultName(): ?string
     {
         return 'chatter.action';
+    }
+
+    public function setActivityPlans(mixed $activityPlans): static
+    {
+        $this->activityPlans = $activityPlans;
+
+        return $this;
+    }
+
+    public function getActivityPlans(): mixed
+    {
+        return $this->activityPlans;
     }
 
     protected function setUp(): void
@@ -23,10 +37,13 @@ class ChatterAction extends Action
             ->icon('heroicon-s-chat-bubble-left-right')
             ->modalIcon('heroicon-s-chat-bubble-left-right')
             ->slideOver()
-            ->modalContentFooter(fn (Model $record): View => view('chatter::filament.widgets.chatter', compact('record')))
+            ->modalContentFooter(fn(Model $record): View => view('chatter::filament.widgets.chatter', [
+                'record' => $record,
+                'activityPlans' => $this->getActivityPlans(),
+            ]))
             ->modalHeading(__('chatter::app.filament.actions.chatter.action.modal.label'))
             ->modalDescription(__('chatter::app.filament.actions.chatter.action.modal.description'))
-            ->badge(fn (Model $record): int => $record->messages()->count())
+            ->badge(fn(Model $record): int => $record->messages()->count())
             ->modalWidth(MaxWidth::ThreeExtraLarge)
             ->modalSubmitAction(false)
             ->modalCancelAction(false);
