@@ -50,7 +50,7 @@ trait HasLogActivity
             return $this->addMessage([
                 'type'         => 'notification',
                 'log_name'     => 'default',
-                'description'  => $this->generateActivityDescription($event),
+                'body'         => $this->generateActivityDescription($event),
                 'subject_type' => $this->getMorphClass(),
                 'subject_id'   => $this->getKey(),
                 'causer_type'  => Auth::user()?->getMorphClass(),

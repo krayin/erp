@@ -6,7 +6,7 @@
 
             {{ $this->logAction }}
 
-            {{-- {{ $this->activityAction }}  --}}
+            {{ $this->activityAction }}
 
             {{ $this->fileAction }}
         </div>

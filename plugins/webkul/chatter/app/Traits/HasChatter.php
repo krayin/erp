@@ -37,7 +37,7 @@ trait HasChatter
 
         $message->fill(array_merge($data, [
             'creator_id' => Auth::user()->id,
-            'date'       => $data['date'] ?? now(),
+            'date_deadline' => $data['date_deadline'] ?? now(),
             'company_id' => $data['company_id'] ?? $this->company_id ?? null,
         ]));
 
@@ -233,8 +233,8 @@ trait HasChatter
         }
 
         // Delete the physical file
-        if (Storage::exists('public/'.$attachment->file_path)) {
-            Storage::delete('public/'.$attachment->file_path);
+        if (Storage::exists('public/' . $attachment->file_path)) {
+            Storage::delete('public/' . $attachment->file_path);
         }
 
         return $attachment->delete();
@@ -246,7 +246,7 @@ trait HasChatter
     public function getAttachmentsByType(string $mimeType): Collection
     {
         return $this->attachments()
-            ->where('mime_type', 'LIKE', $mimeType.'%')
+            ->where('mime_type', 'LIKE', $mimeType . '%')
             ->get();
     }
 
@@ -285,6 +285,6 @@ trait HasChatter
     {
         $attachment = $this->attachments()->find($attachmentId);
 
-        return $attachment && Storage::exists('public/'.$attachment->file_path);
+        return $attachment && Storage::exists('public/' . $attachment->file_path);
     }
 }

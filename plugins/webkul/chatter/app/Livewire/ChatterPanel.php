@@ -68,14 +68,14 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
     {
         return Action::make('deleteAttachment')
             ->requiresConfirmation()
-            ->action(fn (array $arguments) => dd('fasfs'));
+            ->action(fn(array $arguments) => dd('fasfs'));
     }
 
-    // public function activityAction(): ActivityAction
-    // {
-    //     return ActivityAction::make('activity')
-    //         ->record($this->record);
-    // }
+    public function activityAction(): ActivityAction
+    {
+        return ActivityAction::make('activity')
+            ->record($this->record);
+    }
 
     // public function getFollowersProperty()
     // {
@@ -133,7 +133,7 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
     {
         return Action::make('deleteChat')
             ->requiresConfirmation()
-            ->action(fn (array $arguments, $record) => $this->record->removeMessage($arguments['id']));
+            ->action(fn(array $arguments, $record) => $this->record->removeMessage($arguments['id']));
     }
 
     public function viewProfileAction(): Action

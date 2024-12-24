@@ -22,12 +22,13 @@ class Message extends Model
         'name',
         'subject',
         'body',
+        'summary',
         'is_internal',
-        'date',
+        'date_deadline',
         'pinned_at',
         'log_name',
-        'description',
         'event',
+        'assigned_to',
         'causer_type',
         'causer_id',
         'properties',
@@ -35,6 +36,7 @@ class Message extends Model
 
     protected $casts = [
         'properties' => 'array',
+        'date_deadline' => 'date',
     ];
 
     public function messageable(): MorphTo
@@ -60,6 +62,11 @@ class Message extends Model
     public function causer()
     {
         return $this->morphTo();
+    }
+
+    public function assignedTo()
+    {
+        return $this->belongsTo(User::class, 'assigned_to');
     }
 
     public function setPropertiesAttribute($value)

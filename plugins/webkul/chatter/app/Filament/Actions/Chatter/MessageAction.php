@@ -29,7 +29,7 @@ class MessageAction extends Action
                     Forms\Components\TextInput::make('subject')
                         ->placeholder('Subject')
                         ->live()
-                        ->visible(fn ($get) => $get('showSubject'))
+                        ->visible(fn($get) => $get('showSubject'))
                         ->columnSpanFull(),
                     Forms\Components\RichEditor::make('body')
                         ->hiddenLabel()
