@@ -138,12 +138,9 @@ class ActivityAction extends Action
 
                         $record->addMessage($data, Auth::user()->id);
                     } else {
-                        $data = [
-                            ...$data,
-                            'content' => $activityPlanTemplate['note'] ?? null,
-                            'causer_type' => Auth::user()?->getMorphClass(),
-                            'causer_id' => Auth::id(),
-                        ];
+                        $data['content'] = $activityPlanTemplate['note'] ?? null;
+                        $data['causer_type'] = Auth::user()?->getMorphClass();
+                        $data['causer_id'] = Auth::id();
 
                         $record->addMessage($data, Auth::user()->id);
                     }
@@ -160,7 +157,6 @@ class ActivityAction extends Action
                         ->body(__('chatter::app.filament.actions.chatter.activity.action.notification.danger.body'))
                         ->send();
 
-                    dd($e);
                     report($e);
                 }
             })
