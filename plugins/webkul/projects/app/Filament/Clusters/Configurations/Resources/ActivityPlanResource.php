@@ -4,6 +4,8 @@ namespace Webkul\Project\Filament\Clusters\Configurations\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -96,6 +98,24 @@ class ActivityPlanResource extends Resource
             ->modifyQueryUsing(function ($query) {
                 $query->where('plugin', 'projects');
             });
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\Section::make('General Information')
+                    ->schema([
+                        Infolists\Components\TextEntry::make('name')
+                            ->icon('heroicon-o-briefcase')
+                            ->placeholder('—')
+                            ->label('Name'),
+                        Infolists\Components\IconEntry::make('is_active')
+                            ->boolean()
+                            ->label('Status'),
+                    ])
+                    ->columns(2),
+            ]);
     }
 
     public static function getRelations(): array

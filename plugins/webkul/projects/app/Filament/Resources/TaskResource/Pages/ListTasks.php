@@ -18,6 +18,13 @@ class ListTasks extends ListRecords
 
     protected static string $resource = TaskResource::class;
 
+    public function getHeaderWidgets(): array
+    {
+        return [
+            \Webkul\Project\Filament\Widgets\StatsOverviewWidget::make()
+        ];
+    }
+
     public function table(Table $table): Table
     {
         $table = parent::table($table)
@@ -32,6 +39,7 @@ class ListTasks extends ListRecords
             'open_tasks' => PresetView::make('Open Tasks')
                 ->icon('heroicon-s-bolt')
                 ->favorite()
+                ->default()
                 ->modifyQueryUsing(fn (Builder $query) => $query->whereNotIn('state', [
                     TaskState::CANCELLED,
                     TaskState::DONE,

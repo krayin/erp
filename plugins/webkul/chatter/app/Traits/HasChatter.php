@@ -2,14 +2,14 @@
 
 namespace Webkul\Chatter\Traits;
 
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Collection;
-use Webkul\Chatter\Models\Message;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Chatter\Models\Attachment;
 use Illuminate\Support\Facades\Storage;
+use Webkul\Chatter\Models\Attachment;
+use Webkul\Chatter\Models\Message;
 
 trait HasChatter
 {
@@ -26,11 +26,11 @@ trait HasChatter
      */
     public function addMessage(array $data): Message
     {
-        $message = new Message();
+        $message = new Message;
 
         $message->fill(array_merge($data, [
             'creator_id' => Auth::user()->id,
-            'date' => $data['date'] ?? now(),
+            'date'       => $data['date'] ?? now(),
             'company_id' => $data['company_id'] ?? $this->company_id ?? null,
         ]));
 
@@ -45,8 +45,8 @@ trait HasChatter
     public function replyToMessage(Message $parentMessage, array $data): Message
     {
         return $this->addMessage(array_merge($data, [
-            'parent_id' => $parentMessage->id,
-            'company_id' => $parentMessage->company_id,
+            'parent_id'        => $parentMessage->id,
+            'company_id'       => $parentMessage->company_id,
             'activity_type_id' => $parentMessage->activity_type_id,
         ]));
     }
@@ -81,6 +81,7 @@ trait HasChatter
         }
 
         $message->pinned_at = now();
+
         return $message->save();
     }
 
@@ -177,16 +178,16 @@ trait HasChatter
         if ($file instanceof UploadedFile) {
             $path = $file->store('chats-attachments', 'public');
             $fileData = [
-                'file_path' => $path,
+                'file_path'          => $path,
                 'original_file_name' => $file->getClientOriginalName(),
-                'mime_type' => $file->getMimeType(),
-                'file_size' => $file->getSize(),
+                'mime_type'          => $file->getMimeType(),
+                'file_size'          => $file->getSize(),
             ];
         } else {
             $fileData = $file;
         }
 
-        $attachment = new Attachment();
+        $attachment = new Attachment;
         $attachment->fill(array_merge($fileData, $additionalData, [
             'creator_id' => Auth::user()->id,
             'company_id' => $additionalData['company_id'] ?? $this->company_id ?? null,
@@ -217,7 +218,7 @@ trait HasChatter
         $attachment = $this->attachments()->find($attachmentId);
 
         if (
-            !$attachment ||
+            ! $attachment ||
             $attachment->messageable_id !== $this->id ||
             $attachment->messageable_type !== get_class($this)
         ) {
@@ -225,8 +226,8 @@ trait HasChatter
         }
 
         // Delete the physical file
-        if (Storage::exists('public/' . $attachment->file_path)) {
-            Storage::delete('public/' . $attachment->file_path);
+        if (Storage::exists('public/'.$attachment->file_path)) {
+            Storage::delete('public/'.$attachment->file_path);
         }
 
         return $attachment->delete();
@@ -238,7 +239,7 @@ trait HasChatter
     public function getAttachmentsByType(string $mimeType): Collection
     {
         return $this->attachments()
-            ->where('mime_type', 'LIKE', $mimeType . '%')
+            ->where('mime_type', 'LIKE', $mimeType.'%')
             ->get();
     }
 
@@ -277,6 +278,6 @@ trait HasChatter
     {
         $attachment = $this->attachments()->find($attachmentId);
 
-        return $attachment && Storage::exists('public/' . $attachment->file_path);
+        return $attachment && Storage::exists('public/'.$attachment->file_path);
     }
 }

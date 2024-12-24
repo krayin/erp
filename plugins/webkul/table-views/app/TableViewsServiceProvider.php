@@ -44,6 +44,11 @@ class TableViewsServiceProvider extends PackageServiceProvider
         );
 
         FilamentView::registerRenderHook(
+            PanelsRenderHook::RESOURCE_PAGES_MANAGE_RELATED_RECORDS_TABLE_BEFORE,
+            fn (): View => view('table-views::filament.resources.pages.list-records.favorites-views'),
+        );
+
+        FilamentView::registerRenderHook(
             TablesRenderHook::TOOLBAR_SEARCH_AFTER,
             fn (): View => view('table-views::filament.tables.table-views'),
         );

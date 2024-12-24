@@ -2,9 +2,9 @@
 
 namespace Webkul\Support\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
@@ -45,7 +45,7 @@ class ActivityLog extends Model
     public function changes(): Collection
     {
         if (! $this->properties instanceof Collection) {
-            return new Collection();
+            return new Collection;
         }
 
         return $this->properties->only(['attributes', 'old']);

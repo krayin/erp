@@ -18,6 +18,7 @@
                 @endphp
 
                 <x-filament::tabs.item
+                    class="whitespace-nowrap"
                     :active="$activeTableView === $tabKey"
                     :badge="$tab->getBadge()"
                     :badge-color="$tab->getBadgeColor()"
