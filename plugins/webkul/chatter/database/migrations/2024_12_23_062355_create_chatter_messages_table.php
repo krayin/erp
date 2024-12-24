@@ -17,17 +17,17 @@ return new class extends Migration
             $table->unsignedBigInteger('company_id')->nullable()->comment('Company');
             $table->unsignedBigInteger('activity_type_id')->nullable()->comment('Activity Type');
             $table->unsignedBigInteger('creator_id')->nullable()->comment('Created By');
+            $table->unsignedBigInteger('assigned_to')->nullable()->comment('Assigned To');
             $table->morphs('messageable');
             $table->string('type')->nullable()->comment('Message Type');
             $table->string('name')->nullable()->comment('Name');
             $table->string('subject')->nullable()->comment('Subject');
             $table->text('body')->nullable()->comment('Body');
+            $table->text('summary')->nullable()->comment('Summary');
             $table->boolean('is_internal')->nullable()->comment('Is Internal');
-            $table->date('date')->nullable()->comment('Date');
+            $table->date('date_deadline')->nullable()->comment('Date');
             $table->date('pinned_at')->nullable()->comment('Pinned At');
-
             $table->string('log_name')->nullable();
-            $table->text('description')->nullable();
             $table->morphs('causer');
             $table->string('event')->nullable();
             $table->json('properties')->nullable();
@@ -35,6 +35,7 @@ return new class extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->foreign('activity_type_id')->references('id')->on('activity_types')->onDelete('cascade');
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('assigned_to')->references('id')->on('users')->onDelete('cascade');
 
             $table->timestamps();
         });

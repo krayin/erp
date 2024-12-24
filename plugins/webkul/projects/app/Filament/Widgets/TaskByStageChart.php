@@ -11,7 +11,7 @@ use Webkul\Project\Models\TaskStage;
 
 class TaskByStageChart extends ChartWidget
 {
-    use InteractsWithPageFilters, HasWidgetShield;
+    use HasWidgetShield, InteractsWithPageFilters;
 
     protected static ?string $heading = 'Tasks By Stage';
 

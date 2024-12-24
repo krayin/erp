@@ -24,7 +24,7 @@ class ActivityTypeSeeder extends Seeder
             [
                 'sort'                   => 1,
                 'delay_count'            => 1,
-                'triggered_next_type_id' => null,
+                'triggered_next_type_id' => 1,
                 'default_user_id'        => null,
                 'creator_id'             => $creator->id ?? null,
                 'delay_unit'             => ActivityDelayUnit::DAYS->value,

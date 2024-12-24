@@ -26,12 +26,36 @@ class LogAction extends Action
                 fn ($form) => $form->schema([
                     Forms\Components\TextInput::make('subject')
                         ->placeholder('Subject')
+                        ->live()
+                        ->visible(fn ($get) => $get('showSubject'))
                         ->columnSpanFull(),
                     Forms\Components\RichEditor::make('body')
                         ->hiddenLabel()
                         ->placeholder(__('chatter::app.filament.actions.chatter.activity.form.type-your-message-here'))
                         ->required()
                         ->columnSpanFull(),
+                    Forms\Components\Group::make([
+                        Forms\Components\Actions::make([
+                            Forms\Components\Actions\Action::make('add_subject')
+                                ->label(function ($get) {
+                                    return $get('showSubject') ? 'Hide Subject' : 'Add Subject';
+                                })
+                                ->action(function ($set, $get) {
+                                    if ($get('showSubject')) {
+                                        $set('showSubject', false);
+
+                                        return;
+                                    }
+
+                                    $set('showSubject', true);
+                                })
+                                ->link()
+                                ->size('sm')
+                                ->icon('heroicon-s-plus'),
+                        ])
+                            ->columnSpan('full')
+                            ->alignRight(),
+                    ]),
                     Forms\Components\Hidden::make('type')
                         ->default('note'),
                 ])
@@ -51,7 +75,6 @@ class LogAction extends Action
                         ->body('Lognote sent successfully')
                         ->send();
                 } catch (\Exception $e) {
-                    dd($e);
                     Notification::make()
                         ->danger()
                         ->title('Error')

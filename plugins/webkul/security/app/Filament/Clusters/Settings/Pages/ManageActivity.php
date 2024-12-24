@@ -6,8 +6,8 @@ use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
-use Webkul\Support\Filament\Clusters\Settings;
 use Webkul\Security\Settings\UserSettings;
+use Webkul\Support\Filament\Clusters\Settings;
 
 class ManageActivity extends SettingsPage
 {

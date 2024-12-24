@@ -12,7 +12,7 @@ use Webkul\Project\Models\Timesheet;
 
 class TopProjectsWidget extends BaseWidget
 {
-    use InteractsWithPageFilters, HasWidgetShield;
+    use HasWidgetShield, InteractsWithPageFilters;
 
     protected static ?string $pollingInterval = '15s';
 

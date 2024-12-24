@@ -13,7 +13,7 @@ use Webkul\Project\Models\Task;
 
 class StatsOverviewWidget extends BaseWidget
 {
-    use InteractsWithPageFilters, HasWidgetShield;
+    use HasWidgetShield, InteractsWithPageFilters;
 
     protected static ?string $pollingInterval = '15s';
 

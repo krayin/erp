@@ -71,6 +71,9 @@
                                 size="xs"
                                 color="gray"
                                 icon="heroicon-m-eye"
+                                @style([
+                                    'gap' => '0 !important',
+                                ])
                                 icon-only
                                 tag="a"
                                 :href="Storage::url($attachment->file_path)"
@@ -83,11 +86,15 @@
                             size="xs"
                             color="gray"
                             icon="heroicon-m-arrow-down-tray"
+                            class="!gap-0"
                             icon-only
                             tag="a"
                             :href="Storage::url($attachment->file_path)"
                             download="{{ $attachment->original_file_name }}"
                             :tooltip="__('Download')"
+                            @style([
+                                'gap' => '0 !important',
+                            ])
                         />
                     @else
                         <x-filament::badge color="danger" size="xs">

@@ -12,7 +12,9 @@ use Filament\Tables;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Field\Filament\Forms\Components\ProgressStepper;
 use Webkul\Field\Filament\Traits\HasCustomFields;
 use Webkul\Project\Enums\TaskState;
 use Webkul\Project\Filament\Resources\ProjectResource\Pages\ManageProjectTasks;
@@ -25,8 +27,6 @@ use Webkul\Project\Settings\TaskSettings;
 use Webkul\Project\Settings\TimeSettings;
 use Webkul\Security\Filament\Resources\UserResource;
 use Webkul\Support\Filament\Tables\Columns\ProgressBarEntry;
-use Illuminate\Database\Eloquent\Model;
-use Webkul\Field\Filament\Forms\Components\ProgressStepper;
 
 class TaskResource extends Resource
 {

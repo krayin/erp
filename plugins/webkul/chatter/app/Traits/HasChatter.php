@@ -19,13 +19,15 @@ trait HasChatter
     public function messages(): MorphMany
     {
         return $this->morphMany(Message::class, 'messageable')
+            ->whereNot('type', 'activity')
             ->orderBy('created_at', 'desc');
     }
 
     public function activities()
     {
-        return $this->messages()
-            ->where('type', 'activity');
+        return $this->morphMany(Message::class, 'messageable')
+            ->where('type', 'activity')
+            ->orderBy('created_at', 'desc');
     }
 
     /**
@@ -36,9 +38,9 @@ trait HasChatter
         $message = new Message;
 
         $message->fill(array_merge($data, [
-            'creator_id' => Auth::user()->id,
-            'date'       => $data['date'] ?? now(),
-            'company_id' => $data['company_id'] ?? $this->company_id ?? null,
+            'creator_id'    => Auth::user()->id,
+            'date_deadline' => $data['date_deadline'] ?? now(),
+            'company_id'    => $data['company_id'] ?? $this->company_id ?? null,
         ]));
 
         $this->messages()->save($message);
@@ -61,9 +63,9 @@ trait HasChatter
     /**
      * Remove a message
      */
-    public function removeMessage($messageId): bool
+    public function removeMessage($messageId, $type = 'messages'): bool
     {
-        $message = $this->messages()->find($messageId);
+        $message = $this->{$type}()->find($messageId);
 
         if (
             $message->messageable_id !== $this->id

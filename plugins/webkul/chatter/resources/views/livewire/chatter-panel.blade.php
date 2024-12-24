@@ -6,13 +6,16 @@
 
             {{ $this->logAction }}
 
-            {{-- {{ $this->activityAction }}  --}}
+            {{ $this->activityAction }}
 
             {{ $this->fileAction }}
         </div>
 
         {{-- {{ $this->followerAction }} --}}
     </div>
+
+    <!-- Activities -->
+    {{ $this->activityInfolist }}
 
     <!-- Messages -->
     {{ $this->chatInfolist }}

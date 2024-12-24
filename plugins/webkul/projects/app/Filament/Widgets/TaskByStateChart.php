@@ -11,7 +11,7 @@ use Webkul\Project\Models\Task;
 
 class TaskByStateChart extends ChartWidget
 {
-    use InteractsWithPageFilters, HasWidgetShield;
+    use HasWidgetShield, InteractsWithPageFilters;
 
     protected static ?string $heading = 'Tasks By State';
 
@@ -70,15 +70,15 @@ class TaskByStateChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Tasks created',
-                    'data'  => $datasets['datasets'],
+                    'label'           => 'Tasks created',
+                    'data'            => $datasets['datasets'],
                     'backgroundColor' => array_map(
-                        fn($state) => match ($colors[$state] ?? 'gray') {
-                            'gray' => '#a1a1aa',
+                        fn ($state) => match ($colors[$state] ?? 'gray') {
+                            'gray'    => '#a1a1aa',
                             'warning' => '#fbbf24',
                             'success' => '#22c55e',
-                            'danger' => '#ef4444',
-                            default => '#cccccc',
+                            'danger'  => '#ef4444',
+                            default   => '#cccccc',
                         },
                         array_keys(TaskState::options())
                     ),

@@ -2,7 +2,7 @@
 
 namespace Webkul\Project\Filament\Resources\ProjectResource\Pages;
 
-use Filament\Forms\Form;
+use Filament\Actions;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Tables;
@@ -15,7 +15,6 @@ use Webkul\Project\Filament\Resources\TaskResource;
 use Webkul\Project\Models\Task;
 use Webkul\TableViews\Components\PresetView;
 use Webkul\TableViews\Filament\Traits\HasTableViews;
-use Filament\Actions;
 
 class ManageProjectTasks extends ManageRelatedRecords
 {
@@ -37,7 +36,7 @@ class ManageProjectTasks extends ManageRelatedRecords
         return [
             Actions\CreateAction::make()
                 ->label('New Task')
-                ->url(route('filament.admin.resources.project.tasks.create'))
+                ->url(route('filament.admin.resources.project.tasks.create')),
         ];
     }
 

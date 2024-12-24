@@ -41,16 +41,22 @@ trait HasLogActivity
         }
 
         try {
+            $changes = $this->determineChanges($event);
+
+            if (collect($changes)->isEmpty()) {
+                return null;
+            }
+
             return $this->addMessage([
                 'type'         => 'notification',
                 'log_name'     => 'default',
-                'description'  => $this->generateActivityDescription($event),
+                'body'         => $this->generateActivityDescription($event),
                 'subject_type' => $this->getMorphClass(),
                 'subject_id'   => $this->getKey(),
                 'causer_type'  => Auth::user()?->getMorphClass(),
                 'causer_id'    => Auth::id(),
                 'event'        => $event,
-                'properties'   => $this->determineChanges($event),
+                'properties'   => $changes,
             ]);
         } catch (\Exception $e) {
             Log::error(
@@ -281,8 +287,8 @@ trait HasLogActivity
             return $value ? 'Yes' : 'No';
         }
 
-        if (in_array($key, ['due_date', 'birthday', 'spouse_birthdate', 'visa_expire', 'work_permit_expiration_date', 'departure_date'])) {
-            return $value ? \Carbon\Carbon::parse($value)->format('F j, Y') : null;
+        if ($value instanceof \UnitEnum) {
+            return $value->getLabel();
         }
 
         if (! is_array($value) && json_decode($value, true)) {

@@ -12,10 +12,10 @@ use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Schema;
 use Webkul\Field\FieldsColumnManager;
 use Webkul\Field\Filament\Resources\FieldResource\Pages;
 use Webkul\Field\Models\Field;
-use Illuminate\Support\Facades\Schema;
 
 class FieldResource extends Resource
 {
@@ -57,7 +57,7 @@ class FieldResource extends Resource
                                     ->disabledOn('edit')
                                     ->helperText(__('fields::app.form.fields.code-helper-text'))
                                     ->unique(ignoreRecord: true)
-                                    ->notIn(function(Forms\Get $get) {
+                                    ->notIn(function (Forms\Get $get) {
                                         if ($get('id')) {
                                             return [];
                                         }

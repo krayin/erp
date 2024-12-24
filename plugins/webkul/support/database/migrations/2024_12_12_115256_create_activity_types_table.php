@@ -37,7 +37,7 @@ return new class extends Migration
             $table->foreign('activity_plan_id')->references('id')->on('activity_plans')->onDelete('cascade');
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('default_user_id')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('triggered_next_type_id')->references('id')->on('activity_types')->onDelete('set null');
+            $table->foreign('triggered_next_type_id')->references('id')->on('activity_types')->onDelete('restrict');
 
             $table->softDeletes();
             $table->timestamps();
