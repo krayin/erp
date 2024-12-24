@@ -35,7 +35,7 @@ class Message extends Model
     ];
 
     protected $casts = [
-        'properties' => 'array',
+        'properties'    => 'array',
         'date_deadline' => 'date',
     ];
 

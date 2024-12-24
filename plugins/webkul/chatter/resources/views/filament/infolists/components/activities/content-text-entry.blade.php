@@ -20,9 +20,6 @@
                     </div>
 
                     <span class="bg-primary-50 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 inline-flex items-center rounded-md px-2 py-1 text-xs font-bold">
-                        @if ($record->activityType)
-                        {{-- activityPlanTemplates --}}
-                        @endif
                         {{ ucfirst($record->activityType->name) }}
                     </span>
                 </div>

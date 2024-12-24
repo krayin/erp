@@ -23,12 +23,12 @@ class LogAction extends Action
             ->color('gray')
             ->outlined()
             ->form(
-                fn($form) => $form->schema([
+                fn ($form) => $form->schema([
 
                     Forms\Components\TextInput::make('subject')
                         ->placeholder('Subject')
                         ->live()
-                        ->visible(fn($get) => $get('showSubject'))
+                        ->visible(fn ($get) => $get('showSubject'))
                         ->columnSpanFull(),
                     Forms\Components\RichEditor::make('body')
                         ->hiddenLabel()

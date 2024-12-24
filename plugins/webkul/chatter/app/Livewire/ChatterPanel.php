@@ -21,12 +21,12 @@ use Webkul\Chatter\Filament\Actions\Chatter\FileAction;
 use Webkul\Chatter\Filament\Actions\Chatter\FollowerAction;
 use Webkul\Chatter\Filament\Actions\Chatter\LogAction;
 use Webkul\Chatter\Filament\Actions\Chatter\MessageAction;
-use Webkul\Chatter\Filament\Infolists\Components\Messages\MessageRepeatableEntry;
 use Webkul\Chatter\Filament\Infolists\Components\Activities\ActivitiesRepeatableEntry;
-use Webkul\Chatter\Filament\Infolists\Components\Messages\ContentTextEntry as MessageContentTextEntry;
 use Webkul\Chatter\Filament\Infolists\Components\Activities\ContentTextEntry as ActivityContentTextEntry;
-use Webkul\Chatter\Filament\Infolists\Components\Messages\TitleTextEntry as MessageTitleTextEntry;
 use Webkul\Chatter\Filament\Infolists\Components\Activities\TitleTextEntry as ActivityTitleTextEntry;
+use Webkul\Chatter\Filament\Infolists\Components\Messages\ContentTextEntry as MessageContentTextEntry;
+use Webkul\Chatter\Filament\Infolists\Components\Messages\MessageRepeatableEntry;
+use Webkul\Chatter\Filament\Infolists\Components\Messages\TitleTextEntry as MessageTitleTextEntry;
 use Webkul\Security\Models\User;
 
 class ChatterPanel extends Component implements HasActions, HasForms, HasInfolists
@@ -72,7 +72,7 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
     {
         return Action::make('deleteAttachment')
             ->requiresConfirmation()
-            ->action(fn(array $arguments) => dd('fasfs'));
+            ->action(fn (array $arguments) => dd('fasfs'));
     }
 
     public function activityAction(): ActivityAction
@@ -137,7 +137,7 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
     {
         return Action::make('deleteChat')
             ->requiresConfirmation()
-            ->action(fn(array $arguments, $record) => $this->record->removeMessage($arguments['id']));
+            ->action(fn (array $arguments, $record) => $this->record->removeMessage($arguments['id']));
     }
 
     public function chatInfolist(Infolist $infolist): Infolist
@@ -156,7 +156,6 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
                     ->placeholder(__('chatter::app.livewire.chatter_panel.placeholders.no_record_found')),
             ]);
     }
-
 
     public function activityInfolist(Infolist $infolist): Infolist
     {
@@ -182,7 +181,7 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
                                         ->hiddenLabel(),
                                 ])
                                 ->placeholder(__('chatter::app.livewire.chatter_panel.placeholders.no_record_found')),
-                        ])
+                        ]),
                 ];
             });
     }
