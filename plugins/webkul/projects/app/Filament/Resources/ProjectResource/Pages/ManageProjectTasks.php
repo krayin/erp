@@ -15,6 +15,7 @@ use Webkul\Project\Filament\Resources\TaskResource;
 use Webkul\Project\Models\Task;
 use Webkul\TableViews\Components\PresetView;
 use Webkul\TableViews\Filament\Traits\HasTableViews;
+use Filament\Actions;
 
 class ManageProjectTasks extends ManageRelatedRecords
 {
@@ -31,19 +32,18 @@ class ManageProjectTasks extends ManageRelatedRecords
         return 'Tasks';
     }
 
-    public function form(Form $form): Form
+    protected function getHeaderActions(): array
     {
-        return TaskResource::form($form);
+        return [
+            Actions\CreateAction::make()
+                ->label('New Task')
+                ->url(route('filament.admin.resources.project.tasks.create'))
+        ];
     }
 
     public function table(Table $table): Table
     {
         return TaskResource::table($table)
-            ->headerActions([
-                Tables\Actions\CreateAction::make()
-                    ->label('New Task')
-                    ->url(route('filament.admin.resources.project.tasks.create')),
-            ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make()

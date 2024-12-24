@@ -7,7 +7,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
 use Webkul\Project\Settings\TaskSettings;
-use Webkul\Security\Filament\Clusters\Settings;
+use Webkul\Support\Filament\Clusters\Settings;
 
 class ManageTasks extends SettingsPage
 {

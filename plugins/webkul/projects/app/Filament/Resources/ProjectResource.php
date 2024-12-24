@@ -23,6 +23,8 @@ use Webkul\Project\Models\ProjectStage;
 use Webkul\Project\Settings\TaskSettings;
 use Webkul\Project\Settings\TimeSettings;
 use Webkul\Security\Filament\Resources\UserResource;
+use Illuminate\Database\Eloquent\Model;
+use Webkul\Field\Filament\Forms\Components\ProgressStepper;
 
 class ProjectResource extends Resource
 {
@@ -34,7 +36,30 @@ class ProjectResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-folder';
 
-    protected static ?string $navigationGroup = 'Project';
+    protected static ?string $recordTitleAttribute = 'name';
+
+    public static function getNavigationLabel(): string
+    {
+        return __('projects::app.filament.resources.project.navigation.title');
+    }
+
+    public static function getNavigationGroup(): string
+    {
+        return __('projects::app.filament.resources.project.navigation.group');
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'user.name', 'partner.name'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'Project Manager' => $record->user?->name ?? '—',
+            'Customer'        => $record->partner?->name ?? '—',
+        ];
+    }
 
     public static function form(Form $form): Form
     {
@@ -42,7 +67,7 @@ class ProjectResource extends Resource
             ->schema([
                 Forms\Components\Group::make()
                     ->schema([
-                        Forms\Components\ToggleButtons::make('stage_id')
+                        ProgressStepper::make('stage_id')
                             ->hiddenLabel()
                             ->inline()
                             ->required()
