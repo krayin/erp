@@ -6,14 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use Webkul\Security\Models\User;
 
 trait HasLogActivity
 {
+    /**
+     * Boot the trait
+     */
     public static function bootHasLogActivity()
     {
         static::created(fn(Model $model) => $model->logModelActivity('created'));
-
         static::updated(fn(Model $model) => $model->logModelActivity('updated'));
 
         if (method_exists(static::class, 'bootSoftDeletes')) {
@@ -24,13 +25,15 @@ trait HasLogActivity
                     $model->logModelActivity('hard_deleted');
                 }
             });
-
             static::restored(fn(Model $model) => $model->logModelActivity('restored'));
         } else {
             static::deleting(fn(Model $model) => $model->logModelActivity('deleted'));
         }
     }
 
+    /**
+     * Log model activity
+     */
     public function logModelActivity(string $event): ?Model
     {
         if (! Auth::check()) {
@@ -50,7 +53,6 @@ trait HasLogActivity
                 'properties' => $this->determineChanges($event),
             ]);
         } catch (\Exception $e) {
-            dd($e);
             Log::error(
                 __('chatter::app.trait.has-log-activity.errors.activity-log-failed', [
                     'message' => $e->getMessage(),
@@ -61,15 +63,250 @@ trait HasLogActivity
         }
     }
 
+    /**
+     * Get attributes to be logged.
+     * Override this in your model to specify which attributes to log
+     */
+    protected function getLogAttributes(): array
+    {
+        return property_exists($this, 'logAttributes') ? $this->logAttributes : [];
+    }
+
+    /**
+     * Get the relationship and attribute to log from the attribute key
+     */
+    protected function parseRelationAttribute(string $key): ?array
+    {
+        if (!str_contains($key, '.')) {
+            return null;
+        }
+
+        $parts = explode('.', $key);
+        $relation = $parts[0];
+        $attribute = $parts[1];
+
+        return [$relation, $attribute];
+    }
+
+    /**
+     * Get related model value
+     */
+    protected function getRelatedValue($relation, $id, $attribute)
+    {
+        try {
+            if (!method_exists($this, $relation)) {
+                return null;
+            }
+
+            $relatedModel = $this->$relation()->getRelated();
+            $instance = $relatedModel->find($id);
+
+            return $instance ? $instance->$attribute : null;
+        } catch (\Exception $e) {
+            Log::error("Error getting related value for {$relation}.{$attribute}: " . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Get changes for all monitored attributes
+     */
+    protected function getAllAttributeChanges(): array
+    {
+        $changes = [];
+        $original = $this->getOriginal();
+        $current = $this->getDirty();
+        $logAttributes = $this->getLogAttributes();
+
+        foreach ($logAttributes as $key) {
+            if ($parsed = $this->parseRelationAttribute($key)) {
+                [$relation, $attribute] = $parsed;
+                $changes[$key] = $this->getRelationshipChanges($relation, $attribute, $original, $current);
+            } else {
+                $changes[$key] = $this->getDirectAttributeChanges($key, $original, $current);
+            }
+        }
+
+        return array_filter($changes);
+    }
+
+    /**
+     * Get changes for relationship attributes
+     */
+    protected function getRelationshipChanges(string $relation, string $attribute, array $original, array $current): ?array
+    {
+        try {
+            if (!method_exists($this, $relation)) {
+                return null;
+            }
+
+            $foreignKey = $this->$relation()->getForeignKeyName();
+
+            if (array_key_exists($foreignKey, $current)) {
+                $oldValue = $this->getRelatedValue($relation, $original[$foreignKey] ?? null, $attribute);
+                $newValue = $this->getRelatedValue($relation, $current[$foreignKey], $attribute);
+
+                if ($oldValue !== $newValue) {
+                    return [
+                        'type' => 'modified',
+                        'old_value' => $oldValue,
+                        'new_value' => $newValue,
+                        'relation' => $relation,
+                        'attribute' => $attribute
+                    ];
+                }
+            }
+        } catch (\Exception $e) {
+            Log::error("Error tracking relationship changes for {$relation}.{$attribute}: " . $e->getMessage());
+        }
+
+        return null;
+    }
+
+    protected function getDirectAttributeChanges(string $key, array $original, array $current): ?array
+    {
+        if (array_key_exists($key, $current)) {
+            $oldValue = $this->formatAttributeValue($key, $original[$key] ?? null);
+            $newValue = $this->formatAttributeValue($key, $current[$key]);
+
+            if ($oldValue !== $newValue) {
+                return [
+                    'type' => array_key_exists($key, $original) ? 'modified' : 'added',
+                    'old_value' => $oldValue,
+                    'new_value' => $newValue
+                ];
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Determine changes in the model
+     */
     protected function determineChanges(string $event): ?array
     {
         return match ($event) {
             'created' => $this->getModelAttributes(),
-            'updated' => $this->getUpdatedAttributes(),
+            'updated' => $this->getAllAttributeChanges(),
             default   => null
         };
     }
 
+    /**
+     * Get model attributes
+     */
+    protected function getModelAttributes(): array
+    {
+        $logAttributes = $this->getLogAttributes();
+        $attributes = [];
+
+        foreach ($logAttributes as $key) {
+            if ($parsed = $this->parseRelationAttribute($key)) {
+                [$relation, $attribute] = $parsed;
+                $foreignKey = $this->$relation()->getForeignKeyName();
+                $value = $this->getRelatedValue($relation, $this->$foreignKey, $attribute);
+                $attributes[$key] = $value;
+            } else {
+                $value = $this->getAttribute($key);
+                $attributes[$key] = $this->formatAttributeValue($key, $value);
+            }
+        }
+
+        return $attributes;
+    }
+
+    /**
+     * Get updated attributes
+     */
+    protected function getUpdatedAttributes(): array
+    {
+        $original = $this->getOriginal();
+        $current = $this->getDirty();
+        $logAttributes = $this->getLogAttributes();
+        $changes = [];
+
+        foreach ($logAttributes as $key) {
+            if ($parsed = $this->parseRelationAttribute($key)) {
+                [$relation, $attribute] = $parsed;
+                $foreignKey = $this->$relation()->getForeignKeyName();
+
+                if (array_key_exists($foreignKey, $current)) {
+                    $oldValue = $this->getRelatedValue($relation, $original[$foreignKey] ?? null, $attribute);
+                    $newValue = $this->getRelatedValue($relation, $current[$foreignKey], $attribute);
+
+                    if ($oldValue !== $newValue) {
+                        $changes[$key] = [
+                            'type' => 'modified',
+                            'old_value' => $oldValue,
+                            'new_value' => $newValue,
+                        ];
+                    }
+                }
+            } else {
+                if (array_key_exists($key, $current)) {
+                    $oldValue = $this->formatAttributeValue($key, $original[$key] ?? null);
+                    $newValue = $this->formatAttributeValue($key, $current[$key]);
+
+                    if ($oldValue !== $newValue) {
+                        $changes[$key] = [
+                            'type' => array_key_exists($key, $original) ? 'modified' : 'added',
+                            'old_value' => $oldValue,
+                            'new_value' => $newValue,
+                        ];
+                    }
+                }
+            }
+        }
+
+        return $changes;
+    }
+
+    /**
+     * Format attribute value
+     */
+    protected function formatAttributeValue(string $key, $value): mixed
+    {
+        if (is_bool($value)) {
+            return $value ? 'Yes' : 'No';
+        }
+
+        if (in_array($key, ['due_date', 'birthday', 'spouse_birthdate', 'visa_expire', 'work_permit_expiration_date', 'departure_date'])) {
+            return $value ? \Carbon\Carbon::parse($value)->format('F j, Y') : null;
+        }
+
+        if (!is_array($value) && json_decode($value, true)) {
+            $value = json_decode($value, true);
+        }
+
+        if (is_array($value)) {
+            static::ksortRecursive($value);
+        }
+
+        return $value;
+    }
+
+    /**
+     * Sort array recursively
+     */
+    protected static function ksortRecursive(&$array)
+    {
+        if (!is_array($array)) {
+            return;
+        }
+
+        ksort($array);
+
+        foreach ($array as &$value) {
+            if (is_array($value)) {
+                static::ksortRecursive($value);
+            }
+        }
+    }
+
+    /**
+     * Generate activity description
+     */
     protected function generateActivityDescription(string $event): string
     {
         $modelName = Str::headline(class_basename(static::class));
@@ -95,127 +332,5 @@ trait HasLogActivity
             ]),
             default        => $event
         };
-    }
-
-    protected function getModelAttributes(): array
-    {
-        return collect($this->getAttributes())
-            ->except($this->getExcludedAttributes())
-            ->map(fn($value, $key) => $this->formatAttributeValue($key, $value))
-            ->toArray();
-    }
-
-    protected function getUpdatedAttributes(): array
-    {
-        $original = $this->getOriginal();
-        $current = $this->getDirty();
-
-        $changes = [];
-
-        foreach ($current as $key => $value) {
-            if (in_array($key, $this->getExcludedAttributes())) {
-                continue;
-            }
-
-            if (
-                ! array_key_exists($key, $original)
-                || $original[$key] !== $value
-            ) {
-
-                $newValue = static::decodeValueIfJson($value);
-
-                $oldValue = static::decodeValueIfJson($original[$key] ?? null);
-
-                $changes[$key] = [
-                    'type'      => array_key_exists($key, $original) ? 'modified' : 'added',
-                    'old_value' => $this->formatAttributeValue($key, $oldValue),
-                    'new_value' => $this->formatAttributeValue($key, $newValue),
-                ];
-            }
-        }
-
-        return $changes;
-    }
-
-    protected function formatAttributeValue(string $key, $value): mixed
-    {
-        $userFields = [
-            'created_by',
-            'assigned_to',
-            'user_id',
-        ];
-
-        if (
-            in_array($key, $userFields)
-            && $value !== null
-        ) {
-            try {
-                $user = User::find($value);
-
-                return $user ? $user->name : __('chatter::app.trait.has-log-activity.attributes.unassigned');
-            } catch (\Exception $e) {
-                Log::error(
-                    __('chatter::app.trait.has-log-activity.errors.user-fetch-failed', [
-                        'field' => $key,
-                    ])
-                );
-
-                return $value;
-            }
-        }
-
-        if (in_array($key, ['due_date', 'created_at', 'updated_at'])) {
-            return $value ? \Carbon\Carbon::parse($value)->format('F j, Y') : null;
-        }
-
-        return $value;
-    }
-
-    protected function getExcludedAttributes(): array
-    {
-        return [
-            'created_at',
-            'updated_at',
-            'deleted_at',
-        ];
-    }
-
-    protected static function decodeValueIfJson($value)
-    {
-        if (is_bool($value)) {
-            return $value ? 'Yes' : 'No';
-        }
-
-        if (
-            ! is_array($value)
-            && json_decode($value, true)
-        ) {
-            $value = json_decode($value, true);
-        }
-
-        if (! is_array($value)) {
-            return $value;
-        }
-
-        static::ksortRecursive($value);
-
-        return $value;
-    }
-
-    protected static function ksortRecursive(&$array)
-    {
-        if (! is_array($array)) {
-            return;
-        }
-
-        ksort($array);
-
-        foreach ($array as &$value) {
-            if (! is_array($value)) {
-                continue;
-            }
-
-            static::ksortRecursive($value);
-        }
     }
 }

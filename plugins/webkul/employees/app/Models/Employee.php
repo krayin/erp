@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Webkul\Chatter\LogOptions;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Employee\Database\Factories\EmployeeFactory;
@@ -25,6 +26,21 @@ class Employee extends Model
     use HasChatter, HasCustomFields, HasFactory, HasLogActivity, SoftDeletes;
 
     protected $table = 'employees_employees';
+
+    protected array $logAttributes = [
+        'name',
+        'work_email',
+        'company.name',
+        'department.name',
+        'job.title',
+        'job_id.name',
+        'workLocation.name',
+        'country.name',
+        'state.name',
+        'partner.name',
+        'parent.name' => 'Manager',
+        'coach.name' => 'Coach',
+    ];
 
     /**
      * The attributes that are mass assignable.
