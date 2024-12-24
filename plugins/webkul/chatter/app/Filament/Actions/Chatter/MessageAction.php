@@ -42,6 +42,8 @@ class MessageAction extends Action
             ->action(function (array $data, ?Model $record = null) {
                 try {
                     $data['name'] = $record->name;
+                    $data['causer_type'] = Auth::user()?->getMorphClass();
+                    $data['causer_id'] = Auth::id();
 
                     $record->addMessage($data, Auth::user()->id);
 
@@ -51,6 +53,7 @@ class MessageAction extends Action
                         ->body('Message sent successfully')
                         ->send();
                 } catch (\Exception $e) {
+                    dd($e);
                     Notification::make()
                         ->danger()
                         ->title('Error')

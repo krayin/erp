@@ -40,8 +40,10 @@ class LogAction extends Action
             ->action(function (array $data, ?Model $record = null) {
                 try {
                     $data['name'] = $record->name;
+                    $data['causer_type'] = Auth::user()?->getMorphClass();
+                    $data['causer_id'] = Auth::id();
 
-                    $chat = $record->addMessage($data, Auth::user()->id);
+                    $record->addMessage($data, Auth::user()->id);
 
                     Notification::make()
                         ->success()
@@ -49,6 +51,7 @@ class LogAction extends Action
                         ->body('Lognote sent successfully')
                         ->send();
                 } catch (\Exception $e) {
+                    dd($e);
                     Notification::make()
                         ->danger()
                         ->title('Error')
