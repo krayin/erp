@@ -69,7 +69,15 @@ trait HasLogActivity
      */
     protected function getLogAttributes(): array
     {
-        return property_exists($this, 'logAttributes') ? $this->logAttributes : [];
+        $normalized = [];
+        foreach (property_exists($this, 'logAttributes') ? $this->logAttributes : [] as $key => $value) {
+            if (is_int($key)) {
+                $normalized[$value] = $value;
+            } else {
+                $normalized[$key] = $value;
+            }
+        }
+        return $normalized;
     }
 
     /**
@@ -118,12 +126,12 @@ trait HasLogActivity
         $current = $this->getDirty();
         $logAttributes = $this->getLogAttributes();
 
-        foreach ($logAttributes as $key) {
+        foreach ($logAttributes as $key => $title) {
             if ($parsed = $this->parseRelationAttribute($key)) {
                 [$relation, $attribute] = $parsed;
-                $changes[$key] = $this->getRelationshipChanges($relation, $attribute, $original, $current);
+                $changes[$title] = $this->getRelationshipChanges($relation, $attribute, $original, $current);
             } else {
-                $changes[$key] = $this->getDirectAttributeChanges($key, $original, $current);
+                $changes[$title] = $this->getDirectAttributeChanges($key, $original, $current);
             }
         }
 
