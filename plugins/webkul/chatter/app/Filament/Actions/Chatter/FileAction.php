@@ -23,7 +23,7 @@ class FileAction extends Action
         $this
             ->color('gray')
             ->outlined()
-            ->badge(fn ($record) => $record->attachments()->count())
+            ->badge(fn($record) => $record->attachments()->count())
             ->form([
                 Forms\Components\FileUpload::make('files')
                     ->label(__('chatter::app.filament.actions.chatter.file.form.file'))
@@ -116,9 +116,10 @@ class FileAction extends Action
             })
             ->label('Attachments')
             ->icon('heroicon-o-paper-clip')
+            ->modalIcon('heroicon-o-paper-clip')
             ->iconPosition(IconPosition::Before)
             ->modalSubmitAction(
-                fn ($action) => $action
+                fn($action) => $action
                     ->label('Upload')
                     ->icon('heroicon-m-paper-airplane')
             )

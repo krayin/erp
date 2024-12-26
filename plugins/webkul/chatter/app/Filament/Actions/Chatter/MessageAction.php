@@ -8,6 +8,7 @@ use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Livewire\WithFileUploads;
 use Webkul\Chatter\Mail\SendMessage;
 
 class MessageAction extends Action
@@ -50,19 +51,45 @@ class MessageAction extends Action
                 Forms\Components\TextInput::make('subject')
                     ->placeholder('Subject')
                     ->live()
-                    ->visible(fn ($get) => $get('showSubject')),
+                    ->visible(fn($get) => $get('showSubject')),
                 Forms\Components\RichEditor::make('body')
                     ->hiddenLabel()
                     ->placeholder(__('chatter::app.filament.actions.chatter.activity.form.type-your-message-here'))
                     ->required(),
+                Forms\Components\FileUpload::make('attachments')
+                    ->hiddenLabel()
+                    ->multiple()
+                    ->directory('messages-attachments')
+                    ->previewable(true)
+                    ->panelLayout('grid')
+                    ->imagePreviewHeight('100')
+                    ->acceptedFileTypes([
+                        'image/*',
+                        'application/pdf',
+                        'application/msword',
+                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                        'application/vnd.ms-excel',
+                        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                        'text/plain',
+                    ])
+                    ->maxSize(10240)
+                    ->helperText('Max file size: 10MB. Allowed types: Images, PDF, Word, Excel, Text')
+                    ->columnSpanFull(),
                 Forms\Components\Hidden::make('type')
                     ->default('comment'),
             ])
-            ->action(function (array $data, ?Model $record = null) {
+            ->action(function (MessageAction $action, array $data, ?Model $record = null) {
                 try {
                     $data['name'] = $record->name;
 
-                    $record->addMessage($data, Auth::user()->id);
+                    $message = $record->addMessage($data, Auth::user()->id);
+
+                    if (! empty($data['attachments'])) {
+                        $record->addAttachments(
+                            $data['attachments'],
+                            ['message_id' => $message->id],
+                        );
+                    }
 
                     Notification::make()
                         ->success()
@@ -79,7 +106,8 @@ class MessageAction extends Action
                 }
             })
             ->label(__('chatter::app.filament.actions.chatter.message.label'))
-            ->icon('heroicon-o-chat-bubble-oval-left-ellipsis')
+            ->icon('heroicon-o-chat-bubble-left-right')
+            ->modalIcon('heroicon-o-chat-bubble-left-right')
             ->modalSubmitAction(function ($action) {
                 $action->label(__('chatter::app.filament.actions.chatter.message.modal-submit-action.title'));
                 $action->icon('heroicon-m-paper-airplane');
