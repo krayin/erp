@@ -3,10 +3,10 @@
 namespace Webkul\Project\Filament\Resources\ProjectResource\Pages;
 
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
 use Webkul\Chatter\Filament\Actions as ChatterActions;
 use Webkul\Project\Filament\Resources\ProjectResource;
-use Filament\Notifications\Notification;
 
 class ViewProject extends ViewRecord
 {
@@ -23,7 +23,6 @@ class ViewProject extends ViewRecord
                         ->title('Project deleted')
                         ->body('The project has been deleted successfully.'),
                 ),
-            Actions\EditAction::make(),
         ];
     }
 }

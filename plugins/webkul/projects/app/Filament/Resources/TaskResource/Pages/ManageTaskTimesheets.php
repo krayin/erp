@@ -1,19 +1,29 @@
 <?php
 
-namespace Webkul\Project\Filament\Resources\TaskResource\RelationManagers;
+namespace Webkul\Project\Filament\Resources\TaskResource\Pages;
 
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
-use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Tables;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Project\Filament\Resources\TaskResource;
 
-class TimesheetsRelationManager extends RelationManager
+class ManageTaskTimesheets extends ManageRelatedRecords
 {
+    protected static string $resource = TaskResource::class;
+
     protected static string $relationship = 'timesheets';
+
+    protected static ?string $navigationIcon = 'heroicon-o-clock';
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Timesheets';
+    }
 
     public function form(Form $form): Form
     {

@@ -5,6 +5,7 @@ namespace Webkul\Project\Filament\Clusters\Configurations\Resources\ActivityPlan
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
+use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
@@ -17,7 +18,6 @@ use Webkul\Support\Enums\ActivityResponsibleType;
 use Webkul\Support\Filament\Resources\ActivityTypeResource;
 use Webkul\Support\Models\ActivityPlanTemplate;
 use Webkul\Support\Models\ActivityType;
-use Filament\Notifications\Notification;
 
 class ActivityTemplateRelationManager extends RelationManager
 {

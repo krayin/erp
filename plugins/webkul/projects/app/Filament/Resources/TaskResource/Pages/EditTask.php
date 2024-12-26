@@ -3,10 +3,10 @@
 namespace Webkul\Project\Filament\Resources\TaskResource\Pages;
 
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Webkul\Chatter\Filament\Actions\ChatterAction;
 use Webkul\Project\Filament\Resources\TaskResource;
-use Filament\Notifications\Notification;
 
 class EditTask extends EditRecord
 {
@@ -24,7 +24,6 @@ class EditTask extends EditRecord
     {
         return [
             ChatterAction::make(),
-            Actions\ViewAction::make(),
             Actions\DeleteAction::make()
                 ->successNotification(
                     Notification::make()

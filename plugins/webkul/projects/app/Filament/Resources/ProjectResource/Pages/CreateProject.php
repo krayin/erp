@@ -2,10 +2,10 @@
 
 namespace Webkul\Project\Filament\Resources\ProjectResource\Pages;
 
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Filament\Resources\ProjectResource;
-use Filament\Notifications\Notification;
 
 class CreateProject extends CreateRecord
 {

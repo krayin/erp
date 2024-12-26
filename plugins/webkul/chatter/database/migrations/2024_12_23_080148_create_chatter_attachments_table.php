@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('original_file_name')->nullable()->comment('Original File Name');
             $table->string('mime_type')->nullable()->comment('Mime Type');
 
-
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
 

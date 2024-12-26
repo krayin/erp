@@ -3,10 +3,10 @@
 namespace Webkul\Project\Filament\Resources\TaskResource\Pages;
 
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
 use Webkul\Chatter\Filament\Actions as ChatterActions;
 use Webkul\Project\Filament\Resources\TaskResource;
-use Filament\Notifications\Notification;
 
 class ViewTask extends ViewRecord
 {
@@ -23,7 +23,6 @@ class ViewTask extends ViewRecord
                         ->title('Task deleted')
                         ->body('The task has been deleted successfully.'),
                 ),
-            Actions\EditAction::make(),
         ];
     }
 }

@@ -3,7 +3,6 @@
 namespace Webkul\Chatter\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;

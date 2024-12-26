@@ -3,9 +3,9 @@
 namespace Webkul\Project\Filament\Clusters\Configurations\Resources\ActivityPlanResource\Pages;
 
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\ActivityPlanResource;
-use Filament\Notifications\Notification;
 
 class EditActivityPlan extends EditRecord
 {

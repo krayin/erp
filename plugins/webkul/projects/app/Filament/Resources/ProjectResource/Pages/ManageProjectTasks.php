@@ -4,6 +4,7 @@ namespace Webkul\Project\Filament\Resources\ProjectResource\Pages;
 
 use Filament\Actions;
 use Filament\Infolists\Infolist;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -15,7 +16,6 @@ use Webkul\Project\Filament\Resources\TaskResource;
 use Webkul\Project\Models\Task;
 use Webkul\TableViews\Components\PresetView;
 use Webkul\TableViews\Filament\Traits\HasTableViews;
-use Filament\Notifications\Notification;
 
 class ManageProjectTasks extends ManageRelatedRecords
 {
@@ -25,7 +25,7 @@ class ManageProjectTasks extends ManageRelatedRecords
 
     protected static string $relationship = 'tasks';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
     public static function getNavigationLabel(): string
     {

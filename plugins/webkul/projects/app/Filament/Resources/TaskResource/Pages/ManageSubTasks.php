@@ -1,11 +1,11 @@
 <?php
 
-namespace Webkul\Project\Filament\Resources\TaskResource\RelationManagers;
+namespace Webkul\Project\Filament\Resources\TaskResource\Pages;
 
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
-use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
@@ -14,9 +14,18 @@ use Webkul\Project\Filament\Resources\TaskResource;
 use Webkul\Project\Models\Task;
 use Webkul\Project\Models\TaskStage;
 
-class SubTasksRelationManager extends RelationManager
+class ManageSubTasks extends ManageRelatedRecords
 {
+    protected static string $resource = TaskResource::class;
+
     protected static string $relationship = 'subTasks';
+
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Sub Tasks';
+    }
 
     public function form(Form $form): Form
     {

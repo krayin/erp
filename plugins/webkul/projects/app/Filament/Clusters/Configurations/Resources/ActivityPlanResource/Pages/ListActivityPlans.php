@@ -3,12 +3,12 @@
 namespace Webkul\Project\Filament\Clusters\Configurations\Resources\ActivityPlanResource\Pages;
 
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\ActivityPlanResource;
 use Webkul\Support\Models\ActivityPlan;
-use Filament\Notifications\Notification;
 
 class ListActivityPlans extends ListRecords
 {

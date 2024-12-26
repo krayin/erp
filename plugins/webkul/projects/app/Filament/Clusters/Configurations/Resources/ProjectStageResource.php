@@ -4,6 +4,7 @@ namespace Webkul\Project\Filament\Clusters\Configurations\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -11,7 +12,6 @@ use Webkul\Project\Filament\Clusters\Configurations;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\ProjectStageResource\Pages;
 use Webkul\Project\Models\ProjectStage;
 use Webkul\Project\Settings\TaskSettings;
-use Filament\Notifications\Notification;
 
 class ProjectStageResource extends Resource
 {

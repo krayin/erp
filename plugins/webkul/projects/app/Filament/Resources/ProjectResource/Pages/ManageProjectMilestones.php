@@ -3,13 +3,13 @@
 namespace Webkul\Project\Filament\Resources\ProjectResource\Pages;
 
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\MilestoneResource;
 use Webkul\Project\Filament\Resources\ProjectResource;
-use Filament\Notifications\Notification;
 
 class ManageProjectMilestones extends ManageRelatedRecords
 {
@@ -17,7 +17,7 @@ class ManageProjectMilestones extends ManageRelatedRecords
 
     protected static string $relationship = 'milestones';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-flag';
 
     public static function getNavigationLabel(): string
     {

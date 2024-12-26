@@ -4,6 +4,7 @@ namespace Webkul\Project\Filament\Clusters\Configurations\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -13,7 +14,6 @@ use Webkul\Project\Filament\Resources\ProjectResource\Pages\ManageProjectMilesto
 use Webkul\Project\Filament\Resources\ProjectResource\RelationManagers\MilestonesRelationManager;
 use Webkul\Project\Models\Milestone;
 use Webkul\Project\Settings\TaskSettings;
-use Filament\Notifications\Notification;
 
 class MilestoneResource extends Resource
 {
