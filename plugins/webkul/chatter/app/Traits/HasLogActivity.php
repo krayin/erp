@@ -288,7 +288,11 @@ trait HasLogActivity
         }
 
         if ($value instanceof \UnitEnum) {
-            return $value->getLabel();
+            if (method_exists($value, 'getLabel')) {
+                return $value->getLabel();
+            }
+
+            return $value->value;
         }
 
         if (! is_array($value) && json_decode($value, true)) {
