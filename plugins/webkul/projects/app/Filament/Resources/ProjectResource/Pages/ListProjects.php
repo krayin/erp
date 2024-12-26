@@ -19,12 +19,12 @@ class ListProjects extends ListRecords
     public function getPresetTableViews(): array
     {
         return [
-            'my_projects' => PresetView::make('My Projects')
+            'my_projects' => PresetView::make(__('projects::app.filament.resources.project.pages.list.tabs.my-projects'))
                 ->icon('heroicon-s-user')
                 ->favorite()
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('user_id', Auth::id())),
 
-            'my_favorite_projects' => PresetView::make('My Favorites')
+            'my_favorite_projects' => PresetView::make(__('projects::app.filament.resources.project.pages.list.tabs.my-favorite-projects'))
                 ->icon('heroicon-s-star')
                 ->favorite()
                 ->modifyQueryUsing(function (Builder $query) {
@@ -33,12 +33,12 @@ class ListProjects extends ListRecords
                         ->where('projects_user_project_favorites.user_id', Auth::id());
                 }),
 
-            'unassigned_projects' => PresetView::make('Unassigned Projects')
+            'unassigned_projects' => PresetView::make(__('projects::app.filament.resources.project.pages.list.tabs.unassigned-projects'))
                 ->icon('heroicon-s-user-minus')
                 ->favorite()
                 ->modifyQueryUsing(fn (Builder $query) => $query->whereNull('user_id')),
 
-            'archived_projects' => PresetView::make('Archived Projects')
+            'archived_projects' => PresetView::make(__('projects::app.filament.resources.project.pages.list.tabs.archived-projects'))
                 ->icon('heroicon-s-archive-box')
                 ->favorite()
                 ->modifyQueryUsing(function ($query) {
@@ -51,7 +51,7 @@ class ListProjects extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-                ->label('New Project')
+                ->label(__('projects::app.filament.resources.project.pages.list.header-actions.create.label'))
                 ->icon('heroicon-o-plus-circle'),
         ];
     }

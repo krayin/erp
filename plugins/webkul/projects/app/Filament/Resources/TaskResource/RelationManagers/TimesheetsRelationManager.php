@@ -22,23 +22,23 @@ class TimesheetsRelationManager extends RelationManager
                 Forms\Components\Hidden::make('type')
                     ->default('projects'),
                 Forms\Components\DatePicker::make('date')
-                    ->label('Date')
+                    ->label(__('projects::app.filament.resources.task.relation-managers.timesheets.form.date'))
                     ->required()
                     ->native(false),
                 Forms\Components\Select::make('user_id')
-                    ->label('Employee')
+                    ->label(__('projects::app.filament.resources.task.relation-managers.timesheets.form.employee'))
                     ->required()
                     ->relationship('user', 'name')
                     ->searchable()
                     ->preload(),
                 Forms\Components\TextInput::make('name')
-                    ->label('Description'),
+                    ->label(__('projects::app.filament.resources.task.relation-managers.timesheets.form.description')),
                 Forms\Components\TextInput::make('unit_amount')
-                    ->label('Time Spent')
+                    ->label(__('projects::app.filament.resources.task.relation-managers.timesheets.form.time-spent'))
                     ->numeric()
                     ->required()
                     ->minValue(0)
-                    ->helperText('Time spent in hours (Eg. 1.5 hours means 1 hour 30 minutes)'),
+                    ->helperText(__('projects::app.filament.resources.task.relation-managers.timesheets.form.time-spent-helper-text')),
             ])
             ->columns(1);
     }
@@ -50,13 +50,17 @@ class TimesheetsRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('date')
                     ->label('Date')
+                    ->label(__('projects::app.filament.resources.task.relation-managers.timesheets.table.columns.date'))
                     ->date('Y-m-d'),
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('Employee'),
+                    ->label('Employee')
+                    ->label(__('projects::app.filament.resources.task.relation-managers.timesheets.table.columns.employee')),
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Description'),
+                    ->label('Description')
+                    ->label(__('projects::app.filament.resources.task.relation-managers.timesheets.table.columns.description')),
                 Tables\Columns\TextColumn::make('unit_amount')
                     ->label('Time Spent')
+                    ->label(__('projects::app.filament.resources.task.relation-managers.timesheets.table.columns.time-spent'))
                     ->formatStateUsing(function ($state) {
                         $hours = floor($state);
                         $minutes = ($hours - $hours) * 60;
@@ -66,6 +70,7 @@ class TimesheetsRelationManager extends RelationManager
                     ->summarize([
                         Sum::make()
                             ->label('Time Spent')
+                            ->label(__('projects::app.filament.resources.task.relation-managers.timesheets.table.columns.time-spent'))
                             ->formatStateUsing(function ($state) {
                                 $hours = floor($state);
                                 $minutes = ($state - $hours) * 60;
@@ -74,6 +79,7 @@ class TimesheetsRelationManager extends RelationManager
                             }),
                         Sum::make()
                             ->label('Time Spent on Subtasks')
+                            ->label(__('projects::app.filament.resources.task.relation-managers.timesheets.table.columns.time-spent-on-subtasks'))
                             ->formatStateUsing(function ($state) {
                                 $subtaskHours = $this->getOwnerRecord()->subtask_effective_hours;
                                 $hours = floor($subtaskHours);
@@ -83,6 +89,7 @@ class TimesheetsRelationManager extends RelationManager
                             }),
                         Sum::make()
                             ->label('Total Time Spent')
+                            ->label(__('projects::app.filament.resources.task.relation-managers.timesheets.table.columns.total-time-spent'))
                             ->formatStateUsing(function ($state) {
                                 $subtaskHours = $this->getOwnerRecord()->total_hours_spent;
                                 $hours = floor($subtaskHours);
@@ -92,6 +99,7 @@ class TimesheetsRelationManager extends RelationManager
                             }),
                         Sum::make()
                             ->label('Remaining Time')
+                            ->label(__('projects::app.filament.resources.task.relation-managers.timesheets.table.columns.remaining-time'))
                             ->formatStateUsing(function () {
                                 $remainingHours = $this->getOwnerRecord()->remaining_hours;
 
@@ -106,6 +114,7 @@ class TimesheetsRelationManager extends RelationManager
             ->headerActions([
                 Tables\Actions\CreateAction::make()
                     ->label('Add Timesheet')
+                    ->label(__('projects::app.filament.resources.task.relation-managers.timesheets.table.header-actions.create.label'))
                     ->icon('heroicon-o-plus-circle')
                     ->mutateFormDataUsing(function (array $data): array {
                         $data['creator_id'] = Auth::id();
@@ -121,8 +130,8 @@ class TimesheetsRelationManager extends RelationManager
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Timesheet created')
-                            ->body('The timesheet has been created successfully.'),
+                            ->title(__('projects::app.filament.resources.task.relation-managers.timesheets.table.header-actions.create.notification.title'))
+                            ->body(__('projects::app.filament.resources.task.relation-managers.timesheets.table.header-actions.create.notification.body')),
                     ),
             ])
             ->actions([
@@ -130,15 +139,15 @@ class TimesheetsRelationManager extends RelationManager
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Timesheet updated')
-                            ->body('The timesheet has been updated successfully.'),
+                            ->title(__('projects::app.filament.resources.task.relation-managers.timesheets.table.actions.edit.notification.title'))
+                            ->body(__('projects::app.filament.resources.task.relation-managers.timesheets.table.actions.edit.notification.body')),
                     ),
                 Tables\Actions\DeleteAction::make()
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Timesheet deleted')
-                            ->body('The timesheet has been deleted successfully.'),
+                            ->title(__('projects::app.filament.resources.task.relation-managers.timesheets.table.actions.delete.notification.title'))
+                            ->body(__('projects::app.filament.resources.task.relation-managers.timesheets.table.actions.delete.notification.body')),
                     ),
             ])
             ->paginated(false);

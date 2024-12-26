@@ -23,6 +23,8 @@ class FieldResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-puzzle-piece';
 
+    protected static ?int $navigationSort = 5;
+
     public static function getModelLabel(): string
     {
         return __('fields::app.model-label');

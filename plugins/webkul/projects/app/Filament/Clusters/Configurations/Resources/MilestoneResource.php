@@ -10,7 +10,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Webkul\Project\Filament\Clusters\Configurations;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\MilestoneResource\Pages;
-use Webkul\Project\Filament\Resources\ProjectResource\Pages\ManageProjectMilestones;
+use Webkul\Project\Filament\Resources\ProjectResource\Pages\ManageMilestones;
 use Webkul\Project\Filament\Resources\ProjectResource\RelationManagers\MilestonesRelationManager;
 use Webkul\Project\Models\Milestone;
 use Webkul\Project\Settings\TaskSettings;
@@ -24,6 +24,11 @@ class MilestoneResource extends Resource
     protected static ?int $navigationSort = 3;
 
     protected static ?string $cluster = Configurations::class;
+
+    public static function getNavigationLabel(): string
+    {
+        return __('projects::app.filament.clusters.configurations.resources.milestone.navigation.title');
+    }
 
     public static function isDiscovered(): bool
     {
@@ -39,21 +44,21 @@ class MilestoneResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('Name')
+                    ->label(__('projects::app.filament.clusters.configurations.resources.milestone.form.name'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\DateTimePicker::make('deadline')
-                    ->label('Deadline')
+                    ->label(__('projects::app.filament.clusters.configurations.resources.milestone.form.deadline'))
                     ->native(false),
                 Forms\Components\Toggle::make('is_completed')
-                    ->label('Is Completed')
+                    ->label(__('projects::app.filament.clusters.configurations.resources.milestone.form.is-completed'))
                     ->required(),
                 Forms\Components\Select::make('project_id')
-                    ->label('Project')
+                    ->label(__('projects::app.filament.clusters.configurations.resources.milestone.form.project'))
                     ->relationship('project', 'name')
                     ->hiddenOn([
                         MilestonesRelationManager::class,
-                        ManageProjectMilestones::class,
+                        ManageMilestones::class,
                     ])
                     ->required()
                     ->searchable()
@@ -67,70 +72,72 @@ class MilestoneResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Name')
+                    ->label(__('projects::app.filament.clusters.configurations.resources.milestone.table.columns.name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('deadline')
-                    ->label('Deadline')
+                    ->label(__('projects::app.filament.clusters.configurations.resources.milestone.table.columns.deadline'))
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\ToggleColumn::make('is_completed')
-                    ->label('Is Completed')
+                    ->label(__('projects::app.filament.clusters.configurations.resources.milestone.table.columns.is-completed'))
                     ->beforeStateUpdated(function ($record, $state) {
                         $record->completed_at = $state ? now() : null;
                     }),
                 Tables\Columns\TextColumn::make('completed_at')
-                    ->label('Completed At')
+                    ->label(__('projects::app.filament.clusters.configurations.resources.milestone.table.columns.completed-at'))
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('project.name')
-                    ->label('Project')
+                    ->label(__('projects::app.filament.clusters.configurations.resources.milestone.table.columns.project'))
                     ->hiddenOn([
                         MilestonesRelationManager::class,
-                        ManageProjectMilestones::class,
+                        ManageMilestones::class,
                     ])
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('creator.name')
-                    ->label('Creator')
+                    ->label(__('projects::app.filament.clusters.configurations.resources.milestone.table.columns.creator'))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created At')
+                    ->label(__('projects::app.filament.clusters.configurations.resources.milestone.table.columns.created-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Updated At')
+                    ->label(__('projects::app.filament.clusters.configurations.resources.milestone.table.columns.updated-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->groups([
+                Tables\Grouping\Group::make('project.name')
+                    ->label(__('projects::app.filament.clusters.configurations.resources.milestone.table.groups.project')),
+                Tables\Grouping\Group::make('is_completed')
+                    ->label(__('projects::app.filament.clusters.configurations.resources.milestone.table.groups.is-completed')),
+                Tables\Grouping\Group::make('created_at')
+                    ->label(__('projects::app.filament.clusters.configurations.resources.milestone.table.groups.created-at'))
+                    ->date(),
+            ])
             ->filters([
                 Tables\Filters\TernaryFilter::make('is_completed')
-                    ->label('Is Completed'),
+                    ->label('Is Completed')
+                    ->label(__('projects::app.filament.clusters.configurations.resources.milestone.table.filters.is-completed')),
                 Tables\Filters\SelectFilter::make('project_id')
                     ->label('Project')
+                    ->label(__('projects::app.filament.clusters.configurations.resources.milestone.table.filters.project'))
                     ->relationship('project', 'name')
                     ->hiddenOn([
                         MilestonesRelationManager::class,
-                        ManageProjectMilestones::class,
+                        ManageMilestones::class,
                     ])
                     ->searchable()
                     ->preload(),
                 Tables\Filters\SelectFilter::make('creator_id')
-                    ->label('Creator')
+                    ->label(__('projects::app.filament.clusters.configurations.resources.milestone.table.filters.creator'))
                     ->relationship('creator', 'name')
                     ->searchable()
                     ->preload(),
-            ])
-            ->groups([
-                Tables\Grouping\Group::make('project.name')
-                    ->label('Project'),
-                Tables\Grouping\Group::make('is_completed')
-                    ->label('Is Completed'),
-                Tables\Grouping\Group::make('created_at')
-                    ->label('Created At')
-                    ->date(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()

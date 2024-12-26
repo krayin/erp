@@ -15,8 +15,8 @@ class CreateTask extends CreateRecord
     {
         return Notification::make()
             ->success()
-            ->title('Task created')
-            ->body('The task has been created successfully.');
+            ->title(__('projects::app.filament.resources.task.pages.create.notification.title'))
+            ->body(__('projects::app.filament.resources.task.pages.create.notification.body'));
     }
 
     protected function mutateFormDataBeforeCreate(array $data): array

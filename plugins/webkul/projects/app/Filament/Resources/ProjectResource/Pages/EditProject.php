@@ -16,8 +16,8 @@ class EditProject extends EditRecord
     {
         return Notification::make()
             ->success()
-            ->title('Project updated')
-            ->body('The project has been saved successfully.');
+            ->title(__('projects::app.filament.resources.project.pages.edit.notification.title'))
+            ->body(__('projects::app.filament.resources.project.pages.edit.notification.body'));
     }
 
     protected function getHeaderActions(): array
@@ -28,8 +28,8 @@ class EditProject extends EditRecord
                 ->successNotification(
                     Notification::make()
                         ->success()
-                        ->title('Project deleted')
-                        ->body('The project has been deleted successfully.'),
+                        ->title(__('projects::app.filament.resources.project.pages.edit.header-actions.delete.notification.title'))
+                        ->body(__('projects::app.filament.resources.project.pages.edit.header-actions.delete.notification.body')),
                 ),
         ];
     }
