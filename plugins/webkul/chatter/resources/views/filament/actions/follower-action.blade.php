@@ -1,5 +1,5 @@
 <div class="max-h-[400px] w-full overflow-y-auto">
-    @forelse($followers as $follower)
+    @forelse($record->followers as $follower)
         <div
             wire:key="non-follower-{{ $follower->user->id }}"
             class="group flex items-center justify-between rounded-lg p-2 transition-colors hover:bg-gray-50"

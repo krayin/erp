@@ -62,7 +62,7 @@ class ProjectResource extends Resource
     {
         return [
             __('projects::app.filament.resources.project.global-search.project-manager') => $record->user?->name ?? '—',
-            __('projects::app.filament.resources.project.global-search.customer') => $record->partner?->name ?? '—',
+            __('projects::app.filament.resources.project.global-search.customer')        => $record->partner?->name ?? '—',
         ];
     }
 
@@ -569,14 +569,14 @@ class ProjectResource extends Resource
             RelationGroup::make('Task Stages', [
                 RelationManagers\TaskStagesRelationManager::class,
             ])
-            ->icon('heroicon-o-squares-2x2'),
+                ->icon('heroicon-o-squares-2x2'),
         ];
 
         if (app(TaskSettings::class)->enable_milestones) {
             $relations[] = RelationGroup::make('Milestones', [
                 RelationManagers\MilestonesRelationManager::class,
             ])
-            ->icon('heroicon-o-flag');
+                ->icon('heroicon-o-flag');
         }
 
         return $relations;

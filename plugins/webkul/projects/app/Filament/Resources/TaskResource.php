@@ -63,8 +63,8 @@ class TaskResource extends Resource
     public static function getGlobalSearchResultDetails(Model $record): array
     {
         return [
-            __('projects::app.filament.resources.task.global-search.project') => $record->project?->name ?? '—',
-            __('projects::app.filament.resources.task.global-search.customer') => $record->partner?->name ?? '—',
+            __('projects::app.filament.resources.task.global-search.project')   => $record->project?->name ?? '—',
+            __('projects::app.filament.resources.task.global-search.customer')  => $record->partner?->name ?? '—',
             __('projects::app.filament.resources.task.global-search.milestone') => $record->milestone?->name ?? '—',
         ];
     }
@@ -767,13 +767,13 @@ class TaskResource extends Resource
             $relations[] = RelationGroup::make('Timesheets', [
                 RelationManagers\TimesheetsRelationManager::class,
             ])
-            ->icon('heroicon-o-clock');
+                ->icon('heroicon-o-clock');
         }
 
         $relations[] = RelationGroup::make('Sub Tasks', [
             RelationManagers\SubTasksRelationManager::class,
         ])
-        ->icon('heroicon-o-clipboard-document-list');
+            ->icon('heroicon-o-clipboard-document-list');
 
         return $relations;
     }

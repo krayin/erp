@@ -23,6 +23,7 @@ class FileAction extends Action
         $this
             ->color('gray')
             ->outlined()
+            ->tooltip('Upload Files')
             ->badge(fn ($record) => $record->attachments()->count())
             ->form([
                 Forms\Components\FileUpload::make('files')

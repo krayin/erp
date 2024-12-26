@@ -16,21 +16,21 @@ return [
                         ],
 
                         'form' => [
-                            'name' => 'Name',
+                            'name'   => 'Name',
                             'status' => 'Status',
                         ],
 
                         'table' => [
                             'columns' => [
-                                'name' => 'Name',
-                                'status' => 'Status',
+                                'name'       => 'Name',
+                                'status'     => 'Status',
                                 'created-at' => 'Created At',
                                 'updated-at' => 'Updated At',
                             ],
 
                             'groups' => [
-                                'name' => 'Name',
-                                'status' => 'Status',
+                                'name'       => 'Name',
+                                'status'     => 'Status',
                                 'created-at' => 'Created At',
                                 'updated-at' => 'Updated At',
                             ],
@@ -39,21 +39,21 @@ return [
                                 'restore' => [
                                     'notification' => [
                                         'title' => 'Activity Plan restored',
-                                        'body' => 'The activity plan has been restored successfully.',
+                                        'body'  => 'The activity plan has been restored successfully.',
                                     ],
                                 ],
 
                                 'delete' => [
                                     'notification' => [
                                         'title' => 'Activity Plan deleted',
-                                        'body' => 'The activity plan has been deleted successfully.',
+                                        'body'  => 'The activity plan has been deleted successfully.',
                                     ],
                                 ],
 
                                 'force-delete' => [
                                     'notification' => [
                                         'title' => 'Activity Plan force deleted',
-                                        'body' => 'The activity plan has been force deleted successfully.',
+                                        'body'  => 'The activity plan has been force deleted successfully.',
                                     ],
                                 ],
                             ],
@@ -62,28 +62,28 @@ return [
                                 'restore' => [
                                     'notification' => [
                                         'title' => 'Activity Plans restored',
-                                        'body' => 'The activity plans has been restored successfully.',
+                                        'body'  => 'The activity plans has been restored successfully.',
                                     ],
                                 ],
 
                                 'delete' => [
                                     'notification' => [
                                         'title' => 'Activity Plans deleted',
-                                        'body' => 'The activity plans has been deleted successfully.',
+                                        'body'  => 'The activity plans has been deleted successfully.',
                                     ],
                                 ],
 
                                 'force-delete' => [
                                     'notification' => [
                                         'title' => 'Activity Plans force deleted',
-                                        'body' => 'The activity plans has been force deleted successfully.',
+                                        'body'  => 'The activity plans has been force deleted successfully.',
                                     ],
                                 ],
                             ],
                         ],
 
                         'infolist' => [
-                            'name' => 'Name',
+                            'name'   => 'Name',
                             'status' => 'Status',
                         ],
 
@@ -91,14 +91,14 @@ return [
                             'edit' => [
                                 'notification' => [
                                     'title' => 'Activity Plan updated',
-                                    'body' => 'The activity plan has been updated successfully.',
+                                    'body'  => 'The activity plan has been updated successfully.',
                                 ],
 
                                 'header-actions' => [
                                     'delete' => [
                                         'notification' => [
                                             'title' => 'Activity Plan deleted',
-                                            'body' => 'The activity plan has been deleted successfully.',
+                                            'body'  => 'The activity plan has been deleted successfully.',
                                         ],
                                     ],
                                 ],
@@ -106,7 +106,7 @@ return [
 
                             'list' => [
                                 'tabs' => [
-                                    'all' => 'All',
+                                    'all'      => 'All',
                                     'archived' => 'Archived',
                                 ],
 
@@ -114,7 +114,7 @@ return [
                                     'delete' => [
                                         'notification' => [
                                             'title' => 'Activity Plan deleted',
-                                            'body' => 'The activity plan has been deleted successfully.',
+                                            'body'  => 'The activity plan has been deleted successfully.',
                                         ],
                                     ],
                                 ],
@@ -132,35 +132,35 @@ return [
                         ],
 
                         'form' => [
-                            'name' => 'Name',
-                            'deadline' => 'Deadline',
+                            'name'         => 'Name',
+                            'deadline'     => 'Deadline',
                             'is-completed' => 'Is Completed',
-                            'project' => 'Project',
+                            'project'      => 'Project',
                         ],
 
                         'table' => [
                             'columns' => [
-                                'name' => 'Name',
-                                'deadline' => 'Deadline',
+                                'name'         => 'Name',
+                                'deadline'     => 'Deadline',
                                 'is-completed' => 'Is Completed',
                                 'completed-at' => 'Completed At',
-                                'project' => 'Project',
-                                'creator' => 'Creator',
-                                'created-at' => 'Created At',
-                                'updated-at' => 'Updated At',
+                                'project'      => 'Project',
+                                'creator'      => 'Creator',
+                                'created-at'   => 'Created At',
+                                'updated-at'   => 'Updated At',
                             ],
 
                             'groups' => [
-                                'name' => 'Name',
+                                'name'         => 'Name',
                                 'is-completed' => 'Is Completed',
-                                'project' => 'Project',
-                                'created-at' => 'Created At',
+                                'project'      => 'Project',
+                                'created-at'   => 'Created At',
                             ],
 
                             'filters' => [
                                 'is-completed' => 'Is Completed',
-                                'project' => 'Project',
-                                'creator' => 'Creator',
+                                'project'      => 'Project',
+                                'creator'      => 'Creator',
                             ],
                         ],
                     ],
@@ -177,7 +177,7 @@ return [
 
                 'global-search' => [
                     'project-manager' => 'Project Manager',
-                    'customer'        => 'Customer'
+                    'customer'        => 'Customer',
                 ],
 
                 'form' => [
@@ -196,13 +196,13 @@ return [
                             'title' => 'Additional Information',
 
                             'fields' => [
-                                'project-manager' => 'Project Manager',
-                                'customer'        => 'Customer',
-                                'start-date'      => 'Start Date',
-                                'end-date'        => 'End Date',
-                                'allocated-hours' => 'Allocated Hours',
+                                'project-manager'             => 'Project Manager',
+                                'customer'                    => 'Customer',
+                                'start-date'                  => 'Start Date',
+                                'end-date'                    => 'End Date',
+                                'allocated-hours'             => 'Allocated Hours',
                                 'allocated-hours-helper-text' => 'In hours (Eg. 1.5 hours means 1 hour 30 minutes)',
-                                'tags' => 'Tags',
+                                'tags'                        => 'Tags',
                             ],
                         ],
 
@@ -210,16 +210,16 @@ return [
                             'title' => 'Settings',
 
                             'fields' => [
-                                'visibility' => 'Visibility',
-                                'visibility-hint-tooltip' => 'Grant employees access to your project or tasks by adding them as followers. Employees automatically get access to the tasks they are assigned to.',
-                                'private-description' => 'Invited internal users only.',
-                                'internal-description' => 'All internal users can see.',
-                                'public-description' => 'Invited portal users and all internal users.',
-                                'time-management' => 'Time Management',
-                                'allow-timesheets' => 'Allow Timesheets',
+                                'visibility'                   => 'Visibility',
+                                'visibility-hint-tooltip'      => 'Grant employees access to your project or tasks by adding them as followers. Employees automatically get access to the tasks they are assigned to.',
+                                'private-description'          => 'Invited internal users only.',
+                                'internal-description'         => 'All internal users can see.',
+                                'public-description'           => 'Invited portal users and all internal users.',
+                                'time-management'              => 'Time Management',
+                                'allow-timesheets'             => 'Allow Timesheets',
                                 'allow-timesheets-helper-text' => 'Log time on tasks and track progress',
-                                'task-management' => 'Task Management',
-                                'allow-milestones' => 'Allow Milestones',
+                                'task-management'              => 'Task Management',
+                                'allow-milestones'             => 'Allow Milestones',
                                 'allow-milestones-helper-text' => 'Track major progress points that must be reached to achieve success',
                             ],
                         ],
@@ -228,62 +228,62 @@ return [
 
                 'table' => [
                     'columns' => [
-                        'name' => 'Name',
-                        'customer' => 'Customer',
-                        'start-date' => 'Start Date',
-                        'end-date' => 'End Date',
-                        'planned-date' => 'Planned Date',
+                        'name'            => 'Name',
+                        'customer'        => 'Customer',
+                        'start-date'      => 'Start Date',
+                        'end-date'        => 'End Date',
+                        'planned-date'    => 'Planned Date',
                         'remaining-hours' => 'Remaining Hours',
                         'project-manager' => 'Project Manager',
                     ],
 
                     'groups' => [
-                        'stage' => 'Stage',
+                        'stage'           => 'Stage',
                         'project-manager' => 'Project Manager',
-                        'customer' => 'Customer',
-                        'created-at' => 'Created At',
+                        'customer'        => 'Customer',
+                        'created-at'      => 'Created At',
                     ],
 
                     'filters' => [
-                        'name' => 'Name',
-                        'visibility' => 'Visibility',
-                        'start-date' => 'Start Date',
-                        'end-date' => 'End Date',
+                        'name'             => 'Name',
+                        'visibility'       => 'Visibility',
+                        'start-date'       => 'Start Date',
+                        'end-date'         => 'End Date',
                         'allow-timesheets' => 'Allow Timesheets',
                         'allow-milestones' => 'Allow Milestones',
-                        'allocated-hours' => 'Allocated Hours',
-                        'created-at' => 'Created At',
-                        'updated-at' => 'Updated At',
-                        'stage' => 'Stage',
-                        'customer' => 'Customer',
-                        'project-manager' => 'Project Manager',
-                        'company' => 'Company',
-                        'creator' => 'Creator',
-                        'tags' => 'Tags',
+                        'allocated-hours'  => 'Allocated Hours',
+                        'created-at'       => 'Created At',
+                        'updated-at'       => 'Updated At',
+                        'stage'            => 'Stage',
+                        'customer'         => 'Customer',
+                        'project-manager'  => 'Project Manager',
+                        'company'          => 'Company',
+                        'creator'          => 'Creator',
+                        'tags'             => 'Tags',
                     ],
 
                     'actions' => [
-                        'tasks' => ':count Tasks',
+                        'tasks'      => ':count Tasks',
                         'milestones' => ':completed milestones completed out of :all',
 
                         'restore' => [
                             'notification' => [
                                 'title' => 'Project restored',
-                                'body' => 'The project has been restored successfully.',
+                                'body'  => 'The project has been restored successfully.',
                             ],
                         ],
 
                         'delete' => [
                             'notification' => [
                                 'title' => 'Project deleted',
-                                'body' => 'The project has been deleted successfully.',
+                                'body'  => 'The project has been deleted successfully.',
                             ],
                         ],
 
                         'force-delete' => [
                             'notification' => [
                                 'title' => 'Project force deleted',
-                                'body' => 'The project has been force deleted successfully.',
+                                'body'  => 'The project has been force deleted successfully.',
                             ],
                         ],
                     ],
@@ -305,15 +305,15 @@ return [
                             'title' => 'Additional Information',
 
                             'entries' => [
-                                'project-manager' => 'Project Manager',
-                                'customer'        => 'Customer',
-                                'project-timeline' => 'Project Timeline',
-                                'allocated-hours' => 'Allocated Hours',
+                                'project-manager'        => 'Project Manager',
+                                'customer'               => 'Customer',
+                                'project-timeline'       => 'Project Timeline',
+                                'allocated-hours'        => 'Allocated Hours',
                                 'allocated-hours-suffix' => ' Hours',
-                                'remaining-hours' => 'Remaining Hours',
+                                'remaining-hours'        => 'Remaining Hours',
                                 'remaining-hours-suffix' => ' Hours',
-                                'current-stage' => 'Current Stage',
-                                'tags' => 'Tags',
+                                'current-stage'          => 'Current Stage',
+                                'tags'                   => 'Tags',
                             ],
                         ],
 
@@ -321,7 +321,7 @@ return [
                             'title' => 'Statistics',
 
                             'entries' => [
-                                'total-tasks' => 'Total Tasks',
+                                'total-tasks'         => 'Total Tasks',
                                 'milestones-progress' => 'Milestones Progress',
                             ],
                         ],
@@ -330,8 +330,8 @@ return [
                             'title' => 'Record Information',
 
                             'entries' => [
-                                'created-at' => 'Created At',
-                                'created-by' => 'Created By',
+                                'created-at'   => 'Created At',
+                                'created-by'   => 'Created By',
                                 'last-updated' => 'Last Updated',
                             ],
                         ],
@@ -340,7 +340,7 @@ return [
                             'title' => 'Project Settings',
 
                             'entries' => [
-                                'visibility' => 'Visibility',
+                                'visibility'         => 'Visibility',
                                 'timesheets-enabled' => 'Timesheets Enabled',
                                 'milestones-enabled' => 'Milestones Enabled',
                             ],
@@ -352,14 +352,14 @@ return [
                     'create' => [
                         'notification' => [
                             'title' => 'Project created',
-                            'body' => 'The project has been created successfully.',
+                            'body'  => 'The project has been created successfully.',
                         ],
                     ],
 
                     'edit' => [
                         'notification' => [
                             'title' => 'Project updated',
-                            'body' => 'The project has been updated successfully.',
+                            'body'  => 'The project has been updated successfully.',
                         ],
 
                         'header-actions' => [
@@ -368,7 +368,7 @@ return [
 
                                 'notification' => [
                                     'title' => 'Project updated',
-                                    'body' => 'The project has been updated successfully.',
+                                    'body'  => 'The project has been updated successfully.',
                                 ],
                             ],
                         ],
@@ -377,16 +377,16 @@ return [
                     'delete' => [
                         'notification' => [
                             'title' => 'Project updated',
-                            'body' => 'The project has been updated successfully.',
+                            'body'  => 'The project has been updated successfully.',
                         ],
                     ],
 
                     'list' => [
                         'tabs' => [
-                            'my-projects' => 'My Projects',
+                            'my-projects'          => 'My Projects',
                             'my-favorite-projects' => 'My Favorites',
-                            'unassigned-projects' => 'Unassigned Projects',
-                            'archived-projects' => 'Archived Projects',
+                            'unassigned-projects'  => 'Unassigned Projects',
+                            'archived-projects'    => 'Archived Projects',
                         ],
 
                         'header-actions' => [
@@ -401,7 +401,7 @@ return [
                             'delete' => [
                                 'notification' => [
                                     'title' => 'Project deleted',
-                                    'body' => 'The project has been deleted successfully.',
+                                    'body'  => 'The project has been deleted successfully.',
                                 ],
                             ],
                         ],
@@ -417,7 +417,7 @@ return [
 
                                     'notification' => [
                                         'title' => 'Milestone created',
-                                        'body' => 'The milestone has been created successfully.',
+                                        'body'  => 'The milestone has been created successfully.',
                                     ],
                                 ],
                             ],
@@ -438,33 +438,33 @@ return [
                                 'restore' => [
                                     'notification' => [
                                         'title' => 'Task restored',
-                                        'body' => 'The task has been restored successfully.',
+                                        'body'  => 'The task has been restored successfully.',
                                     ],
                                 ],
 
                                 'delete' => [
                                     'notification' => [
                                         'title' => 'Task deleted',
-                                        'body' => 'The task has been deleted successfully.',
+                                        'body'  => 'The task has been deleted successfully.',
                                     ],
                                 ],
-                                
+
                                 'force-delete' => [
                                     'notification' => [
                                         'title' => 'Task force deleted',
-                                        'body' => 'The task has been force deleted successfully.',
+                                        'body'  => 'The task has been force deleted successfully.',
                                     ],
                                 ],
                             ],
                         ],
 
                         'tabs' => [
-                            'open-tasks' => 'Open Tasks',
-                            'my-tasks' => 'My Tasks',
+                            'open-tasks'       => 'Open Tasks',
+                            'my-tasks'         => 'My Tasks',
                             'unassigned-tasks' => 'Unassigned Tasks',
-                            'closed-tasks' => 'Closed Tasks',
-                            'starred-tasks' => 'Starred Tasks',
-                            'archived-tasks' => 'Archived Tasks',
+                            'closed-tasks'     => 'Closed Tasks',
+                            'starred-tasks'    => 'Starred Tasks',
+                            'archived-tasks'   => 'Archived Tasks',
                         ],
                     ],
                 ],
@@ -478,7 +478,7 @@ return [
 
                                     'notification' => [
                                         'title' => 'Milestone created',
-                                        'body' => 'The milestone has been created successfully.',
+                                        'body'  => 'The milestone has been created successfully.',
                                     ],
                                 ],
                             ],
@@ -493,7 +493,7 @@ return [
 
                                     'notification' => [
                                         'title' => 'Task Stage created',
-                                        'body' => 'The task Stage has been created successfully.',
+                                        'body'  => 'The task Stage has been created successfully.',
                                     ],
                                 ],
                             ],
@@ -542,15 +542,15 @@ return [
                             'title' => 'Settings',
 
                             'fields' => [
-                                'project'             => 'Project',
-                                'milestone'           => 'Milestone',
-                                'milestone-hint-text' => 'Deliver your services automatically when a milestone is reached by linking it to a sales order item.',
-                                'name'                => 'Name',
-                                'deadline'            => 'Deadline',
-                                'is-completed'        => 'Is Completed',
-                                'customer'            => 'Customer',
-                                'assignees'           => 'Assignees',
-                                'allocated-hours'     => 'Allocated Hours',
+                                'project'                     => 'Project',
+                                'milestone'                   => 'Milestone',
+                                'milestone-hint-text'         => 'Deliver your services automatically when a milestone is reached by linking it to a sales order item.',
+                                'name'                        => 'Name',
+                                'deadline'                    => 'Deadline',
+                                'is-completed'                => 'Is Completed',
+                                'customer'                    => 'Customer',
+                                'assignees'                   => 'Assignees',
+                                'allocated-hours'             => 'Allocated Hours',
                                 'allocated-hours-helper-text' => 'In hours (Eg. 1.5 hours means 1 hour 30 minutes)',
                             ],
                         ],
@@ -590,48 +590,48 @@ return [
                     ],
 
                     'filters' => [
-                        'title' => 'Title',
-                        'priority' => 'Priority',
-                        'low' => 'Low',
-                        'high' => 'High',
-                        'state' => 'State',
-                        'tags' => 'Tags',
-                        'allocated-hours' => 'Allocated Hours',
+                        'title'             => 'Title',
+                        'priority'          => 'Priority',
+                        'low'               => 'Low',
+                        'high'              => 'High',
+                        'state'             => 'State',
+                        'tags'              => 'Tags',
+                        'allocated-hours'   => 'Allocated Hours',
                         'total-hours-spent' => 'Total Hours Spent',
-                        'remaining-hours' => 'Remaining Hours',
-                        'overtime' => 'Overtime',
-                        'progress' => 'Progress',
-                        'deadline' => 'Deadline',
-                        'created-at' => 'Created At',
-                        'updated-at' => 'Updated At',
-                        'assignees' => 'Assignees',
-                        'customer' => 'Customer',
-                        'project' => 'Project',
-                        'stage' => 'Stage',
-                        'milestone' => 'Milestone',
-                        'company' => 'Company',
-                        'creator' => 'Creator',
+                        'remaining-hours'   => 'Remaining Hours',
+                        'overtime'          => 'Overtime',
+                        'progress'          => 'Progress',
+                        'deadline'          => 'Deadline',
+                        'created-at'        => 'Created At',
+                        'updated-at'        => 'Updated At',
+                        'assignees'         => 'Assignees',
+                        'customer'          => 'Customer',
+                        'project'           => 'Project',
+                        'stage'             => 'Stage',
+                        'milestone'         => 'Milestone',
+                        'company'           => 'Company',
+                        'creator'           => 'Creator',
                     ],
 
                     'actions' => [
                         'restore' => [
                             'notification' => [
                                 'title' => 'Task restored',
-                                'body' => 'The task has been restored successfully.',
+                                'body'  => 'The task has been restored successfully.',
                             ],
                         ],
 
                         'delete' => [
                             'notification' => [
                                 'title' => 'Task deleted',
-                                'body' => 'The task has been deleted successfully.',
+                                'body'  => 'The task has been deleted successfully.',
                             ],
                         ],
 
                         'force-delete' => [
                             'notification' => [
                                 'title' => 'Task force deleted',
-                                'body' => 'The task has been force deleted successfully.',
+                                'body'  => 'The task has been force deleted successfully.',
                             ],
                         ],
                     ],
@@ -640,24 +640,24 @@ return [
                         'restore' => [
                             'notification' => [
                                 'title' => 'Tasks restored',
-                                'body' => 'The tasks has been restored successfully.',
+                                'body'  => 'The tasks has been restored successfully.',
                             ],
                         ],
 
                         'delete' => [
                             'notification' => [
                                 'title' => 'Tasks deleted',
-                                'body' => 'The tasks has been deleted successfully.',
+                                'body'  => 'The tasks has been deleted successfully.',
                             ],
                         ],
 
                         'force-delete' => [
                             'notification' => [
                                 'title' => 'Tasks force deleted',
-                                'body' => 'The tasks has been force deleted successfully.',
+                                'body'  => 'The tasks has been force deleted successfully.',
                             ],
                         ],
-                    ]
+                    ],
                 ],
 
                 'infolist' => [
@@ -678,12 +678,12 @@ return [
                             'title' => 'Project Information',
 
                             'entries' => [
-                                'project' => 'Project',
+                                'project'   => 'Project',
                                 'milestone' => 'Milestone',
-                                'customer' => 'Customer',
+                                'customer'  => 'Customer',
                                 'assignees' => 'Assignees',
-                                'deadline' => 'Deadline',
-                                'stage' => 'Stage',
+                                'deadline'  => 'Deadline',
+                                'stage'     => 'Stage',
                             ],
                         ],
 
@@ -691,12 +691,12 @@ return [
                             'title' => 'Time Tracking',
 
                             'entries' => [
-                                'allocated-time' => 'Allocated Time',
-                                'time-spent' => 'Time Spent',
-                                'time-spent-suffix' => ' Hours',
-                                'time-remaining' => 'Time Remaining',
+                                'allocated-time'        => 'Allocated Time',
+                                'time-spent'            => 'Time Spent',
+                                'time-spent-suffix'     => ' Hours',
+                                'time-remaining'        => 'Time Remaining',
                                 'time-remaining-suffix' => ' Hours',
-                                'progress' => 'Progress',
+                                'progress'              => 'Progress',
                             ],
                         ],
 
@@ -708,8 +708,8 @@ return [
                             'title' => 'Record Information',
 
                             'entries' => [
-                                'created-at' => 'Created At',
-                                'created-by' => 'Created By',
+                                'created-at'   => 'Created At',
+                                'created-by'   => 'Created By',
                                 'last-updated' => 'Last Updated',
                             ],
                         ],
@@ -718,10 +718,10 @@ return [
                             'title' => 'Statistics',
 
                             'entries' => [
-                                'sub-tasks' => 'Sub Tasks',
+                                'sub-tasks'         => 'Sub Tasks',
                                 'timesheet-entries' => 'Timesheet Entries',
                             ],
-                        ]
+                        ],
                     ],
                 ],
 
@@ -729,21 +729,21 @@ return [
                     'create' => [
                         'notification' => [
                             'title' => 'Task created',
-                            'body' => 'The task has been created successfully.',
+                            'body'  => 'The task has been created successfully.',
                         ],
                     ],
 
                     'edit' => [
                         'notification' => [
                             'title' => 'Task updated',
-                            'body' => 'The task has been updated successfully.',
+                            'body'  => 'The task has been updated successfully.',
                         ],
 
                         'header-actions' => [
                             'delete' => [
                                 'notification' => [
                                     'title' => 'Task deleted',
-                                    'body' => 'The task has been deleted successfully.',
+                                    'body'  => 'The task has been deleted successfully.',
                                 ],
                             ],
                         ],
@@ -751,12 +751,12 @@ return [
 
                     'list' => [
                         'tabs' => [
-                            'open-tasks' => 'Open Tasks',
-                            'my-tasks' => 'My Tasks',
+                            'open-tasks'       => 'Open Tasks',
+                            'my-tasks'         => 'My Tasks',
                             'unassigned-tasks' => 'Unassigned Tasks',
-                            'closed-tasks' => 'Closed Tasks',
-                            'starred-tasks' => 'Starred Tasks',
-                            'archived-tasks' => 'Archived Tasks',
+                            'closed-tasks'     => 'Closed Tasks',
+                            'starred-tasks'    => 'Starred Tasks',
+                            'archived-tasks'   => 'Archived Tasks',
                         ],
 
                         'header-actions' => [
@@ -771,7 +771,7 @@ return [
                             'delete' => [
                                 'notification' => [
                                     'title' => 'Task deleted',
-                                    'body' => 'The task has been deleted successfully.',
+                                    'body'  => 'The task has been deleted successfully.',
                                 ],
                             ],
                         ],
@@ -781,10 +781,10 @@ return [
                         'title' => 'Sub Tasks',
 
                         'form' => [
-                            'date' => 'Date',
-                            'employee' => 'Employee',
-                            'description' => 'Description',
-                            'time-spent' => 'Time Spent',
+                            'date'                   => 'Date',
+                            'employee'               => 'Employee',
+                            'description'            => 'Description',
+                            'time-spent'             => 'Time Spent',
                             'time-spent-helper-text' => 'Time spent in hours (Eg. 1.5 hours means 1 hour 30 minutes)',
                         ],
 
@@ -795,36 +795,36 @@ return [
 
                                     'notification' => [
                                         'title' => 'Timesheet created',
-                                        'body' => 'The timesheet has been created successfully.',
+                                        'body'  => 'The timesheet has been created successfully.',
                                     ],
                                 ],
                             ],
 
                             'columns' => [
-                                'date' => 'Date',
-                                'employee' => 'Employee',
-                                'description' => 'Description',
-                                'time-spent' => 'Time Spent',
+                                'date'                   => 'Date',
+                                'employee'               => 'Employee',
+                                'description'            => 'Description',
+                                'time-spent'             => 'Time Spent',
                                 'time-spent-on-subtasks' => 'Time Spent on Subtasks',
-                                'total-time-spent' => 'Total Time Spent',
-                                'remaining-time' => 'Remaining Time',
+                                'total-time-spent'       => 'Total Time Spent',
+                                'remaining-time'         => 'Remaining Time',
                             ],
 
                             'actions' => [
                                 'edit' => [
                                     'notification' => [
                                         'title' => 'Task updated',
-                                        'body' => 'The task has been updated successfully.',
+                                        'body'  => 'The task has been updated successfully.',
                                     ],
                                 ],
 
                                 'delete' => [
                                     'notification' => [
                                         'title' => 'Task deleted',
-                                        'body' => 'The task has been deleted successfully.',
+                                        'body'  => 'The task has been deleted successfully.',
                                     ],
                                 ],
-                            ]
+                            ],
                         ],
                     ],
 
@@ -838,7 +838,7 @@ return [
 
                                     'notification' => [
                                         'title' => 'Task created',
-                                        'body' => 'The task has been created successfully.',
+                                        'body'  => 'The task has been created successfully.',
                                     ],
                                 ],
                             ],
@@ -847,24 +847,24 @@ return [
                                 'restore' => [
                                     'notification' => [
                                         'title' => 'Task restored',
-                                        'body' => 'The task has been restored successfully.',
+                                        'body'  => 'The task has been restored successfully.',
                                     ],
                                 ],
 
                                 'delete' => [
                                     'notification' => [
                                         'title' => 'Task deleted',
-                                        'body' => 'The task has been deleted successfully.',
+                                        'body'  => 'The task has been deleted successfully.',
                                     ],
                                 ],
-                                
+
                                 'force-delete' => [
                                     'notification' => [
                                         'title' => 'Task force deleted',
-                                        'body' => 'The task has been force deleted successfully.',
+                                        'body'  => 'The task has been force deleted successfully.',
                                     ],
                                 ],
-                            ]
+                            ],
                         ],
                     ],
                 ],
@@ -878,7 +878,7 @@ return [
 
                                     'notification' => [
                                         'title' => 'Task created',
-                                        'body' => 'The task has been created successfully.',
+                                        'body'  => 'The task has been created successfully.',
                                     ],
                                 ],
                             ],
@@ -887,21 +887,21 @@ return [
                                 'restore' => [
                                     'notification' => [
                                         'title' => 'Task restored',
-                                        'body' => 'The task has been restored successfully.',
+                                        'body'  => 'The task has been restored successfully.',
                                     ],
                                 ],
 
                                 'delete' => [
                                     'notification' => [
                                         'title' => 'Task deleted',
-                                        'body' => 'The task has been deleted successfully.',
+                                        'body'  => 'The task has been deleted successfully.',
                                     ],
                                 ],
-                                
+
                                 'force-delete' => [
                                     'notification' => [
                                         'title' => 'Task force deleted',
-                                        'body' => 'The task has been force deleted successfully.',
+                                        'body'  => 'The task has been force deleted successfully.',
                                     ],
                                 ],
                             ],
@@ -910,10 +910,10 @@ return [
 
                     'timesheets' => [
                         'form' => [
-                            'date' => 'Date',
-                            'employee' => 'Employee',
-                            'description' => 'Description',
-                            'time-spent' => 'Time Spent',
+                            'date'                   => 'Date',
+                            'employee'               => 'Employee',
+                            'description'            => 'Description',
+                            'time-spent'             => 'Time Spent',
                             'time-spent-helper-text' => 'Time spent in hours (Eg. 1.5 hours means 1 hour 30 minutes)',
                         ],
 
@@ -924,36 +924,36 @@ return [
 
                                     'notification' => [
                                         'title' => 'Timesheet created',
-                                        'body' => 'The timesheet has been created successfully.',
+                                        'body'  => 'The timesheet has been created successfully.',
                                     ],
                                 ],
                             ],
 
                             'columns' => [
-                                'date' => 'Date',
-                                'employee' => 'Employee',
-                                'description' => 'Description',
-                                'time-spent' => 'Time Spent',
+                                'date'                   => 'Date',
+                                'employee'               => 'Employee',
+                                'description'            => 'Description',
+                                'time-spent'             => 'Time Spent',
                                 'time-spent-on-subtasks' => 'Time Spent on Subtasks',
-                                'total-time-spent' => 'Total Time Spent',
-                                'remaining-time' => 'Remaining Time',
+                                'total-time-spent'       => 'Total Time Spent',
+                                'remaining-time'         => 'Remaining Time',
                             ],
 
                             'actions' => [
                                 'edit' => [
                                     'notification' => [
                                         'title' => 'Task updated',
-                                        'body' => 'The task has been updated successfully.',
+                                        'body'  => 'The task has been updated successfully.',
                                     ],
                                 ],
 
                                 'delete' => [
                                     'notification' => [
                                         'title' => 'Task deleted',
-                                        'body' => 'The task has been deleted successfully.',
+                                        'body'  => 'The task has been deleted successfully.',
                                     ],
                                 ],
-                            ]
+                            ],
                         ],
                     ],
                 ],
@@ -966,18 +966,18 @@ return [
                             'title' => 'General',
 
                             'fields' => [
-                                'company' => 'Company',
-                                'avatar' => 'Avatar',
-                                'tax-id' => 'Tax ID',
-                                'job-title' => 'Job Title',
-                                'phone' => 'Phone',
-                                'mobile' => 'Mobile',
-                                'email' => 'Email',
-                                'website' => 'Website',
-                                'title' => 'Title',
-                                'name' => 'Name',
+                                'company'    => 'Company',
+                                'avatar'     => 'Avatar',
+                                'tax-id'     => 'Tax ID',
+                                'job-title'  => 'Job Title',
+                                'phone'      => 'Phone',
+                                'mobile'     => 'Mobile',
+                                'email'      => 'Email',
+                                'website'    => 'Website',
+                                'title'      => 'Title',
+                                'name'       => 'Name',
                                 'short-name' => 'Short Name',
-                                'tags' => 'Tags',
+                                'tags'       => 'Tags',
                             ],
                         ],
                     ],
@@ -987,12 +987,12 @@ return [
                             'title' => 'Sales and Purchases',
 
                             'fields' => [
-                                'responsible' => 'Responsible',
+                                'responsible'           => 'Responsible',
                                 'responsible-hint-text' => 'This is internal salesperson responsible for this customer',
-                                'company-id' => 'Company ID',
-                                'company-id-hint-text' => 'The registry number of the company. Use it if it is different from the Tax ID. It must be unique across all partners of a same country',
-                                'reference' => 'Reference',
-                                'industry' => 'Industry',
+                                'company-id'            => 'Company ID',
+                                'company-id-hint-text'  => 'The registry number of the company. Use it if it is different from the Tax ID. It must be unique across all partners of a same country',
+                                'reference'             => 'Reference',
+                                'industry'              => 'Industry',
                             ],
                         ],
                     ],
