@@ -24,50 +24,74 @@ class MessageAction extends Action
         $this
             ->color('gray')
             ->outlined()
-            ->form(function ($form) {
-                return $form->schema([
-                    Forms\Components\TextInput::make('subject')
-                        ->placeholder('Subject')
-                        ->live()
-                        ->visible(fn ($get) => $get('showSubject'))
-                        ->columnSpanFull(),
-                    Forms\Components\RichEditor::make('body')
-                        ->hiddenLabel()
-                        ->placeholder(__('chatter::app.filament.actions.chatter.activity.form.type-your-message-here'))
-                        ->required()
-                        ->columnSpanFull(),
-                    Forms\Components\Group::make([
-                        Forms\Components\Actions::make([
-                            Forms\Components\Actions\Action::make('add_subject')
-                                ->label(function ($get) {
-                                    return $get('showSubject') ? 'Hide Subject' : 'Add Subject';
-                                })
-                                ->action(function ($set, $get) {
-                                    if ($get('showSubject')) {
-                                        $set('showSubject', false);
+            ->form([
+                Forms\Components\Group::make([
+                    Forms\Components\Actions::make([
+                        Forms\Components\Actions\Action::make('add_subject')
+                            ->label(function ($get) {
+                                return $get('showSubject') ? 'Hide Subject' : 'Add Subject';
+                            })
+                            ->action(function ($set, $get) {
+                                if ($get('showSubject')) {
+                                    $set('showSubject', false);
 
-                                        return;
-                                    }
+                                    return;
+                                }
 
-                                    $set('showSubject', true);
-                                })
-                                ->link()
-                                ->size('sm')
-                                ->icon('heroicon-s-plus'),
-                        ])
-                            ->columnSpan('full')
-                            ->alignRight(),
-                    ]),
-                    Forms\Components\Hidden::make('type')
-                        ->default('comment'),
-                ])
-                    ->columns(1);
-            })
+                                $set('showSubject', true);
+                            })
+                            ->link()
+                            ->size('sm')
+                            ->icon('heroicon-s-plus'),
+                    ])
+                        ->columnSpan('full')
+                        ->alignRight(),
+                ]),
+                Forms\Components\TextInput::make('subject')
+                    ->placeholder('Subject')
+                    ->live()
+                    ->visible(fn ($get) => $get('showSubject')),
+                Forms\Components\RichEditor::make('body')
+                    ->hiddenLabel()
+                    ->placeholder(__('chatter::app.filament.actions.chatter.activity.form.type-your-message-here'))
+                    ->fileAttachmentsDirectory('log-attachments')
+                    ->disableGrammarly()
+                    ->required(),
+                Forms\Components\FileUpload::make('attachments')
+                    ->hiddenLabel()
+                    ->multiple()
+                    ->directory('messages-attachments')
+                    ->disableGrammarly()
+                    ->previewable(true)
+                    ->panelLayout('grid')
+                    ->imagePreviewHeight('100')
+                    ->acceptedFileTypes([
+                        'image/*',
+                        'application/pdf',
+                        'application/msword',
+                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                        'application/vnd.ms-excel',
+                        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                        'text/plain',
+                    ])
+                    ->maxSize(10240)
+                    ->helperText('Max file size: 10MB. Allowed types: Images, PDF, Word, Excel, Text')
+                    ->columnSpanFull(),
+                Forms\Components\Hidden::make('type')
+                    ->default('comment'),
+            ])
             ->action(function (array $data, ?Model $record = null) {
                 try {
                     $data['name'] = $record->name;
 
-                    $record->addMessage($data, Auth::user()->id);
+                    $message = $record->addMessage($data, Auth::user()->id);
+
+                    if (! empty($data['attachments'])) {
+                        $record->addAttachments(
+                            $data['attachments'],
+                            ['message_id' => $message->id],
+                        );
+                    }
 
                     Notification::make()
                         ->success()
@@ -84,7 +108,8 @@ class MessageAction extends Action
                 }
             })
             ->label(__('chatter::app.filament.actions.chatter.message.label'))
-            ->icon('heroicon-o-chat-bubble-oval-left-ellipsis')
+            ->icon('heroicon-o-chat-bubble-left-right')
+            ->modalIcon('heroicon-o-chat-bubble-left-right')
             ->modalSubmitAction(function ($action) {
                 $action->label(__('chatter::app.filament.actions.chatter.message.modal-submit-action.title'));
                 $action->icon('heroicon-m-paper-airplane');

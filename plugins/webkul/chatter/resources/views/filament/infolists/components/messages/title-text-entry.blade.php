@@ -22,12 +22,12 @@
                 </div>
 
                 <div class="flex-shrink-0">
-                    <x-filament::icon-button
+                    {{-- <x-filament::icon-button
                         wire:click="mountAction('deleteMessage',  { id: {{ $getRecord()->id }} })"
                         icon="heroicon-s-trash"
                         color="danger"
                         :tooltip="trans('chatter::app.views.filament.infolists.components.title-text-entry.tooltip.delete')"
-                    />
+                    /> --}}
                 </div>
             </div>
         </div>
