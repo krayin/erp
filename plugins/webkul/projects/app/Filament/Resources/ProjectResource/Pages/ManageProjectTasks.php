@@ -4,6 +4,7 @@ namespace Webkul\Project\Filament\Resources\ProjectResource\Pages;
 
 use Filament\Actions;
 use Filament\Infolists\Infolist;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -24,7 +25,7 @@ class ManageProjectTasks extends ManageRelatedRecords
 
     protected static string $relationship = 'tasks';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
     public static function getNavigationLabel(): string
     {
@@ -36,6 +37,7 @@ class ManageProjectTasks extends ManageRelatedRecords
         return [
             Actions\CreateAction::make()
                 ->label('New Task')
+                ->icon('heroicon-o-plus-circle')
                 ->url(route('filament.admin.resources.project.tasks.create')),
         ];
     }
@@ -51,8 +53,27 @@ class ManageProjectTasks extends ManageRelatedRecords
                     Tables\Actions\EditAction::make()
                         ->url(fn (Task $record): string => route('filament.admin.resources.project.tasks.edit', $record->id))
                         ->hidden(fn ($record) => $record->trashed()),
-                    Tables\Actions\DeleteAction::make(),
-                    Tables\Actions\RestoreAction::make(),
+                    Tables\Actions\RestoreAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Task restored')
+                                ->body('The task has been restored successfully.'),
+                        ),
+                    Tables\Actions\DeleteAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Task deleted')
+                                ->body('The task has been deleted successfully.'),
+                        ),
+                    Tables\Actions\ForceDeleteAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Task force deleted')
+                                ->body('The task has been force deleted successfully.'),
+                        ),
                 ]),
             ]);
     }

@@ -270,6 +270,7 @@ trait HasChatter
         $attachment = $this->attachments()->find($attachmentId);
 
         return $attachment && Storage::exists('public/'.$attachment->file_path);
+<<<<<<< HEAD
     }
 
     /*
@@ -334,5 +335,7 @@ trait HasChatter
             ->whereNotNull('followed_at')
             ->with('user')
             ->get();
+=======
+>>>>>>> 36cd62cbe90d17ddd5ae58d356d24e2aa8c43aa7
     }
 }

@@ -6,6 +6,9 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
+use Filament\Notifications\Notification;
+use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\Pages\Page;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
@@ -35,6 +38,8 @@ class ProjectResource extends Resource
     protected static ?string $slug = 'project/projects';
 
     protected static ?string $navigationIcon = 'heroicon-o-folder';
+
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -72,7 +77,7 @@ class ProjectResource extends Resource
                             ->inline()
                             ->required()
                             ->visible(fn (TaskSettings $taskSettings) => $taskSettings->enable_project_stages)
-                            ->options(fn () => ProjectStage::all()->mapWithKeys(fn ($stage) => [$stage->id => $stage->name]))
+                            ->options(fn () => ProjectStage::orderBy('sort')->get()->mapWithKeys(fn ($stage) => [$stage->id => $stage->name]))
                             ->default(ProjectStage::first()?->id),
                         Forms\Components\Section::make('General Information')
                             ->schema([
@@ -80,6 +85,7 @@ class ProjectResource extends Resource
                                     ->label('Name')
                                     ->required()
                                     ->maxLength(255)
+                                    ->autofocus()
                                     ->placeholder('Project Name...')
                                     ->extraInputAttributes(['style' => 'font-size: 1.5rem;height: 3rem;']),
                                 Forms\Components\Textarea::make('description')
@@ -246,6 +252,8 @@ class ProjectResource extends Resource
                     ->label('Created At')
                     ->date(),
             ])
+            ->reorderable('sort')
+            ->defaultSort('sort', 'desc')
             ->filters([
                 Tables\Filters\QueryBuilder::make()
                     ->constraints(static::mergeCustomTableQueryBuilderConstraints([
@@ -364,9 +372,28 @@ class ProjectResource extends Resource
 
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make()
-                        ->hidden(fn (Project $record) => $record->trashed()),
-                    Tables\Actions\RestoreAction::make(),
-                    Tables\Actions\DeleteAction::make(),
+                        ->hidden(fn ($record) => $record->trashed()),
+                    Tables\Actions\RestoreAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Projects restored')
+                                ->body('The projects has been restored successfully.'),
+                        ),
+                    Tables\Actions\DeleteAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Projects deleted')
+                                ->body('The projects has been deleted successfully.'),
+                        ),
+                    Tables\Actions\ForceDeleteAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Projects force deleted')
+                                ->body('The projects force has been deleted successfully.'),
+                        ),
                 ])
                     ->link()
                     ->hiddenLabel(),
@@ -523,6 +550,16 @@ class ProjectResource extends Resource
                     ->columnSpan(['lg' => 1]),
             ])
             ->columns(3);
+    }
+
+    public static function getRecordSubNavigation(Page $page): array
+    {
+        return $page->generateNavigationItems([
+            Pages\ViewProject::class,
+            Pages\EditProject::class,
+            Pages\ManageProjectTasks::class,
+            Pages\ManageProjectMilestones::class,
+        ]);
     }
 
     public static function getRelations(): array

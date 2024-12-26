@@ -18,24 +18,28 @@ class TaskStageSeeder extends Seeder
             [
                 'name'       => 'To Do',
                 'is_active'  => 1,
+                'sort'       => 1,
                 'creator_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ], [
                 'name'       => 'In Progress',
                 'is_active'  => 1,
+                'sort'       => 2,
                 'creator_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ], [
                 'name'       => 'Done',
                 'is_active'  => 1,
+                'sort'       => 3,
                 'creator_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ], [
                 'name'       => 'Cancelled',
                 'is_active'  => 1,
+                'sort'       => 4,
                 'creator_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),

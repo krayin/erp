@@ -6,6 +6,9 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
+use Filament\Notifications\Notification;
+use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\Pages\Page;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -37,6 +40,8 @@ class TaskResource extends Resource
     protected static ?string $slug = 'project/tasks';
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
+
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
     protected static ?string $recordTitleAttribute = 'title';
 
@@ -74,7 +79,7 @@ class TaskResource extends Resource
                             ->hiddenLabel()
                             ->inline()
                             ->required()
-                            ->options(fn () => TaskStage::all()->mapWithKeys(fn ($stage) => [$stage->id => $stage->name]))
+                            ->options(fn () => TaskStage::orderBy('sort')->get()->mapWithKeys(fn ($stage) => [$stage->id => $stage->name]))
                             ->default(TaskStage::first()?->id),
                         Forms\Components\Section::make(__('projects::app.filament.resources.task.form.sections.general.title'))
                             ->schema([
@@ -82,6 +87,7 @@ class TaskResource extends Resource
                                     ->label(__('projects::app.filament.resources.task.form.sections.general.fields.title'))
                                     ->required()
                                     ->maxLength(255)
+                                    ->autofocus()
                                     ->placeholder(__('projects::app.filament.resources.task.form.sections.general.fields.title-placeholder'))
                                     ->extraInputAttributes(['style' => 'font-size: 1.5rem;height: 3rem;']),
                                 Forms\Components\ToggleButtons::make('state')
@@ -382,6 +388,8 @@ class TaskResource extends Resource
                     ->label(__('projects::app.filament.resources.task.table.groups.created-at'))
                     ->date(),
             ])
+            ->reorderable('sort')
+            ->defaultSort('sort', 'desc')
             ->filters([
                 Tables\Filters\QueryBuilder::make()
                     ->constraints(collect(static::mergeCustomTableQueryBuilderConstraints([
@@ -511,18 +519,56 @@ class TaskResource extends Resource
             ->filtersFormColumns(2)
             ->actions([
                 Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\ViewAction::make()
+                        ->hidden(fn ($record) => $record->trashed()),
                     Tables\Actions\EditAction::make()
                         ->hidden(fn ($record) => $record->trashed()),
-                    Tables\Actions\DeleteAction::make(),
-                    Tables\Actions\RestoreAction::make(),
+                    Tables\Actions\RestoreAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Task restored')
+                                ->body('The task has been restored successfully.'),
+                        ),
+                    Tables\Actions\DeleteAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Task deleted')
+                                ->body('The task has been deleted successfully.'),
+                        ),
+                    Tables\Actions\ForceDeleteAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Task force deleted')
+                                ->body('The task has been force deleted successfully.'),
+                        ),
                 ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Tasks deleted')
+                                ->body('The tasks has been deleted successfully.'),
+                        ),
+                    Tables\Actions\ForceDeleteBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Tasks force deleted')
+                                ->body('The tasks has been force deleted successfully.'),
+                        ),
+                    Tables\Actions\RestoreBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Tasks restored')
+                                ->body('The tasks has been restored successfully.'),
+                        ),
                 ]),
             ]);
     }
@@ -700,6 +746,16 @@ class TaskResource extends Resource
             ->columns(3);
     }
 
+    public static function getRecordSubNavigation(Page $page): array
+    {
+        return $page->generateNavigationItems([
+            Pages\ViewTask::class,
+            Pages\EditTask::class,
+            Pages\ManageTaskTimesheets::class,
+            Pages\ManageSubTasks::class,
+        ]);
+    }
+
     public static function getRelations(): array
     {
         $relations = [];
@@ -720,10 +776,12 @@ class TaskResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListTasks::route('/'),
-            'create' => Pages\CreateTask::route('/create'),
-            'edit'   => Pages\EditTask::route('/{record}/edit'),
-            'view'   => Pages\ViewTask::route('/{record}'),
+            'index'      => Pages\ListTasks::route('/'),
+            'create'     => Pages\CreateTask::route('/create'),
+            'edit'       => Pages\EditTask::route('/{record}/edit'),
+            'view'       => Pages\ViewTask::route('/{record}'),
+            'timesheets' => Pages\ManageTaskTimesheets::route('/{record}/timesheets'),
+            'sub-tasks'  => Pages\ManageSubTasks::route('/{record}/sub-tasks'),
         ];
     }
 }

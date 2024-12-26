@@ -66,6 +66,13 @@ class FileAction extends Action
                     ->columnSpanFull()
                     ->required()
                     ->default(function (?Model $record) {
+<<<<<<< HEAD
+=======
+                        if (! $record) {
+                            return [];
+                        }
+
+>>>>>>> 36cd62cbe90d17ddd5ae58d356d24e2aa8c43aa7
                         return $record->attachments()
                             ->latest()
                             ->get()
@@ -85,6 +92,10 @@ class FileAction extends Action
                         return ! in_array($file, $existingFiles);
                     });
 
+<<<<<<< HEAD
+=======
+                    // Only proceed if there are new files to upload
+>>>>>>> 36cd62cbe90d17ddd5ae58d356d24e2aa8c43aa7
                     if (! empty($newFiles)) {
                         $record->addAttachments($newFiles);
 

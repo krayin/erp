@@ -3,6 +3,7 @@
 namespace Webkul\Project\Filament\Clusters\Configurations\Resources\ActivityPlanResource\Pages;
 
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,7 @@ class ListActivityPlans extends ListRecords
     {
         return [
             Actions\CreateAction::make()
+                ->label('New Activity Plan')
                 ->icon('heroicon-o-plus-circle')
                 ->mutateFormDataUsing(function ($data) {
                     $user = Auth::user();
@@ -28,7 +30,13 @@ class ListActivityPlans extends ListRecords
                     $data['company_id'] = $user->defaultCompany?->id;
 
                     return $data;
-                }),
+                })
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title('Activity plan deleted')
+                        ->body('The activity plan has been deleted successfully.'),
+                ),
         ];
     }
 

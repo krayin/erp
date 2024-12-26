@@ -3,6 +3,7 @@
 namespace Webkul\Project\Filament\Resources\ProjectResource\RelationManagers;
 
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -26,11 +27,18 @@ class TaskStagesRelationManager extends RelationManager
             ->headerActions([
                 Tables\Actions\CreateAction::make()
                     ->label('Add Task Stage')
+                    ->icon('heroicon-o-plus-circle')
                     ->mutateFormDataUsing(function (array $data): array {
                         $data['creator_id'] = Auth::id();
 
                         return $data;
-                    }),
+                    })
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title('Task stage created')
+                            ->body('The task stage has been created successfully.'),
+                    ),
             ]);
     }
 }

@@ -3,6 +3,7 @@
 namespace Webkul\Project\Filament\Clusters\Configurations\Resources\TagResource\Pages;
 
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ManageRecords;
 use Illuminate\Support\Facades\Auth;
@@ -17,11 +18,19 @@ class ManageTags extends ManageRecords
     {
         return [
             Actions\CreateAction::make()
+                ->label('New Tag')
+                ->icon('heroicon-o-plus-circle')
                 ->mutateFormDataUsing(function (array $data): array {
                     $data['creator_id'] = Auth::id();
 
                     return $data;
-                }),
+                })
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title('Tag created')
+                        ->body('The tag has been created successfully.'),
+                ),
         ];
     }
 

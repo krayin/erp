@@ -3,6 +3,7 @@
 namespace Webkul\Project\Filament\Resources\ProjectResource\Pages;
 
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -16,7 +17,7 @@ class ManageProjectMilestones extends ManageRelatedRecords
 
     protected static string $relationship = 'milestones';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-flag';
 
     public static function getNavigationLabel(): string
     {
@@ -33,12 +34,19 @@ class ManageProjectMilestones extends ManageRelatedRecords
         return MilestoneResource::table($table)
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                    ->label('Add Task Stage')
+                    ->label('Add Project Milestone')
+                    ->icon('heroicon-o-plus-circle')
                     ->mutateFormDataUsing(function (array $data): array {
                         $data['creator_id'] = Auth::id();
 
                         return $data;
-                    }),
+                    })
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title('Milestone created')
+                            ->body('The milestone has been created successfully.'),
+                    ),
             ]);
     }
 }
