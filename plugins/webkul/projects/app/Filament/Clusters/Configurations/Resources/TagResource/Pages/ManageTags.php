@@ -8,6 +8,7 @@ use Filament\Resources\Pages\ManageRecords;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\TagResource;
 use Webkul\Project\Models\Tag;
+use Filament\Notifications\Notification;
 
 class ManageTags extends ManageRecords
 {
@@ -17,11 +18,19 @@ class ManageTags extends ManageRecords
     {
         return [
             Actions\CreateAction::make()
+                ->label('New Tag')
+                ->icon('heroicon-o-plus-circle')
                 ->mutateFormDataUsing(function (array $data): array {
                     $data['creator_id'] = Auth::id();
 
                     return $data;
-                }),
+                })
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title('Tag created')
+                        ->body('The tag has been created successfully.'),
+                ),
         ];
     }
 

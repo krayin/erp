@@ -8,6 +8,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\MilestoneResource;
+use Filament\Notifications\Notification;
 
 class MilestonesRelationManager extends RelationManager
 {
@@ -25,12 +26,19 @@ class MilestonesRelationManager extends RelationManager
             ->groups([])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                    ->label('Add Task Stage')
+                    ->label('Add Project Milestone')
+                    ->icon('heroicon-o-plus-circle')
                     ->mutateFormDataUsing(function (array $data): array {
                         $data['creator_id'] = Auth::id();
 
                         return $data;
-                    }),
+                    })
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title('Milestone created')
+                            ->body('The milestone has been created successfully.'),
+                    ),
             ]);
     }
 }

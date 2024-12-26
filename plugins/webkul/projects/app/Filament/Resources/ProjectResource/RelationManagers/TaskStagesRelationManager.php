@@ -8,6 +8,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\TaskStageResource;
+use Filament\Notifications\Notification;
 
 class TaskStagesRelationManager extends RelationManager
 {
@@ -26,11 +27,18 @@ class TaskStagesRelationManager extends RelationManager
             ->headerActions([
                 Tables\Actions\CreateAction::make()
                     ->label('Add Task Stage')
+                    ->icon('heroicon-o-plus-circle')
                     ->mutateFormDataUsing(function (array $data): array {
                         $data['creator_id'] = Auth::id();
 
                         return $data;
-                    }),
+                    })
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title('Task stage created')
+                            ->body('The task stage has been created successfully.'),
+                    ),
             ]);
     }
 }

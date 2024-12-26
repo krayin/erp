@@ -9,6 +9,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
+use Filament\Notifications\Notification;
 
 class TimesheetsRelationManager extends RelationManager
 {
@@ -104,6 +105,8 @@ class TimesheetsRelationManager extends RelationManager
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
+                    ->label('Add Timesheet')
+                    ->icon('heroicon-o-plus-circle')
                     ->mutateFormDataUsing(function (array $data): array {
                         $data['creator_id'] = Auth::id();
 
@@ -114,11 +117,29 @@ class TimesheetsRelationManager extends RelationManager
                         $data['partner_id'] = $ownerRecord->partner_id ?? $ownerRecord->project?->partner_id;
 
                         return $data;
-                    }),
+                    })
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title('Timesheet created')
+                            ->body('The timesheet has been created successfully.'),
+                    ),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title('Timesheet updated')
+                            ->body('The timesheet has been updated successfully.'),
+                    ),
+                Tables\Actions\DeleteAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title('Timesheet deleted')
+                            ->body('The timesheet has been deleted successfully.'),
+                    ),
             ])
             ->paginated(false);
     }

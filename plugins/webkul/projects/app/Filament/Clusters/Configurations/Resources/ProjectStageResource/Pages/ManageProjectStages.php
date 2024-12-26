@@ -8,6 +8,7 @@ use Filament\Resources\Pages\ManageRecords;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\ProjectStageResource;
 use Webkul\Project\Models\ProjectStage;
+use Filament\Notifications\Notification;
 
 class ManageProjectStages extends ManageRecords
 {
@@ -17,11 +18,19 @@ class ManageProjectStages extends ManageRecords
     {
         return [
             Actions\CreateAction::make()
+                ->label('New Project Stage')
+                ->icon('heroicon-o-plus-circle')
                 ->mutateFormDataUsing(function (array $data): array {
                     $data['creator_id'] = Auth::id();
 
                     return $data;
-                }),
+                })
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title('Project stage created')
+                        ->body('The project stage has been created successfully.'),
+                ),
         ];
     }
 

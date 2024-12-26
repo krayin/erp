@@ -6,6 +6,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\ManageRecords;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\MilestoneResource;
+use Filament\Notifications\Notification;
 
 class ManageMilestones extends ManageRecords
 {
@@ -15,11 +16,19 @@ class ManageMilestones extends ManageRecords
     {
         return [
             Actions\CreateAction::make()
+                ->label('New Milestone')
+                ->icon('heroicon-o-plus-circle')
                 ->mutateFormDataUsing(function (array $data): array {
                     $data['creator_id'] = Auth::id();
 
                     return $data;
-                }),
+                })
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title('Milestone created')
+                        ->body('The milestone has been created successfully.'),
+                ),
         ];
     }
 }

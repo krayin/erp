@@ -5,16 +5,31 @@ namespace Webkul\Project\Filament\Clusters\Configurations\Resources\ActivityPlan
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\ActivityPlanResource;
+use Filament\Notifications\Notification;
 
 class EditActivityPlan extends EditRecord
 {
     protected static string $resource = ActivityPlanResource::class;
 
+    protected function getSavedNotification(): Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title('Activity plan updated')
+            ->body('The activity plan has been saved successfully.');
+    }
+
     protected function getHeaderActions(): array
     {
         return [
             Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title('Activity plan deleted')
+                        ->body('The activity plan has been deleted successfully.'),
+                ),
         ];
     }
 }

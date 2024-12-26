@@ -8,6 +8,7 @@ use Filament\Resources\Pages\ManageRecords;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\TaskStageResource;
 use Webkul\Project\Models\TaskStage;
+use Filament\Notifications\Notification;
 
 class ManageTaskStages extends ManageRecords
 {
@@ -17,11 +18,19 @@ class ManageTaskStages extends ManageRecords
     {
         return [
             Actions\CreateAction::make()
+                ->label('New Task Stage')
+                ->icon('heroicon-o-plus-circle')
                 ->mutateFormDataUsing(function (array $data): array {
                     $data['creator_id'] = Auth::id();
 
                     return $data;
-                }),
+                })
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title('Task stage created')
+                        ->body('The task stage has been created successfully.'),
+                ),
         ];
     }
 

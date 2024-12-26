@@ -92,20 +92,33 @@
         box-shadow: none;
     }
 
+    .dark .stage-button {
+        border: 1px solid hsla(0, 0%, 100%, .2);
+    }
+
     .stage-button:after {
         content: "";
         position: absolute;
         top: 50%;
         right: -14px;
-        width: 27px;
-        height: 27px;
+        width: 26px;
+        height: 26px;
         z-index: 1;
-        border-radius: 0 0 0 25px;
         transform: translateY(-50%) rotate(45deg);
         background-color: #ffffff;
         border-right: 1px solid rgba(var(--gray-950), 0.3);
         border-top: 1px solid rgba(var(--gray-950), 0.3);
         transition-duration: 75ms;
+    }
+
+    .dark .stage-button:after {
+        background-color: rgba(var(--gray-900),var(--tw-bg-opacity));
+        border-right: 1px solid hsla(0, 0%, 100%, .2);
+        border-top: 1px solid hsla(0, 0%, 100%, .2);
+    }
+
+    .dark .stage-button:hover:after {
+        background-color: rgba(var(--gray-800),var(--tw-bg-opacity));
     }
 
     .state-container .state:last-child .stage-button {
@@ -115,7 +128,6 @@
     .state-container .state:first-child .stage-button {
         border-radius: 8px 0 0 8px;
     }
-
 
     .state-container .state:last-child .stage-button:after {
         content: none;
@@ -127,13 +139,21 @@
     }
 
     input:checked + .stage-button:after {
-        background-color: #2563eb;
+        background-color: rgba(var(--c-600), var(--tw-bg-opacity));
         border-right: 1px solid rgba(var(--c-500));
         border-top: 1px solid rgba(var(--c-500));
+    }
+
+    .dark input:checked + .stage-button:after {
+        background-color: rgba(var(--c-500), var(--tw-bg-opacity));
     }
 
     input:checked + .stage-button:hover:after {
         background-color: rgba(var(--c-500), var(--tw-bg-opacity));
         transition-duration: 75ms;
+    }
+
+    .dark input:checked + .stage-button:hover:after {
+        background-color: rgba(var(--c-400), var(--tw-bg-opacity));
     }
 </style>
