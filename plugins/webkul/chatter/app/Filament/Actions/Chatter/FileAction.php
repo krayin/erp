@@ -8,7 +8,6 @@ use Filament\Notifications\Notification;
 use Filament\Support\Enums\IconPosition;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 
 class FileAction extends Action
 {
@@ -30,7 +29,6 @@ class FileAction extends Action
                     ->label(__('chatter::app.filament.actions.chatter.file.form.file'))
                     ->multiple()
                     ->directory('chats-attachments')
-                    ->preserveFilenames()
                     ->downloadable()
                     ->openable()
                     ->reorderable()
@@ -40,16 +38,11 @@ class FileAction extends Action
                     ->imagePreviewHeight('100')
                     ->uploadingMessage('Uploading attachment...')
                     ->deleteUploadedFileUsing(function ($file, ?Model $record) {
-                        // Find the attachment by file path
                         $attachment = $record->attachments()
                             ->where('file_path', $file)
                             ->first();
 
                         if ($attachment) {
-                            // Delete the physical file
-                            Storage::delete($attachment->file_path);
-
-                            // Delete the database record
                             $attachment->delete();
 
                             Notification::make()
@@ -73,32 +66,36 @@ class FileAction extends Action
                     ->columnSpanFull()
                     ->required()
                     ->default(function (?Model $record) {
+<<<<<<< HEAD
+=======
                         if (! $record) {
                             return [];
                         }
 
+>>>>>>> 36cd62cbe90d17ddd5ae58d356d24e2aa8c43aa7
                         return $record->attachments()
                             ->latest()
                             ->get()
                             ->pluck('file_path')
-                            ->toArray();
+                            ->toArray() ?? [];
                     }),
             ])
             ->action(function (FileAction $action, array $data, ?Model $record): void {
                 try {
-                    // Get existing file paths
                     $existingFiles = $record->attachments()
                         ->latest()
                         ->get()
                         ->pluck('file_path')
                         ->toArray();
 
-                    // Filter out existing files from the uploaded files
                     $newFiles = array_filter($data['files'] ?? [], function ($file) use ($existingFiles) {
                         return ! in_array($file, $existingFiles);
                     });
 
+<<<<<<< HEAD
+=======
                     // Only proceed if there are new files to upload
+>>>>>>> 36cd62cbe90d17ddd5ae58d356d24e2aa8c43aa7
                     if (! empty($newFiles)) {
                         $record->addAttachments($newFiles);
 
@@ -130,6 +127,7 @@ class FileAction extends Action
             })
             ->label('Attachments')
             ->icon('heroicon-o-paper-clip')
+            ->modalIcon('heroicon-o-paper-clip')
             ->iconPosition(IconPosition::Before)
             ->modalSubmitAction(
                 fn ($action) => $action

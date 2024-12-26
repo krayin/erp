@@ -1,0 +1,36 @@
+<div class="max-h-[400px] w-full overflow-y-auto">
+    @forelse($followers as $follower)
+        <div
+            wire:key="non-follower-{{ $follower->user->id }}"
+            class="group flex items-center justify-between rounded-lg p-2 transition-colors hover:bg-gray-50"
+        >
+            <div class="flex items-center gap-3">
+                <x-filament-panels::avatar.user
+                    size="md"
+                    :user="$follower->user"
+                />
+                <div>
+                    <h3 class="font-medium text-gray-900">{{ $follower->user->name }}</h3>
+                    <p class="text-sm text-gray-500">{{ $follower->user->email }}</p>
+                </div>
+            </div>
+
+            <x-filament::icon-button
+                wire:click="removeFollower({{ $follower->user->id }})"
+                icon="heroicon-s-user-minus"
+                color="danger"
+                :tooltip="trans('Remove Follower')"
+            />
+        </div>
+    @empty
+        <div class="flex flex-col items-center justify-center p-4 text-center text-gray-500">
+            <x-filament::icon
+                icon="heroicon-o-user-group"
+                class="mb-3 h-8 w-8 text-gray-400"
+            />
+            <p class="text-sm">
+                {{ __('No followers have been added yet.') }}
+            </p>
+        </div>
+    @endforelse
+</div>

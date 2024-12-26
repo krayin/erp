@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Webkul\Chatter\Models\Attachment;
+use Webkul\Chatter\Models\Follower;
 use Webkul\Chatter\Models\Message;
+use Webkul\Security\Models\User;
 
 trait HasChatter
 {
@@ -192,8 +194,8 @@ trait HasChatter
                         'original_file_name' => basename($filePath),
                         'mime_type'          => mime_content_type($storagePath = storage_path('app/public/'.$filePath)) ?: 'application/octet-stream',
                         'file_size'          => filesize($storagePath) ?: 0,
-                        'company_id'         => $additionalData['company_id'] ?? Auth::user()->defaultCompany?->id ?? null,
                         'creator_id'         => Auth::id(),
+                        ...$additionalData,
                     ])
                     ->filter()
                     ->toArray()
@@ -268,5 +270,72 @@ trait HasChatter
         $attachment = $this->attachments()->find($attachmentId);
 
         return $attachment && Storage::exists('public/'.$attachment->file_path);
+<<<<<<< HEAD
+    }
+
+    /*
+    * Get all followers for this model
+    */
+    public function followers(): MorphMany
+    {
+        return $this->morphMany(Follower::class, 'followable');
+    }
+
+    /**
+     * Get all non followers
+     */
+    public function nonFollowers(): Collection
+    {
+        return User::whereNotIn('id', $this->followers()->pluck('user_id'))->get();
+    }
+
+    /**
+     * Add a follower to this model
+     */
+    public function addFollower(User $user): Follower
+    {
+        $follower = $this->followers()->firstOrNew([
+            'user_id' => $user->id,
+        ]);
+
+        if (! $follower->exists) {
+            $follower->followed_at = now();
+            $follower->save();
+        }
+
+        return $follower;
+    }
+
+    /**
+     * Remove a follower from this model
+     */
+    public function removeFollower(User $user): bool
+    {
+        return (bool) $this->followers()
+            ->where('user_id', $user->id)
+            ->delete();
+    }
+
+    /**
+     * Check if a user is following this model
+     */
+    public function isFollowedBy(User $user): bool
+    {
+        return $this->followers()
+            ->where('user_id', $user->id)
+            ->exists();
+    }
+
+    /**
+     * Get all active followers
+     */
+    public function getActiveFollowers(): Collection
+    {
+        return $this->followers()
+            ->whereNotNull('followed_at')
+            ->with('user')
+            ->get();
+=======
+>>>>>>> 36cd62cbe90d17ddd5ae58d356d24e2aa8c43aa7
     }
 }

@@ -9,6 +9,8 @@ use Webkul\Security\Models\User;
 
 class Follower extends Model
 {
+    protected $table = 'chatter_followers';
+
     protected $fillable = [
         'followable_id',
         'followable_type',

@@ -44,7 +44,7 @@ class ChatterAction extends Action
             ->modalHeading(__('chatter::app.filament.actions.chatter.action.modal.label'))
             ->modalDescription(__('chatter::app.filament.actions.chatter.action.modal.description'))
             ->badge(fn (Model $record): int => $record->messages()->count())
-            ->modalWidth(MaxWidth::ThreeExtraLarge)
+            ->modalWidth(MaxWidth::TwoExtraLarge)
             ->modalSubmitAction(false)
             ->modalCancelAction(false);
     }

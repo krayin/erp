@@ -182,6 +182,7 @@ class ActivityAction extends Action
             })
             ->label(__('chatter::app.filament.actions.chatter.activity.action.label'))
             ->icon('heroicon-o-clock')
+            ->modalIcon('heroicon-o-clock')
             ->modalSubmitAction(function ($action) {
                 $action->label(__('chatter::app.filament.actions.chatter.activity.action.modal-submit-action.title'));
                 $action->icon('heroicon-m-paper-airplane');
