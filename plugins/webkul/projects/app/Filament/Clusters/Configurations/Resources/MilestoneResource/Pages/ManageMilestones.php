@@ -16,7 +16,7 @@ class ManageMilestones extends ManageRecords
     {
         return [
             Actions\CreateAction::make()
-                ->label('New Milestone')
+                ->label(__('projects::app.filament.clusters.configurations.resources.milestone.pages.manage-milestones.header-actions.create.label'))
                 ->icon('heroicon-o-plus-circle')
                 ->mutateFormDataUsing(function (array $data): array {
                     $data['creator_id'] = Auth::id();
@@ -26,8 +26,8 @@ class ManageMilestones extends ManageRecords
                 ->successNotification(
                     Notification::make()
                         ->success()
-                        ->title('Milestone created')
-                        ->body('The milestone has been created successfully.'),
+                        ->title(__('projects::app.filament.clusters.configurations.resources.milestone.pages.manage-milestones.header-actions.create.notification.title'))
+                        ->body(__('projects::app.filament.clusters.configurations.resources.milestone.pages.manage-milestones.header-actions.create.notification.body')),
                 ),
         ];
     }

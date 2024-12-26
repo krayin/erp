@@ -42,14 +42,6 @@ class ManageTasks extends SettingsPage
     {
         return $form
             ->schema([
-                // Forms\Components\Toggle::make('enable_recurring_tasks')
-                //     ->label('Enable Recurring Tasks')
-                //     ->helperText('Auto-generate tasks for regular activities')
-                //     ->required(),
-                // Forms\Components\Toggle::make('enable_task_dependencies')
-                //     ->label('Enable Task Dependencies')
-                //     ->helperText('Determine the order in which to perform tasks')
-                //     ->required(),
                 Forms\Components\Toggle::make('enable_project_stages')
                     ->label('Enable Project Stages')
                     ->helperText('Track the progress of your projects')

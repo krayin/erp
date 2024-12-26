@@ -22,12 +22,17 @@ class TagResource extends Resource
 
     protected static ?string $cluster = Configurations::class;
 
+    public static function getNavigationLabel(): string
+    {
+        return __('projects::app.filament.clusters.configurations.resources.tag.navigation.title');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->name('name')
+                    ->label(__('projects::app.filament.clusters.configurations.resources.tag.form.name'))
                     ->required()
                     ->maxLength(255)
                     ->unique(ignoreRecord: true),
@@ -39,6 +44,7 @@ class TagResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('projects::app.filament.clusters.configurations.resources.tag.table.columns.name'))
                     ->searchable(),
             ])
             ->actions([
@@ -47,53 +53,53 @@ class TagResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Tag updated')
-                            ->body('The tag has been updated successfully.'),
+                            ->title(__('projects::app.filament.clusters.configurations.resources.tag.table.actions.edit.notification.title'))
+                            ->body(__('projects::app.filament.clusters.configurations.resources.tag.table.actions.edit.notification.body')),
                     ),
                 Tables\Actions\RestoreAction::make()
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Tag restored')
-                            ->body('The tag has been restored successfully.'),
+                            ->title(__('projects::app.filament.clusters.configurations.resources.tag.table.actions.restore.notification.title'))
+                            ->body(__('projects::app.filament.clusters.configurations.resources.tag.table.actions.restore.notification.body')),
                     ),
                 Tables\Actions\DeleteAction::make()
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Tag deleted')
-                            ->body('The tag has been deleted successfully.'),
+                            ->title(__('projects::app.filament.clusters.configurations.resources.tag.table.actions.delete.notification.title'))
+                            ->body(__('projects::app.filament.clusters.configurations.resources.tag.table.actions.delete.notification.body')),
                     ),
                 Tables\Actions\ForceDeleteAction::make()
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Tag force deleted')
-                            ->body('The tag has been force deleted successfully.'),
+                            ->title(__('projects::app.filament.clusters.configurations.resources.tag.table.actions.force-delete.notification.title'))
+                            ->body(__('projects::app.filament.clusters.configurations.resources.tag.table.actions.force-delete.notification.body')),
                     ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\RestoreBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('projects::app.filament.clusters.configurations.resources.tag.table.bulk-actions.restore.notification.title'))
+                                ->body(__('projects::app.filament.clusters.configurations.resources.tag.table.bulk-actions.restore.notification.body')),
+                        ),
                     Tables\Actions\DeleteBulkAction::make()
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title('Tag deleted')
-                                ->body('The tag has been deleted successfully.'),
+                                ->title(__('projects::app.filament.clusters.configurations.resources.tag.table.bulk-actions.delete.notification.title'))
+                                ->body(__('projects::app.filament.clusters.configurations.resources.tag.table.bulk-actions.delete.notification.body')),
                         ),
                     Tables\Actions\ForceDeleteBulkAction::make()
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title('Tags force deleted')
-                                ->body('The tags has been force deleted successfully.'),
-                        ),
-                    Tables\Actions\RestoreBulkAction::make()
-                        ->successNotification(
-                            Notification::make()
-                                ->success()
-                                ->title('Tag restored')
-                                ->body('The tag has been restored successfully.'),
+                                ->title(__('projects::app.filament.clusters.configurations.resources.tag.table.bulk-actions.force-delete.notification.title'))
+                                ->body(__('projects::app.filament.clusters.configurations.resources.tag.table.bulk-actions.force-delete.notification.body')),
                         ),
                 ]),
             ]);
