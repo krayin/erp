@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Webkul\Chatter\Models\Attachment;
+use Webkul\Chatter\Models\Follower;
 use Webkul\Chatter\Models\Message;
+use Webkul\Security\Models\User;
 
 trait HasChatter
 {
@@ -187,10 +189,10 @@ trait HasChatter
         return $this->attachments()
             ->createMany(
                 collect($files)
-                    ->map(fn ($filePath) => [
+                    ->map(fn($filePath) => [
                         'file_path'          => $filePath,
                         'original_file_name' => basename($filePath),
-                        'mime_type'          => mime_content_type($storagePath = storage_path('app/public/'.$filePath)) ?: 'application/octet-stream',
+                        'mime_type'          => mime_content_type($storagePath = storage_path('app/public/' . $filePath)) ?: 'application/octet-stream',
                         'file_size'          => filesize($storagePath) ?: 0,
                         'creator_id'         => Auth::id(),
                         ...$additionalData,
@@ -215,8 +217,8 @@ trait HasChatter
             return false;
         }
 
-        if (Storage::exists('public/'.$attachment->file_path)) {
-            Storage::delete('public/'.$attachment->file_path);
+        if (Storage::exists('public/' . $attachment->file_path)) {
+            Storage::delete('public/' . $attachment->file_path);
         }
 
         return $attachment->delete();
@@ -228,7 +230,7 @@ trait HasChatter
     public function getAttachmentsByType(string $mimeType): Collection
     {
         return $this->attachments()
-            ->where('mime_type', 'LIKE', $mimeType.'%')
+            ->where('mime_type', 'LIKE', $mimeType . '%')
             ->get();
     }
 
@@ -267,6 +269,62 @@ trait HasChatter
     {
         $attachment = $this->attachments()->find($attachmentId);
 
-        return $attachment && Storage::exists('public/'.$attachment->file_path);
+        return $attachment && Storage::exists('public/' . $attachment->file_path);
+    }
+
+    /*
+    * Get all followers for this model
+    */
+    public function followers(): MorphMany
+    {
+        return $this->morphMany(Follower::class, 'followable');
+    }
+
+    /**
+     * Add a follower to this model
+     */
+    public function addFollower(User $user): Follower
+    {
+        $follower = $this->followers()->firstOrNew([
+            'user_id' => $user->id,
+        ]);
+
+        if (!$follower->exists) {
+            $follower->followed_at = now();
+            $follower->save();
+        }
+
+        return $follower;
+    }
+
+    /**
+     * Remove a follower from this model
+     */
+    public function removeFollower(User $user): bool
+    {
+        return (bool) $this->followers()
+            ->where('user_id', $user->id)
+            ->delete();
+    }
+
+    /**
+     * Check if a user is following this model
+     */
+    public function isFollowedBy(User $user): bool
+    {
+        return $this->followers()
+            ->where('user_id', $user->id)
+            ->exists();
+    }
+
+    /**
+     * Get all active followers
+     */
+    public function getActiveFollowers(): Collection
+    {
+        return $this->followers()
+            ->whereNotNull('followed_at')
+            ->with('user')
+            ->get();
     }
 }

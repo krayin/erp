@@ -97,12 +97,12 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
             ->icon('heroicon-o-check-circle')
             ->color('success')
             ->modalIcon('heroicon-o-check-circle')
-            ->form(fn (Form $form) => $form->schema([
+            ->form(fn(Form $form) => $form->schema([
                 TextInput::make('feedback')
                     ->label('Feedback'),
                 Hidden::make('type'),
             ]))
-            ->modalFooterActions(fn ($livewire, $arguments): array => [
+            ->modalFooterActions(fn($livewire, $arguments): array => [
                 Action::make('doneAndScheduleNext')
                     ->icon('heroicon-o-arrow-uturn-right')
                     ->label('Done & Schedule Next')
@@ -148,10 +148,10 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
         $this->record->addMessage([
             'type' => 'comment',
             'body' => collect([
-                $message->activityType?->name ? $message->activityType?->name.' done' : null,
-                $message->summary ? ': '.$message->summary : null,
-                $message->body ? '<br><div><span class="font-bold">Original Note</span>: '.$message->body.'</div>' : null,
-                $feedback ? '<div><span class="font-bold">Feedback</span>: <p>'.$feedback.'</p></div>' : null,
+                $message->activityType?->name ? $message->activityType?->name . ' done' : null,
+                $message->summary ? ': ' . $message->summary : null,
+                $message->body ? '<br><div><span class="font-bold">Original Note</span>: ' . $message->body . '</div>' : null,
+                $feedback ? '<div><span class="font-bold">Feedback</span>: <p>' . $feedback . '</p></div>' : null,
             ])->filter()->implode(''),
         ]);
 
@@ -193,7 +193,7 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
                                         ->live(),
                                     Forms\Components\DatePicker::make('date_deadline')
                                         ->label('Plan Date')
-                                        ->hidden(fn (Get $get) => ! $get('activity_plan_id'))
+                                        ->hidden(fn(Get $get) => ! $get('activity_plan_id'))
                                         ->live()
                                         ->native(false),
                                 ])
@@ -215,13 +215,13 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
                                                 $planDate = $get('date_deadline') ? Carbon::parse($get('date_deadline'))->format('m/d/Y') : '';
                                                 $html .= '<div class="flex items-center space-x-2" style="margin-left: 20px;">
                                                             <span>•</span>
-                                                            <span style="margin-left:2px;">'.$activityPlanTemplate->summary.($planDate ? ' ('.$planDate.')' : '').'</span>
+                                                            <span style="margin-left:2px;">' . $activityPlanTemplate->summary . ($planDate ? ' (' . $planDate . ')' : '') . '</span>
                                                           </div>';
                                             }
                                             $html .= '</div>';
 
                                             return new HtmlString($html);
-                                        })->hidden(fn (Get $get) => ! $get('activity_plan_id')),
+                                        })->hidden(fn(Get $get) => ! $get('activity_plan_id')),
                                     Forms\Components\Select::make('activity_type_id')
                                         ->label(__('chatter::app.filament.actions.chatter.activity.form.activity-type'))
                                         ->options(ActivityType::pluck('name', 'id'))
@@ -229,30 +229,30 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
                                         ->preload()
                                         ->live()
                                         ->required()
-                                        ->visible(fn (Get $get) => ! $get('activity_plan_id')),
+                                        ->visible(fn(Get $get) => ! $get('activity_plan_id')),
                                     Forms\Components\DatePicker::make('date_deadline')
                                         ->label(__('chatter::app.filament.actions.chatter.activity.form.due-date'))
                                         ->native(false)
-                                        ->hidden(fn (Get $get) => $get('activity_type_id') ? ActivityType::find($get('activity_type_id'))->category == 'meeting' : false)
-                                        ->visible(fn (Get $get) => ! $get('activity_plan_id')),
+                                        ->hidden(fn(Get $get) => $get('activity_type_id') ? ActivityType::find($get('activity_type_id'))->category == 'meeting' : false)
+                                        ->visible(fn(Get $get) => ! $get('activity_plan_id')),
                                     Forms\Components\TextInput::make('summary')
                                         ->label(__('chatter::app.filament.actions.chatter.activity.form.summary'))
-                                        ->visible(fn (Get $get) => ! $get('activity_plan_id')),
+                                        ->visible(fn(Get $get) => ! $get('activity_plan_id')),
                                     Forms\Components\Select::make('assigned_to')
                                         ->label(__('chatter::app.filament.actions.chatter.activity.form.assigned-to'))
                                         ->searchable()
-                                        ->hidden(fn (Get $get) => $get('activity_type_id') ? ActivityType::find($get('activity_type_id'))->category == 'meeting' : false)
+                                        ->hidden(fn(Get $get) => $get('activity_type_id') ? ActivityType::find($get('activity_type_id'))->category == 'meeting' : false)
                                         ->live()
-                                        ->visible(fn (Get $get) => ! $get('activity_plan_id'))
+                                        ->visible(fn(Get $get) => ! $get('activity_plan_id'))
                                         ->options(User::all()->pluck('name', 'id')->toArray())
                                         ->required(),
                                 ])->columns(2),
                             Forms\Components\RichEditor::make('body')
                                 ->hiddenLabel()
-                                ->hidden(fn (Get $get) => $get('activity_type_id') ? ActivityType::find($get('activity_type_id'))->category == 'meeting' : false)
-                                ->visible(fn (Get $get) => ! $get('activity_plan_id'))
+                                ->hidden(fn(Get $get) => $get('activity_type_id') ? ActivityType::find($get('activity_type_id'))->category == 'meeting' : false)
+                                ->visible(fn(Get $get) => ! $get('activity_plan_id'))
                                 ->label(__('chatter::app.filament.actions.chatter.activity.form.type-your-message-here'))
-                                ->visible(fn (Get $get) => ! $get('activity_plan_id')),
+                                ->visible(fn(Get $get) => ! $get('activity_plan_id')),
                             Forms\Components\Hidden::make('type')
                                 ->default('activity'),
                         ]),
@@ -276,7 +276,7 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
     {
         return Action::make('deleteMessage')
             ->requiresConfirmation()
-            ->action(fn (array $arguments) => $this->record->removeMessage($arguments['id']));
+            ->action(fn(array $arguments) => $this->record->removeMessage($arguments['id']));
     }
 
     public function cancelActivityAction(): Action
@@ -285,14 +285,14 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
             ->icon('heroicon-o-trash')
             ->color('danger')
             ->requiresConfirmation()
-            ->action(fn (array $arguments) => $this->record->removeMessage($arguments['id'], 'activities'));
+            ->action(fn(array $arguments) => $this->record->removeMessage($arguments['id'], 'activities'));
     }
 
     public function deleteAttachmentAction(): Action
     {
         return Action::make('deleteAttachment')
             ->requiresConfirmation()
-            ->action(fn (array $arguments) => dd($arguments));
+            ->action(fn(array $arguments) => dd($arguments));
     }
 
     public function chatInfolist(Infolist $infolist): Infolist

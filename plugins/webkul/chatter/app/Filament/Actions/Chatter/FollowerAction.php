@@ -2,10 +2,14 @@
 
 namespace Webkul\Chatter\Filament\Actions\Chatter;
 
+use Closure;
 use Filament\Actions\Action;
+use Filament\Forms\Form;
+use Filament\Forms;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
+use Webkul\Chatter\Filament\Actions\Chatter\FollowerActions\AddFollowerAction;
 
 class FollowerAction extends Action
 {
@@ -14,21 +18,33 @@ class FollowerAction extends Action
         return 'follower.action';
     }
 
+    public function record(Model|Closure|null $record): static
+    {
+        $this->record = $record;
+
+        return $this;
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this
             ->hiddenLabel()
-            ->icon('heroicon-s-user-plus')
+            ->icon('heroicon-s-user')
+            ->modalIcon('heroicon-s-user')
             ->color('gray')
             ->modal()
-            // ->badge(fn (Model $record): int => $record->followers()->count())
-            ->badge(fn(Model $record): int => 5)
+            ->badge(fn(Model $record): int => $record->followers->count())
             ->modalContentFooter(fn(Model $record): View => view('chatter::filament.widgets.followers', compact('record')))
             ->modalHeading(__('chatter::app.filament.actions.chatter.follower.modal.heading'))
             ->modalWidth(MaxWidth::Large)
             ->modalSubmitAction(false)
-            ->modalCancelAction(false);
+            ->slideOver()
+            ->modalCancelAction(false)
+            ->modalFooterActions([
+                AddFollowerAction::make('addFollower')
+                    ->record($this->record),
+            ]);
     }
 }
