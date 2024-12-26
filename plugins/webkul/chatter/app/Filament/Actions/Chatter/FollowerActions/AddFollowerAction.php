@@ -34,21 +34,12 @@ class AddFollowerAction extends Action
                         Forms\Components\Select::make('user_id')
                             ->label('Recipients')
                             ->searchable()
-                            ->getSearchResultsUsing(function (string $query) use ($record) {
-                                $followerUserIds = $record->followers()->pluck('user_id');
-
-                                return DB::table('users')
-                                    ->whereNotIn('id', $followerUserIds)
-                                    ->where('name', 'like', "%{$query}%")
-                                    ->limit(50)
-                                    ->pluck('name', 'id');
-                            })
-                            ->getOptionLabelUsing(function ($value) {
-                                return DB::table('users')
-                                    ->where('id', $value)
-                                    ->value('name');
-                            })
+                            ->preload()
+                            ->searchable()
+                            ->options($record->nonFollowers()->pluck('name', 'id'))
                             ->required(),
+                        Forms\Components\Toggle::make('notify')
+                            ->label('Notify User')
                     ])
                     ->columns(1);
             })

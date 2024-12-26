@@ -281,6 +281,14 @@ trait HasChatter
     }
 
     /**
+     * Get all non followers
+     */
+    public function nonFollowers(): Collection
+    {
+        return User::whereNotIn('id', $this->followers()->pluck('user_id'))->get();
+    }
+
+    /**
      * Add a follower to this model
      */
     public function addFollower(User $user): Follower
