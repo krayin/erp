@@ -3,7 +3,6 @@
 namespace Webkul\Chatter\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
@@ -15,6 +14,7 @@ class Attachment extends Model
     protected $fillable = [
         'company_id',
         'creator_id',
+        'message_id',
         'file_size',
         'name',
         'messageable',
@@ -45,13 +45,24 @@ class Attachment extends Model
         return Storage::url($this->file_path);
     }
 
+    public function message()
+    {
+        return $this->belongsTo(Message::class, 'message_id');
+    }
+
     public static function boot()
     {
         parent::boot();
 
         static::deleted(function ($attachment) {
-            // Delete the physical file
-            Storage::delete($attachment->url);
+            $filePath = $attachment->file_path;
+
+            if (
+                $filePath
+                && Storage::disk('public')->exists($filePath)
+            ) {
+                Storage::disk('public')->delete($filePath);
+            }
         });
     }
 }

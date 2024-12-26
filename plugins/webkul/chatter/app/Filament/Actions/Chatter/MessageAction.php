@@ -24,45 +24,40 @@ class MessageAction extends Action
         $this
             ->color('gray')
             ->outlined()
-            ->form(function ($form) {
-                return $form->schema([
-                    Forms\Components\TextInput::make('subject')
-                        ->placeholder('Subject')
-                        ->live()
-                        ->visible(fn ($get) => $get('showSubject'))
-                        ->columnSpanFull(),
-                    Forms\Components\RichEditor::make('body')
-                        ->hiddenLabel()
-                        ->placeholder(__('chatter::app.filament.actions.chatter.activity.form.type-your-message-here'))
-                        ->required()
-                        ->columnSpanFull(),
-                    Forms\Components\Group::make([
-                        Forms\Components\Actions::make([
-                            Forms\Components\Actions\Action::make('add_subject')
-                                ->label(function ($get) {
-                                    return $get('showSubject') ? 'Hide Subject' : 'Add Subject';
-                                })
-                                ->action(function ($set, $get) {
-                                    if ($get('showSubject')) {
-                                        $set('showSubject', false);
+            ->form([
+                Forms\Components\Group::make([
+                    Forms\Components\Actions::make([
+                        Forms\Components\Actions\Action::make('add_subject')
+                            ->label(function ($get) {
+                                return $get('showSubject') ? 'Hide Subject' : 'Add Subject';
+                            })
+                            ->action(function ($set, $get) {
+                                if ($get('showSubject')) {
+                                    $set('showSubject', false);
 
-                                        return;
-                                    }
+                                    return;
+                                }
 
-                                    $set('showSubject', true);
-                                })
-                                ->link()
-                                ->size('sm')
-                                ->icon('heroicon-s-plus'),
-                        ])
-                            ->columnSpan('full')
-                            ->alignRight(),
-                    ]),
-                    Forms\Components\Hidden::make('type')
-                        ->default('comment'),
-                ])
-                    ->columns(1);
-            })
+                                $set('showSubject', true);
+                            })
+                            ->link()
+                            ->size('sm')
+                            ->icon('heroicon-s-plus'),
+                    ])
+                        ->columnSpan('full')
+                        ->alignRight(),
+                ]),
+                Forms\Components\TextInput::make('subject')
+                    ->placeholder('Subject')
+                    ->live()
+                    ->visible(fn ($get) => $get('showSubject')),
+                Forms\Components\RichEditor::make('body')
+                    ->hiddenLabel()
+                    ->placeholder(__('chatter::app.filament.actions.chatter.activity.form.type-your-message-here'))
+                    ->required(),
+                Forms\Components\Hidden::make('type')
+                    ->default('comment'),
+            ])
             ->action(function (array $data, ?Model $record = null) {
                 try {
                     $data['name'] = $record->name;
