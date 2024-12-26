@@ -24,18 +24,21 @@ trait HasChatter
     }
 
     /**
+     * Get all activity messages for this model
+     */
+    public function activities(): MorphMany
+    {
+        return $this->morphMany(Message::class, 'messageable')
+            ->where('type', 'activity')
+            ->orderBy('created_at', 'desc');
+    }
+
+    /**
      * Get all activity plans for this model
      */
     public function activityPlans(): mixed
     {
         return collect();
-    }
-
-    public function activities()
-    {
-        return $this->morphMany(Message::class, 'messageable')
-            ->where('type', 'activity')
-            ->orderBy('created_at', 'desc');
     }
 
     /**
@@ -45,10 +48,12 @@ trait HasChatter
     {
         $message = new Message;
 
+        $user = Auth::user();
+
         $message->fill(array_merge($data, [
-            'creator_id'    => Auth::user()->id,
+            'creator_id'    => $user->id,
             'date_deadline' => $data['date_deadline'] ?? now(),
-            'company_id'    => $data['company_id'] ?? $this->company_id ?? null,
+            'company_id'    => $data['company_id'] ?? ($user->defaultCompany?->id ?? null),
         ]));
 
         $this->messages()->save($message);
@@ -243,8 +248,8 @@ trait HasChatter
         }
 
         // Delete the physical file
-        if (Storage::exists('public/' . $attachment->file_path)) {
-            Storage::delete('public/' . $attachment->file_path);
+        if (Storage::exists('public/'.$attachment->file_path)) {
+            Storage::delete('public/'.$attachment->file_path);
         }
 
         return $attachment->delete();
@@ -256,7 +261,7 @@ trait HasChatter
     public function getAttachmentsByType(string $mimeType): Collection
     {
         return $this->attachments()
-            ->where('mime_type', 'LIKE', $mimeType . '%')
+            ->where('mime_type', 'LIKE', $mimeType.'%')
             ->get();
     }
 
@@ -295,6 +300,6 @@ trait HasChatter
     {
         $attachment = $this->attachments()->find($attachmentId);
 
-        return $attachment && Storage::exists('public/' . $attachment->file_path);
+        return $attachment && Storage::exists('public/'.$attachment->file_path);
     }
 }
