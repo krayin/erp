@@ -8,7 +8,7 @@ class Settings extends Cluster
 {
     protected static ?string $navigationIcon = 'heroicon-o-wrench';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 6;
 
     public static function getNavigationLabel(): string
     {

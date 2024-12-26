@@ -16,8 +16,8 @@ class EditTask extends EditRecord
     {
         return Notification::make()
             ->success()
-            ->title('Task updated')
-            ->body('The task has been saved successfully.');
+            ->title(__('projects::app.filament.resources.task.pages.edit.notification.title'))
+            ->body(__('projects::app.filament.resources.task.pages.edit.notification.body'));
     }
 
     protected function getHeaderActions(): array
@@ -28,8 +28,8 @@ class EditTask extends EditRecord
                 ->successNotification(
                     Notification::make()
                         ->success()
-                        ->title('Task deleted')
-                        ->body('The task has been deleted successfully.'),
+                        ->title(__('projects::app.filament.resources.task.pages.edit.header-actions.delete.notification.title'))
+                        ->body(__('projects::app.filament.resources.task.pages.edit.header-actions.delete.notification.body')),
                 ),
         ];
     }

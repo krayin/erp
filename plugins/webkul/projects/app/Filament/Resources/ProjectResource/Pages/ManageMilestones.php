@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\MilestoneResource;
 use Webkul\Project\Filament\Resources\ProjectResource;
 
-class ManageProjectMilestones extends ManageRelatedRecords
+class ManageMilestones extends ManageRelatedRecords
 {
     protected static string $resource = ProjectResource::class;
 
@@ -21,7 +21,7 @@ class ManageProjectMilestones extends ManageRelatedRecords
 
     public static function getNavigationLabel(): string
     {
-        return 'Milestones';
+        return __('projects::app.filament.resources.project.pages.manage-milestones.title');
     }
 
     public function form(Form $form): Form
@@ -34,7 +34,7 @@ class ManageProjectMilestones extends ManageRelatedRecords
         return MilestoneResource::table($table)
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                    ->label('Add Project Milestone')
+                    ->label(__('projects::app.filament.resources.project.pages.manage-milestones.table.header-actions.create.label'))
                     ->icon('heroicon-o-plus-circle')
                     ->mutateFormDataUsing(function (array $data): array {
                         $data['creator_id'] = Auth::id();
@@ -44,8 +44,8 @@ class ManageProjectMilestones extends ManageRelatedRecords
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Milestone created')
-                            ->body('The milestone has been created successfully.'),
+                            ->title(__('projects::app.filament.resources.project.pages.manage-milestones.table.header-actions.create.notification.title'))
+                            ->body(__('projects::app.filament.resources.project.pages.manage-milestones.table.header-actions.create.notification.body')),
                     ),
             ]);
     }

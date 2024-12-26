@@ -20,8 +20,8 @@ class ViewTask extends ViewRecord
                 ->successNotification(
                     Notification::make()
                         ->success()
-                        ->title('Task deleted')
-                        ->body('The task has been deleted successfully.'),
+                        ->title(__('projects::app.filament.resources.task.pages.view.header-actions.delete.notification.title'))
+                        ->body(__('projects::app.filament.resources.task.pages.view.header-actions.delete.notification.body')),
                 ),
         ];
     }

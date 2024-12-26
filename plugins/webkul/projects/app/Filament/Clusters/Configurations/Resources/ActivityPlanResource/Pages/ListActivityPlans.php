@@ -34,8 +34,8 @@ class ListActivityPlans extends ListRecords
                 ->successNotification(
                     Notification::make()
                         ->success()
-                        ->title('Activity plan deleted')
-                        ->body('The activity plan has been deleted successfully.'),
+                        ->title(__('projects::app.filament.clusters.configurations.resources.activity-plan.pages.list.header-actions.delete.notification.title'))
+                        ->body(__('projects::app.filament.clusters.configurations.resources.activity-plan.pages.list.header-actions.delete.notification.body')),
                 ),
         ];
     }
@@ -43,9 +43,9 @@ class ListActivityPlans extends ListRecords
     public function getTabs(): array
     {
         return [
-            'all' => Tab::make('All')
+            'all' => Tab::make(__('projects::app.filament.clusters.configurations.resources.activity-plan.pages.list.tabs.all'))
                 ->badge(ActivityPlan::where('plugin', 'projects')->count()),
-            'archived' => Tab::make('Archived')
+            'archived' => Tab::make(__('projects::app.filament.clusters.configurations.resources.activity-plan.pages.list.tabs.archived'))
                 ->badge(ActivityPlan::where('plugin', 'projects')->onlyTrashed()->count())
                 ->modifyQueryUsing(function ($query) {
                     return $query->onlyTrashed();

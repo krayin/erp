@@ -15,8 +15,8 @@ class CreateProject extends CreateRecord
     {
         return Notification::make()
             ->success()
-            ->title('Project created')
-            ->body('The project has been created successfully.');
+            ->title(__('projects::app.filament.resources.project.pages.create.notification.title'))
+            ->body(__('projects::app.filament.resources.project.pages.create.notification.body'));
     }
 
     protected function mutateFormDataBeforeCreate(array $data): array

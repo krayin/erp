@@ -26,7 +26,7 @@ class TaskStagesRelationManager extends RelationManager
             ->groups([])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                    ->label('Add Task Stage')
+                    ->label(__('projects::app.filament.resources.project.relation-managers.task-stages.table.header-actions.create.label'))
                     ->icon('heroicon-o-plus-circle')
                     ->mutateFormDataUsing(function (array $data): array {
                         $data['creator_id'] = Auth::id();
@@ -36,8 +36,8 @@ class TaskStagesRelationManager extends RelationManager
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Task stage created')
-                            ->body('The task stage has been created successfully.'),
+                            ->title(__('projects::app.filament.resources.project.relation-managers.task-stages.table.header-actions.create.notification.title'))
+                            ->body(__('projects::app.filament.resources.project.relation-managers.task-stages.table.header-actions.create.notification.body')),
                     ),
             ]);
     }

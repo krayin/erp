@@ -20,8 +20,8 @@ class ViewProject extends ViewRecord
                 ->successNotification(
                     Notification::make()
                         ->success()
-                        ->title('Project deleted')
-                        ->body('The project has been deleted successfully.'),
+                        ->title(__('projects::app.filament.resources.project.pages.view.header-actions.delete.notification.title'))
+                        ->body(__('projects::app.filament.resources.project.pages.view.header-actions.delete.notification.body')),
                 ),
         ];
     }

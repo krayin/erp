@@ -24,7 +24,7 @@ class ManageSubTasks extends ManageRelatedRecords
 
     public static function getNavigationLabel(): string
     {
-        return 'Sub Tasks';
+        return __('projects::app.filament.resources.task.pages.manage-sub-tasks.title');
     }
 
     public function form(Form $form): Form
@@ -44,7 +44,7 @@ class ManageSubTasks extends ManageRelatedRecords
             ->groups([])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                    ->label('Add Sub Task')
+                    ->label(__('projects::app.filament.resources.task.pages.manage-sub-tasks.table.header-actions.create.label'))
                     ->icon('heroicon-o-plus-circle')
                     ->fillForm(function (array $arguments): array {
                         return [
@@ -65,8 +65,8 @@ class ManageSubTasks extends ManageRelatedRecords
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Timesheet created')
-                            ->body('The timesheet has been created successfully.'),
+                            ->title(__('projects::app.filament.resources.task.pages.manage-sub-tasks.table.header-actions.create.notification.title'))
+                            ->body(__('projects::app.filament.resources.task.pages.manage-sub-tasks.table.header-actions.create.notification.body')),
                     ),
             ])
             ->actions([
@@ -81,22 +81,22 @@ class ManageSubTasks extends ManageRelatedRecords
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title('Task restored')
-                                ->body('The task has been restored successfully.'),
+                                ->title(__('projects::app.filament.resources.task.pages.manage-sub-tasks.table.actions.restore.notification.title'))
+                                ->body(__('projects::app.filament.resources.task.pages.manage-sub-tasks.table.actions.restore.notification.body')),
                         ),
                     Tables\Actions\DeleteAction::make()
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title('Task deleted')
-                                ->body('The task has been deleted successfully.'),
+                                ->title(__('projects::app.filament.resources.task.pages.manage-sub-tasks.table.actions.delete.notification.title'))
+                                ->body(__('projects::app.filament.resources.task.pages.manage-sub-tasks.table.actions.delete.notification.body')),
                         ),
                     Tables\Actions\ForceDeleteAction::make()
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title('Task force deleted')
-                                ->body('The task has been force deleted successfully.'),
+                                ->title(__('projects::app.filament.resources.task.pages.manage-sub-tasks.table.actions.force-delete.notification.title'))
+                                ->body(__('projects::app.filament.resources.task.pages.manage-sub-tasks.table.actions.force-delete.notification.body')),
                         ),
                 ]),
             ]);

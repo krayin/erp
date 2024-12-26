@@ -21,15 +21,15 @@ class PartnerResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('General Information')
+                Forms\Components\Section::make(__('projects::app.filament.resources.partner.form.sections.general.title'))
                     ->schema([
                         Forms\Components\Radio::make('account_type')
                             ->hiddenLabel()
                             ->inline()
                             ->columnSpan(2)
                             ->options([
-                                AccountType::INDIVIDUAL->value => 'Individual',
-                                AccountType::COMPANY->value    => 'Company',
+                                AccountType::INDIVIDUAL->value => AccountType::options()[AccountType::INDIVIDUAL->value],
+                                AccountType::COMPANY->value    => AccountType::options()[AccountType::COMPANY->value],
                             ])
                             ->default(AccountType::INDIVIDUAL->value)
                             ->live(),
@@ -41,7 +41,7 @@ class PartnerResource extends Resource
                             ->placeholder(fn (Forms\Get $get): string => $get('account_type') === AccountType::INDIVIDUAL->value ? 'Jhon Doe' : 'ACME Corp')
                             ->extraInputAttributes(['style' => 'font-size: 1.5rem;height: 3rem;']),
                         Forms\Components\Select::make('parent_id')
-                            ->label('Company')
+                            ->label(__('projects::app.filament.resources.partner.form.sections.general.fields.company'))
                             ->relationship(
                                 name: 'parent',
                                 titleAttribute: 'name',
@@ -67,7 +67,7 @@ class PartnerResource extends Resource
                                     });
                             }),
                         Forms\Components\Group::make()
-                            ->label('Avatar')
+                            ->label(__('projects::app.filament.resources.partner.form.sections.general.fields.avatar'))
                             ->schema([
                                 Forms\Components\FileUpload::make('avatar')
                                     ->image()
@@ -81,38 +81,39 @@ class PartnerResource extends Resource
                             ])
                             ->columnSpan(2),
                         Forms\Components\TextInput::make('tax_id')
-                            ->label('Tax ID')
+                            ->label(__('projects::app.filament.resources.partner.form.sections.general.fields.tax-id'))
                             ->placeholder('e.g. 29ABCDE1234F1Z5')
                             ->maxLength(255),
                         Forms\Components\TextInput::make('job_title')
-                            ->label('Job Title')
+                            ->label(__('projects::app.filament.resources.partner.form.sections.general.fields.job-title'))
                             ->placeholder('e.g. CEO')
                             ->maxLength(255),
                         Forms\Components\TextInput::make('phone')
-                            ->label('Phone')
+                            ->label(__('projects::app.filament.resources.partner.form.sections.general.fields.phone'))
                             ->tel()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('mobile')
-                            ->label('Mobile')
+                            ->label(__('projects::app.filament.resources.partner.form.sections.general.fields.mobile'))
                             ->maxLength(255),
                         Forms\Components\TextInput::make('email')
-                            ->label('Email')
+                            ->label(__('projects::app.filament.resources.partner.form.sections.general.fields.email'))
                             ->email()
                             ->maxLength(255)
                             ->unique(ignoreRecord: true),
                         Forms\Components\TextInput::make('website')
-                            ->label('Website')
+                            ->label(__('projects::app.filament.resources.partner.form.sections.general.fields.website'))
                             ->maxLength(255)
                             ->url(),
                         Forms\Components\Select::make('title_id')
-                            ->label('Title')
+                            ->label(__('projects::app.filament.resources.partner.form.sections.general.fields.title'))
                             ->relationship('title', 'name')
                             ->createOptionForm([
                                 Forms\Components\TextInput::make('name')
-                                    ->label('Name')
+                                    ->label(__('projects::app.filament.resources.partner.form.sections.general.fields.name'))
                                     ->required()
                                     ->unique('partners_titles'),
                                 Forms\Components\TextInput::make('short_name')
+                                    ->label(__('projects::app.filament.resources.partner.form.sections.general.fields.short-name'))
                                     ->label('Short Name')
                                     ->required()
                                     ->unique('partners_titles'),
@@ -120,46 +121,46 @@ class PartnerResource extends Resource
                                     ->default(Auth::user()->id),
                             ]),
                         Forms\Components\Select::make('tags')
-                            ->label('Tags')
+                            ->label(__('projects::app.filament.resources.partner.form.sections.general.fields.tags'))
                             ->relationship(name: 'tags', titleAttribute: 'name')
                             ->multiple()
                             ->searchable()
                             ->preload()
                             ->createOptionForm([
                                 Forms\Components\TextInput::make('name')
-                                    ->label('Name')
+                                    ->label(__('projects::app.filament.resources.partner.form.sections.general.fields.name'))
                                     ->required()
                                     ->unique('partners_tags'),
                             ]),
                     ]),
 
-                Forms\Components\Tabs::make('Employee Information')
+                Forms\Components\Tabs::make('tabs')
                     ->tabs([
-                        Forms\Components\Tabs\Tab::make('Sales and Purchases')
+                        Forms\Components\Tabs\Tab::make(__('projects::app.filament.resources.partner.form.tabs.sales-purchase.title'))
                             ->icon('heroicon-o-currency-dollar')
                             ->schema([
                                 Forms\Components\Fieldset::make('Sales')
                                     ->schema([
                                         Forms\Components\Select::make('user_id')
-                                            ->label('Responsible')
+                                            ->label(__('projects::app.filament.resources.partner.form.tabs.sales-purchase.fields.responsible'))
                                             ->relationship('user', 'name')
                                             ->searchable()
                                             ->preload()
-                                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'This is internal salesperson responsible for this customer'),
+                                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('projects::app.filament.resources.partner.form.tabs.sales-purchase.fields.responsible-hint-text')),
                                     ])
                                     ->columns(1),
 
                                 Forms\Components\Fieldset::make('Others')
                                     ->schema([
                                         Forms\Components\TextInput::make('company_registry')
-                                            ->label('Company Id')
+                                            ->label(__('projects::app.filament.resources.partner.form.tabs.sales-purchase.fields.company-id'))
                                             ->maxLength(255)
-                                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'The registry number of the company. Use it if it is different from the Tax ID. It must be unique across all partners of a same country'),
+                                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('projects::app.filament.resources.partner.form.tabs.sales-purchase.fields.company-id-hint-text')),
                                         Forms\Components\TextInput::make('reference')
-                                            ->label('Reference')
+                                            ->label(__('projects::app.filament.resources.partner.form.tabs.sales-purchase.fields.reference'))
                                             ->maxLength(255),
                                         Forms\Components\Select::make('industry_id')
-                                            ->label('Industry')
+                                            ->label(__('projects::app.filament.resources.partner.form.tabs.sales-purchase.fields.industry'))
                                             ->relationship('industry', 'name'),
                                     ])
                                     ->columns(2),
