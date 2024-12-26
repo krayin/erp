@@ -9,6 +9,10 @@ return [
                     'group' => 'Project',
                 ],
 
+                'pages' => [
+
+                ],
+
                 'resources' => [
                     'activity-plan' => [
                         'navigation' => [
