@@ -6,6 +6,9 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
+use Filament\Notifications\Notification;
+use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\Pages\Page;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
@@ -25,7 +28,6 @@ use Webkul\Project\Models\ProjectStage;
 use Webkul\Project\Settings\TaskSettings;
 use Webkul\Project\Settings\TimeSettings;
 use Webkul\Security\Filament\Resources\UserResource;
-use Filament\Notifications\Notification;
 
 class ProjectResource extends Resource
 {
@@ -36,6 +38,8 @@ class ProjectResource extends Resource
     protected static ?string $slug = 'project/projects';
 
     protected static ?string $navigationIcon = 'heroicon-o-folder';
+
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -546,6 +550,16 @@ class ProjectResource extends Resource
                     ->columnSpan(['lg' => 1]),
             ])
             ->columns(3);
+    }
+
+    public static function getRecordSubNavigation(Page $page): array
+    {
+        return $page->generateNavigationItems([
+            Pages\ViewProject::class,
+            Pages\EditProject::class,
+            Pages\ManageProjectTasks::class,
+            Pages\ManageProjectMilestones::class,
+        ]);
     }
 
     public static function getRelations(): array

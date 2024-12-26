@@ -6,6 +6,9 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
+use Filament\Notifications\Notification;
+use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\Pages\Page;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -27,7 +30,6 @@ use Webkul\Project\Settings\TaskSettings;
 use Webkul\Project\Settings\TimeSettings;
 use Webkul\Security\Filament\Resources\UserResource;
 use Webkul\Support\Filament\Tables\Columns\ProgressBarEntry;
-use Filament\Notifications\Notification;
 
 class TaskResource extends Resource
 {
@@ -38,6 +40,8 @@ class TaskResource extends Resource
     protected static ?string $slug = 'project/tasks';
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
+
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
     protected static ?string $recordTitleAttribute = 'title';
 
@@ -742,6 +746,16 @@ class TaskResource extends Resource
             ->columns(3);
     }
 
+    public static function getRecordSubNavigation(Page $page): array
+    {
+        return $page->generateNavigationItems([
+            Pages\ViewTask::class,
+            Pages\EditTask::class,
+            Pages\ManageTaskTimesheets::class,
+            Pages\ManageSubTasks::class,
+        ]);
+    }
+
     public static function getRelations(): array
     {
         $relations = [];
@@ -762,10 +776,12 @@ class TaskResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListTasks::route('/'),
-            'create' => Pages\CreateTask::route('/create'),
-            'edit'   => Pages\EditTask::route('/{record}/edit'),
-            'view'   => Pages\ViewTask::route('/{record}'),
+            'index'      => Pages\ListTasks::route('/'),
+            'create'     => Pages\CreateTask::route('/create'),
+            'edit'       => Pages\EditTask::route('/{record}/edit'),
+            'view'       => Pages\ViewTask::route('/{record}'),
+            'timesheets' => Pages\ManageTaskTimesheets::route('/{record}/timesheets'),
+            'sub-tasks'  => Pages\ManageSubTasks::route('/{record}/sub-tasks'),
         ];
     }
 }

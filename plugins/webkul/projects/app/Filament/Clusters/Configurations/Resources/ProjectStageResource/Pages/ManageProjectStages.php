@@ -3,12 +3,12 @@
 namespace Webkul\Project\Filament\Clusters\Configurations\Resources\ProjectStageResource\Pages;
 
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ManageRecords;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\ProjectStageResource;
 use Webkul\Project\Models\ProjectStage;
-use Filament\Notifications\Notification;
 
 class ManageProjectStages extends ManageRecords
 {

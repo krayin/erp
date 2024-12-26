@@ -3,10 +3,10 @@
 namespace Webkul\Project\Filament\Clusters\Configurations\Resources\MilestoneResource\Pages;
 
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ManageRecords;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\MilestoneResource;
-use Filament\Notifications\Notification;
 
 class ManageMilestones extends ManageRecords
 {

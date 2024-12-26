@@ -3,12 +3,12 @@
 namespace Webkul\Project\Filament\Resources\ProjectResource\RelationManagers;
 
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\MilestoneResource;
-use Filament\Notifications\Notification;
 
 class MilestonesRelationManager extends RelationManager
 {

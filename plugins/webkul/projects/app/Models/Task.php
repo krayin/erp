@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableTrait;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Field\Traits\HasCustomFields;
@@ -16,12 +18,10 @@ use Webkul\Project\Database\Factories\TaskFactory;
 use Webkul\Security\Models\Scopes\UserPermissionScope;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
-use Spatie\EloquentSortable\Sortable;
-use Spatie\EloquentSortable\SortableTrait;
 
 class Task extends Model implements Sortable
 {
-    use HasChatter, HasCustomFields, SortableTrait, HasFactory, HasLogActivity, SoftDeletes;
+    use HasChatter, HasCustomFields, HasFactory, HasLogActivity, SoftDeletes, SortableTrait;
 
     /**
      * Table name.
@@ -96,15 +96,7 @@ class Task extends Model implements Sortable
         'is_active',
         'is_recurring',
         'deadline',
-        'working_hours_open',
-        'working_hours_close',
         'allocated_hours',
-        'remaining_hours',
-        'effective_hours',
-        'total_hours_spent',
-        'subtask_effective_hours',
-        'overtime',
-        'progress',
         'stage.name'   => 'Stage',
         'project.name' => 'Project',
         'partner.name' => 'Partner',

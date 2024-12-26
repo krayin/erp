@@ -3,12 +3,12 @@
 namespace Webkul\Project\Filament\Clusters\Configurations\Resources\TagResource\Pages;
 
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ManageRecords;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\TagResource;
 use Webkul\Project\Models\Tag;
-use Filament\Notifications\Notification;
 
 class ManageTags extends ManageRecords
 {
