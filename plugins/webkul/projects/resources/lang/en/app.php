@@ -162,8 +162,375 @@ return [
                                 'project' => 'Project',
                                 'creator' => 'Creator',
                             ],
+
+                            'actions' => [
+                                'edit' => [
+                                    'notification' => [
+                                        'title' => 'Milestone update',
+                                        'body' => 'The milestone has been update successfully.',
+                                    ],
+                                ],
+
+                                'delete' => [
+                                    'notification' => [
+                                        'title' => 'Milestone deleted',
+                                        'body' => 'The milestone has been deleted successfully.',
+                                    ],
+                                ],
+                            ],
+
+                            'bulk-actions' => [
+                                'delete' => [
+                                    'notification' => [
+                                        'title' => 'Milestones deleted',
+                                        'body' => 'The milestones has been deleted successfully.',
+                                    ],
+                                ],
+                            ],
+                        ],
+
+                        'pages' => [
+                            'manage-milestones' => [
+                                'header-actions' => [
+                                    'create' => [
+                                        'label' => 'New Milestone',
+
+                                        'notification' => [
+                                            'title' => 'Milestone created',
+                                            'body' => 'The milestone has been created successfully.',
+                                        ],
+                                    ],
+                                ],
+                            ],
                         ],
                     ],
+
+                    'project-stage' => [
+                        'navigation' => [
+                            'title' => 'Project Stages',
+                        ],
+
+                        'form' => [
+                            'name' => 'Name',
+                        ],
+
+                        'table' => [
+                            'columns' => [
+                                'name' => 'Name',
+                                'created-at' => 'Created At',
+                                'updated-at' => 'Updated At',
+                            ],
+
+                            'groups' => [
+                                'name' => 'Name',
+                                'is-completed' => 'Is Completed',
+                                'project' => 'Project',
+                                'created-at' => 'Created At',
+                            ],
+
+                            'filters' => [
+                                'is-completed' => 'Is Completed',
+                                'project' => 'Project',
+                                'creator' => 'Creator',
+                            ],
+
+                            'actions' => [
+                                'edit' => [
+                                    'notification' => [
+                                        'title' => 'Project stage updated',
+                                        'body' => 'The project stage has been updated successfully.',
+                                    ],
+                                ],
+
+                                'restore' => [
+                                    'notification' => [
+                                        'title' => 'Project stage restored',
+                                        'body' => 'The project stage has been restored successfully.',
+                                    ],
+                                ],
+
+                                'delete' => [
+                                    'notification' => [
+                                        'title' => 'Project stage deleted',
+                                        'body' => 'The project stage has been deleted successfully.',
+                                    ],
+                                ],
+
+                                'force-delete' => [
+                                    'notification' => [
+                                        'title' => 'Project stage force deleted',
+                                        'body' => 'The project stage has been force deleted successfully.',
+                                    ],
+                                ],
+                            ],
+
+                            'bulk-actions' => [
+                                'restore' => [
+                                    'notification' => [
+                                        'title' => 'Project stages restored',
+                                        'body' => 'The project stages has been restored successfully.',
+                                    ],
+                                ],
+
+                                'delete' => [
+                                    'notification' => [
+                                        'title' => 'Project stages deleted',
+                                        'body' => 'The project stages has been deleted successfully.',
+                                    ],
+                                ],
+
+                                'force-delete' => [
+                                    'notification' => [
+                                        'title' => 'Project stages force deleted',
+                                        'body' => 'The project stages has been force deleted successfully.',
+                                    ],
+                                ],
+                            ],
+                        ],
+
+                        'pages' => [
+                            'manage-project-stages' => [
+                                'header-actions' => [
+                                    'create' => [
+                                        'label' => 'New Project Stage',
+
+                                        'notification' => [
+                                            'title' => 'Project stage created',
+                                            'body' => 'The project stage has been created successfully.',
+                                        ],
+                                    ],
+                                ],
+
+
+                                'tabs' => [
+                                    'all' => 'All',
+                                    'archived' => 'Archived',
+                                ],
+                            ],
+                        ],
+                    ],
+
+                    'tag' => [
+                        'navigation' => [
+                            'title' => 'Tags',
+                        ],
+
+                        'form' => [
+                            'name' => 'Name',
+                        ],
+
+                        'table' => [
+                            'columns' => [
+                                'name' => 'Name',
+                                'created-at' => 'Created At',
+                                'updated-at' => 'Updated At',
+                            ],
+
+                            'groups' => [
+                                'name' => 'Name',
+                                'created-at' => 'Created At',
+                            ],
+
+                            'filters' => [
+                                'project' => 'Project',
+                                'creator' => 'Creator',
+                            ],
+
+                            'actions' => [
+                                'edit' => [
+                                    'notification' => [
+                                        'title' => 'Tag updated',
+                                        'body' => 'The tag has been updated successfully.',
+                                    ],
+                                ],
+
+                                'restore' => [
+                                    'notification' => [
+                                        'title' => 'Tag restored',
+                                        'body' => 'The tag has been restored successfully.',
+                                    ],
+                                ],
+
+                                'delete' => [
+                                    'notification' => [
+                                        'title' => 'Tag deleted',
+                                        'body' => 'The tag has been deleted successfully.',
+                                    ],
+                                ],
+
+                                'force-delete' => [
+                                    'notification' => [
+                                        'title' => 'Tag force deleted',
+                                        'body' => 'The tag has been force deleted successfully.',
+                                    ],
+                                ],
+                            ],
+
+                            'bulk-actions' => [
+                                'restore' => [
+                                    'notification' => [
+                                        'title' => 'Tags restored',
+                                        'body' => 'The tags has been restored successfully.',
+                                    ],
+                                ],
+
+                                'delete' => [
+                                    'notification' => [
+                                        'title' => 'Tags deleted',
+                                        'body' => 'The tags has been deleted successfully.',
+                                    ],
+                                ],
+
+                                'force-delete' => [
+                                    'notification' => [
+                                        'title' => 'Tags force deleted',
+                                        'body' => 'The tags has been force deleted successfully.',
+                                    ],
+                                ],
+                            ],
+                        ],
+
+                        'pages' => [
+                            'manage-tags' => [
+                                'header-actions' => [
+                                    'create' => [
+                                        'label' => 'New Tag',
+
+                                        'notification' => [
+                                            'title' => 'Tag created',
+                                            'body' => 'The tag has been created successfully.',
+                                        ],
+                                    ],
+                                ],
+
+
+                                'tabs' => [
+                                    'all' => 'All',
+                                    'archived' => 'Archived',
+                                ],
+                            ],
+                        ],
+                    ],
+
+                    'task-stage' => [
+                        'navigation' => [
+                            'title' => 'Task Stages',
+                        ],
+
+                        'form' => [
+                            'name' => 'Name',
+                            'project' => 'Project',
+                        ],
+
+                        'table' => [
+                            'columns' => [
+                                'name' => 'Name',
+                                'project' => 'Project',
+                                'created-at' => 'Created At',
+                                'updated-at' => 'Updated At',
+                            ],
+
+                            'groups' => [
+                                'project' => 'Project',
+                                'created-at' => 'Created At',
+                            ],
+
+                            'filters' => [
+                                'project' => 'Project',
+                            ],
+
+                            'actions' => [
+                                'edit' => [
+                                    'notification' => [
+                                        'title' => 'Task stage updated',
+                                        'body' => 'The task stage has been updated successfully.',
+                                    ],
+                                ],
+
+                                'restore' => [
+                                    'notification' => [
+                                        'title' => 'Task stage restored',
+                                        'body' => 'The task stage has been restored successfully.',
+                                    ],
+                                ],
+
+                                'delete' => [
+                                    'notification' => [
+                                        'title' => 'Task stage deleted',
+                                        'body' => 'The task stage has been deleted successfully.',
+                                    ],
+                                ],
+
+                                'force-delete' => [
+                                    'notification' => [
+                                        'title' => 'Task stage force deleted',
+                                        'body' => 'The task stage has been force deleted successfully.',
+                                    ],
+                                ],
+                            ],
+
+                            'bulk-actions' => [
+                                'restore' => [
+                                    'notification' => [
+                                        'title' => 'Task stages restored',
+                                        'body' => 'The task stages has been restored successfully.',
+                                    ],
+                                ],
+
+                                'delete' => [
+                                    'notification' => [
+                                        'title' => 'Task stages deleted',
+                                        'body' => 'The task stages has been deleted successfully.',
+                                    ],
+                                ],
+
+                                'force-delete' => [
+                                    'notification' => [
+                                        'title' => 'Task stages force deleted',
+                                        'body' => 'The task stages has been force deleted successfully.',
+                                    ],
+                                ],
+                            ],
+                        ],
+
+                        'pages' => [
+                            'manage-task-stages' => [
+                                'header-actions' => [
+                                    'create' => [
+                                        'label' => 'New Task Stage',
+
+                                        'notification' => [
+                                            'title' => 'Task stage created',
+                                            'body' => 'The task stage has been created successfully.',
+                                        ],
+                                    ],
+                                ],
+
+
+                                'tabs' => [
+                                    'all' => 'All',
+                                    'archived' => 'Archived',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+
+        'pages' => [
+            'dashboard' => [
+                'navigation' => [
+                    'title' => 'Project',
+                ],
+
+                'filters-form' => [
+                    'project' => 'Project',
+                    'assignees' => 'Assignees',
+                    'tags' => 'Tags',
+                    'customer' => 'Customer',
+                    'start-date' => 'Start Date',
+                    'end-date' => 'End Date',
                 ],
             ],
         ],
@@ -996,6 +1363,46 @@ return [
                             ],
                         ],
                     ],
+                ],
+            ],
+        ],
+
+        'widgets' => [
+            'stats-overview' => [
+                'total-tasks' => 'Total Tasks',
+                'total-hours-spent' => 'Total Hours Spent',
+                'total-time-remaining' => 'Total Time Remaining',
+            ],
+
+            'task-by-stage' => [
+                'heading' => 'Tasks by Stage',
+
+                'datasets' => [
+                    'label' => 'Tasks created',
+                ],
+            ],
+
+            'task-by-state' => [
+                'heading' => 'Tasks by State',
+            ],
+
+            'top-assignees' => [
+                'heading' => 'Top Assignees',
+
+                'table-columns' => [
+                    'user' => 'User',
+                    'hours-spent' => 'Hours Spent',
+                    'tasks' => 'Tasks',
+                ],
+            ],
+
+            'top-projects' => [
+                'heading' => 'Top Projects',
+
+                'table-columns' => [
+                    'project-name' => 'Project',
+                    'hours-spent' => 'Hours Spent',
+                    'tasks' => 'Tasks',
                 ],
             ],
         ],

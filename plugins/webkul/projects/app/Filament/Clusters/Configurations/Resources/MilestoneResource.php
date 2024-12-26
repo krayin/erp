@@ -144,15 +144,15 @@ class MilestoneResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Milestone updated')
-                            ->body('The milestone has been updated successfully.'),
+                            ->title(__('projects::app.filament.clusters.configurations.resources.milestone.table.actions.edit.notification.title'))
+                            ->body(__('projects::app.filament.clusters.configurations.resources.milestone.table.actions.edit.notification.body')),
                     ),
                 Tables\Actions\DeleteAction::make()
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Milestone deleted')
-                            ->body('The milestone has been deleted successfully.'),
+                            ->title(__('projects::app.filament.clusters.configurations.resources.milestone.table.actions.delete.notification.title'))
+                            ->body(__('projects::app.filament.clusters.configurations.resources.milestone.table.actions.delete.notification.body')),
                     ),
             ])
             ->bulkActions([
@@ -161,8 +161,8 @@ class MilestoneResource extends Resource
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title('Milestones deleted')
-                                ->body('The milestones has been deleted successfully.'),
+                                ->title(__('projects::app.filament.clusters.configurations.resources.milestone.table.bulk-actions.delete.notification.title'))
+                                ->body(__('projects::app.filament.clusters.configurations.resources.milestone.table.bulk-actions.delete.notification.body')),
                         ),
                 ]),
             ]);

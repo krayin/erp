@@ -23,6 +23,11 @@ class ProjectStageResource extends Resource
 
     protected static ?string $cluster = Configurations::class;
 
+    public static function getNavigationLabel(): string
+    {
+        return __('projects::app.filament.clusters.configurations.resources.project-stage.navigation.title');
+    }
+
     public static function isDiscovered(): bool
     {
         if (app()->runningInConsole()) {
@@ -37,7 +42,7 @@ class ProjectStageResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('Name')
+                    ->label(__('projects::app.filament.clusters.configurations.resources.project-stage.form.name'))
                     ->required()
                     ->maxLength(255)
                     ->unique(ignoreRecord: true),
@@ -50,13 +55,13 @@ class ProjectStageResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Name')
+                    ->label(__('projects::app.filament.clusters.configurations.resources.project-stage.table.columns.name'))
                     ->searchable()
                     ->sortable(),
             ])
             ->groups([
                 Tables\Grouping\Group::make('created_at')
-                    ->label('Created At')
+                    ->label(__('projects::app.filament.clusters.configurations.resources.project-stage.table.columns.created-at'))
                     ->date(),
             ])
             ->reorderable('sort')
@@ -67,53 +72,53 @@ class ProjectStageResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Project stage updated')
-                            ->body('The project stage has been updated successfully.'),
+                            ->title(__('projects::app.filament.clusters.configurations.resources.project-stage.table.actions.edit.notification.title'))
+                            ->body(__('projects::app.filament.clusters.configurations.resources.project-stage.table.actions.edit.notification.body')),
                     ),
                 Tables\Actions\RestoreAction::make()
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Project stage restored')
-                            ->body('The project stage has been restored successfully.'),
+                            ->title(__('projects::app.filament.clusters.configurations.resources.project-stage.table.actions.restore.notification.title'))
+                            ->body(__('projects::app.filament.clusters.configurations.resources.project-stage.table.actions.restore.notification.body')),
                     ),
                 Tables\Actions\DeleteAction::make()
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Project stage deleted')
-                            ->body('The project stage has been deleted successfully.'),
+                            ->title(__('projects::app.filament.clusters.configurations.resources.project-stage.table.actions.delete.notification.title'))
+                            ->body(__('projects::app.filament.clusters.configurations.resources.project-stage.table.actions.delete.notification.body')),
                     ),
                 Tables\Actions\ForceDeleteAction::make()
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title('Project stage force deleted')
-                            ->body('The project stage force has been deleted successfully.'),
+                            ->title(__('projects::app.filament.clusters.configurations.resources.project-stage.table.actions.force-delete.notification.title'))
+                            ->body(__('projects::app.filament.clusters.configurations.resources.project-stage.table.actions.force-delete.notification.body')),
                     ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\RestoreBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('projects::app.filament.clusters.configurations.resources.project-stage.table.bulk-actions.restore.notification.title'))
+                                ->body(__('projects::app.filament.clusters.configurations.resources.project-stage.table.bulk-actions.restore.notification.body')),
+                        ),
                     Tables\Actions\DeleteBulkAction::make()
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title('Project stages deleted')
-                                ->body('The project stages has been deleted successfully.'),
+                                ->title(__('projects::app.filament.clusters.configurations.resources.project-stage.table.bulk-actions.delete.notification.title'))
+                                ->body(__('projects::app.filament.clusters.configurations.resources.project-stage.table.bulk-actions.delete.notification.body')),
                         ),
                     Tables\Actions\ForceDeleteBulkAction::make()
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title('Project stages force deleted')
-                                ->body('The project stages has been force deleted successfully.'),
-                        ),
-                    Tables\Actions\RestoreBulkAction::make()
-                        ->successNotification(
-                            Notification::make()
-                                ->success()
-                                ->title('Project stages restored')
-                                ->body('The project stages has been restored successfully.'),
+                                ->title(__('projects::app.filament.clusters.configurations.resources.project-stage.table.bulk-actions.force-delete.notification.title'))
+                                ->body(__('projects::app.filament.clusters.configurations.resources.project-stage.table.bulk-actions.force-delete.notification.body')),
                         ),
                 ]),
             ]);

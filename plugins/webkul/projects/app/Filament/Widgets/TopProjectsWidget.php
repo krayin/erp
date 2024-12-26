@@ -7,6 +7,7 @@ use Filament\Tables;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Carbon;
 use Webkul\Project\Models\Timesheet;
 
@@ -15,6 +16,11 @@ class TopProjectsWidget extends BaseWidget
     use HasWidgetShield, InteractsWithPageFilters;
 
     protected static ?string $pollingInterval = '15s';
+
+    public function getHeading(): string | Htmlable | null
+    {
+        return __('projects::app.filament.widgets.top-projects.heading');
+    }
 
     protected function getTableQuery(): Builder
     {
@@ -64,13 +70,13 @@ class TopProjectsWidget extends BaseWidget
     {
         return [
             Tables\Columns\TextColumn::make('project_name')
-                ->label('Project Name')
+                ->label(__('projects::app.filament.widgets.top-projects.table-columns.project-name'))
                 ->sortable(),
             Tables\Columns\TextColumn::make('total_hours')
-                ->label('Hours Spent')
+                ->label(__('projects::app.filament.widgets.top-projects.table-columns.hours-spent'))
                 ->sortable(),
             Tables\Columns\TextColumn::make('total_tasks')
-                ->label('Tasks')
+                ->label(__('projects::app.filament.widgets.top-projects.table-columns.tasks'))
                 ->sortable(),
         ];
     }

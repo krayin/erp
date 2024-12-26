@@ -18,7 +18,7 @@ class ManageTaskStages extends ManageRecords
     {
         return [
             Actions\CreateAction::make()
-                ->label('New Task Stage')
+                ->label(__('projects::app.filament.clusters.configurations.resources.task-stage.pages.manage-task-stages.header-actions.create.label'))
                 ->icon('heroicon-o-plus-circle')
                 ->mutateFormDataUsing(function (array $data): array {
                     $data['creator_id'] = Auth::id();
@@ -29,7 +29,9 @@ class ManageTaskStages extends ManageRecords
                     Notification::make()
                         ->success()
                         ->title('Task stage created')
-                        ->body('The task stage has been created successfully.'),
+                        ->body('The task stage has been created successfully.')
+                        ->title(__('projects::app.filament.clusters.configurations.resources.task-stage.pages.manage-task-stages.header-actions.create.notification.title'))
+                        ->body(__('projects::app.filament.clusters.configurations.resources.task-stage.pages.manage-task-stages.header-actions.create.notification.body')),
                 ),
         ];
     }
@@ -37,9 +39,9 @@ class ManageTaskStages extends ManageRecords
     public function getTabs(): array
     {
         return [
-            'all' => Tab::make('All Stages')
+            'all' => Tab::make(__('projects::app.filament.clusters.configurations.resources.task-stage.pages.manage-task-stages.tabs.all'))
                 ->badge(TaskStage::count()),
-            'archived' => Tab::make('Archived')
+            'archived' => Tab::make(__('projects::app.filament.clusters.configurations.resources.task-stage.pages.manage-task-stages.tabs.archived'))
                 ->badge(TaskStage::onlyTrashed()->count())
                 ->modifyQueryUsing(function ($query) {
                     return $query->onlyTrashed();
