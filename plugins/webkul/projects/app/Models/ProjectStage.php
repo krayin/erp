@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Project\Database\Factories\ProjectStageFactory;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableTrait;
 
-class ProjectStage extends Model
+class ProjectStage extends Model implements Sortable
 {
-    use HasFactory, SoftDeletes;
+    use SortableTrait, HasFactory, SoftDeletes;
 
     /**
      * Table name.
@@ -43,6 +45,10 @@ class ProjectStage extends Model
     protected $casts = [
         'is_active'    => 'boolean',
         'is_collapsed' => 'boolean',
+    ];
+
+    public $sortable = [
+        'order_column_name' => 'sort',
     ];
 
     public function creator(): BelongsTo

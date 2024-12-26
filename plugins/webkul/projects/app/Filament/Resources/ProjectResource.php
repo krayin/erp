@@ -72,7 +72,7 @@ class ProjectResource extends Resource
                             ->inline()
                             ->required()
                             ->visible(fn (TaskSettings $taskSettings) => $taskSettings->enable_project_stages)
-                            ->options(fn () => ProjectStage::all()->mapWithKeys(fn ($stage) => [$stage->id => $stage->name]))
+                            ->options(fn () => ProjectStage::orderBy('sort')->get()->mapWithKeys(fn ($stage) => [$stage->id => $stage->name]))
                             ->default(ProjectStage::first()?->id),
                         Forms\Components\Section::make('General Information')
                             ->schema([
@@ -246,6 +246,8 @@ class ProjectResource extends Resource
                     ->label('Created At')
                     ->date(),
             ])
+            ->reorderable('sort')
+            ->defaultSort('sort', 'asc')
             ->filters([
                 Tables\Filters\QueryBuilder::make()
                     ->constraints(static::mergeCustomTableQueryBuilderConstraints([

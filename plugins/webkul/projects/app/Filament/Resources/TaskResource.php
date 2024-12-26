@@ -74,7 +74,7 @@ class TaskResource extends Resource
                             ->hiddenLabel()
                             ->inline()
                             ->required()
-                            ->options(fn () => TaskStage::all()->mapWithKeys(fn ($stage) => [$stage->id => $stage->name]))
+                            ->options(fn () => TaskStage::orderBy('sort')->get()->mapWithKeys(fn ($stage) => [$stage->id => $stage->name]))
                             ->default(TaskStage::first()?->id),
                         Forms\Components\Section::make(__('projects::app.filament.resources.task.form.sections.general.title'))
                             ->schema([
@@ -382,6 +382,8 @@ class TaskResource extends Resource
                     ->label(__('projects::app.filament.resources.task.table.groups.created-at'))
                     ->date(),
             ])
+            ->reorderable('sort')
+            ->defaultSort('sort', 'asc')
             ->filters([
                 Tables\Filters\QueryBuilder::make()
                     ->constraints(collect(static::mergeCustomTableQueryBuilderConstraints([
