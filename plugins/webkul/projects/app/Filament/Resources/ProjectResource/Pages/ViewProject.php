@@ -6,6 +6,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 use Webkul\Chatter\Filament\Actions as ChatterActions;
 use Webkul\Project\Filament\Resources\ProjectResource;
+use Filament\Notifications\Notification;
 
 class ViewProject extends ViewRecord
 {
@@ -15,7 +16,13 @@ class ViewProject extends ViewRecord
     {
         return [
             ChatterActions\ChatterAction::make(),
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title('Project deleted')
+                        ->body('The project has been deleted successfully.'),
+                ),
             Actions\EditAction::make(),
         ];
     }

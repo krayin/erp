@@ -16,10 +16,12 @@ use Webkul\Project\Database\Factories\TaskFactory;
 use Webkul\Security\Models\Scopes\UserPermissionScope;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableTrait;
 
-class Task extends Model
+class Task extends Model implements Sortable
 {
-    use HasChatter, HasCustomFields, HasFactory, HasLogActivity, SoftDeletes;
+    use HasChatter, HasCustomFields, SortableTrait, HasFactory, HasLogActivity, SoftDeletes;
 
     /**
      * Table name.
@@ -109,6 +111,10 @@ class Task extends Model
         'parent.title' => 'Parent',
         'company.name' => 'Company',
         'creator.name' => 'Creator',
+    ];
+
+    public $sortable = [
+        'order_column_name' => 'sort',
     ];
 
     public function parent(): BelongsTo

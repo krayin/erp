@@ -25,6 +25,7 @@ use Webkul\Project\Models\ProjectStage;
 use Webkul\Project\Settings\TaskSettings;
 use Webkul\Project\Settings\TimeSettings;
 use Webkul\Security\Filament\Resources\UserResource;
+use Filament\Notifications\Notification;
 
 class ProjectResource extends Resource
 {
@@ -72,7 +73,7 @@ class ProjectResource extends Resource
                             ->inline()
                             ->required()
                             ->visible(fn (TaskSettings $taskSettings) => $taskSettings->enable_project_stages)
-                            ->options(fn () => ProjectStage::all()->mapWithKeys(fn ($stage) => [$stage->id => $stage->name]))
+                            ->options(fn () => ProjectStage::orderBy('sort')->get()->mapWithKeys(fn ($stage) => [$stage->id => $stage->name]))
                             ->default(ProjectStage::first()?->id),
                         Forms\Components\Section::make('General Information')
                             ->schema([
@@ -80,6 +81,7 @@ class ProjectResource extends Resource
                                     ->label('Name')
                                     ->required()
                                     ->maxLength(255)
+                                    ->autofocus()
                                     ->placeholder('Project Name...')
                                     ->extraInputAttributes(['style' => 'font-size: 1.5rem;height: 3rem;']),
                                 Forms\Components\Textarea::make('description')
@@ -246,6 +248,8 @@ class ProjectResource extends Resource
                     ->label('Created At')
                     ->date(),
             ])
+            ->reorderable('sort')
+            ->defaultSort('sort', 'desc')
             ->filters([
                 Tables\Filters\QueryBuilder::make()
                     ->constraints(static::mergeCustomTableQueryBuilderConstraints([
@@ -364,9 +368,28 @@ class ProjectResource extends Resource
 
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make()
-                        ->hidden(fn (Project $record) => $record->trashed()),
-                    Tables\Actions\RestoreAction::make(),
-                    Tables\Actions\DeleteAction::make(),
+                        ->hidden(fn ($record) => $record->trashed()),
+                    Tables\Actions\RestoreAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Projects restored')
+                                ->body('The projects has been restored successfully.'),
+                        ),
+                    Tables\Actions\DeleteAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Projects deleted')
+                                ->body('The projects has been deleted successfully.'),
+                        ),
+                    Tables\Actions\ForceDeleteAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Projects force deleted')
+                                ->body('The projects force has been deleted successfully.'),
+                        ),
                 ])
                     ->link()
                     ->hiddenLabel(),

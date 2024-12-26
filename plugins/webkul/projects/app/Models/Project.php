@@ -17,10 +17,12 @@ use Webkul\Project\Database\Factories\ProjectFactory;
 use Webkul\Security\Models\Scopes\UserPermissionScope;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableTrait;
 
-class Project extends Model
+class Project extends Model implements Sortable
 {
-    use HasChatter, HasCustomFields, HasFactory, HasLogActivity, SoftDeletes;
+    use HasChatter, HasCustomFields, SortableTrait, HasFactory, HasLogActivity, SoftDeletes;
 
     /**
      * Table name.
@@ -96,6 +98,10 @@ class Project extends Model
         'company.name' => 'Company',
         'user.name'    => 'Project Manager',
         'creator.name' => 'Creator',
+    ];
+
+    public $sortable = [
+        'order_column_name' => 'sort',
     ];
 
     /**

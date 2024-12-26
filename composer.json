@@ -16,6 +16,7 @@
         "guava/filament-icon-picker": "^2.0",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
+        "spatie/eloquent-sortable": "^4.4",
         "wikimedia/composer-merge-plugin": "^2.1"
     },
     "require-dev": {

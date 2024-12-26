@@ -27,6 +27,7 @@ use Webkul\Project\Settings\TaskSettings;
 use Webkul\Project\Settings\TimeSettings;
 use Webkul\Security\Filament\Resources\UserResource;
 use Webkul\Support\Filament\Tables\Columns\ProgressBarEntry;
+use Filament\Notifications\Notification;
 
 class TaskResource extends Resource
 {
@@ -74,7 +75,7 @@ class TaskResource extends Resource
                             ->hiddenLabel()
                             ->inline()
                             ->required()
-                            ->options(fn () => TaskStage::all()->mapWithKeys(fn ($stage) => [$stage->id => $stage->name]))
+                            ->options(fn () => TaskStage::orderBy('sort')->get()->mapWithKeys(fn ($stage) => [$stage->id => $stage->name]))
                             ->default(TaskStage::first()?->id),
                         Forms\Components\Section::make(__('projects::app.filament.resources.task.form.sections.general.title'))
                             ->schema([
@@ -82,6 +83,7 @@ class TaskResource extends Resource
                                     ->label(__('projects::app.filament.resources.task.form.sections.general.fields.title'))
                                     ->required()
                                     ->maxLength(255)
+                                    ->autofocus()
                                     ->placeholder(__('projects::app.filament.resources.task.form.sections.general.fields.title-placeholder'))
                                     ->extraInputAttributes(['style' => 'font-size: 1.5rem;height: 3rem;']),
                                 Forms\Components\ToggleButtons::make('state')
@@ -382,6 +384,8 @@ class TaskResource extends Resource
                     ->label(__('projects::app.filament.resources.task.table.groups.created-at'))
                     ->date(),
             ])
+            ->reorderable('sort')
+            ->defaultSort('sort', 'desc')
             ->filters([
                 Tables\Filters\QueryBuilder::make()
                     ->constraints(collect(static::mergeCustomTableQueryBuilderConstraints([
@@ -511,18 +515,56 @@ class TaskResource extends Resource
             ->filtersFormColumns(2)
             ->actions([
                 Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\ViewAction::make()
+                        ->hidden(fn ($record) => $record->trashed()),
                     Tables\Actions\EditAction::make()
                         ->hidden(fn ($record) => $record->trashed()),
-                    Tables\Actions\DeleteAction::make(),
-                    Tables\Actions\RestoreAction::make(),
+                    Tables\Actions\RestoreAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Task restored')
+                                ->body('The task has been restored successfully.'),
+                        ),
+                    Tables\Actions\DeleteAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Task deleted')
+                                ->body('The task has been deleted successfully.'),
+                        ),
+                    Tables\Actions\ForceDeleteAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Task force deleted')
+                                ->body('The task has been force deleted successfully.'),
+                        ),
                 ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Tasks deleted')
+                                ->body('The tasks has been deleted successfully.'),
+                        ),
+                    Tables\Actions\ForceDeleteBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Tasks force deleted')
+                                ->body('The tasks has been force deleted successfully.'),
+                        ),
+                    Tables\Actions\RestoreBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Tasks restored')
+                                ->body('The tasks has been restored successfully.'),
+                        ),
                 ]),
             ]);
     }

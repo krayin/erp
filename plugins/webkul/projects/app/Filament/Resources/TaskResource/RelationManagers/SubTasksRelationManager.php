@@ -12,6 +12,7 @@ use Webkul\Project\Enums\TaskState;
 use Webkul\Project\Filament\Resources\TaskResource;
 use Webkul\Project\Models\Task;
 use Webkul\Project\Models\TaskStage;
+use Filament\Notifications\Notification;
 
 class SubTasksRelationManager extends RelationManager
 {
@@ -25,11 +26,17 @@ class SubTasksRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return TaskResource::table($table)
-            ->filters([])
+            ->filters([
+                Tables\Filters\TrashedFilter::make(),
+            ])
+            ->filtersLayout(Tables\Enums\FiltersLayout::Dropdown)
+            ->filtersFormColumns(1)
+            ->filtersTriggerAction(null)
             ->groups([])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                    ->label('Add Task Stage')
+                    ->label('Add Sub Task')
+                    ->icon('heroicon-o-plus-circle')
                     ->fillForm(function (array $arguments): array {
                         return [
                             'stage_id'     => TaskStage::first()?->id,
@@ -45,7 +52,13 @@ class SubTasksRelationManager extends RelationManager
 
                         return $data;
                     })
-                    ->modalWidth('6xl'),
+                    ->modalWidth('6xl')
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title('Timesheet created')
+                            ->body('The timesheet has been created successfully.'),
+                    ),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
@@ -55,8 +68,27 @@ class SubTasksRelationManager extends RelationManager
                     Tables\Actions\EditAction::make()
                         ->url(fn (Task $record): string => route('filament.admin.resources.project.tasks.edit', $record->id))
                         ->hidden(fn ($record) => $record->trashed()),
-                    Tables\Actions\DeleteAction::make(),
-                    Tables\Actions\RestoreAction::make(),
+                    Tables\Actions\RestoreAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Task restored')
+                                ->body('The task has been restored successfully.'),
+                        ),
+                    Tables\Actions\DeleteAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Task deleted')
+                                ->body('The task has been deleted successfully.'),
+                        ),
+                    Tables\Actions\ForceDeleteAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Task force deleted')
+                                ->body('The task has been force deleted successfully.'),
+                        ),
                 ]),
             ]);
     }

@@ -11,6 +11,7 @@ use Webkul\Project\Filament\Clusters\Configurations;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\ProjectStageResource\Pages;
 use Webkul\Project\Models\ProjectStage;
 use Webkul\Project\Settings\TaskSettings;
+use Filament\Notifications\Notification;
 
 class ProjectStageResource extends Resource
 {
@@ -59,18 +60,61 @@ class ProjectStageResource extends Resource
                     ->date(),
             ])
             ->reorderable('sort')
-            ->defaultSort('sort', 'asc')
+            ->defaultSort('sort', 'desc')
             ->actions([
                 Tables\Actions\EditAction::make()
-                    ->hidden(fn ($record) => $record->trashed()),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\RestoreAction::make(),
+                    ->hidden(fn ($record) => $record->trashed())
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title('Project stage updated')
+                            ->body('The project stage has been updated successfully.'),
+                    ),
+                Tables\Actions\RestoreAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title('Project stage restored')
+                            ->body('The project stage has been restored successfully.'),
+                    ),
+                Tables\Actions\DeleteAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title('Project stage deleted')
+                            ->body('The project stage has been deleted successfully.'),
+                    ),
+                Tables\Actions\ForceDeleteAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title('Project stage force deleted')
+                            ->body('The project stage force has been deleted successfully.'),
+                    ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Project stages deleted')
+                                ->body('The project stages has been deleted successfully.'),
+                        ),
+                    Tables\Actions\ForceDeleteBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Project stages force deleted')
+                                ->body('The project stages has been force deleted successfully.'),
+                        ),
+                    Tables\Actions\RestoreBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Project stages restored')
+                                ->body('The project stages has been restored successfully.'),
+                        ),
                 ]),
             ]);
     }

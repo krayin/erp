@@ -6,19 +6,32 @@ use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 use Webkul\Chatter\Filament\Actions\ChatterAction;
 use Webkul\Project\Filament\Resources\ProjectResource;
+use Filament\Notifications\Notification;
 
 class EditProject extends EditRecord
 {
     protected static string $resource = ProjectResource::class;
+
+    protected function getSavedNotification(): Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title('Project updated')
+            ->body('The project has been saved successfully.');
+    }
 
     protected function getHeaderActions(): array
     {
         return [
             ChatterAction::make(),
             Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
-            Actions\ForceDeleteAction::make(),
-            Actions\RestoreAction::make(),
+            Actions\DeleteAction::make()
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title('Project deleted')
+                        ->body('The project has been deleted successfully.'),
+                ),
         ];
     }
 }

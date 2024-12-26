@@ -11,6 +11,7 @@ use Webkul\Project\Filament\Clusters\Configurations;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\TaskStageResource\Pages;
 use Webkul\Project\Filament\Resources\ProjectResource\RelationManagers\TaskStagesRelationManager;
 use Webkul\Project\Models\TaskStage;
+use Filament\Notifications\Notification;
 
 class TaskStageResource extends Resource
 {
@@ -71,18 +72,61 @@ class TaskStageResource extends Resource
                     ->date(),
             ])
             ->reorderable('sort')
-            ->defaultSort('sort', 'asc')
+            ->defaultSort('sort', 'desc')
             ->actions([
                 Tables\Actions\EditAction::make()
-                    ->hidden(fn ($record) => $record->trashed()),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\RestoreAction::make(),
+                    ->hidden(fn ($record) => $record->trashed())
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title('Task stage updated')
+                            ->body('The task stage has been updated successfully.'),
+                    ),
+                Tables\Actions\RestoreAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title('Task stage restored')
+                            ->body('The task stage has been restored successfully.'),
+                    ),
+                Tables\Actions\DeleteAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title('Task stage deleted')
+                            ->body('The task stage has been deleted successfully.'),
+                    ),
+                Tables\Actions\ForceDeleteAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title('Task stage force deleted')
+                            ->body('The task stage has been force deleted successfully.'),
+                    ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Task stages deleted')
+                                ->body('The task stages has been deleted successfully.'),
+                        ),
+                    Tables\Actions\ForceDeleteBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Task stages force deleted')
+                                ->body('The task stages has been force deleted successfully.'),
+                        ),
+                    Tables\Actions\RestoreBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Task stages restored')
+                                ->body('The task stages has been restored successfully.'),
+                        ),
                 ]),
             ]);
     }

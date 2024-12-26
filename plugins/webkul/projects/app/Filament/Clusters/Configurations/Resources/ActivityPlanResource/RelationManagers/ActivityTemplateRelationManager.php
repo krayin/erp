@@ -17,6 +17,7 @@ use Webkul\Support\Enums\ActivityResponsibleType;
 use Webkul\Support\Filament\Resources\ActivityTypeResource;
 use Webkul\Support\Models\ActivityPlanTemplate;
 use Webkul\Support\Models\ActivityType;
+use Filament\Notifications\Notification;
 
 class ActivityTemplateRelationManager extends RelationManager
 {
@@ -38,6 +39,8 @@ class ActivityTemplateRelationManager extends RelationManager
                                                     ->options(ActivityType::pluck('name', 'id'))
                                                     ->relationship('activityType', 'name')
                                                     ->searchable()
+                                                    ->required()
+                                                    ->default(ActivityType::first()?->id)
                                                     ->createOptionForm(fn (Form $form) => ActivityTypeResource::form($form))
                                                     ->preload()
                                                     ->label('Activity type')
@@ -66,8 +69,11 @@ class ActivityTemplateRelationManager extends RelationManager
                                         Forms\Components\Select::make('responsible_type')
                                             ->label('Assignment')
                                             ->options(ActivityResponsibleType::options())
+                                            ->default(ActivityResponsibleType::ON_DEMAND->value)
+                                            ->required()
                                             ->searchable()
                                             ->live()
+                                            ->required()
                                             ->preload(),
                                         Forms\Components\Select::make('responsible_id')
                                             ->label('Assignee')
@@ -186,10 +192,17 @@ class ActivityTemplateRelationManager extends RelationManager
                             'sort'       => ActivityPlanTemplate::max('sort') + 1,
                             'creator_id' => Auth::user()->id,
                         ];
-                    }),
+                    })
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title('Activity plan template created')
+                            ->body('The activity plan template has been created successfully.'),
+                    ),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make()
                         ->modalWidth(MaxWidth::FitContent)
                         ->mutateFormDataUsing(function (array $data): array {
@@ -198,14 +211,30 @@ class ActivityTemplateRelationManager extends RelationManager
                                 'sort'       => ActivityPlanTemplate::max('sort') + 1,
                                 'creator_id' => Auth::user()->id,
                             ];
-                        }),
-                    Tables\Actions\DeleteAction::make(),
-                    Tables\Actions\ViewAction::make(),
+                        })
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Activity plan template updated')
+                                ->body('The activity plan template has been updated successfully.'),
+                        ),
+                    Tables\Actions\DeleteAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title('Activity plan template deleted')
+                                ->body('The activity plan template has been deleted successfully.'),
+                        ),
                 ]),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
-                Tables\Actions\RestoreBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title('Activity plan template deleted')
+                            ->body('The activity plan template has been deleted successfully.'),
+                    ),
             ])
             ->reorderable('sort');
     }
