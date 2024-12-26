@@ -16,9 +16,23 @@ use Webkul\Support\Models\ActivityType;
 
 class ActivityAction extends Action
 {
+    protected mixed $activityPlans;
+
     public static function getDefaultName(): ?string
     {
         return 'activity.action';
+    }
+
+    public function setActivityPlans(mixed $activityPlans)
+    {
+        $this->activityPlans = $activityPlans;
+
+        return $this;
+    }
+
+    public function getActivityPlans(): mixed
+    {
+        return $this->activityPlans;
     }
 
     protected function setUp(): void
@@ -36,8 +50,9 @@ class ActivityAction extends Action
                                 ->schema([
                                     Forms\Components\Select::make('activity_plan_id')
                                         ->label(__('Activity Plan'))
-                                        ->options($record->activityPlan()->pluck('name', 'id'))
+                                        ->options($this->getActivityPlans())
                                         ->searchable()
+                                        ->hidden($this->getActivityPlans()->isEmpty())
                                         ->preload()
                                         ->live(),
                                     Forms\Components\DatePicker::make('date_deadline')
