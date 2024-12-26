@@ -3,6 +3,7 @@
 namespace Webkul\Chatter\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
@@ -42,5 +43,15 @@ class Attachment extends Model
     public function getUrlAttribute(): string
     {
         return Storage::url($this->file_path);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function ($attachment) {
+            // Delete the physical file
+            Storage::delete($attachment->url);
+        });
     }
 }

@@ -1,14 +1,20 @@
 <div class="flex h-full w-full flex-col space-y-4">
     <!-- Actions -->
     <div class="flex justify-between">
-        <div class="flex w-full gap-3">
-            {{ $this->messageAction }}
+        <div class="flex w-full justify-between gap-3">
+            <div>
+                {{ $this->messageAction }}
 
-            {{ $this->logAction }}
+                {{ $this->logAction }}
 
-            {{ $this->activityAction }}
+                {{ $this->activityAction }}
+            </div>
 
-            {{ $this->fileAction }}
+            <div>
+                {{ $this->fileAction }}
+
+                {{ $this->followerAction }}
+            </div>
         </div>
 
         {{-- {{ $this->followerAction }} --}}

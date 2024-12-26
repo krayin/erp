@@ -169,22 +169,6 @@ trait HasChatter
     }
 
     /**
-     * Get thread messages (messages with same parent)
-     */
-    public function getThreadMessages(Message $message): Collection
-    {
-        $parentId = $message->parent_id ?? $message->id;
-
-        return $this->messages()
-            ->where(function ($query) use ($parentId) {
-                $query->where('id', $parentId)
-                    ->orWhere('parent_id', $parentId);
-            })
-            ->orderBy('created_at', 'asc')
-            ->get();
-    }
-
-    /**
      * Get all attachments for this model
      */
     public function attachments(): MorphMany
@@ -193,43 +177,28 @@ trait HasChatter
     }
 
     /**
-     * Add a new attachment
-     */
-    public function addAttachment(array|UploadedFile $file, array $additionalData = []): Attachment
-    {
-        if ($file instanceof UploadedFile) {
-            $path = $file->store('chats-attachments', 'public');
-            $fileData = [
-                'file_path'          => $path,
-                'original_file_name' => $file->getClientOriginalName(),
-                'mime_type'          => $file->getMimeType(),
-                'file_size'          => $file->getSize(),
-            ];
-        } else {
-            $fileData = $file;
-        }
-
-        $attachment = new Attachment;
-        $attachment->fill(array_merge($fileData, $additionalData, [
-            'creator_id' => Auth::user()->id,
-            'company_id' => $additionalData['company_id'] ?? $this->company_id ?? null,
-        ]));
-
-        $this->attachments()->save($attachment);
-
-        return $attachment;
-    }
-
-    /**
      * Add multiple attachments
      */
     public function addAttachments(array $files, array $additionalData = []): Collection
     {
-        $attachments = collect($files)->map(function ($file) use ($additionalData) {
-            return $this->addAttachment($file, $additionalData);
-        });
+        if (empty($files)) {
+            return collect();
+        }
 
-        return new Collection($attachments);
+        return $this->attachments()
+            ->createMany(
+                collect($files)
+                    ->map(fn($filePath) => [
+                        'file_path'          => $filePath,
+                        'original_file_name' => basename($filePath),
+                        'mime_type'          => mime_content_type($storagePath = storage_path('app/public/' . $filePath)) ?: 'application/octet-stream',
+                        'file_size'          => filesize($storagePath) ?: 0,
+                        'company_id'         => $additionalData['company_id'] ?? Auth::user()->defaultCompany?->id ?? null,
+                        'creator_id'         => Auth::id(),
+                    ])
+                    ->filter()
+                    ->toArray()
+            );
     }
 
     /**
@@ -247,9 +216,8 @@ trait HasChatter
             return false;
         }
 
-        // Delete the physical file
-        if (Storage::exists('public/'.$attachment->file_path)) {
-            Storage::delete('public/'.$attachment->file_path);
+        if (Storage::exists('public/' . $attachment->file_path)) {
+            Storage::delete('public/' . $attachment->file_path);
         }
 
         return $attachment->delete();
@@ -261,7 +229,7 @@ trait HasChatter
     public function getAttachmentsByType(string $mimeType): Collection
     {
         return $this->attachments()
-            ->where('mime_type', 'LIKE', $mimeType.'%')
+            ->where('mime_type', 'LIKE', $mimeType . '%')
             ->get();
     }
 
@@ -300,6 +268,6 @@ trait HasChatter
     {
         $attachment = $this->attachments()->find($attachmentId);
 
-        return $attachment && Storage::exists('public/'.$attachment->file_path);
+        return $attachment && Storage::exists('public/' . $attachment->file_path);
     }
 }
