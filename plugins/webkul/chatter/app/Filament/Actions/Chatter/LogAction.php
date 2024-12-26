@@ -4,6 +4,7 @@ namespace Webkul\Chatter\Filament\Actions\Chatter;
 
 use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -22,8 +23,11 @@ class LogAction extends Action
         $this
             ->color('gray')
             ->outlined()
+            ->mountUsing(function (Form $form) {
+                $form->fill();
+            })
             ->form(
-                fn($form) => $form->schema([
+                fn ($form) => $form->schema([
                     Forms\Components\Group::make([
                         Forms\Components\Actions::make([
                             Forms\Components\Actions\Action::make('add_subject')
@@ -49,20 +53,23 @@ class LogAction extends Action
                     Forms\Components\TextInput::make('subject')
                         ->placeholder('Subject')
                         ->live()
-                        ->visible(fn($get) => $get('showSubject'))
+                        ->visible(fn ($get) => $get('showSubject'))
                         ->columnSpanFull(),
                     Forms\Components\RichEditor::make('body')
                         ->hiddenLabel()
                         ->placeholder(__('chatter::app.filament.actions.chatter.activity.form.type-your-message-here'))
                         ->required()
+                        ->fileAttachmentsDirectory('log-attachments')
+                        ->disableGrammarly()
                         ->columnSpanFull(),
                     Forms\Components\FileUpload::make('attachments')
                         ->hiddenLabel()
                         ->multiple()
-                        ->directory('messages-attachments')
+                        ->directory('log-attachments')
                         ->previewable(true)
                         ->panelLayout('grid')
                         ->imagePreviewHeight('100')
+                        ->disableGrammarly()
                         ->acceptedFileTypes([
                             'image/*',
                             'application/pdf',

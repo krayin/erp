@@ -2,24 +2,22 @@
 
 namespace Webkul\Chatter\Livewire;
 
+use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Notifications\Notification;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Webkul\Security\Models\User;
-use Filament\Actions\Action;
-use Filament\Actions\Concerns\InteractsWithActions;
-use Filament\Actions\Contracts\HasActions;
 use Webkul\Chatter\Filament\Actions\Chatter\FollowerActions\AddFollowerAction;
+use Webkul\Security\Models\User;
 
-class FollowerPanel extends Component implements HasForms, HasActions
+class FollowerPanel extends Component implements HasActions, HasForms
 {
+    use InteractsWithActions;
     use InteractsWithForms;
     use WithPagination;
-    use InteractsWithActions;
 
     public Model $record;
 
@@ -60,7 +58,7 @@ class FollowerPanel extends Component implements HasForms, HasActions
     {
 
         return view('chatter::livewire.follower-panel', [
-            'followers' => $this->record->followers()->paginate(10),
+            'followers'    => $this->record->followers()->paginate(10),
             'nonFollowers' => User::whereNotIn('id', $this->record->followers()->pluck('user_id')->toArray())->paginate(10),
         ]);
     }

@@ -8,7 +8,6 @@ use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Livewire\WithFileUploads;
 use Webkul\Chatter\Mail\SendMessage;
 
 class MessageAction extends Action
@@ -51,15 +50,18 @@ class MessageAction extends Action
                 Forms\Components\TextInput::make('subject')
                     ->placeholder('Subject')
                     ->live()
-                    ->visible(fn($get) => $get('showSubject')),
+                    ->visible(fn ($get) => $get('showSubject')),
                 Forms\Components\RichEditor::make('body')
                     ->hiddenLabel()
                     ->placeholder(__('chatter::app.filament.actions.chatter.activity.form.type-your-message-here'))
+                    ->fileAttachmentsDirectory('log-attachments')
+                    ->disableGrammarly()
                     ->required(),
                 Forms\Components\FileUpload::make('attachments')
                     ->hiddenLabel()
                     ->multiple()
                     ->directory('messages-attachments')
+                    ->disableGrammarly()
                     ->previewable(true)
                     ->panelLayout('grid')
                     ->imagePreviewHeight('100')
@@ -78,7 +80,7 @@ class MessageAction extends Action
                 Forms\Components\Hidden::make('type')
                     ->default('comment'),
             ])
-            ->action(function (MessageAction $action, array $data, ?Model $record = null) {
+            ->action(function (array $data, ?Model $record = null) {
                 try {
                     $data['name'] = $record->name;
 
