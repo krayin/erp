@@ -3,6 +3,7 @@
 namespace Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityPlanResource\Pages;
 
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\Auth;
@@ -28,16 +29,22 @@ class ListActivityPlans extends ListRecords
                     $data['company_id'] = $user->defaultCompany?->id;
 
                     return $data;
-                }),
+                })
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title(__('employees::filament/clusters/configurations/resources/activity-plan/pages/list-activity-plan.header-actions.create.notification.title'))
+                        ->body(__('employees::filament/clusters/configurations/resources/activity-plan/pages/list-activity-plan.header-actions.create.notification.body')),
+                ),
         ];
     }
 
     public function getTabs(): array
     {
         return [
-            'all' => Tab::make('All')
+            'all' => Tab::make(__('employees::filament/clusters/configurations/resources/activity-plan/pages/list-activity-plan.tabs.all'))
                 ->badge(ActivityPlan::where('plugin', 'employees')->count()),
-            'archived' => Tab::make('Archived')
+            'archived' => Tab::make(__('employees::filament/clusters/configurations/resources/activity-plan/pages/list-activity-plan.tabs.archived'))
                 ->badge(ActivityPlan::where('plugin', 'employees')->onlyTrashed()->count())
                 ->modifyQueryUsing(function ($query) {
                     return $query->onlyTrashed();
