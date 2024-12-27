@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\TableViews\Components;
+namespace Webkul\TableViews\Filament\Components;
 
 use Closure;
 use Filament\Resources\Components\Tab;

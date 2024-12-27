@@ -14,7 +14,7 @@ use Webkul\Project\Enums\TaskState;
 use Webkul\Project\Filament\Resources\ProjectResource;
 use Webkul\Project\Filament\Resources\TaskResource;
 use Webkul\Project\Models\Task;
-use Webkul\TableViews\Components\PresetView;
+use Webkul\TableViews\Filament\Components\PresetView;
 use Webkul\TableViews\Filament\Traits\HasTableViews;
 
 class ManageTasks extends ManageRelatedRecords

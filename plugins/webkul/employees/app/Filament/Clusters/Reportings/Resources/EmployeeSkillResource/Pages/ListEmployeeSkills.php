@@ -5,7 +5,7 @@ namespace Webkul\Employee\Filament\Clusters\Reportings\Resources\EmployeeSkillRe
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
 use Webkul\Employee\Filament\Clusters\Reportings\Resources\EmployeeSkillResource;
-use Webkul\TableViews\Components\PresetView;
+use Webkul\TableViews\Filament\Components\PresetView;
 use Webkul\TableViews\Filament\Traits\HasTableViews;
 
 class ListEmployeeSkills extends ListRecords

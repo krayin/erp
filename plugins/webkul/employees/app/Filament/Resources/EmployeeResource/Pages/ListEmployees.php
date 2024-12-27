@@ -8,7 +8,7 @@ use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Resources\EmployeeResource;
-use Webkul\TableViews\Components\PresetView;
+use Webkul\TableViews\Filament\Components\PresetView;
 use Webkul\TableViews\Filament\Traits\HasTableViews;
 
 class ListEmployees extends ListRecords
