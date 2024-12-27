@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Enums\TaskState;
 use Webkul\Project\Filament\Resources\TaskResource;
-use Webkul\TableViews\Components\PresetView;
+use Webkul\TableViews\Filament\Components\PresetView;
 use Webkul\TableViews\Filament\Traits\HasTableViews;
 
 class ListTasks extends ListRecords

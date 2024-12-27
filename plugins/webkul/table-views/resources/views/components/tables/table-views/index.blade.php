@@ -87,7 +87,7 @@
                 >
                     @foreach ($views as $key => $view)
                         @php
-                            $type = $view instanceof \Webkul\TableViews\Components\SavedView ? 'saved' : 'preset';
+                            $type = $view instanceof \Webkul\TableViews\Filament\Components\SavedView ? 'saved' : 'preset';
                         @endphp
 
                         <div

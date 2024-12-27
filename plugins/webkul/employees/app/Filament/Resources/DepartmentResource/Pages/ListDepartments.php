@@ -6,7 +6,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
 use Webkul\Employee\Filament\Resources\DepartmentResource;
-use Webkul\TableViews\Components\PresetView;
+use Webkul\TableViews\Filament\Components\PresetView;
 use Webkul\TableViews\Filament\Traits\HasTableViews;
 
 class ListDepartments extends ListRecords
