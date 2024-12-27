@@ -17,7 +17,7 @@ class ViewEmployee extends ViewRecord
         return [
             ChatterActions\ChatterAction::make()
                 ->setActivityPlans($this->getActivityPlans()),
-            Actions\EditAction::make(),
+            Actions\DeleteAction::make(),
         ];
     }
 

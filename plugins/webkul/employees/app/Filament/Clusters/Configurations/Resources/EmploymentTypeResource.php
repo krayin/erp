@@ -181,7 +181,8 @@ class EmploymentTypeResource extends Resource
                 Tables\Actions\CreateAction::make()
                     ->icon('heroicon-o-plus-circle'),
             ])
-            ->reorderable('sort');
+            ->reorderable('sort')
+            ->defaultSort('sort', 'desc');
     }
 
     public static function getPages(): array

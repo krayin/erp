@@ -11,6 +11,9 @@ use Filament\Infolists;
 use Filament\Infolists\Components\Tabs;
 use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
+use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\Pages\Page;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\IconPosition;
@@ -44,6 +47,8 @@ class EmployeeResource extends Resource
     protected static ?string $model = Employee::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
+
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
     protected static ?string $navigationGroup = 'Employees';
 
@@ -1825,12 +1830,30 @@ class EmployeeResource extends Resource
         ];
     }
 
+    public static function getRecordSubNavigation(Page $page): array
+    {
+        return $page->generateNavigationItems([
+            Pages\ViewEmployee::class,
+            Pages\EditEmployee::class,
+            Pages\ManageSkill::class,
+            Pages\ManageResume::class,
+        ]);
+    }
+
     public static function getRelations(): array
     {
-        return [
-            RelationManagers\SkillsRelationManager::class,
-            RelationManagers\ResumeRelationManager::class,
+        $relations = [
+            RelationGroup::make('Manage Skills', [
+                RelationManagers\SkillsRelationManager::class,
+            ])
+                ->icon('heroicon-o-bolt'),
+            RelationGroup::make('Manage Resumes', [
+                RelationManagers\ResumeRelationManager::class,
+            ])
+                ->icon('heroicon-o-clipboard-document-list'),
         ];
+
+        return $relations;
     }
 
     public static function getSlug(): string
@@ -1841,10 +1864,12 @@ class EmployeeResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListEmployees::route('/'),
-            'create' => Pages\CreateEmployee::route('/create'),
-            'edit'   => Pages\EditEmployee::route('/{record}/edit'),
-            'view'   => Pages\ViewEmployee::route('/{record}'),
+            'index'   => Pages\ListEmployees::route('/'),
+            'create'  => Pages\CreateEmployee::route('/create'),
+            'edit'    => Pages\EditEmployee::route('/{record}/edit'),
+            'view'    => Pages\ViewEmployee::route('/{record}'),
+            'skills'  => Pages\ManageSkill::route('/{record}/skills'),
+            'resumes' => Pages\ManageResume::route('/{record}/resumes'),
         ];
     }
 }

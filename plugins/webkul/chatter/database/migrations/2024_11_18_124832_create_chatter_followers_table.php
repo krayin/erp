@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('chatter_followers', function (Blueprint $table) {
             $table->id();
             $table->morphs('followable');
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('partner_id')->nullable();
             $table->timestamp('followed_at')->nullable();
             $table->timestamps();
 
-            $table->unique(['followable_type', 'followable_id', 'user_id']);
+            $table->unique(['followable_type', 'followable_id', 'partner_id'], 'chatter_followers_unique');
+
+            $table->foreign('partner_id')->references('id')->on('partners_partners')->onDelete('cascade');
         });
     }
 

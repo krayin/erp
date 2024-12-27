@@ -5,7 +5,7 @@ namespace Webkul\Chatter\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Webkul\Security\Models\User;
+use Webkul\Partner\Models\Partner;
 
 class Follower extends Model
 {
@@ -14,7 +14,7 @@ class Follower extends Model
     protected $fillable = [
         'followable_id',
         'followable_type',
-        'user_id',
+        'partner_id',
     ];
 
     protected $casts = [
@@ -26,8 +26,8 @@ class Follower extends Model
         return $this->morphTo();
     }
 
-    public function user(): BelongsTo
+    public function partner(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Partner::class, 'partner_id');
     }
 }
