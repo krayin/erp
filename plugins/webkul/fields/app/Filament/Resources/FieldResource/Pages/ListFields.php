@@ -15,9 +15,9 @@ class ListFields extends ListRecords
     public function getTabs(): array
     {
         return [
-            'all' => Tab::make(__('fields::app.resources.pages.list-records.index.tabs.all'))
+            'all' => Tab::make(__('fields::filament/resources/field/pages/list-field.tabs.all'))
                 ->badge(Field::count()),
-            'archived' => Tab::make(__('fields::app.resources.pages.list-records.index.tabs.archived'))
+            'archived' => Tab::make(__('fields::filament/resources/field/pages/list-field.tabs.archived'))
                 ->badge(Field::onlyTrashed()->count())
                 ->modifyQueryUsing(function ($query) {
                     return $query->onlyTrashed();
