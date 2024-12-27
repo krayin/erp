@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\TableViews\Filament\Traits;
+namespace Webkul\TableViews\Filament\Concerns;
 
 use Closure;
 use Filament\Actions\Action;
@@ -8,11 +8,11 @@ use Filament\Support\Concerns\EvaluatesClosures;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Url;
-use Webkul\TableViews\Filament\Components\PresetView;
-use Webkul\TableViews\Filament\Components\SavedView;
 use Webkul\TableViews\Enums\TableViewsLayout;
 use Webkul\TableViews\Filament\Actions\CreateViewAction;
 use Webkul\TableViews\Filament\Actions\EditViewAction;
+use Webkul\TableViews\Filament\Components\PresetView;
+use Webkul\TableViews\Filament\Components\SavedView;
 use Webkul\TableViews\Models\TableView as TableViewModel;
 use Webkul\TableViews\Models\TableViewFavorite as TableViewFavoriteModel;
 
@@ -181,7 +181,7 @@ trait HasTableViews
         return $this->cachedFavoriteTableViews ??= (
             [
                 'default' => PresetView::make('default')
-                    ->label(__('table-views::app.filament.traits.has-table-views.default'))
+                    ->label(__('table-views::filament/concerns/has-table-views.default'))
                     ->icon('heroicon-m-queue-list')
                     ->favorite(),
             ] + $this->getFavoriteTableViews()
@@ -338,7 +338,7 @@ trait HasTableViews
     public function getTableViewsTriggerAction(): Action
     {
         return Action::make('openTableViews')
-            ->label(__('table-views::app.filament.traits.has-table-views.title'))
+            ->label(__('table-views::filament/concerns/has-table-views.title'))
             ->iconButton()
             ->icon('heroicon-m-queue-list')
             ->color('gray')
@@ -349,7 +349,7 @@ trait HasTableViews
     public function applyTableViewAction(): Action
     {
         return Action::make('applyTableView')
-            ->label(__('table-views::app.filament.traits.has-table-views.apply-view'))
+            ->label(__('table-views::filament/concerns/has-table-views.apply-view'))
             ->icon('heroicon-s-arrow-small-right')
             ->action(function (array $arguments) {
                 $this->resetTableViews();
@@ -363,7 +363,7 @@ trait HasTableViews
     public function addTableViewToFavoritesAction(): Action
     {
         return Action::make('addTableViewToFavorites')
-            ->label(__('table-views::app.filament.traits.has-table-views.add-to-favorites'))
+            ->label(__('table-views::filament/concerns/has-table-views.add-to-favorites'))
             ->icon('heroicon-o-star')
             ->action(function (array $arguments) {
                 TableViewFavoriteModel::updateOrCreate(
@@ -379,7 +379,7 @@ trait HasTableViews
     public function removeTableViewFromFavoritesAction(): Action
     {
         return Action::make('removeTableViewFromFavorites')
-            ->label(__('table-views::app.filament.traits.has-table-views.remove-from-favorites'))
+            ->label(__('table-views::filament/concerns/has-table-views.remove-from-favorites'))
             ->icon('heroicon-o-minus-circle')
             ->action(function (array $arguments) {
                 TableViewFavoriteModel::updateOrCreate(
@@ -407,7 +407,7 @@ trait HasTableViews
     public function deleteTableViewAction(): Action
     {
         return Action::make('deleteTableView')
-            ->label(__('table-views::app.filament.traits.has-table-views.delete-view'))
+            ->label(__('table-views::filament/concerns/has-table-views.delete-view'))
             ->icon('heroicon-m-trash')
             ->color('danger')
             ->requiresConfirmation()
@@ -422,7 +422,7 @@ trait HasTableViews
     public function replaceTableViewAction(): Action
     {
         return Action::make('replaceTableView')
-            ->label(__('table-views::app.filament.traits.has-table-views.replace-view'))
+            ->label(__('table-views::filament/concerns/has-table-views.replace-view'))
             ->icon('heroicon-m-arrows-right-left')
             ->color('danger')
             ->requiresConfirmation()

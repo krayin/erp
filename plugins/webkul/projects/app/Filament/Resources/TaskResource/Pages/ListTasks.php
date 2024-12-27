@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Enums\TaskState;
 use Webkul\Project\Filament\Resources\TaskResource;
 use Webkul\TableViews\Filament\Components\PresetView;
-use Webkul\TableViews\Filament\Traits\HasTableViews;
+use Webkul\TableViews\Filament\Concerns\HasTableViews;
 
 class ListTasks extends ListRecords
 {
