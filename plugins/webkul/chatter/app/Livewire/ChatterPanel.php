@@ -35,6 +35,7 @@ use Webkul\Chatter\Filament\Infolists\Components\Messages\ContentTextEntry as Me
 use Webkul\Chatter\Filament\Infolists\Components\Messages\MessageRepeatableEntry;
 use Webkul\Chatter\Filament\Infolists\Components\Messages\TitleTextEntry as MessageTitleTextEntry;
 use Webkul\Chatter\Models\Message;
+use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\ActivityPlan;
 use Webkul\Support\Models\ActivityType;
@@ -87,11 +88,11 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
             ->record($this->record);
     }
 
-    public function removeFollower($userId)
+    public function removeFollower($partnerId)
     {
-        $user = User::findOrFail($userId);
+        $partner = Partner::findOrFail($partnerId);
 
-        $this->record->removeFollower($user);
+        $this->record->removeFollower($partner);
     }
 
     public function markAsDoneAction(): Action
