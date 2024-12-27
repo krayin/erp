@@ -11,8 +11,8 @@ enum AccountType: string
     public static function options(): array
     {
         return [
-            self::INDIVIDUAL->value => 'Individual',
-            self::COMPANY->value    => 'Company',
+            self::INDIVIDUAL->value => __('partners::enums/account-type.individual'),
+            self::COMPANY->value    => __('partners::enums/account-type.company'),
         ];
     }
 }

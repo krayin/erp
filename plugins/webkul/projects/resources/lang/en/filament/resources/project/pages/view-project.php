@@ -5,7 +5,7 @@ return [
         'delete' => [
             'notification' => [
                 'title' => 'Project deleted',
-                'body' => 'The project has been deleted successfully.',
+                'body'  => 'The project has been deleted successfully.',
             ],
         ],
     ],

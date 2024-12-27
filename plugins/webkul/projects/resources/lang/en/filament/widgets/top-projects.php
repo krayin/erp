@@ -5,7 +5,7 @@ return [
 
     'table-columns' => [
         'project-name' => 'Project',
-        'hours-spent' => 'Hours Spent',
-        'tasks' => 'Tasks',
+        'hours-spent'  => 'Hours Spent',
+        'tasks'        => 'Tasks',
     ],
 ];

@@ -8,7 +8,7 @@ return [
 
                 'notification' => [
                     'title' => 'Task Stage created',
-                    'body' => 'The task Stage has been created successfully.',
+                    'body'  => 'The task Stage has been created successfully.',
                 ],
             ],
         ],

@@ -3,7 +3,7 @@
 return [
     'notification' => [
         'title' => 'Project updated',
-        'body' => 'The project has been updated successfully.',
+        'body'  => 'The project has been updated successfully.',
     ],
 
     'header-actions' => [
@@ -12,7 +12,7 @@ return [
 
             'notification' => [
                 'title' => 'Project updated',
-                'body' => 'The project has been updated successfully.',
+                'body'  => 'The project has been updated successfully.',
             ],
         ],
     ],

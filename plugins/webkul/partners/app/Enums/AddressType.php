@@ -13,9 +13,9 @@ enum AddressType: string
     public static function options(): array
     {
         return [
-            self::PERMANENT->value   => 'Permanent',
-            self::PRESENT->value     => 'Present',
-            self::OTHER->value       => 'Other',
+            self::PERMANENT->value => __('partners::enums/address-type.permanent'),
+            self::PRESENT->value   => __('partners::enums/address-type.present'),
+            self::OTHER->value     => __('partners::enums/address-type.other'),
         ];
     }
 }

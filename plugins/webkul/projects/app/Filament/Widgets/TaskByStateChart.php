@@ -20,7 +20,7 @@ class TaskByStateChart extends ChartWidget
 
     protected static ?int $sort = 1;
 
-    public function getHeading(): string | Htmlable | null
+    public function getHeading(): string|Htmlable|null
     {
         return __('projects::filament/widgets/task-by-state.heading');
     }
