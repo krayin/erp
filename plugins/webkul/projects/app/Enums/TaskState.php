@@ -13,11 +13,11 @@ enum TaskState: string
     public static function options(): array
     {
         return [
-            self::IN_PROGRESS->value      => 'In Progress',
-            self::CHANGE_REQUESTED->value => 'Change Requested',
-            self::APPROVED->value         => 'Approved',
-            self::CANCELLED->value        => 'Cancelled',
-            self::DONE->value             => 'Done',
+            self::IN_PROGRESS->value      => __('projects::enums/task-state.in-progress'),
+            self::CHANGE_REQUESTED->value => __('projects::enums/task-state.change-requested'),
+            self::APPROVED->value         => __('projects::enums/task-state.approved'),
+            self::CANCELLED->value        => __('projects::enums/task-state.cancelled'),
+            self::DONE->value             => __('projects::enums/task-state.done'),
         ];
     }
 

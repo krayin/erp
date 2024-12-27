@@ -29,14 +29,14 @@ class ManageTasks extends ManageRelatedRecords
 
     public static function getNavigationLabel(): string
     {
-        return __('projects::app.filament.resources.project.pages.manage-tasks.title');
+        return __('projects::filament/resources/project/pages/manage-tasks.title');
     }
 
     protected function getHeaderActions(): array
     {
         return [
             Actions\CreateAction::make()
-                ->label(__('projects::app.filament.resources.project.pages.manage-tasks.header-actions.create.label'))
+                ->label(__('projects::filament/resources/project/pages/manage-tasks.header-actions.create.label'))
                 ->icon('heroicon-o-plus-circle')
                 ->url(route('filament.admin.resources.project.tasks.create')),
         ];
@@ -57,25 +57,28 @@ class ManageTasks extends ManageRelatedRecords
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title(__('projects::app.filament.resources.project.pages.manage-tasks.table.actions.restore.notification.title'))
-                                ->body(__('projects::app.filament.resources.project.pages.manage-tasks.table.actions.restore.notification.body')),
+                                ->title(__('projects::filament/resources/project/pages/manage-tasks.table.actions.restore.notification.title'))
+                                ->body(__('projects::filament/resources/project/pages/manage-tasks.table.actions.restore.notification.body')),
                         ),
                     Tables\Actions\DeleteAction::make()
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title(__('projects::app.filament.resources.project.pages.manage-tasks.table.actions.delete.notification.title'))
-                                ->body(__('projects::app.filament.resources.project.pages.manage-tasks.table.actions.delete.notification.body')),
+                                ->title(__('projects::filament/resources/project/pages/manage-tasks.table.actions.delete.notification.title'))
+                                ->body(__('projects::filament/resources/project/pages/manage-tasks.table.actions.delete.notification.body')),
                         ),
                     Tables\Actions\ForceDeleteAction::make()
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title(__('projects::app.filament.resources.project.pages.manage-tasks.table.actions.force-delete.notification.title'))
-                                ->body(__('projects::app.filament.resources.project.pages.manage-tasks.table.actions.force-delete.notification.body')),
+                                ->title(__('projects::filament/resources/project/pages/manage-tasks.table.actions.force-delete.notification.title'))
+                                ->body(__('projects::filament/resources/project/pages/manage-tasks.table.actions.force-delete.notification.body')),
                         ),
                 ]),
-            ]);
+            ])
+            ->modifyQueryUsing(function (Builder $query) {
+                return $query->whereNull('parent_id');
+            });
     }
 
     public function infolist(Infolist $infolist): Infolist
@@ -86,7 +89,7 @@ class ManageTasks extends ManageRelatedRecords
     public function getPresetTableViews(): array
     {
         return [
-            'open_tasks' => PresetView::make(__('projects::app.filament.resources.project.pages.manage-tasks.tabs.open-tasks'))
+            'open_tasks' => PresetView::make(__('projects::filament/resources/project/pages/manage-tasks.tabs.open-tasks'))
                 ->icon('heroicon-s-bolt')
                 ->favorite()
                 ->default()
@@ -95,7 +98,7 @@ class ManageTasks extends ManageRelatedRecords
                     TaskState::DONE,
                 ])),
 
-            'my_tasks' => PresetView::make(__('projects::app.filament.resources.project.pages.manage-tasks.tabs.my-tasks'))
+            'my_tasks' => PresetView::make(__('projects::filament/resources/project/pages/manage-tasks.tabs.my-tasks'))
                 ->icon('heroicon-s-user')
                 ->favorite()
                 ->modifyQueryUsing(function (Builder $query) {
@@ -105,14 +108,14 @@ class ManageTasks extends ManageRelatedRecords
                         });
                 }),
 
-            'unassigned_tasks' => PresetView::make(__('projects::app.filament.resources.project.pages.manage-tasks.tabs.unassigned-tasks'))
+            'unassigned_tasks' => PresetView::make(__('projects::filament/resources/project/pages/manage-tasks.tabs.unassigned-tasks'))
                 ->icon('heroicon-s-user-minus')
                 ->favorite()
                 ->modifyQueryUsing(function (Builder $query) {
                     return $query->whereDoesntHave('users');
                 }),
 
-            'closed_tasks' => PresetView::make(__('projects::app.filament.resources.project.pages.manage-tasks.tabs.closed-tasks'))
+            'closed_tasks' => PresetView::make(__('projects::filament/resources/project/pages/manage-tasks.tabs.closed-tasks'))
                 ->icon('heroicon-s-check-circle')
                 ->favorite()
                 ->modifyQueryUsing(fn (Builder $query) => $query->whereIn('state', [
@@ -120,12 +123,12 @@ class ManageTasks extends ManageRelatedRecords
                     TaskState::DONE,
                 ])),
 
-            'starred_tasks' => PresetView::make(__('projects::app.filament.resources.project.pages.manage-tasks.tabs.starred-tasks'))
+            'starred_tasks' => PresetView::make(__('projects::filament/resources/project/pages/manage-tasks.tabs.starred-tasks'))
                 ->icon('heroicon-s-star')
                 ->favorite()
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('priority', true)),
 
-            'archived_tasks' => PresetView::make(__('projects::app.filament.resources.project.pages.manage-tasks.tabs.archived-tasks'))
+            'archived_tasks' => PresetView::make(__('projects::filament/resources/project/pages/manage-tasks.tabs.archived-tasks'))
                 ->icon('heroicon-s-archive-box')
                 ->favorite()
                 ->modifyQueryUsing(function ($query) {

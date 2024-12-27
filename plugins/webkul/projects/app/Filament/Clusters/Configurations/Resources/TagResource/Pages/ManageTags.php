@@ -19,7 +19,7 @@ class ManageTags extends ManageRecords
         return [
             Actions\CreateAction::make()
                 ->label('New Tag')
-                ->label(__('projects::app.filament.clusters.configurations.resources.tag.pages.manage-tags.header-actions.create.label'))
+                ->label(__('projects::filament/clusters/configurations/resources/tag/pages/manage-tags.header-actions.create.label'))
                 ->icon('heroicon-o-plus-circle')
                 ->mutateFormDataUsing(function (array $data): array {
                     $data['creator_id'] = Auth::id();
@@ -31,8 +31,8 @@ class ManageTags extends ManageRecords
                         ->success()
                         ->title('Tag created')
                         ->body('The tag has been created successfully.')
-                        ->title(__('projects::app.filament.clusters.configurations.resources.tag.pages.manage-tags.header-actions.create.notification.title'))
-                        ->body(__('projects::app.filament.clusters.configurations.resources.tag.pages.manage-tags.header-actions.create.notification.body')),
+                        ->title(__('projects::filament/clusters/configurations/resources/tag/pages/manage-tags.header-actions.create.notification.title'))
+                        ->body(__('projects::filament/clusters/configurations/resources/tag/pages/manage-tags.header-actions.create.notification.body')),
                 ),
         ];
     }
@@ -40,9 +40,9 @@ class ManageTags extends ManageRecords
     public function getTabs(): array
     {
         return [
-            'all' => Tab::make(__('projects::app.filament.clusters.configurations.resources.tag.pages.manage-tags.tabs.all'))
+            'all' => Tab::make(__('projects::filament/clusters/configurations/resources/tag/pages/manage-tags.tabs.all'))
                 ->badge(Tag::count()),
-            'archived' => Tab::make(__('projects::app.filament.clusters.configurations.resources.tag.pages.manage-tags.tabs.archived'))
+            'archived' => Tab::make(__('projects::filament/clusters/configurations/resources/tag/pages/manage-tags.tabs.archived'))
                 ->badge(Tag::onlyTrashed()->count())
                 ->modifyQueryUsing(function ($query) {
                     return $query->onlyTrashed();

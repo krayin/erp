@@ -26,7 +26,7 @@ class MilestonesRelationManager extends RelationManager
             ->groups([])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                    ->label(__('projects::app.filament.resources.project.relation-managers.milestones.table.header-actions.create.label'))
+                    ->label(__('projects::filament/resources/project/relation-managers/milestones.table.header-actions.create.label'))
                     ->icon('heroicon-o-plus-circle')
                     ->mutateFormDataUsing(function (array $data): array {
                         $data['creator_id'] = Auth::id();
@@ -36,8 +36,8 @@ class MilestonesRelationManager extends RelationManager
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title(__('projects::app.filament.resources.project.relation-managers.milestones.table.header-actions.create.notification.title'))
-                            ->body(__('projects::app.filament.resources.project.relation-managers.milestones.table.header-actions.create.notification.body')),
+                            ->title(__('projects::filament/resources/project/relation-managers/milestones.table.header-actions.create.notification.title'))
+                            ->body(__('projects::filament/resources/project/relation-managers/milestones.table.header-actions.create.notification.body')),
                     ),
             ]);
     }

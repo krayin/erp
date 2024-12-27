@@ -17,7 +17,7 @@ class TopAssigneesWidget extends BaseWidget
 
     public function getHeading(): string | Htmlable | null
     {
-        return __('projects::app.filament.widgets.top-assignees.heading');
+        return __('projects::filament/widgets/top-assignees.heading');
     }
 
     protected static ?string $pollingInterval = '15s';
@@ -64,13 +64,13 @@ class TopAssigneesWidget extends BaseWidget
     {
         return [
             Tables\Columns\TextColumn::make('user_name')
-                ->label(__('projects::app.filament.widgets.top-assignees.table-columns.user'))
+                ->label(__('projects::filament/widgets/top-assignees.table-columns.user'))
                 ->sortable(),
             Tables\Columns\TextColumn::make('total_hours')
-                ->label(__('projects::app.filament.widgets.top-assignees.table-columns.hours-spent'))
+                ->label(__('projects::filament/widgets/top-assignees.table-columns.hours-spent'))
                 ->sortable(),
             Tables\Columns\TextColumn::make('total_tasks')
-                ->label(__('projects::app.filament.widgets.top-assignees.table-columns.tasks'))
+                ->label(__('projects::filament/widgets/top-assignees.table-columns.tasks'))
                 ->sortable(),
         ];
     }

@@ -28,7 +28,7 @@ class Dashboard extends BaseDashboard
 
     public static function getNavigationLabel(): string
     {
-        return __('projects::app.filament.pages.dashboard.navigation.title');
+        return __('projects::filament/pages/dashboard.navigation.title');
     }
 
     public function filtersForm(Form $form): Form
@@ -38,40 +38,40 @@ class Dashboard extends BaseDashboard
                 Section::make()
                     ->schema([
                         Select::make('selectedProjects')
-                            ->label(__('projects::app.filament.pages.dashboard.filters-form.project'))
+                            ->label(__('projects::filament/pages/dashboard.filters-form.project'))
                             ->multiple()
                             ->searchable()
                             ->preload()
                             ->options(fn () => Project::pluck('name', 'id'))
                             ->reactive(),
                         Select::make('selectedAssignees')
-                            ->label(__('projects::app.filament.pages.dashboard.filters-form.assignees'))
+                            ->label(__('projects::filament/pages/dashboard.filters-form.assignees'))
                             ->multiple()
                             ->searchable()
                             ->preload()
                             ->options(fn () => User::pluck('name', 'id'))
                             ->reactive(),
                         Select::make('selectedTags')
-                            ->label(__('projects::app.filament.pages.dashboard.filters-form.tags'))
+                            ->label(__('projects::filament/pages/dashboard.filters-form.tags'))
                             ->multiple()
                             ->searchable()
                             ->preload()
                             ->options(fn () => Tag::pluck('name', 'id'))
                             ->reactive(),
                         Select::make('selectedPartners')
-                            ->label(__('projects::app.filament.pages.dashboard.filters-form.customer'))
+                            ->label(__('projects::filament/pages/dashboard.filters-form.customer'))
                             ->multiple()
                             ->searchable()
                             ->preload()
                             ->options(fn () => Partner::pluck('name', 'id'))
                             ->reactive(),
                         DatePicker::make('startDate')
-                            ->label(__('projects::app.filament.pages.dashboard.filters-form.start-date'))
+                            ->label(__('projects::filament/pages/dashboard.filters-form.start-date'))
                             ->maxDate(fn (Get $get) => $get('endDate') ?: now())
                             ->default(now()->subMonth()->format('Y-m-d'))
                             ->native(false),
                         DatePicker::make('endDate')
-                            ->label(__('projects::app.filament.pages.dashboard.filters-form.end-date'))
+                            ->label(__('projects::filament/pages/dashboard.filters-form.end-date'))
                             ->minDate(fn (Get $get) => $get('startDate') ?: now())
                             ->maxDate(now())
                             ->default(now())

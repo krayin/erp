@@ -15,10 +15,8 @@ class EditActivityPlan extends EditRecord
     {
         return Notification::make()
             ->success()
-            ->title('Activity plan updated')
-            ->body('The activity plan has been saved successfully.')
-            ->title(__('projects::app.filament.clusters.configurations.resources.activity-plan.pages.edit.notification.title'))
-            ->body(__('projects::app.filament.clusters.configurations.resources.activity-plan.pages.edit.notification.body'));
+            ->title(__('projects::filament/clusters/configurations/resources/activity-plan/pages/edit-activity-plan.notification.title'))
+            ->body(__('projects::filament/clusters/configurations/resources/activity-plan/pages/edit-activity-plan.notification.body'));
     }
 
     protected function getHeaderActions(): array
@@ -29,8 +27,8 @@ class EditActivityPlan extends EditRecord
                 ->successNotification(
                     Notification::make()
                         ->success()
-                        ->title(__('projects::app.filament.clusters.configurations.resources.activity-plan.pages.edit.header-actions.delete.notification.title'))
-                        ->body(__('projects::app.filament.clusters.configurations.resources.activity-plan.pages.edit.header-actions.delete.notification.body')),
+                        ->title(__('projects::filament/clusters/configurations/resources/activity-plan/pages/edit-activity-plan.header-actions.delete.notification.title'))
+                        ->body(__('projects::filament/clusters/configurations/resources/activity-plan/pages/edit-activity-plan.header-actions.delete.notification.body')),
                 ),
         ];
     }
