@@ -2,25 +2,20 @@
 
 namespace Webkul\Chatter\Filament\Actions\Chatter;
 
-use Closure;
 use Filament\Actions\Action;
+use Filament\Forms;
+use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Notifications\Notification;
 use Filament\Support\Enums\MaxWidth;
-use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
-use Webkul\Chatter\Filament\Actions\Chatter\FollowerActions\AddFollowerAction;
+use Webkul\Partner\Models\Partner;
 
 class FollowerAction extends Action
 {
     public static function getDefaultName(): ?string
     {
-        return 'follower.action';
-    }
-
-    public function record(Model|Closure|null $record): static
-    {
-        $this->record = $record;
-
-        return $this;
+        return 'add.follower.action';
     }
 
     protected function setUp(): void
@@ -28,21 +23,69 @@ class FollowerAction extends Action
         parent::setUp();
 
         $this
-            ->hiddenLabel()
             ->icon('heroicon-s-user')
-            ->modalIcon('heroicon-s-user')
             ->color('gray')
             ->modal()
-            ->badge(fn(Model $record): int => $record->followers->count())
-            ->modalContentFooter(fn(Model $record): View => view('chatter::filament.widgets.followers', compact('record')))
-            ->modalHeading(__('chatter::app.filament.actions.chatter.follower.modal.heading'))
-            ->modalWidth(MaxWidth::Large)
-            ->modalSubmitAction(false)
-            ->slideOver()
-            ->modalCancelAction(false)
-            ->modalFooterActions([
-                AddFollowerAction::make('addFollower')
-                    ->record($this->record),
-            ]);
+            ->modalIcon('heroicon-s-user-plus')
+            ->badge(fn (Model $record): int => $record->followers->count())
+            ->modalWidth(MaxWidth::TwoExtraLarge)
+            ->slideOver(false)
+            ->form(function (Form $form) {
+                return $form
+                    ->schema([
+                        Forms\Components\Select::make('partner_id')
+                            ->label('Recipients')
+                            ->searchable()
+                            ->preload()
+                            ->searchable()
+                            ->relationship('followable', 'name')
+                            ->required(),
+                        Forms\Components\Toggle::make('notify')
+                            ->live()
+                            ->label('Notify User'),
+                        Forms\Components\RichEditor::make('note')
+                            ->disableGrammarly()
+                            ->toolbarButtons([
+                                'attachFiles',
+                                'blockquote',
+                                'bold',
+                                'bulletList',
+                                'h2',
+                                'h3',
+                                'italic',
+                                'link',
+                                'orderedList',
+                                'redo',
+                                'strike',
+                                'underline',
+                                'undo',
+                            ])
+                            ->visible(fn (Get $get) => $get('notify'))
+                            ->hiddenLabel()
+                            ->placeholder('Add a note...'),
+                    ])
+                    ->columns(1);
+            })
+            ->modalContentFooter(function (Model $record) {
+                return view('chatter::filament.actions.follower-action', [
+                    'record' => $record,
+                ]);
+            })
+            ->action(function (Model $record, array $data, FollowerAction $action) {
+                $partner = Partner::findOrFail($data['partner_id']);
+
+                $record->addFollower($partner);
+
+                Notification::make()
+                    ->success()
+                    ->title('Success')
+                    ->body("\"{$partner->name}\" has been added as a follower.")
+                    ->send();
+            })
+            ->modalSubmitAction(
+                fn ($action) => $action
+                    ->label('Add Follower')
+                    ->icon('heroicon-m-user-plus')
+            );
     }
 }

@@ -18,7 +18,6 @@ class EditEmployee extends EditRecord
     {
         return [
             ChatterActions\ChatterAction::make(),
-            Actions\ViewAction::make(),
             Actions\DeleteAction::make(),
         ];
     }

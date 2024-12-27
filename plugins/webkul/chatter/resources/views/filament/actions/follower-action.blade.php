@@ -1,22 +1,22 @@
 <div class="max-h-[400px] w-full overflow-y-auto">
-    @forelse($followers as $follower)
+    @forelse($record->followers as $follower)
         <div
-            wire:key="non-follower-{{ $follower->user->id }}"
+            wire:key="non-follower-{{ $follower->partner->id }}"
             class="group flex items-center justify-between rounded-lg p-2 transition-colors hover:bg-gray-50"
         >
             <div class="flex items-center gap-3">
                 <x-filament-panels::avatar.user
                     size="md"
-                    :user="$follower->user"
+                    :user="$follower->partner"
                 />
                 <div>
-                    <h3 class="font-medium text-gray-900">{{ $follower->user->name }}</h3>
-                    <p class="text-sm text-gray-500">{{ $follower->user->email }}</p>
+                    <h3 class="font-medium text-gray-900">{{ $follower->partner->name }}</h3>
+                    <p class="text-sm text-gray-500">{{ $follower->partner->email }}</p>
                 </div>
             </div>
 
             <x-filament::icon-button
-                wire:click="removeFollower({{ $follower->user->id }})"
+                wire:click="removeFollower({{ $follower->partner->id }})"
                 icon="heroicon-s-user-minus"
                 color="danger"
                 :tooltip="trans('Remove Follower')"

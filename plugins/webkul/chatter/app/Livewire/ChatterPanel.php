@@ -35,6 +35,7 @@ use Webkul\Chatter\Filament\Infolists\Components\Messages\ContentTextEntry as Me
 use Webkul\Chatter\Filament\Infolists\Components\Messages\MessageRepeatableEntry;
 use Webkul\Chatter\Filament\Infolists\Components\Messages\TitleTextEntry as MessageTitleTextEntry;
 use Webkul\Chatter\Models\Message;
+use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\ActivityPlan;
 use Webkul\Support\Models\ActivityType;
@@ -45,11 +46,7 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
 
     public Model $record;
 
-    public string $searchQuery = '';
-
     public mixed $activityPlans;
-
-    protected $listeners = ['refreshFollowers' => '$refresh'];
 
     public function mount(Model $record, mixed $activityPlans): void
     {
@@ -89,6 +86,13 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
         return ActivityAction::make('activity')
             ->setActivityPlans($this->activityPlans)
             ->record($this->record);
+    }
+
+    public function removeFollower($partnerId)
+    {
+        $partner = Partner::findOrFail($partnerId);
+
+        $this->record->removeFollower($partner);
     }
 
     public function markAsDoneAction(): Action
@@ -359,63 +363,4 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
     {
         return view('chatter::livewire.chatter-panel');
     }
-
-    // public function followerAction(): FollowerAction
-    // {
-    //     return FollowerAction::make('follower')
-    //         ->record($this->record);
-    // }
-
-    // public function getFollowersProperty()
-    // {
-    //     return $this->record->followers()
-    //         ->select('users.*')
-    //         ->orderBy('name')
-    //         ->get();
-    // }
-
-    // public function getNonFollowersProperty()
-    // {
-    //     $followerIds = $this->record->followers()
-    //         ->select('users.id')
-    //         ->pluck('users.id')
-    //         ->toArray();
-
-    //     return User::query()
-    //         ->whereNotIn('users.id', array_merge($followerIds, [$this->record->user_id]))
-    //         ->when($this->searchQuery, function ($query) {
-    //             $query->where('users.name', 'like', '%' . $this->searchQuery . '%')
-    //                 ->orWhere('users.email', 'like', '%' . $this->searchQuery . '%');
-    //         })
-    //         ->orderBy('name')
-    //         ->limit(50)
-    //         ->get();
-    // }
-
-    // public function toggleFollower($userId): void
-    // {
-    //     try {
-    //         if ($this->record->isFollowedBy($userId)) {
-    //             $this->record->removeFollower($userId);
-    //             $message = __('chatter::app.livewire.chatter_panel.actions.follower.remove_success');
-    //         } else {
-    //             $this->record->addFollower($userId);
-    //             $message = __('chatter::app.livewire.chatter_panel.actions.follower.add_success');
-    //         }
-
-    //         $this->dispatch('refreshFollowers');
-
-    //         Notification::make()
-    //             ->title($message)
-    //             ->success()
-    //             ->send();
-    //     } catch (\Exception $e) {
-    //         Notification::make()
-    //             ->title(__('chatter::app.livewire.chatter_panel.actions.follower.error'))
-    //             ->body($e->getMessage())
-    //             ->danger()
-    //             ->send();
-    //     }
-    // }
-
 }

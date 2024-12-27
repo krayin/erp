@@ -23,6 +23,7 @@ class FileAction extends Action
         $this
             ->color('gray')
             ->outlined()
+            ->tooltip('Upload Files')
             ->badge(fn ($record) => $record->attachments()->count())
             ->form([
                 Forms\Components\FileUpload::make('files')
@@ -89,7 +90,6 @@ class FileAction extends Action
                         return ! in_array($file, $existingFiles);
                     });
 
-                    // Only proceed if there are new files to upload
                     if (! empty($newFiles)) {
                         $record->addAttachments($newFiles);
 
@@ -114,8 +114,6 @@ class FileAction extends Action
 
                     report($e);
                 }
-
-                $action->halt();
 
                 $action->resetFormData();
             })

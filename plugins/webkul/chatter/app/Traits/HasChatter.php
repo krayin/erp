@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Webkul\Chatter\Models\Attachment;
 use Webkul\Chatter\Models\Follower;
 use Webkul\Chatter\Models\Message;
-use Webkul\Security\Models\User;
+use Webkul\Partner\Models\Partner;
 
 trait HasChatter
 {
@@ -40,6 +40,14 @@ trait HasChatter
     public function activityPlans(): mixed
     {
         return collect();
+    }
+
+    /**
+     * Get partners
+     */
+    public function followable()
+    {
+        return $this->belongsTo(Partner::class, 'partner_id');
     }
 
     /**
@@ -281,20 +289,12 @@ trait HasChatter
     }
 
     /**
-     * Get all non followers
-     */
-    public function nonFollowers(): Collection
-    {
-        return User::whereNotIn('id', $this->followers()->pluck('user_id'))->get();
-    }
-
-    /**
      * Add a follower to this model
      */
-    public function addFollower(User $user): Follower
+    public function addFollower(Partner $partner): Follower
     {
         $follower = $this->followers()->firstOrNew([
-            'user_id' => $user->id,
+            'partner_id' => $partner->id,
         ]);
 
         if (! $follower->exists) {
@@ -308,31 +308,20 @@ trait HasChatter
     /**
      * Remove a follower from this model
      */
-    public function removeFollower(User $user): bool
+    public function removeFollower(Partner $partner): bool
     {
         return (bool) $this->followers()
-            ->where('user_id', $user->id)
+            ->where('partner_id', $partner->id)
             ->delete();
     }
 
     /**
-     * Check if a user is following this model
+     * Check if a partner is following this model
      */
-    public function isFollowedBy(User $user): bool
+    public function isFollowedBy(Partner $partner): bool
     {
         return $this->followers()
-            ->where('user_id', $user->id)
+            ->where('partner_id', $partner->id)
             ->exists();
-    }
-
-    /**
-     * Get all active followers
-     */
-    public function getActiveFollowers(): Collection
-    {
-        return $this->followers()
-            ->whereNotNull('followed_at')
-            ->with('user')
-            ->get();
     }
 }

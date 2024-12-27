@@ -4,7 +4,6 @@ namespace Webkul\Chatter;
 
 use Livewire\Livewire;
 use Webkul\Chatter\Livewire\ChatterPanel;
-use Webkul\Chatter\Livewire\FollowerPanel;
 use Webkul\Support\Package;
 use Webkul\Support\PackageServiceProvider;
 
@@ -30,6 +29,5 @@ class ChatterServiceProvider extends PackageServiceProvider
     public function packageBooted(): void
     {
         Livewire::component('chatter-panel', ChatterPanel::class);
-        Livewire::component('followers', FollowerPanel::class);
     }
 }
