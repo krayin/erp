@@ -49,15 +49,15 @@ class FieldResource extends Resource
                         Forms\Components\Section::make()
                             ->schema([
                                 Forms\Components\TextInput::make('name')
-                                    ->label(__('fields::app.form.fields.name'))
+                                    ->label(__('fields::filament/resources/field.form.sections.general.fields.name'))
                                     ->required()
                                     ->maxLength(255),
                                 Forms\Components\TextInput::make('code')
                                     ->required()
-                                    ->label(__('fields::app.form.fields.code'))
+                                    ->label(__('fields::filament/resources/field.form.sections.general.fields.code'))
                                     ->maxLength(255)
                                     ->disabledOn('edit')
-                                    ->helperText(__('fields::app.form.fields.code-helper-text'))
+                                    ->helperText(__('fields::filament/resources/field.form.sections.general.fields.code-helper-text'))
                                     ->unique(ignoreRecord: true)
                                     ->notIn(function (Forms\Get $get) {
                                         if ($get('id')) {
@@ -74,7 +74,7 @@ class FieldResource extends Resource
                             ])
                             ->columns(2),
 
-                        Forms\Components\Section::make(__('fields::app.form.sections.options'))
+                        Forms\Components\Section::make(__('fields::filament/resources/field.form.sections.options.title'))
                             ->visible(fn (Forms\Get $get): bool => in_array($get('type'), [
                                 'select',
                                 'checkbox_list',
@@ -87,17 +87,17 @@ class FieldResource extends Resource
                                         Forms\Components\TextInput::make('name')
                                             ->required(),
                                     )
-                                    ->addActionLabel(__('fields::app.form.actions.add-option')),
+                                    ->addActionLabel(__('fields::filament/resources/field.form.sections.options.fields.add-option')),
                             ]),
 
-                        Forms\Components\Section::make(__('fields::app.form.sections.form-settings'))
+                        Forms\Components\Section::make(__('fields::filament/resources/field.form.sections.form-settings.title'))
                             ->schema([
                                 Forms\Components\Group::make()
                                     ->schema(static::getFormSettingsSchema())
                                     ->statePath('form_settings'),
                             ]),
 
-                        Forms\Components\Section::make(__('fields::app.form.sections.table-settings'))
+                        Forms\Components\Section::make(__('fields::filament/resources/field.form.sections.table-settings.title'))
                             ->schema(static::getTableSettingsSchema()),
 
                         Forms\Components\Section::make(__('fields::app.form.sections.infolist-settings'))
@@ -255,20 +255,20 @@ class FieldResource extends Resource
     public static function getFormSettingsSchema(): array
     {
         return [
-            Forms\Components\Fieldset::make(__('fields::app.form.sections.validations'))
+            Forms\Components\Fieldset::make(__('fields::filament/resources/field.form.sections.form-settings.field-sets.validations.title'))
                 ->schema([
                     Forms\Components\Repeater::make('validations')
                         ->hiddenLabel()
                         ->schema([
                             Forms\Components\Select::make('validation')
-                                ->label(__('fields::app.form.fields.validation'))
+                                ->label(__('fields::filament/resources/field.form.sections.form-settings.field-sets.validations.fields.validation'))
                                 ->searchable()
                                 ->required()
                                 ->distinct()
                                 ->live()
                                 ->options(fn (Forms\Get $get): array => static::getTypeFormValidations($get('../../../type'))),
                             Forms\Components\TextInput::make('field')
-                                ->label(__('fields::app.form.fields.field'))
+                                ->label(__('fields::filament/resources/field.form.sections.form-settings.field-sets.validations.fields.field'))
                                 ->required()
                                 ->visible(fn (Forms\Get $get): bool => in_array($get('validation'), [
                                     'prohibitedIf',
@@ -277,7 +277,7 @@ class FieldResource extends Resource
                                     'requiredUnless',
                                 ])),
                             Forms\Components\TextInput::make('value')
-                                ->label(__('fields::app.form.fields.value'))
+                                ->label(__('fields::filament/resources/field.form.sections.form-settings.field-sets.validations.fields.value'))
                                 ->required()
                                 ->visible(fn (Forms\Get $get): bool => in_array($get('validation'), [
                                     'after',
@@ -313,7 +313,7 @@ class FieldResource extends Resource
                                     'startsWith',
                                 ])),
                         ])
-                        ->addActionLabel(__('fields::app.form.actions.add-option'))
+                        ->addActionLabel(__('fields::filament/resources/field.form.sections.form-settings.field-sets.validations.fields.add-validation'))
                         ->columns(3)
                         ->collapsible()
                         ->itemLabel(function (array $state, Forms\Get $get): ?string {
@@ -324,20 +324,20 @@ class FieldResource extends Resource
                 ])
                 ->columns(1),
 
-            Forms\Components\Fieldset::make(__('fields::app.form.sections.additional-settings'))
+            Forms\Components\Fieldset::make(__('fields::filament/resources/field.form.sections.form-settings.field-sets.additional-settings.title'))
                 ->schema([
                     Forms\Components\Repeater::make('settings')
                         ->hiddenLabel()
                         ->schema([
                             Forms\Components\Select::make('setting')
-                                ->label(__('fields::app.form.fields.setting'))
+                                ->label(__('fields::filament/resources/field.form.sections.form-settings.field-sets.additional-settings.fields.setting'))
                                 ->required()
                                 ->distinct()
                                 ->searchable()
                                 ->live()
                                 ->options(fn (Forms\Get $get): array => static::getTypeFormSettings($get('../../../type'))),
                             Forms\Components\TextInput::make('value')
-                                ->label(__('fields::app.form.fields.value'))
+                                ->label(__('fields::filament/resources/field.form.sections.form-settings.field-sets.additional-settings.fields.value'))
                                 ->required()
                                 ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                                     'autocapitalize',
@@ -366,7 +366,7 @@ class FieldResource extends Resource
                                     'timezone',
                                 ])),
                             Forms\Components\TextInput::make('value')
-                                ->label(__('fields::app.form.fields.value'))
+                                ->label(__('fields::filament/resources/field.form.sections.form-settings.field-sets.additional-settings.fields.value'))
                                 ->required()
                                 ->numeric()
                                 ->minValue(0)
@@ -386,7 +386,7 @@ class FieldResource extends Resource
                                     'step',
                                 ])),
                             Forms\Components\Select::make('value')
-                                ->label(__('fields::app.form.fields.color'))
+                                ->label(__('fields::filament/resources/field.form.sections.form-settings.field-sets.additional-settings.fields.color'))
                                 ->required()
                                 ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                                     'hintColor',
@@ -396,41 +396,41 @@ class FieldResource extends Resource
                                     'offColor',
                                 ]))
                                 ->options([
-                                    'danger'    => __('fields::app.form.fields.types.danger'),
-                                    'info'      => __('fields::app.form.fields.types.info'),
-                                    'primary'   => __('fields::app.form.fields.types.primary'),
-                                    'secondary' => __('fields::app.form.fields.types.secondary'),
-                                    'warning'   => __('fields::app.form.fields.types.warning'),
-                                    'success'   => __('fields::app.form.fields.types.success'),
+                                    'danger'    => __('fields::filament/resources/field.form.sections.form-settings.field-sets.additional-settings.fields.color-options.danger'),
+                                    'info'      => __('fields::filament/resources/field.form.sections.form-settings.field-sets.additional-settings.fields.color-options.info'),
+                                    'primary'   => __('fields::filament/resources/field.form.sections.form-settings.field-sets.additional-settings.fields.color-options.primary'),
+                                    'secondary' => __('fields::filament/resources/field.form.sections.form-settings.field-sets.additional-settings.fields.color-options.secondary'),
+                                    'warning'   => __('fields::filament/resources/field.form.sections.form-settings.field-sets.additional-settings.fields.color-options.warning'),
+                                    'success'   => __('fields::filament/resources/field.form.sections.form-settings.field-sets.additional-settings.fields.color-options.success'),
                                 ]),
                             Forms\Components\Select::make('value')
-                                ->label(__('fields::app.form.fields.value'))
+                                ->label(__('fields::filament/resources/field.form.sections.form-settings.field-sets.additional-settings.fields.value'))
                                 ->required()
                                 ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                                     'gridDirection',
                                 ]))
                                 ->options([
-                                    'row'    => __('fields::app.form.fields.row'),
-                                    'column' => __('fields::app.form.fields.column'),
+                                    'row'    => __('fields::filament/resources/field.form.sections.form-settings.field-sets.additional-settings.fields.grid-options.row'),
+                                    'column' => __('fields::filament/resources/field.form.sections.form-settings.field-sets.additional-settings.fields.grid-options.column'),
                                 ]),
                             Forms\Components\Select::make('value')
-                                ->label(__('fields::app.form.fields.value'))
+                                ->label(__('fields::filament/resources/field.form.sections.form-settings.field-sets.additional-settings.fields.value'))
                                 ->required()
                                 ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                                     'inputMode',
                                 ]))
                                 ->options([
-                                    'none'    => __('fields::app.form.fields.input-types.none'),
-                                    'text'    => __('fields::app.form.fields.input-types.text'),
-                                    'numeric' => __('fields::app.form.fields.input-types.numeric'),
-                                    'decimal' => __('fields::app.form.fields.input-types.decimal'),
-                                    'tel'     => __('fields::app.form.fields.input-types.tel'),
-                                    'search'  => __('fields::app.form.fields.input-types.search'),
-                                    'email'   => __('fields::app.form.fields.input-types.email'),
-                                    'url'     => __('fields::app.form.fields.input-types.url'),
+                                    'none'    => __('fields::filament/resources/field.form.sections.form-settings.field-sets.additional-settings.fields.input-modes.none'),
+                                    'text'    => __('fields::filament/resources/field.form.sections.form-settings.field-sets.additional-settings.fields.input-modes.text'),
+                                    'numeric' => __('fields::filament/resources/field.form.sections.form-settings.field-sets.additional-settings.fields.input-modes.numeric'),
+                                    'decimal' => __('fields::filament/resources/field.form.sections.form-settings.field-sets.additional-settings.fields.input-modes.decimal'),
+                                    'tel'     => __('fields::filament/resources/field.form.sections.form-settings.field-sets.additional-settings.fields.input-modes.tel'),
+                                    'search'  => __('fields::filament/resources/field.form.sections.form-settings.field-sets.additional-settings.fields.input-modes.search'),
+                                    'email'   => __('fields::filament/resources/field.form.sections.form-settings.field-sets.additional-settings.fields.input-modes.email'),
+                                    'url'     => __('fields::filament/resources/field.form.sections.form-settings.field-sets.additional-settings.fields.input-modes.url'),
                                 ]),
                         ])
-                        ->addActionLabel(__('fields::app.form.actions.add-setting'))
+                        ->addActionLabel(__('fields::filament/resources/field.form.sections.form-settings.field-sets.additional-settings.fields.add-setting'))
                         ->columns(2)
                         ->collapsible()
                         ->itemLabel(function (array $state, Forms\Get $get): ?string {
@@ -775,7 +775,7 @@ class FieldResource extends Resource
     {
         return [
             Forms\Components\Toggle::make('use_in_table')
-                ->label(__('fields::app.form.fields.use-in-table'))
+                ->label(__('fields::filament/resources/field.form.sections.table-settings.fields.use-in-table'))
                 ->required()
                 ->live(),
             Forms\Components\Repeater::make('table_settings')
@@ -783,15 +783,14 @@ class FieldResource extends Resource
                 ->visible(fn (Forms\Get $get): bool => $get('use_in_table'))
                 ->schema([
                     Forms\Components\Select::make('setting')
-                        ->label(__('fields::app.form.fields.setting'))
+                        ->label(__('fields::filament/resources/field.form.sections.table-settings.fields.setting'))
                         ->searchable()
                         ->required()
                         ->distinct()
                         ->live()
                         ->options(fn (Forms\Get $get): array => static::getTypeTableSettings($get('../../type'))),
                     Forms\Components\TextInput::make('value')
-                        ->label('Value')
-                        ->label(__('fields::app.form.fields.value'))
+                        ->label(__('fields::filament/resources/field.form.sections.table-settings.fields.value'))
                         ->required()
                         ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'copyMessage',
@@ -808,24 +807,23 @@ class FieldResource extends Resource
                         ])),
 
                     Forms\Components\Select::make('value')
-                        ->label(__('fields::app.form.fields.value'))
-                        ->label('Color')
+                        ->label(__('fields::filament/resources/field.form.sections.table-settings.fields.color'))
                         ->required()
                         ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'color',
                             'iconColor',
                         ]))
                         ->options([
-                            'danger'    => __('fields::app.form.fields.types.danger'),
-                            'info'      => __('fields::app.form.fields.types.info'),
-                            'primary'   => __('fields::app.form.fields.types.primary'),
-                            'secondary' => __('fields::app.form.fields.types.secondary'),
-                            'warning'   => __('fields::app.form.fields.types.warning'),
-                            'success'   => __('fields::app.form.fields.types.success'),
+                            'danger'    => __('fields::filament/resources/field.form.sections.table-settings.fields.color-options.danger'),
+                            'info'      => __('fields::filament/resources/field.form.sections.table-settings.fields.color-options.info'),
+                            'primary'   => __('fields::filament/resources/field.form.sections.table-settings.fields.color-options.primary'),
+                            'secondary' => __('fields::filament/resources/field.form.sections.table-settings.fields.color-options.secondary'),
+                            'warning'   => __('fields::filament/resources/field.form.sections.table-settings.fields.color-options.warning'),
+                            'success'   => __('fields::filament/resources/field.form.sections.table-settings.fields.color-options.success'),
                         ]),
 
                     Forms\Components\Select::make('value')
-                        ->label(__('fields::app.form.fields.alignment'))
+                        ->label(__('fields::filament/resources/field.form.sections.table-settings.fields.alignment'))
                         ->required()
                         ->visible(fn (Forms\Get $get): bool => in_array($get('setting'), [
                             'alignment',
