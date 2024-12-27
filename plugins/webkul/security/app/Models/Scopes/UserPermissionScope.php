@@ -35,6 +35,10 @@ class UserPermissionScope implements Scope
             $builder->whereHas($this->ownerRelation, function ($q) use ($user) {
                 $q->where('users.id', $user->id);
             });
+
+            $builder->orWhereHas('followers', function ($q) use ($user) {
+                $q->where('chatter_followers.partner_id', $user->partner_id);
+            });
         }
 
         if ($user->resource_permission === PermissionType::GROUP->value) {

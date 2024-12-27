@@ -24,11 +24,7 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project): bool
     {
-        if (! $user->can('view_project')) {
-            return false;
-        }
-
-        return $this->hasAccess($user, $project);
+        return $user->can('view_project');
     }
 
     /**
