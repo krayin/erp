@@ -4,12 +4,12 @@ return [
     'form' => [
         'sections' => [
             'activity-details' => [
-                'title' => 'Activity Details',                                            
+                'title' => 'Activity Details',
 
                 'fields' => [
                     'activity-type' => 'Activity Type',
-                    'summary' => 'Summary',
-                    'note' => 'Note',
+                    'summary'       => 'Summary',
+                    'note'          => 'Note',
                 ],
             ],
 
@@ -18,7 +18,7 @@ return [
 
                 'fields' => [
                     'assignment' => 'Assignment',
-                    'assignee' => 'Assignee',
+                    'assignee'   => 'Assignee',
                 ],
             ],
 
@@ -26,9 +26,9 @@ return [
                 'title' => 'Delay Information',
 
                 'fields' => [
-                    'delay-count' => 'Delay Count',
-                    'delay-unit' => 'Delay Unit',
-                    'delay-from' => 'Delay From',
+                    'delay-count'            => 'Delay Count',
+                    'delay-unit'             => 'Delay Unit',
+                    'delay-from'             => 'Delay From',
                     'delay-from-helper-text' => 'Source of delay calculation',
                 ],
             ],
@@ -38,47 +38,47 @@ return [
     'table' => [
         'columns' => [
             'activity-type' => 'Activity Type',
-            'summary' => 'Summary',
-            'assignment' => 'Assignment',
-            'assigned-to' => 'Assigned To',
-            'interval' => 'Interval',
-            'delay-unit' => 'Delay Unit',
-            'delay-from' => 'Delay From',
-            'created-by' => 'Created By',
-            'created-at' => 'Created At',
-            'updated-at' => 'Updated At',
+            'summary'       => 'Summary',
+            'assignment'    => 'Assignment',
+            'assigned-to'   => 'Assigned To',
+            'interval'      => 'Interval',
+            'delay-unit'    => 'Delay Unit',
+            'delay-from'    => 'Delay From',
+            'created-by'    => 'Created By',
+            'created-at'    => 'Created At',
+            'updated-at'    => 'Updated At',
         ],
 
         'groups' => [
             'activity-type' => 'Activity Type',
-            'assignment' => 'Assignment',
-            'assigned-to' => 'Assigned To',
-            'interval' => 'Interval',
-            'delay-unit' => 'Delay Unit',
-            'delay-from' => 'Delay From',
-            'created-by' => 'Created By',
-            'created-at' => 'Created At',
-            'updated-at' => 'Updated At',
+            'assignment'    => 'Assignment',
+            'assigned-to'   => 'Assigned To',
+            'interval'      => 'Interval',
+            'delay-unit'    => 'Delay Unit',
+            'delay-from'    => 'Delay From',
+            'created-by'    => 'Created By',
+            'created-at'    => 'Created At',
+            'updated-at'    => 'Updated At',
         ],
 
         'filters' => [
-            'activity-type' => 'Activity Type',
+            'activity-type'   => 'Activity Type',
             'activity-status' => 'Activity Status',
-            'has-delay' => 'Has Delay',
+            'has-delay'       => 'Has Delay',
         ],
 
         'actions' => [
             'edit' => [
                 'notification' => [
                     'title' => 'Activity template updated',
-                    'body' => 'The activity template has been updated successfully.',
+                    'body'  => 'The activity template has been updated successfully.',
                 ],
             ],
 
             'delete' => [
                 'notification' => [
                     'title' => 'Activity template deleted',
-                    'body' => 'The activity template has been deleted successfully.',
+                    'body'  => 'The activity template has been deleted successfully.',
                 ],
             ],
         ],
@@ -87,7 +87,7 @@ return [
             'delete' => [
                 'notification' => [
                     'title' => 'Activity templates deleted',
-                    'body' => 'The activity templates has been deleted successfully.',
+                    'body'  => 'The activity templates has been deleted successfully.',
                 ],
             ],
         ],

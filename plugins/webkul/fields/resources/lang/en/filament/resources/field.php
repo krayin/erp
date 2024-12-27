@@ -10,18 +10,18 @@ return [
         'sections' => [
             'general' => [
                 'fields' => [
-                    'name' => 'Name',
-                    'code' => 'code',
+                    'name'              => 'Name',
+                    'code'              => 'code',
                     'code-helper-text'  => 'Code must start with a letter or underscore, and can only contain letters, numbers, and underscores.',
                 ],
             ],
 
             'options' => [
                 'title' => 'Options',
-                
+
                 'fields' => [
                     'add-option' => 'Add Option',
-                ]
+                ],
             ],
 
             'form-settings' => [
@@ -32,9 +32,9 @@ return [
                         'title' => 'Validations',
 
                         'fields' => [
-                            'validation' => 'Validation',
-                            'field' => 'Field',
-                            'value' => 'Value',
+                            'validation'     => 'Validation',
+                            'field'          => 'Field',
+                            'value'          => 'Value',
                             'add-validation' => 'Add Validation',
                         ],
                     ],
@@ -43,9 +43,9 @@ return [
                         'title' => 'Additional Settings',
 
                         'fields' => [
-                            'setting' => 'Setting',
-                            'value' => 'Value',
-                            'color' => 'Color',
+                            'setting'     => 'Setting',
+                            'value'       => 'Value',
+                            'color'       => 'Color',
                             'add-setting' => 'Add Setting',
 
                             'color-options' => [
@@ -58,7 +58,7 @@ return [
                             ],
 
                             'grid-options' => [
-                                'row' => 'Row',
+                                'row'    => 'Row',
                                 'column' => 'Column',
                             ],
 
@@ -77,7 +77,7 @@ return [
                                 'url'      => 'URL',
                             ],
                         ],
-                    ]
+                    ],
                 ],
 
                 'validations' => [
@@ -395,15 +395,15 @@ return [
                 'title' => 'Table Settings',
 
                 'fields' => [
-                    'use-in-table' => 'Use in Table',
-                    'setting' => 'Setting',
-                    'value' => 'Value',
-                    'color' => 'Color',
-                    'alignment' => 'Alignment',
-                    'font-weight' => 'Font Weight',
+                    'use-in-table'  => 'Use in Table',
+                    'setting'       => 'Setting',
+                    'value'         => 'Value',
+                    'color'         => 'Color',
+                    'alignment'     => 'Alignment',
+                    'font-weight'   => 'Font Weight',
                     'icon-position' => 'Icon Position',
-                    'size' => 'Size',
-                    'add-setting' => 'Add Setting',
+                    'size'          => 'Size',
+                    'add-setting'   => 'Add Setting',
 
                     'color-options' => [
                         'danger'    => 'Danger',
@@ -436,14 +436,14 @@ return [
 
                     'icon-position-options' => [
                         'before'  => 'Before',
-                        'after' => 'After',
+                        'after'   => 'After',
                     ],
 
                     'size-options' => [
                         'extra-small' => 'Extra Small',
-                        'small' => 'Small',
-                        'medium' => 'Medium',
-                        'large' => 'Large',
+                        'small'       => 'Small',
+                        'medium'      => 'Medium',
+                        'large'       => 'Large',
                     ],
                 ],
 
@@ -503,13 +503,13 @@ return [
                 'title' => 'Infolist Settings',
 
                 'fields' => [
-                    'setting' => 'Setting',
-                    'value' => 'Value',
-                    'color' => 'Color',
-                    'font-weight' => 'Font Weight',
+                    'setting'       => 'Setting',
+                    'value'         => 'Value',
+                    'color'         => 'Color',
+                    'font-weight'   => 'Font Weight',
                     'icon-position' => 'Icon Position',
-                    'size' => 'Size',
-                    'add-setting' => 'Add Setting',
+                    'size'          => 'Size',
+                    'add-setting'   => 'Add Setting',
 
                     'color-options' => [
                         'danger'    => 'Danger',
@@ -532,14 +532,14 @@ return [
 
                     'icon-position-options' => [
                         'before'  => 'Before',
-                        'after' => 'After',
+                        'after'   => 'After',
                     ],
 
                     'size-options' => [
                         'extra-small' => 'Extra Small',
-                        'small' => 'Small',
-                        'medium' => 'Medium',
-                        'large' => 'Large',
+                        'small'       => 'Small',
+                        'medium'      => 'Medium',
+                        'large'       => 'Large',
                     ],
                 ],
 
@@ -631,10 +631,10 @@ return [
                 'title' => 'Settings',
 
                 'fields' => [
-                    'type' => 'Type',
-                    'input-type' => 'Input Type',
+                    'type'           => 'Type',
+                    'input-type'     => 'Input Type',
                     'is-multiselect' => 'Is Multiselect',
-                    'sort-order' => 'Sort Order',
+                    'sort-order'     => 'Sort Order',
 
                     'type-options' => [
                         'text'          => 'Text Input',
@@ -675,10 +675,10 @@ return [
 
     'table' => [
         'columns' => [
-            'code' => 'Code',
-            'name' => 'Name',
-            'type' => 'Type',
-            'resource' => 'Resource',
+            'code'       => 'Code',
+            'name'       => 'Name',
+            'type'       => 'Type',
+            'resource'   => 'Resource',
             'created-at' => 'Created At',
         ],
 
@@ -686,7 +686,7 @@ return [
         ],
 
         'filters' => [
-            'type' => 'Type',
+            'type'     => 'Type',
             'resource' => 'Resource',
 
             'type-options' => [
@@ -708,21 +708,21 @@ return [
             'restore' => [
                 'notification' => [
                     'title' => 'Field restored',
-                    'body' => 'The field has been restored successfully.',
+                    'body'  => 'The field has been restored successfully.',
                 ],
             ],
 
             'delete' => [
                 'notification' => [
                     'title' => 'Field deleted',
-                    'body' => 'The field has been deleted successfully.',
+                    'body'  => 'The field has been deleted successfully.',
                 ],
             ],
 
             'force-delete' => [
                 'notification' => [
                     'title' => 'Field force deleted',
-                    'body' => 'The field has been force deleted successfully.',
+                    'body'  => 'The field has been force deleted successfully.',
                 ],
             ],
         ],
@@ -731,21 +731,21 @@ return [
             'restore' => [
                 'notification' => [
                     'title' => 'Fields restored',
-                    'body' => 'The fields has been restored successfully.',
+                    'body'  => 'The fields has been restored successfully.',
                 ],
             ],
 
             'delete' => [
                 'notification' => [
                     'title' => 'Fields deleted',
-                    'body' => 'The fields has been deleted successfully.',
+                    'body'  => 'The fields has been deleted successfully.',
                 ],
             ],
 
             'force-delete' => [
                 'notification' => [
                     'title' => 'Fields force deleted',
-                    'body' => 'The fields has been force deleted successfully.',
+                    'body'  => 'The fields has been force deleted successfully.',
                 ],
             ],
         ],
