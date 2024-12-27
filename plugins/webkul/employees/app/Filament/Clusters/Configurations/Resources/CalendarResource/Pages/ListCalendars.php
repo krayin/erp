@@ -23,9 +23,9 @@ class ListCalendars extends ListRecords
     public function getTabs(): array
     {
         return [
-            'all' => Tab::make('All')
+            'all' => Tab::make(__('employees::filament/clusters/configurations/resources/calendar/pages/list-calendar.tabs.all'))
                 ->badge(Calendar::count()),
-            'archived' => Tab::make('Archived')
+            'archived' => Tab::make(__('employees::filament/clusters/configurations/resources/calendar/pages/list-calendar.tabs.archived'))
                 ->badge(Calendar::onlyTrashed()->count())
                 ->modifyQueryUsing(function ($query) {
                     return $query->onlyTrashed();
