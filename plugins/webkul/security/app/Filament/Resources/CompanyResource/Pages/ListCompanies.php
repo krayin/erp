@@ -5,7 +5,7 @@ namespace Webkul\Security\Filament\Resources\CompanyResource\Pages;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Webkul\Security\Filament\Resources\CompanyResource;
-use Webkul\TableViews\Filament\Traits\HasTableViews;
+use Webkul\TableViews\Filament\Concerns\HasTableViews;
 
 class ListCompanies extends ListRecords
 {

@@ -26,18 +26,18 @@ class CreateViewAction extends Action
             ->model(TableView::class)
             ->form([
                 Forms\Components\TextInput::make('name')
-                    ->label(__('table-views::app.filament.actions.create-view.form.name'))
+                    ->label(__('table-views::filament/actions/create-view.form.name'))
                     ->autofocus()
                     ->required(),
                 Forms\Components\Select::make('color')
-                    ->label(__('table-views::app.filament.actions.create-view.form.color'))
+                    ->label(__('table-views::filament/actions/create-view.form.color'))
                     ->options(function () {
                         return collect([
-                            'danger'  => __('table-views::app.filament.actions.create-view.form.options.danger'),
-                            'gray'    => __('table-views::app.filament.actions.create-view.form.options.gray'),
-                            'info'    => __('table-views::app.filament.actions.create-view.form.options.info'),
-                            'success' => __('table-views::app.filament.actions.create-view.form.options.success'),
-                            'warning' => __('table-views::app.filament.actions.create-view.form.options.warning'),
+                            'danger'  => __('table-views::filament/actions/create-view.form.options.danger'),
+                            'gray'    => __('table-views::filament/actions/create-view.form.options.gray'),
+                            'info'    => __('table-views::filament/actions/create-view.form.options.info'),
+                            'success' => __('table-views::filament/actions/create-view.form.options.success'),
+                            'warning' => __('table-views::filament/actions/create-view.form.options.warning'),
                         ])->mapWithKeys(function ($value, $key) {
                             return [
                                 $key => '<div class="flex items-center gap-4"><span class="flex h-5 w-5 rounded-full" style="background: rgb(var(--'.$key.'-500))"></span> '.$value.'</span>',
@@ -47,17 +47,17 @@ class CreateViewAction extends Action
                     ->native(false)
                     ->allowHtml(),
                 \Guava\FilamentIconPicker\Forms\IconPicker::make('icon')
-                    ->label(__('table-views::app.filament.actions.create-view.form.icon'))
+                    ->label(__('table-views::filament/actions/create-view.form.icon'))
                     ->sets(['heroicons'])
                     ->columns(4)
                     ->preload()
                     ->optionsLimit(50),
                 Forms\Components\Toggle::make('is_favorite')
-                    ->label(__('table-views::app.filament.actions.create-view.form.add-to-favorites'))
-                    ->helperText(__('table-views::app.filament.actions.create-view.form.add-to-favorites-help')),
+                    ->label(__('table-views::filament/actions/create-view.form.add-to-favorites'))
+                    ->helperText(__('table-views::filament/actions/create-view.form.add-to-favorites-help')),
                 Forms\Components\Toggle::make('is_public')
-                    ->label(__('table-views::app.filament.actions.create-view.form.make-public'))
-                    ->helperText(__('table-views::app.filament.actions.create-view.form.make-public-help')),
+                    ->label(__('table-views::filament/actions/create-view.form.make-public'))
+                    ->helperText(__('table-views::filament/actions/create-view.form.make-public-help')),
             ])->action(function (): void {
                 $model = $this->getModel();
 
@@ -81,12 +81,12 @@ class CreateViewAction extends Action
 
                 $this->success();
             })
-            ->successNotificationTitle(__('table-views::app.filament.actions.create-view.form.notification.created'))
+            ->successNotificationTitle(__('table-views::filament/actions/create-view.form.notification.created'))
             ->hiddenLabel()
             ->icon('heroicon-o-plus')
             ->iconButton()
             ->slideOver()
-            ->modalHeading(__('table-views::app.filament.actions.create-view.form.modal.title'))
+            ->modalHeading(__('table-views::filament/actions/create-view.form.modal.title'))
             ->modalWidth(MaxWidth::Medium);
     }
 }
