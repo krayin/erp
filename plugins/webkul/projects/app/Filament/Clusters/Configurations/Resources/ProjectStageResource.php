@@ -25,7 +25,7 @@ class ProjectStageResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return __('projects::app.filament.clusters.configurations.resources.project-stage.navigation.title');
+        return __('projects::filament/clusters/configurations/resources/project-stage.navigation.title');
     }
 
     public static function isDiscovered(): bool
@@ -42,7 +42,7 @@ class ProjectStageResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label(__('projects::app.filament.clusters.configurations.resources.project-stage.form.name'))
+                    ->label(__('projects::filament/clusters/configurations/resources/project-stage.form.name'))
                     ->required()
                     ->maxLength(255)
                     ->unique(ignoreRecord: true),
@@ -55,13 +55,13 @@ class ProjectStageResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label(__('projects::app.filament.clusters.configurations.resources.project-stage.table.columns.name'))
+                    ->label(__('projects::filament/clusters/configurations/resources/project-stage.table.columns.name'))
                     ->searchable()
                     ->sortable(),
             ])
             ->groups([
                 Tables\Grouping\Group::make('created_at')
-                    ->label(__('projects::app.filament.clusters.configurations.resources.project-stage.table.columns.created-at'))
+                    ->label(__('projects::filament/clusters/configurations/resources/project-stage.table.columns.created-at'))
                     ->date(),
             ])
             ->reorderable('sort')
@@ -72,29 +72,29 @@ class ProjectStageResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title(__('projects::app.filament.clusters.configurations.resources.project-stage.table.actions.edit.notification.title'))
-                            ->body(__('projects::app.filament.clusters.configurations.resources.project-stage.table.actions.edit.notification.body')),
+                            ->title(__('projects::filament/clusters/configurations/resources/project-stage.table.actions.edit.notification.title'))
+                            ->body(__('projects::filament/clusters/configurations/resources/project-stage.table.actions.edit.notification.body')),
                     ),
                 Tables\Actions\RestoreAction::make()
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title(__('projects::app.filament.clusters.configurations.resources.project-stage.table.actions.restore.notification.title'))
-                            ->body(__('projects::app.filament.clusters.configurations.resources.project-stage.table.actions.restore.notification.body')),
+                            ->title(__('projects::filament/clusters/configurations/resources/project-stage.table.actions.restore.notification.title'))
+                            ->body(__('projects::filament/clusters/configurations/resources/project-stage.table.actions.restore.notification.body')),
                     ),
                 Tables\Actions\DeleteAction::make()
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title(__('projects::app.filament.clusters.configurations.resources.project-stage.table.actions.delete.notification.title'))
-                            ->body(__('projects::app.filament.clusters.configurations.resources.project-stage.table.actions.delete.notification.body')),
+                            ->title(__('projects::filament/clusters/configurations/resources/project-stage.table.actions.delete.notification.title'))
+                            ->body(__('projects::filament/clusters/configurations/resources/project-stage.table.actions.delete.notification.body')),
                     ),
                 Tables\Actions\ForceDeleteAction::make()
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title(__('projects::app.filament.clusters.configurations.resources.project-stage.table.actions.force-delete.notification.title'))
-                            ->body(__('projects::app.filament.clusters.configurations.resources.project-stage.table.actions.force-delete.notification.body')),
+                            ->title(__('projects::filament/clusters/configurations/resources/project-stage.table.actions.force-delete.notification.title'))
+                            ->body(__('projects::filament/clusters/configurations/resources/project-stage.table.actions.force-delete.notification.body')),
                     ),
             ])
             ->bulkActions([
@@ -103,22 +103,22 @@ class ProjectStageResource extends Resource
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title(__('projects::app.filament.clusters.configurations.resources.project-stage.table.bulk-actions.restore.notification.title'))
-                                ->body(__('projects::app.filament.clusters.configurations.resources.project-stage.table.bulk-actions.restore.notification.body')),
+                                ->title(__('projects::filament/clusters/configurations/resources/project-stage.table.bulk-actions.restore.notification.title'))
+                                ->body(__('projects::filament/clusters/configurations/resources/project-stage.table.bulk-actions.restore.notification.body')),
                         ),
                     Tables\Actions\DeleteBulkAction::make()
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title(__('projects::app.filament.clusters.configurations.resources.project-stage.table.bulk-actions.delete.notification.title'))
-                                ->body(__('projects::app.filament.clusters.configurations.resources.project-stage.table.bulk-actions.delete.notification.body')),
+                                ->title(__('projects::filament/clusters/configurations/resources/project-stage.table.bulk-actions.delete.notification.title'))
+                                ->body(__('projects::filament/clusters/configurations/resources/project-stage.table.bulk-actions.delete.notification.body')),
                         ),
                     Tables\Actions\ForceDeleteBulkAction::make()
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title(__('projects::app.filament.clusters.configurations.resources.project-stage.table.bulk-actions.force-delete.notification.title'))
-                                ->body(__('projects::app.filament.clusters.configurations.resources.project-stage.table.bulk-actions.force-delete.notification.body')),
+                                ->title(__('projects::filament/clusters/configurations/resources/project-stage.table.bulk-actions.force-delete.notification.title'))
+                                ->body(__('projects::filament/clusters/configurations/resources/project-stage.table.bulk-actions.force-delete.notification.body')),
                         ),
                 ]),
             ]);

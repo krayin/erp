@@ -21,7 +21,7 @@ class ManageMilestones extends ManageRelatedRecords
 
     public static function getNavigationLabel(): string
     {
-        return __('projects::app.filament.resources.project.pages.manage-milestones.title');
+        return __('projects::filament/resources/project/pages/manage-milestones.title');
     }
 
     public function form(Form $form): Form
@@ -34,7 +34,7 @@ class ManageMilestones extends ManageRelatedRecords
         return MilestoneResource::table($table)
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                    ->label(__('projects::app.filament.resources.project.pages.manage-milestones.table.header-actions.create.label'))
+                    ->label(__('projects::filament/resources/project/pages/manage-milestones.table.header-actions.create.label'))
                     ->icon('heroicon-o-plus-circle')
                     ->mutateFormDataUsing(function (array $data): array {
                         $data['creator_id'] = Auth::id();
@@ -44,8 +44,8 @@ class ManageMilestones extends ManageRelatedRecords
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title(__('projects::app.filament.resources.project.pages.manage-milestones.table.header-actions.create.notification.title'))
-                            ->body(__('projects::app.filament.resources.project.pages.manage-milestones.table.header-actions.create.notification.body')),
+                            ->title(__('projects::filament/resources/project/pages/manage-milestones.table.header-actions.create.notification.title'))
+                            ->body(__('projects::filament/resources/project/pages/manage-milestones.table.header-actions.create.notification.body')),
                     ),
             ]);
     }

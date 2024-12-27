@@ -19,7 +19,7 @@ class TopProjectsWidget extends BaseWidget
 
     public function getHeading(): string | Htmlable | null
     {
-        return __('projects::app.filament.widgets.top-projects.heading');
+        return __('projects::filament/widgets/top-projects.heading');
     }
 
     protected function getTableQuery(): Builder
@@ -70,13 +70,13 @@ class TopProjectsWidget extends BaseWidget
     {
         return [
             Tables\Columns\TextColumn::make('project_name')
-                ->label(__('projects::app.filament.widgets.top-projects.table-columns.project-name'))
+                ->label(__('projects::filament/widgets/top-projects.table-columns.project-name'))
                 ->sortable(),
             Tables\Columns\TextColumn::make('total_hours')
-                ->label(__('projects::app.filament.widgets.top-projects.table-columns.hours-spent'))
+                ->label(__('projects::filament/widgets/top-projects.table-columns.hours-spent'))
                 ->sortable(),
             Tables\Columns\TextColumn::make('total_tasks')
-                ->label(__('projects::app.filament.widgets.top-projects.table-columns.tasks'))
+                ->label(__('projects::filament/widgets/top-projects.table-columns.tasks'))
                 ->sortable(),
         ];
     }

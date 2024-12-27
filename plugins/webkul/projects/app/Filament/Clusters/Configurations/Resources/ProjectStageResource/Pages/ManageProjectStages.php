@@ -18,7 +18,7 @@ class ManageProjectStages extends ManageRecords
     {
         return [
             Actions\CreateAction::make()
-                ->label(__('projects::app.filament.clusters.configurations.resources.project-stage.pages.manage-project-stages.header-actions.create.label'))
+                ->label(__('projects::filament/clusters/configurations/resources/project-stage/pages/manage-project-stages.header-actions.create.label'))
                 ->icon('heroicon-o-plus-circle')
                 ->mutateFormDataUsing(function (array $data): array {
                     $data['creator_id'] = Auth::id();
@@ -28,8 +28,8 @@ class ManageProjectStages extends ManageRecords
                 ->successNotification(
                     Notification::make()
                         ->success()
-                        ->title(__('projects::app.filament.clusters.configurations.resources.project-stage.pages.manage-project-stages.header-actions.create.notification.title'))
-                        ->body(__('projects::app.filament.clusters.configurations.resources.project-stage.pages.manage-project-stages.header-actions.create.notification.body')),
+                        ->title(__('projects::filament/clusters/configurations/resources/project-stage/pages/manage-project-stages.header-actions.create.notification.title'))
+                        ->body(__('projects::filament/clusters/configurations/resources/project-stage/pages/manage-project-stages.header-actions.create.notification.body')),
                 ),
         ];
     }
@@ -37,9 +37,9 @@ class ManageProjectStages extends ManageRecords
     public function getTabs(): array
     {
         return [
-            'all' => Tab::make(__('projects::app.filament.clusters.configurations.resources.project-stage.pages.manage-project-stages.tabs.all'))
+            'all' => Tab::make(__('projects::filament/clusters/configurations/resources/project-stage/pages/manage-project-stages.tabs.all'))
                 ->badge(ProjectStage::count()),
-            'archived' => Tab::make(__('projects::app.filament.clusters.configurations.resources.project-stage.pages.manage-project-stages.tabs.archived'))
+            'archived' => Tab::make(__('projects::filament/clusters/configurations/resources/project-stage/pages/manage-project-stages.tabs.archived'))
                 ->badge(ProjectStage::onlyTrashed()->count())
                 ->modifyQueryUsing(function ($query) {
                     return $query->onlyTrashed();
