@@ -1,35 +1,47 @@
 <?php
 
 return [
+    'modal' => [
+        'title' => 'Working Hours',
+    ],
+
     'form' => [
         'sections' => [
-            'activity-details' => [
-                'title' => 'Activity Details',
-
+            'general' => [
+                'title'  => 'General Information',
                 'fields' => [
-                    'activity-type' => 'Activity Type',
-                    'summary'       => 'Summary',
-                    'note'          => 'Note',
+                    'attendance-name' => 'Attendance Name',
+                    'attendance-name' => 'Attendance Name',
+                    'day-of-week'     => 'Day of Week',
                 ],
             ],
 
-            'assignment' => [
-                'title' => 'Assignment',
+            'timing-information' => [
+                'title' => 'Timing Information',
 
                 'fields' => [
-                    'assignment' => 'Assignment',
-                    'assignee'   => 'Assignee',
+                    'day-period' => 'Day Periods',
+                    'week-type'  => 'Week Type',
+                    'work-from'  => 'Work From',
+                    'work-to'    => 'Work To',
                 ],
             ],
 
-            'delay-information' => [
-                'title' => 'Delay Information',
+            'date-information' => [
+                'title' => 'Date Information',
 
                 'fields' => [
-                    'delay-count'            => 'Delay Count',
-                    'delay-unit'             => 'Delay Unit',
-                    'delay-from'             => 'Delay From',
-                    'delay-from-helper-text' => 'Source of delay calculation',
+                    'starting-date' => 'Starting Date',
+                    'ending-date'   => 'Ending Date',
+                ],
+            ],
+
+            'additional-information' => [
+                'title' => 'Additional Information',
+
+                'fields' => [
+                    'durations-days' => 'Duration (Days)',
+                    'display-type'   => 'Display Type',
                 ],
             ],
         ],
@@ -37,13 +49,14 @@ return [
 
     'table' => [
         'columns' => [
-            'activity-type' => 'Activity Type',
-            'summary'       => 'Summary',
-            'assignment'    => 'Assignment',
-            'assigned-to'   => 'Assigned To',
-            'interval'      => 'Interval',
-            'delay-unit'    => 'Delay Unit',
-            'delay-from'    => 'Delay From',
+            'name'          => 'Attendance Name',
+            'day-of-week'   => 'Day of Week',
+            'day-period'    => 'Day Periods',
+            'work-from'     => 'Work From',
+            'work-to'       => 'Work To',
+            'starting-date' => 'Starting Date',
+            'ending-date'   => 'Ending Date',
+            'display-type'  => 'Display Type',
             'created-by'    => 'Created By',
             'created-at'    => 'Created At',
             'updated-at'    => 'Updated At',
@@ -62,30 +75,36 @@ return [
         ],
 
         'filters' => [
-            'activity-type'   => 'Activity Type',
-            'activity-status' => 'Activity Status',
-            'has-delay'       => 'Has Delay',
+            'display-type' => 'Display Type',
+            'day-of-week'  => 'Day of Week',
         ],
 
         'actions' => [
             'edit' => [
                 'notification' => [
-                    'title' => 'Activity template updated',
-                    'body'  => 'The activity template has been updated successfully.',
+                    'title' => 'Working hours updated',
+                    'body'  => 'The working hours has been updated successfully.',
                 ],
             ],
 
             'create' => [
                 'notification' => [
-                    'title' => 'Activity template created',
-                    'body'  => 'The activity template has been created successfully.',
+                    'title' => 'Working hours created',
+                    'body'  => 'The working hours has been created successfully.',
                 ],
             ],
 
             'delete' => [
                 'notification' => [
-                    'title' => 'Activity template deleted',
-                    'body'  => 'The activity template has been deleted successfully.',
+                    'title' => 'Working hours deleted',
+                    'body'  => 'The working hours has been deleted successfully.',
+                ],
+            ],
+
+            'restore' => [
+                'notification' => [
+                    'title' => 'Working hours restored',
+                    'body'  => 'The working hours has been restored successfully.',
                 ],
             ],
         ],
@@ -93,8 +112,22 @@ return [
         'bulk-actions' => [
             'delete' => [
                 'notification' => [
-                    'title' => 'Activity templates deleted',
-                    'body'  => 'The activity templates has been deleted successfully.',
+                    'title' => 'Working hours deleted',
+                    'body'  => 'The working hours has been deleted successfully.',
+                ],
+            ],
+
+            'restore' => [
+                'notification' => [
+                    'title' => 'Working hours deleted',
+                    'body'  => 'The working hours has been deleted successfully.',
+                ],
+            ],
+
+            'force-delete' => [
+                'notification' => [
+                    'title' => 'Working hours deleted',
+                    'body'  => 'The working hours has been deleted successfully.',
                 ],
             ],
         ],
@@ -102,32 +135,41 @@ return [
 
     'infolist' => [
         'sections' => [
-            'activity-details' => [
-                'title' => 'Activity Details',
+            'general' => [
+                'title' => 'General Information',
 
                 'entries' => [
-                    'activity-type' => 'Activity Type',
-                    'summary'       => 'Summary',
+                    'name'        => 'Attendance Name',
+                    'day-of-week' => 'Day of Week',
                 ],
             ],
 
-            'assignment' => [
-                'title' => 'Assignment',
+            'timing-information' => [
+                'title' => 'Timing Information',
 
                 'entries' => [
-                    'assignment' => 'Assignment',
-                    'assignee'   => 'Assignee',
+                    'day-period' => 'Day Periods',
+                    'week-type'  => 'Week Type',
+                    'work-from'  => 'Work From',
+                    'work-to'    => 'Work To',
                 ],
             ],
 
-            'delay-information' => [
-                'title' => 'Delay Information',
+            'date-information' => [
+                'title' => 'Date Information',
 
                 'entries' => [
-                    'delay-count'            => 'Delay Count',
-                    'delay-unit'             => 'Delay Unit',
-                    'delay-from'             => 'Delay From',
-                    'delay-from-helper-text' => 'Source of delay calculation',
+                    'starting-date' => 'Starting Date',
+                    'ending-date'   => 'Ending Date',
+                ],
+            ],
+
+            'additional-information' => [
+                'title' => 'Additional Information',
+
+                'entries' => [
+                    'durations-days' => 'Duration (Days)',
+                    'display-type'   => 'Display Type',
                 ],
             ],
         ],

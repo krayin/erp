@@ -26,8 +26,6 @@ class CalendarResource extends Resource
 
     protected static ?string $cluster = Configurations::class;
 
-    protected static ?string $navigationGroup = 'Employee';
-
     public static function getModelLabel(): string
     {
         return __('employees::filament/clusters/configurations/resources/calendar.modal-label');
