@@ -12,6 +12,7 @@ use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Webkul\Employee\Filament\Resources\DepartmentResource\Pages;
 use Webkul\Employee\Models\Department;
 use Webkul\Field\Filament\Traits\HasCustomFields;
@@ -25,7 +26,29 @@ class DepartmentResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
 
-    protected static ?string $navigationGroup = 'Employees';
+    public static function getNavigationLabel(): string
+    {
+        return __('employees::filament/resources/department.navigation.title');
+    }
+
+    public static function getNavigationGroup(): string
+    {
+        return __('employees::filament/resources/department.navigation.group');
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'manager.name', 'company.name'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            __('employees::filament/resources/department.global-search.name')               => $record->name ?? '—',
+            __('employees::filament/resources/department.global-search.department-manager') => $record->manager?->name ?? '—',
+            __('employees::filament/resources/department.global-search.company')            => $record->company?->name ?? '—',
+        ];
+    }
 
     protected static ?int $navigationSort = 2;
 
@@ -37,69 +60,39 @@ class DepartmentResource extends Resource
                     ->schema([
                         Forms\Components\Group::make()
                             ->schema([
-                                Forms\Components\Section::make('General Information')
+                                Forms\Components\Section::make(__('employees::filament/resources/department.form.sections.general.title'))
                                     ->schema([
                                         Forms\Components\TextInput::make('name')
-                                            ->label('Name')
+                                            ->label(__('employees::filament/resources/department.form.sections.general.fields.name'))
                                             ->required()
                                             ->maxLength(255)
                                             ->live(onBlur: true),
                                         Forms\Components\Select::make('manager_id')
-                                            ->label('Manager')
+                                            ->label(__('employees::filament/resources/department.form.sections.general.fields.manager'))
                                             ->relationship('manager', 'name')
                                             ->searchable()
                                             ->preload()
-                                            ->placeholder('Select a manager')
+                                            ->placeholder(__('employees::filament/resources/department.form.sections.general.fields.manager-placeholder'))
                                             ->nullable(),
                                         Forms\Components\Select::make('company_id')
-                                            ->label('Company')
+                                            ->label(__('employees::filament/resources/department.form.sections.general.fields.company'))
                                             ->relationship('company', 'name')
                                             ->options(fn () => Company::pluck('name', 'id'))
                                             ->searchable()
-                                            ->placeholder('Select a Company')
+                                            ->placeholder(__('employees::filament/resources/department.form.sections.general.fields.company-placeholder'))
                                             ->nullable(),
                                         Forms\Components\ColorPicker::make('color')
-                                            ->label('Color'),
+                                            ->label(__('employees::filament/resources/department.form.sections.general.fields.color')),
                                     ])
                                     ->columns(2),
-                                Forms\Components\Section::make('Additional Information')
+                                Forms\Components\Section::make(__('employees::filament/resources/department.form.sections.additional.title'))
                                     ->visible(! empty($customFormFields = static::getCustomFormFields()))
-                                    ->description('Additional information about this work schedule')
+                                    ->description(__('employees::filament/resources/department.form.sections.additional.description'))
                                     ->schema($customFormFields),
                             ]),
                     ]),
             ])
             ->columns('full');
-    }
-
-    public static function infolist(Infolist $infolist): Infolist
-    {
-        return $infolist
-            ->schema([
-                Infolists\Components\Group::make()
-                    ->schema([
-                        Infolists\Components\Group::make()
-                            ->schema([
-                                Infolists\Components\Section::make('General Information')
-                                    ->schema([
-                                        Infolists\Components\TextEntry::make('name')
-                                            ->placeholder('—')
-                                            ->label('Name'),
-                                        Infolists\Components\TextEntry::make('manager.name')
-                                            ->placeholder('—')
-                                            ->label('Manager'),
-                                        Infolists\Components\TextEntry::make('company.name')
-                                            ->placeholder('—')
-                                            ->label('Company'),
-                                        Infolists\Components\ColorEntry::make('color')
-                                            ->placeholder('—')
-                                            ->label('Color'),
-                                    ])
-                                    ->columns(2),
-                            ]),
-                    ])
-                    ->columnSpan('full'),
-            ]);
     }
 
     public static function table(Table $table): Table
@@ -113,22 +106,23 @@ class DepartmentResource extends Resource
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('name')
                             ->weight(FontWeight::Bold)
+                            ->label(__('employees::filament/resources/department.table.columns.name'))
                             ->searchable()
                             ->sortable(),
                         Tables\Columns\Layout\Stack::make([
                             Tables\Columns\TextColumn::make('manager.name')
                                 ->icon('heroicon-m-briefcase')
+                                ->label(__('employees::filament/resources/department.table.columns.manager-name'))
                                 ->sortable()
-                                ->searchable()
-                                ->label('Job Title'),
+                                ->searchable(),
                         ])
                             ->visible(fn ($record) => filled($record?->manager?->name)),
                         Tables\Columns\Layout\Stack::make([
                             Tables\Columns\TextColumn::make('company.name')
                                 ->searchable()
+                                ->label(__('employees::filament/resources/department.table.columns.company-name'))
                                 ->icon('heroicon-m-building-office-2')
-                                ->searchable()
-                                ->label('Job Title'),
+                                ->searchable(),
                         ])
                             ->visible(fn ($record) => filled($record?->company?->name)),
                     ])->space(1),
@@ -140,19 +134,19 @@ class DepartmentResource extends Resource
             ])
             ->groups([
                 Tables\Grouping\Group::make('name')
-                    ->label('Name')
+                    ->label(__('employees::filament/resources/department.table.groups.name'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('company.name')
-                    ->label('Company')
+                    ->label(__('employees::filament/resources/department.table.groups.company'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('manager.name')
-                    ->label('Manager')
+                    ->label(__('employees::filament/resources/department.table.groups.manager'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('created_at')
-                    ->label('Created At')
+                    ->label(__('employees::filament/resources/department.table.groups.created-at'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('updated_at')
-                    ->label('Update At')
+                    ->label(__('employees::filament/resources/department.table.groups.updated-at'))
                     ->date()
                     ->collapsible(),
             ])
@@ -162,64 +156,118 @@ class DepartmentResource extends Resource
                     ->constraintPickerColumns(2)
                     ->constraints([
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('name')
-                            ->label('Name')
+                            ->label(__('employees::filament/resources/department.table.filters.name'))
                             ->icon('heroicon-o-building-office-2'),
-                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('manager.name')
-                            ->label('Manager')
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('manager')
+                            ->label(__('employees::filament/resources/department.table.filters.manager-name'))
                             ->icon('heroicon-o-user')
                             ->multiple()
                             ->selectable(
                                 IsRelatedToOperator::make()
                                     ->titleAttribute('name')
+                                    ->label(__('employees::filament/resources/department.table.filters.manager-name'))
                                     ->searchable()
                                     ->multiple()
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('company')
-                            ->label('Company')
+                            ->label(__('employees::filament/resources/department.table.filters.company-name'))
                             ->icon('heroicon-o-building-office-2')
                             ->multiple()
                             ->selectable(
                                 IsRelatedToOperator::make()
                                     ->titleAttribute('name')
+                                    ->label(__('employees::filament/resources/department.table.filters.company-name'))
                                     ->searchable()
                                     ->multiple()
                                     ->preload(),
                             ),
-                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at'),
-                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at')
+                            ->label(__('employees::filament/resources/department.table.filters.created-at')),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at')
+                            ->label(__('employees::filament/resources/department.table.filters.updated-at')),
                     ]),
             ]))
-            ->paginated([
-                18,
-                36,
-                72,
-                'all',
-            ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\RestoreAction::make(),
+                Tables\Actions\RestoreAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title(__('employees::filament/resources/department.table.actions.restore.notification.title'))
+                            ->body(__('employees::filament/resources/department.table.actions.restore.notification.body')),
+                    ),
+                Tables\Actions\DeleteAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title(__('employees::filament/resources/department.table.actions.delete.notification.title'))
+                            ->body(__('employees::filament/resources/department.table.actions.delete.notification.body')),
+                    ),
+                Tables\Actions\ForceDeleteAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title(__('employees::filament/resources/department.table.actions.force-delete.notification.title'))
+                            ->body(__('employees::filament/resources/department.table.actions.force-delete.notification.body')),
+                    ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
-                        ->action(function () {
+                    Tables\Actions\RestoreBulkAction::make()
+                        ->successNotification(
                             Notification::make()
-                                ->title('Delete action executed.')
-                                ->warning()
-                                ->send();
-                        }),
+                                ->success()
+                                ->title(__('employees::filament/resources/department.table.bulk-actions.restore.notification.title'))
+                                ->body(__('employees::filament/resources/department.table.bulk-actions.restore.notification.body')),
+                        ),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('employees::filament/resources/department.table.bulk-actions.delete.notification.title'))
+                                ->body(__('employees::filament/resources/department.table.bulk-actions.delete.notification.body')),
+                        ),
+                    Tables\Actions\ForceDeleteBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('employees::filament/resources/department.table.bulk-actions.force-delete.notification.title'))
+                                ->body(__('employees::filament/resources/department.table.bulk-actions.force-delete.notification.body')),
+                        ),
                 ]),
             ]);
     }
 
-    public static function getRelations(): array
+    public static function infolist(Infolist $infolist): Infolist
     {
-        return [
-            //
-        ];
+        return $infolist
+            ->schema([
+                Infolists\Components\Group::make()
+                    ->schema([
+                        Infolists\Components\Group::make()
+                            ->schema([
+                                Infolists\Components\Section::make(__('employees::filament/resources/department.infolist.sections.general.title'))
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('name')
+                                            ->placeholder('—')
+                                            ->label(__('employees::filament/resources/department.infolist.sections.general.entries.name')),
+                                        Infolists\Components\TextEntry::make('manager.name')
+                                            ->placeholder('—')
+                                            ->label(__('employees::filament/resources/department.infolist.sections.general.entries.manager')),
+                                        Infolists\Components\TextEntry::make('company.name')
+                                            ->placeholder('—')
+                                            ->label(__('employees::filament/resources/department.infolist.sections.general.entries.company')),
+                                        Infolists\Components\ColorEntry::make('color')
+                                            ->placeholder('—')
+                                            ->label(__('employees::filament/resources/department.infolist.sections.general.entries.color')),
+                                    ])
+                                    ->columns(2),
+                            ]),
+                    ])
+                    ->columnSpan('full'),
+            ]);
     }
 
     public static function getSlug(): string
