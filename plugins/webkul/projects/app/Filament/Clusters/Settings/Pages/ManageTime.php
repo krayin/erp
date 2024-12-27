@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\Project\Filament\Clusters\Configurations\Pages;
+namespace Webkul\Project\Filament\Clusters\Settings\Pages;
 
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Forms;
@@ -24,18 +24,18 @@ class ManageTime extends SettingsPage
     public function getBreadcrumbs(): array
     {
         return [
-            __('security::app.filament.clusters.settings.name'),
+            __('projects::filament/clusters/settings/pages/manage-time.title'),
         ];
     }
 
     public function getTitle(): string
     {
-        return 'Manage Time';
+        return __('projects::filament/clusters/settings/pages/manage-time.title');
     }
 
     public static function getNavigationLabel(): string
     {
-        return 'Manage Time';
+        return __('projects::filament/clusters/settings/pages/manage-time.title');
     }
 
     public function form(Form $form): Form
@@ -43,8 +43,8 @@ class ManageTime extends SettingsPage
         return $form
             ->schema([
                 Forms\Components\Toggle::make('enable_timesheets')
-                    ->label('Enable Timesheets')
-                    ->helperText('Track time spent on projects and tasks')
+                    ->label(__('projects::filament/clusters/settings/pages/manage-time.form.enable-timesheets'))
+                    ->helperText(__('projects::filament/clusters/settings/pages/manage-time.form.enable-timesheets-helper-text'))
                     ->required(),
             ]);
     }

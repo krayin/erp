@@ -5,6 +5,7 @@ namespace Webkul\Project\Filament\Widgets;
 use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Widgets\ChartWidget;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Carbon;
 use Webkul\Project\Models\Task;
 use Webkul\Project\Models\TaskStage;
@@ -18,6 +19,11 @@ class TaskByStageChart extends ChartWidget
     protected static ?string $maxHeight = '250px';
 
     protected static ?int $sort = 1;
+
+    public function getHeading(): string | Htmlable | null
+    {
+        return __('projects::filament/widgets/task-by-stage.heading');
+    }
 
     protected function getData(): array
     {
@@ -72,7 +78,7 @@ class TaskByStageChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Tasks created',
+                    'label' => __('projects::filament/widgets/task-by-stage.datasets.label'),
                     'data'  => $datasets['datasets'],
                 ],
             ],

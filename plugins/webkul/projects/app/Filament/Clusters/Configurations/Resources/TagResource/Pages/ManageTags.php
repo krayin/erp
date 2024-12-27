@@ -19,6 +19,7 @@ class ManageTags extends ManageRecords
         return [
             Actions\CreateAction::make()
                 ->label('New Tag')
+                ->label(__('projects::filament/clusters/configurations/resources/tag/pages/manage-tags.header-actions.create.label'))
                 ->icon('heroicon-o-plus-circle')
                 ->mutateFormDataUsing(function (array $data): array {
                     $data['creator_id'] = Auth::id();
@@ -29,7 +30,9 @@ class ManageTags extends ManageRecords
                     Notification::make()
                         ->success()
                         ->title('Tag created')
-                        ->body('The tag has been created successfully.'),
+                        ->body('The tag has been created successfully.')
+                        ->title(__('projects::filament/clusters/configurations/resources/tag/pages/manage-tags.header-actions.create.notification.title'))
+                        ->body(__('projects::filament/clusters/configurations/resources/tag/pages/manage-tags.header-actions.create.notification.body')),
                 ),
         ];
     }
@@ -37,9 +40,9 @@ class ManageTags extends ManageRecords
     public function getTabs(): array
     {
         return [
-            'all' => Tab::make('All Tags')
+            'all' => Tab::make(__('projects::filament/clusters/configurations/resources/tag/pages/manage-tags.tabs.all'))
                 ->badge(Tag::count()),
-            'archived' => Tab::make('Archived')
+            'archived' => Tab::make(__('projects::filament/clusters/configurations/resources/tag/pages/manage-tags.tabs.archived'))
                 ->badge(Tag::onlyTrashed()->count())
                 ->modifyQueryUsing(function ($query) {
                     return $query->onlyTrashed();

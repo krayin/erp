@@ -45,12 +45,12 @@ class ProjectResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return __('projects::app.filament.resources.project.navigation.title');
+        return __('projects::filament/resources/project.navigation.title');
     }
 
     public static function getNavigationGroup(): string
     {
-        return __('projects::app.filament.resources.project.navigation.group');
+        return __('projects::filament/resources/project.navigation.group');
     }
 
     public static function getGloballySearchableAttributes(): array
@@ -61,8 +61,8 @@ class ProjectResource extends Resource
     public static function getGlobalSearchResultDetails(Model $record): array
     {
         return [
-            __('projects::app.filament.resources.project.global-search.project-manager') => $record->user?->name ?? '—',
-            __('projects::app.filament.resources.project.global-search.customer')        => $record->partner?->name ?? '—',
+            __('projects::filament/resources/project.global-search.project-manager') => $record->user?->name ?? '—',
+            __('projects::filament/resources/project.global-search.customer') => $record->partner?->name ?? '—',
         ];
     }
 
@@ -76,62 +76,62 @@ class ProjectResource extends Resource
                             ->hiddenLabel()
                             ->inline()
                             ->required()
-                            ->visible(fn (TaskSettings $taskSettings) => $taskSettings->enable_project_stages)
-                            ->options(fn () => ProjectStage::orderBy('sort')->get()->mapWithKeys(fn ($stage) => [$stage->id => $stage->name]))
+                            ->visible(fn(TaskSettings $taskSettings) => $taskSettings->enable_project_stages)
+                            ->options(fn() => ProjectStage::orderBy('sort')->get()->mapWithKeys(fn($stage) => [$stage->id => $stage->name]))
                             ->default(ProjectStage::first()?->id),
-                        Forms\Components\Section::make(__('projects::app.filament.resources.project.form.sections.general.title'))
+                        Forms\Components\Section::make(__('projects::filament/resources/project.form.sections.general.title'))
                             ->schema([
                                 Forms\Components\TextInput::make('name')
-                                    ->label(__('projects::app.filament.resources.project.form.sections.general.fields.name'))
+                                    ->label(__('projects::filament/resources/project.form.sections.general.fields.name'))
                                     ->required()
                                     ->maxLength(255)
                                     ->autofocus()
-                                    ->placeholder(__('projects::app.filament.resources.project.form.sections.general.fields.name-placeholder'))
+                                    ->placeholder(__('projects::filament/resources/project.form.sections.general.fields.name-placeholder'))
                                     ->extraInputAttributes(['style' => 'font-size: 1.5rem;height: 3rem;']),
                                 Forms\Components\RichEditor::make('description')
-                                    ->label(__('projects::app.filament.resources.project.form.sections.general.fields.description')),
+                                    ->label(__('projects::filament/resources/project.form.sections.general.fields.description')),
                             ]),
 
-                        Forms\Components\Section::make(__('projects::app.filament.resources.project.form.sections.additional.title'))
+                        Forms\Components\Section::make(__('projects::filament/resources/project.form.sections.additional.title'))
                             ->schema(static::mergeCustomFormFields([
                                 Forms\Components\Select::make('user_id')
-                                    ->label(__('projects::app.filament.resources.project.form.sections.additional.fields.project-manager'))
+                                    ->label(__('projects::filament/resources/project.form.sections.additional.fields.project-manager'))
                                     ->relationship('user', 'name')
                                     ->searchable()
                                     ->preload()
-                                    ->createOptionForm(fn (Form $form) => UserResource::form($form)),
+                                    ->createOptionForm(fn(Form $form) => UserResource::form($form)),
                                 Forms\Components\Select::make('partner_id')
-                                    ->label(__('projects::app.filament.resources.project.form.sections.additional.fields.customer'))
+                                    ->label(__('projects::filament/resources/project.form.sections.additional.fields.customer'))
                                     ->relationship('partner', 'name')
                                     ->searchable()
                                     ->preload()
-                                    ->createOptionForm(fn (Form $form) => PartnerResource::form($form))
-                                    ->editOptionForm(fn (Form $form) => PartnerResource::form($form)),
+                                    ->createOptionForm(fn(Form $form) => PartnerResource::form($form))
+                                    ->editOptionForm(fn(Form $form) => PartnerResource::form($form)),
                                 Forms\Components\DatePicker::make('start_date')
-                                    ->label(__('projects::app.filament.resources.project.form.sections.additional.fields.start-date'))
+                                    ->label(__('projects::filament/resources/project.form.sections.additional.fields.start-date'))
                                     ->native(false)
                                     ->suffixIcon('heroicon-o-calendar')
                                     ->requiredWith('end_date')
                                     ->beforeOrEqual('start_date'),
                                 Forms\Components\DatePicker::make('end_date')
-                                    ->label(__('projects::app.filament.resources.project.form.sections.additional.fields.end-date'))
+                                    ->label(__('projects::filament/resources/project.form.sections.additional.fields.end-date'))
                                     ->native(false)
                                     ->suffixIcon('heroicon-o-calendar')
                                     ->requiredWith('start_date')
                                     ->afterOrEqual('start_date'),
                                 Forms\Components\TextInput::make('allocated_hours')
-                                    ->label(__('projects::app.filament.resources.project.form.sections.additional.fields.allocated-hours'))
+                                    ->label(__('projects::filament/resources/project.form.sections.additional.fields.allocated-hours'))
                                     ->suffixIcon('heroicon-o-clock')
                                     ->minValue(0)
-                                    ->helperText(__('projects::app.filament.resources.project.form.sections.additional.fields.allocated-hours-helper-text'))
-                                    ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
+                                    ->helperText(__('projects::filament/resources/project.form.sections.additional.fields.allocated-hours-helper-text'))
+                                    ->visible(fn(TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
                                 Forms\Components\Select::make('tags')
-                                    ->label(__('projects::app.filament.resources.project.form.sections.additional.fields.tags'))
+                                    ->label(__('projects::filament/resources/project.form.sections.additional.fields.tags'))
                                     ->relationship(name: 'tags', titleAttribute: 'name')
                                     ->multiple()
                                     ->searchable()
                                     ->preload()
-                                    ->createOptionForm(fn (Form $form) => TagResource::form($form)),
+                                    ->createOptionForm(fn(Form $form) => TagResource::form($form)),
                             ]))
                             ->columns(2),
                     ])
@@ -139,40 +139,40 @@ class ProjectResource extends Resource
 
                 Forms\Components\Group::make()
                     ->schema([
-                        Forms\Components\Section::make(__('projects::app.filament.resources.project.form.sections.settings.title'))
+                        Forms\Components\Section::make(__('projects::filament/resources/project.form.sections.settings.title'))
                             ->schema([
                                 Forms\Components\Radio::make('visibility')
-                                    ->label(__('projects::app.filament.resources.project.form.sections.settings.fields.visibility'))
+                                    ->label(__('projects::filament/resources/project.form.sections.settings.fields.visibility'))
                                     ->default('internal')
                                     ->options(ProjectVisibility::options())
                                     ->descriptions([
-                                        'private'  => __('projects::app.filament.resources.project.form.sections.settings.fields.private-description'),
-                                        'internal' => __('projects::app.filament.resources.project.form.sections.settings.fields.internal-description'),
-                                        'public'   => __('projects::app.filament.resources.project.form.sections.settings.fields.public-description'),
+                                        'private'  => __('projects::filament/resources/project.form.sections.settings.fields.private-description'),
+                                        'internal' => __('projects::filament/resources/project.form.sections.settings.fields.internal-description'),
+                                        'public'   => __('projects::filament/resources/project.form.sections.settings.fields.public-description'),
                                     ])
-                                    ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('projects::app.filament.resources.project.form.sections.settings.fields.visibility-hint-tooltip')),
+                                    ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('projects::filament/resources/project.form.sections.settings.fields.visibility-hint-tooltip')),
 
-                                Forms\Components\Fieldset::make(__('projects::app.filament.resources.project.form.sections.settings.fields.time-management'))
+                                Forms\Components\Fieldset::make(__('projects::filament/resources/project.form.sections.settings.fields.time-management'))
                                     ->schema([
                                         Forms\Components\Toggle::make('allow_timesheets')
-                                            ->label(__('projects::app.filament.resources.project.form.sections.settings.fields.allow-timesheets'))
-                                            ->helperText(__('projects::app.filament.resources.project.form.sections.settings.fields.allow-timesheets-helper-text'))
-                                            ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
+                                            ->label(__('projects::filament/resources/project.form.sections.settings.fields.allow-timesheets'))
+                                            ->helperText(__('projects::filament/resources/project.form.sections.settings.fields.allow-timesheets-helper-text'))
+                                            ->visible(fn(TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
                                     ])
                                     ->columns(1)
-                                    ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets)
-                                    ->default(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
+                                    ->visible(fn(TimeSettings $timeSettings) => $timeSettings->enable_timesheets)
+                                    ->default(fn(TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
 
-                                Forms\Components\Fieldset::make(__('projects::app.filament.resources.project.form.sections.settings.fields.task-management'))
+                                Forms\Components\Fieldset::make(__('projects::filament/resources/project.form.sections.settings.fields.task-management'))
                                     ->schema([
                                         Forms\Components\Toggle::make('allow_milestones')
-                                            ->label(__('projects::app.filament.resources.project.form.sections.settings.fields.allow-milestones'))
-                                            ->helperText(__('projects::app.filament.resources.project.form.sections.settings.fields.allow-milestones-helper-text'))
-                                            ->visible(fn (TaskSettings $taskSettings) => $taskSettings->enable_milestones)
-                                            ->default(fn (TaskSettings $taskSettings) => $taskSettings->enable_milestones),
+                                            ->label(__('projects::filament/resources/project.form.sections.settings.fields.allow-milestones'))
+                                            ->helperText(__('projects::filament/resources/project.form.sections.settings.fields.allow-milestones-helper-text'))
+                                            ->visible(fn(TaskSettings $taskSettings) => $taskSettings->enable_milestones)
+                                            ->default(fn(TaskSettings $taskSettings) => $taskSettings->enable_milestones),
                                     ])
                                     ->columns(1)
-                                    ->visible(fn (TaskSettings $taskSettings) => $taskSettings->enable_milestones),
+                                    ->visible(fn(TaskSettings $taskSettings) => $taskSettings->enable_milestones),
                             ]),
                     ])
                     ->columnSpan(['lg' => 1]),
@@ -188,69 +188,69 @@ class ProjectResource extends Resource
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('name')
                             ->weight(FontWeight::Bold)
-                            ->label(__('projects::app.filament.resources.project.table.columns.name'))
+                            ->label(__('projects::filament/resources/project.table.columns.name'))
                             ->searchable()
                             ->sortable(),
                     ]),
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('partner.name')
-                            ->label(__('projects::app.filament.resources.project.table.columns.customer'))
+                            ->label(__('projects::filament/resources/project.table.columns.customer'))
                             ->icon('heroicon-o-phone')
-                            ->tooltip(__('projects::app.filament.resources.project.table.columns.customer'))
+                            ->tooltip(__('projects::filament/resources/project.table.columns.customer'))
                             ->sortable(),
                     ])
-                        ->visible(fn (Project $record) => filled($record->partner)),
+                        ->visible(fn(Project $record) => filled($record->partner)),
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('start_date')
-                            ->label(__('projects::app.filament.resources.project.table.columns.start-date'))
+                            ->label(__('projects::filament/resources/project.table.columns.start-date'))
                             ->sortable()
                             ->extraAttributes(['class' => 'hidden']),
                         Tables\Columns\TextColumn::make('end_date')
-                            ->label(__('projects::app.filament.resources.project.table.columns.end-date'))
+                            ->label(__('projects::filament/resources/project.table.columns.end-date'))
                             ->sortable()
                             ->extraAttributes(['class' => 'hidden']),
                         Tables\Columns\TextColumn::make('planned_date')
                             ->icon('heroicon-o-calendar')
-                            ->tooltip(__('projects::app.filament.resources.project.table.columns.planned-date'))
-                            ->state(fn (Project $record): string => $record->start_date->format('d M Y').' - '.$record->end_date->format('d M Y')),
+                            ->tooltip(__('projects::filament/resources/project.table.columns.planned-date'))
+                            ->state(fn(Project $record): string => $record->start_date->format('d M Y') . ' - ' . $record->end_date->format('d M Y')),
                     ])
-                        ->visible(fn (Project $record) => filled($record->start_date) && filled($record->end_date)),
+                        ->visible(fn(Project $record) => filled($record->start_date) && filled($record->end_date)),
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('remaining_hours')
                             ->icon('heroicon-o-clock')
                             ->badge()
                             ->color('success')
-                            ->color(fn (Project $record): string => $record->remaining_hours < 0 ? 'danger' : 'success')
-                            ->state(fn (Project $record): string => $record->remaining_hours.' Hours')
-                            ->tooltip(__('projects::app.filament.resources.project.table.columns.remaining-hours')),
+                            ->color(fn(Project $record): string => $record->remaining_hours < 0 ? 'danger' : 'success')
+                            ->state(fn(Project $record): string => $record->remaining_hours . ' Hours')
+                            ->tooltip(__('projects::filament/resources/project.table.columns.remaining-hours')),
                     ])
-                        ->visible(fn (TimeSettings $timeSettings, Project $record) => $timeSettings->enable_timesheets && $record->allow_milestones && $record->remaining_hours),
+                        ->visible(fn(TimeSettings $timeSettings, Project $record) => $timeSettings->enable_timesheets && $record->allow_milestones && $record->remaining_hours),
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('user.name')
-                            ->label(__('projects::app.filament.resources.project.table.columns.project-manager'))
+                            ->label(__('projects::filament/resources/project.table.columns.project-manager'))
                             ->icon('heroicon-o-user')
-                            ->label(__('projects::app.filament.resources.project.table.columns.project-manager'))
+                            ->label(__('projects::filament/resources/project.table.columns.project-manager'))
                             ->sortable(),
                     ])
-                        ->visible(fn (Project $record) => filled($record->user)),
+                        ->visible(fn(Project $record) => filled($record->user)),
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('tags.name')
                             ->badge()
                             ->weight(FontWeight::Bold),
                     ])
-                        ->visible(fn (Project $record): bool => (bool) $record->tags()->get()?->count()),
+                        ->visible(fn(Project $record): bool => (bool) $record->tags()->get()?->count()),
                 ])
                     ->space(3),
             ]))
             ->groups([
                 Tables\Grouping\Group::make('stage.name')
-                    ->label(__('projects::app.filament.resources.project.table.groups.stage')),
+                    ->label(__('projects::filament/resources/project.table.groups.stage')),
                 Tables\Grouping\Group::make('user.name')
-                    ->label(__('projects::app.filament.resources.project.table.groups.project-manager')),
+                    ->label(__('projects::filament/resources/project.table.groups.project-manager')),
                 Tables\Grouping\Group::make('partner.name')
-                    ->label(__('projects::app.filament.resources.project.table.groups.customer')),
+                    ->label(__('projects::filament/resources/project.table.groups.customer')),
                 Tables\Grouping\Group::make('created_at')
-                    ->label(__('projects::app.filament.resources.project.table.groups.created-at'))
+                    ->label(__('projects::filament/resources/project.table.groups.created-at'))
                     ->date(),
             ])
             ->reorderable('sort')
@@ -259,27 +259,27 @@ class ProjectResource extends Resource
                 Tables\Filters\QueryBuilder::make()
                     ->constraints(static::mergeCustomTableQueryBuilderConstraints([
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('name')
-                            ->label(__('projects::app.filament.resources.project.table.filters.name')),
+                            ->label(__('projects::filament/resources/project.table.filters.name')),
                         Tables\Filters\QueryBuilder\Constraints\SelectConstraint::make('visibility')
-                            ->label(__('projects::app.filament.resources.project.table.filters.visibility'))
+                            ->label(__('projects::filament/resources/project.table.filters.visibility'))
                             ->multiple()
                             ->options(ProjectVisibility::options()),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('start_date')
-                            ->label(__('projects::app.filament.resources.project.table.filters.start-date')),
+                            ->label(__('projects::filament/resources/project.table.filters.start-date')),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('end_date')
-                            ->label(__('projects::app.filament.resources.project.table.filters.end-date')),
+                            ->label(__('projects::filament/resources/project.table.filters.end-date')),
                         Tables\Filters\QueryBuilder\Constraints\BooleanConstraint::make('allow_timesheets')
-                            ->label(__('projects::app.filament.resources.project.table.filters.allow-timesheets')),
+                            ->label(__('projects::filament/resources/project.table.filters.allow-timesheets')),
                         Tables\Filters\QueryBuilder\Constraints\BooleanConstraint::make('allow_milestones')
-                            ->label(__('projects::app.filament.resources.project.table.filters.allow-milestones')),
+                            ->label(__('projects::filament/resources/project.table.filters.allow-milestones')),
                         Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('allocated_hours')
-                            ->label(__('projects::app.filament.resources.project.table.filters.allocated-hours')),
+                            ->label(__('projects::filament/resources/project.table.filters.allocated-hours')),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at')
-                            ->label(__('projects::app.filament.resources.project.table.filters.created-at')),
+                            ->label(__('projects::filament/resources/project.table.filters.created-at')),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at')
-                            ->label(__('projects::app.filament.resources.project.table.filters.updated-at')),
+                            ->label(__('projects::filament/resources/project.table.filters.updated-at')),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('stage')
-                            ->label(__('projects::app.filament.resources.project.table.filters.stage'))
+                            ->label(__('projects::filament/resources/project.table.filters.stage'))
                             ->multiple()
                             ->selectable(
                                 IsRelatedToOperator::make()
@@ -289,7 +289,7 @@ class ProjectResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('partner')
-                            ->label(__('projects::app.filament.resources.project.table.filters.customer'))
+                            ->label(__('projects::filament/resources/project.table.filters.customer'))
                             ->multiple()
                             ->selectable(
                                 IsRelatedToOperator::make()
@@ -299,7 +299,7 @@ class ProjectResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('user')
-                            ->label(__('projects::app.filament.resources.project.table.filters.project-manager'))
+                            ->label(__('projects::filament/resources/project.table.filters.project-manager'))
                             ->multiple()
                             ->selectable(
                                 IsRelatedToOperator::make()
@@ -309,7 +309,7 @@ class ProjectResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('company')
-                            ->label(__('projects::app.filament.resources.project.table.filters.company'))
+                            ->label(__('projects::filament/resources/project.table.filters.company'))
                             ->multiple()
                             ->selectable(
                                 IsRelatedToOperator::make()
@@ -319,7 +319,7 @@ class ProjectResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('creator')
-                            ->label(__('projects::app.filament.resources.project.table.filters.creator'))
+                            ->label(__('projects::filament/resources/project.table.filters.creator'))
                             ->multiple()
                             ->selectable(
                                 IsRelatedToOperator::make()
@@ -329,7 +329,7 @@ class ProjectResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('tags')
-                            ->label(__('projects::app.filament.resources.project.table.filters.tags'))
+                            ->label(__('projects::filament/resources/project.table.filters.tags'))
                             ->multiple()
                             ->selectable(
                                 IsRelatedToOperator::make()
@@ -341,65 +341,65 @@ class ProjectResource extends Resource
                     ])),
             ], layout: \Filament\Tables\Enums\FiltersLayout::Modal)
             ->filtersTriggerAction(
-                fn (Tables\Actions\Action $action) => $action
+                fn(Tables\Actions\Action $action) => $action
                     ->slideOver(),
             )
             ->filtersFormColumns(2)
             ->actions([
                 Tables\Actions\Action::make('is_favorite_by_user')
                     ->hiddenLabel()
-                    ->icon(fn (Project $record): string => $record->is_favorite_by_user ? 'heroicon-s-star' : 'heroicon-o-star')
-                    ->color(fn (Project $record): string => $record->is_favorite_by_user ? 'warning' : 'gray')
+                    ->icon(fn(Project $record): string => $record->is_favorite_by_user ? 'heroicon-s-star' : 'heroicon-o-star')
+                    ->color(fn(Project $record): string => $record->is_favorite_by_user ? 'warning' : 'gray')
                     ->size('xl')
                     ->action(function (Project $record): void {
                         $record->favoriteUsers()->toggle([Auth::id()]);
                     }),
                 Tables\Actions\Action::make('tasks')
-                    ->label(fn (Project $record): string => __('projects::app.filament.resources.project.table.actions.tasks', ['count' => $record->tasks->count()]))
+                    ->label(fn(Project $record): string => __('projects::filament/resources/project.table.actions.tasks', ['count' => $record->tasks->count()]))
                     ->icon('heroicon-m-clipboard-document-list')
                     ->color('gray')
                     ->url('https:example.com/tasks/{record}')
-                    ->hidden(fn ($record) => $record->trashed())
-                    ->url(fn (Project $record): string => route('filament.admin.resources.project.projects.tasks', $record->id)),
+                    ->hidden(fn($record) => $record->trashed())
+                    ->url(fn(Project $record): string => route('filament.admin.resources.project.projects.tasks', $record->id)),
                 Tables\Actions\Action::make('milestones')
-                    ->label(fn (Project $record): string => $record->milestones->where('is_completed', true)->count().'/'.$record->milestones->count())
+                    ->label(fn(Project $record): string => $record->milestones->where('is_completed', true)->count() . '/' . $record->milestones->count())
                     ->icon('heroicon-m-flag')
                     ->color('gray')
-                    ->tooltip(fn (Project $record): string => __('projects::app.filament.resources.project.table.actions.milestones', ['completed' => $record->milestones->where('is_completed', true)->count(), 'all' => $record->milestones->count()]))
+                    ->tooltip(fn(Project $record): string => __('projects::filament/resources/project.table.actions.milestones', ['completed' => $record->milestones->where('is_completed', true)->count(), 'all' => $record->milestones->count()]))
                     ->url('https:example.com/tasks/{record}')
-                    ->hidden(fn (Project $record) => $record->trashed())
-                    ->visible(fn (TaskSettings $taskSettings, Project $record) => $taskSettings->enable_milestones && $record->allow_milestones)
-                    ->url(fn (Project $record): string => route('filament.admin.resources.project.projects.milestones', $record->id)),
+                    ->hidden(fn(Project $record) => $record->trashed())
+                    ->visible(fn(TaskSettings $taskSettings, Project $record) => $taskSettings->enable_milestones && $record->allow_milestones)
+                    ->url(fn(Project $record): string => route('filament.admin.resources.project.projects.milestones', $record->id)),
 
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make()
-                        ->hidden(fn ($record) => $record->trashed()),
+                        ->hidden(fn($record) => $record->trashed()),
                     Tables\Actions\RestoreAction::make()
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title(__('projects::app.filament.resources.project.table.actions.restore.notification.title'))
-                                ->body(__('projects::app.filament.resources.project.table.actions.restore.notification.body')),
+                                ->title(__('projects::filament/resources/project.table.actions.restore.notification.title'))
+                                ->body(__('projects::filament/resources/project.table.actions.restore.notification.body')),
                         ),
                     Tables\Actions\DeleteAction::make()
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title(__('projects::app.filament.resources.project.table.actions.delete.notification.title'))
-                                ->body(__('projects::app.filament.resources.project.table.actions.delete.notification.body')),
+                                ->title(__('projects::filament/resources/project.table.actions.delete.notification.title'))
+                                ->body(__('projects::filament/resources/project.table.actions.delete.notification.body')),
                         ),
                     Tables\Actions\ForceDeleteAction::make()
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title(__('projects::app.filament.resources.project.table.actions.force-delete.notification.title'))
-                                ->body(__('projects::app.filament.resources.project.table.actions.force-delete.notification.body')),
+                                ->title(__('projects::filament/resources/project.table.actions.force-delete.notification.title'))
+                                ->body(__('projects::filament/resources/project.table.actions.force-delete.notification.body')),
                         ),
                 ])
                     ->link()
                     ->hiddenLabel(),
             ])
-            ->recordUrl(fn (Project $record): string => static::getUrl('view', ['record' => $record]))
+            ->recordUrl(fn(Project $record): string => static::getUrl('view', ['record' => $record]))
             ->contentGrid([
                 'sm'  => 1,
                 'md'  => 2,
@@ -414,85 +414,85 @@ class ProjectResource extends Resource
             ->schema([
                 Infolists\Components\Group::make()
                     ->schema([
-                        Infolists\Components\Section::make(__('projects::app.filament.resources.project.infolist.sections.general.title'))
+                        Infolists\Components\Section::make(__('projects::filament/resources/project.infolist.sections.general.title'))
                             ->schema([
                                 Infolists\Components\TextEntry::make('name')
-                                    ->label(__('projects::app.filament.resources.project.infolist.sections.general.entries.name'))
+                                    ->label(__('projects::filament/resources/project.infolist.sections.general.entries.name'))
                                     ->size(Infolists\Components\TextEntry\TextEntrySize::Large)
                                     ->weight(\Filament\Support\Enums\FontWeight::Bold),
 
                                 Infolists\Components\TextEntry::make('description')
-                                    ->label(__('projects::app.filament.resources.project.infolist.sections.general.entries.description'))
+                                    ->label(__('projects::filament/resources/project.infolist.sections.general.entries.description'))
                                     ->markdown(),
                             ]),
 
-                        Infolists\Components\Section::make(__('projects::app.filament.resources.project.infolist.sections.additional.title'))
+                        Infolists\Components\Section::make(__('projects::filament/resources/project.infolist.sections.additional.title'))
                             ->schema(static::mergeCustomInfolistEntries([
                                 Infolists\Components\Grid::make(2)
                                     ->schema([
                                         Infolists\Components\TextEntry::make('user.name')
-                                            ->label(__('projects::app.filament.resources.project.infolist.sections.additional.entries.project-manager'))
+                                            ->label(__('projects::filament/resources/project.infolist.sections.additional.entries.project-manager'))
                                             ->icon('heroicon-o-user')
                                             ->placeholder('—'),
 
                                         Infolists\Components\TextEntry::make('partner.name')
-                                            ->label(__('projects::app.filament.resources.project.infolist.sections.additional.entries.customer'))
+                                            ->label(__('projects::filament/resources/project.infolist.sections.additional.entries.customer'))
                                             ->icon('heroicon-o-phone')
                                             ->placeholder('—'),
 
                                         Infolists\Components\TextEntry::make('planned_date')
-                                            ->label(__('projects::app.filament.resources.project.infolist.sections.additional.entries.project-timeline'))
+                                            ->label(__('projects::filament/resources/project.infolist.sections.additional.entries.project-timeline'))
                                             ->icon('heroicon-o-calendar')
                                             ->state(function (Project $record): ?string {
                                                 if (! $record->start_date || ! $record->end_date) {
                                                     return '—';
                                                 }
 
-                                                return $record->start_date->format('d M Y').' - '.$record->end_date->format('d M Y');
+                                                return $record->start_date->format('d M Y') . ' - ' . $record->end_date->format('d M Y');
                                             }),
 
                                         Infolists\Components\TextEntry::make('allocated_hours')
-                                            ->label(__('projects::app.filament.resources.project.infolist.sections.additional.entries.allocated-hours'))
+                                            ->label(__('projects::filament/resources/project.infolist.sections.additional.entries.allocated-hours'))
                                             ->icon('heroicon-o-clock')
                                             ->placeholder('—')
-                                            ->suffix(__('projects::app.filament.resources.project.infolist.sections.additional.entries.allocated-hours-suffix'))
-                                            ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
+                                            ->suffix(__('projects::filament/resources/project.infolist.sections.additional.entries.allocated-hours-suffix'))
+                                            ->visible(fn(TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
 
                                         Infolists\Components\TextEntry::make('remaining_hours')
-                                            ->label(__('projects::app.filament.resources.project.infolist.sections.additional.entries.remaining-hours'))
+                                            ->label(__('projects::filament/resources/project.infolist.sections.additional.entries.remaining-hours'))
                                             ->icon('heroicon-o-clock')
-                                            ->suffix(__('projects::app.filament.resources.project.infolist.sections.additional.entries.remaining-hours-suffix'))
-                                            ->color(fn (Project $record): string => $record->remaining_hours < 0 ? 'danger' : 'success')
-                                            ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
+                                            ->suffix(__('projects::filament/resources/project.infolist.sections.additional.entries.remaining-hours-suffix'))
+                                            ->color(fn(Project $record): string => $record->remaining_hours < 0 ? 'danger' : 'success')
+                                            ->visible(fn(TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
 
                                         Infolists\Components\TextEntry::make('stage.name')
-                                            ->label(__('projects::app.filament.resources.project.infolist.sections.additional.entries.current-stage'))
+                                            ->label(__('projects::filament/resources/project.infolist.sections.additional.entries.current-stage'))
                                             ->icon('heroicon-o-flag')
                                             ->badge()
-                                            ->visible(fn (TaskSettings $taskSettings) => $taskSettings->enable_project_stages),
+                                            ->visible(fn(TaskSettings $taskSettings) => $taskSettings->enable_project_stages),
 
                                         Infolists\Components\TextEntry::make('tags.name')
-                                            ->label(__('projects::app.filament.resources.project.infolist.sections.additional.entries.tags'))
+                                            ->label(__('projects::filament/resources/project.infolist.sections.additional.entries.tags'))
                                             ->badge()
                                             ->separator(', ')
                                             ->weight(\Filament\Support\Enums\FontWeight::Bold),
                                     ]),
                             ])),
 
-                        Infolists\Components\Section::make(__('projects::app.filament.resources.project.infolist.sections.statistics.title'))
+                        Infolists\Components\Section::make(__('projects::filament/resources/project.infolist.sections.statistics.title'))
                             ->schema([
                                 Infolists\Components\Grid::make(2)
                                     ->schema([
                                         Infolists\Components\TextEntry::make('tasks_count')
-                                            ->label(__('projects::app.filament.resources.project.infolist.sections.statistics.entries.total-tasks'))
-                                            ->state(fn (Project $record): int => $record->tasks()->count())
+                                            ->label(__('projects::filament/resources/project.infolist.sections.statistics.entries.total-tasks'))
+                                            ->state(fn(Project $record): int => $record->tasks()->count())
                                             ->icon('heroicon-m-clipboard-document-list')
                                             ->iconColor('primary')
                                             ->color('primary')
-                                            ->url(fn (Project $record): string => route('filament.admin.resources.project.projects.tasks', $record->id)),
+                                            ->url(fn(Project $record): string => route('filament.admin.resources.project.projects.tasks', $record->id)),
 
                                         Infolists\Components\TextEntry::make('milestones_completion')
-                                            ->label(__('projects::app.filament.resources.project.infolist.sections.statistics.entries.milestones-progress'))
+                                            ->label(__('projects::filament/resources/project.infolist.sections.statistics.entries.milestones-progress'))
                                             ->state(function (Project $record): string {
                                                 $completed = $record->milestones()->where('is_completed', true)->count();
                                                 $total = $record->milestones()->count();
@@ -502,8 +502,8 @@ class ProjectResource extends Resource
                                             ->icon('heroicon-m-flag')
                                             ->iconColor('primary')
                                             ->color('primary')
-                                            ->url(fn (Project $record): string => route('filament.admin.resources.project.projects.milestones', $record->id))
-                                            ->visible(fn (TaskSettings $taskSettings, Project $record) => $taskSettings->enable_milestones && $record->allow_milestones),
+                                            ->url(fn(Project $record): string => route('filament.admin.resources.project.projects.milestones', $record->id))
+                                            ->visible(fn(TaskSettings $taskSettings, Project $record) => $taskSettings->enable_milestones && $record->allow_milestones),
                                     ]),
                             ]),
                     ])
@@ -511,41 +511,41 @@ class ProjectResource extends Resource
 
                 Infolists\Components\Group::make()
                     ->schema([
-                        Infolists\Components\Section::make(__('projects::app.filament.resources.project.infolist.sections.record-information.title'))
+                        Infolists\Components\Section::make(__('projects::filament/resources/project.infolist.sections.record-information.title'))
                             ->schema([
                                 Infolists\Components\TextEntry::make('created_at')
-                                    ->label(__('projects::app.filament.resources.project.infolist.sections.record-information.entries.created-at'))
+                                    ->label(__('projects::filament/resources/project.infolist.sections.record-information.entries.created-at'))
                                     ->dateTime()
                                     ->icon('heroicon-m-calendar'),
 
                                 Infolists\Components\TextEntry::make('creator.name')
-                                    ->label(__('projects::app.filament.resources.project.infolist.sections.record-information.entries.created-by'))
+                                    ->label(__('projects::filament/resources/project.infolist.sections.record-information.entries.created-by'))
                                     ->icon('heroicon-m-user'),
 
                                 Infolists\Components\TextEntry::make('updated_at')
-                                    ->label(__('projects::app.filament.resources.project.infolist.sections.record-information.entries.last-updated'))
+                                    ->label(__('projects::filament/resources/project.infolist.sections.record-information.entries.last-updated'))
                                     ->dateTime()
                                     ->icon('heroicon-m-calendar-days'),
                             ]),
 
-                        Infolists\Components\Section::make(__('projects::app.filament.resources.project.infolist.sections.settings.title'))
+                        Infolists\Components\Section::make(__('projects::filament/resources/project.infolist.sections.settings.title'))
                             ->schema([
                                 Infolists\Components\TextEntry::make('visibility')
-                                    ->label(__('projects::app.filament.resources.project.infolist.sections.settings.entries.visibility'))
+                                    ->label(__('projects::filament/resources/project.infolist.sections.settings.entries.visibility'))
                                     ->badge()
-                                    ->icon(fn (string $state): string => ProjectVisibility::icons()[$state])
-                                    ->color(fn (string $state): string => ProjectVisibility::colors()[$state])
-                                    ->formatStateUsing(fn (string $state): string => ProjectVisibility::options()[$state]),
+                                    ->icon(fn(string $state): string => ProjectVisibility::icons()[$state])
+                                    ->color(fn(string $state): string => ProjectVisibility::colors()[$state])
+                                    ->formatStateUsing(fn(string $state): string => ProjectVisibility::options()[$state]),
 
                                 Infolists\Components\IconEntry::make('allow_timesheets')
-                                    ->label(__('projects::app.filament.resources.project.infolist.sections.settings.entries.timesheets-enabled'))
+                                    ->label(__('projects::filament/resources/project.infolist.sections.settings.entries.timesheets-enabled'))
                                     ->boolean()
-                                    ->visible(fn (TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
+                                    ->visible(fn(TimeSettings $timeSettings) => $timeSettings->enable_timesheets),
 
                                 Infolists\Components\IconEntry::make('allow_milestones')
-                                    ->label(__('projects::app.filament.resources.project.infolist.sections.settings.entries.milestones-enabled'))
+                                    ->label(__('projects::filament/resources/project.infolist.sections.settings.entries.milestones-enabled'))
                                     ->boolean()
-                                    ->visible(fn (TaskSettings $taskSettings) => $taskSettings->enable_milestones),
+                                    ->visible(fn(TaskSettings $taskSettings) => $taskSettings->enable_milestones),
                             ]),
                     ])
                     ->columnSpan(['lg' => 1]),

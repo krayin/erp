@@ -5,6 +5,7 @@ namespace Webkul\Project\Filament\Widgets;
 use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Widgets\ChartWidget;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Carbon;
 use Webkul\Project\Enums\TaskState;
 use Webkul\Project\Models\Task;
@@ -18,6 +19,11 @@ class TaskByStateChart extends ChartWidget
     protected static ?string $maxHeight = '250px';
 
     protected static ?int $sort = 1;
+
+    public function getHeading(): string | Htmlable | null
+    {
+        return __('projects::filament/widgets/task-by-state.heading');
+    }
 
     protected function getData(): array
     {
@@ -70,7 +76,6 @@ class TaskByStateChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label'           => 'Tasks created',
                     'data'            => $datasets['datasets'],
                     'backgroundColor' => array_map(
                         fn ($state) => match ($colors[$state] ?? 'gray') {

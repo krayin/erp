@@ -14,11 +14,11 @@ class Configurations extends Cluster
 
     public static function getNavigationLabel(): string
     {
-        return __('projects::app.filament.clusters.configurations.navigation.title');
+        return __('projects::filament/clusters/configurations.navigation.title');
     }
 
     public static function getNavigationGroup(): string
     {
-        return __('projects::app.filament.clusters.configurations.navigation.group');
+        return __('projects::filament/clusters/configurations.navigation.group');
     }
 }

@@ -16,8 +16,8 @@ class EditProject extends EditRecord
     {
         return Notification::make()
             ->success()
-            ->title(__('projects::app.filament.resources.project.pages.edit.notification.title'))
-            ->body(__('projects::app.filament.resources.project.pages.edit.notification.body'));
+            ->title(__('projects::filament/resources/project/pages/edit-project.notification.title'))
+            ->body(__('projects::filament/resources/project/pages/edit-project.notification.body'));
     }
 
     protected function getHeaderActions(): array
@@ -28,8 +28,8 @@ class EditProject extends EditRecord
                 ->successNotification(
                     Notification::make()
                         ->success()
-                        ->title(__('projects::app.filament.resources.project.pages.edit.header-actions.delete.notification.title'))
-                        ->body(__('projects::app.filament.resources.project.pages.edit.header-actions.delete.notification.body')),
+                        ->title(__('projects::filament/resources/project/pages/edit-project.header-actions.delete.notification.title'))
+                        ->body(__('projects::filament/resources/project/pages/edit-project.header-actions.delete.notification.body')),
                 ),
         ];
     }
