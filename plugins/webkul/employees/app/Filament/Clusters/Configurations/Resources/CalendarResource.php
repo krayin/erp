@@ -289,22 +289,22 @@ class CalendarResource extends Resource
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title(__('employees::filament/filament/clusters/configurations/resources/calendar.table.actions.restore.notification.title'))
-                                ->body(__('employees::filament/filament/clusters/configurations/resources/calendar.table.actions.restore.notification.body')),
+                                ->title(__('employees::filament/clusters/configurations/resources/calendar.table.actions.restore.notification.title'))
+                                ->body(__('employees::filament/clusters/configurations/resources/calendar.table.actions.restore.notification.body')),
                         ),
                     Tables\Actions\DeleteAction::make()
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title(__('employees::filament/filament/clusters/configurations/resources/calendar.table.actions.delete.notification.title'))
-                                ->body(__('employees::filament/filament/clusters/configurations/resources/calendar.table.actions.delete.notification.body')),
+                                ->title(__('employees::filament/clusters/configurations/resources/calendar.table.actions.delete.notification.title'))
+                                ->body(__('employees::filament/clusters/configurations/resources/calendar.table.actions.delete.notification.body')),
                         ),
                     Tables\Actions\ForceDeleteAction::make()
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title(__('employees::filament/filament/clusters/configurations/resources/calendar.table.actions.force-delete.notification.title'))
-                                ->body(__('employees::filament/filament/clusters/configurations/resources/calendar.table.actions.force-delete.notification.body')),
+                                ->title(__('employees::filament/clusters/configurations/resources/calendar.table.actions.force-delete.notification.title'))
+                                ->body(__('employees::filament/clusters/configurations/resources/calendar.table.actions.force-delete.notification.body')),
                         ),
                 ]),
             ])
@@ -314,22 +314,22 @@ class CalendarResource extends Resource
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title(__('employees::filament/filament/clusters/configurations/resources/calendar.table.bulk-actions.restore.notification.title'))
-                                ->body(__('employees::filament/filament/clusters/configurations/resources/calendar.table.bulk-actions.restore.notification.body')),
+                                ->title(__('employees::filament/clusters/configurations/resources/calendar.table.bulk-actions.restore.notification.title'))
+                                ->body(__('employees::filament/clusters/configurations/resources/calendar.table.bulk-actions.restore.notification.body')),
                         ),
                     Tables\Actions\DeleteBulkAction::make()
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title(__('employees::filament/filament/clusters/configurations/resources/calendar.table.bulk-actions.delete.notification.title'))
-                                ->body(__('employees::filament/filament/clusters/configurations/resources/calendar.table.bulk-actions.delete.notification.body')),
+                                ->title(__('employees::filament/clusters/configurations/resources/calendar.table.bulk-actions.delete.notification.title'))
+                                ->body(__('employees::filament/clusters/configurations/resources/calendar.table.bulk-actions.delete.notification.body')),
                         ),
                     Tables\Actions\ForceDeleteBulkAction::make()
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title(__('employees::filament/filament/clusters/configurations/resources/calendar.table.bulk-actions.force-delete.notification.title'))
-                                ->body(__('employees::filament/filament/clusters/configurations/resources/calendar.table.bulk-actions.force-delete.notification.body')),
+                                ->title(__('employees::filament/clusters/configurations/resources/calendar.table.bulk-actions.force-delete.notification.title'))
+                                ->body(__('employees::filament/clusters/configurations/resources/calendar.table.bulk-actions.force-delete.notification.body')),
                         ),
                 ]),
             ])
