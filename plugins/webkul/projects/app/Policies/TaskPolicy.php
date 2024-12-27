@@ -24,11 +24,7 @@ class TaskPolicy
      */
     public function view(User $user, Task $task): bool
     {
-        if (! $user->can('view_task')) {
-            return false;
-        }
-
-        return $this->hasAccess($user, $task, 'users');
+        return $user->can('view_task');
     }
 
     /**
