@@ -1,15 +1,15 @@
 <?php
 
 return [
+    'title' => 'Skills',
+
     'navigation' => [
         'title' => 'Skills',
     ],
 
-    'modal-label' => 'Skills',
-
     'global-search' => [
-        'employee' => 'Employee',
-        'skill'    => 'Skill',
+        'employee'       => 'Employee',
+        'skill'          => 'Skill',
         'skill-level'    => 'Level',
     ],
 
@@ -19,11 +19,11 @@ return [
                 'title' => 'Skill Details',
 
                 'fields' => [
-                    'employee' => 'Employee',
-                    'skill'    => 'Skill',
+                    'employee'       => 'Employee',
+                    'skill'          => 'Skill',
                     'skill-level'    => 'Level',
-                    'skill-type' => 'Skill Type'
-                ]
+                    'skill-type'     => 'Skill Type',
+                ],
             ],
             'addition-information' => [
                 'title' => 'Additional Information',
@@ -31,9 +31,9 @@ return [
                 'fields' => [
                     'created-by' => 'Created By',
                     'updated-by' => 'Updated By',
-                ]
-            ]
-        ]
+                ],
+            ],
+        ],
     ],
 
     'table' => [
@@ -76,7 +76,7 @@ return [
                     'skill'           => 'Skill',
                     'skill-level'     => 'Level',
                     'skill-type'      => 'Skill Type',
-                ]
+                ],
             ],
 
             'additional-information' => [
@@ -85,8 +85,8 @@ return [
                 'entries' => [
                     'created-by' => 'Created By',
                     'updated-by' => 'Updated By',
-                ]
-            ]
-        ]
+                ],
+            ],
+        ],
     ],
 ];

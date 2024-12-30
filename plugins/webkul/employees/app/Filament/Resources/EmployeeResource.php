@@ -20,6 +20,7 @@ use Filament\Support\Enums\IconPosition;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Enums\DistanceUnit;
 use Webkul\Employee\Enums\Gender;
@@ -50,9 +51,161 @@ class EmployeeResource extends Resource
 
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
-    protected static ?string $navigationGroup = 'Employees';
-
     protected static ?int $navigationSort = 1;
+
+    public static function getModelLabel(): string
+    {
+        return __('employees::filament/resources/employee.title');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('employees::filament/resources/employee.navigation.title');
+    }
+
+    public static function getNavigationGroup(): string
+    {
+        return __('employees::filament/resources/employee.navigation.group');
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return [
+            'name',
+            'company.name',
+            'user.name',
+            'creator.name',
+            'calendar.name',
+            'department.name',
+            'job.name',
+            'attendanceManager.name',
+            'partner.name',
+            'workLocation.name',
+            'parent.name',
+            'coach.name',
+            'country.name',
+            'state.name',
+            'countryOfBirth.name',
+            'bankAccount.name',
+            'departureReason.name',
+            'name',
+            'job_title',
+            'work_phone',
+            'mobile_phone',
+            'color',
+            'work_email',
+            'children',
+            'distance_home_work',
+            'km_home_work',
+            'distance_home_work_unit',
+            'private_phone',
+            'private_email',
+            'lang',
+            'gender',
+            'birthday',
+            'marital',
+            'spouse_complete_name',
+            'spouse_birthdate',
+            'place_of_birth',
+            'ssnid',
+            'sinid',
+            'identification_id',
+            'passport_id',
+            'permit_no',
+            'visa_no',
+            'certificate',
+            'study_field',
+            'study_school',
+            'emergency_contact',
+            'emergency_phone',
+            'employmentType.name',
+            'barcode',
+            'pin',
+            'companyAddress.company.name',
+            'time_zone',
+            'work_permit',
+            'leaveManager.name',
+            'private_car_plate',
+            'visa_expire',
+            'work_permit_expiration_date',
+            'departure_date',
+            'departure_description',
+            'additional_note',
+            'notes',
+            'is_active',
+            'is_flexible',
+            'is_fully_flexible',
+            'work_permit_scheduled_activity',
+        ];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            __('employees::filament/resources/employee.global-search.name')                           => $record?->name ?? '—',
+            __('employees::filament/resources/employee.global-search.company')                        => $record->company?->name ?? '—',
+            __('employees::filament/resources/employee.global-search.user')                           => $record->user?->name ?? '—',
+            __('employees::filament/resources/employee.global-search.created-by')                     => $record->creator?->name ?? '—',
+            __('employees::filament/resources/employee.global-search.calendar')                       => $record->calendar?->name ?? '—',
+            __('employees::filament/resources/employee.global-search.department')                     => $record->department?->name ?? '—',
+            __('employees::filament/resources/employee.global-search.job')                            => $record->job?->name ?? '—',
+            __('employees::filament/resources/employee.global-search.attendance-manager')             => $record->attendanceManager?->name ?? '—',
+            __('employees::filament/resources/employee.global-search.partner')                        => $record->partner?->name ?? '—',
+            __('employees::filament/resources/employee.global-search.work-location')                  => $record->workLocation?->name ?? '—',
+            __('employees::filament/resources/employee.global-search.parent')                         => $record->parent?->name ?? '—',
+            __('employees::filament/resources/employee.global-search.coach')                          => $record->coach?->name ?? '—',
+            __('employees::filament/resources/employee.global-search.country')                        => $record->country?->name ?? '—',
+            __('employees::filament/resources/employee.global-search.state')                          => $record->state?->name ?? '—',
+            __('employees::filament/resources/employee.global-search.country-of-birth')               => $record->countryOfBirth?->name ?? '—',
+            __('employees::filament/resources/employee.global-search.bank-account')                   => $record->bankAccount?->name ?? '—',
+            __('employees::filament/resources/employee.global-search.departure-reason')               => $record->departureReason?->name ?? '—',
+            __('employees::filament/resources/employee.global-search.name')                           => $record->name ?? '—',
+            __('employees::filament/resources/employee.global-search.job-title')                      => $record->job_title ?? '—',
+            __('employees::filament/resources/employee.global-search.work-phone')                     => $record->work_phone ?? '—',
+            __('employees::filament/resources/employee.global-search.mobile-phone')                   => $record->mobile_phone ?? '—',
+            __('employees::filament/resources/employee.global-search.color')                          => $record->color ?? '—',
+            __('employees::filament/resources/employee.global-search.work-email')                     => $record->work_email ?? '—',
+            __('employees::filament/resources/employee.global-search.children')                       => $record->children ?? '—',
+            __('employees::filament/resources/employee.global-search.distance-home-work-unit')        => $record->distance_home_work_unit ?? '—',
+            __('employees::filament/resources/employee.global-search.private-phone')                  => $record->private_phone ?? '—',
+            __('employees::filament/resources/employee.global-search.private-email')                  => $record->private_email ?? '—',
+            __('employees::filament/resources/employee.global-search.lang')                           => $record->lang ?? '—',
+            __('employees::filament/resources/employee.global-search.gender')                         => $record->gender ?? '—',
+            __('employees::filament/resources/employee.global-search.birthday')                       => $record->birthday ?? '—',
+            __('employees::filament/resources/employee.global-search.marital')                        => $record->marital ?? '—',
+            __('employees::filament/resources/employee.global-search.spouse-complete-name')           => $record->spouse_complete_name ?? '—',
+            __('employees::filament/resources/employee.global-search.spouse-birthday')                => $record->spouse_birthdate ?? '—',
+            __('employees::filament/resources/employee.global-search.place-of-birth')                 => $record->place_of_birth ?? '—',
+            __('employees::filament/resources/employee.global-search.ssnid')                          => $record->ssnid ?? '—',
+            __('employees::filament/resources/employee.global-search.sinid')                          => $record->sinid ?? '—',
+            __('employees::filament/resources/employee.global-search.identification-id')              => $record->identification_id ?? '—',
+            __('employees::filament/resources/employee.global-search.passport-id')                    => $record->passport_id ?? '—',
+            __('employees::filament/resources/employee.global-search.permit-no')                      => $record->permit_no ?? '—',
+            __('employees::filament/resources/employee.global-search.visa-no')                        => $record->visa_no ?? '—',
+            __('employees::filament/resources/employee.global-search.certificate')                    => $record->certificate ?? '—',
+            __('employees::filament/resources/employee.global-search.study-field')                    => $record->study_field ?? '—',
+            __('employees::filament/resources/employee.global-search.study-school')                   => $record->study_school ?? '—',
+            __('employees::filament/resources/employee.global-search.emergency-contact')              => $record->emergency_contact ?? '—',
+            __('employees::filament/resources/employee.global-search.emergency-phone')                => $record->emergency_phone ?? '—',
+            __('employees::filament/resources/employee.global-search.employee-type')                  => $record->employmentType?->name ?? '—',
+            __('employees::filament/resources/employee.global-search.barcode')                        => $record->barcode ?? '—',
+            __('employees::filament/resources/employee.global-search.pin')                            => $record->pin ?? '—',
+            __('employees::filament/resources/employee.global-search.work-address')                   => $record->companyAddress?->company?->name ?? '—',
+            __('employees::filament/resources/employee.global-search.time-zone')                      => $record->time_zone ?? '—',
+            __('employees::filament/resources/employee.global-search.work-permit')                    => $record->work_permit ?? '—',
+            __('employees::filament/resources/employee.global-search.leave-manager')                  => $record->leaveManager?->name ?? '—',
+            __('employees::filament/resources/employee.global-search.private-car-plate')              => $record->private_car_plate ?? '—',
+            __('employees::filament/resources/employee.global-search.visa-expire')                    => $record->visa_expire ?? '—',
+            __('employees::filament/resources/employee.global-search.work-permit-expiration-date')    => $record->work_permit_expiration_date ?? '—',
+            __('employees::filament/resources/employee.global-search.departure-date')                 => $record->departure_date ?? '—',
+            __('employees::filament/resources/employee.global-search.departure-description')          => $record->departure_description ?? '—',
+            __('employees::filament/resources/employee.global-search.notes')                          => $record->additional_note ?? '—',
+            __('employees::filament/resources/employee.global-search.status')                         => $record->is_active ?? '—',
+            __('employees::filament/resources/employee.global-search.is-flexible')                    => $record->is_flexible ?? '—',
+            __('employees::filament/resources/employee.global-search.is-fully-flexible')              => $record->is_fully_flexible ?? '—',
+            __('employees::filament/resources/employee.global-search.work-permit-scheduled-activity') => $record->work_permit_scheduled_activity ?? '—',
+        ];
+    }
 
     public static function form(Form $form): Form
     {
@@ -65,13 +218,13 @@ class EmployeeResource extends Resource
                                 Forms\Components\Group::make()
                                     ->schema([
                                         Forms\Components\TextInput::make('name')
-                                            ->label('Name')
+                                            ->label(__('employees::filament/resources/employee.form.sections.fields.name'))
                                             ->required()
                                             ->maxLength(255)
                                             ->extraInputAttributes(['style' => 'font-size: 1.5rem;height: 3rem;'])
                                             ->columnSpan(1),
                                         Forms\Components\TextInput::make('job_title')
-                                            ->label('Job Title')
+                                            ->label(__('employees::filament/resources/employee.form.sections.fields.job-title'))
                                             ->maxLength(255)
                                             ->columnSpan(1),
 
@@ -91,7 +244,7 @@ class EmployeeResource extends Resource
                         Forms\Components\Group::make()
                             ->schema([
                                 Forms\Components\TextInput::make('work_email')
-                                    ->label('Work Email')
+                                    ->label(__('employees::filament/resources/employee.form.sections.fields.work-email'))
                                     ->suffixAction(
                                         Action::make('open_mailbox')
                                             ->icon('heroicon-o-envelope')
@@ -101,17 +254,17 @@ class EmployeeResource extends Resource
                                                     $set('work_email', $state);
                                                 }
                                             })
-                                            ->url(fn (?string $state) => $state ? "mailto:{$state}" : '#')
+                                            ->url(fn(?string $state) => $state ? "mailto:{$state}" : '#')
                                     )
                                     ->email(),
                                 Forms\Components\Select::make('department_id')
-                                    ->label('Department')
+                                    ->label(__('employees::filament/resources/employee.form.sections.fields.department'))
                                     ->relationship(name: 'department', titleAttribute: 'name')
                                     ->searchable()
                                     ->preload()
-                                    ->createOptionForm(fn (Form $form) => DepartmentResource::form($form)),
+                                    ->createOptionForm(fn(Form $form) => DepartmentResource::form($form)),
                                 Forms\Components\TextInput::make('mobile_phone')
-                                    ->label('Work Mobile')
+                                    ->label(__('employees::filament/resources/employee.form.sections.fields.work-mobile'))
                                     ->suffixAction(
                                         Action::make('open_mobile_phone')
                                             ->icon('heroicon-o-phone')
@@ -119,17 +272,17 @@ class EmployeeResource extends Resource
                                             ->action(function (Set $set, $state) {
                                                 $set('mobile_phone', $state);
                                             })
-                                            ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
+                                            ->url(fn(?string $state) => $state ? "tel:{$state}" : '#')
                                     )
                                     ->tel(),
                                 Forms\Components\Select::make('job_id')
                                     ->relationship('job', 'name')
                                     ->searchable()
                                     ->preload()
-                                    ->label('Job Position')
-                                    ->createOptionForm(fn (Form $form) => JobPositionResource::form($form)),
+                                    ->label(__('employees::filament/resources/employee.form.sections.fields.job-position'))
+                                    ->createOptionForm(fn(Form $form) => JobPositionResource::form($form)),
                                 Forms\Components\TextInput::make('work_phone')
-                                    ->label('Work Phone')
+                                    ->label(__('employees::filament/resources/employee.form.sections.fields.work-phone'))
                                     ->suffixAction(
                                         Action::make('open_work_phone')
                                             ->icon('heroicon-o-phone')
@@ -137,53 +290,53 @@ class EmployeeResource extends Resource
                                             ->action(function (Set $set, $state) {
                                                 $set('work_phone', $state);
                                             })
-                                            ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
+                                            ->url(fn(?string $state) => $state ? "tel:{$state}" : '#')
                                     )
                                     ->tel(),
                                 Forms\Components\Select::make('parent_id')
-                                    ->options(fn () => Employee::pluck('name', 'id'))
+                                    ->options(fn() => Employee::pluck('name', 'id'))
                                     ->searchable()
                                     ->preload()
                                     ->suffixIcon('heroicon-o-user')
-                                    ->label('Manager'),
+                                    ->label(__('employees::filament/resources/employee.form.sections.fields.manager')),
                                 Forms\Components\Select::make('employees_employee_categories')
                                     ->multiple()
                                     ->relationship('categories', 'name')
                                     ->searchable()
                                     ->preload()
-                                    ->label('Employee Tags')
-                                    ->createOptionForm(fn (Form $form) => EmployeeCategoryResource::form($form)),
+                                    ->label(__('employees::filament/resources/employee.form.sections.fields.employee-tags'))
+                                    ->createOptionForm(fn(Form $form) => EmployeeCategoryResource::form($form)),
                                 Forms\Components\Select::make('coach_id')
                                     ->searchable()
                                     ->preload()
-                                    ->options(fn () => Employee::pluck('name', 'id'))
-                                    ->label('Coach'),
+                                    ->options(fn() => Employee::pluck('name', 'id'))
+                                    ->label(__('employees::filament/resources/employee.form.sections.fields.coach')),
                             ])
                             ->columns(2),
 
                     ])
                     ->columns(1),
-                Forms\Components\Tabs::make('Employee Information')
+                Forms\Components\Tabs::make()
                     ->tabs([
-                        Forms\Components\Tabs\Tab::make('Work Information')
+                        Forms\Components\Tabs\Tab::make(__('employees::filament/resources/employee.form.tabs.work-information.title'))
                             ->icon('heroicon-o-briefcase')
                             ->schema([
                                 Forms\Components\Group::make()
                                     ->schema([
                                         Forms\Components\Group::make()
                                             ->schema([
-                                                Forms\Components\Fieldset::make('Location')
+                                                Forms\Components\Fieldset::make(__('employees::filament/resources/employee.form.tabs.work-information.fields.location'))
                                                     ->schema([
                                                         Forms\Components\Select::make('address_id')
-                                                            ->options(fn () => Company::pluck('name', 'id'))
+                                                            ->options(fn() => Company::pluck('name', 'id'))
                                                             ->searchable()
                                                             ->preload()
                                                             ->live()
                                                             ->suffixIcon('heroicon-o-map-pin')
-                                                            ->label('Work Address'),
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.work-information.fields.work-address')),
                                                         Forms\Components\Placeholder::make('address')
                                                             ->hiddenLabel()
-                                                            ->hidden(fn (Get $get) => ! Company::find($get('address_id'))?->address)
+                                                            ->hidden(fn(Get $get) => ! Company::find($get('address_id'))?->address)
                                                             ->content(function (Get $get) {
                                                                 if ($get('address_id')) {
                                                                     $address = Company::find($get('address_id'))?->address;
@@ -203,39 +356,39 @@ class EmployeeResource extends Resource
                                                             ->relationship('workLocation', 'name')
                                                             ->searchable()
                                                             ->preload()
-                                                            ->label('Work Location')
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.work-information.fields.work-location'))
                                                             ->prefixIcon('heroicon-o-map-pin')
-                                                            ->createOptionForm(fn (Form $form) => WorkLocationResource::form($form))
-                                                            ->editOptionForm(fn (Form $form) => WorkLocationResource::form($form)),
+                                                            ->createOptionForm(fn(Form $form) => WorkLocationResource::form($form))
+                                                            ->editOptionForm(fn(Form $form) => WorkLocationResource::form($form)),
                                                     ])->columns(1),
-                                                Forms\Components\Fieldset::make('Approvers')
+                                                Forms\Components\Fieldset::make(__('employees::filament/resources/employee.form.tabs.work-information.fields.approver'))
                                                     ->schema([
                                                         Forms\Components\Select::make('leave_manager_id')
-                                                            ->options(fn () => User::pluck('name', 'id'))
+                                                            ->options(fn() => User::pluck('name', 'id'))
                                                             ->searchable()
                                                             ->preload()
                                                             ->live()
                                                             ->suffixIcon('heroicon-o-clock')
-                                                            ->label('Time Off'),
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.work-information.fields.time-off')),
                                                         Forms\Components\Select::make('attendance_manager_id')
-                                                            ->options(fn () => User::pluck('name', 'id'))
+                                                            ->options(fn() => User::pluck('name', 'id'))
                                                             ->searchable()
                                                             ->preload()
                                                             ->live()
                                                             ->suffixIcon('heroicon-o-clock')
-                                                            ->label('Attendance'),
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.work-information.fields.attendance-manager')),
                                                     ])->columns(1),
-                                                Forms\Components\Fieldset::make('Schedule')
+                                                Forms\Components\Fieldset::make(__('employees::filament/resources/employee.form.tabs.work-information.fields.schedule'))
                                                     ->schema([
                                                         Forms\Components\Select::make('calendar_id')
-                                                            ->options(fn () => Calendar::pluck('name', 'id'))
+                                                            ->options(fn() => Calendar::pluck('name', 'id'))
                                                             ->searchable()
                                                             ->preload()
                                                             ->live()
                                                             ->suffixIcon('heroicon-o-clock')
-                                                            ->label('Working Hours'),
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.work-information.fields.working-hours')),
                                                         Forms\Components\Select::make('time_zone')
-                                                            ->label('Time Zone')
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.work-information.fields.time-zone'))
                                                             ->options(function () {
                                                                 return collect(timezone_identifiers_list())->mapWithKeys(function ($timezone) {
                                                                     return [$timezone => $timezone];
@@ -245,7 +398,7 @@ class EmployeeResource extends Resource
                                                             ->preload()
                                                             ->suffixIcon('heroicon-o-clock')
                                                             ->searchable()
-                                                            ->hintIcon('heroicon-o-question-mark-circle', tooltip: 'Specify the time zone for this work schedule'),
+                                                            ->hintIcon('heroicon-o-question-mark-circle', tooltip: __('employees::filament/resources/employee.form.tabs.work-information.fields.time-zone-tooltip')),
                                                     ])->columns(1),
                                             ])
                                             ->columnSpan(['lg' => 2]),
@@ -253,17 +406,17 @@ class EmployeeResource extends Resource
                                             ->schema([
                                                 Forms\Components\Group::make()
                                                     ->schema([
-                                                        Forms\Components\Fieldset::make('Organizational Details')
+                                                        Forms\Components\Fieldset::make(__('employees::filament/resources/employee.form.tabs.work-information.fields.organization-details'))
                                                             ->schema([
                                                                 Forms\Components\Select::make('company_id')
                                                                     ->relationship('company', 'name')
                                                                     ->searchable()
                                                                     ->preload()
                                                                     ->prefixIcon('heroicon-o-building-office')
-                                                                    ->label('Company')
-                                                                    ->createOptionForm(fn (Form $form) => CompanyResource::form($form)),
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.work-information.fields.company'))
+                                                                    ->createOptionForm(fn(Form $form) => CompanyResource::form($form)),
                                                                 Forms\Components\ColorPicker::make('color')
-                                                                    ->label('Color'),
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.work-information.fields.color')),
                                                             ])->columns(1),
                                                     ])
                                                     ->columnSpan(['lg' => 1]),
@@ -272,7 +425,7 @@ class EmployeeResource extends Resource
                                     ])
                                     ->columns(3),
                             ]),
-                        Forms\Components\Tabs\Tab::make('Private Information')
+                        Forms\Components\Tabs\Tab::make(__('employees::filament/resources/employee.form.tabs.private-information.title'))
                             ->icon('heroicon-o-lock-closed')
                             ->schema([
                                 Forms\Components\Group::make()
@@ -281,155 +434,155 @@ class EmployeeResource extends Resource
                                             ->schema([
                                                 Forms\Components\Group::make()
                                                     ->schema([
-                                                        Forms\Components\Fieldset::make('Permanent Address')
+                                                        Forms\Components\Fieldset::make(__('employees::filament/resources/employee.form.tabs.private-information.fields.permanent-address'))
                                                             ->relationship('permanentAddress')
                                                             ->schema([
                                                                 Forms\Components\Select::make('country_id')
-                                                                    ->label('Country')
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.country'))
                                                                     ->relationship(name: 'country', titleAttribute: 'name')
                                                                     ->createOptionForm([
                                                                         Forms\Components\TextInput::make('name')
-                                                                            ->label('Country Name')
+                                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.country-name'))
                                                                             ->required(),
                                                                         Forms\Components\TextInput::make('code')
-                                                                            ->label('Code')
+                                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.country-code'))
                                                                             ->required()
                                                                             ->rules('max:2'),
                                                                         Forms\Components\Toggle::make('state_required')
-                                                                            ->label('State Required')
+                                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.country-state-required'))
                                                                             ->required(),
                                                                         Forms\Components\Toggle::make('zip_required')
-                                                                            ->label('Zip Required')
+                                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.country-zip-required'))
                                                                             ->required(),
                                                                     ])
                                                                     ->createOptionAction(
-                                                                        fn (Action $action) => $action
-                                                                            ->modalHeading('Create Country')
-                                                                            ->modalSubmitActionLabel('Create Country')
+                                                                        fn(Action $action) => $action
+                                                                            ->modalHeading(__('employees::filament/resources/employee.form.tabs.private-information.fields.create-country'))
+                                                                            ->modalSubmitActionLabel(__('employees::filament/resources/employee.form.tabs.private-information.fields.create-country'))
                                                                             ->modalWidth('lg')
                                                                     )
-                                                                    ->afterStateUpdated(fn (Set $set) => $set('state_id', null))
+                                                                    ->afterStateUpdated(fn(Set $set) => $set('state_id', null))
                                                                     ->searchable()
                                                                     ->preload()
                                                                     ->live(),
                                                                 Forms\Components\Select::make('state_id')
-                                                                    ->label('State')
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.state'))
                                                                     ->options(
-                                                                        fn (Get $get) => State::query()
+                                                                        fn(Get $get) => State::query()
                                                                             ->where('country_id', $get('country_id'))
                                                                             ->pluck('name', 'id')
                                                                     )
                                                                     ->createOptionForm([
                                                                         Forms\Components\TextInput::make('name')
-                                                                            ->label('Name')
+                                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.state-name'))
                                                                             ->required()
                                                                             ->maxLength(255),
                                                                         Forms\Components\TextInput::make('code')
-                                                                            ->label('Code')
+                                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.state-code'))
                                                                             ->required()
                                                                             ->maxLength(255),
                                                                     ])
                                                                     ->createOptionAction(
-                                                                        fn (Action $action) => $action
-                                                                            ->modalHeading('Create State')
-                                                                            ->modalSubmitActionLabel('Create State')
+                                                                        fn(Action $action) => $action
+                                                                            ->modalHeading(__('employees::filament/resources/employee.form.tabs.private-information.fields.create-state'))
+                                                                            ->modalSubmitActionLabel(__('employees::filament/resources/employee.form.tabs.private-information.fields.create-state'))
                                                                             ->modalWidth('lg')
                                                                     )
                                                                     ->searchable()
                                                                     ->preload()
-                                                                    ->required(fn (Get $get) => Country::find($get('country_id'))?->state_required),
+                                                                    ->required(fn(Get $get) => Country::find($get('country_id'))?->state_required),
                                                                 Forms\Components\TextInput::make('street1')
-                                                                    ->label('Street Address'),
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.street-address')),
                                                                 Forms\Components\TextInput::make('street2')
-                                                                    ->label('Street Address Line 2'),
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.street-address-line-2')),
                                                                 Forms\Components\TextInput::make('city')
-                                                                    ->label('City'),
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.city')),
                                                                 Forms\Components\TextInput::make('zip')
-                                                                    ->label('Postal Code')
-                                                                    ->required(fn (Get $get) => Country::find($get('country_id'))?->zip_required),
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.phone-code'))
+                                                                    ->required(fn(Get $get) => Country::find($get('country_id'))?->zip_required),
                                                                 Forms\Components\Hidden::make('type')
                                                                     ->default('permanent'),
                                                                 Forms\Components\Hidden::make('creator_id')
                                                                     ->default(Auth::user()->id),
                                                             ]),
-                                                        Forms\Components\Fieldset::make('Present Address')
+                                                        Forms\Components\Fieldset::make(__('employees::filament/resources/employee.form.tabs.private-information.fields.present-address'))
                                                             ->relationship('presentAddress')
                                                             ->schema([
                                                                 Forms\Components\Hidden::make('is_primary')
                                                                     ->default(true)
                                                                     ->required(),
                                                                 Forms\Components\Select::make('country_id')
-                                                                    ->label('Country')
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.country'))
                                                                     ->relationship(name: 'country', titleAttribute: 'name')
                                                                     ->createOptionForm([
                                                                         Forms\Components\TextInput::make('name')
-                                                                            ->label('Country Name')
+                                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.country-name'))
                                                                             ->required(),
                                                                         Forms\Components\TextInput::make('code')
-                                                                            ->label('Code')
+                                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.country-code'))
                                                                             ->required()
                                                                             ->rules('max:2'),
                                                                         Forms\Components\Toggle::make('state_required')
-                                                                            ->label('State Required')
+                                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.country-state-required'))
                                                                             ->required(),
                                                                         Forms\Components\Toggle::make('zip_required')
-                                                                            ->label('Zip Required')
+                                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.country-zip-required'))
                                                                             ->required(),
                                                                     ])
                                                                     ->createOptionAction(
-                                                                        fn (Action $action) => $action
-                                                                            ->modalHeading('Create Country')
-                                                                            ->modalSubmitActionLabel('Create Country')
+                                                                        fn(Action $action) => $action
+                                                                            ->modalHeading(__('employees::filament/resources/employee.form.tabs.private-information.fields.create-state'))
+                                                                            ->modalSubmitActionLabel(__('employees::filament/resources/employee.form.tabs.private-information.fields.create-state'))
                                                                             ->modalWidth('lg')
                                                                     )
-                                                                    ->afterStateUpdated(fn (Set $set) => $set('state_id', null))
+                                                                    ->afterStateUpdated(fn(Set $set) => $set('state_id', null))
                                                                     ->searchable()
                                                                     ->preload()
                                                                     ->live(),
                                                                 Forms\Components\Select::make('state_id')
-                                                                    ->label('State')
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.state'))
                                                                     ->options(
-                                                                        fn (Get $get) => State::query()
+                                                                        fn(Get $get) => State::query()
                                                                             ->where('country_id', $get('country_id'))
                                                                             ->pluck('name', 'id')
                                                                     )
                                                                     ->createOptionForm([
                                                                         Forms\Components\TextInput::make('name')
-                                                                            ->label('Name')
+                                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.state-name'))
                                                                             ->required()
                                                                             ->maxLength(255),
                                                                         Forms\Components\TextInput::make('code')
-                                                                            ->label('Code')
+                                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.state-code'))
                                                                             ->required()
                                                                             ->maxLength(255),
                                                                     ])
                                                                     ->createOptionAction(
-                                                                        fn (Action $action) => $action
-                                                                            ->modalHeading('Create State')
-                                                                            ->modalSubmitActionLabel('Create State')
+                                                                        fn(Action $action) => $action
+                                                                            ->modalHeading(__('employees::filament/resources/employee.form.tabs.private-information.fields.create-state'))
+                                                                            ->modalSubmitActionLabel(__('employees::filament/resources/employee.form.tabs.private-information.fields.create-state'))
                                                                             ->modalWidth('lg')
                                                                     )
                                                                     ->searchable()
                                                                     ->preload()
-                                                                    ->required(fn (Get $get) => Country::find($get('country_id'))?->state_required),
+                                                                    ->required(fn(Get $get) => Country::find($get('country_id'))?->state_required),
                                                                 Forms\Components\TextInput::make('street1')
-                                                                    ->label('Street Address'),
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.street-address')),
                                                                 Forms\Components\TextInput::make('street2')
-                                                                    ->label('Street Address Line 2'),
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.street-address-line-2')),
                                                                 Forms\Components\TextInput::make('city')
-                                                                    ->label('City'),
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.city')),
                                                                 Forms\Components\TextInput::make('zip')
-                                                                    ->label('Postal Code')
-                                                                    ->required(fn (Get $get) => Country::find($get('country_id'))?->zip_required),
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.postal-code'))
+                                                                    ->required(fn(Get $get) => Country::find($get('country_id'))?->zip_required),
                                                                 Forms\Components\Hidden::make('type')
                                                                     ->default('present'),
                                                                 Forms\Components\Hidden::make('creator_id')
                                                                     ->default(Auth::user()->id),
                                                             ]),
-                                                        Forms\Components\Fieldset::make('Private Contact')
+                                                        Forms\Components\Fieldset::make(__('employees::filament/resources/employee.form.tabs.private-information.fields.private-contact'))
                                                             ->schema([
                                                                 Forms\Components\TextInput::make('private_phone')
-                                                                    ->label('Private Phone')
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.private-phone'))
                                                                     ->suffixAction(
                                                                         Action::make('open_private_phone')
                                                                             ->icon('heroicon-o-phone')
@@ -437,7 +590,7 @@ class EmployeeResource extends Resource
                                                                             ->action(function (Set $set, $state) {
                                                                                 $set('private_phone', $state);
                                                                             })
-                                                                            ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
+                                                                            ->url(fn(?string $state) => $state ? "tel:{$state}" : '#')
                                                                     )
                                                                     ->tel(),
                                                                 Forms\Components\Select::make('bank_account_id')
@@ -448,52 +601,51 @@ class EmployeeResource extends Resource
                                                                         Forms\Components\Group::make()
                                                                             ->schema([
                                                                                 Forms\Components\TextInput::make('account_number')
-                                                                                    ->label('Account Number')
+                                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.bank-account-number'))
                                                                                     ->required(),
                                                                                 Forms\Components\Hidden::make('account_holder_name')
-                                                                                    ->label('Account Number')
+                                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.bank-account-holder-name'))
                                                                                     ->default(function (Get $get, $livewire) {
                                                                                         return $livewire->record->user?->name ?? $get('name');
                                                                                     })
                                                                                     ->required(),
                                                                                 Forms\Components\Hidden::make('partner_id')
-                                                                                    ->label('Account Number')
                                                                                     ->default(function (Get $get, $livewire) {
                                                                                         return $livewire->record->partner?->id ?? $get('name');
                                                                                     })
                                                                                     ->required(),
                                                                                 Forms\Components\Hidden::make('creator_id')
-                                                                                    ->default(fn () => Auth::user()->id),
+                                                                                    ->default(fn() => Auth::user()->id),
                                                                                 Forms\Components\Select::make('bank_id')
                                                                                     ->relationship('bank', 'name')
-                                                                                    ->label('Bank')
+                                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.bank'))
                                                                                     ->searchable()
                                                                                     ->preload()
                                                                                     ->createOptionForm(static::getBankCreateSchema())
                                                                                     ->editOptionForm(static::getBankCreateSchema())
-                                                                                    ->createOptionAction(fn (Action $action) => $action->modalHeading('Create Bank'))
+                                                                                    ->createOptionAction(fn(Action $action) => $action->modalHeading(__('employees::filament/resources/employee.form.tabs.private-information.fields.create-bank')))
                                                                                     ->live()
                                                                                     ->required(),
                                                                                 Forms\Components\Toggle::make('is_active')
-                                                                                    ->label('Status')
+                                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.status'))
                                                                                     ->default(true)
                                                                                     ->inline(false),
                                                                                 Forms\Components\Toggle::make('can_send_money')
-                                                                                    ->label('Send Money')
+                                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.send-money'))
                                                                                     ->default(true)
                                                                                     ->inline(false),
 
                                                                             ])->columns(2),
                                                                     ])
                                                                     ->createOptionAction(
-                                                                        fn (Action $action) => $action
-                                                                            ->modalHeading('Create Bank Account')
-                                                                            ->modalSubmitActionLabel('Create Bank Account')
+                                                                        fn(Action $action) => $action
+                                                                            ->modalHeading(__('employees::filament/resources/employee.form.tabs.private-information.fields.create-bank-account'))
+                                                                            ->modalSubmitActionLabel(__('employees::filament/resources/employee.form.tabs.private-information.fields.create-bank-account'))
                                                                     )
-                                                                    ->disabled(fn ($livewire) => ! $livewire->record?->user)
-                                                                    ->label('Bank Account'),
+                                                                    ->disabled(fn($livewire) => ! $livewire->record?->user)
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.bank-account')),
                                                                 Forms\Components\TextInput::make('private_email')
-                                                                    ->label('Private Email')
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.private-email'))
                                                                     ->suffixAction(
                                                                         Action::make('open_private_email')
                                                                             ->icon('heroicon-o-envelope')
@@ -503,33 +655,33 @@ class EmployeeResource extends Resource
                                                                                     $set('private_email', $state);
                                                                                 }
                                                                             })
-                                                                            ->url(fn (?string $state) => $state ? "mailto:{$state}" : '#')
+                                                                            ->url(fn(?string $state) => $state ? "mailto:{$state}" : '#')
                                                                     )
                                                                     ->email(),
                                                                 Forms\Components\TextInput::make('private_car_plate')
-                                                                    ->label('Private Car Plate'),
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.private-car-plate')),
                                                                 Forms\Components\TextInput::make('distance_home_work')
-                                                                    ->label('Distance Home to Work')
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.distance-home-to-work'))
                                                                     ->numeric()
                                                                     ->default(0)
                                                                     ->suffix('km'),
                                                                 Forms\Components\TextInput::make('km_home_work')
-                                                                    ->label('KM Home to Work')
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.km-home-to-work'))
                                                                     ->numeric()
                                                                     ->default(0)
                                                                     ->suffix('km'),
                                                                 Forms\Components\Select::make('distance_home_work_unit')
                                                                     ->options(DistanceUnit::options())
-                                                                    ->label('Distance Unit'),
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.distance-unit')),
                                                             ])->columns(2),
                                                         Forms\Components\Group::make()
                                                             ->schema([
-                                                                Forms\Components\Fieldset::make('Emergency Contact')
+                                                                Forms\Components\Fieldset::make(__('employees::filament/resources/employee.form.tabs.private-information.fields.emergency-contact'))
                                                                     ->schema([
                                                                         Forms\Components\TextInput::make('emergency_contact')
-                                                                            ->label('Contact Name'),
+                                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.contact-name')),
                                                                         Forms\Components\TextInput::make('emergency_phone')
-                                                                            ->label('Contact Phone')
+                                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.contact-phone'))
                                                                             ->suffixAction(
                                                                                 Action::make('open_emergency_phone')
                                                                                     ->icon('heroicon-o-phone')
@@ -537,56 +689,56 @@ class EmployeeResource extends Resource
                                                                                     ->action(function (Set $set, $state) {
                                                                                         $set('emergency_phone', $state);
                                                                                     })
-                                                                                    ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
+                                                                                    ->url(fn(?string $state) => $state ? "tel:{$state}" : '#')
                                                                             )
                                                                             ->tel(),
                                                                     ])->columns(2),
                                                             ])
                                                             ->columnSpan(['lg' => 1]),
-                                                        Forms\Components\Fieldset::make('Family Status')
+                                                        Forms\Components\Fieldset::make(__('employees::filament/resources/employee.form.tabs.private-information.fields.family-status'))
                                                             ->schema([
                                                                 Forms\Components\Select::make('marital')
-                                                                    ->label('Marital Status')
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.marital-status'))
                                                                     ->searchable()
                                                                     ->preload()
                                                                     ->default(MaritalStatus::Single->value)
                                                                     ->options(MaritalStatus::options())
                                                                     ->live(),
                                                                 Forms\Components\TextInput::make('spouse_complete_name')
-                                                                    ->label('Spouse Name')
-                                                                    ->hidden(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                                    ->dehydrated(fn (Get $get) => $get('marital') !== MaritalStatus::Single->value)
-                                                                    ->required(fn (Get $get) => $get('marital') !== MaritalStatus::Single->value),
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.spouse-name'))
+                                                                    ->hidden(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                    ->dehydrated(fn(Get $get) => $get('marital') !== MaritalStatus::Single->value)
+                                                                    ->required(fn(Get $get) => $get('marital') !== MaritalStatus::Single->value),
                                                                 Forms\Components\DatePicker::make('spouse_birthdate')
-                                                                    ->label('Spouse Birthdate')
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.spouse-birthday'))
                                                                     ->native(false)
                                                                     ->suffixIcon('heroicon-o-calendar')
-                                                                    ->disabled(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                                    ->hidden(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                                    ->dehydrated(fn (Get $get) => $get('marital') !== MaritalStatus::Single->value),
+                                                                    ->disabled(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                    ->hidden(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                    ->dehydrated(fn(Get $get) => $get('marital') !== MaritalStatus::Single->value),
                                                                 Forms\Components\TextInput::make('children')
-                                                                    ->label('Number of Children')
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.number-of-children'))
                                                                     ->numeric()
                                                                     ->minValue(0)
-                                                                    ->disabled(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                                    ->hidden(fn (Get $get) => $get('marital') === MaritalStatus::Single->value)
-                                                                    ->dehydrated(fn (Get $get) => $get('marital') !== MaritalStatus::Single->value),
+                                                                    ->disabled(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                    ->hidden(fn(Get $get) => $get('marital') === MaritalStatus::Single->value)
+                                                                    ->dehydrated(fn(Get $get) => $get('marital') !== MaritalStatus::Single->value),
                                                             ])->columns(2),
-                                                        Forms\Components\Fieldset::make('Education')
+                                                        Forms\Components\Fieldset::make(__('employees::filament/resources/employee.form.tabs.private-information.fields.education'))
                                                             ->schema([
                                                                 Forms\Components\Select::make('certificate')
                                                                     ->options([
-                                                                        'graduate' => 'Graduate',
-                                                                        'bachelor' => 'Bachelor',
-                                                                        'master'   => 'Master',
-                                                                        'doctor'   => 'Doctor',
-                                                                        'other'    => 'Other',
+                                                                        'graduate' => __('employees::filament/resources/employee.form.tabs.private-information.fields.graduated'),
+                                                                        'bachelor' => __('employees::filament/resources/employee.form.tabs.private-information.fields.bachelor'),
+                                                                        'master'   => __('employees::filament/resources/employee.form.tabs.private-information.fields.master'),
+                                                                        'doctor'   => __('employees::filament/resources/employee.form.tabs.private-information.fields.doctor'),
+                                                                        'other'    => __('employees::filament/resources/employee.form.tabs.private-information.fields.other'),
                                                                     ])
-                                                                    ->label('Certificate Level'),
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.certificate-level')),
                                                                 Forms\Components\TextInput::make('study_field')
-                                                                    ->label('Field of Study'),
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.field-of-study')),
                                                                 Forms\Components\TextInput::make('study_school')
-                                                                    ->label('School'),
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.school')),
                                                             ])->columns(1),
 
                                                     ]),
@@ -594,77 +746,77 @@ class EmployeeResource extends Resource
                                             ->columnSpan(['lg' => 2]),
                                         Forms\Components\Group::make()
                                             ->schema([
-                                                Forms\Components\Fieldset::make('Citizenship')
+                                                Forms\Components\Fieldset::make(__('employees::filament/resources/employee.form.tabs.private-information.fields.citizenship'))
                                                     ->schema([
                                                         Forms\Components\Select::make('country_id')
-                                                            ->label('Country')
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.country'))
                                                             ->relationship(name: 'country', titleAttribute: 'name')
                                                             ->createOptionForm([
                                                                 Forms\Components\TextInput::make('name')
-                                                                    ->label('Country Name')
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.country-name'))
                                                                     ->required(),
                                                                 Forms\Components\TextInput::make('code')
-                                                                    ->label('Code')
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.country-code'))
                                                                     ->required()
                                                                     ->rules('max:2'),
                                                                 Forms\Components\Toggle::make('state_required')
-                                                                    ->label('State Required')
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.country-state-required'))
                                                                     ->required(),
                                                                 Forms\Components\Toggle::make('zip_required')
-                                                                    ->label('Zip Required')
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.country-zip-required'))
                                                                     ->required(),
                                                             ])
                                                             ->createOptionAction(
-                                                                fn (Action $action) => $action
-                                                                    ->modalHeading('Create Country')
-                                                                    ->modalSubmitActionLabel('Create Country')
+                                                                fn(Action $action) => $action
+                                                                    ->modalHeading(__('employees::filament/resources/employee.form.tabs.private-information.fields.create-country'))
+                                                                    ->modalSubmitActionLabel(__('employees::filament/resources/employee.form.tabs.private-information.fields.create-country'))
                                                                     ->modalWidth('lg')
                                                             )
-                                                            ->afterStateUpdated(fn (Set $set) => $set('state_id', null))
+                                                            ->afterStateUpdated(fn(Set $set) => $set('state_id', null))
                                                             ->searchable()
                                                             ->preload()
                                                             ->live(),
                                                         Forms\Components\Select::make('state_id')
-                                                            ->label('State')
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.state'))
                                                             ->options(
-                                                                fn (Get $get) => State::query()
+                                                                fn(Get $get) => State::query()
                                                                     ->where('country_id', $get('country_id'))
                                                                     ->pluck('name', 'id')
                                                             )
                                                             ->createOptionForm([
                                                                 Forms\Components\TextInput::make('name')
-                                                                    ->label('Name')
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.state-name'))
                                                                     ->required()
                                                                     ->maxLength(255),
                                                                 Forms\Components\TextInput::make('code')
-                                                                    ->label('Code')
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.state-code'))
                                                                     ->required()
                                                                     ->maxLength(255),
                                                             ])
                                                             ->createOptionAction(
-                                                                fn (Action $action) => $action
-                                                                    ->modalHeading('Create State')
-                                                                    ->modalSubmitActionLabel('Create State')
+                                                                fn(Action $action) => $action
+                                                                    ->modalHeading(__('employees::filament/resources/employee.form.tabs.private-information.fields.create-state'))
+                                                                    ->modalSubmitActionLabel(__('employees::filament/resources/employee.form.tabs.private-information.fields.create-state'))
                                                                     ->modalWidth('lg')
                                                             )
                                                             ->searchable()
                                                             ->preload()
-                                                            ->required(fn (Get $get) => Country::find($get('country_id'))?->state_required),
+                                                            ->required(fn(Get $get) => Country::find($get('country_id'))?->state_required),
                                                         Forms\Components\TextInput::make('identification_id')
-                                                            ->label('Identification No'),
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.identification-id')),
                                                         Forms\Components\TextInput::make('ssnid')
-                                                            ->label('SSN No'),
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.ssnid')),
                                                         Forms\Components\TextInput::make('sinid')
-                                                            ->label('SIN ID'),
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.sinid')),
                                                         Forms\Components\TextInput::make('passport_id')
-                                                            ->label('Passport No'),
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.passport-id')),
                                                         Forms\Components\Select::make('gender')
-                                                            ->label('Gender')
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.gender'))
                                                             ->searchable()
                                                             ->preload()
                                                             ->options(Gender::options()),
                                                         Forms\Components\DatePicker::make('birthday')
-                                                            ->label('Date of Birth')
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.date-of-birth'))
                                                             ->suffixIcon('heroicon-o-calendar')
                                                             ->native(false)
                                                             ->maxDate(now()),
@@ -672,25 +824,25 @@ class EmployeeResource extends Resource
                                                             ->relationship('countryOfBirth', 'name')
                                                             ->searchable()
                                                             ->preload()
-                                                            ->label('Country of Birth'),
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.country-of-birth')),
 
                                                     ])->columns(1),
-                                                Forms\Components\Fieldset::make('Work Permit')
+                                                Forms\Components\Fieldset::make(__('employees::filament/resources/employee.form.tabs.private-information.fields.work-permit'))
                                                     ->schema([
                                                         Forms\Components\TextInput::make('visa_no')
-                                                            ->label('Visa Number'),
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.visa-number')),
                                                         Forms\Components\TextInput::make('permit_no')
-                                                            ->label('Work Permit No'),
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.work-permit-no')),
                                                         Forms\Components\DatePicker::make('visa_expire')
-                                                            ->label('Visa Expiration Date')
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.visa-expiration-date'))
                                                             ->suffixIcon('heroicon-o-calendar')
                                                             ->native(false),
                                                         Forms\Components\DatePicker::make('work_permit_expiration_date')
-                                                            ->label('Work Permit Expiration Date')
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.work-permit-expiration-date'))
                                                             ->suffixIcon('heroicon-o-calendar')
                                                             ->native(false),
                                                         Forms\Components\FileUpload::make('work_permit')
-                                                            ->label('Work Permit')
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.work-permit'))
                                                             ->panelAspectRatio('4:1')
                                                             ->panelLayout('integrated')
                                                             ->directory('employees/work-permit')
@@ -701,44 +853,44 @@ class EmployeeResource extends Resource
                                     ])
                                     ->columns(3),
                             ]),
-                        Forms\Components\Tabs\Tab::make('Settings')
+                        Forms\Components\Tabs\Tab::make(__('employees::filament/resources/employee.form.tabs.settings.title'))
                             ->icon('heroicon-o-cog-8-tooth')
                             ->schema([
                                 Forms\Components\Group::make()
                                     ->schema([
                                         Forms\Components\Group::make()
                                             ->schema([
-                                                Forms\Components\Fieldset::make('Employment Status')
+                                                Forms\Components\Fieldset::make(__('employees::filament/resources/employee.form.tabs.settings.fields.employment-status'))
                                                     ->schema([
                                                         Forms\Components\Toggle::make('is_active')
-                                                            ->label('Active Employee')
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.settings.fields.active-employee'))
                                                             ->default(true)
                                                             ->inline(false),
                                                         Forms\Components\Toggle::make('is_flexible')
-                                                            ->label('Flexible Work Arrangement')
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.settings.fields.flexible-work-arrangement'))
                                                             ->inline(false),
                                                         Forms\Components\Toggle::make('is_fully_flexible')
-                                                            ->label('Fully Flexible Schedule')
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.settings.fields.fully-flexible-schedule'))
                                                             ->inline(false),
                                                         Forms\Components\Toggle::make('work_permit_scheduled_activity')
-                                                            ->label('Work Permit Scheduled Activity'),
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.settings.fields.work-permit-scheduled-activity')),
                                                         Forms\Components\Select::make('user_id')
                                                             ->relationship(name: 'user', titleAttribute: 'name')
                                                             ->searchable()
                                                             ->preload()
-                                                            ->label('Related User')
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.settings.fields.related-user'))
                                                             ->prefixIcon('heroicon-o-user')
-                                                            ->createOptionForm(fn (Form $form) => UserResource::form($form))
+                                                            ->createOptionForm(fn(Form $form) => UserResource::form($form))
                                                             ->createOptionAction(
-                                                                fn (Action $action, Get $get) => $action
+                                                                fn(Action $action, Get $get) => $action
                                                                     ->fillForm(function (array $arguments) use ($get): array {
                                                                         return [
                                                                             'name'  => $get('name'),
                                                                             'email' => $get('work_email'),
                                                                         ];
                                                                     })
-                                                                    ->modalHeading('Create User')
-                                                                    ->modalSubmitActionLabel('Create User')
+                                                                    ->modalHeading(__('employees::filament/resources/employee.form.tabs.settings.fields.create-user'))
+                                                                    ->modalSubmitActionLabel(__('employees::filament/resources/employee.form.tabs.settings.fields.create-user'))
                                                                     ->action(function (array $data, $component) {
                                                                         $user = User::create($data);
 
@@ -764,40 +916,39 @@ class EmployeeResource extends Resource
                                                             ->searchable()
                                                             ->preload()
                                                             ->live()
-                                                            ->label('Departure Reason')
-                                                            ->createOptionForm(fn (Form $form) => DepartureReasonResource::form($form)),
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.settings.fields.departure-reason'))
+                                                            ->createOptionForm(fn(Form $form) => DepartureReasonResource::form($form)),
                                                         Forms\Components\DatePicker::make('departure_date')
-                                                            ->label('Departure Date')
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.settings.fields.departure-date'))
                                                             ->native(false)
-                                                            ->hidden(fn (Get $get) => $get('departure_reason_id') === null)
-                                                            ->disabled(fn (Get $get) => $get('departure_reason_id') === null)
-                                                            ->required(fn (Get $get) => $get('departure_reason_id') !== null),
+                                                            ->hidden(fn(Get $get) => $get('departure_reason_id') === null)
+                                                            ->disabled(fn(Get $get) => $get('departure_reason_id') === null)
+                                                            ->required(fn(Get $get) => $get('departure_reason_id') !== null),
                                                         Forms\Components\Textarea::make('departure_description')
-                                                            ->label('Departure Description')
-                                                            ->hidden(fn (Get $get) => $get('departure_reason_id') === null)
-                                                            ->disabled(fn (Get $get) => $get('departure_reason_id') === null)
-                                                            ->required(fn (Get $get) => $get('departure_reason_id') !== null),
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.settings.fields.departure-description'))
+                                                            ->hidden(fn(Get $get) => $get('departure_reason_id') === null)
+                                                            ->disabled(fn(Get $get) => $get('departure_reason_id') === null)
+                                                            ->required(fn(Get $get) => $get('departure_reason_id') !== null),
                                                     ])->columns(2),
-                                                Forms\Components\Fieldset::make('Additional Information')
+                                                Forms\Components\Fieldset::make(__('employees::filament/resources/employee.form.tabs.settings.fields.additional-information'))
                                                     ->schema([
                                                         Forms\Components\TextInput::make('lang')
-                                                            ->label('Primary Language'),
-
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.settings.fields.primary-language')),
                                                         Forms\Components\Textarea::make('additional_note')
-                                                            ->label('Additional Notes')
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.settings.fields.additional-notes'))
                                                             ->rows(3),
                                                         Forms\Components\Textarea::make('notes')
-                                                            ->label('Notes'),
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.settings.fields.notes')),
                                                         ...static::getCustomFormFields(),
                                                     ])->columns(2),
                                             ])
                                             ->columnSpan(['lg' => 2]),
                                         Forms\Components\Group::make()
                                             ->schema([
-                                                Forms\Components\Fieldset::make('Attendance/Point of Sale')
+                                                Forms\Components\Fieldset::make(__('employees::filament/resources/employee.form.tabs.settings.fields.attendance-point-of-sale'))
                                                     ->schema([
                                                         Forms\Components\TextInput::make('barcode')
-                                                            ->label('Badge ID')
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.settings.fields.badge-id'))
                                                             ->prefixIcon('heroicon-o-qr-code')
                                                             ->suffixAction(
                                                                 Action::make('generate_bar_code')
@@ -810,7 +961,7 @@ class EmployeeResource extends Resource
                                                                     })
                                                             ),
                                                         Forms\Components\TextInput::make('pin')
-                                                            ->label('PIN'),
+                                                            ->label(__('employees::filament/resources/employee.form.tabs.settings.fields.pin')),
                                                     ])->columns(1),
                                             ])
                                             ->columnSpan(['lg' => 1]),
@@ -833,6 +984,7 @@ class EmployeeResource extends Resource
                         ->width(200),
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('name')
+                            ->label(__('employees::filament/resources/employee.table.columns.name'))
                             ->weight(FontWeight::Bold)
                             ->searchable()
                             ->sortable(),
@@ -841,35 +993,36 @@ class EmployeeResource extends Resource
                                 ->icon('heroicon-m-briefcase')
                                 ->searchable()
                                 ->sortable()
-                                ->label('Job Title'),
+                                ->label(__('employees::filament/resources/employee.table.columns.job-title')),
                         ])
-                            ->visible(fn ($record) => filled($record->job_title)),
+                            ->visible(fn($record) => filled($record->job_title)),
                         Tables\Columns\Layout\Stack::make([
                             Tables\Columns\TextColumn::make('work_email')
                                 ->icon('heroicon-o-envelope')
                                 ->searchable()
                                 ->sortable()
-                                ->label('Work Email')
+                                ->label(__('employees::filament/resources/employee.table.columns.work-email'))
                                 ->color('gray')
                                 ->limit(20),
                         ])
-                            ->visible(fn ($record) => filled($record->work_email)),
+                            ->visible(fn($record) => filled($record->work_email)),
                         Tables\Columns\Layout\Stack::make([
                             Tables\Columns\TextColumn::make('work_phone')
                                 ->icon('heroicon-o-phone')
                                 ->searchable()
-                                ->label('Work Phone')
+                                ->label(__('employees::filament/resources/employee.table.columns.work-phone'))
                                 ->color('gray')
                                 ->limit(30)
                                 ->sortable(),
                         ])
-                            ->visible(fn ($record) => filled($record->work_phone)),
+                            ->visible(fn($record) => filled($record->work_phone)),
                         Tables\Columns\Layout\Stack::make([
                             Tables\Columns\TextColumn::make('categories.name')
+                                ->label(__('employees::filament/resources/employee.table.columns.categories'))
                                 ->badge()
                                 ->weight(FontWeight::Bold),
                         ])
-                            ->visible(fn ($record): bool => (bool) $record->categories()->get()?->count()),
+                            ->visible(fn($record): bool => (bool) $record->categories()->get()?->count()),
                     ])->space(1),
                 ])->space(4),
             ])
@@ -889,10 +1042,12 @@ class EmployeeResource extends Resource
                     ->relationship('skills.skill', 'name')
                     ->searchable()
                     ->multiple()
+                    ->label(__('employees::filament/resources/employee.table.filters.skills'))
                     ->preload(),
                 Tables\Filters\SelectFilter::make('resumes')
                     ->relationship('resumes', 'name')
                     ->searchable()
+                    ->label(__('employees::filament/resources/employee.table.filters.resumes'))
                     ->multiple()
                     ->preload(),
                 Tables\Filters\SelectFilter::make('time_zone')
@@ -902,135 +1057,135 @@ class EmployeeResource extends Resource
                         });
                     })
                     ->searchable()
+                    ->label(__('employees::filament/resources/employee.table.filters.timezone'))
                     ->multiple()
                     ->preload(),
                 Tables\Filters\QueryBuilder::make()
                     ->constraintPickerColumns(5)
                     ->constraints([
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('job_title')
-                            ->label('Job Title')
+                            ->label(__('employees::filament/resources/employee.table.filters.job-title'))
                             ->icon('heroicon-o-user-circle'),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('birthday')
-                            ->label('Birthday')
+                            ->label(__('employees::filament/resources/employee.table.filters.birthdate'))
                             ->icon('heroicon-o-cake'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('work_email')
-                            ->label('Work Email')
+                            ->label(__('employees::filament/resources/employee.table.filters.work-email'))
                             ->icon('heroicon-o-at-symbol'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('mobile_phone')
-                            ->label('Work Mobile')
+                            ->label(__('employees::filament/resources/employee.table.filters.mobile-phone'))
                             ->icon('heroicon-o-phone'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('work_phone')
-                            ->label('Work Phone')
+                            ->label(__('employees::filament/resources/employee.table.filters.work-phone'))
                             ->icon('heroicon-o-phone'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('is_flexible')
-                            ->label('Is Flexible')
+                            ->label(__('employees::filament/resources/employee.table.filters.is-flexible'))
                             ->icon('heroicon-o-cube'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('is_fully_flexible')
-                            ->label('Is Fully Flexible')
+                            ->label(__('employees::filament/resources/employee.table.filters.is-fully-flexible'))
                             ->icon('heroicon-o-cube'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('is_active')
-                            ->label('Is Active')
+                            ->label(__('employees::filament/resources/employee.table.filters.is-active'))
                             ->icon('heroicon-o-cube'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('work_permit_scheduled_activity')
-                            ->label('Work Permit Scheduled Activity')
+                            ->label(__('employees::filament/resources/employee.table.filters.work-permit-scheduled-activity'))
                             ->icon('heroicon-o-cube'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('emergency_contact')
-                            ->label('Emergency Contact')
+                            ->label(__('employees::filament/resources/employee.table.filters.emergency-contact'))
                             ->icon('heroicon-o-phone'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('emergency_phone')
-                            ->label('Emergency Phone')
+                            ->label(__('employees::filament/resources/employee.table.filters.emergency-phone'))
                             ->icon('heroicon-o-phone'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_phone')
-                            ->label('Private Phone')
+                            ->label(__('employees::filament/resources/employee.table.filters.private-phone'))
                             ->icon('heroicon-o-phone'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_email')
-                            ->label('Private Email')
+                            ->label(__('employees::filament/resources/employee.table.filters.private-email'))
                             ->icon('heroicon-o-at-symbol'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('private_car_plate')
-                            ->label('Private Car Plate')
+                            ->label(__('employees::filament/resources/employee.table.filters.private-car-plate'))
                             ->icon('heroicon-o-clipboard-document'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('distance_home_work')
-                            ->label('Distance Home Work')
+                            ->label(__('employees::filament/resources/employee.table.filters.distance-home-work'))
                             ->icon('heroicon-o-map'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('km_home_work')
-                            ->label('Km Home Work')
+                            ->label(__('employees::filament/resources/employee.table.filters.km-home-work'))
                             ->icon('heroicon-o-map'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('distance_home_work_unit')
-                            ->label('Distance Home Work Unit')
+                            ->label(__('employees::filament/resources/employee.table.filters.distance-home-work-unit'))
                             ->icon('heroicon-o-map'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('marital')
-                            ->label('Marital Status')
+                            ->label(__('employees::filament/resources/employee.table.filters.marital-status'))
                             ->icon('heroicon-o-user'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('spouse_complete_name')
-                            ->label('Spouse Name')
+                            ->label(__('employees::filament/resources/employee.table.filters.spouse-name'))
                             ->icon('heroicon-o-user'),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('spouse_birthdate')
-                            ->label('Spouse Birthdate')
+                            ->label(__('employees::filament/resources/employee.table.filters.spouse-birthdate'))
                             ->icon('heroicon-o-cake'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('certificate')
-                            ->label('Certificate')
+                            ->label(__('employees::filament/resources/employee.table.filters.certificate'))
                             ->icon('heroicon-o-document'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('study_field')
-                            ->label('Study Field')
+                            ->label(__('employees::filament/resources/employee.table.filters.study-field'))
                             ->icon('heroicon-o-academic-cap'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('study_school')
-                            ->label('Study School')
+                            ->label(__('employees::filament/resources/employee.table.filters.study-school'))
                             ->icon('heroicon-o-academic-cap'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('identification_id')
-                            ->label('Identification Id')
+                            ->label(__('employees::filament/resources/employee.table.filters.identification-id'))
                             ->icon('heroicon-o-credit-card'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('ssnid')
-                            ->label('SSNID')
+                            ->label(__('employees::filament/resources/employee.table.filters.ssnid'))
                             ->icon('heroicon-o-credit-card'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('sinid')
-                            ->label('SINID')
+                            ->label(__('employees::filament/resources/employee.table.filters.sinid'))
                             ->icon('heroicon-o-credit-card'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('passport_id')
-                            ->label('Passport ID')
+                            ->label(__('employees::filament/resources/employee.table.filters.passport-id'))
                             ->icon('heroicon-o-credit-card'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('gender')
-                            ->label('Gender')
+                            ->label(__('employees::filament/resources/employee.table.filters.gender'))
                             ->icon('heroicon-o-user'),
                         Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('children')
-                            ->label('Children')
+                            ->label(__('employees::filament/resources/employee.table.filters.children'))
                             ->icon('heroicon-o-user'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('visa_no')
-                            ->label('Visa No')
+                            ->label(__('employees::filament/resources/employee.table.filters.visa-no'))
                             ->icon('heroicon-o-credit-card'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('permit_no')
-                            ->label('Permit No')
+                            ->label(__('employees::filament/resources/employee.table.filters.permit-no'))
                             ->icon('heroicon-o-credit-card'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('lang')
-                            ->label('Language')
+                            ->label(__('employees::filament/resources/employee.table.filters.language'))
                             ->icon('heroicon-o-language'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('additional_note')
-                            ->label('Additional Note')
+                            ->label(__('employees::filament/resources/employee.table.filters.additional-note'))
                             ->icon('heroicon-o-language'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('notes')
-                            ->label('Notes')
+                            ->label(__('employees::filament/resources/employee.table.filters.notes'))
                             ->icon('heroicon-o-language'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('barcode')
-                            ->label('Barcode')
+                            ->label(__('employees::filament/resources/employee.table.filters.barcode'))
                             ->icon('heroicon-o-qr-code'),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('visa_expire')
-                            ->label('Visa Expire')
+                            ->label(__('employees::filament/resources/employee.table.filters.visa-expire'))
                             ->icon('heroicon-o-credit-card'),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('work_permit_expiration_date')
-                            ->label('Work Permit Expiration Date')
+                            ->label(__('employees::filament/resources/employee.table.filters.work-permit-expiration-date'))
                             ->icon('heroicon-o-calendar'),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('departure_date')
-                            ->label('Departure Date')
+                            ->label(__('employees::filament/resources/employee.table.filters.departure-date'))
                             ->icon('heroicon-o-calendar'),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('departure_description')
-                            ->label('Departure Description')
+                            ->label(__('employees::filament/resources/employee.table.filters.departure-description'))
                             ->icon('heroicon-o-cube'),
-                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('visa_no')
-                            ->label('Visa No')
-                            ->icon('heroicon-o-credit-card'),
-                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at'),
-                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at')
+                            ->label(__('employees::filament/resources/employee.table.filters.created-at')),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at')
+                            ->label(__('employees::filament/resources/employee.table.filters.updated-at')),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('company')
-                            ->label('Company')
+                            ->label(__('employees::filament/resources/employee.table.filters.company'))
                             ->icon('heroicon-o-building-office-2')
                             ->multiple()
                             ->selectable(
@@ -1041,7 +1196,7 @@ class EmployeeResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('creator')
-                            ->label('Created By')
+                            ->label(__('employees::filament/resources/employee.table.filters.created-by'))
                             ->icon('heroicon-o-user')
                             ->multiple()
                             ->selectable(
@@ -1052,7 +1207,7 @@ class EmployeeResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('calendar')
-                            ->label('Calendar')
+                            ->label(__('employees::filament/resources/employee.table.filters.calendar'))
                             ->icon('heroicon-o-calendar')
                             ->multiple()
                             ->selectable(
@@ -1063,7 +1218,7 @@ class EmployeeResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('department')
-                            ->label('Department')
+                            ->label(__('employees::filament/resources/employee.table.filters.department'))
                             ->multiple()
                             ->icon('heroicon-o-building-office-2')
                             ->selectable(
@@ -1074,7 +1229,7 @@ class EmployeeResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('job')
-                            ->label('Job')
+                            ->label(__('employees::filament/resources/employee.table.filters.job'))
                             ->icon('heroicon-o-briefcase')
                             ->multiple()
                             ->selectable(
@@ -1085,7 +1240,7 @@ class EmployeeResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('partner')
-                            ->label('Partner')
+                            ->label(__('employees::filament/resources/employee.table.filters.partner'))
                             ->icon('heroicon-o-user-group')
                             ->multiple()
                             ->selectable(
@@ -1096,7 +1251,7 @@ class EmployeeResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('leaveManager')
-                            ->label('Leave Approvers')
+                            ->label(__('employees::filament/resources/employee.table.filters.leave-approvers'))
                             ->icon('heroicon-o-user-group')
                             ->multiple()
                             ->selectable(
@@ -1107,7 +1262,7 @@ class EmployeeResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('attendanceManager')
-                            ->label('Attendance')
+                            ->label(__('employees::filament/resources/employee.table.filters.attendance'))
                             ->icon('heroicon-o-user-group')
                             ->multiple()
                             ->selectable(
@@ -1118,7 +1273,7 @@ class EmployeeResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('workLocation')
-                            ->label('Work Location')
+                            ->label(__('employees::filament/resources/employee.table.filters.work-location'))
                             ->multiple()
                             ->icon('heroicon-o-map-pin')
                             ->selectable(
@@ -1129,7 +1284,7 @@ class EmployeeResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('parent')
-                            ->label('Manager')
+                            ->label(__('employees::filament/resources/employee.table.filters.manager'))
                             ->icon('heroicon-o-user')
                             ->multiple()
                             ->selectable(
@@ -1140,7 +1295,7 @@ class EmployeeResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('coach')
-                            ->label('Coach')
+                            ->label(__('employees::filament/resources/employee.table.filters.coach'))
                             ->multiple()
                             ->icon('heroicon-o-user')
                             ->selectable(
@@ -1151,7 +1306,7 @@ class EmployeeResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('privateState')
-                            ->label('Private State')
+                            ->label(__('employees::filament/resources/employee.table.filters.private-state'))
                             ->multiple()
                             ->icon('heroicon-o-map-pin')
                             ->selectable(
@@ -1162,7 +1317,7 @@ class EmployeeResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('privateCountry')
-                            ->label('Private Country')
+                            ->label(__('employees::filament/resources/employee.table.filters.private-country'))
                             ->icon('heroicon-o-map-pin')
                             ->multiple()
                             ->selectable(
@@ -1173,7 +1328,7 @@ class EmployeeResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('country')
-                            ->label('Country')
+                            ->label(__('employees::filament/resources/employee.table.filters.country'))
                             ->icon('heroicon-o-map-pin')
                             ->multiple()
                             ->selectable(
@@ -1184,7 +1339,7 @@ class EmployeeResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('state')
-                            ->label('State')
+                            ->label(__('employees::filament/resources/employee.table.filters.state'))
                             ->icon('heroicon-o-map-pin')
                             ->multiple()
                             ->selectable(
@@ -1195,7 +1350,7 @@ class EmployeeResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('countryOfBirth')
-                            ->label('Country Of Birth')
+                            ->label(__('employees::filament/resources/employee.table.filters.country-of-birth'))
                             ->multiple()
                             ->icon('heroicon-o-calendar')
                             ->selectable(
@@ -1206,7 +1361,7 @@ class EmployeeResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('bankAccount')
-                            ->label('Bank Account')
+                            ->label(__('employees::filament/resources/employee.table.filters.bank-account'))
                             ->multiple()
                             ->icon('heroicon-o-banknotes')
                             ->selectable(
@@ -1217,7 +1372,7 @@ class EmployeeResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('departureReason')
-                            ->label('Departure Reason')
+                            ->label(__('employees::filament/resources/employee.table.filters.departure-reason'))
                             ->icon('heroicon-o-fire')
                             ->multiple()
                             ->selectable(
@@ -1228,7 +1383,7 @@ class EmployeeResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('employmentType')
-                            ->label('Employment Type')
+                            ->label(__('employees::filament/resources/employee.table.filters.employee-type'))
                             ->multiple()
                             ->icon('heroicon-o-academic-cap')
                             ->selectable(
@@ -1239,7 +1394,7 @@ class EmployeeResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('categories')
-                            ->label('Tags')
+                            ->label(__('employees::filament/resources/employee.table.filters.tags'))
                             ->icon('heroicon-o-tag')
                             ->multiple()
                             ->selectable(
@@ -1250,51 +1405,50 @@ class EmployeeResource extends Resource
                                     ->preload(),
                             ),
                     ]),
-
             ])
             ->groups([
                 Tables\Grouping\Group::make('name')
-                    ->label('Name')
+                    ->label(__('employees::filament/resources/employee.table.groups.name'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('company.name')
-                    ->label('Company')
+                    ->label(__('employees::filament/resources/employee.table.groups.company'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('parent.name')
-                    ->label('Manager')
+                    ->label(__('employees::filament/resources/employee.table.groups.manager'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('coach.name')
-                    ->label('Coach')
+                    ->label(__('employees::filament/resources/employee.table.groups.coach'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('department.name')
-                    ->label('Department')
+                    ->label(__('employees::filament/resources/employee.table.groups.department'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('employmentType.name')
-                    ->label('Employment Type')
+                    ->label(__('employees::filament/resources/employee.table.groups.employment-type'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('categories.name')
-                    ->label('Tags')
+                    ->label(__('employees::filament/resources/employee.table.groups.tags'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('departureReason.name')
-                    ->label('Departure Reason')
+                    ->label(__('employees::filament/resources/employee.table.groups.departure-reason'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('privateState.name')
-                    ->label('Private State')
+                    ->label(__('employees::filament/resources/employee.table.groups.private-state'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('privateCountry.name')
-                    ->label('Private Country')
+                    ->label(__('employees::filament/resources/employee.table.groups.private-country'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('country.name')
-                    ->label('Country')
+                    ->label(__('employees::filament/resources/employee.table.groups.country'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('state.name')
-                    ->label('State')
+                    ->label(__('employees::filament/resources/employee.table.groups.state'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('created_at')
-                    ->label('Created At')
+                    ->label(__('employees::filament/resources/employee.table.groups.created-at'))
                     ->date()
                     ->collapsible(),
                 Tables\Grouping\Group::make('updated_at')
-                    ->label('Update At')
+                    ->label(__('employees::filament/resources/employee.table.groups.updated-at'))
                     ->date()
                     ->collapsible(),
             ])
@@ -1335,17 +1489,17 @@ class EmployeeResource extends Resource
                             ->schema([
                                 Infolists\Components\Group::make([
                                     Infolists\Components\TextEntry::make('name')
-                                        ->label('Name')
+                                        ->label(__('employees::filament/resources/employee.infolist.sections.entries.name'))
                                         ->weight(FontWeight::Bold)
                                         ->placeholder('—')
                                         ->size(Infolists\Components\TextEntry\TextEntrySize::Large),
                                     Infolists\Components\TextEntry::make('job_title')
                                         ->placeholder('—')
-                                        ->label('Job Title'),
+                                        ->label(__('employees::filament/resources/employee.infolist.sections.entries.job-title'))
                                 ])->columnSpan(1),
                                 Infolists\Components\Group::make([
                                     Infolists\Components\ImageEntry::make('partner.avatar')
-                                        ->label('Profile Picture')
+                                        ->hiddenLabel()
                                         ->height(140)
                                         ->circular(),
                                 ])->columnSpan(1),
@@ -1353,61 +1507,61 @@ class EmployeeResource extends Resource
                         Infolists\Components\Grid::make(['default' => 2])
                             ->schema([
                                 Infolists\Components\TextEntry::make('work_email')
-                                    ->label('Work Email')
+                                    ->label(__('employees::filament/resources/employee.infolist.sections.entries.work-email'))
                                     ->placeholder('—')
-                                    ->url(fn (?string $state) => $state ? "mailto:{$state}" : '#')
+                                    ->url(fn(?string $state) => $state ? "mailto:{$state}" : '#')
                                     ->icon('heroicon-o-envelope')
                                     ->iconPosition(IconPosition::Before),
                                 Infolists\Components\TextEntry::make('department.name')
                                     ->placeholder('—')
-                                    ->label('Department'),
+                                    ->label(__('employees::filament/resources/employee.infolist.sections.entries.department')),
                                 Infolists\Components\TextEntry::make('mobile_phone')
-                                    ->label('Work Mobile')
+                                    ->label(__('employees::filament/resources/employee.infolist.sections.entries.work-mobile'))
                                     ->placeholder('—')
-                                    ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
+                                    ->url(fn(?string $state) => $state ? "tel:{$state}" : '#')
                                     ->icon('heroicon-o-phone')
                                     ->iconPosition(IconPosition::Before),
                                 Infolists\Components\TextEntry::make('job.name')
                                     ->placeholder('—')
-                                    ->label('Job Position'),
+                                    ->label(__('employees::filament/resources/employee.infolist.sections.entries.job-position')),
                                 Infolists\Components\TextEntry::make('work_phone')
                                     ->placeholder('—')
-                                    ->label('Work Phone')
-                                    ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
+                                    ->label(__('employees::filament/resources/employee.infolist.sections.entries.work-phone'))
+                                    ->url(fn(?string $state) => $state ? "tel:{$state}" : '#')
                                     ->icon('heroicon-o-phone')
                                     ->iconPosition(IconPosition::Before),
                                 Infolists\Components\TextEntry::make('parent.name')
                                     ->placeholder('—')
-                                    ->label('Manager'),
+                                    ->label(__('employees::filament/resources/employee.infolist.sections.entries.manager')),
                                 Infolists\Components\TextEntry::make('categories.name')
                                     ->placeholder('—')
-                                    ->label('Employee Tags')
+                                    ->label(__('employees::filament/resources/employee.infolist.sections.entries.employee-tags'))
                                     ->listWithLineBreaks()
                                     ->bulleted(),
                                 Infolists\Components\TextEntry::make('coach.name')
                                     ->placeholder('—')
-                                    ->label('Coach'),
+                                    ->label(__('employees::filament/resources/employee.infolist.sections.entries.coach')),
                             ]),
                     ]),
 
-                Tabs::make('Employee Information')
+                Tabs::make()
                     ->tabs([
-                        Tabs\Tab::make('Work Information')
+                        Tabs\Tab::make(__('employees::filament/resources/employee.infolist.tabs.work-information.title'))
                             ->icon('heroicon-o-briefcase')
                             ->schema([
                                 Infolists\Components\Grid::make(['default' => 3])
                                     ->schema([
                                         Infolists\Components\Group::make([
-                                            Infolists\Components\Fieldset::make('Location')
+                                            Infolists\Components\Fieldset::make(__('employees::filament/resources/employee.infolist.tabs.work-information.entries.location'))
                                                 ->schema([
                                                     Infolists\Components\TextEntry::make('companyAddress.company.name')
-                                                        ->label('Work Address')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.work-information.entries.work-address'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-map'),
                                                     Infolists\Components\TextEntry::make('address')
-                                                        ->visible(fn ($record) => $record->address)
+                                                        ->visible(fn($record) => $record->address)
                                                         ->placeholder('—')
-                                                        ->formatStateUsing(fn ($record) => $record->address
+                                                        ->formatStateUsing(fn($record) => $record->address
                                                             ? implode(', ', array_filter([
                                                                 $record->address->street1,
                                                                 $record->address->street2,
@@ -1416,250 +1570,250 @@ class EmployeeResource extends Resource
                                                                 $record->address->country?->name,
                                                                 $record->address->zip,
                                                             ]))
-                                                            : 'No Address Available')
+                                                            : __('employees::filament/resources/employee.infolist.tabs.work-information.entries.no-address-available'))
                                                         ->icon('heroicon-o-map')
                                                         ->hiddenLabel(),
                                                     Infolists\Components\TextEntry::make('workLocation.name')
                                                         ->placeholder('—')
-                                                        ->label('Work Location')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.work-information.entries.work-location'))
                                                         ->icon('heroicon-o-building-office'),
                                                 ]),
                                             Infolists\Components\Fieldset::make('Approvers')
                                                 ->schema([
                                                     Infolists\Components\TextEntry::make('leaveManager.name')
-                                                        ->label('Time Off')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.work-information.entries.time-off'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-user-group'),
                                                     Infolists\Components\TextEntry::make('attendanceManager.name')
                                                         ->placeholder('—')
-                                                        ->label('Attendance')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.work-information.entries.attendance-manager'))
                                                         ->icon('heroicon-o-user-group'),
                                                 ]),
-                                            Infolists\Components\Fieldset::make('Schedule')
+                                            Infolists\Components\Fieldset::make(__('employees::filament/resources/employee.infolist.tabs.work-information.entries.schedule'))
                                                 ->schema([
                                                     Infolists\Components\TextEntry::make('calendar.name')
-                                                        ->label('Working Hours')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.work-information.entries.working-hours'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-clock'),
                                                     Infolists\Components\TextEntry::make('time_zone')
-                                                        ->label('Time Zone')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.work-information.entries.timezone'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-clock'),
                                                 ]),
                                         ])->columnSpan(2),
                                         Infolists\Components\Group::make([
-                                            Infolists\Components\Fieldset::make('Organizational Details')
+                                            Infolists\Components\Fieldset::make(__('employees::filament/resources/employee.infolist.tabs.work-information.entries.organization-details'))
                                                 ->schema([
                                                     Infolists\Components\TextEntry::make('company.name')
-                                                        ->label('Company')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.work-information.entries.company'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-briefcase'),
                                                     Infolists\Components\ColorEntry::make('color')
                                                         ->placeholder('—')
-                                                        ->label('Color'),
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.work-information.entries.color')),
                                                 ]),
                                         ])->columnSpan(1),
                                     ]),
                             ]),
-                        Tabs\Tab::make('Private Information')
+                        Tabs\Tab::make(__('employees::filament/resources/employee.infolist.tabs.private-information.title'))
                             ->icon('heroicon-o-lock-closed')
                             ->schema([
                                 Infolists\Components\Grid::make(['default' => 3])
                                     ->schema([
                                         Infolists\Components\Group::make([
-                                            Infolists\Components\Fieldset::make('Permanent Address')
+                                            Infolists\Components\Fieldset::make(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.permanent-address'))
                                                 ->schema([
                                                     Infolists\Components\TextEntry::make('permanentAddress.country.name')
-                                                        ->label('Country')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.country'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-globe-alt'),
                                                     Infolists\Components\TextEntry::make('permanentAddress.state.name')
-                                                        ->label('State')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.state'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-map'),
                                                     Infolists\Components\TextEntry::make('permanentAddress.street1')
-                                                        ->label('Street Address')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.street-address'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-map'),
                                                     Infolists\Components\TextEntry::make('permanentAddress.street2')
-                                                        ->label('Street Address Line 2')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.street-address-line-2'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-map'),
                                                     Infolists\Components\TextEntry::make('permanentAddress.city')
-                                                        ->label('City')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.city'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-building-office'),
                                                     Infolists\Components\TextEntry::make('permanentAddress.zip')
-                                                        ->label('Postal Code')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.post-code'))
                                                         ->icon('heroicon-o-document-text'),
                                                 ])
                                                 ->columns(2),
-                                            Infolists\Components\Fieldset::make('Present Address')
+                                            Infolists\Components\Fieldset::make(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.present-address'))
                                                 ->schema([
                                                     Infolists\Components\TextEntry::make('presentAddress.country.name')
-                                                        ->label('Country')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.country'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-globe-alt'),
                                                     Infolists\Components\TextEntry::make('presentAddress.state.name')
-                                                        ->label('State')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.state'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-map'),
                                                     Infolists\Components\TextEntry::make('presentAddress.street1')
-                                                        ->label('Street Address')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.street-address'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-map'),
                                                     Infolists\Components\TextEntry::make('presentAddress.street2')
-                                                        ->label('Street Address Line 2')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.street-address-line-2'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-map'),
                                                     Infolists\Components\TextEntry::make('presentAddress.city')
-                                                        ->label('City')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.city'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-building-office'),
                                                     Infolists\Components\TextEntry::make('presentAddress.zip')
-                                                        ->label('Postal Code')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.post-code'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-document-text'),
                                                 ])
                                                 ->columns(2),
-                                            Infolists\Components\Fieldset::make('Private Contact')
+                                            Infolists\Components\Fieldset::make(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.private-contact'))
                                                 ->schema([
                                                     Infolists\Components\TextEntry::make('private_phone')
-                                                        ->label('Private Phone')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.private-phone'))
                                                         ->placeholder('—')
-                                                        ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
+                                                        ->url(fn(?string $state) => $state ? "tel:{$state}" : '#')
                                                         ->icon('heroicon-o-phone'),
                                                     Infolists\Components\TextEntry::make('private_email')
-                                                        ->label('Private Email')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.private-email'))
                                                         ->placeholder('—')
-                                                        ->url(fn (?string $state) => $state ? "mailto:{$state}" : '#')
+                                                        ->url(fn(?string $state) => $state ? "mailto:{$state}" : '#')
                                                         ->icon('heroicon-o-envelope'),
                                                     Infolists\Components\TextEntry::make('private_car_plate')
-                                                        ->label('Private Car Plate')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.private-car-plate'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-rectangle-stack'),
                                                     Infolists\Components\TextEntry::make('distance_home_work')
-                                                        ->label('Distance Home to Work')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.distance-home-to-work'))
                                                         ->placeholder('—')
                                                         ->suffix('km')
                                                         ->icon('heroicon-o-map'),
                                                 ]),
-                                            Infolists\Components\Fieldset::make('Emergency Contact')
+                                            Infolists\Components\Fieldset::make(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.emergency-contact'))
                                                 ->schema([
                                                     Infolists\Components\TextEntry::make('emergency_contact')
-                                                        ->label('Contact Name')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.contact-name'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-user'),
                                                     Infolists\Components\TextEntry::make('emergency_phone')
-                                                        ->label('Contact Phone')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.contact-phone'))
                                                         ->placeholder('—')
-                                                        ->url(fn (?string $state) => $state ? "tel:{$state}" : '#')
+                                                        ->url(fn(?string $state) => $state ? "tel:{$state}" : '#')
                                                         ->icon('heroicon-o-phone'),
                                                 ]),
-                                            Infolists\Components\Fieldset::make('Work Permit')
+                                            Infolists\Components\Fieldset::make(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.work-permit'))
                                                 ->schema([
                                                     Infolists\Components\TextEntry::make('visa_no')
-                                                        ->label('Visa Number')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.visa-number'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-document-text')
                                                         ->copyable()
-                                                        ->copyMessage('Visa number copied')
+                                                        ->copyMessage(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.visa-number-copy-message'))
                                                         ->copyMessageDuration(1500),
                                                     Infolists\Components\TextEntry::make('permit_no')
-                                                        ->label('Work Permit No')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.work-permit-number'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-rectangle-stack')
                                                         ->copyable()
-                                                        ->copyMessage('Permit number copied')
+                                                        ->copyMessage(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.work-permit-number-copy-message'))
                                                         ->copyMessageDuration(1500),
                                                     Infolists\Components\TextEntry::make('visa_expire')
-                                                        ->label('Visa Expiration Date')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.visa-expiration-date'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-calendar-days')
                                                         ->date('F j, Y')
                                                         ->color(
-                                                            fn ($record) => $record->visa_expire && now()->diffInDays($record->visa_expire, false) <= 30
+                                                            fn($record) => $record->visa_expire && now()->diffInDays($record->visa_expire, false) <= 30
                                                                 ? 'danger'
                                                                 : 'success'
                                                         ),
                                                     Infolists\Components\TextEntry::make('work_permit_expiration_date')
-                                                        ->label('Work Permit Expiration Date')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.work-permit-expiration-date'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-calendar-days')
                                                         ->date('F j, Y')
                                                         ->color(
-                                                            fn ($record) => $record->work_permit_expiration_date && now()->diffInDays($record->work_permit_expiration_date, false) <= 30
+                                                            fn($record) => $record->work_permit_expiration_date && now()->diffInDays($record->work_permit_expiration_date, false) <= 30
                                                                 ? 'danger'
                                                                 : 'success'
                                                         ),
                                                     Infolists\Components\ImageEntry::make('work_permit')
-                                                        ->label('Work Permit Document')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.work-permit-document'))
                                                         ->columnSpanFull()
                                                         ->placeholder('—')
                                                         ->height(200),
                                                 ]),
                                         ])->columnSpan(2),
                                         Infolists\Components\Group::make([
-                                            Infolists\Components\Fieldset::make('Citizenship')
+                                            Infolists\Components\Fieldset::make(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.citizenship'))
                                                 ->columns(1)
                                                 ->schema([
                                                     Infolists\Components\TextEntry::make('country.name')
-                                                        ->label('Country')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.country'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-globe-alt'),
                                                     Infolists\Components\TextEntry::make('state.name')
-                                                        ->label('State')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.state'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-map'),
                                                     Infolists\Components\TextEntry::make('identification_id')
-                                                        ->label('Identification No')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.identification-id'))
                                                         ->icon('heroicon-o-document-text')
                                                         ->placeholder('—')
                                                         ->copyable()
-                                                        ->copyMessage('ID copied')
+                                                        ->copyMessage(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.identification-id-copy-message'))
                                                         ->copyMessageDuration(1500),
                                                     Infolists\Components\TextEntry::make('ssnid')
-                                                        ->label('SSN No')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.ssnid'))
                                                         ->icon('heroicon-o-document-check')
                                                         ->placeholder('—')
                                                         ->copyable()
-                                                        ->copyMessage('SSN copied')
+                                                        ->copyMessage(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.ssnid-copy-message'))
                                                         ->copyMessageDuration(1500),
                                                     Infolists\Components\TextEntry::make('sinid')
-                                                        ->label('SIN ID')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.sinid'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-document')
                                                         ->copyable()
-                                                        ->copyMessage('SIN ID copied')
+                                                        ->copyMessage(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.sinid-copy-message'))
                                                         ->copyMessageDuration(1500),
                                                     Infolists\Components\TextEntry::make('passport_id')
-                                                        ->label('Passport No')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.passport-id'))
                                                         ->icon('heroicon-o-identification')
                                                         ->copyable()
                                                         ->placeholder('—')
-                                                        ->copyMessage('Passport copied')
+                                                        ->copyMessage(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.passport-id-copy-message'))
                                                         ->copyMessageDuration(1500),
                                                     Infolists\Components\TextEntry::make('gender')
-                                                        ->label('Gender')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.gender'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-user')
                                                         ->badge()
-                                                        ->color(fn (string $state): string => match ($state) {
+                                                        ->color(fn(string $state): string => match ($state) {
                                                             'male'   => 'info',
                                                             'female' => 'success',
                                                             default  => 'warning',
                                                         }),
                                                     Infolists\Components\TextEntry::make('birthday')
-                                                        ->label('Date of Birth')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.date-of-birth'))
                                                         ->icon('heroicon-o-calendar')
                                                         ->placeholder('—')
                                                         ->date('F j, Y'),
                                                     Infolists\Components\TextEntry::make('countryOfBirth.name')
-                                                        ->label('Country of Birth')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.country-of-birth'))
                                                         ->placeholder('—')
                                                         ->icon('heroicon-o-globe-alt'),
                                                     Infolists\Components\TextEntry::make('country.phone_code')
-                                                        ->label('Phone Code')
+                                                        ->label(__('employees::filament/resources/employee.infolist.tabs.private-information.entries.phone-code'))
                                                         ->icon('heroicon-o-phone')
                                                         ->placeholder('—')
                                                         ->prefix('+'),
@@ -1667,70 +1821,70 @@ class EmployeeResource extends Resource
                                         ])->columnSpan(1),
                                     ]),
                             ]),
-                        Tabs\Tab::make('Settings')
+                        Tabs\Tab::make(__('employees::filament/resources/employee.infolist.tabs.settings.title'))
                             ->icon('heroicon-o-cog-8-tooth')
                             ->schema([
                                 Infolists\Components\Group::make()
                                     ->schema([
                                         Infolists\Components\Group::make()
                                             ->schema([
-                                                Infolists\Components\Fieldset::make('Employment Status')
+                                                Infolists\Components\Fieldset::make(__('employees::filament/resources/employee.infolist.tabs.settings.entries.employee-settings'))
                                                     ->schema([
                                                         Infolists\Components\IconEntry::make('is_active')
-                                                            ->label('Active Employee')
-                                                            ->color(fn ($state) => $state ? 'success' : 'danger'),
+                                                            ->label(__('employees::filament/resources/employee.infolist.tabs.settings.entries.active-employee'))
+                                                            ->color(fn($state) => $state ? 'success' : 'danger'),
                                                         Infolists\Components\IconEntry::make('is_flexible')
-                                                            ->label('Flexible Work Arrangement')
-                                                            ->color(fn ($state) => $state ? 'success' : 'danger'),
+                                                            ->label(__('employees::filament/resources/employee.infolist.tabs.settings.entries.flexible-work-arrangement'))
+                                                            ->color(fn($state) => $state ? 'success' : 'danger'),
                                                         Infolists\Components\IconEntry::make('is_fully_flexible')
-                                                            ->label('Fully Flexible Schedule')
-                                                            ->color(fn ($state) => $state ? 'success' : 'danger'),
+                                                            ->label(__('employees::filament/resources/employee.infolist.tabs.settings.entries.fully-flexible-schedule'))
+                                                            ->color(fn($state) => $state ? 'success' : 'danger'),
                                                         Infolists\Components\IconEntry::make('work_permit_scheduled_activity')
-                                                            ->label('Work Permit Scheduled Activity')
-                                                            ->color(fn ($state) => $state ? 'success' : 'danger'),
+                                                            ->label(__('employees::filament/resources/employee.infolist.tabs.settings.entries.work-permit-scheduled-activity'))
+                                                            ->color(fn($state) => $state ? 'success' : 'danger'),
                                                         Infolists\Components\TextEntry::make('user.name')
-                                                            ->label('Related User')
+                                                            ->label(__('employees::filament/resources/employee.infolist.tabs.settings.entries.related-user'))
                                                             ->placeholder('—')
                                                             ->icon('heroicon-o-user'),
                                                         Infolists\Components\TextEntry::make('departureReason.name')
                                                             ->placeholder('—')
-                                                            ->label('Departure Reason'),
+                                                            ->label(__('employees::filament/resources/employee.infolist.tabs.settings.entries.departure-reason')),
                                                         Infolists\Components\TextEntry::make('departure_date')
                                                             ->placeholder('—')
-                                                            ->label('Departure Date')
+                                                            ->label(__('employees::filament/resources/employee.infolist.tabs.settings.entries.departure-date'))
                                                             ->icon('heroicon-o-calendar-days'),
                                                         Infolists\Components\TextEntry::make('departure_description')
                                                             ->placeholder('—')
-                                                            ->label('Departure Description'),
+                                                            ->label(__('employees::filament/resources/employee.infolist.tabs.settings.entries.departure-description')),
                                                     ])
                                                     ->columns(2),
-                                                Infolists\Components\Fieldset::make('Additional Information')
+                                                Infolists\Components\Fieldset::make(__('employees::filament/resources/employee.infolist.tabs.settings.entries.additional-information'))
                                                     ->schema([
                                                         Infolists\Components\TextEntry::make('lang')
                                                             ->placeholder('—')
-                                                            ->label('Primary Language'),
+                                                            ->label(__('employees::filament/resources/employee.infolist.tabs.settings.entries.primary-language')),
                                                         Infolists\Components\TextEntry::make('additional_note')
                                                             ->placeholder('—')
-                                                            ->label('Additional Notes')
+                                                            ->label(__('employees::filament/resources/employee.infolist.tabs.settings.entries.additional-notes'))
                                                             ->columnSpanFull(),
                                                         Infolists\Components\TextEntry::make('notes')
                                                             ->placeholder('—')
-                                                            ->label('Notes'),
+                                                            ->label(__('employees::filament/resources/employee.infolist.tabs.settings.entries.notes')),
                                                     ])
                                                     ->columns(2),
                                             ])
                                             ->columnSpan(['lg' => 2]),
                                         Infolists\Components\Group::make()
                                             ->schema([
-                                                Infolists\Components\Fieldset::make('Attendance/Point of Sale')
+                                                Infolists\Components\Fieldset::make(__('employees::filament/resources/employee.infolist.tabs.settings.entries.attendance-point-of-sale'))
                                                     ->schema([
                                                         Infolists\Components\TextEntry::make('barcode')
                                                             ->placeholder('—')
-                                                            ->label('Badge ID')
+                                                            ->label(__('employees::filament/resources/employee.infolist.tabs.settings.entries.badge-id'))
                                                             ->icon('heroicon-o-qr-code'),
                                                         Infolists\Components\TextEntry::make('pin')
                                                             ->placeholder('—')
-                                                            ->label('PIN'),
+                                                            ->label(__('employees::filament/resources/employee.infolist.tabs.settings.entries.pin')),
                                                     ])
                                                     ->columns(1),
                                             ])
@@ -1740,6 +1894,7 @@ class EmployeeResource extends Resource
 
                             ]),
                     ])
+                    ->persistTabInQueryString()
                     ->columnSpan('full'),
             ]);
     }
@@ -1750,82 +1905,45 @@ class EmployeeResource extends Resource
             Forms\Components\Group::make()
                 ->schema([
                     Forms\Components\TextInput::make('name')
-                        ->label('Bank Name')
+                        ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.bank-name'))
                         ->required(),
                     Forms\Components\TextInput::make('code')
-                        ->label('Bank Code')
+                        ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.bank-code'))
                         ->required(),
                     Forms\Components\TextInput::make('email')
-                        ->label('Email')
+                        ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.bank-email'))
                         ->email()
                         ->required(),
                     Forms\Components\TextInput::make('phone')
-                        ->label('Phone Number')
+                        ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.bank-phone-number'))
                         ->tel(),
                     Forms\Components\TextInput::make('street1')
-                        ->label('Street 1'),
+                        ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.bank-street-1')),
                     Forms\Components\TextInput::make('street2')
-                        ->label('Street 2'),
+                        ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.bank-street-2')),
                     Forms\Components\TextInput::make('city')
-                        ->label('City'),
+                        ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.bank-city')),
                     Forms\Components\TextInput::make('zip')
-                        ->label('ZIP/Postal Code'),
+                        ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.bank-zipcode')),
                     Forms\Components\Select::make('country_id')
-                        ->label('Country')
+                        ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.bank-country'))
                         ->relationship(name: 'country', titleAttribute: 'name')
-                        ->createOptionForm([
-                            Forms\Components\TextInput::make('name')
-                                ->label('Country Name')
-                                ->required(),
-                            Forms\Components\TextInput::make('code')
-                                ->label('Code')
-                                ->required()
-                                ->rules('max:2'),
-                            Forms\Components\Toggle::make('state_required')
-                                ->label('State Required')
-                                ->required(),
-                            Forms\Components\Toggle::make('zip_required')
-                                ->label('Zip Required')
-                                ->required(),
-                        ])
-                        ->createOptionAction(
-                            fn (Action $action) => $action
-                                ->modalHeading('Create Country')
-                                ->modalSubmitActionLabel('Create Country')
-                                ->modalWidth('lg')
-                        )
-                        ->afterStateUpdated(fn (Set $set) => $set('state_id', null))
+                        ->afterStateUpdated(fn(Set $set) => $set('state_id', null))
                         ->searchable()
                         ->preload()
                         ->live(),
                     Forms\Components\Select::make('state_id')
-                        ->label('State')
+                        ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.bank-state'))
                         ->options(
-                            fn (Get $get) => State::query()
+                            fn(Get $get) => State::query()
                                 ->where('country_id', $get('country_id'))
                                 ->pluck('name', 'id')
                         )
-                        ->createOptionForm([
-                            Forms\Components\TextInput::make('name')
-                                ->label('Name')
-                                ->required()
-                                ->maxLength(255),
-                            Forms\Components\TextInput::make('code')
-                                ->label('Code')
-                                ->required()
-                                ->maxLength(255),
-                        ])
-                        ->createOptionAction(
-                            fn (Action $action) => $action
-                                ->modalHeading('Create State')
-                                ->modalSubmitActionLabel('Create State')
-                                ->modalWidth('lg')
-                        )
                         ->searchable()
                         ->preload()
-                        ->required(fn (Get $get) => Country::find($get('country_id'))?->state_required),
+                        ->required(fn(Get $get) => Country::find($get('country_id'))?->state_required),
                     Forms\Components\Hidden::make('creator_id')
-                        ->default(fn () => Auth::user()->id),
+                        ->default(fn() => Auth::user()->id),
                 ])->columns(2),
         ];
     }
