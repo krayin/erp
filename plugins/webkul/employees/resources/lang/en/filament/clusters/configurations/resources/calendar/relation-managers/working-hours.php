@@ -82,28 +82,28 @@ return [
         'actions' => [
             'edit' => [
                 'notification' => [
-                    'title' => 'Working hours updated',
+                    'title' => 'Working Hours updated',
                     'body'  => 'The working hours has been updated successfully.',
                 ],
             ],
 
             'create' => [
                 'notification' => [
-                    'title' => 'Working hours created',
+                    'title' => 'Working Hours created',
                     'body'  => 'The working hours has been created successfully.',
                 ],
             ],
 
             'delete' => [
                 'notification' => [
-                    'title' => 'Working hours deleted',
+                    'title' => 'Working Hours deleted',
                     'body'  => 'The working hours has been deleted successfully.',
                 ],
             ],
 
             'restore' => [
                 'notification' => [
-                    'title' => 'Working hours restored',
+                    'title' => 'Working Hours restored',
                     'body'  => 'The working hours has been restored successfully.',
                 ],
             ],
@@ -112,21 +112,21 @@ return [
         'bulk-actions' => [
             'delete' => [
                 'notification' => [
-                    'title' => 'Working hours deleted',
+                    'title' => 'Working Hours deleted',
                     'body'  => 'The working hours has been deleted successfully.',
                 ],
             ],
 
             'restore' => [
                 'notification' => [
-                    'title' => 'Working hours deleted',
+                    'title' => 'Working Hours deleted',
                     'body'  => 'The working hours has been deleted successfully.',
                 ],
             ],
 
             'force-delete' => [
                 'notification' => [
-                    'title' => 'Working hours deleted',
+                    'title' => 'Working Hours deleted',
                     'body'  => 'The working hours has been deleted successfully.',
                 ],
             ],

@@ -58,12 +58,12 @@ class EmployeeCategoryResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label(__('employees::filament/clusters/configurations/resources/employee-category.form.name'))
+                    ->label(__('employees::filament/clusters/configurations/resources/employee-category.form.fields.name'))
                     ->required()
                     ->unique(ignoreRecord: true)
                     ->placeholder('Enter the name of the tag'),
                 Forms\Components\ColorPicker::make('color')
-                    ->label(__('employees::filament/clusters/configurations/resources/employee-category.form.color')),
+                    ->label(__('employees::filament/clusters/configurations/resources/employee-category.form.fields.color')),
                 Forms\Components\Hidden::make('creator_id')
                     ->default(Auth::user()->id),
             ]);

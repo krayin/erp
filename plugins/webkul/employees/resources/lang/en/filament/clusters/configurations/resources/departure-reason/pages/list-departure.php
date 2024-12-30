@@ -7,7 +7,7 @@ return [
 
             'notification' => [
                 'title' => 'Departure Reason created',
-                'body'  => 'The departure Reason has been created successfully.',
+                'body'  => 'The departure reason has been created successfully.',
             ],
         ],
     ],

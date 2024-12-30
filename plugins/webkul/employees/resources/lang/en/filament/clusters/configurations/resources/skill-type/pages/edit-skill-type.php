@@ -2,14 +2,14 @@
 
 return [
     'notification' => [
-        'title' => 'Skill type updated',
+        'title' => 'Skill Type updated',
         'body'  => 'The skill type has been updated successfully.',
     ],
 
     'header-actions' => [
         'delete' => [
             'notification' => [
-                'title' => 'Skill type deleted',
+                'title' => 'Skill Type deleted',
                 'body'  => 'The skill type has been deleted successfully.',
             ],
         ],

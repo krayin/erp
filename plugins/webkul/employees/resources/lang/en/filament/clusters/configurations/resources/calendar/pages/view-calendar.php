@@ -5,7 +5,7 @@ return [
         'delete' => [
             'notification' => [
                 'title' => 'Working Schedules deleted',
-                'body'  => 'The working Schedules has been deleted successfully.',
+                'body'  => 'The working schedules has been deleted successfully.',
             ],
         ],
     ],

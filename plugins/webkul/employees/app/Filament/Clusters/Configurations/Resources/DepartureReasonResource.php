@@ -57,7 +57,7 @@ class DepartureReasonResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label(__('employees::filament/clusters/configurations/resources/departure-reason.form.name'))
+                    ->label(__('employees::filament/clusters/configurations/resources/departure-reason.form.fields.name'))
                     ->required(),
                 Forms\Components\Hidden::make('creator_id')
                     ->default(Auth::user()->id),

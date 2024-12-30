@@ -14,7 +14,7 @@ return [
 
             'notification' => [
                 'title' => 'Work Location created',
-                'body'  => 'The work Location has been created successfully.',
+                'body'  => 'The work location has been created successfully.',
             ],
         ],
     ],

@@ -3,6 +3,7 @@
 namespace Webkul\Employee\Filament\Clusters\Configurations\Resources\EmploymentTypeResource\Pages;
 
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\EmploymentTypeResource;
@@ -24,7 +25,13 @@ class ListEmploymentTypes extends ListRecords
                     $data['user_id'] = Auth::user()->id;
 
                     return $data;
-                }),
+                })
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title(__('employees::filament/clusters/configurations/resources/employment-type/pages/list-employment-type.header-actions.create.notification.title'))
+                        ->body(__('employees::filament/clusters/configurations/resources/employment-type/pages/list-employment-type.header-actions.create.notification.body'))
+                ),
         ];
     }
 }

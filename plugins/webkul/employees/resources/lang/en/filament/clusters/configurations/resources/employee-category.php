@@ -21,35 +21,37 @@ return [
     ],
 
     'form' => [
-        'name'        => 'Name',
-        'color' => 'Color',
+        'fields' => [
+            'name'  => 'Name',
+            'color' => 'Color',
+        ]
     ],
 
     'table' => [
         'columns' => [
-            'id' => 'ID',
-            'name'           => 'Name',
-            'color' => 'Color',
-            'created-by'     => 'Created By',
-            'created-at'     => 'Created At',
-            'updated-at'     => 'Updated At',
+            'id'         => 'ID',
+            'name'       => 'Name',
+            'color'      => 'Color',
+            'created-by' => 'Created By',
+            'created-at' => 'Created At',
+            'updated-at' => 'Updated At',
         ],
 
         'filters' => [
-            'name'              => 'Name',
-            'created-by'        => 'Created By',
-            'updated-by'        => 'Updated By',
-            'updated-at'        => 'Updated At',
-            'created-at'        => 'Created At',
+            'name'       => 'Name',
+            'created-by' => 'Created By',
+            'updated-by' => 'Updated By',
+            'updated-at' => 'Updated At',
+            'created-at' => 'Created At',
         ],
 
         'groups' => [
-            'name'           => 'Name',
-            'job-position'   => 'Job Position',
-            'color'          => 'Color',
-            'created-by'     => 'Created By',
-            'created-at'     => 'Created At',
-            'updated-at'     => 'Updated At',
+            'name'         => 'Name',
+            'job-position' => 'Job Position',
+            'color'        => 'Color',
+            'created-by'   => 'Created By',
+            'created-at'   => 'Created At',
+            'updated-at'   => 'Updated At',
         ],
 
         'actions' => [
@@ -88,7 +90,7 @@ return [
     ],
 
     'infolist' => [
-        'name' => 'Name',
+        'name'  => 'Name',
         'color' => 'Color',
     ],
 ];

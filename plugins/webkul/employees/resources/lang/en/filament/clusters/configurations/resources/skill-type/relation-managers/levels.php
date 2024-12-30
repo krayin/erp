@@ -27,28 +27,28 @@ return [
         'actions' => [
             'create' => [
                 'notification' => [
-                    'title' => 'Skill level',
+                    'title' => 'Skill Level created',
                     'body'  => 'The skill level has been created successfully.',
                 ],
             ],
 
             'edit' => [
                 'notification' => [
-                    'title' => 'Skill level',
+                    'title' => 'Skill Level updated',
                     'body'  => 'The skill level has been updated successfully.',
                 ],
             ],
 
             'restore' => [
                 'notification' => [
-                    'title' => 'Skill restored',
+                    'title' => 'Skill Level restored',
                     'body'  => 'The skill level has been restored successfully.',
                 ],
             ],
 
             'delete' => [
                 'notification' => [
-                    'title' => 'Skill deleted',
+                    'title' => 'Skill Level deleted',
                     'body'  => 'The skill level has been deleted successfully.',
                 ],
             ],
@@ -57,21 +57,21 @@ return [
         'bulk-actions' => [
             'delete' => [
                 'notification' => [
-                    'title' => 'Skills deleted',
+                    'title' => 'Skill Levels deleted',
                     'body'  => 'The skills has been deleted successfully.',
                 ],
             ],
 
             'force-delete' => [
                 'notification' => [
-                    'title' => 'Skills force deleted',
+                    'title' => 'Skill Levels force deleted',
                     'body'  => 'The skills has been force deleted successfully.',
                 ],
             ],
 
             'restore' => [
                 'notification' => [
-                    'title' => 'Skills force restored',
+                    'title' => 'Skill Levels force restored',
                     'body'  => 'The skills has been force restored successfully.',
                 ],
             ]

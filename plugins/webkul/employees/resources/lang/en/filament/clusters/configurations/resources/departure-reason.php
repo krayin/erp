@@ -21,24 +21,26 @@ return [
     ],
 
     'form' => [
-        'name'        => 'Name',
+        'fields' => [
+            'name' => 'Name',
+        ]
     ],
 
     'table' => [
         'columns' => [
-            'id'             => 'ID',
-            'name'           => 'Name',
-            'created-by'     => 'Created By',
-            'created-at'     => 'Created At',
-            'updated-at'     => 'Updated At',
+            'id'         => 'ID',
+            'name'       => 'Name',
+            'created-by' => 'Created By',
+            'created-at' => 'Created At',
+            'updated-at' => 'Updated At',
         ],
 
         'filters' => [
-            'name'              => 'Name',
-            'employee'          => 'Employee',
-            'created-by'        => 'Created By',
-            'updated-at'        => 'Updated At',
-            'created-at'        => 'Created At',
+            'name'       => 'Name',
+            'employee'   => 'Employee',
+            'created-by' => 'Created By',
+            'updated-at' => 'Updated At',
+            'created-at' => 'Created At',
         ],
 
         'actions' => [

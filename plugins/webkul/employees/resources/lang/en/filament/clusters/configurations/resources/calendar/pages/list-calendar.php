@@ -12,7 +12,7 @@ return [
 
             'notification' => [
                 'title' => 'Working Schedule created',
-                'body'  => 'The working Schedule has been created successfully.',
+                'body'  => 'The working schedule has been created successfully.',
             ],
         ],
     ],

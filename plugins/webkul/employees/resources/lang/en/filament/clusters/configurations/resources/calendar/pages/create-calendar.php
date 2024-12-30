@@ -3,6 +3,6 @@
 return [
     'notification' => [
         'title' => 'Work Schedule Plan created',
-        'body'  => 'The work Schedule plan has been created successfully.',
+        'body'  => 'The work schedule plan has been created successfully.',
     ],
 ];

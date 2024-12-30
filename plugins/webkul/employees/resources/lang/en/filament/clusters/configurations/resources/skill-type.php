@@ -9,7 +9,7 @@ return [
     'modal-label' => 'Skill Type',
 
     'global-search' => [
-        'name'         => 'Department',
+        'name'       => 'Skill Type',
         'created-by' => 'Created By',
     ],
 
@@ -25,30 +25,30 @@ return [
 
     'table' => [
         'columns' => [
-            'id'        => 'ID',
-            'name' => 'Skill Type',
+            'id'         => 'ID',
+            'name'       => 'Skill Type',
             'status'     => 'Status',
-            'color' => 'Color',
-            'skills' => 'Skills',
-            'levels' => 'Levels',
+            'color'      => 'Color',
+            'skills'     => 'Skills',
+            'levels'     => 'Levels',
             'created-by' => 'Created By',
             'created-at' => 'Created At',
             'updated-at' => 'Updated At',
         ],
 
         'filters' => [
-            'skill-levels'   => 'Skill Levels',
-            'skills'         => 'Skills',
-            'created-by'     => 'Created By',
-            'status'         => 'Status',
-            'updated-at'     => 'Updated At',
-            'created-at'     => 'Created At',
+            'skill-levels' => 'Skill Levels',
+            'skills'       => 'Skills',
+            'created-by'   => 'Created By',
+            'status'       => 'Status',
+            'updated-at'   => 'Updated At',
+            'created-at'   => 'Created At',
         ],
 
         'groups' => [
-            'name' => 'Skill Type',
-            'color' => 'Color',
-            'status' => 'Status',
+            'name'       => 'Skill Type',
+            'color'      => 'Color',
+            'status'     => 'Status',
             'created-by' => 'Created By',
             'created-at' => 'Created At',
             'updated-at' => 'Updated At',
@@ -96,8 +96,8 @@ return [
         'empty-state-actions' => [
             'create' => [
                 'notification' => [
-                    'title' => 'Skill Types force created',
-                    'body'  => 'The Skill Types has been force created successfully.',
+                    'title' => 'Skill Types',
+                    'body'  => 'The Skill Types has been created successfully.',
                 ],
             ]
         ]
@@ -106,8 +106,8 @@ return [
     'infolist' => [
         'sections' => [
             'entries' => [
-                'name' => 'Skill Type',
-                'color' => 'Color',
+                'name'   => 'Skill Type',
+                'color'  => 'Color',
                 'status' => 'Status',
             ]
         ],
