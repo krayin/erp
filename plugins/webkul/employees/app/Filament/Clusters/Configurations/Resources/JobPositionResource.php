@@ -7,15 +7,16 @@ use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Webkul\Employee\Filament\Clusters\Configurations;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\JobPositionResource\Pages;
+use Webkul\Employee\Filament\Resources\DepartmentResource;
 use Webkul\Employee\Models\EmployeeJobPosition;
-use Webkul\Security\Models\User;
-use Webkul\Support\Models\Company;
 
 class JobPositionResource extends Resource
 {
@@ -29,12 +30,39 @@ class JobPositionResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return 'Job Position';
+        return __('employees::filament/clusters/configurations/resources/job-position.modal-label');
+    }
+
+    public static function getNavigationGroup(): string
+    {
+        return __('employees::filament/clusters/configurations/resources/job-position.navigation.group');
     }
 
     public static function getNavigationLabel(): string
     {
-        return 'Job Positions';
+        return __('employees::filament/clusters/configurations/resources/job-position.navigation.title');
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return [
+            'name',
+            'department.name',
+            'employmentType',
+            'company.name',
+            'creator.name',
+        ];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            __('employees::filament/clusters/configurations/resources/job-position.global-search.name') => $record->name ?? '—',
+            __('employees::filament/clusters/configurations/resources/job-position.global-search.department') => $record->department?->name ?? '—',
+            __('employees::filament/clusters/configurations/resources/job-position.global-search.employment-type') => $record->employmentType?->name ?? '—',
+            __('employees::filament/clusters/configurations/resources/job-position.global-search.company') => $record->company?->name ?? '—',
+            __('employees::filament/clusters/configurations/resources/job-position.global-search.created-by') => $record->createdBy?->name ?? '—',
+        ];
     }
 
     public static function form(Form $form): Form
@@ -45,101 +73,72 @@ class JobPositionResource extends Resource
                     ->schema([
                         Forms\Components\Group::make()
                             ->schema([
-                                Forms\Components\Section::make('Employment Information')
+                                Forms\Components\Section::make(__('employees::filament/clusters/configurations/resources/job-position.form.sections.employment-information.title'))
                                     ->schema([
                                         Forms\Components\TextInput::make('name')
-                                            ->label('Job Position Title')
+                                            ->label(__('employees::filament/clusters/configurations/resources/job-position.form.sections.employment-information.fields.job-position-title'))
                                             ->required()
                                             ->maxLength(255)
                                             ->live(onBlur: true)
-                                            ->hintIcon('heroicon-o-question-mark-circle', tooltip: 'Enter the official job position title'),
+                                            ->hintIcon('heroicon-o-question-mark-circle', tooltip: __('employees::filament/clusters/configurations/resources/job-position.form.sections.employment-information.fields.job-position-title-tooltip')),
                                         Forms\Components\Select::make('department_id')
-                                            ->label('Department')
+                                            ->label(__('employees::filament/clusters/configurations/resources/job-position.form.sections.employment-information.fields.department'))
                                             ->relationship(name: 'department', titleAttribute: 'name')
                                             ->searchable()
                                             ->preload()
-                                            ->createOptionForm([
-                                                Forms\Components\Group::make()
-                                                    ->schema([
-                                                        Forms\Components\TextInput::make('name')
-                                                            ->label('Name')
-                                                            ->required()
-                                                            ->maxLength(255)
-                                                            ->live(onBlur: true),
-                                                        Forms\Components\Select::make('manager_id')
-                                                            ->label('Manager')
-                                                            ->relationship('manager', 'name')
-                                                            ->options(function () {
-                                                                return User::whereHas('roles', function ($query) {
-                                                                    $query->where('name', 'admin');
-                                                                })->pluck('name', 'id');
-                                                            })
-                                                            ->searchable()
-                                                            ->placeholder('Select a manager')
-                                                            ->nullable(),
-                                                        Forms\Components\Select::make('company_id')
-                                                            ->label('Company')
-                                                            ->relationship('company', 'name')
-                                                            ->options(fn () => Company::pluck('name', 'id'))
-                                                            ->searchable()
-                                                            ->placeholder('Select a Company')
-                                                            ->nullable(),
-                                                        Forms\Components\ColorPicker::make('color')
-                                                            ->label('Color'),
-                                                    ])->columns(2),
-                                            ])
+                                            ->createOptionForm(fn(Form $form) => DepartmentResource::form($form))
                                             ->createOptionAction(function (Action $action) {
                                                 return $action
-                                                    ->modalHeading('Create Department')
-                                                    ->modalSubmitActionLabel('Create Department')
+                                                    ->modalHeading(__('employees::filament/clusters/configurations/resources/job-position.form.sections.employment-information.fields.department-modal-title'))
+                                                    ->modalSubmitActionLabel(__('employees::filament/clusters/configurations/resources/job-position.form.sections.employment-information.fields.department-modal-title'))
                                                     ->modalWidth('2xl');
                                             }),
                                         Forms\Components\Select::make('company_id')
-                                            ->label('Company')
+                                            ->label(__('employees::filament/clusters/configurations/resources/job-position.form.sections.employment-information.fields.company'))
                                             ->relationship('company', 'name')
                                             ->searchable()
                                             ->preload(),
                                         Forms\Components\Select::make('employment_type_id')
-                                            ->label('Employment Type')
+                                            ->label(__('employees::filament/clusters/configurations/resources/job-position.form.sections.employment-information.fields.employment-type'))
                                             ->relationship('employmentType', 'name')
                                             ->searchable()
                                             ->preload(),
                                     ])->columns(2),
-                                Forms\Components\Section::make('Job Description')
+                                Forms\Components\Section::make(__('employees::filament/clusters/configurations/resources/job-position.form.sections.job-description.title'))
                                     ->schema([
                                         Forms\Components\RichEditor::make('description')
-                                            ->label('Job Description')
+                                            ->label(__('employees::filament/clusters/configurations/resources/job-position.form.sections.job-description.fields.job-description'))
                                             ->columnSpanFull(),
                                         Forms\Components\RichEditor::make('requirements')
-                                            ->label('Job Requirements')
+                                            ->label(__('employees::filament/clusters/configurations/resources/job-position.form.sections.job-description.fields.job-requirements'))
                                             ->columnSpanFull(),
                                     ]),
                             ])
                             ->columnSpan(['lg' => 2]),
                         Forms\Components\Group::make()
                             ->schema([
-                                Forms\Components\Section::make('Workforce Planning')
+                                Forms\Components\Section::make(__('employees::filament/clusters/configurations/resources/job-position.form.sections.workforce-planning.title'))
                                     ->schema([
                                         Forms\Components\TextInput::make('expected_employees')
-                                            ->label('Expected Employees')
+                                            ->label(__('employees::filament/clusters/configurations/resources/job-position.form.sections.workforce-planning.fields.expected-employees'))
                                             ->numeric()
                                             ->minValue(0)
                                             ->default(0),
                                         Forms\Components\TextInput::make('no_of_employee')
-                                            ->label('Current Employees')
+                                            ->label(__('employees::filament/clusters/configurations/resources/job-position.form.sections.workforce-planning.fields.current-employees'))
                                             ->numeric()
                                             ->minValue(0)
                                             ->default(0),
                                         Forms\Components\TextInput::make('no_of_recruitment')
-                                            ->label('Recruitment Target')
+                                            ->label(__('employees::filament/clusters/configurations/resources/job-position.form.sections.workforce-planning.fields.recruitment-target'))
                                             ->numeric()
                                             ->minValue(0)
                                             ->default(0),
                                     ])->columns(2),
-                                Forms\Components\Section::make('Position Status')
+                                Forms\Components\Section::make(__('employees::filament/clusters/configurations/resources/job-position.form.sections.position-status.title'))
                                     ->schema([
                                         Forms\Components\Toggle::make('is_active')
-                                            ->label('Status')
+                                            ->label(__('employees::filament/clusters/configurations/resources/job-position.form.sections.position-status.fields.status'))
                                             ->default(true),
                                     ])->columns(2),
                             ])
@@ -150,120 +149,52 @@ class JobPositionResource extends Resource
             ->columns('full');
     }
 
-    public static function infolist(Infolist $infolist): Infolist
-    {
-        return $infolist
-            ->schema([
-                Infolists\Components\Grid::make(['default' => 3])
-                    ->schema([
-                        Infolists\Components\Group::make()
-                            ->schema([
-                                Infolists\Components\Section::make('Employment Information')
-                                    ->schema([
-                                        Infolists\Components\TextEntry::make('name')
-                                            ->icon('heroicon-o-briefcase')
-                                            ->placeholder('—')
-                                            ->label('Job Position Title'),
-                                        Infolists\Components\TextEntry::make('department.name')
-                                            ->placeholder('—')
-                                            ->icon('heroicon-o-building-office')
-                                            ->label('Department'),
-                                        Infolists\Components\TextEntry::make('company.name')
-                                            ->placeholder('—')
-                                            ->icon('heroicon-o-building-office-2')
-                                            ->label('Company'),
-                                        Infolists\Components\TextEntry::make('employmentType.name')
-                                            ->placeholder('—')
-                                            ->icon('heroicon-o-briefcase')
-                                            ->label('Employment Type'),
-                                    ])->columns(2),
-                                Infolists\Components\Section::make('Job Description')
-                                    ->schema([
-                                        Infolists\Components\TextEntry::make('description')
-                                            ->label('Job Description')
-                                            ->placeholder('—')
-                                            ->columnSpanFull(),
-                                        Infolists\Components\TextEntry::make('requirements')
-                                            ->label('Job Requirements')
-                                            ->placeholder('—')
-                                            ->columnSpanFull(),
-                                    ]),
-                            ])->columnSpan(2),
-                        Infolists\Components\Group::make([
-                            Infolists\Components\Section::make('Workforce Planning')
-                                ->schema([
-                                    Infolists\Components\TextEntry::make('expected_employees')
-                                        ->label('Expected Employees')
-                                        ->placeholder('—')
-                                        ->icon('heroicon-o-user-group')
-                                        ->numeric(),
-                                    Infolists\Components\TextEntry::make('no_of_employee')
-                                        ->icon('heroicon-o-user-group')
-                                        ->placeholder('—')
-                                        ->label('Current Employees')
-                                        ->numeric(),
-                                    Infolists\Components\TextEntry::make('no_of_recruitment')
-                                        ->icon('heroicon-o-user-group')
-                                        ->placeholder('—')
-                                        ->label('Recruitment Target')
-                                        ->numeric(),
-                                ]),
-                            Infolists\Components\Section::make('Position Status')
-                                ->schema([
-                                    Infolists\Components\IconEntry::make('is_active')
-                                        ->label('Status'),
-                                ]),
-                        ])->columnSpan(1),
-                    ]),
-            ]);
-    }
-
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                    ->label('ID')
+                    ->label(__('employees::filament/clusters/configurations/resources/job-position.table.columns.id'))
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Job Position')
+                    ->label(__('employees::filament/clusters/configurations/resources/job-position.table.columns.job-position'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('department.name')
-                    ->label('Department')
+                    ->label(__('employees::filament/clusters/configurations/resources/job-position.table.columns.department'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('company.name')
-                    ->label('Company')
+                    ->label(__('employees::filament/clusters/configurations/resources/job-position.table.columns.company'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('expected_employees')
-                    ->label('Expected Employees')
+                    ->label(__('employees::filament/clusters/configurations/resources/job-position.table.columns.expected-employees'))
                     ->numeric()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('no_of_employee')
-                    ->label('Current Employees')
+                    ->label(__('employees::filament/clusters/configurations/resources/job-position.table.columns.current-employees'))
                     ->numeric()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\IconColumn::make('is_active')
                     ->sortable()
-                    ->label('Status')
+                    ->label(__('employees::filament/clusters/configurations/resources/job-position.table.columns.status'))
                     ->boolean(),
                 Tables\Columns\TextColumn::make('createdBy.name')
-                    ->label('Created By')
+                    ->label(__('employees::filament/clusters/configurations/resources/job-position.table.columns.created-by'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created At')
+                    ->label(__('employees::filament/clusters/configurations/resources/job-position.table.columns.created-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Updated At')
+                    ->label(__('employees::filament/clusters/configurations/resources/job-position.table.columns.updated-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -272,23 +203,23 @@ class JobPositionResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('department')
                     ->relationship('department', 'name')
-                    ->label('Department'),
+                    ->label(__('employees::filament/clusters/configurations/resources/job-position.table.filters.department')),
                 Tables\Filters\SelectFilter::make('employmentType')
                     ->relationship('employmentType', 'name')
-                    ->label('Employment Type'),
+                    ->label(__('employees::filament/clusters/configurations/resources/job-position.table.filters.employment-type')),
                 Tables\Filters\SelectFilter::make('company')
                     ->relationship('company', 'name')
-                    ->label('Company'),
+                    ->label(__('employees::filament/clusters/configurations/resources/job-position.table.filters.company')),
                 Tables\Filters\TernaryFilter::make('is_active')
-                    ->label('Active Status'),
+                    ->label(__('employees::filament/clusters/configurations/resources/job-position.table.filters.status')),
                 Tables\Filters\QueryBuilder::make()
                     ->constraintPickerColumns(2)
                     ->constraints([
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('name')
-                            ->label('Name')
+                            ->label(__('employees::filament/clusters/configurations/resources/job-position.table.filters.job-position'))
                             ->icon('heroicon-o-building-office-2'),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('company')
-                            ->label('Company')
+                            ->label(__('employees::filament/clusters/configurations/resources/job-position.table.filters.company'))
                             ->icon('heroicon-o-building-office')
                             ->multiple()
                             ->selectable(
@@ -299,7 +230,7 @@ class JobPositionResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('department')
-                            ->label('Department')
+                            ->label(__('employees::filament/clusters/configurations/resources/job-position.table.filters.department'))
                             ->icon('heroicon-o-building-office-2')
                             ->multiple()
                             ->selectable(
@@ -310,7 +241,7 @@ class JobPositionResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('employmentType')
-                            ->label('Employment Type')
+                            ->label(__('employees::filament/clusters/configurations/resources/job-position.table.filters.employment-type'))
                             ->icon('heroicon-o-user')
                             ->multiple()
                             ->selectable(
@@ -321,7 +252,7 @@ class JobPositionResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('creator')
-                            ->label('Created By')
+                            ->label(__('employees::filament/clusters/configurations/resources/job-position.table.filters.created-by'))
                             ->icon('heroicon-o-user')
                             ->multiple()
                             ->selectable(
@@ -331,50 +262,161 @@ class JobPositionResource extends Resource
                                     ->multiple()
                                     ->preload(),
                             ),
-                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at'),
-                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at')
+                            ->label(__('employees::filament/clusters/configurations/resources/job-position.table.filters.created-at')),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at')
+                            ->label(__('employees::filament/clusters/configurations/resources/job-position.table.filters.updated-at')),
                     ]),
             ])
             ->filtersFormColumns(2)
             ->groups([
                 Tables\Grouping\Group::make('name')
-                    ->label('Job Position')
+                    ->label(__('employees::filament/clusters/configurations/resources/job-position.table.groups.job-position'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('company.name')
-                    ->label('Company')
+                    ->label(__('employees::filament/clusters/configurations/resources/job-position.table.groups.company'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('department.name')
-                    ->label('Department')
+                    ->label(__('employees::filament/clusters/configurations/resources/job-position.table.groups.department'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('employmentType.name')
-                    ->label('Employment Type')
+                    ->label(__('employees::filament/clusters/configurations/resources/job-position.table.groups.employment-type'))
+                    ->collapsible(),
+                Tables\Grouping\Group::make('createdBy.name')
+                    ->label(__('employees::filament/clusters/configurations/resources/job-position.table.groups.created-by'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('created_at')
-                    ->label('Created At')
+                    ->label(__('employees::filament/clusters/configurations/resources/job-position.table.groups.created-at'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('updated_at')
-                    ->label('Update At')
+                    ->label(__('employees::filament/clusters/configurations/resources/job-position.table.groups.updated-at'))
                     ->date()
                     ->collapsible(),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\RestoreAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title(__('employees::filament/clusters/configurations/resources/job-position.table.actions.delete.notification.title'))
+                            ->body(__('employees::filament/clusters/configurations/resources/job-position.table.actions.delete.notification.body'))
+                    ),
+                Tables\Actions\RestoreAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title(__('employees::filament/clusters/configurations/resources/job-position.table.actions.restore.notification.title'))
+                            ->body(__('employees::filament/clusters/configurations/resources/job-position.table.actions.restore.notification.body'))
+                    ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('employees::filament/clusters/configurations/resources/job-position.table.bulk-actions.delete.notification.title'))
+                                ->body(__('employees::filament/clusters/configurations/resources/job-position.table.bulk-actions.delete.notification.body'))
+                        ),
+                    Tables\Actions\ForceDeleteBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('employees::filament/clusters/configurations/resources/job-position.table.bulk-actions.force-delete.notification.title'))
+                                ->body(__('employees::filament/clusters/configurations/resources/job-position.table.bulk-actions.force-delete.notification.body'))
+                        ),
+                    Tables\Actions\RestoreBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('employees::filament/clusters/configurations/resources/job-position.table.bulk-actions.restore.notification.title'))
+                                ->body(__('employees::filament/clusters/configurations/resources/job-position.table.bulk-actions.restore.notification.body'))
+                        ),
                 ]),
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make()
-                    ->icon('heroicon-o-plus-circle'),
+                    ->icon('heroicon-o-plus-circle')
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title(__('employees::filament/clusters/configurations/resources/job-position.table.empty-state-actions.create.notification.title'))
+                            ->body(__('employees::filament/clusters/configurations/resources/job-position.table.empty-state-actions.create.notification.body'))
+                    ),
             ])
             ->reorderable('sort')
             ->defaultSort('sort', 'desc');
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\Grid::make(['default' => 3])
+                    ->schema([
+                        Infolists\Components\Group::make()
+                            ->schema([
+                                Infolists\Components\Section::make(__('employees::filament/clusters/configurations/resources/job-position.infolist.sections.employment-information.title'))
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('name')
+                                            ->icon('heroicon-o-briefcase')
+                                            ->placeholder('—')
+                                            ->label(__('employees::filament/clusters/configurations/resources/job-position.infolist.sections.employment-information.entries.job-position-title')),
+                                        Infolists\Components\TextEntry::make('department.name')
+                                            ->placeholder('—')
+                                            ->icon('heroicon-o-building-office')
+                                            ->label(__('employees::filament/clusters/configurations/resources/job-position.infolist.sections.employment-information.entries.department')),
+                                        Infolists\Components\TextEntry::make('company.name')
+                                            ->placeholder('—')
+                                            ->icon('heroicon-o-building-office-2')
+                                            ->label(__('employees::filament/clusters/configurations/resources/job-position.infolist.sections.employment-information.entries.company')),
+                                        Infolists\Components\TextEntry::make('employmentType.name')
+                                            ->placeholder('—')
+                                            ->icon('heroicon-o-briefcase')
+                                            ->label(__('employees::filament/clusters/configurations/resources/job-position.infolist.sections.employment-information.entries.employment-type')),
+                                    ])->columns(2),
+                                Infolists\Components\Section::make(__('employees::filament/clusters/configurations/resources/job-position.infolist.sections.job-description.title'))
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('description')
+                                            ->label(__('employees::filament/clusters/configurations/resources/job-position.infolist.sections.job-description.entries.job-description'))
+                                            ->placeholder('—')
+                                            ->columnSpanFull(),
+                                        Infolists\Components\TextEntry::make('requirements')
+                                            ->label('Job Requirements')
+                                            ->label(__('employees::filament/clusters/configurations/resources/job-position.infolist.sections.job-description.entries.job-requirements'))
+                                            ->placeholder('—')
+                                            ->columnSpanFull(),
+                                    ]),
+                            ])->columnSpan(2),
+                        Infolists\Components\Group::make([
+                            Infolists\Components\Section::make(__('employees::filament/clusters/configurations/resources/job-position.infolist.sections.work-planning.title'))
+                                ->schema([
+                                    Infolists\Components\TextEntry::make('expected_employees')
+                                        ->label(__('employees::filament/clusters/configurations/resources/job-position.infolist.sections.work-planning.entries.expected-employees'))
+                                        ->placeholder('—')
+                                        ->icon('heroicon-o-user-group')
+                                        ->numeric(),
+                                    Infolists\Components\TextEntry::make('no_of_employee')
+                                        ->icon('heroicon-o-user-group')
+                                        ->placeholder('—')
+                                        ->label(__('employees::filament/clusters/configurations/resources/job-position.infolist.sections.work-planning.entries.current-employees'))
+                                        ->numeric(),
+                                    Infolists\Components\TextEntry::make('no_of_recruitment')
+                                        ->icon('heroicon-o-user-group')
+                                        ->placeholder('—')
+                                        ->label(__('employees::filament/clusters/configurations/resources/job-position.infolist.sections.work-planning.entries.recruitment-target'))
+                                        ->numeric(),
+                                ]),
+                            Infolists\Components\Section::make(__('employees::filament/clusters/configurations/resources/job-position.infolist.sections.position-status.title'))
+                                ->schema([
+                                    Infolists\Components\IconEntry::make('is_active')
+                                        ->label(__('employees::filament/clusters/configurations/resources/job-position.infolist.sections.position-status.entries.status'))
+                                ]),
+                        ])->columnSpan(1),
+                    ]),
+            ]);
     }
 
     public static function getPages(): array

@@ -58,7 +58,6 @@ class EmploymentTypeResource extends Resource
         ];
     }
 
-
     protected static ?string $cluster = Configurations::class;
 
     public static function form(Form $form): Form

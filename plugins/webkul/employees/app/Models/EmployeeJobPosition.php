@@ -43,6 +43,10 @@ class EmployeeJobPosition extends Model implements Sortable
         'is_active' => 'boolean',
     ];
 
+    public $sortable = [
+        'order_column_name' => 'sort',
+    ];
+
     public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class);

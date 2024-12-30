@@ -29,7 +29,7 @@ class ListJobPositions extends ListRecords
     public function getPresetTableViews(): array
     {
         return [
-            'my_department' => PresetView::make('My Department')
+            'my_department' => PresetView::make(__('employees::filament/clusters/configurations/resources/job-position/pages/list-job-position.tabs.my-department'))
                 ->icon('heroicon-m-user-group')
                 ->favorite()
                 ->modifyQueryUsing(function ($query) {
@@ -37,7 +37,7 @@ class ListJobPositions extends ListRecords
 
                     return $query->whereIn('department_id', $user->departments->pluck('id'));
                 }),
-            'archived_projects' => PresetView::make('Archived')
+            'archived_projects' => PresetView::make(__('employees::filament/clusters/configurations/resources/job-position/pages/list-job-position.tabs.archived'))
                 ->icon('heroicon-s-archive-box')
                 ->favorite()
                 ->modifyQueryUsing(function ($query) {
