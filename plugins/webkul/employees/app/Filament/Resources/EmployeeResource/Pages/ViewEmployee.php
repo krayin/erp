@@ -3,6 +3,7 @@
 namespace Webkul\Employee\Filament\Resources\EmployeeResource\Pages;
 
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
 use Webkul\Chatter\Filament\Actions as ChatterActions;
 use Webkul\Employee\Filament\Resources\EmployeeResource;
@@ -17,7 +18,13 @@ class ViewEmployee extends ViewRecord
         return [
             ChatterActions\ChatterAction::make()
                 ->setActivityPlans($this->getActivityPlans()),
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title(__('employees::filament/resources/employee/pages/view-employee.header-actions.delete.notification.title'))
+                        ->body(__('employees::filament/resources/employee/pages/view-employee.header-actions.delete.notification.body')),
+                ),
         ];
     }
 

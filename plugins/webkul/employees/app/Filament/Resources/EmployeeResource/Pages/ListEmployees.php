@@ -28,7 +28,7 @@ class ListEmployees extends ListRecords
     public function getPresetTableViews(): array
     {
         return [
-            'my_team' => PresetView::make('My Team')
+            'my_team' => PresetView::make(__('employees::filament/resources/employee/pages/list-employee.tabs.my-team'))
                 ->icon('heroicon-m-users')
                 ->favorite()
                 ->modifyQueryUsing(function (Builder $query) {
@@ -41,7 +41,7 @@ class ListEmployees extends ListRecords
                     return $query->where('parent_id', $user->employee->id);
                 }),
 
-            'my_department' => PresetView::make('My Department')
+            'my_department' => PresetView::make(__('employees::filament/resources/employee/pages/list-employee.tabs.my-department'))
                 ->icon('heroicon-m-user-group')
                 ->favorite()
                 ->modifyQueryUsing(function (Builder $query) {
@@ -54,11 +54,11 @@ class ListEmployees extends ListRecords
                     return $query->where('department_id', $user->employee->department_id);
                 }),
 
-            'archived' => PresetView::make('Archived')
+            'archived' => PresetView::make(__('employees::filament/resources/employee/pages/list-employee.tabs.archived'))
                 ->icon('heroicon-s-archive-box')
                 ->favorite()
                 ->modifyQueryUsing(fn (Builder $query) => $query->onlyTrashed()),
-            'newly_hired' => PresetView::make('Newly Hired')
+            'newly_hired' => PresetView::make(__('employees::filament/resources/employee/pages/list-employee.tabs.newly-hired'))
                 ->icon('heroicon-s-calendar')
                 ->favorite()
                 ->modifyQueryUsing(function (Builder $query) {

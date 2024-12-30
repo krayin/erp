@@ -3,6 +3,7 @@
 namespace Webkul\Employee\Filament\Resources\EmployeeResource\Pages;
 
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -14,11 +15,25 @@ class EditEmployee extends EditRecord
 {
     protected static string $resource = EmployeeResource::class;
 
+    protected function getSavedNotification(): Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title(__('employees::filament/resources/employee/pages/edit-employee.notification.title'))
+            ->body(__('employees::filament/resources/employee/pages/edit-employee.notification.body'));
+    }
+
     protected function getHeaderActions(): array
     {
         return [
             ChatterActions\ChatterAction::make(),
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title(__('employees::filament/resources/employee/pages/edit-employee.header-actions.delete.notification.title'))
+                        ->body(__('employees::filament/resources/employee/pages/edit-employee.header-actions.delete.notification.body')),
+                ),
         ];
     }
 
