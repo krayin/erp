@@ -2,6 +2,7 @@
 
 namespace Webkul\Security\Filament\Resources\UserResource\Pages;
 
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -11,9 +12,12 @@ class CreateUser extends CreateRecord
 {
     protected static string $resource = UserResource::class;
 
-    protected function getCreatedNotificationTitle(): ?string
+    protected function getCreatedNotification(): Notification
     {
-        return __('security::app.filament.resources.user.pages.create.created-notification-title');
+        return Notification::make()
+            ->success()
+            ->title(__('security::filament/resources/user/pages/create-user.notification.title'))
+            ->body(__('security::filament/resources/user/pages/create-user.notification.body'));
     }
 
     protected function getRedirectUrl(): string

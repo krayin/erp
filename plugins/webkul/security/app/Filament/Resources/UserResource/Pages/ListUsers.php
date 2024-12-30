@@ -21,9 +21,9 @@ class ListUsers extends ListRecords
     public function getTabs(): array
     {
         return [
-            'all' => Tab::make(__('security::app.filament.resources.user.pages.list.tabs.all'))
+            'all' => Tab::make(__('security::filament/resources/user/pages/list-user.tabs.all'))
                 ->badge(User::count()),
-            'archived' => Tab::make(__('security::app.filament.resources.user.pages.list.tabs.archived'))
+            'archived' => Tab::make(__('security::filament/resources/user/pages/list-user.tabs.archived'))
                 ->badge(User::onlyTrashed()->count())
                 ->modifyQueryUsing(function ($query) {
                     return $query->onlyTrashed();
@@ -37,15 +37,15 @@ class ListUsers extends ListRecords
             Actions\CreateAction::make()
                 ->icon('heroicon-o-user-plus'),
             Actions\Action::make('inviteUser')
-                ->label(__('security::app.filament.resources.user.pages.list.header-actions.invite-user.title'))
+                ->label(__('security::filament/resources/user/pages/list-user.header-actions.invite.title'))
                 ->icon('heroicon-o-envelope')
                 ->modalIcon('heroicon-o-envelope')
-                ->modalSubmitActionLabel(__('security::app.filament.resources.user.pages.list.header-actions.invite-user.modal.submit-action-label'))
+                ->modalSubmitActionLabel(__('security::filament/resources/user/pages/list-user.header-actions.invite.modal.submit-action-label'))
                 ->visible(fn (UserSettings $userSettings) => $userSettings->enable_user_invitation)
                 ->form([
                     TextInput::make('email')
                         ->email()
-                        ->label(__('security::app.filament.resources.user.pages.list.header-actions.form.email'))
+                        ->label(__('security::filament/resources/user/pages/list-user.header-actions.invite.form.email'))
                         ->required(),
                 ])
                 ->action(function ($data) {
@@ -54,7 +54,8 @@ class ListUsers extends ListRecords
                     Mail::to($invitation->email)->send(new UserInvitationMail($invitation));
 
                     Notification::make('invitedSuccess')
-                        ->body(__('security::app.filament.resources.user.pages.list.header-actions.invite-user.notification.title'))
+                        ->title(__('security::filament/resources/user/pages/list-user.header-actions.invite.modal.form.notification.title'))
+                        ->body(__('security::filament/resources/user/pages/list-user.header-actions.invite.modal.form.notification.body'))
                         ->success()
                         ->send();
                 }),

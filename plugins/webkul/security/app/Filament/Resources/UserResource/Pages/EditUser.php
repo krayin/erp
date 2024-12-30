@@ -18,35 +18,50 @@ class EditUser extends EditRecord
 {
     protected static string $resource = UserResource::class;
 
+    protected function getSavedNotification(): Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title(__('security::filament/resources/user/pages/edit-user.notification.title'))
+            ->body(__('security::filament/resources/user/pages/edit-user.notification.body'));
+    }
+
     protected function getHeaderActions(): array
     {
         return [
             Actions\Action::make('changePassword')
-                ->label(__('security::app.filament.resources.user.pages.edit.header-actions.action.title'))
+                ->label(__('security::filament/resources/user/pages/edit-user.header-actions.change-password.label'))
                 ->action(function (User $record, array $data): void {
                     $record->update([
                         'password' => Hash::make($data['new_password']),
                     ]);
 
                     Notification::make()
-                        ->title(__('security::app.filament.resources.user.pages.edit.header-actions.action.notification.title'))
+                        ->title(__('security::filament/resources/user/pages/edit-user.header-actions.change-password.notification.title'))
+                        ->body(__('security::filament/resources/user/pages/edit-user.header-actions.change-password.notification.body'))
                         ->success()
                         ->send();
                 })
                 ->form([
                     Forms\Components\TextInput::make('new_password')
                         ->password()
-                        ->label(__('security::app.filament.resources.user.pages.edit.header-actions.form.new-password'))
+                        ->label(__('security::filament/resources/user/pages/edit-user.header-actions.change-password.form.new-password'))
                         ->required()
                         ->rule(Password::default()),
                     Forms\Components\TextInput::make('new_password_confirmation')
                         ->password()
-                        ->label(__('security::app.filament.resources.user.pages.edit.header-actions.form.confirm-new-password'))
+                        ->label(__('security::filament/resources/user/pages/edit-user.header-actions.change-password.form.confirm-new-password'))
                         ->rule('required', fn ($get) => (bool) $get('new_password'))
                         ->same('new_password'),
                 ])
                 ->icon('heroicon-o-key'),
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title(__('security::filament/resources/user/pages/edit-user.header-actions.delete.notification.title'))
+                        ->body(__('security::filament/resources/user/pages/edit-user.header-actions.delete.notification.body'))
+                ),
         ];
     }
 
