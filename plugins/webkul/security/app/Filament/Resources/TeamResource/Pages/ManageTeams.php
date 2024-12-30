@@ -18,8 +18,8 @@ class ManageTeams extends ManageRecords
                 ->successNotification(
                     Notification::make()
                         ->success()
-                        ->title(__('support::filament/resources/team/pages/manage-team.header-actions.create.notification.title'))
-                        ->body(__('support::filament/resources/team/pages/manage-team.header-actions.create.notification.body'))
+                        ->title(__('security::filament/resources/team/pages/manage-team.header-actions.create.notification.title'))
+                        ->body(__('security::filament/resources/team/pages/manage-team.header-actions.create.notification.body'))
                 ),
         ];
     }

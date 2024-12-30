@@ -22,12 +22,12 @@ class TeamResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return __('support::filament/resources/team.navigation.title');
+        return __('security::filament/resources/team.navigation.title');
     }
 
     public static function getNavigationGroup(): string
     {
-        return __('support::filament/resources/team.navigation.group');
+        return __('security::filament/resources/team.navigation.group');
     }
 
     public static function getGloballySearchableAttributes(): array
@@ -38,7 +38,7 @@ class TeamResource extends Resource
     public static function getGlobalSearchResultDetails(Model $record): array
     {
         return [
-            __('support::filament/resources/team.global-search.name') => $record->name ?? '—',
+            __('security::filament/resources/team.global-search.name') => $record->name ?? '—',
         ];
     }
 
@@ -47,7 +47,7 @@ class TeamResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label(__('support::filament/resources/team.form.fields.name'))
+                    ->label(__('security::filament/resources/team.form.fields.name'))
                     ->required()
                     ->maxLength(255),
             ]);
@@ -58,7 +58,7 @@ class TeamResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label(__('support::filament/resources/team.table.columns.name'))
+                    ->label(__('security::filament/resources/team.table.columns.name'))
                     ->searchable()
                     ->sortable(),
             ])
@@ -67,15 +67,15 @@ class TeamResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title(__('support::filament/resources/team.table.actions.edit.notification.title'))
-                            ->body(__('support::filament/resources/team.table.actions.edit.notification.body'))
+                            ->title(__('security::filament/resources/team.table.actions.edit.notification.title'))
+                            ->body(__('security::filament/resources/team.table.actions.edit.notification.body'))
                     ),
                 Tables\Actions\DeleteAction::make()
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title(__('support::filament/resources/team.table.actions.delete.notification.title'))
-                            ->body(__('support::filament/resources/team.table.actions.delete.notification.body'))
+                            ->title(__('security::filament/resources/team.table.actions.delete.notification.title'))
+                            ->body(__('security::filament/resources/team.table.actions.delete.notification.body'))
                     ),
             ])
             ->emptyStateActions([
@@ -84,8 +84,8 @@ class TeamResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title(__('support::filament/resources/team.navigation.table.empty-state-actions.create.notification.title'))
-                            ->body(__('support::filament/resources/team.navigation.table.empty-state-actions.create.notification.body'))
+                            ->title(__('security::filament/resources/team.navigation.table.empty-state-actions.create.notification.title'))
+                            ->body(__('security::filament/resources/team.navigation.table.empty-state-actions.create.notification.body'))
                     ),
             ]);
     }
