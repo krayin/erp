@@ -18,6 +18,6 @@ class ManageResume extends ManageRelatedRecords
 
     public static function getNavigationLabel(): string
     {
-        return 'Manage Resumes';
+        return __('employees::filament/resources/employee/pages/manage-resume.navigation.title');
     }
 }
