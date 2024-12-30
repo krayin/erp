@@ -24,8 +24,6 @@ class JobPositionResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
 
-    protected static ?string $navigationGroup = 'Recruitment';
-
     protected static ?string $cluster = Configurations::class;
 
     public static function getModelLabel(): string
@@ -48,7 +46,7 @@ class JobPositionResource extends Resource
         return [
             'name',
             'department.name',
-            'employmentType',
+            'employmentType.name',
             'company.name',
             'creator.name',
         ];

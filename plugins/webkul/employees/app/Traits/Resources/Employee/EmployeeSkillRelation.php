@@ -8,6 +8,7 @@ use Filament\Infolists;
 use Filament\Infolists\Infolist;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Models\SkillType;
 use Webkul\Support\Filament\Tables as CustomTables;
 
@@ -18,27 +19,29 @@ trait EmployeeSkillRelation
         return $form
             ->schema([
                 Forms\Components\Section::make([
+                    Forms\Components\Hidden::make('creator_id')
+                        ->default(fn() => Auth::user()->id),
                     Forms\Components\Radio::make('skill_type_id')
                         ->label('Skill Type')
                         ->options(SkillType::pluck('name', 'id'))
-                        ->default(fn () => SkillType::first()?->id)
+                        ->default(fn() => SkillType::first()?->id)
                         ->required()
                         ->reactive()
-                        ->afterStateUpdated(fn (callable $set) => $set('skill_id', null)),
+                        ->afterStateUpdated(fn(callable $set) => $set('skill_id', null)),
                     Forms\Components\Group::make()
                         ->schema([
                             Forms\Components\Select::make('skill_id')
                                 ->label('Skill')
                                 ->options(
-                                    fn (callable $get) => SkillType::find($get('skill_type_id'))?->skills->pluck('name', 'id') ?? []
+                                    fn(callable $get) => SkillType::find($get('skill_type_id'))?->skills->pluck('name', 'id') ?? []
                                 )
                                 ->required()
                                 ->reactive()
-                                ->afterStateUpdated(fn (callable $set) => $set('skill_level_id', null)),
+                                ->afterStateUpdated(fn(callable $set) => $set('skill_level_id', null)),
                             Forms\Components\Select::make('skill_level_id')
                                 ->label('Skill Level')
                                 ->options(
-                                    fn (callable $get) => SkillType::find($get('skill_type_id'))?->skillLevels->pluck('name', 'id') ?? []
+                                    fn(callable $get) => SkillType::find($get('skill_type_id'))?->skillLevels->pluck('name', 'id') ?? []
                                 )
                                 ->required(),
                         ]),
@@ -63,10 +66,10 @@ trait EmployeeSkillRelation
                                 Infolists\Components\TextEntry::make('skillLevel.name')
                                     ->placeholder('—')
                                     ->badge()
-                                    ->color(fn ($record) => $record->skillType?->color)
+                                    ->color(fn($record) => $record->skillType?->color)
                                     ->label('Skill Level'),
                                 CustomTables\Infolists\ProgressBarEntry::make('skillLevel.level')
-                                    ->getStateUsing(fn ($record) => $record->skillLevel?->level)
+                                    ->getStateUsing(fn($record) => $record->skillLevel?->level)
                                     ->color(function ($record) {
                                         if ($record->skillLevel->level === 100) {
                                             return 'success';
@@ -99,9 +102,9 @@ trait EmployeeSkillRelation
                 Tables\Columns\TextColumn::make('skillLevel.name')
                     ->label('Skill Level')
                     ->badge()
-                    ->color(fn ($record) => $record->skillType?->color),
+                    ->color(fn($record) => $record->skillType?->color),
                 CustomTables\Columns\ProgressBarEntry::make('skillLevel.level')
-                    ->getStateUsing(fn ($record) => $record->skillLevel?->level)
+                    ->getStateUsing(fn($record) => $record->skillLevel?->level)
                     ->color(function ($record) {
                         if ($record->skillLevel->level === 100) {
                             return 'success';

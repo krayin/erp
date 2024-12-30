@@ -4,11 +4,14 @@ namespace Webkul\Employee\Filament\Clusters\Reportings\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists\Infolist;
+use Filament\Infolists;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Webkul\Employee\Filament\Clusters\Reportings;
 use Webkul\Employee\Filament\Clusters\Reportings\Resources\EmployeeSkillResource\Pages;
 use Webkul\Employee\Models\EmployeeSkill;
@@ -20,60 +23,36 @@ class EmployeeSkillResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
-    protected static ?string $modelLabel = 'Skills';
-
     protected static ?string $pluralModelLabel = 'Skills';
 
     protected static ?string $cluster = Reportings::class;
 
-    public static function form(Form $form): Form
+    public static function getModelLabel(): string
     {
-        return $form
-            ->schema([
-                Forms\Components\Section::make('Skill Details')
-                    ->schema([
-                        Forms\Components\Select::make('employee_id')
-                            ->label('Employee')
-                            ->relationship('employee', 'name')
-                            ->required()
-                            ->searchable()
-                            ->preload(),
-                        Forms\Components\Select::make('skill_id')
-                            ->label('Skill')
-                            ->relationship('skill', 'name')
-                            ->required()
-                            ->searchable()
-                            ->preload(),
-                        Forms\Components\Select::make('skill_level_id')
-                            ->label('Skill Level')
-                            ->relationship('skillLevel', 'name')
-                            ->required()
-                            ->searchable()
-                            ->preload(),
-                        Forms\Components\Select::make('skill_type_id')
-                            ->label('Skill Type')
-                            ->relationship('skillType', 'name')
-                            ->required()
-                            ->searchable()
-                            ->preload(),
-                    ])
-                    ->columns(2),
+        return __('employees::filament/clusters/reportings/resources/employee-skill.modal-label');
+    }
 
-                Forms\Components\Section::make('Additional Information')
-                    ->schema([
-                        Forms\Components\Select::make('creator_id')
-                            ->label('Created By')
-                            ->relationship('creator', 'name')
-                            ->searchable()
-                            ->preload(),
-                        Forms\Components\Select::make('user_id')
-                            ->label('Updated By')
-                            ->relationship('user', 'name')
-                            ->searchable()
-                            ->preload(),
-                    ])
-                    ->columns(2),
-            ]);
+    public static function getNavigationLabel(): string
+    {
+        return __('employees::filament/clusters/reportings/resources/employee-skill.navigation.title');
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return [
+            'employee.name',
+            'skill.name',
+            'skillLevel.name',
+        ];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            __('employees::filament/clusters/reportings/resources/employee-skill.global-search.employee') => $record->employee->name ?? '—',
+            __('employees::filament/clusters/reportings/resources/employee-skill.global-search.skill') => $record->skill?->name ?? '—',
+            __('employees::filament/clusters/reportings/resources/employee-skill.global-search.skill-level') => $record->skillLevel?->name ?? '—',
+        ];
     }
 
     public static function table(Table $table): Table
@@ -81,21 +60,21 @@ class EmployeeSkillResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                    ->label('ID')
+                    ->label(__('employees::filament/clusters/reportings/resources/employee-skill.table.columns.id'))
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('employee.name')
-                    ->label('Employee')
+                    ->label(__('employees::filament/clusters/reportings/resources/employee-skill.table.columns.employee'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('skill.name')
-                    ->label('Skill')
+                    ->label(__('employees::filament/clusters/reportings/resources/employee-skill.table.columns.skill'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('skillLevel.name')
-                    ->label('Skill Level')
+                    ->label(__('employees::filament/clusters/reportings/resources/employee-skill.table.columns.skill-level'))
                     ->badge()
-                    ->color(fn ($record) => match ($record->skillLevel->name) {
+                    ->color(fn($record) => match ($record->skillLevel->name) {
                         'Beginner'     => 'gray',
                         'Intermediate' => 'warning',
                         'Advanced'     => 'success',
@@ -103,26 +82,26 @@ class EmployeeSkillResource extends Resource
                         default        => 'secondary'
                     }),
                 CustomTables\Columns\ProgressBarEntry::make('skill_level_percentage')
-                    ->label('Proficiency')
-                    ->getStateUsing(fn ($record) => $record->skillLevel->level ?? 0),
+                    ->label(__('employees::filament/clusters/reportings/resources/employee-skill.table.columns.proficiency'))
+                    ->getStateUsing(fn($record) => $record->skillLevel->level ?? 0),
                 Tables\Columns\TextColumn::make('skillType.name')
-                    ->label('Skill Type')
+                    ->label(__('employees::filament/clusters/reportings/resources/employee-skill.table.columns.skill-type'))
                     ->badge()
                     ->color('secondary')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('creator.name')
-                    ->label('Created By')
+                    ->label(__('employees::filament/clusters/reportings/resources/employee-skill.table.columns.created-by'))
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('User')
+                    ->label(__('employees::filament/clusters/reportings/resources/employee-skill.table.columns.user'))
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created At')
+                    ->label(__('employees::filament/clusters/reportings/resources/employee-skill.table.columns.created-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -130,10 +109,10 @@ class EmployeeSkillResource extends Resource
             ->defaultSort('created_at', 'desc')
             ->groups([
                 Tables\Grouping\Group::make('employee.name')
-                    ->label('Employee')
+                    ->label(__('employees::filament/clusters/reportings/resources/employee-skill.table.groups.employee'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('skillType.name')
-                    ->label('Skill Type')
+                    ->label(__('employees::filament/clusters/reportings/resources/employee-skill.table.groups.skill-type'))
                     ->collapsible(),
             ])
             ->defaultGroup('employee.name')
@@ -143,30 +122,27 @@ class EmployeeSkillResource extends Resource
                     ->relationship('employee', 'name')
                     ->preload()
                     ->searchable()
-                    ->label('Employee'),
+                    ->label(__('employees::filament/clusters/reportings/resources/employee-skill.table.filters.employee')),
                 SelectFilter::make('skill')
                     ->relationship('skill', 'name')
                     ->searchable()
                     ->preload()
-                    ->label('Skill'),
+                    ->label(__('employees::filament/clusters/reportings/resources/employee-skill.table.filters.skill')),
                 SelectFilter::make('skill_level')
                     ->relationship('skillLevel', 'name')
                     ->searchable()
                     ->preload()
-                    ->label('Skill Level'),
+                    ->label(__('employees::filament/clusters/reportings/resources/employee-skill.table.filters.skill-level')),
                 SelectFilter::make('skill_type')
                     ->relationship('skillType', 'name')
                     ->preload()
                     ->searchable()
-                    ->label('Skill Type'),
+                    ->label(__('employees::filament/clusters/reportings/resources/employee-skill.table.filters.skill-type')),
                 Tables\Filters\QueryBuilder::make()
                     ->constraintPickerColumns(2)
                     ->constraints([
-                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('name')
-                            ->label('Name')
-                            ->icon('heroicon-o-building-office-2'),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('employee')
-                            ->label('Employee')
+                            ->label(__('employees::filament/clusters/reportings/resources/employee-skill.table.filters.employee'))
                             ->icon('heroicon-o-user')
                             ->multiple()
                             ->selectable(
@@ -177,7 +153,7 @@ class EmployeeSkillResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('creator')
-                            ->label('Created By')
+                            ->label(__('employees::filament/clusters/reportings/resources/employee-skill.table.filters.created-by'))
                             ->icon('heroicon-o-user')
                             ->multiple()
                             ->selectable(
@@ -188,7 +164,7 @@ class EmployeeSkillResource extends Resource
                                     ->preload(),
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('user')
-                            ->label('User')
+                            ->label(__('employees::filament/clusters/reportings/resources/employee-skill.table.filters.user'))
                             ->icon('heroicon-o-user')
                             ->multiple()
                             ->selectable(
@@ -198,33 +174,55 @@ class EmployeeSkillResource extends Resource
                                     ->multiple()
                                     ->preload(),
                             ),
-                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at'),
-                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at')
+                            ->label(__('employees::filament/clusters/reportings/resources/employee-skill.table.filters.created-at')),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at')
+                            ->label(__('employees::filament/clusters/reportings/resources/employee-skill.table.filters.updated-at')),
                     ]),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
                 ]),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
-                ]),
-            ])
-            ->headerActions([
-                Tables\Actions\CreateAction::make(),
             ]);
     }
 
-    public static function getRelations(): array
+    public static function infolist(Infolist $infolist): Infolist
     {
-        return [
-            // You can add related resources if needed
-        ];
+        return $infolist
+            ->schema([
+                Infolists\Components\Section::make(__('employees::filament/clusters/reportings/resources/employee-skill.infolist.sections.skill-details.title'))
+                    ->schema([
+                        Infolists\Components\TextEntry::make('employee.name')
+                            ->icon('heroicon-o-user')
+                            ->placeholder('—')
+                            ->label(__('employees::filament/clusters/reportings/resources/employee-skill.infolist.sections.skill-details.entries.employee')),
+                        Infolists\Components\TextEntry::make('skill.name')
+                            ->icon('heroicon-o-bolt')
+                            ->placeholder('—')
+                            ->label(__('employees::filament/clusters/reportings/resources/employee-skill.infolist.sections.skill-details.entries.skill')),
+                        Infolists\Components\TextEntry::make('skillLevel.name')
+                            ->icon('heroicon-o-bolt')
+                            ->placeholder('—')
+                            ->label(__('employees::filament/clusters/reportings/resources/employee-skill.infolist.sections.skill-details.entries.skill-level')),
+                        Infolists\Components\TextEntry::make('skillType.name')
+                            ->placeholder('—')
+                            ->label(__('employees::filament/clusters/reportings/resources/employee-skill.infolist.sections.skill-details.entries.skill-type')),
+                    ])
+                    ->columns(2),
+                Infolists\Components\Section::make(__('employees::filament/clusters/reportings/resources/employee-skill.infolist.sections.additional-information.title'))
+                    ->schema([
+                        Infolists\Components\TextEntry::make('creator.name')
+                            ->icon('heroicon-o-user')
+                            ->placeholder('—')
+                            ->label(__('employees::filament/clusters/reportings/resources/employee-skill.infolist.sections.additional-information.entries.created-by')),
+                        Infolists\Components\TextEntry::make('user.name')
+                            ->placeholder('—')
+                            ->icon('heroicon-o-user')
+                            ->label(__('employees::filament/clusters/reportings/resources/employee-skill.infolist.sections.additional-information.entries.updated-by')),
+                    ])
+                    ->columns(2),
+            ]);
     }
 
     public static function getSlug(): string
