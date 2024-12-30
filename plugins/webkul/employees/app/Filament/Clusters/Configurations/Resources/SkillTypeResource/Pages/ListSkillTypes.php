@@ -3,6 +3,7 @@
 namespace Webkul\Employee\Filament\Clusters\Configurations\Resources\SkillTypeResource\Pages;
 
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\SkillTypeResource;
@@ -22,16 +23,22 @@ class ListSkillTypes extends ListRecords
                     return redirect(
                         SkillTypeResource::getUrl('edit', ['record' => $record])
                     );
-                }),
+                })
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title(__('employees::filament/clusters/configurations/resources/skill-type/pages/list-skill-type.header-actions.create.notification.title'))
+                        ->body(__('employees::filament/clusters/configurations/resources/skill-type/pages/list-skill-type.header-actions.create.notification.body')),
+                ),
         ];
     }
 
     public function getTabs(): array
     {
         return [
-            'all' => Tab::make('All')
+            'all' => Tab::make(__('employees::filament/clusters/configurations/resources/skill-type/pages/list-skill-type.tabs.all'))
                 ->badge(SkillType::count()),
-            'archived' => Tab::make('Archived')
+            'archived' => Tab::make(__('employees::filament/clusters/configurations/resources/skill-type/pages/list-skill-type.tabs.archived'))
                 ->badge(SkillType::onlyTrashed()->count())
                 ->modifyQueryUsing(function ($query) {
                     return $query->onlyTrashed();

@@ -6,6 +6,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
+use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -24,41 +25,17 @@ class SkillLevelRelationManager extends RelationManager
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('Name')
+                    ->label(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.form.name'))
                     ->required(),
                 Forms\Components\Hidden::make('creator_id')
                     ->default(Auth::user()->id),
                 Forms\Components\TextInput::make('level')
-                    ->label('Level')
+                    ->label(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.form.level'))
                     ->numeric()
                     ->rules(['numeric', 'min:0', 'max:100']),
                 Forms\Components\Toggle::make('default_level')
-                    ->label('Default Level'),
+                    ->label(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.form.default-level')),
             ])->columns(2);
-    }
-
-    public function infolist(Infolist $infolist): Infolist
-    {
-        return $infolist
-            ->schema([
-                Infolists\Components\TextEntry::make('name')
-                    ->placeholder('—')
-                    ->label('Name'),
-                Infolists\Components\TextEntry::make('level')
-                    ->placeholder('—')
-                    ->label('Level'),
-                ProgressBarEntry::make('level')
-                    ->getStateUsing(fn ($record) => $record->level)
-                    ->color(fn ($record): string => match (true) {
-                        $record->level === 100                      => 'success',
-                        $record->level >= 50 && $record->level < 80 => 'warning',
-                        $record->level < 20                         => 'danger',
-                        default                                     => 'info',
-                    }),
-                Infolists\Components\IconEntry::make('default_level')
-                    ->boolean()
-                    ->label('Default Level'),
-            ]);
     }
 
     public function table(Table $table): Table
@@ -66,12 +43,13 @@ class SkillLevelRelationManager extends RelationManager
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Name')
+                    ->label(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.table.columns.name'))
                     ->searchable()
                     ->sortable(),
                 CustomTables\Columns\ProgressBarEntry::make('level')
-                    ->getStateUsing(fn ($record) => $record->level)
-                    ->color(fn ($record): string => match (true) {
+                    ->label(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.table.columns.level'))
+                    ->getStateUsing(fn($record) => $record->level)
+                    ->color(fn($record): string => match (true) {
                         $record->level === 100                      => 'success',
                         $record->level >= 50 && $record->level < 80 => 'warning',
                         $record->level < 20                         => 'danger',
@@ -79,24 +57,28 @@ class SkillLevelRelationManager extends RelationManager
                     }),
                 Tables\Columns\IconColumn::make('default_level')
                     ->sortable()
-                    ->label('Default Level')
+                    ->label(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.table.columns.default-level'))
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created')
+                    ->label(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.table.columns.created-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Updated')
+                    ->label(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.table.columns.updated-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->groups([
                 Tables\Grouping\Group::make('created_at')
-                    ->label('Created At')
+                    ->label(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.table.groups.created-at'))
                     ->date()
                     ->collapsible(),
+            ])
+            ->filters([
+                Tables\Filters\TrashedFilter::make()
+                    ->label(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.table.filters.deleted-records')),
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
@@ -108,10 +90,13 @@ class SkillLevelRelationManager extends RelationManager
                         }
 
                         return $data;
-                    }),
-            ])
-            ->filters([
-                Tables\Filters\TrashedFilter::make(),
+                    })
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.table.actions.create.notification.title'))
+                            ->body(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.table.actions.create.notification.body')),
+                    ),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
@@ -123,17 +108,75 @@ class SkillLevelRelationManager extends RelationManager
                             }
 
                             return $data;
-                        }),
-                    Tables\Actions\DeleteAction::make(),
-                    Tables\Actions\RestoreAction::make(),
+                        })
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.table.actions.edit.notification.title'))
+                                ->body(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.table.actions.edit.notification.body')),
+                        ),
+                    Tables\Actions\DeleteAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.table.actions.delete.notification.title'))
+                                ->body(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.table.actions.delete.notification.body')),
+                        ),
+                    Tables\Actions\RestoreAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.table.actions.restore.notification.title'))
+                                ->body(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.table.actions.restore.notification.body')),
+                        ),
                 ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.table.bulk-actions.delete.notification.title'))
+                                ->body(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.table.bulk-actions.delete.notification.body')),
+                        ),
+                    Tables\Actions\ForceDeleteBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.table.bulk-actions.force-delete.notification.title'))
+                                ->body(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.table.bulk-actions.force-delete.notification.body')),
+                        ),
+                    Tables\Actions\RestoreBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.table.bulk-actions.restore.notification.title'))
+                                ->body(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.table.bulk-actions.restore.notification.body')),
+                        ),
                 ]),
+            ]);
+    }
+
+    public function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\TextEntry::make('name')
+                    ->placeholder('—')
+                    ->label(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.infolist.entries.name')),
+                ProgressBarEntry::make('level')
+                    ->label(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.infolist.entries.level'))
+                    ->getStateUsing(fn($record) => $record->level)
+                    ->color(fn($record): string => match (true) {
+                        $record->level === 100                      => 'success',
+                        $record->level >= 50 && $record->level < 80 => 'warning',
+                        $record->level < 20                         => 'danger',
+                        default                                     => 'info',
+                    }),
+                Infolists\Components\IconEntry::make('default_level')
+                    ->boolean()
+                    ->label(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.infolist.entries.default-level'))
             ]);
     }
 }
