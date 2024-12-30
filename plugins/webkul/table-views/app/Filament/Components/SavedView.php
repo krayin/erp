@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\TableViews\Components;
+namespace Webkul\TableViews\Filament\Components;
 
 use Webkul\TableViews\Models\TableView;
 use Webkul\TableViews\Models\TableViewFavorite;

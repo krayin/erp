@@ -11,13 +11,13 @@ return [
 
     'table' => [
         'columns' => [
-            'name' => 'Name',
+            'name'       => 'Name',
             'created-at' => 'Created At',
             'updated-at' => 'Updated At',
         ],
 
         'groups' => [
-            'name' => 'Name',
+            'name'       => 'Name',
             'created-at' => 'Created At',
         ],
 
@@ -30,28 +30,28 @@ return [
             'edit' => [
                 'notification' => [
                     'title' => 'Tag updated',
-                    'body' => 'The tag has been updated successfully.',
+                    'body'  => 'The tag has been updated successfully.',
                 ],
             ],
 
             'restore' => [
                 'notification' => [
                     'title' => 'Tag restored',
-                    'body' => 'The tag has been restored successfully.',
+                    'body'  => 'The tag has been restored successfully.',
                 ],
             ],
 
             'delete' => [
                 'notification' => [
                     'title' => 'Tag deleted',
-                    'body' => 'The tag has been deleted successfully.',
+                    'body'  => 'The tag has been deleted successfully.',
                 ],
             ],
 
             'force-delete' => [
                 'notification' => [
                     'title' => 'Tag force deleted',
-                    'body' => 'The tag has been force deleted successfully.',
+                    'body'  => 'The tag has been force deleted successfully.',
                 ],
             ],
         ],
@@ -60,21 +60,21 @@ return [
             'restore' => [
                 'notification' => [
                     'title' => 'Tags restored',
-                    'body' => 'The tags has been restored successfully.',
+                    'body'  => 'The tags has been restored successfully.',
                 ],
             ],
 
             'delete' => [
                 'notification' => [
                     'title' => 'Tags deleted',
-                    'body' => 'The tags has been deleted successfully.',
+                    'body'  => 'The tags has been deleted successfully.',
                 ],
             ],
 
             'force-delete' => [
                 'notification' => [
                     'title' => 'Tags force deleted',
-                    'body' => 'The tags has been force deleted successfully.',
+                    'body'  => 'The tags has been force deleted successfully.',
                 ],
             ],
         ],

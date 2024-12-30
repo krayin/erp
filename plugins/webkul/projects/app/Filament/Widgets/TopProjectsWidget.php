@@ -6,8 +6,8 @@ use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 use Filament\Tables;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\TableWidget as BaseWidget;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Webkul\Project\Models\Timesheet;
 
@@ -17,7 +17,7 @@ class TopProjectsWidget extends BaseWidget
 
     protected static ?string $pollingInterval = '15s';
 
-    public function getHeading(): string | Htmlable | null
+    public function getHeading(): string|Htmlable|null
     {
         return __('projects::filament/widgets/top-projects.heading');
     }

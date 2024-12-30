@@ -7,13 +7,13 @@ return [
 
             'notification' => [
                 'title' => 'Task stage created',
-                'body' => 'The task stage has been created successfully.',
+                'body'  => 'The task stage has been created successfully.',
             ],
         ],
     ],
 
     'tabs' => [
-        'all' => 'All',
+        'all'      => 'All',
         'archived' => 'Archived',
     ],
 ];

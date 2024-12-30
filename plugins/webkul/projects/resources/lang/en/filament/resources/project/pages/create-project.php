@@ -3,6 +3,6 @@
 return [
     'notification' => [
         'title' => 'Project created',
-        'body' => 'The project has been created successfully.',
+        'body'  => 'The project has been created successfully.',
     ],
 ];

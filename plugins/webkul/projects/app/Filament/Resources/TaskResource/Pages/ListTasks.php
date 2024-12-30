@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Enums\TaskState;
 use Webkul\Project\Filament\Resources\TaskResource;
-use Webkul\TableViews\Components\PresetView;
-use Webkul\TableViews\Filament\Traits\HasTableViews;
+use Webkul\TableViews\Filament\Components\PresetView;
+use Webkul\TableViews\Filament\Concerns\HasTableViews;
 
 class ListTasks extends ListRecords
 {
@@ -45,7 +45,7 @@ class ListTasks extends ListRecords
                     TaskState::DONE,
                 ])),
 
-            'my_tasks' => PresetView::make(__('projects::filament/resources/task/pages/list-task.tabs.open-tasks'))
+            'my_tasks' => PresetView::make(__('projects::filament/resources/task/pages/list-task.tabs.my-tasks'))
                 ->icon('heroicon-s-user')
                 ->favorite()
                 ->modifyQueryUsing(function (Builder $query) {
@@ -55,14 +55,14 @@ class ListTasks extends ListRecords
                         });
                 }),
 
-            'unassigned_tasks' => PresetView::make(__('projects::filament/resources/task/pages/list-task.tabs.open-tasks'))
+            'unassigned_tasks' => PresetView::make(__('projects::filament/resources/task/pages/list-task.tabs.unassigned-tasks'))
                 ->icon('heroicon-s-user-minus')
                 ->favorite()
                 ->modifyQueryUsing(function (Builder $query) {
                     return $query->whereDoesntHave('users');
                 }),
 
-            'closed_tasks' => PresetView::make(__('projects::filament/resources/task/pages/list-task.tabs.open-tasks'))
+            'closed_tasks' => PresetView::make(__('projects::filament/resources/task/pages/list-task.tabs.closed-tasks'))
                 ->icon('heroicon-s-check-circle')
                 ->favorite()
                 ->modifyQueryUsing(fn (Builder $query) => $query->whereIn('state', [
@@ -70,12 +70,12 @@ class ListTasks extends ListRecords
                     TaskState::DONE,
                 ])),
 
-            'starred_tasks' => PresetView::make(__('projects::filament/resources/task/pages/list-task.tabs.open-tasks'))
+            'starred_tasks' => PresetView::make(__('projects::filament/resources/task/pages/list-task.tabs.starred-tasks'))
                 ->icon('heroicon-s-star')
                 ->favorite()
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('priority', true)),
 
-            'archived_tasks' => PresetView::make(__('projects::filament/resources/task/pages/list-task.tabs.open-tasks'))
+            'archived_tasks' => PresetView::make(__('projects::filament/resources/task/pages/list-task.tabs.archived-tasks'))
                 ->icon('heroicon-s-archive-box')
                 ->favorite()
                 ->modifyQueryUsing(function ($query) {

@@ -15,7 +15,7 @@ class TopAssigneesWidget extends BaseWidget
 {
     use HasWidgetShield, InteractsWithPageFilters;
 
-    public function getHeading(): string | Htmlable | null
+    public function getHeading(): string|Htmlable|null
     {
         return __('projects::filament/widgets/top-assignees.heading');
     }
