@@ -9,7 +9,7 @@ enum ResumeDisplayType: string
     public static function options(): array
     {
         return [
-            self::Classic->value => 'Classic',
+            self::Classic->value => __('employees::enums/resume-display-type.classic'),
         ];
     }
 }

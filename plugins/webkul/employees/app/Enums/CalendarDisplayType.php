@@ -13,9 +13,9 @@ enum CalendarDisplayType: string
     public static function options(): array
     {
         return [
-            self::Working->value => 'Working',
-            self::Off->value     => 'Off',
-            self::Holiday->value => 'Holiday',
+            self::Working->value => __('employees::enums/calendar-display-type.working'),
+            self::Off->value     => __('employees::enums/calendar-display-type.off'),
+            self::Holiday->value => __('employees::enums/calendar-display-type.holiday'),
         ];
     }
 }

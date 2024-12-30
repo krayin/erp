@@ -13,9 +13,9 @@ enum Gender: string
     public static function options(): array
     {
         return [
-            self::Male->value   => 'Male',
-            self::Female->value => 'Female',
-            self::Other->value  => 'Other',
+            self::Male->value   => __('employees::enums/gender.male'),
+            self::Female->value => __('employees::enums/gender.female'),
+            self::Other->value  => __('employees::enums/gender.other'),
         ];
     }
 }

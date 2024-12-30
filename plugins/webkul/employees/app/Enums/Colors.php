@@ -17,11 +17,11 @@ enum Colors: string
     public static function options(): array
     {
         return [
-            self::Danger->value  => 'Danger',
-            self::Gray->value    => 'Gray',
-            self::Info->value    => 'Info',
-            self::Success->value => 'Success',
-            self::Warning->value => 'Warning',
+            self::Danger->value  => __('employees::enums/colors.danger'),
+            self::Gray->value    => __('employees::enums/colors.gray'),
+            self::Info->value    => __('employees::enums/colors.info'),
+            self::Success->value => __('employees::enums/colors.success'),
+            self::Warning->value => __('employees::enums/colors.warning'),
         ];
     }
 }

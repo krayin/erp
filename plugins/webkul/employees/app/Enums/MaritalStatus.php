@@ -15,10 +15,10 @@ enum MaritalStatus: string
     public static function options(): array
     {
         return [
-            self::Single->value   => 'Single',
-            self::Married->value  => 'Married',
-            self::Divorced->value => 'Divorced',
-            self::Widowed->value  => 'Widowed',
+            self::Single->value   => __('employees::enums/marital-status.single'),
+            self::Married->value  => __('employees::enums/marital-status.married'),
+            self::Divorced->value => __('employees::enums/marital-status.divorced'),
+            self::Widowed->value  => __('employees::enums/marital-status.widowed'),
         ];
     }
 }

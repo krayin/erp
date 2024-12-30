@@ -6,7 +6,7 @@ use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 
-enum WorkLocationEnum: string implements HasColor, HasIcon, HasLabel
+enum WorkLocation: string implements HasColor, HasIcon, HasLabel
 {
     case Home = 'home';
 
@@ -17,9 +17,9 @@ enum WorkLocationEnum: string implements HasColor, HasIcon, HasLabel
     public function getLabel(): string
     {
         return match ($this) {
-            self::Home   => 'Home',
-            self::Office => 'Office',
-            self::Other  => 'Other',
+            self::Home   => __('employees::enums/work-location.home'),
+            self::Office => __('employees::enums/work-location.office'),
+            self::Other  => __('employees::enums/work-location.other'),
         };
     }
 

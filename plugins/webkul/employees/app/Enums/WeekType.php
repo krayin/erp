@@ -13,9 +13,9 @@ enum WeekType: string
     public static function options(): array
     {
         return [
-            self::All->value  => 'All',
-            self::Even->value => 'Even',
-            self::Odd->value  => 'Odd',
+            self::All->value  => __('employees::enums/week-type.all'),
+            self::Even->value => __('employees::enums/week-type.even'),
+            self::Odd->value  => __('employees::enums/week-type.odd'),
         ];
     }
 }
