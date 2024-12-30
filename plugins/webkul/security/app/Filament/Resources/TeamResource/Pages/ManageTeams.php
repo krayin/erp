@@ -3,6 +3,7 @@
 namespace Webkul\Security\Filament\Resources\TeamResource\Pages;
 
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ManageRecords;
 use Webkul\Security\Filament\Resources\TeamResource;
 
@@ -13,7 +14,13 @@ class ManageTeams extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->icon('heroicon-o-plus-circle'),
+            Actions\CreateAction::make()->icon('heroicon-o-plus-circle')
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title(__('support::filament/resources/team/pages/manage-team.header-actions.create.notification.title'))
+                        ->body(__('support::filament/resources/team/pages/manage-team.header-actions.create.notification.body'))
+                ),
         ];
     }
 }

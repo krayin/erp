@@ -4,9 +4,11 @@ namespace Webkul\Security\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Webkul\Security\Filament\Resources\TeamResource\Pages;
 use Webkul\Security\Models\Team;
 
@@ -18,19 +20,26 @@ class TeamResource extends Resource
 
     protected static ?int $navigationSort = 3;
 
-    public static function getModelLabel(): string
-    {
-        return __('security::app.filament.resources.team.navigation.title');
-    }
-
     public static function getNavigationLabel(): string
     {
-        return __('security::app.filament.resources.team.navigation.title');
+        return __('support::filament/resources/team.navigation.title');
     }
 
-    public static function getNavigationGroup(): ?string
+    public static function getNavigationGroup(): string
     {
-        return __('security::app.filament.resources.team.navigation.group');
+        return __('support::filament/resources/team.navigation.group');
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            __('support::filament/resources/team.global-search.name') => $record->name ?? '—',
+        ];
     }
 
     public static function form(Form $form): Form
@@ -38,7 +47,7 @@ class TeamResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label(__('security::app.filament.resources.team.form.name'))
+                    ->label(__('support::filament/resources/team.form.fields.name'))
                     ->required()
                     ->maxLength(255),
             ]);
@@ -49,17 +58,35 @@ class TeamResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label(__('security::app.filament.resources.team.table.name'))
+                    ->label(__('support::filament/resources/team.table.columns.name'))
                     ->searchable()
                     ->sortable(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title(__('support::filament/resources/team.table.actions.edit.notification.title'))
+                            ->body(__('support::filament/resources/team.table.actions.edit.notification.body'))
+                    ),
+                Tables\Actions\DeleteAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title(__('support::filament/resources/team.table.actions.delete.notification.title'))
+                            ->body(__('support::filament/resources/team.table.actions.delete.notification.body'))
+                    ),
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make()
-                    ->icon('heroicon-o-plus-circle'),
+                    ->icon('heroicon-o-plus-circle')
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title(__('support::filament/resources/team.navigation.table.empty-state-actions.create.notification.title'))
+                            ->body(__('support::filament/resources/team.navigation.table.empty-state-actions.create.notification.body'))
+                    ),
             ]);
     }
 
