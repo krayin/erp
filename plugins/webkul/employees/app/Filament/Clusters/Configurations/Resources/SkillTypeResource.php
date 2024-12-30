@@ -33,7 +33,7 @@ class SkillTypeResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('employees::filament/clusters/configurations/resources/skill-type.modal-label');
+        return __('employees::filament/clusters/configurations/resources/skill-type.title');
     }
 
     public static function getNavigationGroup(): string

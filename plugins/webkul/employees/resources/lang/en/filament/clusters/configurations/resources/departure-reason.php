@@ -1,12 +1,12 @@
 <?php
 
 return [
+    'title' => 'Departure Reasons',
+
     'navigation' => [
         'title' => 'Departure Reasons',
         'group' => 'Employee',
     ],
-
-    'modal-label' => 'Departure Reasons',
 
     'groups' => [
         'status'     => 'Status',

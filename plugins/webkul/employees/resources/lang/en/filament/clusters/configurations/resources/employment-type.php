@@ -1,12 +1,12 @@
 <?php
 
 return [
+    'title' => 'Employment Types',
+
     'navigation' => [
         'title' => 'Employment Types',
         'group' => 'Recruitment',
     ],
-
-    'modal-label' => 'Employment Type',
 
     'global-search' => [
         'name'       => 'Employment Type',

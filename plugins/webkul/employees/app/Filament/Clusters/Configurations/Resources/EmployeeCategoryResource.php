@@ -27,7 +27,7 @@ class EmployeeCategoryResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('employees::filament/clusters/configurations/resources/employee-category.modal-label');
+        return __('employees::filament/clusters/configurations/resources/employee-category.title');
     }
 
     public static function getNavigationGroup(): string

@@ -27,7 +27,7 @@ class EmploymentTypeResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('employees::filament/clusters/configurations/resources/employment-type.modal-label');
+        return __('employees::filament/clusters/configurations/resources/employment-type.title');
     }
 
     public static function getNavigationGroup(): string

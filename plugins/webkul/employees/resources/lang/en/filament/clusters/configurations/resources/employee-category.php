@@ -1,12 +1,12 @@
 <?php
 
 return [
+    'title' => 'Tags',
+
     'navigation' => [
         'title' => 'Tags',
         'group' => 'Employee',
     ],
-
-    'modal-label' => 'Tags',
 
     'groups' => [
         'status'     => 'Status',

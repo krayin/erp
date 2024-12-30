@@ -27,7 +27,7 @@ class DepartureReasonResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('employees::filament/clusters/configurations/resources/departure-reason.modal-label');
+        return __('employees::filament/clusters/configurations/resources/departure-reason.title');
     }
 
     public static function getNavigationGroup(): string

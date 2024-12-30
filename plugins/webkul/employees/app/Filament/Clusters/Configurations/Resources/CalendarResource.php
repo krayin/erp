@@ -28,7 +28,7 @@ class CalendarResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('employees::filament/clusters/configurations/resources/calendar.modal-label');
+        return __('employees::filament/clusters/configurations/resources/calendar.title');
     }
 
     public static function getNavigationGroup(): string

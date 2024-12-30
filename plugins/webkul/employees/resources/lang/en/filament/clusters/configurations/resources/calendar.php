@@ -1,12 +1,12 @@
 <?php
 
 return [
+    'title' => 'Working Schedules',
+
     'navigation' => [
         'title' => 'Working Schedules',
         'group' => 'Employee',
     ],
-
-    'modal-label' => 'Working Schedules',
 
     'groups' => [
         'status'     => 'Status',

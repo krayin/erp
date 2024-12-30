@@ -28,7 +28,7 @@ class WorkLocationResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('employees::filament/clusters/configurations/resources/work-location.modal-label');
+        return __('employees::filament/clusters/configurations/resources/work-location.title');
     }
 
     public static function getNavigationGroup(): string

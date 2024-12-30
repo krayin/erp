@@ -1,12 +1,12 @@
 <?php
 
 return [
+    'title' => 'Skill Types',
+
     'navigation' => [
         'title' => 'Skill Types',
         'group' => 'Employee',
     ],
-
-    'modal-label' => 'Skill Type',
 
     'global-search' => [
         'name'       => 'Skill Type',

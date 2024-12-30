@@ -1,12 +1,12 @@
 <?php
 
 return [
+    'title' => 'Work Locations',
+
     'navigation' => [
         'title' => 'Work Locations',
         'group' => 'Employee',
     ],
-
-    'modal-label' => 'Work Location',
 
     'global-search' => [
         'name'            => 'Name',
