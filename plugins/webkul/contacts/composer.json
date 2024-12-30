@@ -1,0 +1,30 @@
+{
+    "name": "webkul/contacts",
+    "description": "",
+    "authors": [
+        {
+            "name": "Jitendra Singh",
+            "email": "jitendra@webkul.in"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webkul\\Contact\\Providers\\ContactServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Webkul\\Contact\\": "src/",
+            "Webkul\\Contact\\Database\\Factories\\": "database/factories/",
+            "Webkul\\Contact\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webkul\\Contact\\Tests\\": "tests/"
+        }
+    }
+}

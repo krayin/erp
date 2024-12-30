@@ -1,0 +1,30 @@
+{
+    "name": "webkul/timesheets",
+    "description": "",
+    "authors": [
+        {
+            "name": "Jitendra Singh",
+            "email": "jitendra@webkul.in"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webkul\\Timesheet\\Providers\\TimesheetServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Webkul\\Timesheet\\": "src/",
+            "Webkul\\Timesheet\\Database\\Factories\\": "database/factories/",
+            "Webkul\\Timesheet\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webkul\\Timesheet\\Tests\\": "tests/"
+        }
+    }
+}
