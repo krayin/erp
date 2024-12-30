@@ -2,9 +2,9 @@
 
 namespace Webkul\Employee\Filament\Clusters\Configurations\Resources\CalendarResource\Pages;
 
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\CalendarResource;
-use Filament\Notifications\Notification;
 
 class CreateCalendar extends CreateRecord
 {

@@ -3,6 +3,7 @@
 namespace Webkul\Employee\Filament\Clusters\Configurations\Resources\DepartureReasonResource\Pages;
 
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\DepartureReasonResource;
 use Webkul\Employee\Models\DepartureReason;
@@ -16,6 +17,13 @@ class ListDepartureReasons extends ListRecords
         return [
             Actions\CreateAction::make()
                 ->icon('heroicon-o-plus-circle')
+                ->label(__('employees::filament/clusters/configurations/resources/departure-reason/pages/list-departure.header-actions.create.label'))
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title(__('employees::filament/clusters/configurations/resources/departure-reason/pages/list-departure.header-actions.create.notification.title'))
+                        ->body(__('employees::filament/clusters/configurations/resources/departure-reason/pages/list-departure.header-actions.create.notification.body')),
+                )
                 ->mutateFormDataUsing(function (array $data): array {
                     $data['sort'] = DepartureReason::max('sort') + 1;
 

@@ -19,7 +19,7 @@ class ViewCalendar extends ViewRecord
                 ->successNotification(
                     Notification::make()
                         ->success()
-                        ->title(__('employees::filament/clusters/configurations/resources/calendar.navigation.group'))
+                        ->title(__('employees::filament/clusters/configurations/resources/activity-plan/pages/view-activity-plan.header-actions.delete.notification.title'))
                         ->body(__('employees::filament/clusters/configurations/resources/activity-plan/pages/view-activity-plan.header-actions.delete.notification.body')),
                 ),
         ];
