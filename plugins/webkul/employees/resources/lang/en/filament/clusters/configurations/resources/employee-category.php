@@ -2,11 +2,11 @@
 
 return [
     'navigation' => [
-        'title' => 'Departure Reasons',
+        'title' => 'Tags',
         'group' => 'Employee',
     ],
 
-    'modal-label' => 'Departure Reasons',
+    'modal-label' => 'Tags',
 
     'groups' => [
         'status'     => 'Status',
@@ -22,12 +22,14 @@ return [
 
     'form' => [
         'name'        => 'Name',
+        'color' => 'Color',
     ],
 
     'table' => [
         'columns' => [
-            'id'             => 'ID',
+            'id' => 'ID',
             'name'           => 'Name',
+            'color' => 'Color',
             'created-by'     => 'Created By',
             'created-at'     => 'Created At',
             'updated-at'     => 'Updated At',
@@ -35,24 +37,33 @@ return [
 
         'filters' => [
             'name'              => 'Name',
-            'employee'          => 'Employee',
             'created-by'        => 'Created By',
+            'updated-by'        => 'Updated By',
             'updated-at'        => 'Updated At',
             'created-at'        => 'Created At',
+        ],
+
+        'groups' => [
+            'name'           => 'Name',
+            'job-position'   => 'Job Position',
+            'color'          => 'Color',
+            'created-by'     => 'Created By',
+            'created-at'     => 'Created At',
+            'updated-at'     => 'Updated At',
         ],
 
         'actions' => [
             'edit' => [
                 'notification' => [
-                    'title' => 'Departure reason updated',
-                    'body'  => 'The departure reason has been updated successfully.',
+                    'title' => 'Tag updated',
+                    'body'  => 'The tag has been updated successfully.',
                 ],
             ],
 
             'delete' => [
                 'notification' => [
-                    'title' => 'Departure reason deleted',
-                    'body'  => 'The departure reason has been deleted successfully.',
+                    'title' => 'Tag deleted',
+                    'body'  => 'The tag has been deleted successfully.',
                 ],
             ],
         ],
@@ -60,8 +71,8 @@ return [
         'bulk-actions' => [
             'delete' => [
                 'notification' => [
-                    'title' => 'Departure reasons deleted',
-                    'body'  => 'The departure reasons has been deleted successfully.',
+                    'title' => 'Tags deleted',
+                    'body'  => 'The tags has been deleted successfully.',
                 ],
             ],
         ],
@@ -69,8 +80,8 @@ return [
         'empty-state-action' => [
             'create' => [
                 'notification' => [
-                    'title' => 'Departure reason created',
-                    'body'  => 'The departure reason has been created successfully.',
+                    'title' => 'Tag created',
+                    'body'  => 'The tag has been created successfully.',
                 ],
             ],
         ],
@@ -78,5 +89,6 @@ return [
 
     'infolist' => [
         'name' => 'Name',
+        'color' => 'Color',
     ],
 ];
