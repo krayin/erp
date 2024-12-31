@@ -13,8 +13,8 @@ enum ActivityDecorationType: string
     public static function options(): array
     {
         return [
-            self::ALERT->value => 'Alert',
-            self::ERROR->value => 'Error',
+            self::ALERT->value => __('support::enums/activity-decoration-type.alert'),
+            self::ERROR->value => __('support::enums/activity-decoration-type.error'),
         ];
     }
 }

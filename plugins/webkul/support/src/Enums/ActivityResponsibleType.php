@@ -20,11 +20,11 @@ enum ActivityResponsibleType: string
     public static function options(): array
     {
         return [
-            self::ON_DEMAND->value => 'Ask at launch',
-            self::OTHER->value     => 'Default user',
-            self::COACH->value     => 'Coach',
-            self::MANAGER->value   => 'Manager',
-            self::EMPLOYEE->value  => 'Employee',
+            self::ON_DEMAND->value => __('support::enums/activity-responsible-type.on-demand'),
+            self::OTHER->value     => __('support::enums/activity-responsible-type.other'),
+            self::COACH->value     => __('support::enums/activity-responsible-type.coach'),
+            self::MANAGER->value   => __('support::enums/activity-responsible-type.manager'),
+            self::EMPLOYEE->value  => __('support::enums/activity-responsible-type.employee'),
         ];
     }
 }

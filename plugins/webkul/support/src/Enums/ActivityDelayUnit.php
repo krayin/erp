@@ -15,10 +15,10 @@ enum ActivityDelayUnit: string
     public static function options(): array
     {
         return [
-            self::MINUTES->value => 'Minutes',
-            self::HOURS->value   => 'Hours',
-            self::DAYS->value    => 'Days',
-            self::WEEKS->value   => 'Weeks',
+            self::MINUTES->value => __('support::enums/activity-delay-unit.minutes'),
+            self::HOURS->value   => __('support::enums/activity-delay-unit.hours'),
+            self::DAYS->value    => __('support::enums/activity-delay-unit.days'),
+            self::WEEKS->value   => __('support::enums/activity-delay-unit.weeks'),
         ];
     }
 }

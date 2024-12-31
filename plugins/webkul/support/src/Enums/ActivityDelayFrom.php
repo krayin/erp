@@ -13,8 +13,8 @@ enum ActivityDelayFrom: string
     public static function options(): array
     {
         return [
-            self::PREVIOUS_ACTIVITY->value => 'After Previous Activity Deadline',
-            self::CURRENT_DATE->value      => 'After Complete Date',
+            self::PREVIOUS_ACTIVITY->value => __('support::enums/activity-delay-from.previous-activity'),
+            self::CURRENT_DATE->value      => __('support::enums/activity-delay-from.current-date'),
         ];
     }
 }

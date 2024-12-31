@@ -11,8 +11,8 @@ enum ActivityChainingType: string
     public static function options(): array
     {
         return [
-            self::SUGGEST->value => 'Suggest Next Activity',
-            self::TRIGGER->value => 'Trigger Next Activity',
+            self::SUGGEST->value => __('support::enums/activity-chaining-type.suggest'),
+            self::TRIGGER->value => __('support::enums/activity-chaining-type.trigger'),
         ];
     }
 }

@@ -13,8 +13,8 @@ enum ActivityDelayInterval: string
     public static function options(): array
     {
         return [
-            self::BEFORE_PLAN_DATE->value     => 'Before Plan Date',
-            self::AFTER_PLAN_DATE->value      => 'After Plan Date',
+            self::BEFORE_PLAN_DATE->value => __('support::enums/activity-delay-interval.before-plan-date'),
+            self::AFTER_PLAN_DATE->value  => __('support::enums/activity-delay-interval.after-plan-date'),
         ];
     }
 }
