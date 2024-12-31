@@ -19,7 +19,7 @@ return [
             'notification' => [
                 'success' => [
                     'title' => 'Message sent',
-                    'body'  => 'Your message send successfully.',
+                    'body'  => 'Your message has been send successfully.',
                 ],
 
                 'error' => [

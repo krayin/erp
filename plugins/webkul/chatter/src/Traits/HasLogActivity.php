@@ -14,8 +14,8 @@ trait HasLogActivity
      */
     public static function bootHasLogActivity()
     {
-        static::created(fn (Model $model) => $model->logModelActivity('created'));
-        static::updated(fn (Model $model) => $model->logModelActivity('updated'));
+        static::created(fn(Model $model) => $model->logModelActivity('created'));
+        static::updated(fn(Model $model) => $model->logModelActivity('updated'));
 
         if (method_exists(static::class, 'bootSoftDeletes')) {
             static::deleted(function (Model $model) {
@@ -25,9 +25,9 @@ trait HasLogActivity
                     $model->logModelActivity('hard_deleted');
                 }
             });
-            static::restored(fn (Model $model) => $model->logModelActivity('restored'));
+            static::restored(fn(Model $model) => $model->logModelActivity('restored'));
         } else {
-            static::deleting(fn (Model $model) => $model->logModelActivity('deleted'));
+            static::deleting(fn(Model $model) => $model->logModelActivity('deleted'));
         }
     }
 
@@ -59,11 +59,7 @@ trait HasLogActivity
                 'properties'   => $changes,
             ]);
         } catch (\Exception $e) {
-            Log::error(
-                __('chatter::app.trait.has-log-activity.errors.activity-log-failed', [
-                    'message' => $e->getMessage(),
-                ])
-            );
+            report($e);
 
             return null;
         }
@@ -118,7 +114,7 @@ trait HasLogActivity
 
             return $instance ? $instance->$attribute : null;
         } catch (\Exception $e) {
-            Log::error("Error getting related value for {$relation}.{$attribute}: ".$e->getMessage());
+            Log::error("Error getting related value for {$relation}.{$attribute}: " . $e->getMessage());
 
             return null;
         }
@@ -173,7 +169,7 @@ trait HasLogActivity
                 }
             }
         } catch (\Exception $e) {
-            Log::error("Error tracking relationship changes for {$relation}.{$attribute}: ".$e->getMessage());
+            Log::error("Error tracking relationship changes for {$relation}.{$attribute}: " . $e->getMessage());
         }
 
         return null;
@@ -332,22 +328,22 @@ trait HasLogActivity
         $modelName = Str::headline(class_basename(static::class));
 
         return match ($event) {
-            'created'      => __('chatter::app.trait.activity-log-failed.events.created', [
+            'created'      => __('chatter::traits/has-log-activity.activity-log-failed.events.created', [
                 'model' => $modelName,
             ]),
-            'updated'      => __('chatter::app.trait.activity-log-failed.events.updated', [
+            'updated'      => __('chatter::traits/has-log-activity.activity-log-failed.events.updated', [
                 'model' => $modelName,
             ]),
-            'deleted'      => __('chatter::app.trait.activity-log-failed.events.deleted', [
+            'deleted'      => __('chatter::traits/has-log-activity.activity-log-failed.events.deleted', [
                 'model' => $modelName,
             ]),
-            'soft_deleted' => __('chatter::app.trait.activity-log-failed.events.soft-deleted', [
+            'soft_deleted' => __('chatter::traits/has-log-activity.activity-log-failed.events.soft-deleted', [
                 'model' => $modelName,
             ]),
-            'hard_deleted' => __('chatter::app.trait.activity-log-failed.events.hard-deleted', [
+            'hard_deleted' => __('chatter::traits/has-log-activity.activity-log-failed.events.hard-deleted', [
                 'model' => $modelName,
             ]),
-            'restored'     => __('chatter::app.trait.activity-log-failed.events.restored', [
+            'restored'     => __('chatter::traits/has-log-activity.activity-log-failed.events.restored', [
                 'model' => $modelName,
             ]),
             default        => $event

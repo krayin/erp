@@ -13,7 +13,9 @@
             @case('comment')
                 @if ($record->subject)
                     <div class="mb-2 text-sm font-semibold text-gray-800 dark:text-gray-200">
-                        <span class="block text-gray-500 dark:text-gray-400">Subject:</span>
+                        <span class="block text-gray-500 dark:text-gray-400">
+                            @lang('chatter::views/filament/infolists/components/messages/content-text-entry.subject'):
+                        </span>
                         {{ $record->subject }}
                     </div>
                 @endif
@@ -129,7 +131,7 @@
                                 <x-heroicon-m-arrow-path class="text-primary-500 h-5 w-5"/>
 
                                 <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                    @lang('chatter::app.views.filament.infolists.components.content-text-entry.changes-made')
+                                    @lang('chatter::views/filament/infolists/components/messages/content-text-entry.changes-made')
                                 </h3>
                             </div>
                         </div>
@@ -148,7 +150,7 @@
                                             @endif
 
                                             <span class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                                @lang('chatter::app.views.filament.infolists.components.content-text-entry.modified', [
+                                                @lang('chatter::views/filament/infolists/components/messages/content-text-entry.modified', [
                                                     'field' => ucwords(str_replace('_', ' ', $field)),
                                                 ])
 
