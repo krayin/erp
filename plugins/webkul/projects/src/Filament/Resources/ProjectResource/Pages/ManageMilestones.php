@@ -10,6 +10,7 @@ use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\MilestoneResource;
 use Webkul\Project\Filament\Resources\ProjectResource;
+use Webkul\Project\Settings\TaskSettings;
 
 class ManageMilestones extends ManageRelatedRecords
 {
@@ -18,6 +19,24 @@ class ManageMilestones extends ManageRelatedRecords
     protected static string $relationship = 'milestones';
 
     protected static ?string $navigationIcon = 'heroicon-o-flag';
+
+    /**
+     * @param  array<string, mixed>  $parameters
+     */
+    public static function canAccess(array $parameters = []): bool
+    {
+        $canAccess = parent::canAccess($parameters);
+
+        if (! $canAccess) {
+            return false;
+        }
+
+        if (! app(TaskSettings::class)->enable_milestones) {
+            return false;
+        }
+
+        return $parameters['record']?->allow_milestones;
+    }
 
     public static function getNavigationLabel(): string
     {

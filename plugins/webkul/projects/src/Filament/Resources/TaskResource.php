@@ -633,7 +633,9 @@ class TaskResource extends Resource
                                         Infolists\Components\TextEntry::make('project.name')
                                             ->label(__('projects::filament/resources/task.infolist.sections.project-information.entries.project'))
                                             ->icon('heroicon-o-folder')
-                                            ->placeholder('—'),
+                                            ->placeholder('—')
+                                            ->color('primary')
+                                            ->url(fn (Task $record): string => $record->project_id ? route('filament.admin.resources.project.projects.view', $record->project_id) : '#'),
 
                                         Infolists\Components\TextEntry::make('milestone.name')
                                             ->label(__('projects::filament/resources/task.infolist.sections.project-information.entries.milestone'))
@@ -779,21 +781,17 @@ class TaskResource extends Resource
 
     public static function getRelations(): array
     {
-        $relations = [];
-
-        if (app(TimeSettings::class)->enable_timesheets) {
-            $relations[] = RelationGroup::make('Timesheets', [
+        return [
+            RelationGroup::make('Timesheets', [
                 RelationManagers\TimesheetsRelationManager::class,
             ])
-                ->icon('heroicon-o-clock');
-        }
+                ->icon('heroicon-o-clock'),
 
-        $relations[] = RelationGroup::make('Sub Tasks', [
-            RelationManagers\SubTasksRelationManager::class,
-        ])
-            ->icon('heroicon-o-clipboard-document-list');
-
-        return $relations;
+            RelationGroup::make('Sub Tasks', [
+                RelationManagers\SubTasksRelationManager::class,
+            ])
+                ->icon('heroicon-o-clipboard-document-list')
+        ];
     }
 
     public static function getPages(): array

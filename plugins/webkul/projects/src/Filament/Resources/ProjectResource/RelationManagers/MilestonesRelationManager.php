@@ -9,10 +9,17 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\MilestoneResource;
+use Illuminate\Database\Eloquent\Model;
+use Webkul\Project\Settings\TaskSettings;
 
 class MilestonesRelationManager extends RelationManager
 {
     protected static string $relationship = 'milestones';
+
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        return app(TaskSettings::class)->enable_milestones && $ownerRecord->allow_milestones;
+    }
 
     public function form(Form $form): Form
     {
