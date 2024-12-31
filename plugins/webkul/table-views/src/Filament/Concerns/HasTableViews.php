@@ -33,7 +33,7 @@ trait HasTableViews
      */
     protected array $cachedFavoriteTableViews;
 
-    protected string|Closure|null $tableViewsFormMaxHeight = null;
+    protected string|Closure|null $tableViewsFormMaxHeight = '500px';
 
     protected MaxWidth|string|Closure|null $tableViewsFormWidth = null;
 

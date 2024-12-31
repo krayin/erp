@@ -7,6 +7,8 @@
     'activeTableViewsCount' => 0,
     'isActiveTableViewModified' => false,
     'layout' => TableViewsLayout::Dropdown,
+    'maxHeight' => null,
+    'width' => 'xs',
     'triggerAction',
     'favoriteViews' => [],
     'savedViews' => [],
@@ -51,8 +53,10 @@
     </x-filament::modal>
 @else
     <x-filament::dropdown
+        :max-height="$maxHeight"
         placement="bottom-end"
         shift
+        :width="$width"
         wire:key="{{ $this->getId() }}.table.filters"
         {{ $attributes->class(['fi-ta-filters-dropdown']) }}
     >
