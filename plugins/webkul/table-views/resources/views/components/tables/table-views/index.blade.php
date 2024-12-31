@@ -45,8 +45,8 @@
     <div class="flex flex-col gap-y-6">
         @foreach ([
             __('table-views::app.views.component.tables.table-views.favorites-views') => $favoriteViews,
-            __('table-views::app.views.component.tables.table-views.saved-views') => $savedViews,
-            __('table-views::app.views.component.tables.table-views.preset-views') => $presetViews,
+            __('table-views::app.views.component.tables.table-views.saved-views') => array_diff_key($savedViews, $favoriteViews),
+            __('table-views::app.views.component.tables.table-views.preset-views') => array_diff_key($presetViews, $favoriteViews),
         ] as $label => $views)
             @if (empty($views))
                 @continue
@@ -97,7 +97,7 @@
                                 'cursor-move': reorderViews === true
                             }"
                             x-sortable-handle
-                             x-bind:x-sortable-item="reorderViews === true && '{{ $key }}'"
+                            x-bind:x-sortable-item="reorderViews === true && '{{ $key }}'"
                         >
                             <div
                                 class="flex w-full items-center justify-between gap-x-2 truncate"
@@ -114,7 +114,7 @@
                                     <div class="flex w-full items-center gap-x-3 truncate">
                                         <x-filament::icon
                                             :icon="$view->getIcon()"
-                                            class="h-5 w-5 text-gray-500 dark:text-gray-400"
+                                            class="h-5 w-5 text-gray-400 dark:text-gray-400"
                                         />
 
                                         <div class="flex items-center gap-x-2 truncate" style="">
@@ -129,6 +129,15 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <x-filament::icon
+                                :icon="
+                                    $type == 'saved'
+                                        ? $view->isPublic() ? 'heroicon-o-eye' : 'heroicon-o-user'
+                                        : 'heroicon-o-lock-closed'
+                                "
+                                class="h-6 w-6 text-gray-400 dark:text-gray-200"
+                            />
 
                             <div x-show="reorderViews === false">
                                 <x-filament-actions::group
