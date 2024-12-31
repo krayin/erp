@@ -63,9 +63,15 @@ return [
                 'manager'       => 'Manager',
                 'department'    => 'Department',
                 'job-position'  => 'Job Position',
-                'team-tags' => 'Team Tags',
+                'team-tags'     => 'Team Tags',
                 'coach'         => 'Coach',
             ],
+        ],
+    ],
+
+    'infolist' => [
+        'entries' => [
+            'name' => 'Name',
         ],
     ],
 ];

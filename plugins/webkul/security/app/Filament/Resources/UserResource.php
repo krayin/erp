@@ -4,6 +4,8 @@ namespace Webkul\Security\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -296,6 +298,88 @@ class UserResource extends Resource
             ]);
     }
 
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\Grid::make(['default' => 3])
+                    ->schema([
+                        Infolists\Components\Group::make()
+                            ->schema([
+                                Infolists\Components\Section::make(__('security::filament/resources/user.infolist.sections.general-information.title'))
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('name')
+                                            ->icon('heroicon-o-user')
+                                            ->placeholder('—')
+                                            ->label(__('security::filament/resources/user.infolist.sections.general-information.entries.name')),
+                                        Infolists\Components\TextEntry::make('email')
+                                            ->icon('heroicon-o-envelope')
+                                            ->placeholder('—')
+                                            ->label(__('security::filament/resources/user.infolist.sections.general-information.entries.email')),
+                                        Infolists\Components\TextEntry::make('language')
+                                            ->icon('heroicon-o-language')
+                                            ->placeholder('—')
+                                            ->label(__('security::filament/resources/user.infolist.sections.lang-and-status.entries.language')),
+                                    ])
+                                    ->columns(2),
+
+                                Infolists\Components\Section::make(__('security::filament/resources/user.infolist.sections.permissions.title'))
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('roles.name')
+                                            ->icon('heroicon-o-key')
+                                            ->placeholder('—')
+                                            ->label(__('security::filament/resources/user.infolist.sections.permissions.entries.roles'))
+                                            ->listWithLineBreaks()
+                                            ->bulleted(),
+                                        Infolists\Components\TextEntry::make('teams.name')
+                                            ->icon('heroicon-o-user-group')
+                                            ->placeholder('—')
+                                            ->label(__('security::filament/resources/user.infolist.sections.permissions.entries.teams'))
+                                            ->listWithLineBreaks()
+                                            ->bulleted(),
+                                        Infolists\Components\TextEntry::make('resource_permission')
+                                            ->icon('heroicon-o-lock-closed')
+                                            ->placeholder('—')
+                                            ->label(__('security::filament/resources/user.infolist.sections.permissions.entries.resource-permission')),
+                                    ])
+                                    ->columns(2),
+                            ])
+                            ->columnSpan(2),
+
+                        Infolists\Components\Group::make([
+                            Infolists\Components\Section::make(__('security::filament/resources/user.infolist.sections.avatar.title'))
+                                ->schema([
+                                    Infolists\Components\ImageEntry::make('partner.avatar')
+                                        ->hiddenLabel()
+                                        ->circular()
+                                        ->placeholder('—'),
+                                ]),
+
+                            Infolists\Components\Section::make(__('security::filament/resources/user.infolist.sections.multi-company.title'))
+                                ->schema([
+                                    Infolists\Components\TextEntry::make('allowedCompanies.name')
+                                        ->icon('heroicon-o-building-office')
+                                        ->placeholder('—')
+                                        ->label(__('security::filament/resources/user.infolist.sections.multi-company.allowed-companies'))
+                                        ->listWithLineBreaks()
+                                        ->bulleted(),
+                                    Infolists\Components\TextEntry::make('defaultCompany.name')
+                                        ->icon('heroicon-o-building-office-2')
+                                        ->placeholder('—')
+                                        ->label(__('security::filament/resources/user.infolist.sections.multi-company.default-company')),
+                                ]),
+
+                            Infolists\Components\Section::make(__('security::filament/resources/user.infolist.sections.lang-and-status.title'))
+                                ->schema([
+                                    Infolists\Components\IconEntry::make('is_active')
+                                        ->label(__('security::filament/resources/user.infolist.sections.lang-and-status.entries.status'))
+                                        ->boolean(),
+                                ]),
+                        ])->columnSpan(1),
+                    ]),
+            ]);
+    }
+
     public static function getRelations(): array
     {
         return [
@@ -309,6 +393,7 @@ class UserResource extends Resource
             'index'  => Pages\ListUsers::route('/'),
             'create' => Pages\CreateUser::route('/create'),
             'edit'   => Pages\EditUser::route('/{record}/edit'),
+            'view'   => Pages\ViewUsers::route('/{record}'),
         ];
     }
 }

@@ -4,6 +4,8 @@ namespace Webkul\Security\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -63,6 +65,7 @@ class TeamResource extends Resource
                     ->sortable(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make()
                     ->successNotification(
                         Notification::make()
@@ -87,6 +90,17 @@ class TeamResource extends Resource
                             ->title(__('security::filament/resources/team.navigation.table.empty-state-actions.create.notification.title'))
                             ->body(__('security::filament/resources/team.navigation.table.empty-state-actions.create.notification.body'))
                     ),
+            ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\TextEntry::make('name')
+                    ->icon('heroicon-o-user')
+                    ->placeholder('—')
+                    ->label(__('security::filament/resources/team.infolist.entries.name')),
             ]);
     }
 

@@ -18,22 +18,22 @@ return [
     'form' => [
         'sections' => [
             'general-information' => [
-                'title' => 'General Information',
+                'title'  => 'General Information',
                 'fields' => [
-                    'name' => 'Name',
-                    'email' => 'Email',
-                    'password' => 'Password',
+                    'name'                  => 'Name',
+                    'email'                 => 'Email',
+                    'password'              => 'Password',
                     'password-confirmation' => 'Password Confirmation',
-                ]
+                ],
             ],
 
             'permissions' => [
-                'title' => 'Permissions',
+                'title'  => 'Permissions',
                 'fields' => [
-                    'roles' => 'Roles',
-                    'permissions' => 'Permissions',
+                    'roles'               => 'Roles',
+                    'permissions'         => 'Permissions',
                     'resource-permission' => 'Resource Permission',
-                    'teams' => 'Teams',
+                    'teams'               => 'Teams',
                 ],
             ],
 
@@ -42,18 +42,18 @@ return [
             ],
 
             'lang-and-status' => [
-                'title' => 'Language & Status',
+                'title'  => 'Language & Status',
                 'fields' => [
                     'language' => 'Preferred Language',
-                    'status' => 'Status',
+                    'status'   => 'Status',
                 ],
             ],
 
             'multi-company' => [
-                'title' => 'Multi Company',
+                'title'             => 'Multi Company',
                 'allowed-companies' => 'Allowed Companies',
-                'default-company' => 'Default Company',
-            ]
+                'default-company'   => 'Default Company',
+            ],
         ],
     ],
 
@@ -131,6 +131,48 @@ return [
                     'title' => 'Users created',
                     'body'  => 'The users has been created successfully.',
                 ],
+            ],
+        ],
+    ],
+
+    'infolist' => [
+        'sections' => [
+            'general-information' => [
+                'title'   => 'General Information',
+                'entries' => [
+                    'name'                  => 'Name',
+                    'email'                 => 'Email',
+                    'password'              => 'Password',
+                    'password-confirmation' => 'Password Confirmation',
+                ],
+            ],
+
+            'permissions' => [
+                'title'   => 'Permissions',
+                'entries' => [
+                    'roles'               => 'Roles',
+                    'permissions'         => 'Permissions',
+                    'resource-permission' => 'Resource Permission',
+                    'teams'               => 'Teams',
+                ],
+            ],
+
+            'avatar' => [
+                'title' => 'Avatar',
+            ],
+
+            'lang-and-status' => [
+                'title'   => 'Language & Status',
+                'entries' => [
+                    'language' => 'Preferred Language',
+                    'status'   => 'Status',
+                ],
+            ],
+
+            'multi-company' => [
+                'title'             => 'Multi Company',
+                'allowed-companies' => 'Allowed Companies',
+                'default-company'   => 'Default Company',
             ],
         ],
     ],
