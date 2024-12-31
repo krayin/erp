@@ -28,7 +28,7 @@ return [
         ],
 
         'create' => [
-            'label' => 'New Project',
+            'label' => 'New User',
         ],
     ],
 ];

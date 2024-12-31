@@ -30,7 +30,7 @@ class UserInvitationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: __('security::mail.user-invitation.subject', [
+            subject: __('security::mail/user-invitation-mail.user-invitation.subject', [
                 'app' => config('app.name'),
             ]),
         );

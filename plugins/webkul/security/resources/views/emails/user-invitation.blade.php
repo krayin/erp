@@ -1,11 +1,10 @@
 <x-mail::message>
-You have been invited to join {{ config('app.name') }}
 
-To accept the invitation - click on the button below and create an account:
+@lang('security::views/emails/user-invitation.body', ['app' => config('app.name')])
 
 <x-mail::button :url="$acceptUrl">
-{{ __('Create Account') }}
+@lang('security::views/emails/user-invitation.create-account')
 </x-mail::button>
 
-{{ __('If you did not expect to receive an invitation to this team, you may discard this email.') }}
+@lang('security::views/emails/user-invitation.discard-email')
 </x-mail::message>
