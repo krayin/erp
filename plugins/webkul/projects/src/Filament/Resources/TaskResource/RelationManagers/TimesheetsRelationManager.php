@@ -10,10 +10,25 @@ use Filament\Tables;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
+use Webkul\Project\Settings\TimeSettings;
 
 class TimesheetsRelationManager extends RelationManager
 {
     protected static string $relationship = 'timesheets';
+
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        if (! app(TimeSettings::class)->enable_timesheets) {
+            return false;
+        }
+
+        if (! $ownerRecord->project) {
+            return true;
+        }
+
+        return $ownerRecord->project->allow_timesheets;
+    }
 
     public function form(Form $form): Form
     {

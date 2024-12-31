@@ -575,21 +575,17 @@ class ProjectResource extends Resource
 
     public static function getRelations(): array
     {
-        $relations = [
+        return [
             RelationGroup::make('Task Stages', [
                 RelationManagers\TaskStagesRelationManager::class,
             ])
                 ->icon('heroicon-o-squares-2x2'),
-        ];
-
-        if (app(TaskSettings::class)->enable_milestones) {
-            $relations[] = RelationGroup::make('Milestones', [
+            
+            RelationGroup::make('Milestones', [
                 RelationManagers\MilestonesRelationManager::class,
             ])
-                ->icon('heroicon-o-flag');
-        }
-
-        return $relations;
+                ->icon('heroicon-o-flag'),
+        ];
     }
 
     public static function getPages(): array
