@@ -5,6 +5,7 @@ return [
     App\Providers\Filament\AdminPanelProvider::class,
     Webkul\Analytic\AnalyticServiceProvider::class,
     Webkul\Chatter\ChatterServiceProvider::class,
+    Webkul\Contact\ContactServiceProvider::class,
     Webkul\Support\SupportServiceProvider::class,
     Webkul\Field\FieldServiceProvider::class,
     Webkul\Partner\PartnerServiceProvider::class,
@@ -12,4 +13,5 @@ return [
     Webkul\TableViews\TableViewsServiceProvider::class,
     Webkul\Security\SecurityServiceProvider::class,
     Webkul\Employee\EmployeeServiceProvider::class,
+    Webkul\Timesheet\TimesheetServiceProvider::class,
 ];
