@@ -23,18 +23,18 @@ class ManageUsers extends SettingsPage
     public function getBreadcrumbs(): array
     {
         return [
-            __('security::app.filament.clusters.settings.name'),
+            __('security::filament/clusters/manage-users.breadcrumb'),
         ];
     }
 
     public function getTitle(): string
     {
-        return __('security::app.filament.clusters.pages.manage-users.title');
+        return __('security::filament/clusters/manage-users.title');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('security::app.filament.clusters.pages.manage-users.title');
+        return __('security::filament/clusters/manage-users.navigation.label');
     }
 
     public function form(Form $form): Form
@@ -42,16 +42,16 @@ class ManageUsers extends SettingsPage
         return $form
             ->schema([
                 Forms\Components\Toggle::make('enable_user_invitation')
-                    ->label(__('security::app.filament.clusters.pages.manage-users.enable-user-invitation'))
-                    ->helperText(__('security::app.filament.clusters.pages.manage-users.enable-user-invitation-helper-text'))
+                    ->label(__('security::filament/clusters/manage-users.form.enable-user-invitation.label'))
+                    ->helperText(__('security::filament/clusters/manage-users.form.enable-user-invitation.helper-text'))
                     ->required(),
                 Forms\Components\Toggle::make('enable_reset_password')
-                    ->label(__('security::app.filament.clusters.pages.manage-users.enable-reset-password'))
-                    ->helperText(__('security::app.filament.clusters.pages.manage-users.enable-reset-password-helper-text'))
+                    ->label(__('security::filament/clusters/manage-users.form.enable-reset-password.label'))
+                    ->helperText(__('security::filament/clusters/manage-users.form.enable-reset-password.helper-text'))
                     ->required(),
                 Forms\Components\Select::make('default_role_id')
-                    ->label(__('security::app.filament.clusters.pages.manage-users.default-role'))
-                    ->helperText(__('security::app.filament.clusters.pages.manage-users.default-role-helper-text'))
+                    ->label(__('security::filament/clusters/manage-users.form.default-role.label'))
+                    ->helperText(__('security::filament/clusters/manage-users.form.default-role.helper-text'))
                     ->options(Role::all()->pluck('name', 'id'))
                     ->searchable(),
             ]);

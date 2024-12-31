@@ -12,11 +12,11 @@ class Settings extends Cluster
 
     public static function getNavigationLabel(): string
     {
-        return __('support::app.filament.clusters.settings.name');
+        return __('support::filament/clusters/settings/pages/settings.navigation.title');
     }
 
     public static function getNavigationGroup(): string
     {
-        return __('support::app.filament.clusters.settings.group');
+        return __('support::filament/clusters/settings/pages/settings.navigation.group');
     }
 }

@@ -22,18 +22,18 @@ class ManageActivity extends SettingsPage
     public function getBreadcrumbs(): array
     {
         return [
-            __('security::app.filament.clusters.settings.name'),
+            __('security::filament/clusters/manage-activity.breadcrumb'),
         ];
     }
 
     public function getTitle(): string
     {
-        return 'Manage Activities';
+        return __('security::filament/clusters/manage-activity.title');
     }
 
     public static function getNavigationLabel(): string
     {
-        return 'Manage Activities';
+        return __('security::filament/clusters/manage-activity.navigation.label');
     }
 
     public function form(Form $form): Form
@@ -41,11 +41,11 @@ class ManageActivity extends SettingsPage
         return $form
             ->schema([
                 Forms\Components\Placeholder::make('activity_description')
-                    ->label('Activities')
-                    ->content('Configure your activity types.'),
+                    ->label(__('security::filament/clusters/manage-activity.form.activity-description.label'))
+                    ->content(__('security::filament/clusters/manage-activity.form.activity-description.content')),
                 Forms\Components\Actions::make([
                     Forms\Components\Actions\Action::make('manageActivityTypes')
-                        ->label('Activity Types')
+                        ->label(__('security::filament/clusters/manage-activity.form.actions.manage-activity-types.label'))
                         ->icon('heroicon-o-arrow-top-right-on-square')
                         ->link()
                         ->url(route('filament.admin.resources.settings.activity-types.index')),
