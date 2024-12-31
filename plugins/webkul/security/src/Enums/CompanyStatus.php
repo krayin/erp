@@ -11,8 +11,8 @@ enum CompanyStatus: string
     public static function options(): array
     {
         return [
-            self::ACTIVE->value      => 'Active',
-            self::INACTIVE->value    => 'Inactive',
+            self::ACTIVE->value      => __('security::enums/company-status.active'),
+            self::INACTIVE->value    => __('security::enums/company-status.inactive'),
         ];
     }
 }
