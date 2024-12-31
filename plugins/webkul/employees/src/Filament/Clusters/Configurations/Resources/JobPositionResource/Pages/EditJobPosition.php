@@ -13,6 +13,11 @@ class EditJobPosition extends EditRecord
 {
     protected static string $resource = JobPositionResource::class;
 
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('view', ['record' => $this->getRecord()]);
+    }
+
     protected function getSavedNotification(): Notification
     {
         return Notification::make()

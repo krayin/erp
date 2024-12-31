@@ -12,6 +12,11 @@ class EditDepartment extends EditRecord
 {
     protected static string $resource = DepartmentResource::class;
 
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('view', ['record' => $this->getRecord()]);
+    }
+
     protected function getSavedNotification(): Notification
     {
         return Notification::make()
@@ -26,7 +31,7 @@ class EditDepartment extends EditRecord
             ChatterActions\ChatterAction::make(),
             Actions\ViewAction::make(),
             Actions\DeleteAction::make()
-              ->successNotification(
+                ->successNotification(
                     Notification::make()
                         ->success()
                         ->title(__('employees::filament/resources/department/pages/edit-department.header-actions.delete.notification.title'))
