@@ -100,15 +100,16 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
             ->icon('heroicon-o-check-circle')
             ->color('success')
             ->modalIcon('heroicon-o-check-circle')
+            ->label(__('chatter::livewire/chatter-panel.mark-as-done.title'))
             ->form(fn(Form $form) => $form->schema([
                 TextInput::make('feedback')
-                    ->label('Feedback'),
+                    ->label(__('chatter::livewire/chatter-panel.mark-as-done.form.fields.feedback')),
                 Hidden::make('type'),
             ]))
             ->modalFooterActions(fn($livewire, $arguments): array => [
                 Action::make('doneAndScheduleNext')
                     ->icon('heroicon-o-arrow-uturn-right')
-                    ->label('Done & Schedule Next')
+                    ->label(__('chatter::livewire/chatter-panel.mark-as-done.footer-actions.label'))
                     ->modalIcon('heroicon-o-arrow-uturn-right')
                     ->action(function () use ($livewire, $arguments) {
                         $this->processMessage($arguments['id'], $livewire->mountedActionsData[0]['feedback'] ?? null);
@@ -117,7 +118,8 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
 
                         Notification::make()
                             ->success()
-                            ->title('Successfully mark as done.')
+                            ->title(__('chatter::livewire/chatter-panel.mark-as-done.footer-actions.actions.notification.mark-as-done.title'))
+                            ->body(__('chatter::livewire/chatter-panel.mark-as-done.footer-actions.actions.notification.mark-as-done.body'))
                             ->send();
                     })
                     ->cancelParentActions(),
@@ -130,7 +132,8 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
 
                         Notification::make()
                             ->success()
-                            ->title('Successfully mark as done.')
+                            ->title(__('chatter::livewire/chatter-panel.mark-as-done.footer-actions.actions.notification.mark-as-done.title'))
+                            ->body(__('chatter::livewire/chatter-panel.mark-as-done.footer-actions.actions.notification.mark-as-done.body'))
                             ->send();
                     })
                     ->cancelParentActions(),
@@ -152,9 +155,9 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
             'type' => 'comment',
             'body' => collect([
                 $message->activityType?->name ? $message->activityType?->name . ' done' : null,
-                $message->summary ? ': ' . $message->summary : null,
-                $message->body ? '<br><div><span class="font-bold">Original Note</span>: ' . $message->body . '</div>' : null,
-                $feedback ? '<div><span class="font-bold">Feedback</span>: <p>' . $feedback . '</p></div>' : null,
+                $message->summary ? $message->summary : null,
+                $message->body ? __('chatter::livewire/chatter-panel.process-message.original-note', ['body' => $message->body]) : null,
+                $feedback ? __('chatter::livewire/chatter-panel.process-message.feedback', ['feedback' => $feedback]) : null,
             ])->filter()->implode(''),
         ]);
 
@@ -167,6 +170,7 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
             ->icon('heroicon-o-pencil-square')
             ->modalIcon('heroicon-o-pencil-square')
             ->color('primary')
+            ->label(__('chatter::livewire/chatter-panel.edit-activity.title'))
             ->mountUsing(function (Forms\Form $form, $livewire) {
                 $activityId = $livewire->mountedActionsArguments[0]['id'];
 
@@ -189,13 +193,13 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
                             Forms\Components\Group::make()
                                 ->schema([
                                     Forms\Components\Select::make('activity_plan_id')
-                                        ->label(__('Activity Plan'))
+                                        ->label(__('chatter::livewire/chatter-panel.edit-activity.form.fields.activity-plan'))
                                         ->options($this->activityPlans)
                                         ->searchable()
                                         ->preload()
                                         ->live(),
                                     Forms\Components\DatePicker::make('date_deadline')
-                                        ->label('Plan Date')
+                                        ->label(__('chatter::livewire/chatter-panel.edit-activity.form.fields.plan-date'))
                                         ->hidden(fn(Get $get) => ! $get('activity_plan_id'))
                                         ->live()
                                         ->native(false),
@@ -205,6 +209,7 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
                             Forms\Components\Group::make()
                                 ->schema([
                                     Forms\Components\Placeholder::make('plan_summary')
+                                        ->label(__('chatter::livewire/chatter-panel.edit-activity.form.fields.plan-summary'))
                                         ->content(function (Get $get) {
                                             if (! $get('activity_plan_id')) {
                                                 return null;
@@ -226,7 +231,7 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
                                             return new HtmlString($html);
                                         })->hidden(fn(Get $get) => ! $get('activity_plan_id')),
                                     Forms\Components\Select::make('activity_type_id')
-                                        ->label(__('chatter::app.filament.actions.chatter.activity.form.activity-type'))
+                                        ->label(__('chatter::livewire/chatter-panel.edit-activity.form.fields.activity-type'))
                                         ->options(ActivityType::pluck('name', 'id'))
                                         ->searchable()
                                         ->preload()
@@ -234,17 +239,17 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
                                         ->required()
                                         ->visible(fn(Get $get) => ! $get('activity_plan_id')),
                                     Forms\Components\DatePicker::make('date_deadline')
-                                        ->label(__('chatter::app.filament.actions.chatter.activity.form.due-date'))
+                                        ->label(__('chatter::livewire/chatter-panel.edit-activity.form.fields.due-date'))
                                         ->native(false)
-                                        ->hidden(fn(Get $get) => $get('activity_type_id') ? ActivityType::find($get('activity_type_id'))->category == 'meeting' : false)
+                                        ->hidden(fn(Get $get) => $get('activity_type_id') ? ActivityType::find($get('activity_type_id'))?->category == 'meeting' : false)
                                         ->visible(fn(Get $get) => ! $get('activity_plan_id')),
                                     Forms\Components\TextInput::make('summary')
-                                        ->label(__('chatter::app.filament.actions.chatter.activity.form.summary'))
+                                        ->label(__('chatter::livewire/chatter-panel.edit-activity.form.fields.summary'))
                                         ->visible(fn(Get $get) => ! $get('activity_plan_id')),
                                     Forms\Components\Select::make('assigned_to')
-                                        ->label(__('chatter::app.filament.actions.chatter.activity.form.assigned-to'))
+                                        ->label(__('chatter::livewire/chatter-panel.edit-activity.form.fields.assigned-to'))
                                         ->searchable()
-                                        ->hidden(fn(Get $get) => $get('activity_type_id') ? ActivityType::find($get('activity_type_id'))->category == 'meeting' : false)
+                                        ->hidden(fn(Get $get) => $get('activity_type_id') ? ActivityType::find($get('activity_type_id'))?->category == 'meeting' : false)
                                         ->live()
                                         ->visible(fn(Get $get) => ! $get('activity_plan_id'))
                                         ->options(User::all()->pluck('name', 'id')->toArray())
@@ -252,7 +257,7 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
                                 ])->columns(2),
                             Forms\Components\RichEditor::make('body')
                                 ->hiddenLabel()
-                                ->hidden(fn(Get $get) => $get('activity_type_id') ? ActivityType::find($get('activity_type_id'))->category == 'meeting' : false)
+                                ->hidden(fn(Get $get) => $get('activity_type_id') ? ActivityType::find($get('activity_type_id'))?->category == 'meeting' : false)
                                 ->visible(fn(Get $get) => ! $get('activity_plan_id'))
                                 ->label(__('chatter::app.filament.actions.chatter.activity.form.type-your-message-here'))
                                 ->visible(fn(Get $get) => ! $get('activity_plan_id')),
@@ -271,6 +276,8 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
                 Notification::make()
                     ->success()
                     ->title('Activity updated successfully')
+                    ->title(__('chatter::livewire/chatter-panel.edit-activity.action.notification.success.title'))
+                    ->body(__('chatter::livewire/chatter-panel.edit-activity.action.notification.success.body'))
                     ->send();
             });
     }
@@ -286,16 +293,10 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
     {
         return Action::make('cancelActivity')
             ->icon('heroicon-o-trash')
+            ->label(__('chatter::livewire/chatter-panel.cancel-activity-plan-action.title'))
             ->color('danger')
             ->requiresConfirmation()
             ->action(fn(array $arguments) => $this->record->removeMessage($arguments['id'], 'activities'));
-    }
-
-    public function deleteAttachmentAction(): Action
-    {
-        return Action::make('deleteAttachment')
-            ->requiresConfirmation()
-            ->action(fn(array $arguments) => dd($arguments));
     }
 
     public function chatInfolist(Infolist $infolist): Infolist
@@ -311,7 +312,7 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
                         MessageContentTextEntry::make('content')
                             ->hiddenLabel(),
                     ])
-                    ->placeholder(__('chatter::app.livewire.chatter_panel.placeholders.no_record_found')),
+                    ->placeholder(__('chatter::livewire/chatter-panel.placeholders.no-record-found')),
             ]);
     }
 
@@ -326,7 +327,7 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
                 }
 
                 return [
-                    Section::make('Activities')
+                    Section::make(__('chatter::livewire/chatter-panel.activity-infolist.title'))
                         ->collapsible()
                         ->compact()
                         ->schema([
@@ -338,7 +339,7 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
                                     ActivityContentTextEntry::make('content')
                                         ->hiddenLabel(),
                                 ])
-                                ->placeholder(__('chatter::app.livewire.chatter_panel.placeholders.no_record_found')),
+                                ->placeholder(__('chatter::livewire/chatter-panel.placeholders.no-record-found')),
                         ]),
                 ];
             });
@@ -351,7 +352,7 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
                 <div class="flex flex-col items-center space-y-4">
                     <x-filament::loading-indicator class="text-primary-500 h-10 w-10 animate-spin" />
                     <p class="text-sm font-medium tracking-wide text-gray-600 dark:text-gray-300">
-                        {{ __('chatter::app.livewire.chatter_panel.placeholders.loading') }}
+                        {{ __('chatter::livewire/chatter-panel.placeholders.loading') }}
                     </p>
                 </div>
             </div>
