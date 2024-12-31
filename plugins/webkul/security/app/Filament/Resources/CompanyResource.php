@@ -7,8 +7,8 @@ use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
-use Filament\Infolists\Infolist;
 use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -103,14 +103,14 @@ class CompanyResource extends Resource
                                                 Forms\Components\TextInput::make('zip')
                                                     ->live()
                                                     ->label(__('security::filament/resources/company.form.sections.address-information.fields.zipcode'))
-                                                    ->required(fn(Get $get) => Country::find($get('country_id'))?->zip_required),
+                                                    ->required(fn (Get $get) => Country::find($get('country_id'))?->zip_required),
                                                 Forms\Components\Select::make('country_id')
                                                     ->label(__('security::filament/resources/company.form.sections.address-information.fields.country'))
                                                     ->relationship(name: 'country', titleAttribute: 'name')
-                                                    ->afterStateUpdated(fn(Set $set) => $set('state_id', null))
+                                                    ->afterStateUpdated(fn (Set $set) => $set('state_id', null))
                                                     ->createOptionForm([
                                                         Forms\Components\Select::make('currency_id')
-                                                            ->options(fn() => Currency::pluck('full_name', 'id'))
+                                                            ->options(fn () => Currency::pluck('full_name', 'id'))
                                                             ->searchable()
                                                             ->preload()
                                                             ->label(__('security::filament/resources/company.form.sections.address-information.fields.currency-name'))
@@ -133,7 +133,7 @@ class CompanyResource extends Resource
                                                             ->required(),
                                                     ])
                                                     ->createOptionAction(
-                                                        fn(Action $action) => $action
+                                                        fn (Action $action) => $action
                                                             ->modalHeading(__('security::filament/resources/company.form.sections.address-information.fields.create-country'))
                                                             ->modalSubmitActionLabel(__('security::filament/resources/company.form.sections.address-information.fields.create-country'))
                                                             ->modalWidth('lg')
@@ -145,7 +145,7 @@ class CompanyResource extends Resource
                                                 Forms\Components\Select::make('state_id')
                                                     ->label(__('security::filament/resources/company.form.sections.address-information.fields.state'))
                                                     ->options(
-                                                        fn(Get $get): Collection => State::query()
+                                                        fn (Get $get): Collection => State::query()
                                                             ->where('country_id', $get('country_id'))
                                                             ->pluck('name', 'id')
                                                     )
@@ -160,14 +160,14 @@ class CompanyResource extends Resource
                                                             ->maxLength(255),
                                                     ])
                                                     ->createOptionAction(
-                                                        fn(Action $action) => $action
+                                                        fn (Action $action) => $action
                                                             ->modalHeading('Create State')
                                                             ->modalSubmitActionLabel('Create State')
                                                             ->modalWidth('lg')
                                                     )
                                                     ->searchable()
                                                     ->preload()
-                                                    ->required(fn(Get $get) => Country::find($get('country_id'))?->state_required),
+                                                    ->required(fn (Get $get) => Country::find($get('country_id'))?->state_required),
                                             ])
                                             ->columns(2),
                                     ]),
@@ -180,7 +180,7 @@ class CompanyResource extends Resource
                                             ->required()
                                             ->live()
                                             ->preload()
-                                            ->options(fn() => Currency::pluck('full_name', 'id'))
+                                            ->options(fn () => Currency::pluck('full_name', 'id'))
                                             ->createOptionForm([
                                                 Forms\Components\Section::make()
                                                     ->schema([
@@ -216,7 +216,7 @@ class CompanyResource extends Resource
                                                     ])->columns(2),
                                             ])
                                             ->createOptionAction(
-                                                fn(Action $action) => $action
+                                                fn (Action $action) => $action
                                                     ->modalHeading(__('security::filament/resources/company.form.sections.additional-information.fields.currency-create'))
                                                     ->modalSubmitActionLabel(__('security::filament/resources/company.form.sections.additional-information.fields.currency-create'))
                                                     ->modalWidth('xl')
@@ -493,7 +493,7 @@ class CompanyResource extends Resource
                                         ->icon('heroicon-o-swatch')
                                         ->placeholder('—')
                                         ->badge()
-                                        ->color(fn($record) => $record->color ?? 'gray')
+                                        ->color(fn ($record) => $record->color ?? 'gray')
                                         ->label(__('security::filament/resources/company.infolist.sections.branding.entries.color')),
                                 ]),
 

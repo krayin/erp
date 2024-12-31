@@ -16,7 +16,7 @@ return [
             ],
 
             'form' => [
-                'new-password' => 'New Password',
+                'new-password'         => 'New Password',
                 'confirm-new-password' => 'Confirm New Password',
             ],
         ],
@@ -26,6 +26,6 @@ return [
                 'title' => 'User deleted',
                 'body'  => 'The user has been deleted successfully.',
             ],
-        ]
+        ],
     ],
 ];

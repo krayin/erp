@@ -30,22 +30,22 @@ return [
                 'title'  => 'Address Information',
 
                 'fields' => [
-                    'street1' => 'Street 1',
-                    'street2' => 'Street 2',
-                    'city'    => 'City',
-                    'zipcode'     => 'Zip Code',
-                    'country' => 'Country',
-                    'currency-name' => 'Currency Name',
-                    'phone-code' => 'Phone Code',
-                    'code' => 'Code',
-                    'country-name' => 'Country Name',
+                    'street1'        => 'Street 1',
+                    'street2'        => 'Street 2',
+                    'city'           => 'City',
+                    'zipcode'        => 'Zip Code',
+                    'country'        => 'Country',
+                    'currency-name'  => 'Currency Name',
+                    'phone-code'     => 'Phone Code',
+                    'code'           => 'Code',
+                    'country-name'   => 'Country Name',
                     'state-required' => 'State Required',
-                    'zip-required' => 'Zip Required',
+                    'zip-required'   => 'Zip Required',
                     'create-country' => 'Create Country',
-                    'state' => 'State',
-                    'state-name' => 'State Name',
-                    'state-code' => 'State Code',
-                    'create-state' => 'Create State',
+                    'state'          => 'State',
+                    'state-name'     => 'State Name',
+                    'state-code'     => 'State Code',
+                    'create-state'   => 'Create State',
                 ],
             ],
 
@@ -53,33 +53,33 @@ return [
                 'title' => 'Additional Information',
 
                 'fields' => [
-                    'default-currency' => 'Default Currency',
-                    'currency-name' => 'Currency Name',
-                    'currency-full-name' => 'Currency Full Name',
-                    'currency-symbol' => 'Currency Symbol',
-                    'currency-iso-numeric' => 'Currency ISO Numeric',
+                    'default-currency'        => 'Default Currency',
+                    'currency-name'           => 'Currency Name',
+                    'currency-full-name'      => 'Currency Full Name',
+                    'currency-symbol'         => 'Currency Symbol',
+                    'currency-iso-numeric'    => 'Currency ISO Numeric',
                     'currency-decimal-places' => 'Currency Decimal Places',
-                    'currency-rounding' => 'Currency Rounding',
-                    'currency-status' => 'Currency Status',
+                    'currency-rounding'       => 'Currency Rounding',
+                    'currency-status'         => 'Currency Status',
                     'company-foundation-date' => 'Company Foundation Date',
-                    'currency-create' => 'Create Currency',
-                    'status' => 'Status',
-                ]
+                    'currency-create'         => 'Create Currency',
+                    'status'                  => 'Status',
+                ],
             ],
 
             'branding' => [
                 'title'  => 'Branding',
                 'fields' => [
                     'company-logo' => 'Company Logo',
-                    'color'      => 'Color',
+                    'color'        => 'Color',
                 ],
             ],
 
             'contact-information' => [
                 'title'  => 'Contact Information',
                 'fields' => [
-                    'email' => 'Email Address',
-                    'phone' => 'Phone Number',
+                    'email'  => 'Email Address',
+                    'phone'  => 'Phone Number',
                     'mobile' => 'Phone Number',
                 ],
             ],
@@ -88,16 +88,16 @@ return [
 
     'table' => [
         'columns' => [
-            'logo'         => 'Logo',
+            'logo'                 => 'Logo',
             'company-name'         => 'Company Name',
-            'branches'     => 'Branches',
-            'email'        => 'Email',
-            'city'         => 'City',
-            'country'      => 'Country',
-            'currency'     => 'Currency',
-            'status'       => 'Status',
-            'created-at'   => 'Created At',
-            'updated-at'   => 'Updated At',
+            'branches'             => 'Branches',
+            'email'                => 'Email',
+            'city'                 => 'City',
+            'country'              => 'Country',
+            'currency'             => 'Currency',
+            'status'               => 'Status',
+            'created-at'           => 'Created At',
+            'updated-at'           => 'Updated At',
         ],
 
         'groups' => [
@@ -113,7 +113,7 @@ return [
         ],
 
         'filters' => [
-            'status' => 'Status',
+            'status'  => 'Status',
             'country' => 'Country',
         ],
 
@@ -176,7 +176,7 @@ return [
     'infolist' => [
         'sections' => [
             'company-information' => [
-                'title'  => 'Company Information',
+                'title'   => 'Company Information',
                 'entries' => [
                     'name'                  => 'Company Name',
                     'registration-number'   => 'Registration Number',
@@ -190,22 +190,22 @@ return [
                 'title'  => 'Address Information',
 
                 'entries' => [
-                    'street1' => 'Street 1',
-                    'street2' => 'Street 2',
-                    'city'    => 'City',
-                    'zipcode'     => 'Zip Code',
-                    'country' => 'Country',
-                    'currency-name' => 'Currency Name',
-                    'phone-code' => 'Phone Code',
-                    'code' => 'Code',
-                    'country-name' => 'Country Name',
+                    'street1'        => 'Street 1',
+                    'street2'        => 'Street 2',
+                    'city'           => 'City',
+                    'zipcode'        => 'Zip Code',
+                    'country'        => 'Country',
+                    'currency-name'  => 'Currency Name',
+                    'phone-code'     => 'Phone Code',
+                    'code'           => 'Code',
+                    'country-name'   => 'Country Name',
                     'state-required' => 'State Required',
-                    'zip-required' => 'Zip Required',
+                    'zip-required'   => 'Zip Required',
                     'create-country' => 'Create Country',
-                    'state' => 'State',
-                    'state-name' => 'State Name',
-                    'state-code' => 'State Code',
-                    'create-state' => 'Create State',
+                    'state'          => 'State',
+                    'state-name'     => 'State Name',
+                    'state-code'     => 'State Code',
+                    'create-state'   => 'Create State',
                 ],
             ],
 
@@ -213,33 +213,33 @@ return [
                 'title' => 'Additional Information',
 
                 'entries' => [
-                    'default-currency' => 'Default Currency',
-                    'currency-name' => 'Currency Name',
-                    'currency-full-name' => 'Currency Full Name',
-                    'currency-symbol' => 'Currency Symbol',
-                    'currency-iso-numeric' => 'Currency ISO Numeric',
+                    'default-currency'        => 'Default Currency',
+                    'currency-name'           => 'Currency Name',
+                    'currency-full-name'      => 'Currency Full Name',
+                    'currency-symbol'         => 'Currency Symbol',
+                    'currency-iso-numeric'    => 'Currency ISO Numeric',
                     'currency-decimal-places' => 'Currency Decimal Places',
-                    'currency-rounding' => 'Currency Rounding',
-                    'currency-status' => 'Currency Status',
+                    'currency-rounding'       => 'Currency Rounding',
+                    'currency-status'         => 'Currency Status',
                     'company-foundation-date' => 'Company Foundation Date',
-                    'currency-create' => 'Create Currency',
-                    'status' => 'Status',
-                ]
+                    'currency-create'         => 'Create Currency',
+                    'status'                  => 'Status',
+                ],
             ],
 
             'branding' => [
-                'title'  => 'Branding',
+                'title'   => 'Branding',
                 'entries' => [
                     'company-logo' => 'Company Logo',
-                    'color'      => 'Color',
+                    'color'        => 'Color',
                 ],
             ],
 
             'contact-information' => [
-                'title'  => 'Contact Information',
+                'title'   => 'Contact Information',
                 'entries' => [
-                    'email' => 'Email Address',
-                    'phone' => 'Phone Number',
+                    'email'  => 'Email Address',
+                    'phone'  => 'Phone Number',
                     'mobile' => 'Phone Number',
                 ],
             ],

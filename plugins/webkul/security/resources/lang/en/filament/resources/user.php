@@ -9,7 +9,7 @@ return [
     ],
 
     'global-search' => [
-        'name' => 'Name',
+        'name'  => 'Name',
         'email' => 'Email',
     ],
 

@@ -12,7 +12,7 @@ enum CompanyStatus: string
     {
         return [
             self::ACTIVE->value      => 'Active',
-            self::INACTIVE->value => 'Inactive',
+            self::INACTIVE->value    => 'Inactive',
         ];
     }
 }

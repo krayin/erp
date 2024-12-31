@@ -2,7 +2,7 @@
 
 return [
     'tabs' => [
-        'all' => 'All Users',
+        'all'      => 'All Users',
         'archived' => 'Archived Users',
     ],
 
@@ -17,10 +17,9 @@ return [
             ],
             'notification' => [
                 'title' => 'User invited',
-                'body' => 'User has been invited successfully',
+                'body'  => 'User has been invited successfully',
             ],
         ],
-
 
         'create' => [
             'label' => 'New Project',

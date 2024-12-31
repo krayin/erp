@@ -12,6 +12,6 @@ return [
                 'title' => 'Company deleted',
                 'body'  => 'The company has been deleted successfully.',
             ],
-        ]
+        ],
     ],
 ];
