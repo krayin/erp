@@ -51,7 +51,7 @@ return new class extends Migration
      */
     private function insertCountryData(): void
     {
-        $path = base_path('plugins/webkul/security/app/Data/countries.json');
+        $path = base_path('plugins/webkul/security/src/Data/countries.json');
 
         if (File::exists($path)) {
             $countries = json_decode(File::get($path), true);
