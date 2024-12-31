@@ -5,6 +5,7 @@ namespace Webkul\Chatter\Filament\Actions\Chatter;
 use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -45,7 +46,7 @@ class LogAction extends Action
                                 })
                                 ->link()
                                 ->size('sm')
-                                ->icon('heroicon-s-plus'),
+                                ->icon(fn(Get $get) => ! $get('showSubject') ? 'heroicon-s-plus' : 'heroicon-s-minus'),
                         ])
                             ->columnSpan('full')
                             ->alignRight(),
