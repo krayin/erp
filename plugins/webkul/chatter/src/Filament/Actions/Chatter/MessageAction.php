@@ -87,6 +87,8 @@ class MessageAction extends Action
 
                     $message = $record->addMessage($data, Auth::user()->id);
 
+                    $this->notifyToFollowers($record, $message);
+
                     if (! empty($data['attachments'])) {
                         $record->addAttachments(
                             $data['attachments'],
@@ -118,26 +120,16 @@ class MessageAction extends Action
             ->slideOver(false);
     }
 
-    private function notifyToFollowers($chat): void
+    private function notifyToFollowers(mixed $record, $message): void
     {
         try {
-            foreach ($this->getFollowers() as $follower) {
-                if ($follower->id === Auth::user()->id) {
-                    continue;
+            foreach ($record->followers as $follower) {
+                if ($follower?->partner) {
+                    Mail::queue(new SendMessage($this->record, $follower->partner, $message));
                 }
-
-                Mail::queue(new SendMessage($this->record, $follower, $chat));
             }
         } catch (\Exception $e) {
             report($e);
         }
-    }
-
-    private function getFollowers()
-    {
-        return $this->record->followers()
-            ->select('users.*')
-            ->orderBy('name')
-            ->get();
     }
 }

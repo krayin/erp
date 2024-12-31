@@ -8,41 +8,66 @@ use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Webkul\Chatter\Models\Chat;
-use Webkul\Security\Models\User;
+use Webkul\Chatter\Models\Message;
 
 class SendMessage extends Mailable
 {
     use Queueable, SerializesModels;
 
+    /**
+     * Create a new message instance.
+     */
     public function __construct(
         public mixed $record,
-        public User $follower,
-        public Chat $chat
-    ) {}
+        public mixed $follower,
+        public Message $message
+    ) {
+        $this->subject = __('chatter::mail/send-message.subject', [
+            'app' => config('app.name'),
+        ]);
+    }
 
+    /**
+     * Get the message envelope.
+     */
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address($this->record->user->email, $this->record->user->name),
+            subject: $this->subject,
             to: [
                 new Address(
                     $this->follower->email,
                     $this->follower->name
                 ),
             ],
-            subject: 'New Message from '.$this->record->user->name,
+            replyTo: [
+                new Address(config('mail.from.address'), config('mail.from.name')),
+            ],
         );
     }
 
+    /**
+     * Get the message content definition.
+     */
     public function content(): Content
     {
         return new Content(
-            view: 'chatter::emails.send-message',
+            markdown: 'chatter::emails.send-message',
             with: [
-                'content'    => $this->chat->content,
-                'senderName' => $this->record->user->name,
+                'messageBody' => $this->message->body,
+                'follower' => $this->follower,
+                'record' => $this->record,
             ],
         );
+    }
+
+    /**
+     * Get the attachments for the message.
+     *
+     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     */
+    public function attachments(): array
+    {
+        return [];
     }
 }
