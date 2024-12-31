@@ -7,6 +7,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
 use Webkul\Contact\Filament\Resources\PartnerResource;
 use Illuminate\Contracts\Support\Htmlable;
+use Webkul\Chatter\Filament\Actions\ChatterAction;
 
 class ViewPartner extends ViewRecord
 {
@@ -20,6 +21,7 @@ class ViewPartner extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
+            ChatterAction::make(),
             Actions\DeleteAction::make()
                 ->successNotification(
                     Notification::make()
