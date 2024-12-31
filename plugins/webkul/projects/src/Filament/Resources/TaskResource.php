@@ -401,11 +401,13 @@ class TaskResource extends Resource
                             ->options([
                                 0 => __('projects::filament/resources/task.table.filters.low'),
                                 1 => __('projects::filament/resources/task.table.filters.high'),
-                            ]),
+                            ])
+                            ->icon('heroicon-o-star'),
                         Tables\Filters\QueryBuilder\Constraints\SelectConstraint::make('state')
                             ->label(__('projects::filament/resources/task.table.filters.state'))
                             ->multiple()
-                            ->options(TaskState::options()),
+                            ->options(TaskState::options())
+                            ->icon('heroicon-o-bars-2'),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('tags')
                             ->label(__('projects::filament/resources/task.table.filters.tags'))
                             ->multiple()
@@ -415,29 +417,36 @@ class TaskResource extends Resource
                                     ->searchable()
                                     ->multiple()
                                     ->preload(),
-                            ),
+                            )
+                            ->icon('heroicon-o-tag'),
                         $isTimesheetEnabled
                             ? Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('allocated_hours')
                                 ->label(__('projects::filament/resources/task.table.filters.allocated-hours'))
+                                ->icon('heroicon-o-clock')
                             : null,
                         $isTimesheetEnabled
                             ? Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('total_hours_spent')
                                 ->label(__('projects::filament/resources/task.table.filters.total-hours-spent'))
+                                ->icon('heroicon-o-clock')
                             : null,
                         $isTimesheetEnabled
                             ? Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('remaining_hours')
                                 ->label(__('projects::filament/resources/task.table.filters.remaining-hours'))
+                                ->icon('heroicon-o-clock')
                             : null,
                         $isTimesheetEnabled
                             ? Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('overtime')
                                 ->label(__('projects::filament/resources/task.table.filters.overtime'))
+                                ->icon('heroicon-o-clock')
                             : null,
                         $isTimesheetEnabled
                             ? Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('progress')
                                 ->label(__('projects::filament/resources/task.table.filters.progress'))
+                                ->icon('heroicon-o-bars-2')
                             : null,
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('deadline')
-                            ->label(__('projects::filament/resources/task.table.filters.deadline')),
+                            ->label(__('projects::filament/resources/task.table.filters.deadline'))
+                                ->icon('heroicon-o-calendar'),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at')
                             ->label(__('projects::filament/resources/task.table.filters.created-at')),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at')
@@ -451,7 +460,8 @@ class TaskResource extends Resource
                                     ->searchable()
                                     ->multiple()
                                     ->preload(),
-                            ),
+                            )
+                            ->icon('heroicon-o-users'),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('partner')
                             ->label(__('projects::filament/resources/task.table.filters.customer'))
                             ->multiple()
@@ -461,7 +471,8 @@ class TaskResource extends Resource
                                     ->searchable()
                                     ->multiple()
                                     ->preload(),
-                            ),
+                            )
+                            ->icon('heroicon-o-user'),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('project')
                             ->label(__('projects::filament/resources/task.table.filters.project'))
                             ->multiple()
@@ -471,7 +482,8 @@ class TaskResource extends Resource
                                     ->searchable()
                                     ->multiple()
                                     ->preload(),
-                            ),
+                            )
+                            ->icon('heroicon-o-folder'),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('stage')
                             ->label(__('projects::filament/resources/task.table.filters.stage'))
                             ->multiple()
@@ -481,7 +493,8 @@ class TaskResource extends Resource
                                     ->searchable()
                                     ->multiple()
                                     ->preload(),
-                            ),
+                            )
+                            ->icon('heroicon-o-bars-2'),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('milestone')
                             ->label(__('projects::filament/resources/task.table.filters.milestone'))
                             ->multiple()
@@ -491,7 +504,8 @@ class TaskResource extends Resource
                                     ->searchable()
                                     ->multiple()
                                     ->preload(),
-                            ),
+                            )
+                            ->icon('heroicon-o-flag'),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('company')
                             ->label(__('projects::filament/resources/task.table.filters.company'))
                             ->multiple()
@@ -501,7 +515,8 @@ class TaskResource extends Resource
                                     ->searchable()
                                     ->multiple()
                                     ->preload(),
-                            ),
+                            )
+                            ->icon('heroicon-o-building-office'),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('creator')
                             ->label(__('projects::filament/resources/task.table.filters.creator'))
                             ->multiple()
@@ -511,7 +526,8 @@ class TaskResource extends Resource
                                     ->searchable()
                                     ->multiple()
                                     ->preload(),
-                            ),
+                            )
+                            ->icon('heroicon-o-user'),
                     ]))->filter()->values()->all()),
             ], layout: \Filament\Tables\Enums\FiltersLayout::Modal)
             ->filtersTriggerAction(
