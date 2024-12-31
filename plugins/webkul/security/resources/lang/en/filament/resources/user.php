@@ -9,10 +9,8 @@ return [
     ],
 
     'global-search' => [
-        'status'                         => 'Status',
-        'is-flexible'                    => 'Is Flexible',
-        'is-fully-flexible'              => 'Is Fully Flexible',
-        'work-permit-scheduled-activity' => 'Work Permit Scheduled Activity',
+        'name' => 'Name',
+        'email' => 'Email',
     ],
 
     'form' => [

@@ -16,7 +16,8 @@ class ListCompanies extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->icon('heroicon-o-plus-circle'),
+            Actions\CreateAction::make()->icon('heroicon-o-plus-circle')
+                ->label(__('security::filament/resources/company/pages/list-company.header-actions.create.label')),
         ];
     }
 }

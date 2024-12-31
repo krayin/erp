@@ -20,5 +20,10 @@ return [
                 'body' => 'User has been invited successfully',
             ],
         ],
+
+
+        'create' => [
+            'label' => 'New Project',
+        ],
     ],
 ];

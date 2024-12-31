@@ -35,13 +35,14 @@ class ListUsers extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-                ->icon('heroicon-o-user-plus'),
+                ->icon('heroicon-o-user-plus')
+                ->label(__('security::filament/resources/user/pages/list-user.header-actions.create.label')),
             Actions\Action::make('inviteUser')
                 ->label(__('security::filament/resources/user/pages/list-user.header-actions.invite.title'))
                 ->icon('heroicon-o-envelope')
                 ->modalIcon('heroicon-o-envelope')
                 ->modalSubmitActionLabel(__('security::filament/resources/user/pages/list-user.header-actions.invite.modal.submit-action-label'))
-                ->visible(fn (UserSettings $userSettings) => $userSettings->enable_user_invitation)
+                ->visible(fn(UserSettings $userSettings) => $userSettings->enable_user_invitation)
                 ->form([
                     TextInput::make('email')
                         ->email()

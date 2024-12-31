@@ -8,7 +8,7 @@ return [
 
     'header-actions' => [
         'change-password' => [
-            'label' => 'Chage Password',
+            'label' => 'Change Password',
 
             'notification' => [
                 'title' => 'Password changed',
