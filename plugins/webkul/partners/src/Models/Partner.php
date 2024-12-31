@@ -10,11 +10,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Partner\Database\Factories\PartnerFactory;
 use Webkul\Security\Models\User;
+use Webkul\Chatter\Traits\HasChatter;
+use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Support\Models\Company;
 
 class Partner extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasChatter, HasLogActivity, HasFactory, SoftDeletes;
 
     /**
      * Table name.

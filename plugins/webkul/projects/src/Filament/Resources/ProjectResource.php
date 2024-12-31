@@ -263,17 +263,21 @@ class ProjectResource extends Resource
                         Tables\Filters\QueryBuilder\Constraints\SelectConstraint::make('visibility')
                             ->label(__('projects::filament/resources/project.table.filters.visibility'))
                             ->multiple()
-                            ->options(ProjectVisibility::options()),
+                            ->options(ProjectVisibility::options())
+                            ->icon('heroicon-o-eye'),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('start_date')
                             ->label(__('projects::filament/resources/project.table.filters.start-date')),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('end_date')
                             ->label(__('projects::filament/resources/project.table.filters.end-date')),
                         Tables\Filters\QueryBuilder\Constraints\BooleanConstraint::make('allow_timesheets')
-                            ->label(__('projects::filament/resources/project.table.filters.allow-timesheets')),
+                            ->label(__('projects::filament/resources/project.table.filters.allow-timesheets'))
+                            ->icon('heroicon-o-clock'),
                         Tables\Filters\QueryBuilder\Constraints\BooleanConstraint::make('allow_milestones')
-                            ->label(__('projects::filament/resources/project.table.filters.allow-milestones')),
+                            ->label(__('projects::filament/resources/project.table.filters.allow-milestones'))
+                            ->icon('heroicon-o-flag'),
                         Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('allocated_hours')
-                            ->label(__('projects::filament/resources/project.table.filters.allocated-hours')),
+                            ->label(__('projects::filament/resources/project.table.filters.allocated-hours'))
+                            ->icon('heroicon-o-clock'),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at')
                             ->label(__('projects::filament/resources/project.table.filters.created-at')),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at')
@@ -287,7 +291,8 @@ class ProjectResource extends Resource
                                     ->searchable()
                                     ->multiple()
                                     ->preload(),
-                            ),
+                            )
+                            ->icon('heroicon-o-bars-2'),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('partner')
                             ->label(__('projects::filament/resources/project.table.filters.customer'))
                             ->multiple()
@@ -297,7 +302,8 @@ class ProjectResource extends Resource
                                     ->searchable()
                                     ->multiple()
                                     ->preload(),
-                            ),
+                            )
+                            ->icon('heroicon-o-user'),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('user')
                             ->label(__('projects::filament/resources/project.table.filters.project-manager'))
                             ->multiple()
@@ -307,7 +313,8 @@ class ProjectResource extends Resource
                                     ->searchable()
                                     ->multiple()
                                     ->preload(),
-                            ),
+                            )
+                            ->icon('heroicon-o-user'),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('company')
                             ->label(__('projects::filament/resources/project.table.filters.company'))
                             ->multiple()
@@ -317,7 +324,8 @@ class ProjectResource extends Resource
                                     ->searchable()
                                     ->multiple()
                                     ->preload(),
-                            ),
+                            )
+                            ->icon('heroicon-o-building-office'),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('creator')
                             ->label(__('projects::filament/resources/project.table.filters.creator'))
                             ->multiple()
@@ -327,7 +335,8 @@ class ProjectResource extends Resource
                                     ->searchable()
                                     ->multiple()
                                     ->preload(),
-                            ),
+                            )
+                            ->icon('heroicon-o-user'),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('tags')
                             ->label(__('projects::filament/resources/project.table.filters.tags'))
                             ->multiple()
@@ -337,7 +346,8 @@ class ProjectResource extends Resource
                                     ->searchable()
                                     ->multiple()
                                     ->preload(),
-                            ),
+                            )
+                            ->icon('heroicon-o-tag'),
                     ])),
             ], layout: \Filament\Tables\Enums\FiltersLayout::Modal)
             ->filtersTriggerAction(

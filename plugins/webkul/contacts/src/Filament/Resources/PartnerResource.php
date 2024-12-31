@@ -11,11 +11,14 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Webkul\Contact\Filament\Resources\PartnerResource\Pages;
+use Webkul\Contact\Filament\Resources\PartnerResource\RelationManagers;
 use Webkul\Partner\Enums\AccountType;
 use Webkul\Partner\Models\Partner;
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Pages\Page;
 
@@ -260,17 +263,135 @@ class PartnerResource extends Resource
                 ])->space(4),
             ])
             ->groups([
-
+                Tables\Grouping\Group::make('account_type')
+                    ->label(__('contacts::filament/resources/partner.table.groups.account-type'))
+                    ->getTitleFromRecordUsing(fn (Partner $record): string => AccountType::options()[$record->account_type]),
+                Tables\Grouping\Group::make('parent.name')
+                    ->label(__('contacts::filament/resources/partner.table.groups.parent')),
+                Tables\Grouping\Group::make('title.name')
+                    ->label(__('contacts::filament/resources/partner.table.groups.title')),
+                Tables\Grouping\Group::make('job_title')
+                    ->label(__('contacts::filament/resources/partner.table.groups.job-title')),
+                Tables\Grouping\Group::make('industry.name')
+                    ->label(__('contacts::filament/resources/partner.table.groups.industry')),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
-                //
-            ])
+                Tables\Filters\QueryBuilder::make()
+                    ->constraints([
+                        Tables\Filters\QueryBuilder\Constraints\SelectConstraint::make('account_type')
+                            ->label(__('contacts::filament/resources/partner.table.filters.account-type'))
+                            ->multiple()
+                            ->options(AccountType::options())
+                            ->icon('heroicon-o-bars-2'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('name')
+                            ->label(__('contacts::filament/resources/partner.table.filters.name')),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('email')
+                            ->label(__('contacts::filament/resources/partner.table.filters.email'))
+                            ->icon('heroicon-o-envelope'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('job_title')
+                            ->label(__('contacts::filament/resources/partner.table.filters.job-title')),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('website')
+                            ->label(__('contacts::filament/resources/partner.table.filters.website'))
+                            ->icon('heroicon-o-globe-alt'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('tax_id')
+                            ->label(__('contacts::filament/resources/partner.table.filters.tax-id'))
+                            ->icon('heroicon-o-identification'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('phone')
+                            ->label(__('contacts::filament/resources/partner.table.filters.phone'))
+                            ->icon('heroicon-o-phone'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('mobile')
+                            ->label(__('contacts::filament/resources/partner.table.filters.mobile'))
+                            ->icon('heroicon-o-phone'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('company_registry')
+                            ->label(__('contacts::filament/resources/partner.table.filters.company-registry'))
+                            ->icon('heroicon-o-clipboard'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('reference')
+                            ->label(__('contacts::filament/resources/partner.table.filters.reference'))
+                            ->icon('heroicon-o-hashtag'),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('parent')
+                            ->label(__('contacts::filament/resources/partner.table.filters.parent'))
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            )
+                            ->icon('heroicon-o-user'),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('creator')
+                            ->label(__('contacts::filament/resources/partner.table.filters.creator'))
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            )
+                            ->icon('heroicon-o-user'),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('user')
+                            ->label(__('contacts::filament/resources/partner.table.filters.responsible'))
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            )
+                            ->icon('heroicon-o-user'),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('title')
+                            ->label(__('contacts::filament/resources/partner.table.filters.title'))
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('company')
+                            ->label(__('contacts::filament/resources/partner.table.filters.company'))
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            )
+                            ->icon('heroicon-o-building-office'),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('industry')
+                            ->label(__('contacts::filament/resources/partner.table.filters.industry'))
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            )
+                            ->icon('heroicon-o-building-office'),
+                    ]),
+            ], layout: \Filament\Tables\Enums\FiltersLayout::Modal)
+            ->filtersTriggerAction(
+                fn (Tables\Actions\Action $action) => $action
+                    ->slideOver(),
+            )
+            ->filtersFormColumns(2)
             ->actions([
                 Tables\Actions\ViewAction::make()
                     ->hidden(fn ($record) => $record->trashed()),
                 Tables\Actions\EditAction::make()
-                    ->hidden(fn ($record) => $record->trashed()),
+                    ->hidden(fn ($record) => $record->trashed())
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title(__('contacts::filament/resources/partner.table.actions.edit.notification.title'))
+                            ->body(__('contacts::filament/resources/partner.table.actions.edit.notification.body')),
+                    ),
                 Tables\Actions\RestoreAction::make()
                     ->successNotification(
                         Notification::make()
@@ -319,8 +440,16 @@ class PartnerResource extends Resource
                 ]),
             ])
             ->contentGrid([
-                'md' => 2,
-                'xl' => 4,
+                'sm'  => 1,
+                'md'  => 2,
+                'xl'  => 3,
+                '2xl' => 4,
+            ])
+            ->paginated([
+                16,
+                32,
+                64,
+                'all',
             ]);
     }
 
@@ -447,7 +576,15 @@ class PartnerResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationGroup::make('Contacts', [
+                RelationManagers\ContactsRelationManager::class,
+            ])
+                ->icon('heroicon-o-users'),
+
+            RelationGroup::make('Addresses', [
+                RelationManagers\AddressesRelationManager::class,
+            ])
+                ->icon('heroicon-o-map-pin'),
         ];
     }
 

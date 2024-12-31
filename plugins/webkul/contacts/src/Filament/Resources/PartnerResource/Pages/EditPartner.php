@@ -7,6 +7,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Contracts\Support\Htmlable;
 use Webkul\Contact\Filament\Resources\PartnerResource;
+use Webkul\Chatter\Filament\Actions\ChatterAction;
 
 class EditPartner extends EditRecord
 {
@@ -28,6 +29,7 @@ class EditPartner extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            ChatterAction::make(),
             Actions\ViewAction::make(),
             Actions\DeleteAction::make()
                 ->successNotification(
