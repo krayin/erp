@@ -15,7 +15,7 @@ class FollowerAction extends Action
 {
     public static function getDefaultName(): ?string
     {
-        return 'add.follower.action';
+        return 'add.followers.action';
     }
 
     protected function setUp(): void
@@ -26,15 +26,16 @@ class FollowerAction extends Action
             ->icon('heroicon-s-user')
             ->color('gray')
             ->modal()
+            ->tooltip(__('chatter::filament/resources/actions/chatter/follower-action.setup.tooltip'))
             ->modalIcon('heroicon-s-user-plus')
-            ->badge(fn (Model $record): int => $record->followers->count())
+            ->badge(fn(Model $record): int => $record->followers->count())
             ->modalWidth(MaxWidth::TwoExtraLarge)
             ->slideOver(false)
             ->form(function (Form $form) {
                 return $form
                     ->schema([
                         Forms\Components\Select::make('partner_id')
-                            ->label('Recipients')
+                            ->label(__('chatter::filament/resources/actions/chatter/follower-action.setup.form.fields.recipients'))
                             ->searchable()
                             ->preload()
                             ->searchable()
@@ -42,7 +43,7 @@ class FollowerAction extends Action
                             ->required(),
                         Forms\Components\Toggle::make('notify')
                             ->live()
-                            ->label('Notify User'),
+                            ->label(__('chatter::filament/resources/actions/chatter/follower-action.setup.form.fields.notify-user')),
                         Forms\Components\RichEditor::make('note')
                             ->disableGrammarly()
                             ->toolbarButtons([
@@ -60,9 +61,9 @@ class FollowerAction extends Action
                                 'underline',
                                 'undo',
                             ])
-                            ->visible(fn (Get $get) => $get('notify'))
+                            ->visible(fn(Get $get) => $get('notify'))
                             ->hiddenLabel()
-                            ->placeholder('Add a note...'),
+                            ->placeholder(__('chatter::filament/resources/actions/chatter/follower-action.setup.form.fields.add-a-note')),
                     ])
                     ->columns(1);
             })
@@ -71,20 +72,30 @@ class FollowerAction extends Action
                     'record' => $record,
                 ]);
             })
-            ->action(function (Model $record, array $data, FollowerAction $action) {
+            ->action(function (Model $record, array $data) {
                 $partner = Partner::findOrFail($data['partner_id']);
 
-                $record->addFollower($partner);
+                try {
+                    $record->addFollower($partner);
 
-                Notification::make()
-                    ->success()
-                    ->title('Success')
-                    ->body("\"{$partner->name}\" has been added as a follower.")
-                    ->send();
+                    Notification::make()
+                        ->success()
+                        ->title(__('chatter::filament/resources/actions/chatter/follower-action.setup.actions.notification.success.title'))
+                        ->body(__('chatter::filament/resources/actions/chatter/follower-action.setup.actions.notification.success.body', ['partner' => $partner?->name]))
+                        ->send();
+                } catch (\Exception $e) {
+                    Notification::make()
+                        ->danger()
+                        ->title(__('chatter::filament/resources/actions/chatter/follower-action.setup.actions.notification.error.title'))
+                        ->body(__('chatter::filament/resources/actions/chatter/follower-action.setup.actions.notification.error.body', ['partner' => $partner?->name]))
+                        ->send();
+                }
             })
+            ->hiddenLabel()
+            ->modalHeading(__('chatter::filament/resources/actions/chatter/follower-action.setup.title'))
             ->modalSubmitAction(
-                fn ($action) => $action
-                    ->label('Add Follower')
+                fn($action) => $action
+                    ->label(__('chatter::filament/resources/actions/chatter/follower-action.setup.submit-action-title'))
                     ->icon('heroicon-m-user-plus')
             );
     }

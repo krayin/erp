@@ -27,12 +27,12 @@ class LogAction extends Action
                 $form->fill();
             })
             ->form(
-                fn ($form) => $form->schema([
+                fn($form) => $form->schema([
                     Forms\Components\Group::make([
                         Forms\Components\Actions::make([
                             Forms\Components\Actions\Action::make('add_subject')
                                 ->label(function ($get) {
-                                    return $get('showSubject') ? 'Hide Subject' : 'Add Subject';
+                                    return $get('showSubject') ? __('chatter::filament/resources/actions/chatter/log-action.setup.form.fields.hide-subject') : __('chatter::filament/resources/actions/chatter/log-action.setup.form.fields.add-subject');
                                 })
                                 ->action(function ($set, $get) {
                                     if ($get('showSubject')) {
@@ -51,13 +51,13 @@ class LogAction extends Action
                             ->alignRight(),
                     ]),
                     Forms\Components\TextInput::make('subject')
-                        ->placeholder('Subject')
+                        ->placeholder(__('chatter::filament/resources/actions/chatter/log-action.setup.form.fields.subject'))
                         ->live()
-                        ->visible(fn ($get) => $get('showSubject'))
+                        ->visible(fn($get) => $get('showSubject'))
                         ->columnSpanFull(),
                     Forms\Components\RichEditor::make('body')
                         ->hiddenLabel()
-                        ->placeholder(__('chatter::app.filament.actions.chatter.activity.form.type-your-message-here'))
+                        ->placeholder(__('chatter::filament/resources/actions/chatter/log-action.setup.form.fields.write-message-here'))
                         ->required()
                         ->fileAttachmentsDirectory('log-attachments')
                         ->disableGrammarly()
@@ -80,7 +80,7 @@ class LogAction extends Action
                             'text/plain',
                         ])
                         ->maxSize(10240)
-                        ->helperText('Max file size: 10MB. Allowed types: Images, PDF, Word, Excel, Text')
+                        ->helperText(__('chatter::filament/resources/actions/chatter/log-action.setup.form.fields.attachments-helper-text'))
                         ->columnSpanFull(),
                     Forms\Components\Hidden::make('type')
                         ->default('note'),
@@ -93,7 +93,7 @@ class LogAction extends Action
                     $data['causer_type'] = Auth::user()?->getMorphClass();
                     $data['causer_id'] = Auth::id();
 
-                    $record->addMessage($data, Auth::user()->id);
+                    $message = $record->addMessage($data, Auth::user()->id);
 
                     if (! empty($data['attachments'])) {
                         $record->addAttachments(
@@ -104,24 +104,23 @@ class LogAction extends Action
 
                     Notification::make()
                         ->success()
-                        ->title('Success')
-                        ->body('Lognote sent successfully')
+                        ->title(__('chatter::filament/resources/actions/chatter/log-action.setup.actions.notification.success.title'))
+                        ->body(__('chatter::filament/resources/actions/chatter/log-action.setup.actions.notification.success.body'))
                         ->send();
                 } catch (\Exception $e) {
+                    report($e);
                     Notification::make()
                         ->danger()
-                        ->title('Error')
-                        ->body('An error occurred while sending the lognote')
+                        ->title(__('chatter::filament/resources/actions/chatter/log-action.setup.actions.notification.error.title'))
+                        ->body(__('chatter::filament/resources/actions/chatter/log-action.setup.actions.notification.error.body'))
                         ->send();
-
-                    report($e);
                 }
             })
-            ->label(__('chatter::app.filament.actions.chatter.log.label'))
+            ->label(__('chatter::filament/resources/actions/chatter/log-action.setup.title'))
             ->icon('heroicon-o-chat-bubble-oval-left')
             ->modalIcon('heroicon-o-chat-bubble-oval-left')
             ->modalSubmitAction(function ($action) {
-                $action->label(__('chatter::app.filament.actions.chatter.log.modal-submit-action.log'));
+                $action->label(__('chatter::filament/resources/actions/chatter/log-action.setup.submit-title'));
                 $action->icon('heroicon-m-paper-airplane');
             })
             ->slideOver(false);

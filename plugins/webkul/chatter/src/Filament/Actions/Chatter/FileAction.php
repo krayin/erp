@@ -23,11 +23,11 @@ class FileAction extends Action
         $this
             ->color('gray')
             ->outlined()
-            ->tooltip('Upload Files')
-            ->badge(fn ($record) => $record->attachments()->count())
+            ->tooltip(__('chatter::filament/resources/actions/chatter/file-action.setup.tooltip'))
+            ->badge(fn($record) => $record->attachments()->count())
             ->form([
                 Forms\Components\FileUpload::make('files')
-                    ->label(__('chatter::app.filament.actions.chatter.file.form.file'))
+                    ->hiddenLabel()
                     ->multiple()
                     ->directory('chats-attachments')
                     ->downloadable()
@@ -37,7 +37,6 @@ class FileAction extends Action
                     ->deletable()
                     ->panelLayout('grid')
                     ->imagePreviewHeight('100')
-                    ->uploadingMessage('Uploading attachment...')
                     ->deleteUploadedFileUsing(function ($file, ?Model $record) {
                         $attachment = $record->attachments()
                             ->where('file_path', $file)
@@ -48,8 +47,8 @@ class FileAction extends Action
 
                             Notification::make()
                                 ->success()
-                                ->title('File Deleted')
-                                ->body('File has been deleted successfully')
+                                ->title(__('chatter::filament/resources/actions/chatter/file-action.setup.form.fields.actions.delete.title'))
+                                ->body(__('chatter::filament/resources/actions/chatter/file-action.setup.form.fields.actions.delete.body'))
                                 ->send();
                         }
                     })
@@ -63,7 +62,7 @@ class FileAction extends Action
                         'text/plain',
                     ])
                     ->maxSize(10240)
-                    ->helperText('Max file size: 10MB. Allowed types: Images, PDF, Word, Excel, Text')
+                    ->helperText(__('chatter::filament/resources/actions/chatter/file-action.setup.form.fields.attachment-helper-text'))
                     ->columnSpanFull()
                     ->required()
                     ->default(function (?Model $record) {
@@ -95,21 +94,23 @@ class FileAction extends Action
 
                         Notification::make()
                             ->success()
-                            ->title(__('chatter::app.filament.actions.chatter.file.action.notification.success.title'))
-                            ->body(__('Files uploaded successfully'))
+                            ->title(__('chatter::filament/resources/actions/chatter/file-action.setup.actions.notification.success.title'))
+                            ->body(__('chatter::filament/resources/actions/chatter/file-action.setup.actions.notification.success.body'))
                             ->send();
                     } else {
                         Notification::make()
                             ->info()
                             ->title('No New Files')
                             ->body('All files have already been uploaded')
+                            ->title(__('chatter::filament/resources/actions/chatter/file-action.setup.actions.notification.warning.title'))
+                            ->body(__('chatter::filament/resources/actions/chatter/file-action.setup.actions.notification.warning.body'))
                             ->send();
                     }
                 } catch (\Exception $e) {
                     Notification::make()
                         ->danger()
-                        ->title(__('chatter::app.filament.actions.chatter.file.action.notification.danger.title'))
-                        ->body(__('Failed to upload files'))
+                        ->title(__('chatter::filament/resources/actions/chatter/file-action.setup.actions.notification.error.title'))
+                        ->body(__('chatter::filament/resources/actions/chatter/file-action.setup.actions.notification.error.body'))
                         ->send();
 
                     report($e);
@@ -117,12 +118,12 @@ class FileAction extends Action
 
                 $action->resetFormData();
             })
-            ->label('Attachments')
+            ->modalHeading(__('chatter::filament/resources/actions/chatter/file-action.setup.title'))
             ->icon('heroicon-o-paper-clip')
             ->modalIcon('heroicon-o-paper-clip')
             ->iconPosition(IconPosition::Before)
             ->modalSubmitAction(
-                fn ($action) => $action
+                fn($action) => $action
                     ->label('Upload')
                     ->icon('heroicon-m-paper-airplane')
             )

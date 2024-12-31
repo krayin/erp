@@ -29,7 +29,7 @@ class MessageAction extends Action
                     Forms\Components\Actions::make([
                         Forms\Components\Actions\Action::make('add_subject')
                             ->label(function ($get) {
-                                return $get('showSubject') ? 'Hide Subject' : 'Add Subject';
+                                return $get('showSubject') ? __('chatter::filament/resources/actions/chatter/log-action.setup.form.fields.hide-subject') : __('chatter::filament/resources/actions/chatter/message-action.setup.form.fields.add-subject');
                             })
                             ->action(function ($set, $get) {
                                 if ($get('showSubject')) {
@@ -48,12 +48,12 @@ class MessageAction extends Action
                         ->alignRight(),
                 ]),
                 Forms\Components\TextInput::make('subject')
-                    ->placeholder('Subject')
+                    ->placeholder(__('chatter::filament/resources/actions/chatter/message-action.setup.form.fields.subject'))
                     ->live()
-                    ->visible(fn ($get) => $get('showSubject')),
+                    ->visible(fn($get) => $get('showSubject')),
                 Forms\Components\RichEditor::make('body')
                     ->hiddenLabel()
-                    ->placeholder(__('chatter::app.filament.actions.chatter.activity.form.type-your-message-here'))
+                    ->placeholder(__('chatter::filament/resources/actions/chatter/message-action.setup.form.fields.write-message-here'))
                     ->fileAttachmentsDirectory('log-attachments')
                     ->disableGrammarly()
                     ->required(),
@@ -75,7 +75,7 @@ class MessageAction extends Action
                         'text/plain',
                     ])
                     ->maxSize(10240)
-                    ->helperText('Max file size: 10MB. Allowed types: Images, PDF, Word, Excel, Text')
+                    ->helperText(__('chatter::filament/resources/actions/chatter/message-action.setup.form.fields.attachments-helper-text'))
                     ->columnSpanFull(),
                 Forms\Components\Hidden::make('type')
                     ->default('comment'),
@@ -95,23 +95,23 @@ class MessageAction extends Action
 
                     Notification::make()
                         ->success()
-                        ->title('Success')
-                        ->body('Message sent successfully')
+                        ->title(__('chatter::filament/resources/actions/chatter/message-action.setup.actions.notification.success.title'))
+                        ->body(__('chatter::filament/resources/actions/chatter/message-action.setup.actions.notification.success.body'))
                         ->send();
                 } catch (\Exception $e) {
                     report($e);
                     Notification::make()
                         ->danger()
-                        ->title('Error')
-                        ->body('Failed to send message')
+                        ->title(__('chatter::filament/resources/actions/chatter/message-action.setup.actions.notification.error.title'))
+                        ->body(__('chatter::filament/resources/actions/chatter/message-action.setup.actions.notification.error.body'))
                         ->send();
                 }
             })
-            ->label(__('chatter::app.filament.actions.chatter.message.label'))
+            ->label(__('chatter::filament/resources/actions/chatter/message-action.setup.title'))
             ->icon('heroicon-o-chat-bubble-left-right')
             ->modalIcon('heroicon-o-chat-bubble-left-right')
             ->modalSubmitAction(function ($action) {
-                $action->label(__('chatter::app.filament.actions.chatter.message.modal-submit-action.title'));
+                $action->label(__('chatter::filament/resources/actions/chatter/message-action.setup.submit-title'));
                 $action->icon('heroicon-m-paper-airplane');
             })
             ->slideOver(false);
