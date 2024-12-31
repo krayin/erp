@@ -19,6 +19,7 @@ class ListActivityPlans extends ListRecords
         return [
             Actions\CreateAction::make()
                 ->icon('heroicon-o-plus-circle')
+                ->label(__('employees::filament/clusters/configurations/resources/activity-plan/pages/list-activity-plan.header-actions.create.label'))
                 ->mutateFormDataUsing(function ($data) {
                     $user = Auth::user();
 

@@ -18,6 +18,7 @@ class ListSkillTypes extends ListRecords
         return [
             Actions\CreateAction::make()
                 ->icon('heroicon-o-plus-circle')
+                ->label(__('employees::filament/clusters/configurations/resources/skill-type/pages/list-skill-type.header-actions.create.label'))
                 ->createAnother(false)
                 ->after(function ($record) {
                     return redirect(

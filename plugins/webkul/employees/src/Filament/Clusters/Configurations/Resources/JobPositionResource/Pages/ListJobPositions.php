@@ -19,6 +19,7 @@ class ListJobPositions extends ListRecords
     {
         return [
             Actions\CreateAction::make()
+                ->label(__('employees::filament/clusters/configurations/resources/job-position/pages/list-job-position.header-actions.create.label'))
                 ->icon('heroicon-o-plus-circle')
                 ->mutateFormDataUsing(function ($data) {
                     return $data;
