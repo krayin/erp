@@ -9,6 +9,8 @@ use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
+use Webkul\Chatter\Mail\NewFollowerNotification;
 use Webkul\Partner\Models\Partner;
 
 class FollowerAction extends Action
@@ -77,6 +79,13 @@ class FollowerAction extends Action
 
                 try {
                     $record->addFollower($partner);
+
+                    if (
+                        ! empty($data['note'])
+                        && $data['note']
+                    ) {
+                        Mail::queue(new NewFollowerNotification($record->partner, $data));
+                    }
 
                     Notification::make()
                         ->success()
