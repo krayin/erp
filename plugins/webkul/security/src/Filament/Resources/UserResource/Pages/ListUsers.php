@@ -42,7 +42,7 @@ class ListUsers extends ListRecords
                 ->icon('heroicon-o-envelope')
                 ->modalIcon('heroicon-o-envelope')
                 ->modalSubmitActionLabel(__('security::filament/resources/user/pages/list-user.header-actions.invite.modal.submit-action-label'))
-                ->visible(fn (UserSettings $userSettings) => $userSettings->enable_user_invitation)
+                ->visible(fn(UserSettings $userSettings) => $userSettings->enable_user_invitation)
                 ->form([
                     TextInput::make('email')
                         ->email()
@@ -52,13 +52,23 @@ class ListUsers extends ListRecords
                 ->action(function ($data) {
                     $invitation = Invitation::create(['email' => $data['email']]);
 
-                    Mail::to($invitation->email)->send(new UserInvitationMail($invitation));
+                    try {
+                        Mail::to($invitation->email)->send(new UserInvitationMail($invitation));
 
-                    Notification::make('invitedSuccess')
-                        ->title(__('security::filament/resources/user/pages/list-user.header-actions.invite.modal.form.notification.title'))
-                        ->body(__('security::filament/resources/user/pages/list-user.header-actions.invite.modal.form.notification.body'))
-                        ->success()
-                        ->send();
+                        Notification::make('invitedSuccess')
+                            ->title(__('security::filament/resources/user/pages/list-user.header-actions.invite.notification.success.title'))
+                            ->body(__('security::filament/resources/user/pages/list-user.header-actions.invite.notification.success.body'))
+                            ->success()
+                            ->send();
+                    } catch (\Exception $e) {
+                        report($e);
+
+                        Notification::make('invitedFailed')
+                            ->title(__('security::filament/resources/user/pages/list-user.header-actions.invite.notification.error.title'))
+                            ->body(__('security::filament/resources/user/pages/list-user.header-actions.invite.notification.error.body'))
+                            ->success()
+                            ->send();
+                    }
                 }),
         ];
     }

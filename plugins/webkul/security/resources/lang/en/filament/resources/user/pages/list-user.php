@@ -16,8 +16,14 @@ return [
                 'email' => 'Email',
             ],
             'notification' => [
-                'title' => 'User invited',
-                'body'  => 'User has been invited successfully',
+                'success' => [
+                    'title' => 'User invited',
+                    'body'  => 'User has been invited successfully',
+                ],
+                'error' => [
+                    'title' => 'User Invitation Failed',
+                    'body'  => 'The system encountered an unexpected error while trying to send the user invitation.',
+                ],
             ],
         ],
 
