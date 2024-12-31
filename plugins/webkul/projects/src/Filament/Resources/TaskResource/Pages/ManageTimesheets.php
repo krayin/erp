@@ -11,6 +11,7 @@ use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Filament\Resources\TaskResource;
+use Webkul\Project\Settings\TimeSettings;
 
 class ManageTimesheets extends ManageRelatedRecords
 {
@@ -23,6 +24,28 @@ class ManageTimesheets extends ManageRelatedRecords
     public static function getNavigationLabel(): string
     {
         return __('projects::filament/resources/task/pages/manage-timesheets.title');
+    }
+
+    /**
+     * @param  array<string, mixed>  $parameters
+     */
+    public static function canAccess(array $parameters = []): bool
+    {
+        $canAccess = parent::canAccess($parameters);
+
+        if (! $canAccess) {
+            return false;
+        }
+
+        if (! app(TimeSettings::class)->enable_timesheets) {
+            return false;
+        }
+
+        if (! $parameters['record']->project) {
+            return true;
+        }
+
+        return $parameters['record']->project->allow_timesheets;
     }
 
     public function form(Form $form): Form

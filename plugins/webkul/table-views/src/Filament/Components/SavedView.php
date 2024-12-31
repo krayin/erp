@@ -32,6 +32,11 @@ class SavedView extends PresetView
         return (bool) ($tableViewFavorite?->is_favorite ?? $this->isFavorite);
     }
 
+    public function isPublic(): bool
+    {
+        return $this->model->is_public;
+    }
+
     public function isEditable(): bool
     {
         return $this->model->user_id === auth()->id();
