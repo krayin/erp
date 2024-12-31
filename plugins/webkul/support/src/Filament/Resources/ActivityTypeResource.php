@@ -5,9 +5,13 @@ namespace Webkul\Support\Filament\Resources;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
+use Filament\Infolists\Infolist;
+use Filament\Infolists;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Webkul\Security\Models\User;
 use Webkul\Support\Enums\ActivityChainingType;
 use Webkul\Support\Enums\ActivityDecorationType;
@@ -27,6 +31,19 @@ class ActivityTypeResource extends Resource
 
     protected static bool $shouldRegisterNavigation = false;
 
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'plugin'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            __('support::filament/resources/activity-type.global-search.name')   => $record->name ?? '—',
+            __('support::filament/resources/activity-type.global-search.plugin') => $record->plugin ?? '—',
+        ];
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -35,100 +52,100 @@ class ActivityTypeResource extends Resource
                     ->schema([
                         Forms\Components\Group::make()
                             ->schema([
-                                Forms\Components\Section::make('Activity Type Details')
+                                Forms\Components\Section::make(__('support::filament/resources/activity-type.form.sections.activity-type-details.title'))
                                     ->schema([
                                         Forms\Components\TextInput::make('name')
-                                            ->label('Activity Name')
+                                            ->label(__('support::filament/resources/activity-type.form.sections.activity-type-details.fields.name'))
                                             ->required()
                                             ->maxLength(255)
                                             ->live(onBlur: true)
-                                            ->hintIcon('heroicon-o-question-mark-circle', tooltip: 'Enter the official activity type name'),
+                                            ->hintIcon('heroicon-o-question-mark-circle', tooltip: __('support::filament/resources/activity-type.form.sections.activity-type-details.fields.name-tooltip')),
                                         Forms\Components\Select::make('category')
-                                            ->label('Action')
+                                            ->label(__('support::filament/resources/activity-type.form.sections.activity-type-details.fields.action'))
                                             ->options(ActivityTypeAction::options())
                                             ->live()
                                             ->searchable()
                                             ->preload(),
                                         Forms\Components\Select::make('default_user_id')
-                                            ->label('Default User')
-                                            ->options(fn () => User::query()->pluck('name', 'id'))
+                                            ->label(__('support::filament/resources/activity-type.form.sections.activity-type-details.fields.default-user'))
+                                            ->options(fn() => User::query()->pluck('name', 'id'))
                                             ->searchable()
                                             ->preload(),
                                         Forms\Components\TextInput::make('plugin')
-                                            ->default('employees')
-                                            ->label('Plugin'),
+                                            ->default('support')
+                                            ->label(__('support::filament/resources/activity-type.form.sections.activity-type-details.fields.plugin')),
                                         Forms\Components\Textarea::make('summary')
-                                            ->label('Summary')
+                                            ->label(__('support::filament/resources/activity-type.form.sections.activity-type-details.fields.summary'))
                                             ->columnSpanFull(),
                                         Forms\Components\RichEditor::make('default_note')
-                                            ->label('Note')
+                                            ->label(__('support::filament/resources/activity-type.form.sections.activity-type-details.fields.note'))
                                             ->columnSpanFull(),
                                     ])
                                     ->columns(2),
-                                Forms\Components\Section::make('Delay Information')
+                                Forms\Components\Section::make(__('support::filament/resources/activity-type.form.sections.delay-information.title'))
                                     ->schema([
                                         Forms\Components\TextInput::make('delay_count')
-                                            ->label('Delay Count')
+                                            ->label(__('support::filament/resources/activity-type.form.sections.delay-information.fields.delay-count'))
                                             ->numeric()
                                             ->required()
                                             ->default(0)
                                             ->minValue(0),
                                         Forms\Components\Select::make('delay_unit')
-                                            ->label('Delay Unit')
+                                            ->label(__('support::filament/resources/activity-type.form.sections.delay-information.fields.delay-unit'))
                                             ->required()
                                             ->default(ActivityDelayUnit::MINUTES->value)
                                             ->options(ActivityDelayUnit::options()),
                                         Forms\Components\Select::make('delay_from')
-                                            ->label('Delay From')
+                                            ->label(__('support::filament/resources/activity-type.form.sections.delay-information.fields.delay-form'))
                                             ->required()
                                             ->default(ActivityDelayFrom::PREVIOUS_ACTIVITY->value)
                                             ->options(ActivityDelayFrom::options())
-                                            ->helperText('Source of delay calculation'),
+                                            ->helperText(__('support::filament/resources/activity-type.form.sections.delay-information.fields.delay-form-helper-text')),
                                     ])
                                     ->columns(2),
                             ])
                             ->columnSpan(['lg' => 2]),
                         Forms\Components\Group::make()
                             ->schema([
-                                Forms\Components\Section::make('Advanced Settings')
+                                Forms\Components\Section::make(__('support::filament/resources/activity-type.form.sections.advanced-information.title'))
                                     ->schema([
                                         \Guava\FilamentIconPicker\Forms\IconPicker::make('icon')
-                                            ->label('Icon')
+                                            ->label(__('support::filament/resources/activity-type.form.sections.advanced-information.fields.icon'))
                                             ->sets(['heroicons', 'fontawesome-solid'])
                                             ->columns(4)
                                             ->preload()
                                             ->optionsLimit(50),
                                         Forms\Components\Select::make('decoration_type')
-                                            ->label('Decoration Type')
+                                            ->label(__('support::filament/resources/activity-type.form.sections.advanced-information.fields.decoration-type'))
                                             ->options(ActivityDecorationType::options())
                                             ->native(false),
                                         Forms\Components\Select::make('chaining_type')
-                                            ->label('Chaining Type')
+                                            ->label(__('support::filament/resources/activity-type.form.sections.advanced-information.fields.chaining-type'))
                                             ->options(ActivityChainingType::options())
                                             ->default(ActivityChainingType::SUGGEST->value)
                                             ->live()
                                             ->required()
                                             ->native(false)
-                                            ->hidden(fn (Get $get) => $get('category') === 'upload_file'),
+                                            ->hidden(fn(Get $get) => $get('category') === 'upload_file'),
                                         Forms\Components\Select::make('activity_type_suggestions')
                                             ->multiple()
                                             ->relationship('suggestedActivityTypes', 'name')
                                             ->searchable()
                                             ->preload()
-                                            ->label('Suggest')
-                                            ->hidden(fn (Get $get) => $get('chaining_type') === 'trigger' || $get('category') === 'upload_file'),
+                                            ->label(__('support::filament/resources/activity-type.form.sections.advanced-information.fields.suggest'))
+                                            ->hidden(fn(Get $get) => $get('chaining_type') === 'trigger' || $get('category') === 'upload_file'),
                                         Forms\Components\Select::make('triggered_next_type_id')
                                             ->relationship('activityTypes', 'name')
-                                            ->label('Trigger')
-                                            ->hidden(fn (Get $get) => $get('chaining_type') === 'suggest' && $get('category') !== 'upload_file'),
+                                            ->label(__('support::filament/resources/activity-type.form.sections.advanced-information.fields.trigger'))
+                                            ->hidden(fn(Get $get) => $get('chaining_type') === 'suggest' && $get('category') !== 'upload_file'),
                                     ]),
-                                Forms\Components\Section::make('Status and Configuration')
+                                Forms\Components\Section::make(__('support::filament/resources/activity-type.form.sections.status-and-configuration-information.title'))
                                     ->schema([
                                         Forms\Components\Toggle::make('is_active')
-                                            ->label('Status')
+                                            ->label(__('support::filament/resources/activity-type.form.sections.status-and-configuration-information.fields.status'))
                                             ->default(false),
                                         Forms\Components\Toggle::make('keep_done')
-                                            ->label('Keep Done Activities')
+                                            ->label(__('support::filament/resources/activity-type.form.sections.status-and-configuration-information.fields.keep-done-activities'))
                                             ->default(false),
                                     ]),
                             ])
@@ -145,113 +162,239 @@ class ActivityTypeResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
+                    ->label(__('support::filament/resources/activity-type.table.columns.name'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('summary')
-                    ->label('Summary')
+                    ->label(__('support::filament/resources/activity-type.table.columns.summary'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('delay_count')
-                    ->label('Planned in')
+                    ->label(__('support::filament/resources/activity-type.table.columns.planned-in'))
                     ->formatStateUsing(function ($record) {
                         return $record->delay_count ? "{$record->delay_count} {$record->delay_unit}" : 'No Delay';
                     }),
                 Tables\Columns\TextColumn::make('delay_from')
-                    ->label('Type')
-                    ->formatStateUsing(fn ($state) => ActivityDelayFrom::options()[$state])
+                    ->label(__('support::filament/resources/activity-type.table.columns.type'))
+                    ->formatStateUsing(fn($state) => ActivityDelayFrom::options()[$state])
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('category')
                     ->badge()
-                    ->label('Action')
+                    ->label(__('support::filament/resources/activity-type.table.columns.action'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\IconColumn::make('is_active')
-                    ->label('Status')
+                    ->label(__('support::filament/resources/activity-type.table.columns.status'))
                     ->boolean()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created At')
+                    ->label(__('support::filament/resources/activity-type.table.columns.created-at'))
                     ->date()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Updated At')
+                    ->label(__('support::filament/resources/activity-type.table.columns.updated-at'))
                     ->date()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->groups([
                 Tables\Grouping\Group::make('name')
-                    ->label('Activity Name')
+                    ->label(__('support::filament/resources/activity-type.table.groups.name'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('category')
-                    ->label('Action Category')
+                    ->label(__('support::filament/resources/activity-type.table.groups.action-category'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('is_active')
-                    ->label('Active Status')
+                    ->label(__('support::filament/resources/activity-type.table.groups.status'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('delay_count')
-                    ->label('Delay Count')
+                    ->label(__('support::filament/resources/activity-type.table.groups.delay-count'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('delay_unit')
-                    ->label('Delay Unit')
+                    ->label(__('support::filament/resources/activity-type.table.groups.delay-unit'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('delay_from')
-                    ->label('Delay Source')
+                    ->label(__('support::filament/resources/activity-type.table.groups.delay-source'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('model_type')
-                    ->label('Associated Model')
+                    ->label(__('support::filament/resources/activity-type.table.groups.associated-model'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('chaining_type')
-                    ->label('Chaining Type')
+                    ->label(__('support::filament/resources/activity-type.table.groups.chaining-type'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('decoration_type')
-                    ->label('Decoration Type')
+                    ->label(__('support::filament/resources/activity-type.table.groups.decoration-type'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('defaultUser.name')
-                    ->label('Default User')
+                    ->label(__('support::filament/resources/activity-type.table.groups.default-user'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('created_at')
-                    ->label('Creation Date')
+                    ->label(__('support::filament/resources/activity-type.table.groups.creation-date'))
                     ->date()
                     ->collapsible(),
                 Tables\Grouping\Group::make('updated_at')
-                    ->label('Last Updated')
+                    ->label(__('support::filament/resources/activity-type.table.groups.last-update'))
                     ->date()
                     ->collapsible(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('category')
                     ->multiple()
+                    ->label(__('support::filament/resources/activity-type.table.filters.action'))
                     ->options(ActivityTypeAction::options()),
                 Tables\Filters\TernaryFilter::make('is_active')
-                    ->label('Active Status'),
+                    ->label(__('support::filament/resources/activity-type.table.filters.status')),
                 Tables\Filters\Filter::make('has_delay')
-                    ->label('Has Delay')
-                    ->query(fn ($query) => $query->whereNotNull('delay_count')),
+                    ->label(__('support::filament/resources/activity-type.table.filters.has-delay'))
+                    ->query(fn($query) => $query->whereNotNull('delay_count')),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
-                    Tables\Actions\ForceDeleteAction::make(),
-                    Tables\Actions\RestoreAction::make(),
+                    Tables\Actions\RestoreAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('support::filament/resources/activity-type.table.actions.restore.notification.title'))
+                                ->body(__('support::filament/resources/activity-type.table.actions.restore.notification.body')),
+                        ),
+                    Tables\Actions\DeleteAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('support::filament/resources/activity-type.table.actions.delete.notification.title'))
+                                ->body(__('support::filament/resources/activity-type.table.actions.delete.notification.body')),
+                        ),
+                    Tables\Actions\ForceDeleteAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('support::filament/resources/activity-type.table.actions.force-delete.notification.title'))
+                                ->body(__('support::filament/resources/activity-type.table.actions.force-delete.notification.body')),
+                        ),
                 ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('support::filament/resources/activity-type.table.bulk-actions.restore.notification.title'))
+                                ->body(__('support::filament/resources/activity-type.table.bulk-actions.restore.notification.body')),
+                        ),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('support::filament/resources/activity-type.table.bulk-actions.delete.notification.title'))
+                                ->body(__('support::filament/resources/activity-type.table.bulk-actions.delete.notification.body')),
+                        ),
+                    Tables\Actions\ForceDeleteBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('support::filament/resources/activity-type.table.bulk-actions.force-delete.notification.title'))
+                                ->body(__('support::filament/resources/activity-type.table.bulk-actions.force-delete.notification.body')),
+                        ),
                 ]),
             ])
             ->reorderable('sort');
     }
 
-    public static function getRelations(): array
+    public static function infolist(Infolist $infolist): Infolist
     {
-        return [
-            //
-        ];
+        return $infolist
+            ->schema([
+                Infolists\Components\Grid::make(['default' => 3])
+                    ->schema([
+                        Infolists\Components\Group::make()
+                            ->schema([
+                                Infolists\Components\Section::make(__('support::filament/resources/activity-type.infolist.sections.activity-type-details.title'))
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('name')
+                                            ->icon('heroicon-o-clipboard-document-list')
+                                            ->placeholder('—')
+                                            ->label(__('support::filament/resources/activity-type.infolist.sections.activity-type-details.entries.name')),
+                                        Infolists\Components\TextEntry::make('category')
+                                            ->icon('heroicon-o-tag')
+                                            ->placeholder('—')
+                                            ->label(__('support::filament/resources/activity-type.infolist.sections.activity-type-details.entries.action')),
+                                        Infolists\Components\TextEntry::make('default_user.name')
+                                            ->icon('heroicon-o-user')
+                                            ->placeholder('—')
+                                            ->label(__('support::filament/resources/activity-type.infolist.sections.activity-type-details.entries.default-user')),
+                                        Infolists\Components\TextEntry::make('plugin')
+                                            ->icon('heroicon-o-puzzle-piece')
+                                            ->placeholder('—')
+                                            ->label(__('support::filament/resources/activity-type.infolist.sections.activity-type-details.entries.plugin')),
+                                    ])->columns(2),
+                                Infolists\Components\Section::make(__('support::filament/resources/activity-type.infolist.sections.delay-information.title'))
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('summary')
+                                            ->label(__('support::filament/resources/activity-type.infolist.sections.activity-type-details.entries.summary'))
+                                            ->placeholder('—')
+                                            ->columnSpanFull(),
+                                        Infolists\Components\TextEntry::make('default_note')
+                                            ->label(__('support::filament/resources/activity-type.infolist.sections.activity-type-details.entries.note'))
+                                            ->html()
+                                            ->placeholder('—')
+                                            ->columnSpanFull(),
+                                    ]),
+                                Infolists\Components\Section::make(__('support::filament/resources/activity-type.infolist.sections.delay-information.title'))
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('delay_count')
+                                            ->icon('heroicon-o-clock')
+                                            ->placeholder('—')
+                                            ->numeric()
+                                            ->label(__('support::filament/resources/activity-type.infolist.sections.delay-information.entries.delay-count')),
+                                        Infolists\Components\TextEntry::make('delay_unit')
+                                            ->icon('heroicon-o-calendar')
+                                            ->placeholder('—')
+                                            ->label(__('support::filament/resources/activity-type.infolist.sections.delay-information.entries.delay-unit')),
+                                        Infolists\Components\TextEntry::make('delay_from')
+                                            ->icon('heroicon-o-arrow-right')
+                                            ->placeholder('—')
+                                            ->label(__('support::filament/resources/activity-type.infolist.sections.delay-information.entries.delay-form')),
+                                    ])->columns(2),
+                            ])->columnSpan(2),
+                        Infolists\Components\Group::make()
+                            ->schema([
+                                Infolists\Components\Section::make(__('support::filament/resources/activity-type.infolist.sections.advanced-information.title'))
+                                    ->schema([
+                                        Infolists\Components\IconEntry::make('icon')
+                                            ->placeholder('—')
+                                            ->label(__('support::filament/resources/activity-type.infolist.sections.advanced-information.entries.icon')),
+                                        Infolists\Components\TextEntry::make('decoration_type')
+                                            ->icon('heroicon-o-paint-brush')
+                                            ->placeholder('—')
+                                            ->label(__('support::filament/resources/activity-type.infolist.sections.advanced-information.entries.decoration-type')),
+                                        Infolists\Components\TextEntry::make('chaining_type')
+                                            ->icon('heroicon-o-link')
+                                            ->placeholder('—')
+                                            ->label(__('support::filament/resources/activity-type.infolist.sections.advanced-information.entries.chaining-type')),
+                                        Infolists\Components\TextEntry::make('suggestedActivityTypes.name')
+                                            ->icon('heroicon-o-list-bullet')
+                                            ->placeholder('—')
+                                            ->label(__('support::filament/resources/activity-type.infolist.sections.advanced-information.entries.suggest'))
+                                            ->listWithLineBreaks(),
+                                        Infolists\Components\TextEntry::make('activityTypes.name')
+                                            ->icon('heroicon-o-forward')
+                                            ->placeholder('—')
+                                            ->label(__('support::filament/resources/activity-type.infolist.sections.advanced-information.entries.trigger')),
+                                    ]),
+                                Infolists\Components\Section::make(__('support::filament/resources/activity-type.infolist.sections.status-and-configuration-information.title'))
+                                    ->schema([
+                                        Infolists\Components\IconEntry::make('is_active')
+                                            ->label(__('support::filament/resources/activity-type.infolist.sections.status-and-configuration-information.entries.status')),
+                                        Infolists\Components\IconEntry::make('keep_done')
+                                            ->label(__('support::filament/resources/activity-type.infolist.sections.status-and-configuration-information.entries.keep-done-activities')),
+                                    ]),
+                            ])->columnSpan(1),
+                    ]),
+            ]);
     }
 
     public static function getPages(): array

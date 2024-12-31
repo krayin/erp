@@ -8,8 +8,6 @@ return [
 
     'header-actions' => [
         'delete' => [
-            'label' => 'New Department',
-
             'notification' => [
                 'title' => 'Department deleted',
                 'body' => 'The department has been deleted successfully.',

@@ -15,16 +15,18 @@ class ListActivityTypes extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->label(__('support::filament/resources/activity-type/pages/list-activity-type.header-actions.create.label'))
+                ->icon('heroicon-o-plus-circle'),
         ];
     }
 
     public function getTabs(): array
     {
         return [
-            'all' => Tab::make('All')
+            'all' => Tab::make(__('support::filament/resources/activity-type/pages/list-activity-type.tabs.all'))
                 ->badge(ActivityType::count()),
-            'archived' => Tab::make('Archived')
+            'archived' => Tab::make(__('support::filament/resources/activity-type/pages/list-activity-type.tabs.archived'))
                 ->badge(ActivityType::onlyTrashed()->count())
                 ->modifyQueryUsing(function ($query) {
                     return $query->onlyTrashed();
