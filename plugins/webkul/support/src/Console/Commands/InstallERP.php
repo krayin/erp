@@ -42,6 +42,8 @@ class InstallERP extends Command
 
         $this->createAdminUser();
 
+        $this->runSeeder();
+
         $this->info('🎉 ERP System installation completed successfully!');
     }
 
@@ -55,6 +57,18 @@ class InstallERP extends Command
         Artisan::call('migrate', [], $this->getOutput());
 
         $this->info('✅ Migrations completed successfully.');
+    }
+
+    /**
+     * Run database seeders.
+     */
+    protected function runSeeder()
+    {
+        $this->info('⚙️ Running database seeders...');
+
+        Artisan::call('db:seed', [], $this->getOutput());
+
+        $this->info('✅ Seeders completed successfully.');
     }
 
     /**
@@ -88,13 +102,13 @@ class InstallERP extends Command
             'email' => text(
                 'Email address',
                 required: true,
-                validate: fn ($email) => $this->validateAdminEmail($email, $userModel)
+                validate: fn($email) => $this->validateAdminEmail($email, $userModel)
             ),
             'password' => Hash::make(
                 password(
                     'Password',
                     required: true,
-                    validate: fn ($value) => $this->validateAdminPassword($value)
+                    validate: fn($value) => $this->validateAdminPassword($value)
                 )
             ),
         ];

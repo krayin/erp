@@ -19,7 +19,7 @@ class ChatterServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasTranslations()
             ->hasMigrations([
-                '2024_11_18_124832_create_chatter_followers_table',
+                '2024_12_11_101222_create_chatter_followers_table',
                 '2024_12_23_062355_create_chatter_messages_table',
                 '2024_12_23_080148_create_chatter_attachments_table',
             ])
