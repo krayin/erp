@@ -7,6 +7,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
 use Webkul\Chatter\Filament\Actions\ChatterAction;
 use Webkul\Project\Filament\Resources\TaskResource;
+use Webkul\Support\Models\ActivityPlan;
 
 class ViewTask extends ViewRecord
 {
@@ -15,7 +16,8 @@ class ViewTask extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            ChatterAction::make(),
+            ChatterAction::make()
+                ->setActivityPlans($this->getActivityPlans()),
             Actions\DeleteAction::make()
                 ->successNotification(
                     Notification::make()
@@ -24,5 +26,10 @@ class ViewTask extends ViewRecord
                         ->body(__('projects::filament/resources/task/pages/view-task.header-actions.delete.notification.body')),
                 ),
         ];
+    }
+
+    private function getActivityPlans(): mixed
+    {
+        return ActivityPlan::where('plugin', 'projects')->pluck('name', 'id');
     }
 }

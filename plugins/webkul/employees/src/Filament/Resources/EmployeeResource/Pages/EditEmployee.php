@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Webkul\Chatter\Filament\Actions as ChatterActions;
 use Webkul\Employee\Filament\Resources\EmployeeResource;
 use Webkul\Partner\Models\Partner;
+use Webkul\Support\Models\ActivityPlan;
 
 class EditEmployee extends EditRecord
 {
@@ -31,7 +32,8 @@ class EditEmployee extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            ChatterActions\ChatterAction::make(),
+            ChatterActions\ChatterAction::make()
+                ->setActivityPlans($this->getActivityPlans()),
             Actions\DeleteAction::make()
                 ->successNotification(
                     Notification::make()
@@ -40,6 +42,11 @@ class EditEmployee extends EditRecord
                         ->body(__('employees::filament/resources/employee/pages/edit-employee.header-actions.delete.notification.body')),
                 ),
         ];
+    }
+
+    private function getActivityPlans(): mixed
+    {
+        return ActivityPlan::where('plugin', 'employees')->pluck('name', 'id');
     }
 
     protected function mutateFormDataBeforeFill(array $data): array

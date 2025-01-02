@@ -7,6 +7,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Webkul\Chatter\Filament\Actions\ChatterAction;
 use Webkul\Project\Filament\Resources\TaskResource;
+use Webkul\Support\Models\ActivityPlan;
 
 class EditTask extends EditRecord
 {
@@ -27,8 +28,10 @@ class EditTask extends EditRecord
 
     protected function getHeaderActions(): array
     {
+        // static::getResource()::getRecordTitleAttribute()
         return [
-            ChatterAction::make(),
+            ChatterAction::make()
+                ->setActivityPlans($this->getActivityPlans()),
             Actions\DeleteAction::make()
                 ->successNotification(
                     Notification::make()
@@ -37,5 +40,10 @@ class EditTask extends EditRecord
                         ->body(__('projects::filament/resources/task/pages/edit-task.header-actions.delete.notification.body')),
                 ),
         ];
+    }
+
+    private function getActivityPlans(): mixed
+    {
+        return ActivityPlan::where('plugin', 'projects')->pluck('name', 'id');
     }
 }
