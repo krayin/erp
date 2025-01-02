@@ -49,7 +49,7 @@ return new class extends Migration
      */
     private function insertStateData(): void
     {
-        $path = base_path('plugins/webkul/security/app/Data/states.json');
+        $path = base_path('plugins/webkul/security/src/Data/states.json');
 
         if (File::exists($path)) {
             $states = json_decode(File::get($path), true);

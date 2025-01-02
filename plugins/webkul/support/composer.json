@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Webkul\\Support\\": "app/",
+            "Webkul\\Support\\": "src/",
             "Webkul\\Support\\Database\\Factories\\": "database/factories/",
             "Webkul\\Support\\Database\\Seeders\\": "database/seeders/"
         }
