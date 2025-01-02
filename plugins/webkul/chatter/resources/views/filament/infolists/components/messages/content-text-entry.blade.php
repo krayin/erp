@@ -116,8 +116,8 @@
                 @break
             @case('notification')
                 @if ($record->body)
-                    <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                        {{ $record->body }}
+                    <h3 class="text-sm font-medium leading-6 text-gray-950 dark:text-white">
+                        {!! $record->body !!}
                     </h3>
                 @endif
 
@@ -130,7 +130,7 @@
                             <div class="flex items-center gap-2">
                                 <x-heroicon-m-arrow-path class="text-primary-500 h-5 w-5"/>
 
-                                <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                <h3 class="text-sm font-medium leading-6 text-gray-950 dark:text-white">
                                     @lang('chatter::views/filament/infolists/components/messages/content-text-entry.changes-made')
                                 </h3>
                             </div>
@@ -149,7 +149,7 @@
                                                 <x-heroicon-m-arrow-path class="h-4 w-4 text-gray-500"/>
                                             @endif
 
-                                            <span class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                            <span class="text-sm font-medium leading-6 text-gray-950 dark:text-white">
                                                 @lang('chatter::views/filament/infolists/components/messages/content-text-entry.modified', [
                                                     'field' => ucwords(str_replace('_', ' ', $field)),
                                                 ])
@@ -186,7 +186,7 @@
                                                             @if (is_array($change['old_value']))
                                                                 {{ implode(', ', $change['old_value']) }}
                                                             @else
-                                                                {{ $change['old_value'] }}
+                                                                {!! $change['old_value'] !!}
                                                             @endif
                                                         @endif
                                                     </span>
@@ -214,7 +214,7 @@
                                                             @if (is_array($change['new_value']))
                                                                 {{ implode(', ', $change['new_value']) }}
                                                             @else
-                                                                {{ $change['new_value'] }}
+                                                                {!! $change['new_value'] !!}
                                                             @endif
                                                         @endif
                                                     </span>
