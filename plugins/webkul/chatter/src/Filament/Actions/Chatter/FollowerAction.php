@@ -83,8 +83,9 @@ class FollowerAction extends Action
                     if (
                         ! empty($data['note'])
                         && $data['note']
+                        && $record->partner->email
                     ) {
-                        Mail::queue(new NewFollowerNotification($record->partner, $data));
+                        Mail::queue(new NewFollowerNotification($record->partner, $record->name, $data));
                     }
 
                     Notification::make()

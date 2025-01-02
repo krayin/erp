@@ -18,6 +18,7 @@ class NewFollowerNotification extends Mailable
      */
     public function __construct(
         public mixed $followable,
+        public string $followerName,
         public array $data
     ) {}
 
@@ -57,7 +58,7 @@ class NewFollowerNotification extends Mailable
             with: [
                 'followable' => $this->followable,
                 'note' => $this->data['note'] ?? null,
-                'followerName' => $this->data['name'] ?? 'Someone'
+                'followerName' => $this->followerName ?? 'Someone'
             ],
         );
     }
