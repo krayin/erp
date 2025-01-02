@@ -21,12 +21,12 @@
                         <x-heroicon-m-clipboard-document-check class="text-primary-500 h-5 w-5"/>
 
                         <h3 class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                            @lang('chatter::app.views.filament.infolists.components.content-text-entry.activity-details')
+                            @lang('chatter::views/filament/infolists/components/activities/content-text-entry.activity-details')
                         </h3>
                     </div>
 
                     <span class="bg-primary-50 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 inline-flex items-center rounded-md px-2 py-1 text-xs font-bold">
-                        {{ ucfirst($record->activityType->name) }}
+                        {{ ucfirst($record->activityType?->name) }}
                     </span>
                 </div>
             </div>
@@ -41,7 +41,7 @@
 
                             <div>
                                 <span class="block text-xs font-medium text-gray-500 dark:text-gray-400">
-                                    @lang('chatter::app.views.filament.infolists.components.content-text-entry.created-by')
+                                    @lang('chatter::views/filament/infolists/components/activities/content-text-entry.created-by')
                                 </span>
                                 <span class="text-sm text-gray-900 dark:text-gray-100">{{ $record->createdBy->name }}</span>
                             </div>
@@ -55,7 +55,7 @@
 
                             <div>
                                 <span class="block text-xs font-medium text-gray-500 dark:text-gray-400">
-                                    @lang('chatter::app.views.filament.infolists.components.content-text-entry.summary')
+                                    @lang('chatter::views/filament/infolists/components/activities/content-text-entry.summary')
                                 </span>
 
                                 <span class="text-sm text-gray-900 dark:text-gray-100">{{ $record->summary }}</span>
@@ -72,7 +72,7 @@
 
                             <div>
                                 <span class="block text-xs font-medium text-gray-500 dark:text-gray-400">
-                                    @lang('chatter::app.views.filament.infolists.components.content-text-entry.due-date')
+                                    @lang('chatter::views/filament/infolists/components/activities/content-text-entry.due-date')
                                 </span>
 
                                 @php
@@ -82,15 +82,15 @@
                                     $roundedDays = ceil(abs($daysDifference));
 
                                     $deadlineDescription = $deadline->isToday()
-                                        ? __('Today')
+                                        ? __('chatter::views/filament/infolists/components/activities/content-text-entry.today')
                                         : ($deadline->isFuture()
                                             ? ($roundedDays === 1
-                                                ? __('Tomorrow')
-                                                : __('Due in :days days', ['days' => $roundedDays])
+                                                ? __('chatter::views/filament/infolists/components/activities/content-text-entry.tomorrow')
+                                                : __('chatter::views/filament/infolists/components/activities/content-text-entry.due-in-days', ['days' => $roundedDays])
                                             )
                                             : ($roundedDays === 1
-                                                ? __('1 day overdue')
-                                                : __(':days days overdue', ['days' => $roundedDays])
+                                                ? __('chatter::views/filament/infolists/components/activities/content-text-entry.one-day-overdue')
+                                                : __('chatter::views/filament/infolists/components/activities/content-text-entry.days-overdue', ['days' => $roundedDays]) // Fixed here
                                             )
                                         );
 
@@ -125,7 +125,7 @@
 
                             <div>
                                 <span class="block text-xs font-medium text-gray-500 dark:text-gray-400">
-                                    @lang('chatter::app.views.filament.infolists.components.content-text-entry.assigned-to')
+                                    @lang('chatter::views/filament/infolists/components/activities/content-text-entry.assigned-to')
                                 </span>
 
                                 <span class="text-sm text-gray-900 dark:text-gray-100">{{ $record->assignedTo->name }}</span>

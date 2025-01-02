@@ -25,7 +25,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        $path = base_path('plugins/webkul/security/app/Data/currencies.json');
+        $path = base_path('plugins/webkul/security/src/Data/currencies.json');
 
         if (File::exists($path)) {
             $currencies = json_decode(File::get($path), true);

@@ -24,7 +24,7 @@
                 <div class="flex-shrink-0">
                     <x-filament-actions::group
                         size="md"
-                        tooltip="More actions"
+                        :tooltip="__('chatter::views/filament/infolists/components/activities/title-text-entry.more-action-tooltip')"
                         dropdown-placement="bottom-start"
                         :actions="[
                             ($this->markAsDoneAction)(['id' => $getRecord()->id]),
