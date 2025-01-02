@@ -499,7 +499,7 @@ class EmployeeResource extends Resource
                                                                 Forms\Components\TextInput::make('city')
                                                                     ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.city')),
                                                                 Forms\Components\TextInput::make('zip')
-                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.phone-code'))
+                                                                    ->label(__('employees::filament/resources/employee.form.tabs.private-information.fields.postal-code'))
                                                                     ->required(fn(Get $get) => Country::find($get('country_id'))?->zip_required),
                                                                 Forms\Components\Hidden::make('type')
                                                                     ->default('permanent'),
