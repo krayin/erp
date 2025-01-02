@@ -36,7 +36,7 @@ class NewFollowerNotification extends Mailable
             to: [
                 new Address(
                     $this->followable->email,
-                    $this->followable->name
+                    $this->followable->name ?? $this->followable->title
                 ),
             ],
             replyTo: [
