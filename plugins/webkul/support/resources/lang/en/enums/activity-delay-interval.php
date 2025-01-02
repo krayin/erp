@@ -2,6 +2,6 @@
 
 
 return [
-    'before_plan_date' => 'Before Plan Date',
-    'after_plan_date' => 'After Plan Date',
+    'before-plan-date' => 'Before Plan Date',
+    'after-plan-date' => 'After Plan Date',
 ];
