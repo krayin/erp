@@ -13,14 +13,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Webkul\Chatter\Mail\NewFollowerNotification;
 use Webkul\Partner\Models\Partner;
+use Webkul\Support\Services\EmailTemplateService;
 
 class FollowerAction extends Action
 {
+    protected string $modelName;
+
     public static function getDefaultName(): ?string
     {
         return 'add.followers.action';
     }
-
+    
     protected function setUp(): void
     {
         parent::setUp();
@@ -82,11 +85,29 @@ class FollowerAction extends Action
                     $record->addFollower($partner);
 
                     if (
-                        ! empty($data['note'])
-                        && $data['note']
+                        !empty($data['notify'])
+                        && $data['notify']
                         && $partner
                     ) {
-                        Mail::queue(new NewFollowerNotification($partner, $record->name, $data));
+                        $variables = [
+                            'record_name'    => $partner->name,
+                            'author_name'    => Auth::user()->name,
+                            'author_email'   => Auth::user()->email,
+                            'model_name'     => class_basename($record),
+                            'note'           => $data['note'] ?? '',
+                            'app_name'       => config('app.name'),
+                            'from' => [
+                                'address' => Auth::user()->email,
+                                'name'    => Auth::user()->name,
+                            ],
+                        ];
+
+                        app(EmailTemplateService::class)->send(
+                            templateCode: 'invite_mail_template',
+                            recipientEmail: $partner->email,
+                            recipientName: $partner->name,
+                            variables: $variables,
+                        );
                     }
 
                     Notification::make()
