@@ -72,10 +72,10 @@ class ManageSubTasks extends ManageRelatedRecords
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make()
-                        ->url(fn (Task $record): string => route('filament.admin.resources.project.tasks.view', $record->id))
+                        ->url(fn (Task $record): string => TaskResource::getUrl('view', ['record' => $record]))
                         ->hidden(fn ($record) => $record->trashed()),
                     Tables\Actions\EditAction::make()
-                        ->url(fn (Task $record): string => route('filament.admin.resources.project.tasks.edit', $record->id))
+                        ->url(fn (Task $record): string => TaskResource::getUrl('edit', ['record' => $record]))
                         ->hidden(fn ($record) => $record->trashed()),
                     Tables\Actions\RestoreAction::make()
                         ->successNotification(

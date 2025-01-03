@@ -370,7 +370,7 @@ class ProjectResource extends Resource
                     ->color('gray')
                     ->url('https:example.com/tasks/{record}')
                     ->hidden(fn ($record) => $record->trashed())
-                    ->url(fn (Project $record): string => route('filament.admin.resources.project.projects.tasks', $record->id)),
+                    ->url(fn (Project $record): string => Pages\ManageTasks::getUrl(['record' => $record])),
                 Tables\Actions\Action::make('milestones')
                     ->label(fn (Project $record): string => $record->milestones->where('is_completed', true)->count().'/'.$record->milestones->count())
                     ->icon('heroicon-m-flag')
@@ -379,7 +379,7 @@ class ProjectResource extends Resource
                     ->url('https:example.com/tasks/{record}')
                     ->hidden(fn (Project $record) => $record->trashed())
                     ->visible(fn (TaskSettings $taskSettings, Project $record) => $taskSettings->enable_milestones && $record->allow_milestones)
-                    ->url(fn (Project $record): string => route('filament.admin.resources.project.projects.milestones', $record->id)),
+                    ->url(fn (Project $record): string => Pages\ManageMilestones::getUrl(['record' => $record])),
 
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make()
@@ -499,7 +499,7 @@ class ProjectResource extends Resource
                                             ->icon('heroicon-m-clipboard-document-list')
                                             ->iconColor('primary')
                                             ->color('primary')
-                                            ->url(fn (Project $record): string => route('filament.admin.resources.project.projects.tasks', $record->id)),
+                                            ->url(fn (Project $record): string => Pages\ManageTasks::getUrl(['record' => $record])),
 
                                         Infolists\Components\TextEntry::make('milestones_completion')
                                             ->label(__('projects::filament/resources/project.infolist.sections.statistics.entries.milestones-progress'))
@@ -512,7 +512,7 @@ class ProjectResource extends Resource
                                             ->icon('heroicon-m-flag')
                                             ->iconColor('primary')
                                             ->color('primary')
-                                            ->url(fn (Project $record): string => route('filament.admin.resources.project.projects.milestones', $record->id))
+                                            ->url(fn (Project $record): string => Pages\ManageMilestones::getUrl(['record' => $record]))
                                             ->visible(fn (TaskSettings $taskSettings, Project $record) => $taskSettings->enable_milestones && $record->allow_milestones),
                                     ]),
                             ]),

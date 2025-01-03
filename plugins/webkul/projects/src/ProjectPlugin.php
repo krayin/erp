@@ -5,6 +5,7 @@ namespace Webkul\Project;
 use Filament\Contracts\Plugin;
 use Filament\Navigation\NavigationItem;
 use Filament\Panel;
+use Webkul\Project\Filament\Clusters\Settings\Pages\ManageTasks;
 
 class ProjectPlugin implements Plugin
 {
@@ -27,7 +28,7 @@ class ProjectPlugin implements Plugin
             ->discoverWidgets(in: $this->getPluginBasePath('/Filament/Widgets'), for: 'Webkul\\Project\\Filament\\Widgets')
             ->navigationItems([
                 NavigationItem::make('Settings')
-                    ->url(fn () => route('filament.admin.settings.pages.manage-tasks'))
+                    ->url(fn () => ManageTasks::getUrl())
                     ->icon('heroicon-o-wrench')
                     ->group('Project')
                     ->sort(3),
