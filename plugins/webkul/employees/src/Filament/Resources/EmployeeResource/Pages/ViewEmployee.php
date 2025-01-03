@@ -17,6 +17,7 @@ class ViewEmployee extends ViewRecord
     {
         return [
             ChatterActions\ChatterAction::make()
+                ->setModelName('Employee')
                 ->setActivityPlans($this->getActivityPlans()),
             Actions\DeleteAction::make()
                 ->successNotification(

@@ -8,6 +8,7 @@ use Spatie\Permission\Models\Role;
 use Webkul\Security\Livewire\AcceptInvitation;
 use Webkul\Security\Policies\RolePolicy;
 use Webkul\Support\Console\Commands\InstallERP;
+use Webkul\Support\Services\EmailTemplateService;
 
 class SupportServiceProvider extends PackageServiceProvider
 {
@@ -36,6 +37,8 @@ class SupportServiceProvider extends PackageServiceProvider
                 '2024_12_17_082318_create_activity_type_suggestions_table',
                 '2024_12_23_103137_create_activity_logs_table',
                 '2024_12_10_064135_create_company_addresses_table',
+                '2025_01_03_061444_create_email_templates_table',
+                '2025_01_03_061445_create_email_logs_table',
             ])
             ->runsMigrations()
             ->hasCommands([
@@ -48,6 +51,11 @@ class SupportServiceProvider extends PackageServiceProvider
         Livewire::component('accept-invitation', AcceptInvitation::class);
 
         Gate::policy(Role::class, RolePolicy::class);
+
+
+        $this->app->singleton(EmailTemplateService::class, function ($app) {
+            return new EmailTemplateService();
+        });
     }
 
     public function packageRegistered(): void

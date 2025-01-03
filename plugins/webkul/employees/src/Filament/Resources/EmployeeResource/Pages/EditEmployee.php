@@ -33,6 +33,7 @@ class EditEmployee extends EditRecord
     {
         return [
             ChatterActions\ChatterAction::make()
+                ->setModelName('Employee')
                 ->setActivityPlans($this->getActivityPlans()),
             Actions\DeleteAction::make()
                 ->successNotification(

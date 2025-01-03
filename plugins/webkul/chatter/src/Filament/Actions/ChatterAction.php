@@ -11,9 +11,23 @@ class ChatterAction extends Action
 {
     protected mixed $activityPlans;
 
+    protected string $modelName;
+
     public static function getDefaultName(): ?string
     {
         return 'chatter.action';
+    }
+
+    public function setModelName(string $modelName): static
+    {
+        $this->modelName = $modelName;
+
+        return $this;
+    }
+
+    public function getModelName(): string
+    {
+        return $this->modelName;
     }
 
     public function setActivityPlans(mixed $activityPlans): static
@@ -40,6 +54,7 @@ class ChatterAction extends Action
             ->modalContentFooter(fn(Model $record): View => view('chatter::filament.widgets.chatter', [
                 'record'        => $record,
                 'activityPlans' => $this->getActivityPlans(),
+                'modelName'     => $this->getModelName(),
             ]))
             ->modalHeading(__('chatter::filament/resources/actions/chatter-action.title'))
             ->modalDescription(__('chatter::filament/resources/actions/chatter-action.description'))

@@ -10,12 +10,27 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Webkul\Chatter\Mail\SendMessage;
+use Webkul\Support\Services\EmailTemplateService;
 
 class MessageAction extends Action
 {
+    protected string $modelName;
+
     public static function getDefaultName(): ?string
     {
         return 'message.action';
+    }
+
+    public function setModelName(string $modelName): static
+    {
+        $this->modelName = $modelName;
+
+        return $this;
+    }
+
+    public function getModelName(): string
+    {
+        return $this->modelName;
     }
 
     protected function setUp(): void
@@ -87,14 +102,14 @@ class MessageAction extends Action
 
                     $message = $record->addMessage($data, Auth::user()->id);
 
-                    $this->notifyToFollowers($record, $message);
-
                     if (! empty($data['attachments'])) {
                         $record->addAttachments(
                             $data['attachments'],
                             ['message_id' => $message->id],
                         );
                     }
+
+                    $this->notifyToFollowers($record, $message);
 
                     Notification::make()
                         ->success()
@@ -125,11 +140,36 @@ class MessageAction extends Action
         try {
             foreach ($record->followers as $follower) {
                 if ($follower?->partner) {
-                    Mail::queue(new SendMessage($this->record, $follower->partner, $message));
+                    $variables = [
+                        'record_name'    => $follower?->partner->name,
+                        'author_name'    => Auth::user()->name,
+                        'author_email'   => Auth::user()->email,
+                        'model_name'     => $this->getModelName(),
+                        'content'        => $message->body ?? '',
+                        'from' => [
+                            'address' => Auth::user()->email,
+                            'name'    => Auth::user()->name,
+                        ],
+                    ];
+
+                    app(EmailTemplateService::class)->send(
+                        templateCode: 'message_template',
+                        recipientEmail: $follower?->partner->email,
+                        recipientName: $follower?->partner->name,
+                        variables: $variables,
+                        attachments: $message->attachments?->map(function ($attachment) {
+                            return [
+                                'path' => asset($attachment->url),
+                                'name' => $attachment->name,
+                                'mime' => $attachment->mime,
+                            ];
+                        })->toArray(),
+                    );
                 }
             }
         } catch (\Exception $e) {
             report($e);
+            dd($e);
         }
     }
 }
