@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Auth;
 use Webkul\Field\Filament\Forms\Components\ProgressStepper;
 use Webkul\Field\Filament\Traits\HasCustomFields;
 use Webkul\Project\Enums\TaskState;
+use Webkul\Project\Filament\Resources\ProjectResource;
 use Webkul\Project\Filament\Resources\ProjectResource\Pages\ManageTasks;
 use Webkul\Project\Filament\Resources\TaskResource\Pages;
 use Webkul\Project\Filament\Resources\TaskResource\RelationManagers;
@@ -638,7 +639,7 @@ class TaskResource extends Resource
                                             ->icon('heroicon-o-folder')
                                             ->placeholder('—')
                                             ->color('primary')
-                                            ->url(fn (Task $record): string => $record->project_id ? route('filament.admin.resources.project.projects.view', $record->project_id) : '#'),
+                                            ->url(fn (Task $record): string => $record->project_id ? ProjectResource::getUrl('view', ['record' => $record->project]) : '#'),
 
                                         Infolists\Components\TextEntry::make('milestone.name')
                                             ->label(__('projects::filament/resources/task.infolist.sections.project-information.entries.milestone'))
