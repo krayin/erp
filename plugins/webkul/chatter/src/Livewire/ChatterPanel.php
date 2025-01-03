@@ -48,21 +48,16 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
 
     public mixed $activityPlans;
 
-    public string $modelName;
-
-    public function mount(Model $record, mixed $activityPlans, $modelName): void
+    public function mount(Model $record, mixed $activityPlans): void
     {
         $this->record = $record;
 
         $this->activityPlans = $activityPlans;
-
-        $this->modelName = $modelName;
     }
 
     public function messageAction(): MessageAction
     {
         return MessageAction::make('message')
-            ->setModelName($this->modelName)
             ->record($this->record);
     }
 
@@ -82,7 +77,6 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
     public function followerAction(): FollowerAction
     {
         return FollowerAction::make('follower')
-            ->setModelName($this->modelName)
             ->record($this->record);
     }
 

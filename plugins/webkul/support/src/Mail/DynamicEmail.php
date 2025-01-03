@@ -7,6 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\HtmlString;
+use Webkul\Security\Models\User;
 
 class DynamicEmail extends Mailable implements ShouldQueue
 {
@@ -28,12 +29,18 @@ class DynamicEmail extends Mailable implements ShouldQueue
     protected array $attachmentData = [];
 
     /**
+     * Get the sender details
+     */
+    protected User $sender;
+
+    /**
      * Create a new message instance.
      */
-    public function __construct(array $emailData)
+    public function __construct(array $emailData, User $sender)
     {
         $this->emailData = $emailData;
         $this->customCss = $emailData['css'] ?? null;
+        $this->sender = $sender;
     }
 
     /**
@@ -56,6 +63,7 @@ class DynamicEmail extends Mailable implements ShouldQueue
                 'header' => html_entity_decode($this->emailData['header'] ?? ''),
                 'body' => html_entity_decode($this->emailData['body']),
                 'footer' => html_entity_decode($this->emailData['footer'] ?? ''),
+                'sender' => $this->sender,
             ]);
 
         if (isset($this->emailData['from'])) {

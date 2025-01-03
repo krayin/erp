@@ -23,19 +23,7 @@ class FollowerAction extends Action
     {
         return 'add.followers.action';
     }
-
-    public function setModelName(string $modelName): static
-    {
-        $this->modelName = $modelName;
-
-        return $this;
-    }
-
-    public function getModelName(): string
-    {
-        return $this->modelName;
-    }
-
+    
     protected function setUp(): void
     {
         parent::setUp();
@@ -105,7 +93,7 @@ class FollowerAction extends Action
                             'record_name'    => $partner->name,
                             'author_name'    => Auth::user()->name,
                             'author_email'   => Auth::user()->email,
-                            'model_name'     => $this->getModelName(),
+                            'model_name'     => class_basename($record),
                             'note'           => $data['note'] ?? '',
                             'app_name'       => config('app.name'),
                             'from' => [

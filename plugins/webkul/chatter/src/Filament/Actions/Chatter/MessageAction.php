@@ -14,23 +14,9 @@ use Webkul\Support\Services\EmailTemplateService;
 
 class MessageAction extends Action
 {
-    protected string $modelName;
-
     public static function getDefaultName(): ?string
     {
         return 'message.action';
-    }
-
-    public function setModelName(string $modelName): static
-    {
-        $this->modelName = $modelName;
-
-        return $this;
-    }
-
-    public function getModelName(): string
-    {
-        return $this->modelName;
     }
 
     protected function setUp(): void
@@ -144,7 +130,7 @@ class MessageAction extends Action
                         'record_name'    => $follower?->partner->name,
                         'author_name'    => Auth::user()->name,
                         'author_email'   => Auth::user()->email,
-                        'model_name'     => $this->getModelName(),
+                        'model_name'     => class_basename($record),
                         'content'        => $message->body ?? '',
                         'from' => [
                             'address' => Auth::user()->email,

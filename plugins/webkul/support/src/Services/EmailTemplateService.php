@@ -2,6 +2,7 @@
 
 namespace Webkul\Support\Services;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Webkul\Support\Mail\DynamicEmail;
@@ -47,7 +48,7 @@ class EmailTemplateService
 
         try {
             Mail::to($recipientEmail, $recipientName)
-                ->send((new DynamicEmail($emailData))->withAttachments($attachments));
+                ->send((new DynamicEmail($emailData, Auth::user()))->withAttachments($attachments));
 
             $this->logEmail($template->id, $recipientEmail, $recipientName, $emailData['subject'], $variables, 'sent');
 
