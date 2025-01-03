@@ -16,11 +16,12 @@ return new class extends Migration
             $table->boolean('is_favorite')->default(1);
             $table->string('view_type');
             $table->string('view_key');
+            $table->string('filterable_type');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->unique(['view_type', 'view_key', 'user_id']);
+            $table->unique(['view_type', 'view_key', 'filterable_type', 'user_id'], 'tbl_view_fav_unique');
         });
     }
 

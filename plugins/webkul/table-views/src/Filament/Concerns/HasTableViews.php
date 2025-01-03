@@ -367,8 +367,14 @@ trait HasTableViews
             ->icon('heroicon-o-star')
             ->action(function (array $arguments) {
                 TableViewFavoriteModel::updateOrCreate(
-                    ['view_type' => $arguments['view_type'], 'view_key' => $arguments['view_key'], 'user_id' => auth()->id()],
-                    ['is_favorite' => true]
+                    [
+                        'view_type'       => $arguments['view_type'],
+                        'view_key'        => $arguments['view_key'],
+                        'filterable_type' => static::class,
+                        'user_id'         => auth()->id(),
+                    ], [
+                        'is_favorite' => true,
+                    ]
                 );
 
                 unset($this->cachedTableViews);
@@ -383,8 +389,14 @@ trait HasTableViews
             ->icon('heroicon-o-minus-circle')
             ->action(function (array $arguments) {
                 TableViewFavoriteModel::updateOrCreate(
-                    ['view_type' => $arguments['view_type'], 'view_key' => $arguments['view_key'], 'user_id' => auth()->id()],
-                    ['is_favorite' => false]
+                    [
+                        'view_type'       => $arguments['view_type'],
+                        'view_key'        => $arguments['view_key'],
+                        'filterable_type' => static::class,
+                        'user_id'         => auth()->id(),
+                    ], [
+                        'is_favorite' => false,
+                    ]
                 );
 
                 unset($this->cachedTableViews);
@@ -413,6 +425,10 @@ trait HasTableViews
             ->requiresConfirmation()
             ->action(function (array $arguments) {
                 TableViewModel::find($arguments['view_key'])->delete();
+
+                TableViewFavoriteModel::where('view_key', $arguments['view_key'])
+                    ->where('filterable_type', (string) static::class)
+                    ->delete();
 
                 unset($this->cachedTableViews);
                 unset($this->cachedFavoriteTableViews);

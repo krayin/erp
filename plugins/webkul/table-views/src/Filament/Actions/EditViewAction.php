@@ -29,6 +29,7 @@ class EditViewAction extends Action
                     ->where('user_id', auth()->id())
                     ->where('view_type', 'saved')
                     ->where('view_key', $arguments['view_model']['id'])
+                    ->where('filterable_type', $arguments['view_model']['filterable_type'])
                     ->first();
 
                 return [
@@ -83,8 +84,14 @@ class EditViewAction extends Action
                     $record->save();
 
                     TableViewFavorite::updateOrCreate(
-                        ['view_type' => 'saved', 'view_key' => $arguments['view_model']['id'], 'user_id' => auth()->id()],
-                        ['is_favorite' => $data['is_favorite']]
+                        [
+                            'view_type'       => 'saved',
+                            'view_key'        => $arguments['view_model']['id'],
+                            'filterable_type' => $record->filterable_type,
+                            'user_id'         => auth()->id(),
+                        ], [
+                            'is_favorite' => $data['is_favorite'],
+                        ]
                     );
 
                     return $record;

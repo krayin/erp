@@ -36,7 +36,7 @@ class ListTasks extends ListRecords
     public function getPresetTableViews(): array
     {
         return [
-            'open_tasks' => PresetView::make(__('projects::filament/resources/task/pages/list-task.tabs.open-tasks'))
+            'open_tasks' => PresetView::make(__('projects::filament/resources/task/pages/list-tasks.tabs.open-tasks'))
                 ->icon('heroicon-s-bolt')
                 ->favorite()
                 ->default()
@@ -45,7 +45,7 @@ class ListTasks extends ListRecords
                     TaskState::DONE,
                 ])),
 
-            'my_tasks' => PresetView::make(__('projects::filament/resources/task/pages/list-task.tabs.my-tasks'))
+            'my_tasks' => PresetView::make(__('projects::filament/resources/task/pages/list-tasks.tabs.my-tasks'))
                 ->icon('heroicon-s-user')
                 ->favorite()
                 ->modifyQueryUsing(function (Builder $query) {
@@ -55,27 +55,41 @@ class ListTasks extends ListRecords
                         });
                 }),
 
-            'unassigned_tasks' => PresetView::make(__('projects::filament/resources/task/pages/list-task.tabs.unassigned-tasks'))
+            'unassigned_tasks' => PresetView::make(__('projects::filament/resources/task/pages/list-tasks.tabs.unassigned-tasks'))
                 ->icon('heroicon-s-user-minus')
                 ->favorite()
                 ->modifyQueryUsing(function (Builder $query) {
                     return $query->whereDoesntHave('users');
                 }),
 
-            'closed_tasks' => PresetView::make(__('projects::filament/resources/task/pages/list-task.tabs.closed-tasks'))
-                ->icon('heroicon-s-check-circle')
+            'private_tasks' => PresetView::make(__('projects::filament/resources/task/pages/list-tasks.tabs.private-tasks'))
+                ->icon('heroicon-s-lock-closed')
                 ->favorite()
+                ->modifyQueryUsing(function (Builder $query) {
+                    return $query->whereNull('project_id');
+                }),
+
+            'followed_tasks' => PresetView::make(__('projects::filament/resources/task/pages/list-tasks.tabs.followed-tasks'))
+                ->icon('heroicon-s-bell')
+                ->modifyQueryUsing(function (Builder $query) {
+                    return $query->whereHas('followers', function ($q) {
+                        $q->where('chatter_followers.partner_id', Auth::user()->partner_id);
+                    });
+                }),
+
+            'closed_tasks' => PresetView::make(__('projects::filament/resources/task/pages/list-tasks.tabs.closed-tasks'))
+                ->icon('heroicon-s-check-circle')
                 ->modifyQueryUsing(fn (Builder $query) => $query->whereIn('state', [
                     TaskState::CANCELLED,
                     TaskState::DONE,
                 ])),
 
-            'starred_tasks' => PresetView::make(__('projects::filament/resources/task/pages/list-task.tabs.starred-tasks'))
+            'starred_tasks' => PresetView::make(__('projects::filament/resources/task/pages/list-tasks.tabs.starred-tasks'))
                 ->icon('heroicon-s-star')
                 ->favorite()
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('priority', true)),
 
-            'archived_tasks' => PresetView::make(__('projects::filament/resources/task/pages/list-task.tabs.archived-tasks'))
+            'archived_tasks' => PresetView::make(__('projects::filament/resources/task/pages/list-tasks.tabs.archived-tasks'))
                 ->icon('heroicon-s-archive-box')
                 ->favorite()
                 ->modifyQueryUsing(function ($query) {
@@ -88,7 +102,7 @@ class ListTasks extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-                ->label(__('projects::filament/resources/task/pages/list-task.header-actions.create.label'))
+                ->label(__('projects::filament/resources/task/pages/list-tasks.header-actions.create.label'))
                 ->icon('heroicon-o-plus-circle'),
         ];
     }
