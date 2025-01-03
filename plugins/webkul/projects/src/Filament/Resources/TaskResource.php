@@ -588,7 +588,10 @@ class TaskResource extends Resource
                                 ->body(__('projects::filament/resources/task.table.bulk-actions.force-delete.notification.body')),
                         ),
                 ]),
-            ]);
+            ])
+            ->checkIfRecordIsSelectableUsing(
+                fn (Model $record): bool => static::can('delete', $record) || static::can('forceDelete', $record) || static::can('restore', $record),
+            );
     }
 
     public static function infolist(Infolist $infolist): Infolist

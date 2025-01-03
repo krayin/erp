@@ -45,7 +45,8 @@ class TagResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('projects::filament/clusters/configurations/resources/tag.table.columns.name'))
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
