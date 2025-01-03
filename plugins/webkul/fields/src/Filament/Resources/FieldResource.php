@@ -182,17 +182,22 @@ class FieldResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('code')
                     ->label(__('fields::filament/resources/field.table.columns.code'))
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
-                    ->label(__('fields::filament/resources/field.table.columns.code'))
-                    ->searchable(),
+                    ->label(__('fields::filament/resources/field.table.columns.name'))
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('type')
-                    ->label(__('fields::filament/resources/field.table.columns.type')),
+                    ->label(__('fields::filament/resources/field.table.columns.type'))
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('customizable_type')
                     ->label(__('fields::filament/resources/field.table.columns.resource'))
-                    ->description(fn (Field $record): string => str($record->customizable_type)->afterLast('\\')->toString().'Resource'),
+                    ->description(fn (Field $record): string => str($record->customizable_type)->afterLast('\\')->toString().'Resource')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label(__('fields::filament/resources/field.table.columns.created-at')),
+                    ->label(__('fields::filament/resources/field.table.columns.created-at'))
+                    ->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('type')
@@ -216,7 +221,6 @@ class FieldResource extends Resource
                         $resource::getModel() => str($resource)->afterLast('\\')->toString(),
                     ])),
             ])
-            ->filtersFormColumns(2)
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make()

@@ -26,6 +26,8 @@ return [
             'task'        => 'Task',
             'description' => 'Description',
             'time-spent'  => 'Time Spent',
+            'created-at'  => 'Created At',
+            'updated-at'  => 'Updated At',
         ],
 
         'groups' => [

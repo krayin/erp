@@ -44,11 +44,6 @@ class ListPartners extends ListRecords
                 ->favorite()
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('account_type', AccountType::COMPANY)),
 
-            'employees' => PresetView::make(__('contacts::filament/resources/partner/pages/list-partners.tabs.employees'))
-                ->icon('heroicon-s-users')
-                ->favorite()
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('account_type', AccountType::EMPLOYEE)),
-
             'archived' => PresetView::make(__('contacts::filament/resources/partner/pages/list-partners.tabs.archived'))
                 ->icon('heroicon-s-archive-box')
                 ->favorite()

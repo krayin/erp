@@ -85,15 +85,24 @@ class TimesheetResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('date')
                     ->label(__('timesheets::filament/resources/timesheet.table.columns.date'))
-                    ->date('Y-m-d'),
+                    ->date('Y-m-d')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label(__('timesheets::filament/resources/timesheet.table.columns.employee')),
+                    ->label(__('timesheets::filament/resources/timesheet.table.columns.employee'))
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('project.name')
-                    ->label(__('timesheets::filament/resources/timesheet.table.columns.project')),
+                    ->label(__('timesheets::filament/resources/timesheet.table.columns.project'))
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('task.title')
-                    ->label(__('timesheets::filament/resources/timesheet.table.columns.task')),
+                    ->label(__('timesheets::filament/resources/timesheet.table.columns.task'))
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('name')
-                    ->label(__('timesheets::filament/resources/timesheet.table.columns.description')),
+                    ->label(__('timesheets::filament/resources/timesheet.table.columns.description'))
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('unit_amount')
                     ->label(__('timesheets::filament/resources/timesheet.table.columns.time-spent'))
                     ->formatStateUsing(function ($state) {
@@ -102,9 +111,9 @@ class TimesheetResource extends Resource
 
                         return $hours.':'.$minutes;
                     })
+                    ->sortable()
                     ->summarize([
                         Sum::make()
-                            ->label('Time Spent')
                             ->label(__('timesheets::filament/resources/timesheet.table.columns.time-spent'))
                             ->formatStateUsing(function ($state) {
                                 $hours = floor($state);
@@ -113,6 +122,16 @@ class TimesheetResource extends Resource
                                 return $hours.':'.$minutes;
                             }),
                     ]),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('timesheets::filament/resources/timesheet.table.columns.created-at'))
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('timesheets::filament/resources/timesheet.table.columns.updated-at'))
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->groups([
                 Tables\Grouping\Group::make('date')

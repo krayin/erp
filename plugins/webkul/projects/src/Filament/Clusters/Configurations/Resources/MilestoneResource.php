@@ -73,7 +73,8 @@ class MilestoneResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('projects::filament/clusters/configurations/resources/milestone.table.columns.name'))
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('deadline')
                     ->label(__('projects::filament/clusters/configurations/resources/milestone.table.columns.deadline'))
                     ->dateTime()
@@ -82,7 +83,8 @@ class MilestoneResource extends Resource
                     ->label(__('projects::filament/clusters/configurations/resources/milestone.table.columns.is-completed'))
                     ->beforeStateUpdated(function ($record, $state) {
                         $record->completed_at = $state ? now() : null;
-                    }),
+                    })
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('completed_at')
                     ->label(__('projects::filament/clusters/configurations/resources/milestone.table.columns.completed-at'))
                     ->dateTime()

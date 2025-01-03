@@ -16,6 +16,7 @@ class TableViewFavorite extends Model
         'is_favorite',
         'view_type',
         'view_key',
+        'filterable_type',
         'user_id',
     ];
 

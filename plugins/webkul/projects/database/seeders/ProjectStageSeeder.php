@@ -1,11 +1,11 @@
 <?php
 
-namespace Webkul\Partner\Database\Seeders;
+namespace Webkul\Project\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class TaskStageSeeder extends Seeder
+class ProjectStageSeeder extends Seeder
 {
     /**
      * Seed the application's database with currencies.

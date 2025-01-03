@@ -54,7 +54,8 @@ class ActivityPlanResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('projects::filament/clusters/configurations/resources/activity-plan.table.columns.name'))
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\IconColumn::make('is_active')
                     ->label(__('projects::filament/clusters/configurations/resources/activity-plan.table.columns.status'))
                     ->sortable()
