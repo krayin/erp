@@ -105,6 +105,8 @@ class Task extends Model implements Sortable
         'creator.name' => 'Creator',
     ];
 
+    public string $recordTitleAttribute = 'title';
+
     public $sortable = [
         'order_column_name' => 'sort',
     ];

@@ -13,11 +13,9 @@ return new class extends Migration
     {
         Schema::create('email_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('email_template_id')->constrained();
             $table->string('recipient_email');
             $table->string('recipient_name');
             $table->string('subject');
-            $table->json('variables')->nullable();
             $table->string('status');
             $table->text('error_message')->nullable();
             $table->timestamp('sent_at');

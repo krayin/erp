@@ -15,7 +15,8 @@ class ViewDepartment extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            ChatterActions\ChatterAction::make(),
+            ChatterActions\ChatterAction::make()
+                ->setResource(static::$resource),
             Actions\EditAction::make(),
             Actions\DeleteAction::make()
                 ->successNotification(

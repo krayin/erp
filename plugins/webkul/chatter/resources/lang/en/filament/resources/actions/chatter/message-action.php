@@ -25,8 +25,12 @@ return [
                 'error' => [
                     'title' => 'Message sent error',
                     'body'  => 'Failed to send your message',
-                ],
+                ]
             ],
-        ],
-    ],
+
+            'mail' => [
+                'subject' => ':record_name',
+            ]
+        ]
+    ]
 ];

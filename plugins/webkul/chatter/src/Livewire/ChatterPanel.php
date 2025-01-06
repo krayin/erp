@@ -3,6 +3,7 @@
 namespace Webkul\Chatter\Livewire;
 
 use Carbon\Carbon;
+use Closure;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
@@ -48,16 +49,35 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
 
     public mixed $activityPlans;
 
-    public function mount(Model $record, mixed $activityPlans): void
-    {
+    public string $resource = '';
+
+    public mixed $followerViewMail = null;
+
+    public mixed $messageViewMail = null;
+
+    public function mount(
+        Model $record,
+        mixed $activityPlans,
+        string $resource,
+        string | Closure | null $followerViewMail,
+        string | Closure | null $messageViewMail,
+    ): void {
         $this->record = $record;
 
         $this->activityPlans = $activityPlans;
+
+        $this->followerViewMail = $followerViewMail;
+
+        $this->messageViewMail = $messageViewMail;
+
+        $this->resource = $resource;
     }
 
     public function messageAction(): MessageAction
     {
         return MessageAction::make('message')
+            ->setMessageMailView($this->messageViewMail)
+            ->setResource($this->resource)
             ->record($this->record);
     }
 
@@ -77,6 +97,8 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
     public function followerAction(): FollowerAction
     {
         return FollowerAction::make('follower')
+            ->setFollowerMailView($this->followerViewMail)
+            ->setResource($this->resource)
             ->record($this->record);
     }
 

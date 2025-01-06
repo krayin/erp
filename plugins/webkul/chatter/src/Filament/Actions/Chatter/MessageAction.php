@@ -7,14 +7,51 @@ use Filament\Forms;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Support\Services\EmailTemplateService;
+use Webkul\Chatter\Mail\MessageMail;
+use Webkul\Support\Services\EmailService;
 
 class MessageAction extends Action
 {
+    protected string $mailView = 'chatter::mail.message-mail';
+
+    protected string $resource = '';
+
     public static function getDefaultName(): ?string
     {
         return 'message.action';
+    }
+
+    public function setResource(string $resource): self
+    {
+        $this->resource = $resource;
+
+        return $this;
+    }
+
+    public function setMessageMailView(string $mailView): self
+    {
+        $mailView = $this->evaluate($mailView);
+
+        if (empty($mailView)) {
+            return $this;
+        }
+
+        $this->mailView = $mailView;
+
+        return $this;
+    }
+
+    public function getMessageMailView(): string
+    {
+        return $this->mailView;
+    }
+
+    public function getResource(): string
+    {
+        return $this->resource;
     }
 
     protected function setUp(): void
@@ -29,7 +66,7 @@ class MessageAction extends Action
                     Forms\Components\Actions::make([
                         Forms\Components\Actions\Action::make('add_subject')
                             ->label(function ($get) {
-                                return $get('showSubject') ? __('chatter::filament/resources/actions/chatter/log-action.setup.form.fields.hide-subject') : __('chatter::filament/resources/actions/chatter/message-action.setup.form.fields.add-subject');
+                                return $get('showSubject') ? __('chatter::filament/resources/actions/chatter/message-action.setup.form.fields.hide-subject') : __('chatter::filament/resources/actions/chatter/message-action.setup.form.fields.add-subject');
                             })
                             ->action(function ($set, $get) {
                                 if ($get('showSubject')) {
@@ -93,7 +130,7 @@ class MessageAction extends Action
                         );
                     }
 
-                    $this->notifyToFollowers($record, $message);
+                    $this->notifyFollower($record, $message);
 
                     Notification::make()
                         ->success()
@@ -119,41 +156,50 @@ class MessageAction extends Action
             ->slideOver(false);
     }
 
-    private function notifyToFollowers(mixed $record, $message): void
+    private function notifyFollower(mixed $record, mixed $message): void
     {
-        try {
-            foreach ($record->followers as $follower) {
-                if ($follower?->partner) {
-                    $variables = [
-                        'record_name'    => $follower?->partner->name,
-                        'author_name'    => Auth::user()->name,
-                        'author_email'   => Auth::user()->email,
-                        'model_name'     => class_basename($record),
-                        'content'        => $message->body ?? '',
-                        'from'           => [
-                            'address' => Auth::user()->email,
-                            'name'    => Auth::user()->name,
-                        ],
-                    ];
-
-                    app(EmailTemplateService::class)->send(
-                        templateCode: 'message_template',
-                        recipientEmail: $follower?->partner->email,
-                        recipientName: $follower?->partner->name,
-                        variables: $variables,
-                        attachments: $message->attachments?->map(function ($attachment) {
-                            return [
-                                'path' => asset($attachment->url),
-                                'name' => $attachment->name,
-                                'mime' => $attachment->mime,
-                            ];
-                        })->toArray(),
-                    );
-                }
+        foreach ($record->followers as $follower) {
+            if ($follower?->partner) {
+                app(EmailService::class)->send(
+                    mailClass: MessageMail::class,
+                    view: $this->getMessageMailView(),
+                    attachments: $this->prepareAttachments($message->attachments),
+                    payload: $this->preparePayload($record, $follower->partner, $message),
+                );
             }
-        } catch (\Exception $e) {
-            report($e);
-            dd($e);
         }
+    }
+
+    private function prepareResourceUrl(mixed $record): string
+    {
+        return $this->getResource()::getUrl('view', ['record' => $record]);
+    }
+
+    private function preparePayload(Model $record, mixed $partner, mixed $message): array
+    {
+        return [
+            'record_url'     => $this->prepareResourceUrl($record) ?? '',
+            'record_name'    => $recordName = $record->{$record->recordTitleAttribute} ?? $record->name,
+            'model_name'     => class_basename($record),
+            'subject'        => __('chatter::filament/resources/actions/chatter/message-action.setup.actions.mail.subject', [
+                'record_name' => $recordName,
+            ]),
+            'content'        => $message->body ?? '',
+            'to' => [
+                'address' => $partner->email,
+                'name'    => $partner->name,
+            ],
+        ];
+    }
+
+    private function prepareAttachments(Collection $attachments): array
+    {
+        return $attachments?->map(function ($attachment) {
+            return [
+                'path' => asset($attachment->url),
+                'name' => $attachment->name,
+                'mime' => $attachment->mime,
+            ];
+        })->toArray();
     }
 }

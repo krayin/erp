@@ -111,6 +111,7 @@ class InstallERP extends Command
                     validate: fn ($value) => $this->validateAdminPassword($value)
                 )
             ),
+            'resource_permission' => 'global',
         ];
 
         $adminUser = $userModel::updateOrCreate(['email' => $adminData['email']], $adminData);

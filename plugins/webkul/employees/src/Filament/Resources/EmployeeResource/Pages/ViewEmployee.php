@@ -17,6 +17,7 @@ class ViewEmployee extends ViewRecord
     {
         return [
             ChatterActions\ChatterAction::make()
+                ->setResource(static::$resource)
                 ->setActivityPlans($this->getActivityPlans()),
             Actions\DeleteAction::make()
                 ->successNotification(

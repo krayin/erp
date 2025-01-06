@@ -86,6 +86,11 @@ class CompanyResource extends Resource
                                             ->label(__('security::filament/resources/company.form.sections.company-information.fields.tax-id'))
                                             ->unique(ignoreRecord: true)
                                             ->hintIcon('heroicon-o-question-mark-circle', tooltip: __('security::filament/resources/company.form.sections.company-information.fields.tax-id-tooltip')),
+                                        Forms\Components\TextInput::make('website')
+                                            ->url()
+                                            ->prefixIcon('heroicon-o-globe-alt')
+                                            ->label(__('security::filament/resources/company.form.sections.company-information.fields.website'))
+                                            ->unique(ignoreRecord: true),
                                     ])
                                     ->columns(2),
                                 Forms\Components\Section::make(__('security::filament/resources/company.form.sections.address-information.title'))
@@ -436,6 +441,10 @@ class CompanyResource extends Resource
                                             ->icon('heroicon-o-currency-dollar')
                                             ->placeholder('—')
                                             ->label(__('security::filament/resources/company.infolist.sections.company-information.entries.tax-id')),
+                                        Infolists\Components\TextEntry::make('website')
+                                            ->icon('heroicon-o-globe-alt')
+                                            ->placeholder('—')
+                                            ->label(__('security::filament/resources/company.infolist.sections.company-information.entries.website')),
                                     ])
                                     ->columns(2),
 
