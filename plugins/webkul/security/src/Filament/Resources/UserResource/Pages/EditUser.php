@@ -6,11 +6,8 @@ use Filament\Actions;
 use Filament\Forms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
-use Webkul\Partner\Models\Partner;
 use Webkul\Security\Filament\Resources\UserResource;
 use Webkul\Security\Models\User;
 

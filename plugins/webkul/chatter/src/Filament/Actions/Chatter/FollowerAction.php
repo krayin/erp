@@ -9,7 +9,6 @@ use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 use Webkul\Chatter\Mail\FollowerMail;
 use Webkul\Partner\Models\Partner;
 use Webkul\Support\Services\EmailService;
@@ -179,7 +178,7 @@ class FollowerAction extends Action
                 'department' => $recordName,
             ]),
             'note'           => $data['note'] ?? '',
-            'to' => [
+            'to'             => [
                 'address' => $partner->email,
                 'name'    => $partner->name,
             ],

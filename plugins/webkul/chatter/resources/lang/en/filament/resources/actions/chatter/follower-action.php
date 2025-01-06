@@ -29,7 +29,7 @@ return [
 
             'mail' => [
                 'subject' => 'Invitation to follow :model: :department',
-            ]
-        ]
-    ]
+            ],
+        ],
+    ],
 ];

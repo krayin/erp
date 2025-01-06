@@ -33,10 +33,10 @@ class ChatterAction extends Action
     public function setResource(string $resource): static
     {
         if (empty($resource)) {
-            throw new \InvalidArgumentException("The resource parameter must be provided and cannot be empty.");
+            throw new \InvalidArgumentException('The resource parameter must be provided and cannot be empty.');
         }
 
-        if (!class_exists($resource)) {
+        if (! class_exists($resource)) {
             throw new \InvalidArgumentException("The resource class [{$resource}] does not exist.");
         }
 
@@ -45,14 +45,14 @@ class ChatterAction extends Action
         return $this;
     }
 
-    public function setFollowerMailView(string | Closure | null $followerViewMail): static
+    public function setFollowerMailView(string|Closure|null $followerViewMail): static
     {
         $this->followerViewMail = $followerViewMail;
 
         return $this;
     }
 
-    public function setMessageMailView(string | Closure | null $followerViewMail): static
+    public function setMessageMailView(string|Closure|null $followerViewMail): static
     {
         $this->followerViewMail = $followerViewMail;
 
@@ -69,12 +69,12 @@ class ChatterAction extends Action
         return $this->resource;
     }
 
-    public function getFollowerMailView(): string | Closure | null
+    public function getFollowerMailView(): string|Closure|null
     {
         return $this->followerViewMail;
     }
 
-    public function getMessageMailView(): string | Closure | null
+    public function getMessageMailView(): string|Closure|null
     {
         return $this->messageViewMail;
     }
@@ -88,7 +88,7 @@ class ChatterAction extends Action
             ->icon('heroicon-s-chat-bubble-left-right')
             ->modalIcon('heroicon-s-chat-bubble-left-right')
             ->slideOver()
-            ->modalContentFooter(fn(Model $record): View => view('chatter::filament.widgets.chatter', [
+            ->modalContentFooter(fn (Model $record): View => view('chatter::filament.widgets.chatter', [
                 'record'           => $record,
                 'activityPlans'    => $this->getActivityPlans(),
                 'resource'         => $this->getResource(),

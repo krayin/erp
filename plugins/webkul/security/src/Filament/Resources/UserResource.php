@@ -330,7 +330,7 @@ class UserResource extends Resource
                                             ->placeholder('—')
                                             ->label(__('security::filament/resources/user.infolist.sections.permissions.entries.roles'))
                                             ->listWithLineBreaks()
-                                            ->formatStateUsing(fn($state) => ucfirst($state))
+                                            ->formatStateUsing(fn ($state) => ucfirst($state))
                                             ->bulleted(),
                                         Infolists\Components\TextEntry::make('teams.name')
                                             ->icon('heroicon-o-user-group')
@@ -341,12 +341,12 @@ class UserResource extends Resource
                                         Infolists\Components\TextEntry::make('resource_permission')
                                             ->icon(function ($record) {
                                                 return [
-                                                    PermissionType::GLOBAL->value => 'heroicon-o-globe-alt',
+                                                    PermissionType::GLOBAL->value     => 'heroicon-o-globe-alt',
                                                     PermissionType::INDIVIDUAL->value => 'heroicon-o-user',
-                                                    PermissionType::GROUP->value => 'heroicon-o-user-group',
+                                                    PermissionType::GROUP->value      => 'heroicon-o-user-group',
                                                 ][$record->resource_permission];
                                             })
-                                            ->formatStateUsing(fn($state) => PermissionType::options()[$state] ?? $state)
+                                            ->formatStateUsing(fn ($state) => PermissionType::options()[$state] ?? $state)
                                             ->placeholder('-')
                                             ->label(__('security::filament/resources/user.infolist.sections.permissions.entries.resource-permission')),
                                     ])

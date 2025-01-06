@@ -9,7 +9,6 @@ use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Support\Services\EmailTemplateService;
 use Webkul\Chatter\Mail\MessageMail;
 use Webkul\Support\Services\EmailService;
 
@@ -185,7 +184,7 @@ class MessageAction extends Action
                 'record_name' => $recordName,
             ]),
             'content'        => $message->body ?? '',
-            'to' => [
+            'to'             => [
                 'address' => $partner->email,
                 'name'    => $partner->name,
             ],

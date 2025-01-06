@@ -59,8 +59,8 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
         Model $record,
         mixed $activityPlans,
         string $resource,
-        string | Closure | null $followerViewMail,
-        string | Closure | null $messageViewMail,
+        string|Closure|null $followerViewMail,
+        string|Closure|null $messageViewMail,
     ): void {
         $this->record = $record;
 

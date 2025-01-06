@@ -4,8 +4,6 @@ namespace Webkul\Security\Filament\Resources\UserResource\Pages;
 
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 use Webkul\Security\Filament\Resources\UserResource;
 
 class CreateUser extends CreateRecord
