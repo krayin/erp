@@ -234,6 +234,9 @@ return [
             'name'         => 'Name',
             'manager-name' => 'Manager',
             'company-name' => 'Company',
+            'job-title'    => 'Job Title',
+            'work-email'   => 'Work Email',
+            'work-phone'   => 'Work Phone',
         ],
 
         'filters' => [
