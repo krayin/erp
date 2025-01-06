@@ -70,11 +70,12 @@ class FollowerAction extends Action
             ->form(function (Form $form) {
                 return $form
                     ->schema([
-                        Forms\Components\Select::make('partner_id')
+                        Forms\Components\Select::make('partners')
                             ->label(__('chatter::filament/resources/actions/chatter/follower-action.setup.form.fields.recipients'))
-                            ->searchable()
                             ->preload()
                             ->searchable()
+                            ->multiple()
+                            ->live()
                             ->relationship('followable', 'name')
                             ->required(),
                         Forms\Components\Toggle::make('notify')
@@ -108,30 +109,38 @@ class FollowerAction extends Action
                     'record' => $record,
                 ]);
             })
-            ->action(function (Model $record, array $data) {
-                $partner = Partner::findOrFail($data['partner_id']);
+            ->action(function (Model $record, $livewire) {
+                [$data] = $livewire->mountedActionsData;
 
                 try {
-                    $record->addFollower($partner);
+                    collect($data['partners'])->each(function ($partnerId) use ($record, $data) {
+                        $partner = Partner::findOrFail($partnerId);
 
-                    if (
-                        !empty($data['notify'])
-                        && $data['notify']
-                        && $partner
-                    ) {
-                        $this->notifyFollower($record, $partner, $data);
-                    }
+                        $record->addFollower($partner);
 
-                    Notification::make()
-                        ->success()
-                        ->title(__('chatter::filament/resources/actions/chatter/follower-action.setup.actions.notification.success.title'))
-                        ->body(__('chatter::filament/resources/actions/chatter/follower-action.setup.actions.notification.success.body', ['partner' => $partner?->name]))
-                        ->send();
-                } catch (\Exception $e) {
+                        if (
+                            ! empty($data['notify'])
+                            && $data['notify']
+                        ) {
+                            $this->notifyFollower($record, $partner, $data);
+                        }
+
+                        Notification::make()
+                            ->success()
+                            ->title(__('chatter::filament/resources/actions/chatter/follower-action.setup.actions.notification.success.title'))
+                            ->body(__('chatter::filament/resources/actions/chatter/follower-action.setup.actions.notification.success.body', ['partner' => $partner->name]))
+                            ->send();
+                    });
+                } catch (\Throwable $e) {
+                    info('Error adding followers', [
+                        'error' => $e->getMessage(),
+                        'trace' => $e->getTraceAsString(),
+                    ]);
+
                     Notification::make()
                         ->danger()
                         ->title(__('chatter::filament/resources/actions/chatter/follower-action.setup.actions.notification.error.title'))
-                        ->body(__('chatter::filament/resources/actions/chatter/follower-action.setup.actions.notification.error.body', ['partner' => $partner?->name]))
+                        ->body(__('chatter::filament/resources/actions/chatter/follower-action.setup.actions.notification.error.body'))
                         ->send();
                 }
             })
