@@ -119,25 +119,7 @@ class FollowerAction extends Action
                         && $data['notify']
                         && $partner
                     ) {
-
-                        app(EmailService::class)->send(
-                            view: $this->getFollowerMailView(),
-                            mailClass: FollowerMail::class,
-                            payload: [
-                                'record_url'     => $this->prepareResourceUrl($record) ?? '',
-                                'record_name'    => $record->name,
-                                'model_name'     => $modelName = class_basename($record),
-                                'subject'        => __('chatter::filament/resources/actions/chatter/follower-action.setup.actions.mail.subject', [
-                                    'model'      => $modelName,
-                                    'department' => $record->name,
-                                ]),
-                                'note'           => $data['note'] ?? '',
-                                'to' => [
-                                    'address' => $partner->email,
-                                    'name'    => $partner->name,
-                                ],
-                            ],
-                        );
+                        $this->notifyFollower($record, $partner, $data);
                     }
 
                     Notification::make()
@@ -162,8 +144,35 @@ class FollowerAction extends Action
             );
     }
 
+    private function notifyFollower(Model $record, Partner $partner, array $data): void
+    {
+        app(EmailService::class)->send(
+            mailClass: FollowerMail::class,
+            view: $this->getFollowerMailView(),
+            payload: $this->preparePayload($record, $partner),
+        );
+    }
+
     private function prepareResourceUrl(mixed $record): string
     {
         return $this->getResource()::getUrl('view', ['record' => $record]);
+    }
+
+    public function preparePayload(Model $record, Partner $partner): array
+    {
+        return [
+            'record_url'     => $this->prepareResourceUrl($record) ?? '',
+            'record_name'    => $record->name,
+            'model_name'     => $modelName = class_basename($record),
+            'subject'        => __('chatter::filament/resources/actions/chatter/follower-action.setup.actions.mail.subject', [
+                'model'      => $modelName,
+                'department' => $record->name,
+            ]),
+            'note'           => $data['note'] ?? '',
+            'to' => [
+                'address' => $partner->email,
+                'name'    => $partner->name,
+            ],
+        ];
     }
 }

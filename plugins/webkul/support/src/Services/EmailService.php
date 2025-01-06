@@ -3,11 +3,8 @@
 namespace Webkul\Support\Services;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
-use Webkul\Support\Mail\DynamicEmail;
 use Webkul\Support\Models\EmailLog;
-use Webkul\Support\Models\EmailTemplate;
 
 class EmailService
 {
@@ -24,7 +21,8 @@ class EmailService
             }
 
             Mail::to($payload['to']['address'], '"' . addslashes($payload['to']['name']) . '"')
-                ->send((new $mailClass($view, $payload)));
+                ->send((new $mailClass($view, $payload))->withAttachments($attachments));
+
 
             $this->logEmail($payload['to']['address'], $payload['to']['name'], $payload['subject'], 'sent');
 

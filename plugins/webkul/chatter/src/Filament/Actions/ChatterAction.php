@@ -16,6 +16,8 @@ class ChatterAction extends Action
 
     protected string $followerViewMail = '';
 
+    protected string $messageViewMail = '';
+
     public static function getDefaultName(): ?string
     {
         return 'chatter.action';
@@ -30,12 +32,27 @@ class ChatterAction extends Action
 
     public function setResource(string $resource): static
     {
+        if (empty($resource)) {
+            throw new \InvalidArgumentException("The resource parameter must be provided and cannot be empty.");
+        }
+
+        if (!class_exists($resource)) {
+            throw new \InvalidArgumentException("The resource class [{$resource}] does not exist.");
+        }
+
         $this->resource = $resource;
 
         return $this;
     }
 
     public function setFollowerMailView(string | Closure | null $followerViewMail): static
+    {
+        $this->followerViewMail = $followerViewMail;
+
+        return $this;
+    }
+
+    public function setMessageMailView(string | Closure | null $followerViewMail): static
     {
         $this->followerViewMail = $followerViewMail;
 
@@ -57,6 +74,11 @@ class ChatterAction extends Action
         return $this->followerViewMail;
     }
 
+    public function getMessageMailView(): string | Closure | null
+    {
+        return $this->messageViewMail;
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -71,6 +93,7 @@ class ChatterAction extends Action
                 'activityPlans'    => $this->getActivityPlans(),
                 'resource'         => $this->getResource(),
                 'followerViewMail' => $this->getFollowerMailView(),
+                'messageViewMail'  => $this->getMessageMailView(),
             ]))
             ->modalHeading(__('chatter::filament/resources/actions/chatter-action.title'))
             ->modalDescription(__('chatter::filament/resources/actions/chatter-action.description'))

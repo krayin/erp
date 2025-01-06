@@ -53,11 +53,14 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
 
     public mixed $followerViewMail = null;
 
+    public mixed $messageViewMail = null;
+
     public function mount(
         Model $record,
         mixed $activityPlans,
         string $resource,
-        string | Closure | null $followerViewMail
+        string | Closure | null $followerViewMail,
+        string | Closure | null $messageViewMail,
     ): void {
         $this->record = $record;
 
@@ -65,12 +68,16 @@ class ChatterPanel extends Component implements HasActions, HasForms, HasInfolis
 
         $this->followerViewMail = $followerViewMail;
 
+        $this->messageViewMail = $messageViewMail;
+
         $this->resource = $resource;
     }
 
     public function messageAction(): MessageAction
     {
         return MessageAction::make('message')
+            ->setMessageMailView($this->messageViewMail)
+            ->setResource($this->resource)
             ->record($this->record);
     }
 
