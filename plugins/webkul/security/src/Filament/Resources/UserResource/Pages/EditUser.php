@@ -79,28 +79,4 @@ class EditUser extends EditRecord
             ...$partner ? $partner->toArray() : [],
         ];
     }
-
-    protected function handleRecordUpdate(Model $record, array $data): Model
-    {
-        $partner = Partner::updateOrCreate(
-            [
-                'id' => $record->partner_id,
-            ],
-            [
-                'creator_id' => Auth::user()->id,
-                'user_id'    => $record->id,
-                'company_id' => $data['default_company_id'] ?? null,
-                'avatar'     => $data['avatar'] ?? null,
-                ...$data,
-            ],
-        );
-
-        if ($record->partner_id !== $partner->id) {
-            $record->partner_id = $partner->id;
-
-            $record->save();
-        }
-
-        return parent::handleRecordUpdate($record, $data);
-    }
 }

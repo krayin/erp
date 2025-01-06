@@ -1485,6 +1485,13 @@ class EmployeeResource extends Resource
                                 ->title(__('employees::filament/resources/employee.table.bulk-actions.delete.notification.title'))
                                 ->body(__('employees::filament/resources/employee.table.bulk-actions.delete.notification.body'))
                         ),
+                    Tables\Actions\ForceDeleteBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('employees::filament/resources/employee.table.bulk-actions.force-delete.notification.title'))
+                                ->body(__('employees::filament/resources/employee.table.bulk-actions.force-delete.notification.body'))
+                        ),
                 ]),
             ]);
     }

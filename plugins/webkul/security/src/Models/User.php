@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
 use Webkul\Employee\Models\Department;
 use Webkul\Employee\Models\Employee;
@@ -81,5 +82,44 @@ class User extends BaseUser implements FilamentUser
     public function defaultCompany(): BelongsTo
     {
         return $this->belongsTo(Company::class, 'default_company_id');
+    }
+
+    /**
+     * Bootstrap the model and its traits.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($user) {
+            if (!$user->partner_id) {
+                $partner = $user->partner()->create([
+                    'creator_id' => Auth::user()->id ?? $user->id,
+                    'user_id' => $user->id,
+                    ...$user->toArray(),
+                ]);
+
+                $user->partner_id = $partner->id;
+                $user->save();
+            }
+        });
+
+        static::updated(function ($user) {
+            if ($user->partner_id) {
+                $partner = Partner::updateOrCreate(
+                    ['id' => $user->partner_id],
+                    [
+                        'creator_id' => Auth::user()->id ?? $user->id,
+                        'user_id' => $user->id,
+                        ...$user->toArray(),
+                    ]
+                );
+
+                if ($user->partner_id !== $partner->id) {
+                    $user->partner_id = $partner->id;
+                    $user->save();
+                }
+            }
+        });
     }
 }

@@ -36,6 +36,7 @@ class Company extends Model
         'founded_date',
         'user_id',
         'currency_id',
+        'website',
     ];
 
     /**

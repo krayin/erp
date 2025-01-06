@@ -25,6 +25,10 @@ return [
                     'title' => 'Follower added error',
                     'body'  => 'Failed to ":partner" as follower',
                 ]
+            ],
+
+            'mail' => [
+                'subject' => 'Invitation to follow :model: :department',
             ]
         ]
     ]

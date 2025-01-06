@@ -9,21 +9,51 @@ use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use Webkul\Chatter\Mail\NewFollowerNotification;
+use Webkul\Chatter\Mail\FollowerMail;
 use Webkul\Partner\Models\Partner;
-use Webkul\Support\Services\EmailTemplateService;
+use Webkul\Support\Services\EmailService;
 
 class FollowerAction extends Action
 {
-    protected string $modelName;
+    protected string $mailView = 'chatter::mail.follower-mail';
+
+    protected string $resource = '';
 
     public static function getDefaultName(): ?string
     {
         return 'add.followers.action';
     }
-    
+
+    public function setResource(string $resource): self
+    {
+        $this->resource = $resource;
+
+        return $this;
+    }
+
+    public function setFollowerMailView(string $mailView): self
+    {
+        $mailView = $this->evaluate($mailView);
+
+        if (empty($mailView)) {
+            return $this;
+        }
+
+        $this->mailView = $mailView;
+
+        return $this;
+    }
+
+    public function getFollowerMailView(): string
+    {
+        return $this->mailView;
+    }
+
+    public function getResource(): string
+    {
+        return $this->resource;
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -89,25 +119,7 @@ class FollowerAction extends Action
                         && $data['notify']
                         && $partner
                     ) {
-                        $variables = [
-                            'record_name'    => $partner->name,
-                            'author_name'    => Auth::user()->name,
-                            'author_email'   => Auth::user()->email,
-                            'model_name'     => class_basename($record),
-                            'note'           => $data['note'] ?? '',
-                            'app_name'       => config('app.name'),
-                            'from' => [
-                                'address' => Auth::user()->email,
-                                'name'    => Auth::user()->name,
-                            ],
-                        ];
-
-                        app(EmailTemplateService::class)->send(
-                            templateCode: 'invite_mail_template',
-                            recipientEmail: $partner->email,
-                            recipientName: $partner->name,
-                            variables: $variables,
-                        );
+                        $this->notifyFollower($record, $partner, $data);
                     }
 
                     Notification::make()
@@ -130,5 +142,37 @@ class FollowerAction extends Action
                     ->label(__('chatter::filament/resources/actions/chatter/follower-action.setup.submit-action-title'))
                     ->icon('heroicon-m-user-plus')
             );
+    }
+
+    private function notifyFollower(Model $record, Partner $partner, array $data): void
+    {
+        app(EmailService::class)->send(
+            mailClass: FollowerMail::class,
+            view: $this->getFollowerMailView(),
+            payload: $this->preparePayload($record, $partner, $data),
+        );
+    }
+
+    private function prepareResourceUrl(mixed $record): string
+    {
+        return $this->getResource()::getUrl('view', ['record' => $record]);
+    }
+
+    public function preparePayload(Model $record, Partner $partner, $data): array
+    {
+        return [
+            'record_url'     => $this->prepareResourceUrl($record) ?? '',
+            'record_name'    => $recordName = $record->{$record->recordTitleAttribute} ?? $record->name,
+            'model_name'     => $modelName = class_basename($record),
+            'subject'        => __('chatter::filament/resources/actions/chatter/follower-action.setup.actions.mail.subject', [
+                'model'      => $modelName,
+                'department' => $recordName,
+            ]),
+            'note'           => $data['note'] ?? '',
+            'to' => [
+                'address' => $partner->email,
+                'name'    => $partner->name,
+            ],
+        ];
     }
 }

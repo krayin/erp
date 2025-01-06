@@ -234,6 +234,9 @@ return [
             'name'         => 'Name',
             'manager-name' => 'Manager',
             'company-name' => 'Company',
+            'job-title'    => 'Job Title',
+            'work-email'   => 'Work Email',
+            'work-phone'   => 'Work Phone',
         ],
 
         'filters' => [
@@ -343,6 +346,13 @@ return [
                     'body'  => 'The employees has been deleted successfully.',
                 ],
             ],
+
+            'force-delete' => [
+                'notification' => [
+                    'title' => 'Employees deleted',
+                    'body'  => 'The employees has been deleted successfully.',
+                ],
+            ]
         ],
     ],
 

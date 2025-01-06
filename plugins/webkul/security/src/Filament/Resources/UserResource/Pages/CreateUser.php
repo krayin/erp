@@ -24,23 +24,4 @@ class CreateUser extends CreateRecord
             ->title(__('security::filament/resources/user/pages/create-user.notification.title'))
             ->body(__('security::filament/resources/user/pages/create-user.notification.body'));
     }
-
-    protected function handleRecordCreation(array $data): Model
-    {
-        $user = parent::handleRecordCreation($data);
-
-        $partner = $user->partner()->create([
-            'creator_id' => Auth::user()->id,
-            'user_id'    => $user->id,
-            'company_id' => $data['default_company_id'] ?? null,
-            'avatar'     => $data['avatar'] ?? null,
-            ...$data,
-        ]);
-
-        $user->update([
-            'partner_id' => $partner->id,
-        ]);
-
-        return $user;
-    }
 }

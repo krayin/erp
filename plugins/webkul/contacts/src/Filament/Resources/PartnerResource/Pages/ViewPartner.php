@@ -21,7 +21,8 @@ class ViewPartner extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            ChatterAction::make(),
+            ChatterAction::make()
+                ->setResource(static::$resource),
             Actions\DeleteAction::make()
                 ->successNotification(
                     Notification::make()
