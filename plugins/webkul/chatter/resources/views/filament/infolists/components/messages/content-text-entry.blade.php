@@ -29,62 +29,57 @@
                 <section class="overflow-hidden text-gray-700">
                     <div class="container mx-auto px-5 py-2 lg:px-32 lg:pt-24">
                         <div class="-m-1 flex flex-wrap md:-m-2">
-                            @foreach($record->attachments->chunk(3) as $chunk)
-                                <div class="grid w-1/2 grid-cols-3 flex-wrap">
-                                    @foreach($chunk as $index => $attachment)
+                            @foreach($record->attachments->chunk(4) as $chunk)
+                                <div class="grid gap-2">
+                                    @foreach($chunk as $attachment)
                                         @php
-                                            $isImage = str_starts_with($attachment->mime_type, 'image/');
-                                            $isPdf = str_contains($attachment->mime_type, 'pdf');
-                                            $isDoc = str_contains($attachment->mime_type, 'word') || str_contains($attachment->mime_type, 'document');
-                                            $isSpreadsheet = str_contains($attachment->mime_type, 'sheet') || str_contains($attachment->mime_type, 'excel');
-                                            $iconColor = match(true) {
-                                                $isImage => 'text-warning-500',
-                                                $isPdf => 'text-danger-500',
-                                                $isDoc => 'text-primary-500',
-                                                $isSpreadsheet => 'text-success-500',
-                                                default => 'text-gray-500'
-                                            };
-                                            $icon = match(true) {
-                                                $isImage => 'heroicon-o-photo',
-                                                $isPdf => 'heroicon-o-document',
-                                                $isDoc => 'heroicon-o-document-text',
-                                                $isSpreadsheet => 'heroicon-o-table-cells',
-                                                default => 'heroicon-o-paper-clip'
-                                            };
+                                            $fileExtension = strtolower(pathinfo($attachment->original_file_name, PATHINFO_EXTENSION));
+
+                                            switch($fileExtension) {
+                                                case 'pdf':
+                                                    $icon = 'heroicon-o-document-text';
+                                                    break;
+                                                case 'sql':
+                                                    $icon = 'heroicon-o-database';
+                                                    break;
+                                                case 'csv':
+                                                    $icon = 'heroicon-o-table-cells';
+                                                    break;
+                                                case 'md':
+                                                    $icon = 'heroicon-o-document';
+                                                    break;
+                                                default:
+                                                    $icon = 'heroicon-o-document';
+                                            }
                                         @endphp
 
-                                        <div class="w-full p-1 md:p-2">
-                                            @if($isImage && $attachment->url)
-                                                <img
-                                                    src="{{ $attachment->url }}"
-                                                    alt="{{ $attachment->original_file_name }}"
-                                                    class="block h-full w-full rounded-lg object-cover object-center"
-                                                >
-                                            @else
-                                                <div class="flex flex-col items-center justify-center rounded-lg border bg-white p-4 dark:bg-gray-800">
-                                                    <div class="flex h-12 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-700">
-                                                        <x-filament::icon
-                                                            :icon="$icon"
-                                                            @class([$iconColor, 'w-6 h-6'])
-                                                        />
-                                                    </div>
-                                                    <div class="mt-2 text-center">
-                                                        <h5 class="truncate text-sm font-medium text-gray-900 dark:text-gray-200">
-                                                            {{ $attachment->original_file_name }}
-                                                        </h5>
-                                                        @if($isImage || $isPdf)
+                                        <div class="flex gap-2 rounded-md bg-gray-100 px-3 py-2">
+                                            <div class="flex h-8 w-8 items-center justify-center rounded-md">
+                                                <x-filament::icon
+                                                    :icon="$icon"
+                                                    class="h-5 w-5"
+                                                />
+                                            </div>
+
+                                            <div class="flex flex-col gap-2">
+                                                <div class="flex flex-1 flex-col">
+                                                    <span class="text-sm font-medium text-gray-900">
+                                                        {{ $attachment->original_file_name }}
+                                                    </span>
+                                                </div>
+
+                                                <div class="flex items-center gap-1">
+                                                    @if(in_array($fileExtension, ['pdf', 'jpg', 'jpeg', 'png', 'gif']))
                                                         <x-filament::button
                                                             size="xs"
                                                             color="gray"
                                                             icon="heroicon-m-eye"
-                                                            @style([
-                                                                'gap' => '0 !important',
-                                                            ])
+                                                            class="!gap-0"
                                                             icon-only
                                                             tag="a"
                                                             :href="Storage::url($attachment->file_path)"
                                                             target="_blank"
-                                                            :tooltip="__('Preview')"
+                                                            :tooltip="__('chatter::views/filament/infolists/components/messages/content-text-entry.preview')"
                                                         />
                                                     @endif
 
@@ -97,14 +92,10 @@
                                                         tag="a"
                                                         :href="Storage::url($attachment->file_path)"
                                                         download="{{ $attachment->original_file_name }}"
-                                                        :tooltip="__('Download')"
-                                                        @style([
-                                                            'gap' => '0 !important',
-                                                        ])
+                                                        :tooltip="__('chatter::views/filament/infolists/components/messages/content-text-entry.download')"
                                                     />
-                                                    </div>
                                                 </div>
-                                            @endif
+                                            </div>
                                         </div>
                                     @endforeach
                                 </div>

@@ -163,7 +163,7 @@ class MessageAction extends Action
                     mailClass: MessageMail::class,
                     view: $this->getMessageMailView(),
                     attachments: $this->prepareAttachments($message->attachments),
-                    payload: $this->preparePayload($record, $follower->partner),
+                    payload: $this->preparePayload($record, $follower->partner, $message),
                 );
             }
         }
@@ -174,7 +174,7 @@ class MessageAction extends Action
         return $this->getResource()::getUrl('view', ['record' => $record]);
     }
 
-    private function preparePayload(Model $record, $partner): array
+    private function preparePayload(Model $record, mixed $partner, mixed $message): array
     {
         return [
             'record_url'     => $this->prepareResourceUrl($record) ?? '',
