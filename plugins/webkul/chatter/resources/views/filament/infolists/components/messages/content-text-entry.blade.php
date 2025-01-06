@@ -26,7 +26,7 @@
                     </div>
                 @endif
 
-                <section class="overflow-hidden text-gray-700">
+                <section class="mt-2 overflow-hidden text-gray-700">
                     <div class="container mx-auto px-5 py-2 lg:px-32 lg:pt-24">
                         <div class="-m-1 flex flex-wrap md:-m-2">
                             @foreach($record->attachments->chunk(4) as $chunk)
@@ -68,8 +68,8 @@
                                                     </span>
                                                 </div>
 
-                                                <div class="flex items-center gap-1">
-                                                    @if(in_array($fileExtension, ['pdf', 'jpg', 'jpeg', 'png', 'gif']))
+                                                <div class="flex items-center gap-2">
+                                                    @if(in_array($fileExtension, ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'svg', 'webp']))
                                                         <x-filament::button
                                                             size="xs"
                                                             color="gray"
