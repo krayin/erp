@@ -18,7 +18,7 @@ class FollowerMail extends Mailable
      * Create a new message instance.
      */
     public function __construct(
-        public string $template,
+        public string $viewTemplate,
         public array $payload
     ) {}
 
@@ -38,7 +38,7 @@ class FollowerMail extends Mailable
      */
     public function content(): Content
     {
-        return new Content(view: $this->template);
+        return new Content(view: $this->viewTemplate);
     }
 
     /**

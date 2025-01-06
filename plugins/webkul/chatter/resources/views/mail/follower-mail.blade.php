@@ -84,7 +84,13 @@
 
 <body>
     <div class="breadcrumb">
-        <a href="{{ $payload['record_url'] }}" class="view-button">{{ __('chatter::views/mail/follower-mail.view', ['model_name' => $payload['model_name']]) }}</a>
+        <a
+            href="{{ $payload['record_url'] }}"
+            class="view-button"
+        >
+            {{ __('chatter::views/mail/follower-mail.view', ['model_name' => $payload['model_name']]) }}
+        </a>
+
         <p>{{ $payload['record_name'] }}</p>
     </div>
 

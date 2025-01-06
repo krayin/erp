@@ -2,6 +2,7 @@
 
 namespace Webkul\Chatter\Filament\Actions;
 
+use Closure;
 use Filament\Actions\Action;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Contracts\View\View;
@@ -12,6 +13,8 @@ class ChatterAction extends Action
     protected mixed $activityPlans;
 
     protected string $resource = '';
+
+    protected string $followerViewMail = '';
 
     public static function getDefaultName(): ?string
     {
@@ -32,6 +35,13 @@ class ChatterAction extends Action
         return $this;
     }
 
+    public function setFollowerMailView(string | Closure | null $followerViewMail): static
+    {
+        $this->followerViewMail = $followerViewMail;
+
+        return $this;
+    }
+
     public function getActivityPlans(): mixed
     {
         return $this->activityPlans ?? collect();
@@ -40,6 +50,11 @@ class ChatterAction extends Action
     public function getResource(): string
     {
         return $this->resource;
+    }
+
+    public function getFollowerMailView(): string | Closure | null
+    {
+        return $this->followerViewMail;
     }
 
     protected function setUp(): void
@@ -52,9 +67,10 @@ class ChatterAction extends Action
             ->modalIcon('heroicon-s-chat-bubble-left-right')
             ->slideOver()
             ->modalContentFooter(fn(Model $record): View => view('chatter::filament.widgets.chatter', [
-                'record'        => $record,
-                'activityPlans' => $this->getActivityPlans(),
-                'resource'      => $this->getResource(),
+                'record'           => $record,
+                'activityPlans'    => $this->getActivityPlans(),
+                'resource'         => $this->getResource(),
+                'followerViewMail' => $this->getFollowerMailView(),
             ]))
             ->modalHeading(__('chatter::filament/resources/actions/chatter-action.title'))
             ->modalDescription(__('chatter::filament/resources/actions/chatter-action.description'))

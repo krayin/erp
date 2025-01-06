@@ -31,14 +31,20 @@ class FollowerAction extends Action
         return $this;
     }
 
-    public function setMailView(string $mailView): self
+    public function setFollowerMailView(string $mailView): self
     {
+        $mailView = $this->evaluate($mailView);
+
+        if (empty($mailView)) {
+            return $this;
+        }
+
         $this->mailView = $mailView;
 
         return $this;
     }
 
-    public function getMailView(): string
+    public function getFollowerMailView(): string
     {
         return $this->mailView;
     }
@@ -115,7 +121,7 @@ class FollowerAction extends Action
                     ) {
 
                         app(EmailService::class)->send(
-                            view: $this->getMailView(),
+                            view: $this->getFollowerMailView(),
                             mailClass: FollowerMail::class,
                             payload: [
                                 'record_url'     => $this->prepareResourceUrl($record) ?? '',
