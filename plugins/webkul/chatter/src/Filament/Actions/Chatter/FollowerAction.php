@@ -149,7 +149,7 @@ class FollowerAction extends Action
         app(EmailService::class)->send(
             mailClass: FollowerMail::class,
             view: $this->getFollowerMailView(),
-            payload: $this->preparePayload($record, $partner),
+            payload: $this->preparePayload($record, $partner, $data),
         );
     }
 
@@ -158,7 +158,7 @@ class FollowerAction extends Action
         return $this->getResource()::getUrl('view', ['record' => $record]);
     }
 
-    public function preparePayload(Model $record, Partner $partner): array
+    public function preparePayload(Model $record, Partner $partner, $data): array
     {
         return [
             'record_url'     => $this->prepareResourceUrl($record) ?? '',
