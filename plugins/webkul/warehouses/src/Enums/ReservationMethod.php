@@ -13,9 +13,9 @@ enum ReservationMethod: string
     public static function options(): array
     {
         return [
-            self::AT_CONFIRM->value => __('warehouses::enums/picking-type.at-confirm'),
-            self::MANUAL->value     => __('warehouses::enums/picking-type.manual'),
-            self::BY_DATE->value    => __('warehouses::enums/picking-type.by-date'),
+            self::AT_CONFIRM->value => __('warehouses::enums/reservation-method.at-confirm'),
+            self::MANUAL->value     => __('warehouses::enums/reservation-method.manual'),
+            self::BY_DATE->value    => __('warehouses::enums/reservation-method.by-date'),
         ];
     }
 }

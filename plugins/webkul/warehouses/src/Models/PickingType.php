@@ -10,6 +10,7 @@ use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 use Webkul\Warehouse\Database\Factories\PickingTypeFactory;
 use Webkul\Warehouse\Enums\PickingType as PickingTypeEnum;
+use Webkul\Warehouse\Enums\ReservationMethod;
 
 class PickingType extends Model
 {
@@ -67,6 +68,7 @@ class PickingType extends Model
      */
     protected $casts = [
         'type'                               => PickingTypeEnum::class,
+        'reservation_method'                 => ReservationMethod::class,
         'show_entire_packs'                  => 'boolean',
         'use_create_lots'                    => 'boolean',
         'use_existing_lots'                  => 'boolean',

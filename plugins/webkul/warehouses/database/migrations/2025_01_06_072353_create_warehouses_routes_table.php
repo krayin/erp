@@ -25,7 +25,7 @@ return new class extends Migration
                 ->constrained('warehouses_warehouses')
                 ->nullOnDelete();
 
-            $table->foreignId('supplier_wh_id')
+            $table->foreignId('supplier_warehouse_id')
                 ->nullable()
                 ->constrained('warehouses_warehouses')
                 ->nullOnDelete();
