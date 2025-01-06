@@ -10,8 +10,6 @@ use Filament\Notifications\Notification;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use Webkul\Chatter\Mail\NewFollowerNotification;
 use Webkul\Partner\Models\Partner;
 use Webkul\Support\Services\EmailTemplateService;
 
@@ -23,7 +21,7 @@ class FollowerAction extends Action
     {
         return 'add.followers.action';
     }
-    
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -34,7 +32,7 @@ class FollowerAction extends Action
             ->modal()
             ->tooltip(__('chatter::filament/resources/actions/chatter/follower-action.setup.tooltip'))
             ->modalIcon('heroicon-s-user-plus')
-            ->badge(fn(Model $record): int => $record->followers->count())
+            ->badge(fn (Model $record): int => $record->followers->count())
             ->modalWidth(MaxWidth::TwoExtraLarge)
             ->slideOver(false)
             ->form(function (Form $form) {
@@ -67,7 +65,7 @@ class FollowerAction extends Action
                                 'underline',
                                 'undo',
                             ])
-                            ->visible(fn(Get $get) => $get('notify'))
+                            ->visible(fn (Get $get) => $get('notify'))
                             ->hiddenLabel()
                             ->placeholder(__('chatter::filament/resources/actions/chatter/follower-action.setup.form.fields.add-a-note')),
                     ])
@@ -85,7 +83,7 @@ class FollowerAction extends Action
                     $record->addFollower($partner);
 
                     if (
-                        !empty($data['notify'])
+                        ! empty($data['notify'])
                         && $data['notify']
                         && $partner
                     ) {
@@ -96,7 +94,7 @@ class FollowerAction extends Action
                             'model_name'     => class_basename($record),
                             'note'           => $data['note'] ?? '',
                             'app_name'       => config('app.name'),
-                            'from' => [
+                            'from'           => [
                                 'address' => Auth::user()->email,
                                 'name'    => Auth::user()->name,
                             ],
@@ -126,7 +124,7 @@ class FollowerAction extends Action
             ->hiddenLabel()
             ->modalHeading(__('chatter::filament/resources/actions/chatter/follower-action.setup.title'))
             ->modalSubmitAction(
-                fn($action) => $action
+                fn ($action) => $action
                     ->label(__('chatter::filament/resources/actions/chatter/follower-action.setup.submit-action-title'))
                     ->icon('heroicon-m-user-plus')
             );

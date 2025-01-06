@@ -48,8 +48,8 @@ class SkillLevelRelationManager extends RelationManager
                     ->sortable(),
                 CustomTables\Columns\ProgressBarEntry::make('level')
                     ->label(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.table.columns.level'))
-                    ->getStateUsing(fn($record) => $record->level)
-                    ->color(fn($record): string => match (true) {
+                    ->getStateUsing(fn ($record) => $record->level)
+                    ->color(fn ($record): string => match (true) {
                         $record->level === 100                      => 'success',
                         $record->level >= 50 && $record->level < 80 => 'warning',
                         $record->level < 20                         => 'danger',
@@ -167,8 +167,8 @@ class SkillLevelRelationManager extends RelationManager
                     ->label(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.infolist.entries.name')),
                 ProgressBarEntry::make('level')
                     ->label(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.infolist.entries.level'))
-                    ->getStateUsing(fn($record) => $record->level)
-                    ->color(fn($record): string => match (true) {
+                    ->getStateUsing(fn ($record) => $record->level)
+                    ->color(fn ($record): string => match (true) {
                         $record->level === 100                      => 'success',
                         $record->level >= 50 && $record->level < 80 => 'warning',
                         $record->level < 20                         => 'danger',
@@ -176,7 +176,7 @@ class SkillLevelRelationManager extends RelationManager
                     }),
                 Infolists\Components\IconEntry::make('default_level')
                     ->boolean()
-                    ->label(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.infolist.entries.default-level'))
+                    ->label(__('employees::filament/clusters/configurations/resources/skill-type/relation-managers/levels.infolist.entries.default-level')),
             ]);
     }
 }

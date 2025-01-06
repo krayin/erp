@@ -2,9 +2,9 @@
 
 namespace Webkul\Project;
 
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Webkul\Support\Package;
 use Webkul\Support\PackageServiceProvider;
-use Spatie\LaravelPackageTools\Commands\InstallCommand;
 
 class ProjectServiceProvider extends PackageServiceProvider
 {
@@ -36,17 +36,17 @@ class ProjectServiceProvider extends PackageServiceProvider
                 '2024_12_16_094021_create_project_time_settings',
             ])
             ->runsSettings()
-            ->hasInstallCommand(function(InstallCommand $command) {
+            ->hasInstallCommand(function (InstallCommand $command) {
                 $command
                     ->askToRunMigrations()
                     ->copyAndRegisterServiceProviderInApp()
                     ->askToStarRepoOnGitHub('krayin/projects')
-                    ->endWith(function(InstallCommand $command) {
+                    ->endWith(function (InstallCommand $command) {
                         if ($command->confirm('Would you like to seed the data now?')) {
                             $command->comment('Seeding data...');
 
                             $command->call('db:seed', [
-                                '--class' => 'Webkul\\Project\\Database\Seeders\\DatabaseSeeder'
+                                '--class' => 'Webkul\\Project\\Database\Seeders\\DatabaseSeeder',
                             ]);
                         }
                     });

@@ -8,8 +8,6 @@ use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use Webkul\Chatter\Mail\SendMessage;
 use Webkul\Support\Services\EmailTemplateService;
 
 class MessageAction extends Action
@@ -44,7 +42,7 @@ class MessageAction extends Action
                             })
                             ->link()
                             ->size('sm')
-                            ->icon(fn(Get $get) => ! $get('showSubject') ? 'heroicon-s-plus' : 'heroicon-s-minus'),
+                            ->icon(fn (Get $get) => ! $get('showSubject') ? 'heroicon-s-plus' : 'heroicon-s-minus'),
                     ])
                         ->columnSpan('full')
                         ->alignRight(),
@@ -52,7 +50,7 @@ class MessageAction extends Action
                 Forms\Components\TextInput::make('subject')
                     ->placeholder(__('chatter::filament/resources/actions/chatter/message-action.setup.form.fields.subject'))
                     ->live()
-                    ->visible(fn($get) => $get('showSubject')),
+                    ->visible(fn ($get) => $get('showSubject')),
                 Forms\Components\RichEditor::make('body')
                     ->hiddenLabel()
                     ->placeholder(__('chatter::filament/resources/actions/chatter/message-action.setup.form.fields.write-message-here'))
@@ -132,7 +130,7 @@ class MessageAction extends Action
                         'author_email'   => Auth::user()->email,
                         'model_name'     => class_basename($record),
                         'content'        => $message->body ?? '',
-                        'from' => [
+                        'from'           => [
                             'address' => Auth::user()->email,
                             'name'    => Auth::user()->name,
                         ],

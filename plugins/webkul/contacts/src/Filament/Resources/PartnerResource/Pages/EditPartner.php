@@ -6,8 +6,8 @@ use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Contracts\Support\Htmlable;
-use Webkul\Contact\Filament\Resources\PartnerResource;
 use Webkul\Chatter\Filament\Actions\ChatterAction;
+use Webkul\Contact\Filament\Resources\PartnerResource;
 
 class EditPartner extends EditRecord
 {

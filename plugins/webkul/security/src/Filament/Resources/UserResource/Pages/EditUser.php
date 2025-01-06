@@ -56,7 +56,7 @@ class EditUser extends EditRecord
                     Forms\Components\TextInput::make('new_password_confirmation')
                         ->password()
                         ->label(__('security::filament/resources/user/pages/edit-user.header-actions.change-password.form.confirm-new-password'))
-                        ->rule('required', fn($get) => (bool) $get('new_password'))
+                        ->rule('required', fn ($get) => (bool) $get('new_password'))
                         ->same('new_password'),
                 ])
                 ->icon('heroicon-o-key'),

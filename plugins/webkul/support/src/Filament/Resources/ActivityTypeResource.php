@@ -5,8 +5,8 @@ namespace Webkul\Support\Filament\Resources;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
-use Filament\Infolists\Infolist;
 use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -68,7 +68,7 @@ class ActivityTypeResource extends Resource
                                             ->preload(),
                                         Forms\Components\Select::make('default_user_id')
                                             ->label(__('support::filament/resources/activity-type.form.sections.activity-type-details.fields.default-user'))
-                                            ->options(fn() => User::query()->pluck('name', 'id'))
+                                            ->options(fn () => User::query()->pluck('name', 'id'))
                                             ->searchable()
                                             ->preload(),
                                         Forms\Components\TextInput::make('plugin')
@@ -126,18 +126,18 @@ class ActivityTypeResource extends Resource
                                             ->live()
                                             ->required()
                                             ->native(false)
-                                            ->hidden(fn(Get $get) => $get('category') === 'upload_file'),
+                                            ->hidden(fn (Get $get) => $get('category') === 'upload_file'),
                                         Forms\Components\Select::make('activity_type_suggestions')
                                             ->multiple()
                                             ->relationship('suggestedActivityTypes', 'name')
                                             ->searchable()
                                             ->preload()
                                             ->label(__('support::filament/resources/activity-type.form.sections.advanced-information.fields.suggest'))
-                                            ->hidden(fn(Get $get) => $get('chaining_type') === 'trigger' || $get('category') === 'upload_file'),
+                                            ->hidden(fn (Get $get) => $get('chaining_type') === 'trigger' || $get('category') === 'upload_file'),
                                         Forms\Components\Select::make('triggered_next_type_id')
                                             ->relationship('activityTypes', 'name')
                                             ->label(__('support::filament/resources/activity-type.form.sections.advanced-information.fields.trigger'))
-                                            ->hidden(fn(Get $get) => $get('chaining_type') === 'suggest' && $get('category') !== 'upload_file'),
+                                            ->hidden(fn (Get $get) => $get('chaining_type') === 'suggest' && $get('category') !== 'upload_file'),
                                     ]),
                                 Forms\Components\Section::make(__('support::filament/resources/activity-type.form.sections.status-and-configuration-information.title'))
                                     ->schema([
@@ -175,7 +175,7 @@ class ActivityTypeResource extends Resource
                     }),
                 Tables\Columns\TextColumn::make('delay_from')
                     ->label(__('support::filament/resources/activity-type.table.columns.type'))
-                    ->formatStateUsing(fn($state) => ActivityDelayFrom::options()[$state])
+                    ->formatStateUsing(fn ($state) => ActivityDelayFrom::options()[$state])
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('category')
@@ -247,7 +247,7 @@ class ActivityTypeResource extends Resource
                     ->label(__('support::filament/resources/activity-type.table.filters.status')),
                 Tables\Filters\Filter::make('has_delay')
                     ->label(__('support::filament/resources/activity-type.table.filters.has-delay'))
-                    ->query(fn($query) => $query->whereNotNull('delay_count')),
+                    ->query(fn ($query) => $query->whereNotNull('delay_count')),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([

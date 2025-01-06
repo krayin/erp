@@ -2,7 +2,6 @@
 
 namespace Webkul\Support\Filament\Resources\EmailTemplateResource\Pages;
 
-
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 use Webkul\Support\Filament\Resources\EmailTemplateResource;
@@ -15,7 +14,7 @@ class ViewEmailTemplate extends ViewRecord
     {
         return [
             Actions\EditAction::make(),
-            Actions\DeleteAction::make()
+            Actions\DeleteAction::make(),
         ];
     }
 }

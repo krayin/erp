@@ -1,0 +1,43 @@
+<?php
+
+namespace Webkul\Product\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Webkul\Product\Database\Factories\AttributeFactory;
+use Webkul\Security\Models\User;
+
+class Attribute extends Model
+{
+    use HasFactory;
+
+    /**
+     * Table name.
+     *
+     * @var string
+     */
+    protected $table = 'products_attributes';
+
+    /**
+     * Fillable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'type',
+        'sort',
+        'creator_id',
+    ];
+
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    protected static function newFactory(): AttributeFactory
+    {
+        return AttributeFactory::new();
+    }
+}

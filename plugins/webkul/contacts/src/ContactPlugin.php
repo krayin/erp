@@ -20,7 +20,7 @@ class ContactPlugin implements Plugin
     public function register(Panel $panel): void
     {
         $panel
-            ->when($panel->getId() == 'admin', function(Panel $panel) {
+            ->when($panel->getId() == 'admin', function (Panel $panel) {
                 $panel->discoverResources(in: $this->getPluginBasePath('/Filament/Resources'), for: 'Webkul\\Contact\\Filament\\Resources')
                     ->discoverPages(in: $this->getPluginBasePath('/Filament/Pages'), for: 'Webkul\\Contact\\Filament\\Pages')
                     ->discoverClusters(in: $this->getPluginBasePath('/Filament/Clusters'), for: 'Webkul\\Contact\\Filament\\Clusters')

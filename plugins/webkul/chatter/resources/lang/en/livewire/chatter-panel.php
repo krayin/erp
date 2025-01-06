@@ -7,7 +7,7 @@ return [
     ],
 
     'activity-infolist' => [
-        'title' => 'Activities'
+        'title' => 'Activities',
     ],
 
     'cancel-activity-plan-action' => [
@@ -24,12 +24,12 @@ return [
         'form' => [
             'fields' => [
                 'activity-plan' => 'Activity Plan',
-                'plan-date' => 'Plan Date',
-                'plan-summary' => 'Plan Summary',
+                'plan-date'     => 'Plan Date',
+                'plan-summary'  => 'Plan Summary',
                 'activity-type' => 'Activity Type',
-                'due-date' => 'Due Date',
-                'summary' => 'Summary',
-                'assigned-to' => 'Assigned To',
+                'due-date'      => 'Due Date',
+                'summary'       => 'Summary',
+                'assigned-to'   => 'Assigned To',
             ],
         ],
 
@@ -37,12 +37,11 @@ return [
             'notification' => [
                 'success' => [
                     'title' => 'Activity updated',
-                    'body'  => 'The activity has been updated successfully.'
-                ]
-            ]
-        ]
+                    'body'  => 'The activity has been updated successfully.',
+                ],
+            ],
+        ],
     ],
-
 
     'process-message' => [
         'original-note' => '<br><div><span class="font-bold">Original Note</span>: :body</div>',
@@ -52,10 +51,10 @@ return [
 
     'mark-as-done' => [
         'title' => 'Mark as done',
-        'form' => [
+        'form'  => [
             'fields' => [
                 'feedback' => 'Feedback',
-            ]
+            ],
         ],
 
         'footer-actions' => [
@@ -65,10 +64,10 @@ return [
                 'notification' => [
                     'mark-as-done' => [
                         'title' => 'Activity mark as done',
-                        'body' => 'The activity mark as done successfully.',
-                    ]
-                ]
-            ]
-        ]
-    ]
+                        'body'  => 'The activity mark as done successfully.',
+                    ],
+                ],
+            ],
+        ],
+    ],
 ];

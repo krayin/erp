@@ -38,7 +38,7 @@ return [
 
     'table' => [
         'columns' => [
-            'name' => 'Name',
+            'name'         => 'Name',
             'manager-name' => 'Manager',
             'company-name' => 'Company',
         ],
@@ -103,7 +103,7 @@ return [
                     'body'  => 'The departments has been force deleted successfully.',
                 ],
             ],
-        ]
+        ],
     ],
 
     'infolist' => [

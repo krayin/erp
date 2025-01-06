@@ -8,13 +8,11 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Contact\Filament\Clusters\Configurations;
 use Webkul\Contact\Filament\Clusters\Configurations\Resources\BankResource\Pages;
 use Webkul\Support\Models\Bank;
-use Illuminate\Support\Facades\Auth;
-use Webkul\Support\Models\Country;
-use Webkul\Support\Models\State;
-use Illuminate\Database\Eloquent\Builder;
 
 class BankResource extends Resource
 {

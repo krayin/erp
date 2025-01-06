@@ -3,7 +3,6 @@
 namespace Webkul\Support\Services;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Webkul\Support\Mail\DynamicEmail;
 use Webkul\Support\Models\EmailLog;
@@ -22,6 +21,7 @@ class EmailTemplateService
     {
         return preg_replace_callback('/\{\{(.*?)\}\}/', function ($matches) use ($variables) {
             $key = trim($matches[1]);
+
             return $variables[$key] ?? $matches[0];
         }, $content);
     }
@@ -31,9 +31,9 @@ class EmailTemplateService
         $template = $this->getTemplate($templateCode, $locale);
 
         $composedEmail = [
-            'body' => $this->replaceVariables($template->content, $variables),
+            'body'    => $this->replaceVariables($template->content, $variables),
             'subject' => $this->replaceVariables($template->subject, $variables),
-            'layout' => $template->layout,
+            'layout'  => $template->layout,
             ...$variables,
         ];
 
@@ -60,17 +60,17 @@ class EmailTemplateService
         }
     }
 
-    protected function logEmail(int $templateId, string $recipientEmail, string $recipientName, string $subject, array $variables, string $status, string $errorMessage = null)
+    protected function logEmail(int $templateId, string $recipientEmail, string $recipientName, string $subject, array $variables, string $status, ?string $errorMessage = null)
     {
         EmailLog::create([
             'email_template_id' => $templateId,
-            'recipient_email' => $recipientEmail,
-            'recipient_name' => $recipientName,
-            'subject' => $subject,
-            'variables' => $variables,
-            'status' => $status,
-            'error_message' => $errorMessage,
-            'sent_at' => now(),
+            'recipient_email'   => $recipientEmail,
+            'recipient_name'    => $recipientName,
+            'subject'           => $subject,
+            'variables'         => $variables,
+            'status'            => $status,
+            'error_message'     => $errorMessage,
+            'sent_at'           => now(),
         ]);
     }
 }

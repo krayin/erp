@@ -1,0 +1,50 @@
+<?php
+
+namespace Webkul\Product\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Webkul\Product\Database\Factories\AttributeOptionFactory;
+use Webkul\Security\Models\User;
+
+class AttributeOption extends Model
+{
+    use HasFactory;
+
+    /**
+     * Table name.
+     *
+     * @var string
+     */
+    protected $table = 'products_attribute_options';
+
+    /**
+     * Fillable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'color',
+        'extra_price',
+        'sort',
+        'attribute_id',
+        'creator_id',
+    ];
+
+    public function attribute(): BelongsTo
+    {
+        return $this->belongsTo(Attribute::class);
+    }
+
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    protected static function newFactory(): AttributeOptionFactory
+    {
+        return AttributeOptionFactory::new();
+    }
+}

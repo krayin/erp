@@ -1,0 +1,30 @@
+{
+    "name": "webkul/warehouses",
+    "description": "",
+    "authors": [
+        {
+            "name": "Jitendra Singh",
+            "email": "jitendra@webkul.in"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webkul\\Warehouse\\Providers\\WarehouseServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Webkul\\Warehouse\\": "src/",
+            "Webkul\\Warehouse\\Database\\Factories\\": "database/factories/",
+            "Webkul\\Warehouse\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webkul\\Warehouse\\Tests\\": "tests/"
+        }
+    }
+}

@@ -17,11 +17,11 @@ enum AddressType: string
     public static function options(): array
     {
         return [
-            self::PERMANENT->value => __('partners::enums/address-type.permanent'),
-            self::PRESENT->value   => __('partners::enums/address-type.present'),
-            self::INVOICE->value   => __('partners::enums/address-type.invoice'),
+            self::PERMANENT->value  => __('partners::enums/address-type.permanent'),
+            self::PRESENT->value    => __('partners::enums/address-type.present'),
+            self::INVOICE->value    => __('partners::enums/address-type.invoice'),
             self::DELIVERY->value   => __('partners::enums/address-type.delivery'),
-            self::OTHER->value     => __('partners::enums/address-type.other'),
+            self::OTHER->value      => __('partners::enums/address-type.other'),
         ];
     }
 }

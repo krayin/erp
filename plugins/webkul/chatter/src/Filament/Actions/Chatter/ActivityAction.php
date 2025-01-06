@@ -57,7 +57,7 @@ class ActivityAction extends Action
                                         ->live(),
                                     Forms\Components\DatePicker::make('date_deadline')
                                         ->label(__('chatter::filament/resources/actions/chatter/activity-action.setup.form.fields.plan-date'))
-                                        ->hidden(fn(Get $get) => ! $get('activity_plan_id'))
+                                        ->hidden(fn (Get $get) => ! $get('activity_plan_id'))
                                         ->live()
                                         ->native(false),
                                 ])
@@ -80,13 +80,13 @@ class ActivityAction extends Action
                                                 $planDate = $get('date_deadline') ? Carbon::parse($get('date_deadline'))->format('m/d/Y') : '';
                                                 $html .= '<div class="flex items-center space-x-2" style="margin-left: 20px;">
                                                             <span>•</span>
-                                                            <span style="margin-left:2px;">' . $activityPlanTemplate->summary . ($planDate ? ' (' . $planDate . ')' : '') . '</span>
+                                                            <span style="margin-left:2px;">'.$activityPlanTemplate->summary.($planDate ? ' ('.$planDate.')' : '').'</span>
                                                           </div>';
                                             }
                                             $html .= '</div>';
 
                                             return new HtmlString($html);
-                                        })->hidden(fn(Get $get) => ! $get('activity_plan_id')),
+                                        })->hidden(fn (Get $get) => ! $get('activity_plan_id')),
                                     Forms\Components\Select::make('activity_type_id')
                                         ->label(__('chatter::filament/resources/actions/chatter/activity-action.setup.form.fields.activity-type'))
                                         ->options(ActivityType::pluck('name', 'id'))
@@ -94,30 +94,30 @@ class ActivityAction extends Action
                                         ->preload()
                                         ->live()
                                         ->required()
-                                        ->visible(fn(Get $get) => ! $get('activity_plan_id')),
+                                        ->visible(fn (Get $get) => ! $get('activity_plan_id')),
                                     Forms\Components\DatePicker::make('date_deadline')
                                         ->label(__('chatter::filament/resources/actions/chatter/activity-action.setup.form.fields.due-date'))
                                         ->native(false)
-                                        ->hidden(fn(Get $get) => $get('activity_type_id') ? ActivityType::find($get('activity_type_id'))->category == 'meeting' : false)
-                                        ->visible(fn(Get $get) => ! $get('activity_plan_id')),
+                                        ->hidden(fn (Get $get) => $get('activity_type_id') ? ActivityType::find($get('activity_type_id'))->category == 'meeting' : false)
+                                        ->visible(fn (Get $get) => ! $get('activity_plan_id')),
                                     Forms\Components\TextInput::make('summary')
                                         ->label(__('chatter::filament/resources/actions/chatter/activity-action.setup.form.fields.summary'))
-                                        ->visible(fn(Get $get) => ! $get('activity_plan_id')),
+                                        ->visible(fn (Get $get) => ! $get('activity_plan_id')),
                                     Forms\Components\Select::make('assigned_to')
                                         ->label(__('chatter::filament/resources/actions/chatter/activity-action.setup.form.fields.assigned-to'))
                                         ->searchable()
-                                        ->hidden(fn(Get $get) => $get('activity_type_id') ? ActivityType::find($get('activity_type_id'))->category == 'meeting' : false)
+                                        ->hidden(fn (Get $get) => $get('activity_type_id') ? ActivityType::find($get('activity_type_id'))->category == 'meeting' : false)
                                         ->live()
-                                        ->visible(fn(Get $get) => ! $get('activity_plan_id'))
+                                        ->visible(fn (Get $get) => ! $get('activity_plan_id'))
                                         ->options(User::all()->pluck('name', 'id')->toArray())
                                         ->required(),
                                 ])->columns(2),
                             Forms\Components\RichEditor::make('body')
                                 ->hiddenLabel()
-                                ->hidden(fn(Get $get) => $get('activity_type_id') ? ActivityType::find($get('activity_type_id'))->category == 'meeting' : false)
-                                ->visible(fn(Get $get) => ! $get('activity_plan_id'))
+                                ->hidden(fn (Get $get) => $get('activity_type_id') ? ActivityType::find($get('activity_type_id'))->category == 'meeting' : false)
+                                ->visible(fn (Get $get) => ! $get('activity_plan_id'))
                                 ->placeholder(__('chatter::filament/resources/actions/chatter/activity-action.setup.form.fields.log-note'))
-                                ->visible(fn(Get $get) => ! $get('activity_plan_id')),
+                                ->visible(fn (Get $get) => ! $get('activity_plan_id')),
                             Forms\Components\Hidden::make('type')
                                 ->default('activity'),
                         ]),
@@ -144,9 +144,9 @@ class ActivityAction extends Action
                             $body .= '<div class="space-y-2" style="margin-left: 20px;">
                                 <div class="flex items-center space-x-2">
                                     <span>•</span>
-                                    <span style="margin-left:2px;">' .
-                                $activityPlanTemplate->summary .
-                                ' (' . (isset($data['date_deadline']) ? $data['date_deadline'] : now()->format('m/d/Y')) . ')' .
+                                    <span style="margin-left:2px;">'.
+                                $activityPlanTemplate->summary.
+                                ' ('.(isset($data['date_deadline']) ? $data['date_deadline'] : now()->format('m/d/Y')).')'.
                                 '</span>
                                 </div>
                             </div>';

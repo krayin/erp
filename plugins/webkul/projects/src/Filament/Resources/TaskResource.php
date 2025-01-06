@@ -21,7 +21,6 @@ use Illuminate\Support\Facades\Auth;
 use Webkul\Field\Filament\Forms\Components\ProgressStepper;
 use Webkul\Field\Filament\Traits\HasCustomFields;
 use Webkul\Project\Enums\TaskState;
-use Webkul\Project\Filament\Resources\ProjectResource;
 use Webkul\Project\Filament\Resources\ProjectResource\Pages\ManageTasks;
 use Webkul\Project\Filament\Resources\TaskResource\Pages;
 use Webkul\Project\Filament\Resources\TaskResource\RelationManagers;
@@ -447,7 +446,7 @@ class TaskResource extends Resource
                             : null,
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('deadline')
                             ->label(__('projects::filament/resources/task.table.filters.deadline'))
-                                ->icon('heroicon-o-calendar'),
+                            ->icon('heroicon-o-calendar'),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at')
                             ->label(__('projects::filament/resources/task.table.filters.created-at')),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at')
@@ -794,7 +793,7 @@ class TaskResource extends Resource
             RelationGroup::make('Sub Tasks', [
                 RelationManagers\SubTasksRelationManager::class,
             ])
-                ->icon('heroicon-o-clipboard-document-list')
+                ->icon('heroicon-o-clipboard-document-list'),
         ];
     }
 

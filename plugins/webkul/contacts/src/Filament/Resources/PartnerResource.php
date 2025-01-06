@@ -4,23 +4,23 @@ namespace Webkul\Contact\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
+use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\Pages\Page;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
-use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Webkul\Contact\Filament\Resources\PartnerResource\Pages;
 use Webkul\Contact\Filament\Resources\PartnerResource\RelationManagers;
 use Webkul\Partner\Enums\AccountType;
 use Webkul\Partner\Models\Partner;
-use Filament\Infolists;
-use Filament\Infolists\Infolist;
-use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Pages\SubNavigationPosition;
-use Filament\Resources\Pages\Page;
 
 class PartnerResource extends Resource
 {
@@ -591,11 +591,11 @@ class PartnerResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListPartners::route('/'),
-            'create' => Pages\CreatePartner::route('/create'),
-            'view'   => Pages\ViewPartner::route('/{record}'),
-            'edit'   => Pages\EditPartner::route('/{record}/edit'),
-            'contacts' => Pages\ManageContacts::route('/{record}/contacts'),
+            'index'     => Pages\ListPartners::route('/'),
+            'create'    => Pages\CreatePartner::route('/create'),
+            'view'      => Pages\ViewPartner::route('/{record}'),
+            'edit'      => Pages\EditPartner::route('/{record}/edit'),
+            'contacts'  => Pages\ManageContacts::route('/{record}/contacts'),
             'addresses' => Pages\ManageAddresses::route('/{record}/addresses'),
         ];
     }

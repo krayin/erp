@@ -20,7 +20,7 @@ class TimesheetPlugin implements Plugin
     public function register(Panel $panel): void
     {
         $panel
-            ->when($panel->getId() == 'admin', function(Panel $panel) {
+            ->when($panel->getId() == 'admin', function (Panel $panel) {
                 $panel->discoverResources(in: $this->getPluginBasePath('/Filament/Resources'), for: 'Webkul\\Timesheet\\Filament\\Resources')
                     ->discoverPages(in: $this->getPluginBasePath('/Filament/Pages'), for: 'Webkul\\Timesheet\\Filament\\Pages')
                     ->discoverClusters(in: $this->getPluginBasePath('/Filament/Clusters'), for: 'Webkul\\Timesheet\\Filament\\Clusters')

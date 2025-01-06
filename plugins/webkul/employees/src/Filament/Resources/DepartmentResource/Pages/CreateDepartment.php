@@ -2,9 +2,9 @@
 
 namespace Webkul\Employee\Filament\Resources\DepartmentResource\Pages;
 
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Webkul\Employee\Filament\Resources\DepartmentResource;
-use Filament\Notifications\Notification;
 
 class CreateDepartment extends CreateRecord
 {

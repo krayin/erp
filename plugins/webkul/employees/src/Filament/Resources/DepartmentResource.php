@@ -77,7 +77,7 @@ class DepartmentResource extends Resource
                                         Forms\Components\Select::make('company_id')
                                             ->label(__('employees::filament/resources/department.form.sections.general.fields.company'))
                                             ->relationship('company', 'name')
-                                            ->options(fn() => Company::pluck('name', 'id'))
+                                            ->options(fn () => Company::pluck('name', 'id'))
                                             ->searchable()
                                             ->placeholder(__('employees::filament/resources/department.form.sections.general.fields.company-placeholder'))
                                             ->nullable(),
@@ -116,7 +116,7 @@ class DepartmentResource extends Resource
                                 ->sortable()
                                 ->searchable(),
                         ])
-                            ->visible(fn($record) => filled($record?->manager?->name)),
+                            ->visible(fn ($record) => filled($record?->manager?->name)),
                         Tables\Columns\Layout\Stack::make([
                             Tables\Columns\TextColumn::make('company.name')
                                 ->searchable()
@@ -124,7 +124,7 @@ class DepartmentResource extends Resource
                                 ->icon('heroicon-m-building-office-2')
                                 ->searchable(),
                         ])
-                            ->visible(fn($record) => filled($record?->company?->name)),
+                            ->visible(fn ($record) => filled($record?->company?->name)),
                     ])->space(1),
                 ])->space(4),
             ])

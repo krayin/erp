@@ -4,22 +4,22 @@ return [
     'form' => [
         'sections' => [
             'fields' => [
-                'skill-type' => 'Skill Type',
-                'skill'      => 'Skill',
+                'skill-type'  => 'Skill Type',
+                'skill'       => 'Skill',
                 'skill-level' => 'Skill Level',
-            ]
+            ],
         ],
     ],
 
     'table' => [
         'columns' => [
-            'skill-type' => 'Skill Type',
-            'skill'      => 'Skill',
-            'skill-level' => 'Skill Level',
+            'skill-type'    => 'Skill Type',
+            'skill'         => 'Skill',
+            'skill-level'   => 'Skill Level',
             'level-percent' => 'Level Percent',
-            'created-by' => 'Created By',
-            'user' => 'User',
-            'created-at' => 'Created At',
+            'created-by'    => 'Created By',
+            'user'          => 'User',
+            'created-at'    => 'Created At',
         ],
 
         'groups' => [
@@ -75,6 +75,6 @@ return [
             'skill'         => 'Skill',
             'skill-level'   => 'Skill Level',
             'level-percent' => 'Level Percent',
-        ]
+        ],
     ],
 ];

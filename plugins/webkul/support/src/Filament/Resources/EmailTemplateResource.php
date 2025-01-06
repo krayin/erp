@@ -2,13 +2,13 @@
 
 namespace Webkul\Support\Filament\Resources;
 
-use Webkul\Support\Filament\Resources\EmailTemplateResource\Pages;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Infolists\Infolist;
 use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Webkul\Support\Filament\Resources\EmailTemplateResource\Pages;
 use Webkul\Support\Models\EmailTemplate;
 
 class EmailTemplateResource extends Resource
@@ -100,7 +100,6 @@ class EmailTemplateResource extends Resource
             ]);
     }
 
-
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist
@@ -161,14 +160,13 @@ class EmailTemplateResource extends Resource
             ]);
     }
 
-
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListEmailTemplates::route('/'),
+            'index'  => Pages\ListEmailTemplates::route('/'),
             'create' => Pages\CreateEmailTemplate::route('/create'),
-            'edit' => Pages\EditEmailTemplate::route('/{record}/edit'),
-            'view' => Pages\ViewEmailTemplate::route('/{record}'),
+            'edit'   => Pages\EditEmailTemplate::route('/{record}/edit'),
+            'view'   => Pages\ViewEmailTemplate::route('/{record}'),
         ];
     }
 }

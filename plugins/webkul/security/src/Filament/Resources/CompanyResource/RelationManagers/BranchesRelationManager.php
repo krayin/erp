@@ -7,8 +7,8 @@ use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
-use Filament\Infolists\Infolist;
 use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
@@ -80,14 +80,14 @@ class BranchesRelationManager extends RelationManager
                                                 Forms\Components\TextInput::make('zip')
                                                     ->live()
                                                     ->label(__('security::filament/resources/company/relation-managers/manage-branch.form.tabs.address-information.sections.address-information.fields.zip-code'))
-                                                    ->required(fn(Get $get) => Country::find($get('country_id'))?->zip_required),
+                                                    ->required(fn (Get $get) => Country::find($get('country_id'))?->zip_required),
                                                 Forms\Components\Select::make('country_id')
                                                     ->label(__('security::filament/resources/company/relation-managers/manage-branch.form.tabs.address-information.sections.address-information.fields.country'))
                                                     ->relationship(name: 'country', titleAttribute: 'name')
-                                                    ->afterStateUpdated(fn(Set $set) => $set('state_id', null))
+                                                    ->afterStateUpdated(fn (Set $set) => $set('state_id', null))
                                                     ->createOptionForm([
                                                         Forms\Components\Select::make('currency_id')
-                                                            ->options(fn() => Currency::pluck('full_name', 'id'))
+                                                            ->options(fn () => Currency::pluck('full_name', 'id'))
                                                             ->searchable()
                                                             ->preload()
                                                             ->label(__('security::filament/resources/company/relation-managers/manage-branch.form.tabs.address-information.sections.address-information.fields.country-currency-name'))
@@ -111,7 +111,7 @@ class BranchesRelationManager extends RelationManager
                                                             ->required(),
                                                     ])
                                                     ->createOptionAction(
-                                                        fn(Action $action) => $action
+                                                        fn (Action $action) => $action
                                                             ->modalHeading(__('security::filament/resources/company/relation-managers/manage-branch.form.tabs.address-information.sections.address-information.fields.country-create'))
                                                             ->modalSubmitActionLabel(__('security::filament/resources/company/relation-managers/manage-branch.form.tabs.address-information.sections.address-information.fields.country-create'))
                                                             ->modalWidth('lg')
@@ -123,7 +123,7 @@ class BranchesRelationManager extends RelationManager
                                                 Forms\Components\Select::make('state_id')
                                                     ->label(__('security::filament/resources/company/relation-managers/manage-branch.form.tabs.address-information.sections.address-information.fields.state'))
                                                     ->options(
-                                                        fn(Get $get): Collection => State::query()
+                                                        fn (Get $get): Collection => State::query()
                                                             ->where('country_id', $get('country_id'))
                                                             ->pluck('name', 'id')
                                                     )
@@ -138,14 +138,14 @@ class BranchesRelationManager extends RelationManager
                                                             ->maxLength(255),
                                                     ])
                                                     ->createOptionAction(
-                                                        fn(Action $action) => $action
+                                                        fn (Action $action) => $action
                                                             ->modalHeading(__('security::filament/resources/company/relation-managers/manage-branch.form.tabs.address-information.sections.address-information.fields.state-create'))
                                                             ->modalSubmitActionLabel(__('security::filament/resources/company/relation-managers/manage-branch.form.tabs.address-information.sections.address-information.fields.state-create'))
                                                             ->modalWidth('lg')
                                                     )
                                                     ->searchable()
                                                     ->preload()
-                                                    ->required(fn(Get $get) => Country::find($get('country_id'))?->state_required),
+                                                    ->required(fn (Get $get) => Country::find($get('country_id'))?->state_required),
                                             ])
                                             ->columns(2),
                                     ]),
@@ -158,7 +158,7 @@ class BranchesRelationManager extends RelationManager
                                             ->required()
                                             ->live()
                                             ->preload()
-                                            ->options(fn() => Currency::pluck('full_name', 'id'))
+                                            ->options(fn () => Currency::pluck('full_name', 'id'))
                                             ->createOptionForm([
                                                 Forms\Components\Section::make()
                                                     ->schema([
@@ -195,7 +195,7 @@ class BranchesRelationManager extends RelationManager
                                                     ])->columns(2),
                                             ])
                                             ->createOptionAction(
-                                                fn(Action $action) => $action
+                                                fn (Action $action) => $action
                                                     ->modalHeading(__('security::filament/resources/company/relation-managers/manage-branch.form.tabs.address-information.sections.additional-information.fields.currency-create'))
                                                     ->modalSubmitActionLabel(__('security::filament/resources/company/relation-managers/manage-branch.form.tabs.address-information.sections.additional-information.fields.currency-create'))
                                                     ->modalWidth('lg')
@@ -421,7 +421,7 @@ class BranchesRelationManager extends RelationManager
                                             ->icon('heroicon-o-swatch')
                                             ->placeholder('—')
                                             ->badge()
-                                            ->color(fn($record) => $record->color ?? 'gray')
+                                            ->color(fn ($record) => $record->color ?? 'gray')
                                             ->label(__('security::filament/resources/company/relation-managers/manage-branch.infolist.tabs.general-information.sections.branch-information.entries.color')),
                                     ])
                                     ->columns(2),

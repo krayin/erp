@@ -5,9 +5,9 @@ namespace Webkul\Contact\Filament\Resources\PartnerResource\Pages;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
-use Webkul\Contact\Filament\Resources\PartnerResource;
 use Illuminate\Contracts\Support\Htmlable;
 use Webkul\Chatter\Filament\Actions\ChatterAction;
+use Webkul\Contact\Filament\Resources\PartnerResource;
 
 class ViewPartner extends ViewRecord
 {

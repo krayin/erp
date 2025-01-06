@@ -2,10 +2,8 @@
 
 namespace Webkul\Employee\Filament\Clusters\Reportings\Resources;
 
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Infolists\Infolist;
 use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
@@ -49,8 +47,8 @@ class EmployeeSkillResource extends Resource
     public static function getGlobalSearchResultDetails(Model $record): array
     {
         return [
-            __('employees::filament/clusters/reportings/resources/employee-skill.global-search.employee') => $record->employee->name ?? '—',
-            __('employees::filament/clusters/reportings/resources/employee-skill.global-search.skill') => $record->skill?->name ?? '—',
+            __('employees::filament/clusters/reportings/resources/employee-skill.global-search.employee')    => $record->employee->name ?? '—',
+            __('employees::filament/clusters/reportings/resources/employee-skill.global-search.skill')       => $record->skill?->name ?? '—',
             __('employees::filament/clusters/reportings/resources/employee-skill.global-search.skill-level') => $record->skillLevel?->name ?? '—',
         ];
     }
@@ -74,7 +72,7 @@ class EmployeeSkillResource extends Resource
                 Tables\Columns\TextColumn::make('skillLevel.name')
                     ->label(__('employees::filament/clusters/reportings/resources/employee-skill.table.columns.skill-level'))
                     ->badge()
-                    ->color(fn($record) => match ($record->skillLevel->name) {
+                    ->color(fn ($record) => match ($record->skillLevel->name) {
                         'Beginner'     => 'gray',
                         'Intermediate' => 'warning',
                         'Advanced'     => 'success',
@@ -83,7 +81,7 @@ class EmployeeSkillResource extends Resource
                     }),
                 CustomTables\Columns\ProgressBarEntry::make('skill_level_percentage')
                     ->label(__('employees::filament/clusters/reportings/resources/employee-skill.table.columns.proficiency'))
-                    ->getStateUsing(fn($record) => $record->skillLevel->level ?? 0),
+                    ->getStateUsing(fn ($record) => $record->skillLevel->level ?? 0),
                 Tables\Columns\TextColumn::make('skillType.name')
                     ->label(__('employees::filament/clusters/reportings/resources/employee-skill.table.columns.skill-type'))
                     ->badge()

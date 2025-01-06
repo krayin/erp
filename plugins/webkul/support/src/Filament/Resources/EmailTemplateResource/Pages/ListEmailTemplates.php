@@ -2,9 +2,9 @@
 
 namespace Webkul\Support\Filament\Resources\EmailTemplateResource\Pages;
 
-use Webkul\Support\Filament\Resources\EmailTemplateResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Webkul\Support\Filament\Resources\EmailTemplateResource;
 
 class ListEmailTemplates extends ListRecords
 {

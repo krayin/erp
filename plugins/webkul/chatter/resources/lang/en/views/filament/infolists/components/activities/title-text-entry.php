@@ -1,6 +1,5 @@
 <?php
 
-
-return  [
+return [
     'more-action-tooltip' => 'More Actions',
 ];

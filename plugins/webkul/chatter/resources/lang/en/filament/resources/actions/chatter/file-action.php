@@ -2,20 +2,20 @@
 
 return [
     'setup' => [
-        'title' => 'Attachments',
+        'title'   => 'Attachments',
         'tooltip' => 'Upload Attachments',
 
         'form' => [
             'fields' => [
-                'files' => 'Files',
+                'files'                  => 'Files',
                 'attachment-helper-text' => 'Max file size: 10MB. Allowed types: Images, PDF, Word, Excel, Text',
 
                 'actions' => [
                     'delete' => [
                         'title' => 'File deleted',
-                        'body'  => 'File has been deleted successfully.'
-                    ]
-                ]
+                        'body'  => 'File has been deleted successfully.',
+                    ],
+                ],
             ],
         ],
 
@@ -28,14 +28,14 @@ return [
 
                 'warning'  => [
                     'title' => 'No new files',
-                    'body' => 'All files have already been uploaded.',
+                    'body'  => 'All files have already been uploaded.',
                 ],
 
                 'error' => [
                     'title' => 'Attachment upload error',
                     'body'  => 'Failed to upload attachments ',
-                ]
-            ]
-        ]
-    ]
+                ],
+            ],
+        ],
+    ],
 ];

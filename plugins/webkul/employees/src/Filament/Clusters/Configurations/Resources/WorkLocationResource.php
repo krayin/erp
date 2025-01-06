@@ -56,10 +56,10 @@ class WorkLocationResource extends Resource
     public static function getGlobalSearchResultDetails(Model $record): array
     {
         return [
-            __('employees::filament/clusters/configurations/resources/work-location.global-search.name') => $record->name ?? '—',
-            __('employees::filament/clusters/configurations/resources/work-location.global-search.company') => $record->company?->name ?? '—',
-            __('employees::filament/clusters/configurations/resources/work-location.global-search.created-by') => $record->createdBy?->name ?? '—',
-            __('employees::filament/clusters/configurations/resources/work-location.global-search.location-type') => $record->location_type ?? '—',
+            __('employees::filament/clusters/configurations/resources/work-location.global-search.name')            => $record->name ?? '—',
+            __('employees::filament/clusters/configurations/resources/work-location.global-search.company')         => $record->company?->name ?? '—',
+            __('employees::filament/clusters/configurations/resources/work-location.global-search.created-by')      => $record->createdBy?->name ?? '—',
+            __('employees::filament/clusters/configurations/resources/work-location.global-search.location-type')   => $record->location_type ?? '—',
             __('employees::filament/clusters/configurations/resources/work-location.global-search.location-number') => $record->location_number ?? '—',
         ];
     }

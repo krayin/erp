@@ -33,11 +33,11 @@ class ListWorkLocations extends ListRecords
             null     => Tab::make(__('employees::filament/clusters/configurations/resources/work-location/pages/list-work-location.tabs.all')),
             'office' => Tab::make(__('employees::filament/clusters/configurations/resources/work-location/pages/list-work-location.tabs.office'))
                 ->icon('heroicon-m-building-office-2')
-                ->query(fn($query) => $query->where('location_type', 'office')),
+                ->query(fn ($query) => $query->where('location_type', 'office')),
             'home'   => Tab::make(__('employees::filament/clusters/configurations/resources/work-location/pages/list-work-location.tabs.home'))
-                ->icon('heroicon-m-home')->query(fn($query) => $query->where('location_type', 'home')),
+                ->icon('heroicon-m-home')->query(fn ($query) => $query->where('location_type', 'home')),
             'other'  => Tab::make(__('employees::filament/clusters/configurations/resources/work-location/pages/list-work-location.tabs.other'))
-                ->icon('heroicon-m-map-pin')->query(fn($query) => $query->where('location_type', 'other')),
+                ->icon('heroicon-m-map-pin')->query(fn ($query) => $query->where('location_type', 'other')),
         ];
     }
 }

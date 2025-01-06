@@ -3,16 +3,10 @@
 namespace Webkul\Contact\Filament\Resources\PartnerResource\Pages;
 
 use Filament\Forms\Form;
-use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ManageRelatedRecords;
-use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Auth;
-use Webkul\Contact\Filament\Resources\PartnerResource;
-use Filament\Forms;
-use Illuminate\Database\Eloquent\Builder;
-use Webkul\Partner\Enums\AddressType;
 use Webkul\Contact\Filament\Resources\AddressResource;
+use Webkul\Contact\Filament\Resources\PartnerResource;
 
 class ManageAddresses extends ManageRelatedRecords
 {
