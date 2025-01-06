@@ -1,0 +1,30 @@
+{
+    "name": "webkul/recruitments",
+    "description": "",
+    "authors": [
+        {
+            "name": "Jitendra Singh",
+            "email": "jitendra@webkul.in"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webkul\\Recruitment\\Providers\\ChatterServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Webkul\\Recruitment\\": "src/",
+            "Webkul\\Recruitment\\Database\\Factories\\": "database/factories/",
+            "Webkul\\Recruitment\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webkul\\Recruitment\\Tests\\": "tests/"
+        }
+    }
+}

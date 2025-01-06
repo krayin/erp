@@ -8,6 +8,7 @@ return [
     Webkul\Field\FieldsPlugin::class,
     Webkul\Partner\PartnerPlugin::class,
     Webkul\Employee\EmployeePlugin::class,
+    Webkul\Recruitment\RecruitmentPlugin::class,
     Webkul\Project\ProjectPlugin::class,
     Webkul\Timesheet\TimesheetPlugin::class,
 ];
