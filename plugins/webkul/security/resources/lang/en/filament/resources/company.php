@@ -23,6 +23,7 @@ return [
                     'company-id'            => 'Company ID',
                     'tax-id'                => 'Tax ID',
                     'tax-id-tooltip'        => 'The Tax ID is a unique identifier for your company.',
+                    'website'               => 'Website',
                 ],
             ],
 
@@ -183,6 +184,7 @@ return [
                     'company-id'            => 'Company ID',
                     'tax-id'                => 'Tax ID',
                     'tax-id-tooltip'        => 'The Tax ID is a unique identifier for your company.',
+                    'website'               => 'Website',
                 ],
             ],
 

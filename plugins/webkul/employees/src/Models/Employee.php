@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Employee\Database\Factories\EmployeeFactory;
@@ -308,5 +309,64 @@ class Employee extends Model
     public function companyAddress()
     {
         return $this->belongsTo(CompanyAddress::class, 'address_id');
+    }
+
+    /**
+     * Bootstrap the model and its traits.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($employee) {
+            if (!$employee->partner_id) {
+                $partner = $employee->partner()->create([
+                    'account_type' => 'individual',
+                    'creator_id'   => Auth::id(),
+                    'user_id'      => $employee->id,
+                    'name'         => $employee?->name,
+                    'avatar'       => $employee?->avatar,
+                    'email'        => $employee?->work_email ?? $employee?->private_email,
+                    'job_title'    => $employee?->job_title,
+                    'phone'        => $employee?->work_phone,
+                    'mobile'       => $employee?->mobile_phone,
+                    'color'        => $employee?->color,
+                    'parent_id'    => $employee?->parent_id,
+                    'company_id'   => $employee?->company_id,
+                    ...$employee->toArray(),
+                ]);
+
+                $employee->partner_id = $partner->id;
+                $employee->save();
+            }
+        });
+
+        static::updated(function ($employee) {
+            if ($employee->partner_id) {
+                $partner = Partner::updateOrCreate(
+                    ['id' => $employee->partner_id],
+                    [
+                        'account_type' => 'individual',
+                        'creator_id'   => Auth::id(),
+                        'user_id'      => $employee->id,
+                        'name'         => $employee?->name,
+                        'avatar'       => $employee?->avatar,
+                        'email'        => $employee?->work_email ?? $employee?->private_email,
+                        'job_title'    => $employee?->job_title,
+                        'phone'        => $employee?->work_phone,
+                        'mobile'       => $employee?->mobile_phone,
+                        'color'        => $employee?->color,
+                        'parent_id'    => $employee?->parent_id,
+                        'company_id'   => $employee?->company_id,
+                        ...$employee->toArray(),
+                    ]
+                );
+
+                if ($employee->partner_id !== $partner->id) {
+                    $employee->partner_id = $partner->id;
+                    $employee->save();
+                }
+            }
+        });
     }
 }

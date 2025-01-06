@@ -10,20 +10,31 @@ use Filament\Notifications\Notification;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use Webkul\Chatter\Mail\NewFollowerNotification;
+use Webkul\Chatter\Mail\FollowerMail;
 use Webkul\Partner\Models\Partner;
-use Webkul\Support\Services\EmailTemplateService;
+use Webkul\Support\Services\EmailService;
 
 class FollowerAction extends Action
 {
-    protected string $modelName;
+    protected string $mailView = 'chatter::mail.follower-mail';
 
     public static function getDefaultName(): ?string
     {
         return 'add.followers.action';
     }
-    
+
+    public function setMailView(string $mailView): self
+    {
+        $this->mailView = $mailView;
+
+        return $this;
+    }
+
+    public function getMailView(): string
+    {
+        return $this->mailView;
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -89,24 +100,22 @@ class FollowerAction extends Action
                         && $data['notify']
                         && $partner
                     ) {
-                        $variables = [
-                            'record_name'    => $partner->name,
-                            'author_name'    => Auth::user()->name,
-                            'author_email'   => Auth::user()->email,
-                            'model_name'     => class_basename($record),
-                            'note'           => $data['note'] ?? '',
-                            'app_name'       => config('app.name'),
-                            'from' => [
-                                'address' => Auth::user()->email,
-                                'name'    => Auth::user()->name,
+                        app(EmailService::class)->send(
+                            view: $this->getMailView(),
+                            mailClass: FollowerMail::class,
+                            payload: [
+                                'record_name'    => $record->name,
+                                'model_name'     => $modelName = class_basename($record),
+                                'subject'        => __('Invitation to follow :model: :department', [
+                                    'model'      => $modelName,
+                                    'department' => $record->name,
+                                ]),
+                                'note'           => $data['note'] ?? '',
+                                'to' => [
+                                    'address' => $partner->email,
+                                    'name'    => $partner->name,
+                                ],
                             ],
-                        ];
-
-                        app(EmailTemplateService::class)->send(
-                            templateCode: 'invite_mail_template',
-                            recipientEmail: $partner->email,
-                            recipientName: $partner->name,
-                            variables: $variables,
                         );
                     }
 

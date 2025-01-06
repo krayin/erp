@@ -346,6 +346,13 @@ return [
                     'body'  => 'The employees has been deleted successfully.',
                 ],
             ],
+
+            'force-delete' => [
+                'notification' => [
+                    'title' => 'Employees deleted',
+                    'body'  => 'The employees has been deleted successfully.',
+                ],
+            ]
         ],
     ],
 
