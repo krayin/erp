@@ -36,7 +36,7 @@
 
 
         <div class="powered-by">
-            {{ __('chatter::views/mail/follower-mail.powered-by') }} <a href="#">{{ config('app.name') }}</a>
+            {{ __('chatter::views/mail/follower-mail.powered-by') }} <a href="{{ config('app.url') }}">{{ config('app.name') }}</a>
         </div>
     </div>
 </body>
