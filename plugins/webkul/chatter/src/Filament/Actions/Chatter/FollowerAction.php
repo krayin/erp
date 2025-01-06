@@ -162,11 +162,11 @@ class FollowerAction extends Action
     {
         return [
             'record_url'     => $this->prepareResourceUrl($record) ?? '',
-            'record_name'    => $record->name,
+            'record_name'    => $recordName = $record->{$record->recordTitleAttribute} ?? $record->name,
             'model_name'     => $modelName = class_basename($record),
             'subject'        => __('chatter::filament/resources/actions/chatter/follower-action.setup.actions.mail.subject', [
                 'model'      => $modelName,
-                'department' => $record->name,
+                'department' => $recordName,
             ]),
             'note'           => $data['note'] ?? '',
             'to' => [
