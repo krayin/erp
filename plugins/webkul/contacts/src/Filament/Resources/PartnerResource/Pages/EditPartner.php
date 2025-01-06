@@ -34,7 +34,8 @@ class EditPartner extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            ChatterAction::make(),
+            ChatterAction::make()
+                ->setResource(static::$resource),
             Actions\ViewAction::make(),
             Actions\DeleteAction::make()
                 ->successNotification(

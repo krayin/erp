@@ -11,7 +11,7 @@ use Webkul\Support\Models\EmailTemplate;
 
 class EmailService
 {
-    public function send(string $view, string $mailClass, array $payload)
+    public function send(string $view, string $mailClass, array $payload, array $attachments = [])
     {
         try {
             $payload['from'] = [

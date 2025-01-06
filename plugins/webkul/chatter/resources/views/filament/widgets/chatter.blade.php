@@ -2,6 +2,7 @@
     <livewire:chatter-panel
         :record="$record ?? $this->record"
         :activityPlans="$activityPlans ?? $this->activityPlans"
+        :resource="$resource ?? $this->resource"
         lazy
     />
 </div>

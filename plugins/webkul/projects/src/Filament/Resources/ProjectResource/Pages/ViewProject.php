@@ -17,6 +17,7 @@ class ViewProject extends ViewRecord
     {
         return [
             ChatterAction::make()
+                ->setResource(static::$resource)
                 ->setActivityPlans($this->getActivityPlans()),
             Actions\DeleteAction::make()
                 ->successNotification(

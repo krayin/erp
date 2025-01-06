@@ -28,9 +28,9 @@ class EditTask extends EditRecord
 
     protected function getHeaderActions(): array
     {
-        // static::getResource()::getRecordTitleAttribute()
         return [
             ChatterAction::make()
+                ->setResource(static::$resource)
                 ->setActivityPlans($this->getActivityPlans()),
             Actions\DeleteAction::make()
                 ->successNotification(

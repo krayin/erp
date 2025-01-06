@@ -9,7 +9,6 @@ use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 use Webkul\Chatter\Mail\FollowerMail;
 use Webkul\Partner\Models\Partner;
 use Webkul\Support\Services\EmailService;
@@ -18,9 +17,18 @@ class FollowerAction extends Action
 {
     protected string $mailView = 'chatter::mail.follower-mail';
 
+    protected string $resource = '';
+
     public static function getDefaultName(): ?string
     {
         return 'add.followers.action';
+    }
+
+    public function setResource(string $resource): self
+    {
+        $this->resource = $resource;
+
+        return $this;
     }
 
     public function setMailView(string $mailView): self
@@ -33,6 +41,11 @@ class FollowerAction extends Action
     public function getMailView(): string
     {
         return $this->mailView;
+    }
+
+    public function getResource(): string
+    {
+        return $this->resource;
     }
 
     protected function setUp(): void
@@ -100,13 +113,15 @@ class FollowerAction extends Action
                         && $data['notify']
                         && $partner
                     ) {
+
                         app(EmailService::class)->send(
                             view: $this->getMailView(),
                             mailClass: FollowerMail::class,
                             payload: [
+                                'record_url'     => $this->prepareResourceUrl($record) ?? '',
                                 'record_name'    => $record->name,
                                 'model_name'     => $modelName = class_basename($record),
-                                'subject'        => __('Invitation to follow :model: :department', [
+                                'subject'        => __('chatter::filament/resources/actions/chatter/follower-action.setup.actions.mail.subject', [
                                     'model'      => $modelName,
                                     'department' => $record->name,
                                 ]),
@@ -139,5 +154,10 @@ class FollowerAction extends Action
                     ->label(__('chatter::filament/resources/actions/chatter/follower-action.setup.submit-action-title'))
                     ->icon('heroicon-m-user-plus')
             );
+    }
+
+    private function prepareResourceUrl(mixed $record): string
+    {
+        return $this->getResource()::getUrl('view', ['record' => $record]);
     }
 }
