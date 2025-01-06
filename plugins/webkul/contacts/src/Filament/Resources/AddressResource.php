@@ -3,17 +3,15 @@
 namespace Webkul\Contact\Filament\Resources;
 
 use Filament\Forms;
-use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
-use Webkul\Partner\Enums\AccountType;
-use Webkul\Partner\Models\Partner;
 use Filament\Notifications\Notification;
-use Webkul\Partner\Enums\AddressType;
+use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
+use Webkul\Partner\Enums\AddressType;
+use Webkul\Partner\Models\Partner;
 
 class AddressResource extends Resource
 {
@@ -27,9 +25,9 @@ class AddressResource extends Resource
             Forms\Components\Radio::make('type')
                 ->hiddenLabel()
                 ->options([
-                    AddressType::INVOICE->value => __('partners::enums/address-type.invoice'),
+                    AddressType::INVOICE->value  => __('partners::enums/address-type.invoice'),
                     AddressType::DELIVERY->value => __('partners::enums/address-type.delivery'),
-                    AddressType::OTHER->value => __('partners::enums/address-type.other'),
+                    AddressType::OTHER->value    => __('partners::enums/address-type.other'),
                 ])
                 ->default(AddressType::INVOICE->value)
                 ->inline()

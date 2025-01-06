@@ -20,7 +20,7 @@ return [
 
                 'fields' => [
                     'name'                => 'Activity Type',
-                    'name-tooltip' => 'Enter the official activity type name',
+                    'name-tooltip'        => 'Enter the official activity type name',
                     'action'              => 'Action',
                     'default-user'        => 'Default User',
                     'plugin'              => 'Plugin',
@@ -33,9 +33,9 @@ return [
                 'title' => 'Delay Information',
 
                 'fields' => [
-                    'delay-count'        => 'Delay Count',
-                    'delay-unit'         => 'Delay Unit',
-                    'delay-form'         => 'Delay Form',
+                    'delay-count'            => 'Delay Count',
+                    'delay-unit'             => 'Delay Unit',
+                    'delay-form'             => 'Delay Form',
                     'delay-form-helper-text' => 'Source of delay calculation',
                 ],
             ],
@@ -56,7 +56,7 @@ return [
                 'title' => 'Status & Configuration',
 
                 'fields' => [
-                    'status'              => 'Status',
+                    'status'               => 'Status',
                     'keep-done-activities' => 'Keep Done Activities',
                 ],
             ],
@@ -76,18 +76,18 @@ return [
         ],
 
         'groups' => [
-            'name'          => 'Name',
-            'action-category' => 'Action Category',
-            'status'        => 'Status',
-            'delay-count'   => 'Delay Count',
-            'delay-unit'    => 'Delay Unit',
-            'delay-source'  => 'Delay Source',
+            'name'             => 'Name',
+            'action-category'  => 'Action Category',
+            'status'           => 'Status',
+            'delay-count'      => 'Delay Count',
+            'delay-unit'       => 'Delay Unit',
+            'delay-source'     => 'Delay Source',
             'associated-model' => 'Associated Model',
-            'chaining-type' => 'Chaining Type',
-            'decoration-type' => 'Decoration Type',
-            'default-user'  => 'Default User',
-            'creation-date' => 'Creation Date',
-            'last-update'   => 'Last Update',
+            'chaining-type'    => 'Chaining Type',
+            'decoration-type'  => 'Decoration Type',
+            'default-user'     => 'Default User',
+            'creation-date'    => 'Creation Date',
+            'last-update'      => 'Last Update',
         ],
 
         'filters' => [
@@ -140,7 +140,7 @@ return [
                     'body'  => 'The activity types has been force deleted successfully.',
                 ],
             ],
-        ]
+        ],
     ],
 
     'infolist' => [
@@ -150,7 +150,7 @@ return [
 
                 'entries' => [
                     'name'                => 'Activity Type',
-                    'name-tooltip' => 'Enter the official activity type name',
+                    'name-tooltip'        => 'Enter the official activity type name',
                     'action'              => 'Action',
                     'default-user'        => 'Default User',
                     'plugin'              => 'Plugin',
@@ -163,9 +163,9 @@ return [
                 'title' => 'Delay Information',
 
                 'entries' => [
-                    'delay-count'        => 'Delay Count',
-                    'delay-unit'         => 'Delay Unit',
-                    'delay-form'         => 'Delay Form',
+                    'delay-count'            => 'Delay Count',
+                    'delay-unit'             => 'Delay Unit',
+                    'delay-form'             => 'Delay Form',
                     'delay-form-helper-text' => 'Source of delay calculation',
                 ],
             ],
@@ -186,7 +186,7 @@ return [
                 'title' => 'Status & Configuration',
 
                 'entries' => [
-                    'status'              => 'Status',
+                    'status'               => 'Status',
                     'keep-done-activities' => 'Keep Done Activities',
                 ],
             ],

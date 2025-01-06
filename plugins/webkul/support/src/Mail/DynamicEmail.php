@@ -3,10 +3,9 @@
 namespace Webkul\Support\Mail;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\HtmlString;
 use Webkul\Security\Models\User;
 
 class DynamicEmail extends Mailable implements ShouldQueue
@@ -49,6 +48,7 @@ class DynamicEmail extends Mailable implements ShouldQueue
     public function withAttachments(array $attachments): self
     {
         $this->attachmentData = $attachments;
+
         return $this;
     }
 
@@ -61,7 +61,7 @@ class DynamicEmail extends Mailable implements ShouldQueue
             ->view('support::emails.dynamic-template')
             ->with([
                 'header' => html_entity_decode($this->emailData['header'] ?? ''),
-                'body' => html_entity_decode($this->emailData['body']),
+                'body'   => html_entity_decode($this->emailData['body']),
                 'footer' => html_entity_decode($this->emailData['footer'] ?? ''),
                 'sender' => $this->sender,
             ]);
@@ -76,7 +76,7 @@ class DynamicEmail extends Mailable implements ShouldQueue
         foreach ($this->attachmentData as $attachment) {
             if (isset($attachment['path'])) {
                 $mail->attach($attachment['path'], [
-                    'as' => $attachment['name'] ?? null,
+                    'as'   => $attachment['name'] ?? null,
                     'mime' => $attachment['mime'] ?? null,
                 ]);
             } elseif (isset($attachment['data'])) {

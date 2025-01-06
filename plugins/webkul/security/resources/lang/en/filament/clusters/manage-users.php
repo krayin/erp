@@ -2,7 +2,7 @@
 
 return [
     'breadcrumb' => 'Manage Users',
-    'title' => 'Manage Users',
+    'title'      => 'Manage Users',
 
     'navigation' => [
         'label' => 'Manage Users',
@@ -15,12 +15,12 @@ return [
         ],
 
         'enable-reset-password' => [
-            'label' => 'Enable Reset Password',
+            'label'       => 'Enable Reset Password',
             'helper-text' => 'Allow users to reset their password.',
         ],
 
         'default-role' => [
-            'label' => 'Default Role',
+            'label'       => 'Default Role',
             'helper-text' => 'The default role assigned to new users.',
         ],
     ],

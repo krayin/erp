@@ -20,9 +20,8 @@ class EmailService
                 $payload['from']['company'] = Auth::user()->defaultCompany->toArray();
             }
 
-            Mail::to($payload['to']['address'], '"' . addslashes($payload['to']['name']) . '"')
+            Mail::to($payload['to']['address'], '"'.addslashes($payload['to']['name']).'"')
                 ->send((new $mailClass($view, $payload))->withAttachments($attachments));
-
 
             $this->logEmail($payload['to']['address'], $payload['to']['name'], $payload['subject'], 'sent');
 
@@ -36,7 +35,7 @@ class EmailService
         }
     }
 
-    protected function logEmail(string $recipientEmail, string $recipientName, string $subject, string $status, string $errorMessage = null)
+    protected function logEmail(string $recipientEmail, string $recipientName, string $subject, string $status, ?string $errorMessage = null)
     {
         EmailLog::create([
             'recipient_email' => $recipientEmail,

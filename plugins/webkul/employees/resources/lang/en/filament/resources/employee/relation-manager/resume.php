@@ -4,25 +4,25 @@ return [
     'form' => [
         'sections' => [
             'fields' => [
-                'title' => 'Title',
-                'type'  => 'Type',
-                'name'  => 'Name',
-                'type'  => 'Type',
-                'create-type' => 'Create Type',
-                'duration' => 'Duration',
-                'start-date' => 'Start Date',
-                'end-date'   => 'End Date',
+                'title'        => 'Title',
+                'type'         => 'Type',
+                'name'         => 'Name',
+                'type'         => 'Type',
+                'create-type'  => 'Create Type',
+                'duration'     => 'Duration',
+                'start-date'   => 'Start Date',
+                'end-date'     => 'End Date',
                 'display-type' => 'Display Type',
                 'description'  => 'Description',
-            ]
+            ],
         ],
     ],
 
     'table' => [
         'columns' => [
-            'title' => 'Title',
-            'start-date' => 'Start Date',
-            'end-date'   => 'End Date',
+            'title'        => 'Title',
+            'start-date'   => 'Start Date',
+            'end-date'     => 'End Date',
             'display-type' => 'Display Type',
             'description'  => 'Description',
             'created-by'   => 'Created By',
@@ -31,7 +31,7 @@ return [
         ],
 
         'groups' => [
-            'group-by-type' => 'Group By Type',
+            'group-by-type'         => 'Group By Type',
             'group-by-display-type' => 'Group By Display Type',
         ],
 
@@ -40,7 +40,7 @@ return [
         ],
 
         'filters' => [
-            'type' => 'Type',
+            'type'            => 'Type',
             'start-date-from' => 'Start Date From',
             'start-date-to'   => 'Start Date To',
             'created-from'    => 'Created From',
@@ -82,13 +82,13 @@ return [
 
     'infolist' => [
         'entries' => [
-            'title' => 'Title',
+            'title'        => 'Title',
             'display-type' => 'Display Type',
-            'type' => 'Type',
-            'description' => 'Description',
-            'duration' => 'Duration',
-            'start-date' => 'Start Date',
-            'end-date'   => 'End Date',
-        ]
+            'type'         => 'Type',
+            'description'  => 'Description',
+            'duration'     => 'Duration',
+            'start-date'   => 'Start Date',
+            'end-date'     => 'End Date',
+        ],
     ],
 ];

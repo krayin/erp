@@ -3,11 +3,8 @@
 namespace Webkul\Contact\Filament\Resources\PartnerResource\RelationManagers;
 
 use Filament\Forms\Form;
-use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Auth;
 use Webkul\Contact\Filament\Resources\AddressResource;
 
 class AddressesRelationManager extends RelationManager

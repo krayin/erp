@@ -2,15 +2,15 @@
 
 return [
     'setup' => [
-        'title' => 'Followers',
+        'title'               => 'Followers',
         'submit-action-title' => 'Add Follower',
-        'tooltip' => 'Add Follower',
+        'tooltip'             => 'Add Follower',
 
         'form' => [
             'fields' => [
-                'recipients' => 'Recipients',
+                'recipients'  => 'Recipients',
                 'notify-user' => 'Notify User',
-                'add-a-note' => 'Add a note',
+                'add-a-note'  => 'Add a note',
             ],
         ],
 
@@ -24,12 +24,12 @@ return [
                 'error' => [
                     'title' => 'Follower added error',
                     'body'  => 'Failed to ":partner" as follower',
-                ]
+                ],
             ],
 
             'mail' => [
                 'subject' => 'Invitation to follow :model: :department',
-            ]
-        ]
-    ]
+            ],
+        ],
+    ],
 ];

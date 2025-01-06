@@ -580,7 +580,7 @@ class ProjectResource extends Resource
                 RelationManagers\TaskStagesRelationManager::class,
             ])
                 ->icon('heroicon-o-squares-2x2'),
-            
+
             RelationGroup::make('Milestones', [
                 RelationManagers\MilestonesRelationManager::class,
             ])

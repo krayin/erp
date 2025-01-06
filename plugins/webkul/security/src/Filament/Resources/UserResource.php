@@ -79,7 +79,7 @@ class UserResource extends Resource
                                             ->label(__('security::filament/resources/user.form.sections.general-information.fields.password-confirmation'))
                                             ->password()
                                             ->hiddenOn('edit')
-                                            ->rule('required', fn($get) => (bool) $get('password'))
+                                            ->rule('required', fn ($get) => (bool) $get('password'))
                                             ->same('password'),
                                     ])
                                     ->columns(2),
@@ -177,7 +177,7 @@ class UserResource extends Resource
                     ->label(__('security::filament/resources/user.table.columns.role')),
                 Tables\Columns\TextColumn::make('resource_permission')
                     ->label(__('security::filament/resources/user.table.columns.resource-permission'))
-                    ->formatStateUsing(fn($state) => PermissionType::options()[$state] ?? $state)
+                    ->formatStateUsing(fn ($state) => PermissionType::options()[$state] ?? $state)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('defaultCompany.name')
                     ->label(__('security::filament/resources/user.table.columns.default-company'))
@@ -216,14 +216,14 @@ class UserResource extends Resource
                 Tables\Filters\SelectFilter::make('teams')
                     ->relationship('teams', 'name')
                     ->label(__('security::filament/resources/user.table.filters.teams'))
-                    ->options(fn(): array => Role::query()->pluck('name', 'id')->all())
+                    ->options(fn (): array => Role::query()->pluck('name', 'id')->all())
                     ->multiple()
                     ->searchable()
                     ->preload(),
                 Tables\Filters\SelectFilter::make('roles')
                     ->label(__('security::filament/resources/user.table.filters.roles'))
                     ->relationship('roles', 'name')
-                    ->options(fn(): array => Role::query()->pluck('name', 'id')->all())
+                    ->options(fn (): array => Role::query()->pluck('name', 'id')->all())
                     ->multiple()
                     ->searchable()
                     ->preload(),
@@ -232,9 +232,9 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make()
-                        ->hidden(fn($record) => $record->trashed()),
+                        ->hidden(fn ($record) => $record->trashed()),
                     Tables\Actions\EditAction::make()
-                        ->hidden(fn($record) => $record->trashed())
+                        ->hidden(fn ($record) => $record->trashed())
                         ->successNotification(
                             Notification::make()
                                 ->success()
@@ -330,7 +330,7 @@ class UserResource extends Resource
                                             ->placeholder('—')
                                             ->label(__('security::filament/resources/user.infolist.sections.permissions.entries.roles'))
                                             ->listWithLineBreaks()
-                                            ->formatStateUsing(fn($state) => ucfirst($state))
+                                            ->formatStateUsing(fn ($state) => ucfirst($state))
                                             ->bulleted(),
                                         Infolists\Components\TextEntry::make('teams.name')
                                             ->icon('heroicon-o-user-group')
@@ -341,12 +341,12 @@ class UserResource extends Resource
                                         Infolists\Components\TextEntry::make('resource_permission')
                                             ->icon(function ($record) {
                                                 return [
-                                                    PermissionType::GLOBAL->value => 'heroicon-o-globe-alt',
+                                                    PermissionType::GLOBAL->value     => 'heroicon-o-globe-alt',
                                                     PermissionType::INDIVIDUAL->value => 'heroicon-o-user',
-                                                    PermissionType::GROUP->value => 'heroicon-o-user-group',
+                                                    PermissionType::GROUP->value      => 'heroicon-o-user-group',
                                                 ][$record->resource_permission];
                                             })
-                                            ->formatStateUsing(fn($state) => PermissionType::options()[$state] ?? $state)
+                                            ->formatStateUsing(fn ($state) => PermissionType::options()[$state] ?? $state)
                                             ->placeholder('-')
                                             ->label(__('security::filament/resources/user.infolist.sections.permissions.entries.resource-permission')),
                                     ])

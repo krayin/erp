@@ -7,9 +7,9 @@ use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Project\Filament\Clusters\Configurations\Resources\MilestoneResource;
-use Illuminate\Database\Eloquent\Model;
 use Webkul\Project\Settings\TaskSettings;
 
 class MilestonesRelationManager extends RelationManager

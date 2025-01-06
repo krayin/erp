@@ -2,13 +2,13 @@
 
 return [
     'form' => [
-        'type' => 'Type',
+        'type'    => 'Type',
         'address' => 'Address',
-        'city' => 'City',
+        'city'    => 'City',
         'street1' => 'Street 1',
         'street2' => 'Street 2',
-        'state' => 'State',
-        'zip' => 'Zip',
+        'state'   => 'State',
+        'zip'     => 'Zip',
         'country' => 'Country',
     ],
 
@@ -25,13 +25,13 @@ return [
         ],
 
         'columns' => [
-            'type' => 'Type',
+            'type'    => 'Type',
             'address' => 'Address',
-            'city' => 'City',
+            'city'    => 'City',
             'street1' => 'Street 1',
             'street2' => 'Street 2',
-            'state' => 'State',
-            'zip' => 'Zip',
+            'state'   => 'State',
+            'zip'     => 'Zip',
             'country' => 'Country',
         ],
 
@@ -42,7 +42,7 @@ return [
                     'body'  => 'The address has been updated successfully.',
                 ],
             ],
-            
+
             'delete' => [
                 'notification' => [
                     'title' => 'Address deleted',
@@ -58,6 +58,6 @@ return [
                     'body'  => 'The addresses has been deleted successfully.',
                 ],
             ],
-        ]
+        ],
     ],
 ];

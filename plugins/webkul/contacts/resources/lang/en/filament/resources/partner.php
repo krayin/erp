@@ -53,7 +53,7 @@ return [
         'columns' => [
             'parent'     => 'Parent',
         ],
-        
+
         'groups' => [
             'account-type' => 'Account Type',
             'parent'       => 'Parent',
@@ -63,24 +63,24 @@ return [
         ],
 
         'filters' => [
-            'account-type' => 'Account Type',
-            'name'         => 'Name',
-            'email'        => 'Email',
-            'parent'       => 'Parent',
-            'title'        => 'Title',
-            'tax-id'       => 'Tax ID',
-            'phone'        => 'Phone',
-            'mobile'       => 'Mobile',
-            'job-title'    => 'Job Title',
-            'website'      => 'Website',
+            'account-type'     => 'Account Type',
+            'name'             => 'Name',
+            'email'            => 'Email',
+            'parent'           => 'Parent',
+            'title'            => 'Title',
+            'tax-id'           => 'Tax ID',
+            'phone'            => 'Phone',
+            'mobile'           => 'Mobile',
+            'job-title'        => 'Job Title',
+            'website'          => 'Website',
             'company-registry' => 'Company Registry',
-            'responsible'  => 'Responsible',
-            'reference'    => 'Reference',
-            'parent'       => 'Parent',
-            'creator'      => 'Creator',
-            'company'      => 'Company',
-            'industry' => 'Industry',
-            'industry'     => 'Industry',
+            'responsible'      => 'Responsible',
+            'reference'        => 'Reference',
+            'parent'           => 'Parent',
+            'creator'          => 'Creator',
+            'company'          => 'Company',
+            'industry'         => 'Industry',
+            'industry'         => 'Industry',
         ],
 
         'actions' => [

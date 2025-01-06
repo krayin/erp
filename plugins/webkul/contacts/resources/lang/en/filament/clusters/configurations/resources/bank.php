@@ -12,8 +12,8 @@ return [
                 'title' => 'General',
 
                 'fields' => [
-                    'name' => 'Name',
-                    'code' => 'Bank Identifier Code',
+                    'name'  => 'Name',
+                    'code'  => 'Bank Identifier Code',
                     'email' => 'Email',
                     'phone' => 'Phone',
                 ],
@@ -24,11 +24,11 @@ return [
 
                 'fields' => [
                     'address' => 'Address',
-                    'city' => 'City',
+                    'city'    => 'City',
                     'street1' => 'Street 1',
                     'street2' => 'Street 2',
-                    'state' => 'State',
-                    'zip' => 'Zip',
+                    'state'   => 'State',
+                    'zip'     => 'Zip',
                     'country' => 'Country',
                 ],
             ],
@@ -37,9 +37,9 @@ return [
 
     'table' => [
         'columns' => [
-            'name' => 'Name',
-            'code' => 'Bank Identifier Code',
-            'country' => 'Country',
+            'name'           => 'Name',
+            'code'           => 'Bank Identifier Code',
+            'country'        => 'Country',
             'created-at'     => 'Created At',
             'updated-at'     => 'Updated At',
             'deleted-at'     => 'Deleted At',
@@ -47,7 +47,7 @@ return [
 
         'groups' => [
             'country'               => 'Country',
-            'created-at'         => 'Created At',
+            'created-at'            => 'Created At',
         ],
 
         'actions' => [

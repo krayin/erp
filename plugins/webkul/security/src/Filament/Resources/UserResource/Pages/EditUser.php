@@ -6,11 +6,8 @@ use Filament\Actions;
 use Filament\Forms;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
-use Webkul\Partner\Models\Partner;
 use Webkul\Security\Filament\Resources\UserResource;
 use Webkul\Security\Models\User;
 
@@ -56,7 +53,7 @@ class EditUser extends EditRecord
                     Forms\Components\TextInput::make('new_password_confirmation')
                         ->password()
                         ->label(__('security::filament/resources/user/pages/edit-user.header-actions.change-password.form.confirm-new-password'))
-                        ->rule('required', fn($get) => (bool) $get('new_password'))
+                        ->rule('required', fn ($get) => (bool) $get('new_password'))
                         ->same('new_password'),
                 ])
                 ->icon('heroicon-o-key'),

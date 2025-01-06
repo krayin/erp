@@ -3,10 +3,10 @@
 namespace Webkul\Employee\Filament\Resources\DepartmentResource\Pages;
 
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
 use Webkul\Chatter\Filament\Actions as ChatterActions;
 use Webkul\Employee\Filament\Resources\DepartmentResource;
-use Filament\Notifications\Notification;
 
 class ViewDepartment extends ViewRecord
 {

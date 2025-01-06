@@ -352,7 +352,7 @@ return [
                     'title' => 'Employees deleted',
                     'body'  => 'The employees has been deleted successfully.',
                 ],
-            ]
+            ],
         ],
     ],
 

@@ -63,13 +63,13 @@ return [
                     'title' => 'Skills force restored',
                     'body'  => 'The skills has been force restored successfully.',
                 ],
-            ]
+            ],
         ],
     ],
 
     'infolist' => [
         'entries' => [
             'name' => 'Name',
-        ]
+        ],
     ],
 ];

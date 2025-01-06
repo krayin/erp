@@ -53,9 +53,8 @@ class SupportServiceProvider extends PackageServiceProvider
 
         Gate::policy(Role::class, RolePolicy::class);
 
-
         $this->app->singleton(EmailTemplateService::class, function ($app) {
-            return new EmailTemplateService();
+            return new EmailTemplateService;
         });
     }
 

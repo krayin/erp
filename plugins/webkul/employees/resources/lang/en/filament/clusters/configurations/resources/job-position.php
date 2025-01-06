@@ -44,7 +44,7 @@ return [
                     'expected-employees' => 'Expected Employees',
                     'current-employees'  => 'Current Employees',
                     'recruitment-target' => 'Recruitment Target',
-                ]
+                ],
             ],
 
             'position-status' => [
@@ -52,7 +52,7 @@ return [
 
                 'fields' => [
                     'status' => 'Status',
-                ]
+                ],
             ],
         ],
     ],
@@ -138,8 +138,8 @@ return [
                     'title' => 'Job Positions',
                     'body'  => 'The Job Positions has been created successfully.',
                 ],
-            ]
-        ]
+            ],
+        ],
     ],
 
     'infolist' => [
@@ -152,15 +152,15 @@ return [
                     'department'         => 'Department',
                     'company'            => 'Company',
                     'employment-type'    => 'Employment Type',
-                ]
+                ],
             ],
             'job-description' => [
                 'title' => 'Job Description',
 
                 'entries' => [
-                    'job-description' => 'Job Description',
+                    'job-description'  => 'Job Description',
                     'job-requirements' => 'Job Requirements',
-                ]
+                ],
             ],
             'work-planning' => [
                 'title' => 'Workforce Planning',
@@ -169,15 +169,15 @@ return [
                     'expected-employees' => 'Expected Employees',
                     'current-employees'  => 'Current Employees',
                     'recruitment-target' => 'Recruitment Target',
-                ]
+                ],
             ],
             'position-status' => [
                 'title' => 'Position Status',
 
                 'entries' => [
                     'status' => 'Status',
-                ]
-            ]
+                ],
+            ],
         ],
     ],
 ];

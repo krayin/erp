@@ -11,18 +11,18 @@ return [
                         'title' => 'Branch Information',
 
                         'fields' => [
-                            'company-name' => 'Company Name',
-                            'registration-number' => 'Registration Number',
+                            'company-name'                => 'Company Name',
+                            'registration-number'         => 'Registration Number',
                             'registration-number-tooltip' => 'The Tax ID is a unique identifier for your company.',
-                            'color' => 'Color',
+                            'color'                       => 'Color',
                         ],
                     ],
 
                     'branding' => [
-                        'title' => 'Branding',
+                        'title'  => 'Branding',
                         'fields' => [
                             'branch-logo' => 'Branch Logo',
-                        ]
+                        ],
                     ],
                 ],
             ],
@@ -35,23 +35,23 @@ return [
                         'title' => 'Address Information',
 
                         'fields' => [
-                            'street1' => 'Street 1',
-                            'street2' => 'Street 2',
-                            'city' => 'City',
-                            'zip' => 'Zip Code',
-                            'country' => 'Country',
-                            'country-currency-name' => 'Currency Name',
-                            'country-phone-code' => 'Phone Code',
-                            'country-code' => 'Code',
-                            'country-name' => 'Country Name',
+                            'street1'                => 'Street 1',
+                            'street2'                => 'Street 2',
+                            'city'                   => 'City',
+                            'zip'                    => 'Zip Code',
+                            'country'                => 'Country',
+                            'country-currency-name'  => 'Currency Name',
+                            'country-phone-code'     => 'Phone Code',
+                            'country-code'           => 'Code',
+                            'country-name'           => 'Country Name',
                             'country-state-required' => 'State Required',
-                            'country-zip-required' => 'Zip Required',
-                            'country-create' => 'Create Country',
-                            'state' => 'State',
-                            'state-name' => 'State Name',
-                            'state-code' => 'State Code',
-                            'zip-code' => 'Zip Code',
-                            'state-create' => 'Create State',
+                            'country-zip-required'   => 'Zip Required',
+                            'country-create'         => 'Create Country',
+                            'state'                  => 'State',
+                            'state-name'             => 'State Name',
+                            'state-code'             => 'State Code',
+                            'zip-code'               => 'Zip Code',
+                            'state-create'           => 'Create State',
                         ],
                     ],
 
@@ -59,20 +59,20 @@ return [
                         'title' => 'Additional Information',
 
                         'fields' => [
-                            'default-currency' => 'Default Currency',
-                            'currency-name' => 'Currency Name',
-                            'currency-full-name' => 'Currency Full Name',
-                            'currency-symbol' => 'Currency Symbol',
-                            'currency-iso-numeric' => 'Currency ISO Numeric',
+                            'default-currency'        => 'Default Currency',
+                            'currency-name'           => 'Currency Name',
+                            'currency-full-name'      => 'Currency Full Name',
+                            'currency-symbol'         => 'Currency Symbol',
+                            'currency-iso-numeric'    => 'Currency ISO Numeric',
                             'currency-decimal-places' => 'Currency Decimal Places',
-                            'currency-rounding' => 'Currency Rounding',
-                            'currency-status' => 'Currency Status',
-                            'currency-create' => 'Create Currency',
+                            'currency-rounding'       => 'Currency Rounding',
+                            'currency-status'         => 'Currency Status',
+                            'currency-create'         => 'Create Currency',
                             'company-foundation-date' => 'Company Foundation Date',
-                            'status' => 'Status',
+                            'status'                  => 'Status',
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'contact-information' => [
@@ -84,11 +84,11 @@ return [
 
                         'fields' => [
                             'email-address' => 'Email Address',
-                            'phone-number' => 'Phone Number',
+                            'phone-number'  => 'Phone Number',
                             'mobile-number' => 'Phone Number',
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
             ],
         ],
     ],
@@ -191,18 +191,18 @@ return [
                         'title' => 'Branch Information',
 
                         'entries' => [
-                            'company-name' => 'Company Name',
-                            'registration-number' => 'Registration Number',
+                            'company-name'                => 'Company Name',
+                            'registration-number'         => 'Registration Number',
                             'registration-number-tooltip' => 'The Tax ID is a unique identifier for your company.',
-                            'color' => 'Color',
+                            'color'                       => 'Color',
                         ],
                     ],
 
                     'branding' => [
-                        'title' => 'Branding',
+                        'title'   => 'Branding',
                         'entries' => [
                             'branch-logo' => 'Branch Logo',
-                        ]
+                        ],
                     ],
                 ],
             ],
@@ -215,23 +215,23 @@ return [
                         'title' => 'Address Information',
 
                         'entries' => [
-                            'street1' => 'Street 1',
-                            'street2' => 'Street 2',
-                            'city' => 'City',
-                            'zip' => 'Zip Code',
-                            'country' => 'Country',
-                            'country-currency-name' => 'Currency Name',
-                            'country-phone-code' => 'Phone Code',
-                            'country-code' => 'Code',
-                            'country-name' => 'Country Name',
+                            'street1'                => 'Street 1',
+                            'street2'                => 'Street 2',
+                            'city'                   => 'City',
+                            'zip'                    => 'Zip Code',
+                            'country'                => 'Country',
+                            'country-currency-name'  => 'Currency Name',
+                            'country-phone-code'     => 'Phone Code',
+                            'country-code'           => 'Code',
+                            'country-name'           => 'Country Name',
                             'country-state-required' => 'State Required',
-                            'country-zip-required' => 'Zip Required',
-                            'country-create' => 'Create Country',
-                            'state' => 'State',
-                            'state-name' => 'State Name',
-                            'state-code' => 'State Code',
-                            'zip-code' => 'Zip Code',
-                            'state-create' => 'Create State',
+                            'country-zip-required'   => 'Zip Required',
+                            'country-create'         => 'Create Country',
+                            'state'                  => 'State',
+                            'state-name'             => 'State Name',
+                            'state-code'             => 'State Code',
+                            'zip-code'               => 'Zip Code',
+                            'state-create'           => 'Create State',
                         ],
                     ],
 
@@ -239,20 +239,20 @@ return [
                         'title' => 'Additional Information',
 
                         'entries' => [
-                            'default-currency' => 'Default Currency',
-                            'currency-name' => 'Currency Name',
-                            'currency-full-name' => 'Currency Full Name',
-                            'currency-symbol' => 'Currency Symbol',
-                            'currency-iso-numeric' => 'Currency ISO Numeric',
+                            'default-currency'        => 'Default Currency',
+                            'currency-name'           => 'Currency Name',
+                            'currency-full-name'      => 'Currency Full Name',
+                            'currency-symbol'         => 'Currency Symbol',
+                            'currency-iso-numeric'    => 'Currency ISO Numeric',
                             'currency-decimal-places' => 'Currency Decimal Places',
-                            'currency-rounding' => 'Currency Rounding',
-                            'currency-status' => 'Currency Status',
-                            'currency-create' => 'Create Currency',
+                            'currency-rounding'       => 'Currency Rounding',
+                            'currency-status'         => 'Currency Status',
+                            'currency-create'         => 'Create Currency',
                             'company-foundation-date' => 'Company Foundation Date',
-                            'status' => 'Status',
+                            'status'                  => 'Status',
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
 
             'contact-information' => [
@@ -264,11 +264,11 @@ return [
 
                         'entries' => [
                             'email-address' => 'Email Address',
-                            'phone-number' => 'Phone Number',
+                            'phone-number'  => 'Phone Number',
                             'mobile-number' => 'Phone Number',
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
             ],
         ],
     ],

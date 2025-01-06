@@ -23,7 +23,7 @@ return [
     'form' => [
         'fields' => [
             'name' => 'Name',
-        ]
+        ],
     ],
 
     'table' => [

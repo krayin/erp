@@ -93,7 +93,7 @@ return [
                     'title' => 'Work Location created',
                     'body'  => 'The Work Location has been created successfully.',
                 ],
-            ]
+            ],
         ],
 
         'bulk-actions' => [

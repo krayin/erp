@@ -8,15 +8,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Webkul\Partner\Database\Factories\PartnerFactory;
-use Webkul\Security\Models\User;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
+use Webkul\Partner\Database\Factories\PartnerFactory;
+use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 
 class Partner extends Model
 {
-    use HasChatter, HasLogActivity, HasFactory, SoftDeletes;
+    use HasChatter, HasFactory, HasLogActivity, SoftDeletes;
 
     /**
      * Table name.

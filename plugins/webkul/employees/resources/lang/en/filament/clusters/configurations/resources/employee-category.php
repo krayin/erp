@@ -24,7 +24,7 @@ return [
         'fields' => [
             'name'  => 'Name',
             'color' => 'Color',
-        ]
+        ],
     ],
 
     'table' => [

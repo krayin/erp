@@ -5,11 +5,9 @@ namespace Webkul\Employee\Filament\Resources\EmployeeResource\Pages;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Chatter\Filament\Actions as ChatterActions;
 use Webkul\Employee\Filament\Resources\EmployeeResource;
-use Webkul\Partner\Models\Partner;
 use Webkul\Support\Models\ActivityPlan;
 
 class EditEmployee extends EditRecord

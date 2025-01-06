@@ -74,7 +74,7 @@ return [
                     'title' => 'Skill Levels force restored',
                     'body'  => 'The skills has been force restored successfully.',
                 ],
-            ]
+            ],
         ],
     ],
 
@@ -83,6 +83,6 @@ return [
             'name'          => 'Name',
             'level'         => 'Level',
             'default-level' => 'Default Level',
-        ]
+        ],
     ],
 ];

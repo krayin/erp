@@ -319,7 +319,7 @@ class Employee extends Model
         parent::boot();
 
         static::created(function ($employee) {
-            if (!$employee->partner_id) {
+            if (! $employee->partner_id) {
                 $partner = $employee->partner()->create([
                     'account_type' => 'individual',
                     'creator_id'   => Auth::id(),

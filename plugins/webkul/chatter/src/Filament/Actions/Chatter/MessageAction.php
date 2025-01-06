@@ -78,7 +78,7 @@ class MessageAction extends Action
                             })
                             ->link()
                             ->size('sm')
-                            ->icon(fn(Get $get) => ! $get('showSubject') ? 'heroicon-s-plus' : 'heroicon-s-minus'),
+                            ->icon(fn (Get $get) => ! $get('showSubject') ? 'heroicon-s-plus' : 'heroicon-s-minus'),
                     ])
                         ->columnSpan('full')
                         ->alignRight(),
@@ -86,7 +86,7 @@ class MessageAction extends Action
                 Forms\Components\TextInput::make('subject')
                     ->placeholder(__('chatter::filament/resources/actions/chatter/message-action.setup.form.fields.subject'))
                     ->live()
-                    ->visible(fn($get) => $get('showSubject')),
+                    ->visible(fn ($get) => $get('showSubject')),
                 Forms\Components\RichEditor::make('body')
                     ->hiddenLabel()
                     ->placeholder(__('chatter::filament/resources/actions/chatter/message-action.setup.form.fields.write-message-here'))
@@ -184,7 +184,7 @@ class MessageAction extends Action
                 'record_name' => $recordName,
             ]),
             'content'        => $message->body ?? '',
-            'to' => [
+            'to'             => [
                 'address' => $partner->email,
                 'name'    => $partner->name,
             ],

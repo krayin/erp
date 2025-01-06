@@ -1,8 +1,7 @@
 <?php
 
-
 return [
-    'group' => 'Group',
+    'group'      => 'Group',
     'individual' => 'Individual',
-    'global' => 'Global',
+    'global'     => 'Global',
 ];

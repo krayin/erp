@@ -1,10 +1,9 @@
 <?php
 
-
 return [
-    'none' => 'None',
+    'none'        => 'None',
     'upload-file' => 'Upload File',
-    'default' => 'Default',
-    'phone-call' => 'Phone Call',
-    'meeting' => 'Meeting',
+    'default'     => 'Default',
+    'phone-call'  => 'Phone Call',
+    'meeting'     => 'Meeting',
 ];

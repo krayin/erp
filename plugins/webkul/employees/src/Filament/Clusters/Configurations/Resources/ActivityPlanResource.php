@@ -64,15 +64,15 @@ class ActivityPlanResource extends Resource
                             ->relationship(name: 'department', titleAttribute: 'name')
                             ->searchable()
                             ->preload()
-                            ->createOptionForm(fn(Form $form) => DepartmentResource::form($form))
-                            ->editOptionForm(fn(Form $form) => DepartmentResource::form($form)),
+                            ->createOptionForm(fn (Form $form) => DepartmentResource::form($form))
+                            ->editOptionForm(fn (Form $form) => DepartmentResource::form($form)),
                         Forms\Components\Select::make('company_id')
                             ->label(__('employees::filament/clusters/configurations/resources/activity-plan.form.sections.general.fields.company'))
                             ->relationship(name: 'company', titleAttribute: 'name')
                             ->searchable()
                             ->preload()
-                            ->createOptionForm(fn(Form $form) => CompanyResource::form($form))
-                            ->editOptionForm(fn(Form $form) => CompanyResource::form($form)),
+                            ->createOptionForm(fn (Form $form) => CompanyResource::form($form))
+                            ->editOptionForm(fn (Form $form) => CompanyResource::form($form)),
                         Forms\Components\Toggle::make('is_active')
                             ->label(__('employees::filament/clusters/configurations/resources/activity-plan.form.sections.general.fields.status'))
                             ->default(true)
@@ -193,9 +193,9 @@ class ActivityPlanResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
-                    ->hidden(fn($record) => $record->trashed()),
+                    ->hidden(fn ($record) => $record->trashed()),
                 Tables\Actions\EditAction::make()
-                    ->hidden(fn($record) => $record->trashed()),
+                    ->hidden(fn ($record) => $record->trashed()),
                 Tables\Actions\RestoreAction::make()
                     ->successNotification(
                         Notification::make()

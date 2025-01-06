@@ -99,8 +99,8 @@ return [
                     'title' => 'Skill Types',
                     'body'  => 'The Skill Types has been created successfully.',
                 ],
-            ]
-        ]
+            ],
+        ],
     ],
 
     'infolist' => [
@@ -109,7 +109,7 @@ return [
                 'name'   => 'Skill Type',
                 'color'  => 'Color',
                 'status' => 'Status',
-            ]
+            ],
         ],
     ],
 ];

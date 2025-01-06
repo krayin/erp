@@ -55,11 +55,11 @@ class JobPositionResource extends Resource
     public static function getGlobalSearchResultDetails(Model $record): array
     {
         return [
-            __('employees::filament/clusters/configurations/resources/job-position.global-search.name') => $record->name ?? '—',
-            __('employees::filament/clusters/configurations/resources/job-position.global-search.department') => $record->department?->name ?? '—',
+            __('employees::filament/clusters/configurations/resources/job-position.global-search.name')            => $record->name ?? '—',
+            __('employees::filament/clusters/configurations/resources/job-position.global-search.department')      => $record->department?->name ?? '—',
             __('employees::filament/clusters/configurations/resources/job-position.global-search.employment-type') => $record->employmentType?->name ?? '—',
-            __('employees::filament/clusters/configurations/resources/job-position.global-search.company') => $record->company?->name ?? '—',
-            __('employees::filament/clusters/configurations/resources/job-position.global-search.created-by') => $record->createdBy?->name ?? '—',
+            __('employees::filament/clusters/configurations/resources/job-position.global-search.company')         => $record->company?->name ?? '—',
+            __('employees::filament/clusters/configurations/resources/job-position.global-search.created-by')      => $record->createdBy?->name ?? '—',
         ];
     }
 
@@ -84,7 +84,7 @@ class JobPositionResource extends Resource
                                             ->relationship(name: 'department', titleAttribute: 'name')
                                             ->searchable()
                                             ->preload()
-                                            ->createOptionForm(fn(Form $form) => DepartmentResource::form($form))
+                                            ->createOptionForm(fn (Form $form) => DepartmentResource::form($form))
                                             ->createOptionAction(function (Action $action) {
                                                 return $action
                                                     ->modalHeading(__('employees::filament/clusters/configurations/resources/job-position.form.sections.employment-information.fields.department-modal-title'))
@@ -410,7 +410,7 @@ class JobPositionResource extends Resource
                             Infolists\Components\Section::make(__('employees::filament/clusters/configurations/resources/job-position.infolist.sections.position-status.title'))
                                 ->schema([
                                     Infolists\Components\IconEntry::make('is_active')
-                                        ->label(__('employees::filament/clusters/configurations/resources/job-position.infolist.sections.position-status.entries.status'))
+                                        ->label(__('employees::filament/clusters/configurations/resources/job-position.infolist.sections.position-status.entries.status')),
                                 ]),
                         ])->columnSpan(1),
                     ]),

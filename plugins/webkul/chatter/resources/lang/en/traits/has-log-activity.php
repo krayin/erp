@@ -9,6 +9,6 @@ return [
             'soft-deleted' => 'The :model was soft deleted',
             'hard-deleted' => 'The :model was permanently deleted',
             'restored'     => 'The :model was restored',
-        ]
-    ]
+        ],
+    ],
 ];

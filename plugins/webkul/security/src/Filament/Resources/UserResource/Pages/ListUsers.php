@@ -42,7 +42,7 @@ class ListUsers extends ListRecords
                 ->icon('heroicon-o-envelope')
                 ->modalIcon('heroicon-o-envelope')
                 ->modalSubmitActionLabel(__('security::filament/resources/user/pages/list-user.header-actions.invite.modal.submit-action-label'))
-                ->visible(fn(UserSettings $userSettings) => $userSettings->enable_user_invitation)
+                ->visible(fn (UserSettings $userSettings) => $userSettings->enable_user_invitation)
                 ->form([
                     TextInput::make('email')
                         ->email()

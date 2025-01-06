@@ -1,0 +1,30 @@
+{
+    "name": "webkul/products",
+    "description": "",
+    "authors": [
+        {
+            "name": "Jitendra Singh",
+            "email": "jitendra@webkul.in"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webkul\\Product\\Providers\\ProductServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Webkul\\Product\\": "src/",
+            "Webkul\\Product\\Database\\Factories\\": "database/factories/",
+            "Webkul\\Product\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webkul\\Product\\Tests\\": "tests/"
+        }
+    }
+}

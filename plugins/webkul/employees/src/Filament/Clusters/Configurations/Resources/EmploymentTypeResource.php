@@ -52,8 +52,8 @@ class EmploymentTypeResource extends Resource
     public static function getGlobalSearchResultDetails(Model $record): array
     {
         return [
-            __('employees::filament/clusters/configurations/resources/employment-type.global-search.name') => $record->name ?? '—',
-            __('employees::filament/clusters/configurations/resources/employment-type.global-search.country') => $record->country?->name ?? '—',
+            __('employees::filament/clusters/configurations/resources/employment-type.global-search.name')       => $record->name ?? '—',
+            __('employees::filament/clusters/configurations/resources/employment-type.global-search.country')    => $record->country?->name ?? '—',
             __('employees::filament/clusters/configurations/resources/employment-type.global-search.created-by') => $record->createdBy?->name ?? '—',
         ];
     }

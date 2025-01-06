@@ -19,7 +19,7 @@ return [
             'name'    => 'Employment Type',
             'code'    => 'Code',
             'country' => 'Country',
-        ]
+        ],
     ],
 
     'table' => [
@@ -81,8 +81,8 @@ return [
                     'title' => 'Employment Types',
                     'body'  => 'The Employment Types has been created successfully.',
                 ],
-            ]
-        ]
+            ],
+        ],
     ],
 
     'infolist' => [
@@ -90,6 +90,6 @@ return [
             'name'    => 'Employment Type',
             'code'    => 'Code',
             'country' => 'Country',
-        ]
+        ],
     ],
 ];

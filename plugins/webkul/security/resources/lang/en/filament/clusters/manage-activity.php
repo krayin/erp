@@ -2,7 +2,7 @@
 
 return [
     'breadcrumb' => 'Manage Activities',
-    'title' => 'Manage Activities',
+    'title'      => 'Manage Activities',
 
     'navigation' => [
         'label' => 'Manage Activities',
@@ -10,7 +10,7 @@ return [
 
     'form' => [
         'activity-description' => [
-            'label' => 'Activities',
+            'label'   => 'Activities',
             'content' => 'Configure your activity types.',
         ],
 
