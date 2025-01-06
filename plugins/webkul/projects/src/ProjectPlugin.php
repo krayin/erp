@@ -22,17 +22,20 @@ class ProjectPlugin implements Plugin
     public function register(Panel $panel): void
     {
         $panel
-            ->discoverResources(in: $this->getPluginBasePath('/Filament/Resources'), for: 'Webkul\\Project\\Filament\\Resources')
-            ->discoverPages(in: $this->getPluginBasePath('/Filament/Pages'), for: 'Webkul\\Project\\Filament\\Pages')
-            ->discoverClusters(in: $this->getPluginBasePath('/Filament/Clusters'), for: 'Webkul\\Project\\Filament\\Clusters')
-            ->discoverWidgets(in: $this->getPluginBasePath('/Filament/Widgets'), for: 'Webkul\\Project\\Filament\\Widgets')
-            ->navigationItems([
-                NavigationItem::make('Settings')
-                    ->url(fn () => ManageTasks::getUrl())
-                    ->icon('heroicon-o-wrench')
-                    ->group('Project')
-                    ->sort(3),
-            ]);
+            ->when($panel->getId() == 'admin', function(Panel $panel) {
+                $panel
+                    ->discoverResources(in: $this->getPluginBasePath('/Filament/Resources'), for: 'Webkul\\Project\\Filament\\Resources')
+                    ->discoverPages(in: $this->getPluginBasePath('/Filament/Pages'), for: 'Webkul\\Project\\Filament\\Pages')
+                    ->discoverClusters(in: $this->getPluginBasePath('/Filament/Clusters'), for: 'Webkul\\Project\\Filament\\Clusters')
+                    ->discoverWidgets(in: $this->getPluginBasePath('/Filament/Widgets'), for: 'Webkul\\Project\\Filament\\Widgets')
+                    ->navigationItems([
+                        NavigationItem::make('Settings')
+                            ->url(fn () => ManageTasks::getUrl())
+                            ->icon('heroicon-o-wrench')
+                            ->group('Project')
+                            ->sort(3),
+                    ]);
+            });
     }
 
     public function boot(Panel $panel): void
