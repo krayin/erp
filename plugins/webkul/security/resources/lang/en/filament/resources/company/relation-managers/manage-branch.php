@@ -13,8 +13,11 @@ return [
                         'fields' => [
                             'company-name'                => 'Company Name',
                             'registration-number'         => 'Registration Number',
-                            'registration-number-tooltip' => 'The Tax ID is a unique identifier for your company.',
+                            'tax-id'                      => 'Tax ID',
+                            'tax-id-tooltip'              => 'The Tax ID is a unique identifier for your company.',
                             'color'                       => 'Color',
+                            'company-id'                  => 'Company ID',
+                            'company-id-tooltip'          => 'The Company ID is a unique identifier for your company.',
                         ],
                     ],
 

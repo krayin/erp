@@ -280,6 +280,7 @@ class CompanyResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('branches.name')
                     ->label(__('security::filament/resources/company.table.columns.branches'))
+                    ->placeholder('-')
                     ->badge()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
@@ -410,7 +411,9 @@ class CompanyResource extends Resource
                         ),
                 ]),
             ])->modifyQueryUsing(function (Builder $query) {
-                $query->where('user_id', Auth::user()->id);
+                $query
+                    ->where('user_id', Auth::user()->id)
+                    ->whereNull('parent_id');
             })
             ->reorderable('sequence');
     }

@@ -25,6 +25,7 @@ class Company extends Model
         'sort',
         'name',
         'company_id',
+        'parent_id',
         'tax_id',
         'registration_number',
         'email',
@@ -48,11 +49,43 @@ class Company extends Model
     }
 
     /**
-     * Get the branches associated with the company.
+     * Get the parent company
+     */
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(Company::class, 'parent_id');
+    }
+
+    /**
+     * Get the branches (child companies)
      */
     public function branches(): HasMany
     {
-        return $this->hasMany(Branch::class);
+        return $this->hasMany(Company::class, 'parent_id');
+    }
+
+    /**
+     * Scope a query to only include parent companies
+     */
+    public function scopeParents($query)
+    {
+        return $query->whereNull('parent_id');
+    }
+
+    /**
+     * Check if company is a branch
+     */
+    public function isBranch(): bool
+    {
+        return ! is_null($this->parent_id);
+    }
+
+    /**
+     * Check if company is a parent
+     */
+    public function isParent(): bool
+    {
+        return is_null($this->parent_id);
     }
 
     /**

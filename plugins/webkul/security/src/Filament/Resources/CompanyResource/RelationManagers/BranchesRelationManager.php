@@ -17,6 +17,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Security\Enums\CompanyStatus;
 use Webkul\Support\Models\Branch;
+use Webkul\Support\Models\Company;
 use Webkul\Support\Models\Country;
 use Webkul\Support\Models\Currency;
 use Webkul\Support\Models\State;
@@ -44,10 +45,15 @@ class BranchesRelationManager extends RelationManager
                                             ->live(onBlur: true),
                                         Forms\Components\TextInput::make('registration_number')
                                             ->label(__('security::filament/resources/company/relation-managers/manage-branch.form.tabs.general-information.sections.branch-information.fields.registration-number')),
-                                        Forms\Components\TextInput::make('tax_id')
-                                            ->label('Tax ID')
+                                        Forms\Components\TextInput::make('company_id')
+                                            ->label(__('security::filament/resources/company/relation-managers/manage-branch.form.tabs.general-information.sections.branch-information.fields.company-id'))
+                                            ->required()
                                             ->unique(ignoreRecord: true)
-                                            ->hintIcon('heroicon-o-question-mark-circle', tooltip: __('security::filament/resources/company/relation-managers/manage-branch.form.tabs.general-information.sections.branch-information.fields.registration-number-tooltip')),
+                                            ->hintIcon('heroicon-o-question-mark-circle', tooltip: __('security::filament/resources/company/relation-managers/manage-branch.form.tabs.general-information.sections.branch-information.fields.company-id-tooltip')),
+                                        Forms\Components\TextInput::make('tax_id')
+                                            ->label(__('security::filament/resources/company/relation-managers/manage-branch.form.tabs.general-information.sections.branch-information.fields.tax-id'))
+                                            ->unique(ignoreRecord: true)
+                                            ->hintIcon('heroicon-o-question-mark-circle', tooltip: __('security::filament/resources/company/relation-managers/manage-branch.form.tabs.general-information.sections.branch-information.fields.tax-id-tooltip')),
                                         Forms\Components\ColorPicker::make('color')
                                             ->label(__('security::filament/resources/company/relation-managers/manage-branch.form.tabs.general-information.sections.branch-information.fields.color')),
                                     ])
@@ -242,10 +248,6 @@ class BranchesRelationManager extends RelationManager
                     ->label(__('security::filament/resources/company/relation-managers/manage-branch.table.columns.company-name'))
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('branches.name')
-                    ->label(__('security::filament/resources/company/relation-managers/manage-branch.table.columns.branches'))
-                    ->badge()
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->label(__('security::filament/resources/company/relation-managers/manage-branch.table.columns.email'))
                     ->sortable()
@@ -313,10 +315,12 @@ class BranchesRelationManager extends RelationManager
             ->headerActions([
                 Tables\Actions\CreateAction::make()
                     ->icon('heroicon-o-plus-circle')
-                    ->mutateFormDataUsing(function (array $data): array {
+                    ->mutateFormDataUsing(function ($livewire, array $data): array {
                         $data['user_id'] = Auth::user()->id;
 
-                        $data['sequence'] = Branch::max('sequence') + 1;
+                        $data['sort'] = Company::max('sort') + 1;
+
+                        $data['parent_id'] = $livewire->ownerRecord->id;
 
                         return $data;
                     })
@@ -414,7 +418,7 @@ class BranchesRelationManager extends RelationManager
                                             ->placeholder('—')
                                             ->label(__('security::filament/resources/company/relation-managers/manage-branch.infolist.tabs.general-information.sections.branch-information.entries.registration-number')),
                                         Infolists\Components\TextEntry::make('tax_id')
-                                            ->icon('heroicon-o-receipt-tax')
+                                            ->icon('heroicon-o-currency-dollar')
                                             ->placeholder('—')
                                             ->label('Tax ID'),
                                         Infolists\Components\TextEntry::make('color')
