@@ -24,8 +24,8 @@ class CountrySeeder extends Seeder
                     'phone_code'     => (int) $country['phone_code'] ?? null,
                     'code'           => $country['code'] ?? null,
                     'name'           => $country['name'] ?? null,
-                    'state_required' => (bool) $country['state_required'] === 't',
-                    'zip_required'   => (bool) $country['zip_required'] === 't',
+                    'state_required' => (bool) $country['state_required'],
+                    'zip_required'   => (bool) $country['zip_required'],
                     'created_at'     => now(),
                     'updated_at'     => now(),
                 ];

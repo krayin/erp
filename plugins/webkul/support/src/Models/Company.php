@@ -7,8 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Field\Traits\HasCustomFields;
+use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
 use Webkul\Support\Database\Factories\CompanyFactory;
 
@@ -96,6 +99,11 @@ class Company extends Model
         return $this->belongsTo(Currency::class);
     }
 
+    public function partner()
+    {
+        return $this->belongsTo(Partner::class, 'partner_id');
+    }
+
     /**
      * Scope a query to only include active companies.
      */
@@ -112,5 +120,60 @@ class Company extends Model
     protected static function newFactory(): CompanyFactory
     {
         return CompanyFactory::new();
+    }
+
+     /**
+     * Bootstrap the model and its traits.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saved(function ($company) {
+            if (! $company->partner_id) {
+                $company->handlePartnerCreation($company);
+            } else {
+                $company->handlePartnerUpdation($company);
+            }
+        });
+    }
+
+    /**
+     * Handle the creation of a partner.
+     */
+    private function handlePartnerCreation(self $company)
+    {
+        $partner = $company->partner()->create([
+            'creator_id' => $company->creator_id ?? Auth::id(),
+            'sub_type'   => 'company',
+            'company_registry' => $company->registration_number,
+            ...Arr::except($company->toArray(), ['sort', 'registration_number', 'is_active', 'founded_date', 'currency_id', 'partner_id']),
+            'company_id'    => $company->id,
+        ]);
+
+        $company->partner_id = $partner->id;
+        $company->save();
+    }
+
+    /**
+     * Handle the updation of a partner.
+     */
+    private function handlePartnerUpdation(self $company)
+    {
+        $partner = Partner::updateOrCreate(
+            ['id' => $company->partner_id],
+            [
+                'creator_id' => $company->creator_id ?? Auth::id(),
+                'sub_type'   => 'company',
+                'company_registry' => $company->registration_number,
+                ...Arr::except($company->toArray(), ['sort', 'registration_number', 'is_active', 'founded_date', 'currency_id', 'partner_id']),
+                'company_id'    => $company->id,
+            ]
+        );
+
+        if ($company->partner_id !== $partner->id) {
+            $company->partner_id = $partner->id;
+            $company->save();
+        }
     }
 }

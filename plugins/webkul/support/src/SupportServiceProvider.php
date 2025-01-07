@@ -39,6 +39,8 @@ class SupportServiceProvider extends PackageServiceProvider
                 '2025_01_03_061445_create_email_logs_table',
                 '2025_01_06_070908_add_website_column_to_companies_table',
                 '2025_01_07_104107_add_parent_id_column_to_companies_table',
+                '2025_01_07_125015_add_partner_id_to_companies_table',
+                '2025_01_07_131336_add_partner_address_id_column_company_addresses_table',
             ])
             ->runsMigrations()
             ->hasCommands([
