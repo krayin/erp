@@ -29,7 +29,7 @@ class CreateCompany extends CreateRecord
     {
         return [
             'user_id'  => Auth::user()->id,
-            'sequence' => Company::max('sequence') + 1,
+            'sort' => Company::max('sort') + 1,
             ...$data,
         ];
     }

@@ -22,7 +22,7 @@ class Company extends Model
      * @var array
      */
     protected $fillable = [
-        'sequence',
+        'sort',
         'name',
         'company_id',
         'tax_id',

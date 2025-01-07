@@ -11,10 +11,12 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Webkul\Security\Enums\PermissionType;
 use Webkul\Security\Filament\Resources\UserResource\Pages;
 use Webkul\Security\Models\User;
+use Webkul\Support\Models\Company;
 
 class UserResource extends Resource
 {
@@ -144,7 +146,24 @@ class UserResource extends Resource
                                         Forms\Components\Select::make('default_company_id')
                                             ->label(__('security::filament/resources/user.form.sections.multi-company.default-company'))
                                             ->relationship('defaultCompany', 'name')
+                                            ->required()
                                             ->searchable()
+                                            ->createOptionForm(fn(Form $form) => CompanyResource::form($form))
+                                            ->createOptionAction(function (Forms\Components\Actions\Action $action) {
+                                                $action
+                                                    ->fillForm(function (array $arguments): array {
+                                                        return [
+                                                            'user_id' => Auth::id(),
+                                                            'sort'    => Company::max('sort') + 1,
+                                                        ];
+                                                    })
+                                                    ->mutateFormDataUsing(function (array $data) {
+                                                        $data['user_id'] = Auth::id();
+                                                        $data['sort'] = Company::max('sort') + 1;
+
+                                                        return $data;
+                                                    });
+                                            })
                                             ->preload(),
                                     ]),
                             ])
