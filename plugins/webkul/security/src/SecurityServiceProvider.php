@@ -28,6 +28,7 @@ class SecurityServiceProvider extends PackageServiceProvider
             ])
             ->hasSettings([
                 '2024_11_05_042358_create_user_settings',
+                '2025_01_07_100020_add_default_company_id_to_settings_table',
             ])
             ->runsSettings();
     }

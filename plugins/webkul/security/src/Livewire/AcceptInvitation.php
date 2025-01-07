@@ -8,9 +8,9 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Form;
 use Filament\Pages\Concerns\InteractsWithFormActions;
-use Filament\Pages\Dashboard;
 use Filament\Pages\SimplePage;
 use Illuminate\Validation\Rules\Password;
+use Webkul\Project\Filament\Pages\Dashboard;
 use Webkul\Security\Models\Invitation;
 use Webkul\Security\Models\User;
 use Webkul\Security\Settings\UserSettings;
@@ -70,9 +70,10 @@ class AcceptInvitation extends SimplePage
         $this->invitationModel = Invitation::find($this->invitation);
 
         $user = User::create([
-            'name'     => $this->form->getState()['name'],
-            'password' => $this->form->getState()['password'],
-            'email'    => $this->invitationModel->email,
+            'name'               => $this->form->getState()['name'],
+            'password'           => $this->form->getState()['password'],
+            'email'              => $this->invitationModel->email,
+            'default_company_id' => app(UserSettings::class)->default_company_id,
         ]);
 
         $user->assignRole(app(UserSettings::class)->default_role_id);

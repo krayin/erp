@@ -9,6 +9,7 @@ use Filament\Pages\SettingsPage;
 use Spatie\Permission\Models\Role;
 use Webkul\Security\Settings\UserSettings;
 use Webkul\Support\Filament\Clusters\Settings;
+use Webkul\Support\Models\Company;
 
 class ManageUsers extends SettingsPage
 {
@@ -53,6 +54,11 @@ class ManageUsers extends SettingsPage
                     ->label(__('security::filament/clusters/manage-users.form.default-role.label'))
                     ->helperText(__('security::filament/clusters/manage-users.form.default-role.helper-text'))
                     ->options(Role::all()->pluck('name', 'id'))
+                    ->searchable(),
+                Forms\Components\Select::make('default_company_id')
+                    ->label(__('security::filament/clusters/manage-users.form.default-company.label'))
+                    ->helperText(__('security::filament/clusters/manage-users.form.default-company.helper-text'))
+                    ->options(Company::all()->pluck('name', 'id'))
                     ->searchable(),
             ]);
     }
