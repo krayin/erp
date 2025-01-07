@@ -318,55 +318,66 @@ class Employee extends Model
     {
         parent::boot();
 
-        static::created(function ($employee) {
+        static::saved(function (self $employee) {
             if (! $employee->partner_id) {
-                $partner = $employee->partner()->create([
-                    'account_type' => 'individual',
-                    'creator_id'   => Auth::id(),
-                    'user_id'      => $employee->id,
-                    'name'         => $employee?->name,
-                    'avatar'       => $employee?->avatar,
-                    'email'        => $employee?->work_email ?? $employee?->private_email,
-                    'job_title'    => $employee?->job_title,
-                    'phone'        => $employee?->work_phone,
-                    'mobile'       => $employee?->mobile_phone,
-                    'color'        => $employee?->color,
-                    'parent_id'    => $employee?->parent_id,
-                    'company_id'   => $employee?->company_id,
-                    ...$employee->toArray(),
-                ]);
-
-                $employee->partner_id = $partner->id;
-                $employee->save();
+                $employee->handlePartnerCreation($employee);
+            } else {
+                $employee->handlePartnerUpdation($employee);
             }
         });
+    }
 
-        static::updated(function ($employee) {
-            if ($employee->partner_id) {
-                $partner = Partner::updateOrCreate(
-                    ['id' => $employee->partner_id],
-                    [
-                        'account_type' => 'individual',
-                        'creator_id'   => Auth::id(),
-                        'user_id'      => $employee->id,
-                        'name'         => $employee?->name,
-                        'avatar'       => $employee?->avatar,
-                        'email'        => $employee?->work_email ?? $employee?->private_email,
-                        'job_title'    => $employee?->job_title,
-                        'phone'        => $employee?->work_phone,
-                        'mobile'       => $employee?->mobile_phone,
-                        'color'        => $employee?->color,
-                        'parent_id'    => $employee?->parent_id,
-                        'company_id'   => $employee?->company_id,
-                        ...$employee->toArray(),
-                    ]
-                );
+    /**
+     * Handle the creation of the partner.
+     */
+    private function handlePartnerCreation(self $employee): void
+    {
+        $partner = $employee->partner()->create([
+            'account_type' => 'individual',
+            'sub_type'     => 'employee',
+            'creator_id'   => Auth::id(),
+            'user_id'      => $employee->id,
+            'name'         => $employee?->name,
+            'avatar'       => $employee?->avatar,
+            'email'        => $employee?->work_email ?? $employee?->private_email,
+            'job_title'    => $employee?->job_title,
+            'phone'        => $employee?->work_phone,
+            'mobile'       => $employee?->mobile_phone,
+            'color'        => $employee?->color,
+            'parent_id'    => $employee?->parent_id,
+            'company_id'   => $employee?->company_id,
+            ...$employee->toArray(),
+        ]);
 
-                if ($employee->partner_id !== $partner->id) {
-                    $employee->partner_id = $partner->id;
-                    $employee->save();
-                }
-            }
-        });
+        $employee->partner_id = $partner->id;
+        $employee->save();
+    }
+
+    private function handlePartnerUpdation(self $employee): void
+    {
+        $partner = Partner::updateOrCreate(
+            ['id' => $employee->partner_id],
+            [
+                'account_type' => 'individual',
+                'sub_type'     => 'employee',
+                'creator_id'   => Auth::id(),
+                'user_id'      => $employee->id,
+                'name'         => $employee?->name,
+                'avatar'       => $employee?->avatar,
+                'email'        => $employee?->work_email ?? $employee?->private_email,
+                'job_title'    => $employee?->job_title,
+                'phone'        => $employee?->work_phone,
+                'mobile'       => $employee?->mobile_phone,
+                'color'        => $employee?->color,
+                'parent_id'    => $employee?->parent_id,
+                'company_id'   => $employee?->company_id,
+                ...$employee->toArray(),
+            ]
+        );
+
+        if ($employee->partner_id !== $partner->id) {
+            $employee->partner_id = $partner->id;
+            $employee->save();
+        }
     }
 }
