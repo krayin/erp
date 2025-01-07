@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Webkul\Support\Models\Company;
 
 use function Laravel\Prompts\password;
 use function Laravel\Prompts\text;
@@ -40,9 +41,9 @@ class InstallERP extends Command
 
         $this->generateRolesAndPermissions();
 
-        $this->createAdminUser();
-
         $this->runSeeder();
+
+        $this->createAdminUser();
 
         $this->info('🎉 ERP System installation completed successfully!');
     }
@@ -95,6 +96,8 @@ class InstallERP extends Command
     {
         $this->info('👤 Creating an Admin user...');
 
+        $defaultCompany = Company::first();
+
         $userModel = app(config('filament-shield.auth_provider_model.fqcn'));
 
         $adminData = [
@@ -112,9 +115,12 @@ class InstallERP extends Command
                 )
             ),
             'resource_permission' => 'global',
+            'default_company_id'  => $defaultCompany->id,
         ];
 
         $adminUser = $userModel::updateOrCreate(['email' => $adminData['email']], $adminData);
+
+        $defaultCompany->update(['creator_id' => $adminUser->id]);
 
         $adminRoleName = $this->getAdminRoleName();
 

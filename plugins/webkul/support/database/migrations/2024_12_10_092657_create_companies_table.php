@@ -27,11 +27,11 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->date('founded_date')->nullable();
 
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('creator_id')->nullable()->comment('Created By');
             $table->unsignedBigInteger('currency_id');
 
             $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
             $table->softDeletes();
             $table->timestamps();
         });

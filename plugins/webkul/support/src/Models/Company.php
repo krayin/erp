@@ -35,17 +35,17 @@ class Company extends Model
         'color',
         'is_active',
         'founded_date',
-        'user_id',
+        'creator_id',
         'currency_id',
         'website',
     ];
 
     /**
-     * Get the user associated with the company.
+     * Get the creator of the company
      */
-    public function user(): BelongsTo
+    public function createdBy(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'creator_id');
     }
 
     /**

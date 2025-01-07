@@ -16,9 +16,9 @@ return new class extends Migration
             $table->integer('sort');
             $table->string('name');
 
-            $table->unsignedBigInteger('creator_id');
+            $table->unsignedBigInteger('creator_id')->nullable()->comment('Created By');
 
-            $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
 
             $table->timestamps();
         });

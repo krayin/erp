@@ -22,16 +22,10 @@ return new class extends Migration
             $table->boolean('state_required')->default(false);
             $table->boolean('zip_required')->default(false);
 
-            $table->foreign('currency_id')
-                ->references('id')
-                ->on('currencies')
-                ->onDelete('set null')
-                ->onUpdate('no action');
+            $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('set null')->onUpdate('no action');
 
             $table->timestamps();
         });
-
-        $this->insertCountryData();
     }
 
     /**
@@ -44,32 +38,5 @@ return new class extends Migration
         });
 
         Schema::dropIfExists('countries');
-    }
-
-    /**
-     * Insert country data from JSON file
-     */
-    private function insertCountryData(): void
-    {
-        $path = base_path('plugins/webkul/security/src/Data/countries.json');
-
-        if (File::exists($path)) {
-            $countries = json_decode(File::get($path), true);
-
-            $formattedCountries = collect($countries)->map(function ($country) {
-                return [
-                    'currency_id'    => (int) $country['currency_id'] ?? null,
-                    'phone_code'     => (int) $country['phone_code'] ?? null,
-                    'code'           => $country['code'] ?? null,
-                    'name'           => $country['name'] ?? null,
-                    'state_required' => (bool) $country['state_required'] === 't',
-                    'zip_required'   => (bool) $country['zip_required'] === 't',
-                    'created_at'     => now(),
-                    'updated_at'     => now(),
-                ];
-            })->toArray();
-
-            DB::table('countries')->insert($formattedCountries);
-        }
     }
 };
