@@ -34,6 +34,7 @@ return [
                     'allocated-hours'             => 'Allocated Hours',
                     'allocated-hours-helper-text' => 'In hours (Eg. 1.5 hours means 1 hour 30 minutes)',
                     'tags'                        => 'Tags',
+                    'company'                     => 'Company',
                 ],
             ],
 
