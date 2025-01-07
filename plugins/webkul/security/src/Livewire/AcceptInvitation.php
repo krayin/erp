@@ -112,6 +112,6 @@ class AcceptInvitation extends SimplePage
 
     public function getSubHeading(): string
     {
-        return __('security::app.livewire.header.sub-heading.accept-invitation');
+        return __('security::livewire/accept-invitation.header.sub-heading.accept-invitation');
     }
 }
