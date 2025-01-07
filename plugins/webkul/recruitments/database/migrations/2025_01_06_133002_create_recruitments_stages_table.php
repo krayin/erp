@@ -16,11 +16,12 @@ return new class extends Migration
             $table->integer('sort')->nullable()->comment('Sort order of the stage');
             $table->unsignedBigInteger('creator_id')->nullable();
             $table->string('name')->comment('Name of the stage');
-            $table->string('legend_blocked')->nullable()->comment('Legend for blocked applications');
-            $table->string('legend_done')->nullable()->comment('Legend for done applications');
-            $table->string('legend_normal')->nullable()->comment('Legend for normal applications');
+            $table->string('legend_blocked')->comment('Legend for blocked applications');
+            $table->string('legend_done')->comment('Legend for done applications');
+            $table->string('legend_normal')->comment('Legend for normal applications');
             $table->text('requirements')->nullable()->comment('Requirements for the stage');
             $table->string('hired_stage')->nullable()->comment('Stage to move the application to when hired');
+            $table->boolean('fold')->default(false)->comment('Whether the stage is folded');
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
         });

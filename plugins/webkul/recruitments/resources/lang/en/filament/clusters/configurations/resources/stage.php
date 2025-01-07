@@ -15,169 +15,139 @@ return [
 
     'form' => [
         'sections' => [
-            'employment-information' => [
-                'title' => 'Employment Information',
+            'general-information' => [
+                'title' => 'General Information',
 
                 'fields' => [
-                    'job-position-title'         => 'Job Position Title',
-                    'job-position-title-tooltip' => 'Enter the official job position title',
-                    'department'                 => 'Department',
-                    'department-modal-title'     => 'Department Create',
-                    'company'                    => 'Company',
-                    'employment-type'            => 'Employment Type',
+                    'stage-name' => 'Stage Name',
+                    'sort'      => 'Sequence Order',
+                    'requirements' => 'Requirements',
                 ],
             ],
 
-            'job-description' => [
-                'title' => 'Job Description',
+            'tooltips' => [
+                'title' => 'Tooltips',
+                'description' => 'Define the custom label for application status.',
 
                 'fields' => [
-                    'job-description'  => 'Job Description',
-                    'job-requirements' => 'Job Requirements',
+                    'gray-label' => 'Gray Label',
+                    'gray-label-tooltip' => 'The label for the gray status.',
+                    'red-label' => 'Red Label',
+                    'red-label-tooltip' => 'The label for the red status.',
+                    'green-label' => 'Green Label',
+                    'green-label-tooltip' => 'The label for the green status.',
                 ],
             ],
 
-            'workforce-planning' => [
-                'title' => 'Workforce Planning',
+            'additional-information' => [
+                'title' => 'Additional Information',
 
                 'fields' => [
-                    'expected-employees' => 'Expected Employees',
-                    'current-employees'  => 'Current Employees',
-                    'recruitment-target' => 'Recruitment Target',
+                    'job-positions' => 'Job Positions',
+                    'folded' => 'Folded',
+                    'hired-stage' => 'Hired Stage',
                 ],
-            ],
-
-            'position-status' => [
-                'title' => 'Position Status',
-
-                'fields' => [
-                    'status' => 'Status',
-                ],
-            ],
+            ]
         ],
     ],
 
     'table' => [
         'columns' => [
             'id'                 => 'ID',
-            'name'               => 'Job Position',
-            'department'         => 'Department',
-            'job-position'       => 'Job Position',
-            'company'            => 'Company',
-            'expected-employees' => 'Expected Employees',
-            'current-employees'  => 'Current Employees',
-            'status'             => 'Status',
+            'name'               => 'Stage Name',
+            'hired-stage' => 'Hired Stage',
+            'folded' => 'Folded',
+            'job-positions' => 'Job Positions',
             'created-by'         => 'Created By',
             'created-at'         => 'Created At',
             'updated-at'         => 'Updated At',
         ],
 
         'filters' => [
-            'department'      => 'Department',
-            'employment-type' => 'Employment Type',
-            'job-position'    => 'Job Position',
-            'company'         => 'Company',
-            'status'          => 'Status',
-            'created-by'      => 'Created By',
-            'updated-at'      => 'Updated At',
-            'created-at'      => 'Created At',
+            'name'       => 'Stage Name',
+            'job-position' => 'Job Position',
+            'folded' => 'Folded',
+            'gray-label' => 'Gray Label',
+            'red-label' => 'Red Label',
+            'green-label' => 'Green Label',
+            'created-by' => 'Created By',
+            'created-at' => 'Created At',
+            'updated-at' => 'Updated At',
         ],
 
         'groups' => [
-            'job-position'    => 'Job Position',
-            'company'         => 'Company',
-            'department'      => 'Department',
-            'employment-type' => 'Employment Type',
-            'created-by'      => 'Created By',
-            'created-at'      => 'Created At',
-            'updated-at'      => 'Updated At',
+            'job-position' => 'Job Position',
+            'stage-name'   => 'Stage Name',
+            'folded'       => 'Folded',
+            'gray-label'   => 'Gray Label',
+            'red-label'    => 'Red Label',
+            'green-label'  => 'Green Label',
+            'created-by'   => 'Created By',
+            'created-at'   => 'Created At',
+            'updated-at'   => 'Updated At',
         ],
 
         'actions' => [
-            'restore' => [
-                'notification' => [
-                    'title' => 'Job Position restored',
-                    'body'  => 'The Job Position has been restored successfully.',
-                ],
-            ],
-
             'delete' => [
                 'notification' => [
-                    'title' => 'Job Position deleted',
-                    'body'  => 'The Job Position has been deleted successfully.',
+                    'title' => 'Stage deleted',
+                    'body'  => 'The Stage has been deleted successfully.',
                 ],
             ],
         ],
 
         'bulk-actions' => [
-            'restore' => [
-                'notification' => [
-                    'title' => 'Job Positions restored',
-                    'body'  => 'The Job Positions has been restored successfully.',
-                ],
-            ],
-
             'delete' => [
                 'notification' => [
-                    'title' => 'Job Positions deleted',
-                    'body'  => 'The Job Positions has been deleted successfully.',
-                ],
-            ],
-
-            'force-delete' => [
-                'notification' => [
-                    'title' => 'Job Positions force deleted',
-                    'body'  => 'The Job Positions has been force deleted successfully.',
+                    'title' => 'Stages deleted',
+                    'body'  => 'The Stages has been deleted successfully.',
                 ],
             ],
         ],
 
         'empty-state-actions' => [
             'create' => [
-                'notification' => [
-                    'title' => 'Job Positions',
-                    'body'  => 'The Job Positions has been created successfully.',
-                ],
+                'label' => 'New Stage',
             ],
         ],
     ],
 
     'infolist' => [
         'sections' => [
-            'employment-information' => [
-                'title' => 'Employment Information',
+            'general-information' => [
+                'title' => 'General Information',
 
                 'entries' => [
-                    'job-position-title' => 'Job Position Title',
-                    'department'         => 'Department',
-                    'company'            => 'Company',
-                    'employment-type'    => 'Employment Type',
+                    'stage-name' => 'Stage Name',
+                    'sort'      => 'Sequence Order',
+                    'requirements' => 'Requirements',
                 ],
             ],
-            'job-description' => [
-                'title' => 'Job Description',
+
+            'tooltips' => [
+                'title' => 'Tooltips',
+                'description' => 'Define the custom label for application status.',
 
                 'entries' => [
-                    'job-description'  => 'Job Description',
-                    'job-requirements' => 'Job Requirements',
+                    'gray-label' => 'Gray Label',
+                    'gray-label-tooltip' => 'The label for the gray status.',
+                    'red-label' => 'Red Label',
+                    'red-label-tooltip' => 'The label for the red status.',
+                    'green-label' => 'Green Label',
+                    'green-label-tooltip' => 'The label for the green status.',
                 ],
             ],
-            'work-planning' => [
-                'title' => 'Workforce Planning',
+
+            'additional-information' => [
+                'title' => 'Additional Information',
 
                 'entries' => [
-                    'expected-employees' => 'Expected Employees',
-                    'current-employees'  => 'Current Employees',
-                    'recruitment-target' => 'Recruitment Target',
+                    'job-positions' => 'Job Position',
+                    'folded' => 'Folded',
+                    'hired-stage' => 'Hired Stage',
                 ],
-            ],
-            'position-status' => [
-                'title' => 'Position Status',
-
-                'entries' => [
-                    'status' => 'Status',
-                ],
-            ],
+            ]
         ],
     ],
+
 ];

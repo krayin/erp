@@ -13,7 +13,12 @@ class ListStages extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->label(__('recruitments::filament/clusters/configurations/resources/stage/pages/list-stage.header-actions.create.label'))
+                ->icon('heroicon-o-plus-circle')
+                ->mutateFormDataUsing(function ($data) {
+                    return $data;
+                }),
         ];
     }
 }
