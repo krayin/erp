@@ -353,6 +353,9 @@ class Employee extends Model
         $employee->save();
     }
 
+    /**
+     * Handle the updation of the partner.
+     */
     private function handlePartnerUpdation(self $employee): void
     {
         $partner = Partner::updateOrCreate(
