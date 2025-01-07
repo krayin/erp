@@ -42,7 +42,7 @@ class CompanyAddress extends Model
             DB::transaction(function () use ($companyAddress) {
                 $partnerAddress = Address::create([
                     'name'       => $companyAddress->company->name,
-                    'type'       => 'company',
+                    'type'       => 'permanent',
                     'email'      => $companyAddress->company->email ?? null,
                     'phone'      => $companyAddress->company->phone ?? null,
                     'street1'    => $companyAddress->street1,
@@ -63,7 +63,7 @@ class CompanyAddress extends Model
             if ($companyAddress->partnerAddress) {
                 $companyAddress->partnerAddress->update([
                     'name'       => $companyAddress->company->name,
-                    'type'       => 'company',
+                    'type'       => 'permanent',
                     'email'      => $companyAddress->company->email ?? null,
                     'phone'      => $companyAddress->company->phone ?? null,
                     'street1'    => $companyAddress->street1,
