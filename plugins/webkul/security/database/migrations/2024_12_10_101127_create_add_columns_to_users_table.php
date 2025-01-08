@@ -14,8 +14,11 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('language')->nullable()->after('password');
             $table->boolean('is_active')->default(true)->after('language');
-            $table->unsignedBigInteger('default_company_id')->nullable()->after('email');
-            $table->foreign('default_company_id')->references('id')->on('companies')->onDelete('set null');
+
+            $table->foreignId('default_company_id')
+                ->nullable()
+                ->constrained('companies')
+                ->restrictOnDelete();
         });
     }
 

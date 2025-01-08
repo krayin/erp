@@ -12,9 +12,9 @@ class ProjectStageSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('	projects_project_stages')->delete();
+        DB::table('projects_project_stages')->delete();
 
-        DB::table('	projects_project_stages')->insert([
+        DB::table('projects_project_stages')->insert([
             [
                 'name'       => 'To Do',
                 'is_active'  => 1,
