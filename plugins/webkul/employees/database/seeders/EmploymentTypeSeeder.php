@@ -12,6 +12,8 @@ class EmploymentTypeSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('employees_employment_types')->delete();
+
         $employmentTypes = [
             ['creator_id' => 1, 'sort' => 1, 'name' => 'Permanent', 'code' => 'Permanent', 'created_at' => now(), 'updated_at' => now()],
             ['creator_id' => 1, 'sort' => 2, 'name' => 'Temporary', 'code' => 'Temporary', 'created_at' => now(), 'updated_at' => now()],

@@ -12,6 +12,8 @@ class EmployeeJobPositionSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('employees_job_positions')->delete();
+
         $jobPositions = [
             [
                 'sort'               => 1,

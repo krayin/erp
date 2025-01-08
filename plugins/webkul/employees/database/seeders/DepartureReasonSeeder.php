@@ -12,6 +12,8 @@ class DepartureReasonSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('employees_departure_reasons')->delete();
+
         $employeesDepartureReasons = [
             ['creator_id' => 1, 'name' => 'Fired', 'sort' => 1, 'reason_code' => 1, 'created_at' => now(), 'updated_at' => now()],
             ['creator_id' => 1, 'name' => 'Resigned', 'sort' => 2, 'reason_code' => 2, 'created_at' => now(), 'updated_at' => now()],
