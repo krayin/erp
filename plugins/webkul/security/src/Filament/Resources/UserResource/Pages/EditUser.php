@@ -57,6 +57,7 @@ class EditUser extends EditRecord
                         ->same('new_password'),
                 ])
                 ->icon('heroicon-o-key'),
+            Actions\ViewAction::make(),
             Actions\DeleteAction::make()
                 ->successNotification(
                     Notification::make()

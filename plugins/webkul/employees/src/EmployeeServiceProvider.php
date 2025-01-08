@@ -4,6 +4,7 @@ namespace Webkul\Employee;
 
 use Webkul\Support\Package;
 use Webkul\Support\PackageServiceProvider;
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
 
 class EmployeeServiceProvider extends PackageServiceProvider
 {
@@ -39,7 +40,22 @@ class EmployeeServiceProvider extends PackageServiceProvider
                 '2024_12_16_070029_create_employees_employee_resumes_table',
                 '2024_12_20_104347_add_nullable_fields_to_distance_home_work_unit_table',
             ])
-            ->runsMigrations();
+            ->runsMigrations()
+            ->hasInstallCommand(function (InstallCommand $command) {
+                $command
+                    ->askToRunMigrations()
+                    ->copyAndRegisterServiceProviderInApp()
+                    ->endWith(function (InstallCommand $command) {
+                        if ($command->confirm('Would you like to seed the data now?')) {
+                            $command->comment('Seeding data...');
+
+                            $command->call('db:seed', [
+                                '--class' => 'Webkul\\Employee\\Database\Seeders\\DatabaseSeeder',
+                            ]);
+                        }
+                    })
+                    ->askToStarRepoOnGitHub('krayin/employees');
+            });
     }
 
     public function packageBooted(): void

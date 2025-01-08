@@ -24,6 +24,11 @@ return [
                     'title' => 'User Invitation Failed',
                     'body'  => 'The system encountered an unexpected error while trying to send the user invitation.',
                 ],
+
+                'default-company-error' => [
+                    'title' => 'Default Company Not Set',
+                    'body'  => 'Please set the default company from settings, before inviting a user.',
+                ]
             ],
         ],
 

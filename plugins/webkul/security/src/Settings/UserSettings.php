@@ -12,6 +12,8 @@ class UserSettings extends Settings
 
     public ?int $default_role_id;
 
+    public ?int $default_company_id;
+
     public static function group(): string
     {
         return 'general';

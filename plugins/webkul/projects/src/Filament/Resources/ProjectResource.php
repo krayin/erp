@@ -27,6 +27,7 @@ use Webkul\Project\Models\Project;
 use Webkul\Project\Models\ProjectStage;
 use Webkul\Project\Settings\TaskSettings;
 use Webkul\Project\Settings\TimeSettings;
+use Webkul\Security\Filament\Resources\CompanyResource;
 use Webkul\Security\Filament\Resources\UserResource;
 
 class ProjectResource extends Resource
@@ -132,6 +133,12 @@ class ProjectResource extends Resource
                                     ->searchable()
                                     ->preload()
                                     ->createOptionForm(fn (Form $form) => TagResource::form($form)),
+                                Forms\Components\Select::make('company_id')
+                                    ->relationship('company', 'name')
+                                    ->searchable()
+                                    ->preload()
+                                    ->label(__('projects::filament/resources/project.form.sections.additional.fields.company'))
+                                    ->createOptionForm(fn (Form $form) => CompanyResource::form($form)),
                             ]))
                             ->columns(2),
                     ])
