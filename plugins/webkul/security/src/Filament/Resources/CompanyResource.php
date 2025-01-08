@@ -241,8 +241,9 @@ class CompanyResource extends Resource
                         Forms\Components\Group::make()
                             ->schema([
                                 Forms\Components\Section::make(__('security::filament/resources/company.form.sections.branding.title'))
+                                    ->relationship('partner', 'avatar')
                                     ->schema([
-                                        Forms\Components\FileUpload::make('logo')
+                                        Forms\Components\FileUpload::make('avatar')
                                             ->label(__('security::filament/resources/company.form.sections.branding.fields.company-logo'))
                                             ->image()
                                             ->directory('company-logos')
@@ -273,7 +274,8 @@ class CompanyResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('logo')
+                Tables\Columns\ImageColumn::make('partner.avatar')
+                    ->circular()
                     ->size(50)
                     ->label(__('security::filament/resources/company.table.columns.logo')),
                 Tables\Columns\TextColumn::make('name')
@@ -500,8 +502,10 @@ class CompanyResource extends Resource
                         Infolists\Components\Group::make([
                             Infolists\Components\Section::make(__('security::filament/resources/company.infolist.sections.branding.title'))
                                 ->schema([
-                                    Infolists\Components\ImageEntry::make('logo')
+                                    Infolists\Components\ImageEntry::make('partner.avatar')
                                         ->label(__('security::filament/resources/company.infolist.sections.branding.entries.company-logo'))
+                                        ->hiddenLabel()
+                                        ->circular()
                                         ->placeholder('—'),
                                     Infolists\Components\TextEntry::make('color')
                                         ->icon('heroicon-o-swatch')

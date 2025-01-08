@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('mobile')->nullable();
 
-            $table->string('logo')->nullable();
             $table->string('color')->nullable();
             $table->boolean('is_active')->default(true);
             $table->date('founded_date')->nullable();

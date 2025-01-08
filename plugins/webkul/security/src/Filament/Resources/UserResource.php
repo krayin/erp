@@ -113,6 +113,7 @@ class UserResource extends Resource
                         Forms\Components\Group::make()
                             ->schema([
                                 Forms\Components\Section::make(__('security::filament/resources/user.form.sections.avatar.title'))
+                                    ->relationship('partner', 'avatar')
                                     ->schema([
                                         Forms\Components\FileUpload::make('avatar')
                                             ->hiddenLabel()
