@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('employees_employees', function (Blueprint $table) {
-            $table->unsignedBigInteger('attendance_manager_id')->nullable()->after('job_id');
-
-            $table->foreign('attendance_manager_id')->references('id')->on('users')->onDelete('set null');
+        Schema::table('companies', function (Blueprint $table) {
+            $table->foreignId('partner_id')
+                ->nullable()
+                ->constrained('partners_partners')
+                ->restrictOnDelete();
         });
     }
 
@@ -23,8 +24,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('employees_employees', function (Blueprint $table) {
-            //
+        Schema::table('companies', function (Blueprint $table) {
+            $table->dropColumn('partner_id');
         });
     }
 };

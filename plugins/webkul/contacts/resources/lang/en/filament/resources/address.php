@@ -2,6 +2,9 @@
 
 return [
     'form' => [
+        'name'    => 'Name',
+        'email'   => 'Email',
+        'phone'   => 'Phone',
         'type'    => 'Type',
         'address' => 'Address',
         'city'    => 'City',

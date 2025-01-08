@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 use Webkul\Warehouse\Database\Factories\StorageCategoryFactory;
+use Webkul\Warehouse\Enums\AllowNewProduct;
 
 class StorageCategory extends Model
 {
@@ -33,6 +34,15 @@ class StorageCategory extends Model
         'max_weight',
         'company_id',
         'creator_id',
+    ];
+
+    /**
+     * Table name.
+     *
+     * @var string
+     */
+    protected $casts = [
+        'allow_new_products' => AllowNewProduct::class,
     ];
 
     public function company(): BelongsTo

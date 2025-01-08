@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Webkul\Security\Models\User;
 
-class ProductAttribute extends Model
+class ProductAttributeValue extends Model
 {
     /**
      * Table name.

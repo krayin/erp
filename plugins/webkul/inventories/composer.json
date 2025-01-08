@@ -1,0 +1,30 @@
+{
+    "name": "webkul/inventories",
+    "description": "",
+    "authors": [
+        {
+            "name": "Jitendra Singh",
+            "email": "jitendra@webkul.in"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webkul\\Inventory\\Providers\\InventoryServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Webkul\\Inventory\\": "src/",
+            "Webkul\\Inventory\\Database\\Factories\\": "database/factories/",
+            "Webkul\\Inventory\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webkul\\Inventory\\Tests\\": "tests/"
+        }
+    }
+}

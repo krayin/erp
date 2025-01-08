@@ -11,4 +11,5 @@ return [
     Webkul\Recruitment\RecruitmentPlugin::class,
     Webkul\Project\ProjectPlugin::class,
     Webkul\Timesheet\TimesheetPlugin::class,
+    Webkul\Inventory\InventoryPlugin::class,
 ];

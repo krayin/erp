@@ -37,6 +37,7 @@ class Location extends Model
         'description',
         'parent_path',
         'barcode',
+        'cyclic_inventory_frequency',
         'last_inventory_date',
         'next_inventory_date',
         'is_scrap',

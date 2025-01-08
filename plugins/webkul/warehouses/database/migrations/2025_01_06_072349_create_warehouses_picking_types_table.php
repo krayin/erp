@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('warehouses_picking_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('code');
+            $table->string('type');
             $table->string('sequence_code');
             $table->string('reservation_method');
             $table->string('product_label_format')->nullable();

@@ -16,21 +16,25 @@ return new class extends Migration
             $table->string('name')->index();
             $table->string('code')->nullable();
             $table->integer('sort')->nullable();
-            $table->text('parent_path')->nullable()->index();
+            $table->string('reception_steps');
+            $table->string('delivery_steps');
 
             $table->foreignId('company_id')
                 ->constrained('companies')
                 ->restrictOnDelete();
 
-            $table->foreignId('partner_id')
+            $table->foreignId('partner_address_id')
                 ->nullable()
-                ->constrained('partners_partners')
+                ->constrained('partners_addresses')
                 ->nullOnDelete();
 
             $table->foreignId('creator_id')
                 ->nullable()
                 ->constrained('users')
                 ->nullOnDelete();
+
+            $table->unique(['company_id', 'name']);
+            $table->unique(['company_id', 'code']);
 
             $table->softDeletes();
             $table->timestamps();

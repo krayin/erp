@@ -34,6 +34,7 @@ return new class extends Migration
             $table->unsignedBigInteger('state_id')->nullable()->comment('State');
             $table->unsignedBigInteger('country_of_birth')->nullable()->comment('Country of Birth');
             $table->unsignedBigInteger('departure_reason_id')->nullable()->comment('Departure Reason');
+            $table->unsignedBigInteger('attendance_manager_id')->nullable();
 
             $table->string('name')->nullable()->comment('Employee Name');
             $table->string('job_title')->nullable()->comment('Job Title');
@@ -41,9 +42,9 @@ return new class extends Migration
             $table->string('mobile_phone')->nullable()->comment('Mobile Phone');
             $table->string('color')->nullable()->comment('Color');
             $table->integer('children')->nullable()->comment('Children');
-            $table->integer('distance_home_work')->default(0)->comment('Distance Home Work');
-            $table->integer('km_home_work')->default(0)->comment('Km Home Work');
-            $table->string('distance_home_work_unit')->default('km')->comment('Distance Home Work Unit');
+            $table->integer('distance_home_work')->default(0)->nullable()->comment('Distance Home Work');
+            $table->integer('km_home_work')->default(0)->nullable()->comment('Km Home Work');
+            $table->string('distance_home_work_unit')->default('km')->nullable()->comment('Distance Home Work Unit');
             $table->string('work_email')->nullable()->comment('Work Email');
             $table->string('private_phone')->nullable()->comment('Private Phone');
             $table->string('private_email')->nullable()->comment('Private Email');
@@ -97,6 +98,7 @@ return new class extends Migration
 
             $table->foreign('bank_account_id')->references('id')->on('partners_bank_accounts')->onDelete('set null');
             $table->foreign('leave_manager_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('attendance_manager_id')->references('id')->on('users')->onDelete('set null');
 
             $table->softDeletes();
             $table->timestamps();

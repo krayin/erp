@@ -230,6 +230,7 @@ class EmployeeResource extends Resource
 
                                     ]),
                                 Forms\Components\Group::make()
+                                    ->relationship('partner', 'avatar')
                                     ->schema([
                                         Forms\Components\FileUpload::make('avatar')
                                             ->image()

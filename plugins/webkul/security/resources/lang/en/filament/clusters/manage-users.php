@@ -23,5 +23,10 @@ return [
             'label'       => 'Default Role',
             'helper-text' => 'The default role assigned to new users.',
         ],
+
+        'default-company' => [
+            'label'       => 'Default Company',
+            'helper-text' => 'The default company assigned to new users.',
+        ],
     ],
 ];

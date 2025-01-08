@@ -26,20 +26,18 @@ class SupportServiceProvider extends PackageServiceProvider
                 '2024_12_10_092651_create_countries_table',
                 '2024_12_10_092657_create_states_table',
                 '2024_12_10_092657_create_companies_table',
-                '2024_12_10_100833_create_branches_table',
                 '2024_12_10_100944_create_user_allowed_companies_table',
                 '2024_12_10_101420_create_banks_table',
                 '2024_12_10_092658_create_company_addresses_table',
-                '2024_12_12_064139_create_branch_addresses_table',
                 '2024_12_12_114620_create_activity_plans_table',
                 '2024_12_12_115256_create_activity_types_table',
                 '2024_12_12_115728_create_activity_plan_templates_table',
                 '2024_12_17_082318_create_activity_type_suggestions_table',
                 '2024_12_23_103137_create_activity_logs_table',
-                '2024_12_10_064135_create_company_addresses_table',
                 '2025_01_03_061444_create_email_templates_table',
                 '2025_01_03_061445_create_email_logs_table',
-                '2025_01_06_070908_add_website_column_to_companies_table',
+                '2025_01_07_131336_add_partner_address_id_column_company_addresses_table',
+                '2025_01_07_125015_add_partner_id_to_companies_table',
             ])
             ->runsMigrations()
             ->hasCommands([

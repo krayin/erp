@@ -70,6 +70,8 @@ class CompanyResource extends Resource
                             ->schema([
                                 Forms\Components\Section::make(__('security::filament/resources/company.form.sections.company-information.title'))
                                     ->schema([
+                                        Forms\Components\Hidden::make('sort')
+                                            ->default(Company::max('sort') + 1),
                                         Forms\Components\TextInput::make('name')
                                             ->label(__('security::filament/resources/company.form.sections.company-information.fields.name'))
                                             ->required()
@@ -239,8 +241,9 @@ class CompanyResource extends Resource
                         Forms\Components\Group::make()
                             ->schema([
                                 Forms\Components\Section::make(__('security::filament/resources/company.form.sections.branding.title'))
+                                    ->relationship('partner', 'avatar')
                                     ->schema([
-                                        Forms\Components\FileUpload::make('logo')
+                                        Forms\Components\FileUpload::make('avatar')
                                             ->label(__('security::filament/resources/company.form.sections.branding.fields.company-logo'))
                                             ->image()
                                             ->directory('company-logos')
@@ -271,7 +274,8 @@ class CompanyResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('logo')
+                Tables\Columns\ImageColumn::make('partner.avatar')
+                    ->circular()
                     ->size(50)
                     ->label(__('security::filament/resources/company.table.columns.logo')),
                 Tables\Columns\TextColumn::make('name')
@@ -280,6 +284,7 @@ class CompanyResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('branches.name')
                     ->label(__('security::filament/resources/company.table.columns.branches'))
+                    ->placeholder('-')
                     ->badge()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
@@ -410,7 +415,9 @@ class CompanyResource extends Resource
                         ),
                 ]),
             ])->modifyQueryUsing(function (Builder $query) {
-                $query->where('user_id', Auth::user()->id);
+                $query
+                    ->where('creator_id', Auth::user()->id)
+                    ->whereNull('parent_id');
             })
             ->reorderable('sequence');
     }
@@ -495,8 +502,10 @@ class CompanyResource extends Resource
                         Infolists\Components\Group::make([
                             Infolists\Components\Section::make(__('security::filament/resources/company.infolist.sections.branding.title'))
                                 ->schema([
-                                    Infolists\Components\ImageEntry::make('logo')
+                                    Infolists\Components\ImageEntry::make('partner.avatar')
                                         ->label(__('security::filament/resources/company.infolist.sections.branding.entries.company-logo'))
+                                        ->hiddenLabel()
+                                        ->circular()
                                         ->placeholder('—'),
                                     Infolists\Components\TextEntry::make('color')
                                         ->icon('heroicon-o-swatch')

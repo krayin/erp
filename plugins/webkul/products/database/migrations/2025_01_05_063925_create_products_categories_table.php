@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->string('name')->index();
             $table->string('full_name')->nullable();
-            $table->text('parent_path')->nullable()->index();
+            $table->string('parent_path')->nullable();
 
             $table->foreignId('parent_id')
                 ->nullable()
