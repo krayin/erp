@@ -4,6 +4,7 @@ namespace Webkul\Recruitment;
 
 use Webkul\Support\Package;
 use Webkul\Support\PackageServiceProvider;
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
 
 class RecruitmentServiceProvider extends PackageServiceProvider
 {
@@ -20,6 +21,21 @@ class RecruitmentServiceProvider extends PackageServiceProvider
                 '2025_01_06_133002_create_recruitments_stages_table',
                 '2025_01_07_053021_create_recruitments_stages_jobs_table',
             ])
-            ->runsMigrations();
+            ->runsMigrations()
+            ->hasInstallCommand(function (InstallCommand $command) {
+                $command
+                    ->askToRunMigrations()
+                    ->copyAndRegisterServiceProviderInApp()
+                    ->endWith(function (InstallCommand $command) {
+                        if ($command->confirm('Would you like to seed the data now?')) {
+                            $command->comment('Seeding data...');
+
+                            $command->call('db:seed', [
+                                '--class' => 'Webkul\\Recruitment\\Database\Seeders\\DatabaseSeeder',
+                            ]);
+                        }
+                    })
+                    ->askToStarRepoOnGitHub('krayin/recruitments');
+            });
     }
 }

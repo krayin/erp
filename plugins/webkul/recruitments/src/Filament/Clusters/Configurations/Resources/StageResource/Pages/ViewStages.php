@@ -4,6 +4,7 @@ namespace Webkul\Recruitment\Filament\Clusters\Configurations\Resources\StageRes
 
 use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\StageResource;
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
 
 class ViewStages extends ViewRecord
@@ -14,6 +15,13 @@ class ViewStages extends ViewRecord
     {
         return [
             Actions\EditAction::make(),
+            Actions\DeleteAction::make()
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title(__('recruitments::filament/clusters/configurations/resources/stage/pages/view-stage.header-actions.delete.notification.title'))
+                        ->body(__('recruitments::filament/clusters/configurations/resources/stage/pages/view-stage.header-actions.delete.notification.body'))
+                ),
         ];
     }
 }
