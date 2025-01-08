@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
@@ -336,7 +337,6 @@ class Employee extends Model
             'account_type' => 'individual',
             'sub_type'     => 'employee',
             'creator_id'   => Auth::id(),
-            'user_id'      => $employee->id,
             'name'         => $employee?->name,
             'email'        => $employee?->work_email ?? $employee?->private_email,
             'job_title'    => $employee?->job_title,
@@ -345,7 +345,7 @@ class Employee extends Model
             'color'        => $employee?->color,
             'parent_id'    => $employee?->parent_id,
             'company_id'   => $employee?->company_id,
-            ...$employee->toArray(),
+            ...Arr::except($employee->toArray(), ['time_zone', 'work_email', 'employee_type', 'is_active', 'partner_id']),
         ]);
 
         $employee->partner_id = $partner->id;
@@ -363,7 +363,6 @@ class Employee extends Model
                 'account_type' => 'individual',
                 'sub_type'     => 'employee',
                 'creator_id'   => Auth::id(),
-                'user_id'      => $employee->id,
                 'name'         => $employee?->name,
                 'email'        => $employee?->work_email ?? $employee?->private_email,
                 'job_title'    => $employee?->job_title,
@@ -372,7 +371,7 @@ class Employee extends Model
                 'color'        => $employee?->color,
                 'parent_id'    => $employee?->parent_id,
                 'company_id'   => $employee?->company_id,
-                ...$employee->toArray(),
+                ...Arr::except($employee->toArray(), ['time_zone', 'work_email', 'employee_type', 'is_active', 'partner_id']),
             ]
         );
 
