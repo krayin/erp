@@ -147,7 +147,7 @@ class Company extends Model
             'creator_id' => $company->creator_id ?? Auth::id(),
             'sub_type'   => 'company',
             'company_registry' => $company->registration_number,
-            ...Arr::except($company->toArray(), ['sort', 'registration_number', 'is_active', 'founded_date', 'currency_id', 'partner_id']),
+            ...Arr::except($company->toArray(), ['sort', 'registration_number', 'is_active', 'founded_date', 'currency_id', 'partner_id', 'id']),
             'company_id'    => $company->id,
         ]);
 
@@ -166,7 +166,7 @@ class Company extends Model
                 'creator_id' => $company->creator_id ?? Auth::id(),
                 'sub_type'   => 'company',
                 'company_registry' => $company->registration_number,
-                ...Arr::except($company->toArray(), ['sort', 'registration_number', 'is_active', 'founded_date', 'currency_id', 'partner_id']),
+                ...Arr::except($company->toArray(), ['sort', 'registration_number', 'is_active', 'founded_date', 'currency_id', 'partner_id', 'id']),
                 'company_id'    => $company->id,
             ]
         );

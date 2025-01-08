@@ -127,7 +127,7 @@ class Department extends Model
     {
         if ($department->parent_id) {
             $parent = static::find($department->parent_id);
-            $department->parent_path = $parent->parent_path . $parent->id . '/';
+            $department->parent_path = $parent?->parent_path . $parent?->id . '/';
 
             $department->master_department_id = static::findTopLevelParentId($parent);
         } else {
