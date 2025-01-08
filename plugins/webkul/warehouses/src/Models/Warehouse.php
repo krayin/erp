@@ -11,12 +11,13 @@ use Webkul\Partner\Models\Address;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 use Webkul\Warehouse\Database\Factories\WarehouseFactory;
+use Spatie\EloquentSortable\SortableTrait;
 use Webkul\Warehouse\Enums\DeliveryStep;
 use Webkul\Warehouse\Enums\ReceptionStep;
 
 class Warehouse extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, SortableTrait;
 
     /**
      * Table name.
@@ -67,6 +68,10 @@ class Warehouse extends Model
     protected $casts = [
         'reception_steps' => ReceptionStep::class,
         'delivery_steps'  => DeliveryStep::class,
+    ];
+
+    public $sortable = [
+        'order_column_name' => 'sort',
     ];
 
     public function company(): BelongsTo

@@ -3,6 +3,7 @@
 return [
     'navigation' => [
         'title' => 'Storage Categories',
+        'group' => 'Warehouse Management',
     ],
 
     'form' => [
@@ -24,7 +25,7 @@ return [
             'name'               => 'Name',
             'allow-new-products' => 'Allow New Products',
             'max-weight'         => 'Max Weight',
-            'deleted-at'         => 'deleted At',
+            'deleted-at'         => 'Deleted At',
             'created-at'         => 'Created At',
             'updated-at'         => 'Updated At',
         ],

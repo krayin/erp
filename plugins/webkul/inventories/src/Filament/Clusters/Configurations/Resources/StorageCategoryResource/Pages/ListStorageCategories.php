@@ -33,7 +33,7 @@ class ListStorageCategories extends ListRecords
                         ->title(__('inventories::filament/clusters/configurations/resources/storage-category/pages/list-storage-categories.header-actions.create.notification.title'))
                         ->body(__('inventories::filament/clusters/configurations/resources/storage-category/pages/list-storage-categories.header-actions.create.notification.body')),
                 )
-                ->successRedirectUrl(fn ($record) => StorageCategoryResource::getUrl('view', ['record' => $record])),
+                ->successRedirectUrl(fn ($record) => StorageCategoryResource::getUrl('edit', ['record' => $record])),
         ];
     }
 }

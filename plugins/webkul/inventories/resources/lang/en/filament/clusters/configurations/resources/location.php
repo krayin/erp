@@ -3,6 +3,7 @@
 return [
     'navigation' => [
         'title' => 'Locations',
+        'group' => 'Warehouse Management',
     ],
 
     'form' => [

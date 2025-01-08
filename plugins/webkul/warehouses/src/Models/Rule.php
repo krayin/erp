@@ -10,10 +10,11 @@ use Webkul\Partner\Models\Address;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 use Webkul\Warehouse\Database\Factories\RuleFactory;
+use Spatie\EloquentSortable\SortableTrait;
 
 class Rule extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, SortableTrait;
 
     /**
      * Table name.
@@ -60,6 +61,10 @@ class Rule extends Model
         'location_dest_from_rule' => 'boolean',
         'propagate_cancel'        => 'boolean',
         'propagate_carrier'       => 'boolean',
+    ];
+
+    public $sortable = [
+        'order_column_name' => 'sort',
     ];
 
     public function sourceLocation(): BelongsTo

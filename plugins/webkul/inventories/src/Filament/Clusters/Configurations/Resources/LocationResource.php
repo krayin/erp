@@ -17,13 +17,18 @@ class LocationResource extends Resource
 {
     protected static ?string $model = Location::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-map-pin';
 
     protected static ?int $navigationSort = 2;
 
     protected static ?string $cluster = Configurations::class;
 
     protected static ?string $recordTitleAttribute = 'full_name';
+
+    public static function getNavigationGroup(): string
+    {
+        return __('inventories::filament/clusters/configurations/resources/location.navigation.group');
+    }
 
     public static function getNavigationLabel(): string
     {

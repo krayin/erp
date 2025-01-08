@@ -12,8 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('warehouses_route_warehouses', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->foreignId('warehouse_id')
+                ->constrained('warehouses_warehouses')
+                ->cascadeOnDelete();
+
+            $table->foreignId('route_id')
+                ->constrained('warehouses_routes')
+                ->cascadeOnDelete();
         });
     }
 

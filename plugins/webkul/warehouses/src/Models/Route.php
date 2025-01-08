@@ -5,14 +5,16 @@ namespace Webkul\Warehouse\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 use Webkul\Warehouse\Database\Factories\RouteFactory;
+use Spatie\EloquentSortable\SortableTrait;
 
 class Route extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, SortableTrait;
 
     /**
      * Table name.
@@ -51,6 +53,10 @@ class Route extends Model
         'packaging_selectable'        => 'boolean',
     ];
 
+    public $sortable = [
+        'order_column_name' => 'sort',
+    ];
+
     public function suppliedWarehouse(): BelongsTo
     {
         return $this->belongsTo(Warehouse::class);
@@ -59,6 +65,11 @@ class Route extends Model
     public function supplierWarehouse(): BelongsTo
     {
         return $this->belongsTo(Warehouse::class);
+    }
+
+    public function warehouses(): BelongsToMany
+    {
+        return $this->belongsToMany(Warehouse::class);
     }
 
     public function company(): BelongsTo
