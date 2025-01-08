@@ -17,9 +17,9 @@ return new class extends Migration
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->unsignedBigInteger('master_department_id')->nullable();
             $table->unsignedBigInteger('creator_id')->nullable();
-            $table->string('name')->unique();
-            $table->string('complete_name')->unique();
-            $table->string('parent_path')->unique();
+            $table->string('name')->nullable();
+            $table->string('complete_name')->nullable();
+            $table->string('parent_path')->nullable();
             $table->text('color')->nullable();
             $table->softDeletes();
             $table->timestamps();
