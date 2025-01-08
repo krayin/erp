@@ -18,6 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('master_department_id')->nullable();
             $table->unsignedBigInteger('creator_id')->nullable();
             $table->string('name')->unique();
+            $table->string('complete_name')->unique();
+            $table->string('parent_path')->unique();
             $table->text('color')->nullable();
             $table->softDeletes();
             $table->timestamps();
