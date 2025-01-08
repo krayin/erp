@@ -13,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Resources\DepartmentResource\Pages;
 use Webkul\Employee\Models\Department;
 use Webkul\Field\Filament\Traits\HasCustomFields;
@@ -62,11 +63,19 @@ class DepartmentResource extends Resource
                             ->schema([
                                 Forms\Components\Section::make(__('employees::filament/resources/department.form.sections.general.title'))
                                     ->schema([
+                                        Forms\Components\Hidden::make('creator_id')
+                                            ->default(Auth::id())
+                                            ->required(),
                                         Forms\Components\TextInput::make('name')
                                             ->label(__('employees::filament/resources/department.form.sections.general.fields.name'))
                                             ->required()
-                                            ->unique(Department::class, 'name')
                                             ->maxLength(255)
+                                            ->live(onBlur: true),
+                                        Forms\Components\Select::make('parent_id')
+                                            ->label(__('employees::filament/resources/department.form.sections.general.fields.parent-department'))
+                                            ->relationship('parent', 'complete_name')
+                                            ->searchable()
+                                            ->preload()
                                             ->live(onBlur: true),
                                         Forms\Components\Select::make('manager_id')
                                             ->label(__('employees::filament/resources/department.form.sections.general.fields.manager'))
@@ -255,16 +264,22 @@ class DepartmentResource extends Resource
                                     ->schema([
                                         Infolists\Components\TextEntry::make('name')
                                             ->placeholder('—')
+                                            ->icon('heroicon-o-building-office-2')
                                             ->label(__('employees::filament/resources/department.infolist.sections.general.entries.name')),
                                         Infolists\Components\TextEntry::make('manager.name')
                                             ->placeholder('—')
+                                            ->icon('heroicon-o-user')
                                             ->label(__('employees::filament/resources/department.infolist.sections.general.entries.manager')),
                                         Infolists\Components\TextEntry::make('company.name')
                                             ->placeholder('—')
+                                            ->icon('heroicon-o-building-office')
                                             ->label(__('employees::filament/resources/department.infolist.sections.general.entries.company')),
                                         Infolists\Components\ColorEntry::make('color')
                                             ->placeholder('—')
                                             ->label(__('employees::filament/resources/department.infolist.sections.general.entries.color')),
+                                        Infolists\Components\TextEntry::make('complete_name')
+                                            ->placeholder('—')
+                                            ->label(__('employees::filament/resources/department.infolist.sections.general.entries.department-path')),
                                     ])
                                     ->columns(2),
                             ]),

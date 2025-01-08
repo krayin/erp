@@ -295,7 +295,7 @@ class EmployeeResource extends Resource
                                     )
                                     ->tel(),
                                 Forms\Components\Select::make('parent_id')
-                                    ->options(fn () => Employee::pluck('name', 'id'))
+                                    ->relationship('parent', 'name')
                                     ->searchable()
                                     ->preload()
                                     ->suffixIcon('heroicon-o-user')
@@ -310,7 +310,7 @@ class EmployeeResource extends Resource
                                 Forms\Components\Select::make('coach_id')
                                     ->searchable()
                                     ->preload()
-                                    ->options(fn () => Employee::pluck('name', 'id'))
+                                    ->relationship('coach', 'name')
                                     ->label(__('employees::filament/resources/employee.form.sections.fields.coach')),
                             ])
                             ->columns(2),
