@@ -20,7 +20,6 @@ class EmployeeSkill extends Model
         'skill_level_id',
         'skill_type_id',
         'creator_id',
-        'user_id',
     ];
 
     public function employee()
@@ -46,11 +45,6 @@ class EmployeeSkill extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'creator_id');
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
     }
 
     /**

@@ -30,7 +30,7 @@ return new class extends Migration
             $table->unsignedBigInteger('creator_id')->nullable()->comment('Created By');
 
             $table->foreign('calendar_id')->references('id')->on('employees_calendars')->onDelete('cascade');
-            $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
 
             $table->timestamps();
         });
