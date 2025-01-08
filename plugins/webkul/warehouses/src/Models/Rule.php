@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Webkul\Partner\Models\Address;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 use Webkul\Warehouse\Database\Factories\RuleFactory;
-use Webkul\Partner\Models\Address;
 
 class Rule extends Model
 {
@@ -58,8 +58,8 @@ class Rule extends Model
      */
     protected $casts = [
         'location_dest_from_rule' => 'boolean',
-        'propagate_cancel' => 'boolean',
-        'propagate_carrier' => 'boolean',
+        'propagate_cancel'        => 'boolean',
+        'propagate_carrier'       => 'boolean',
     ];
 
     public function sourceLocation(): BelongsTo

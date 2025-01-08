@@ -2,7 +2,9 @@
 
 namespace Webkul\Warehouse\Enums;
 
-enum ReservationMethod: string
+use Filament\Support\Contracts\HasLabel;
+
+enum ReservationMethod: string implements HasLabel
 {
     case AT_CONFIRM = 'at_confirm';
 
@@ -10,12 +12,12 @@ enum ReservationMethod: string
 
     case BY_DATE = 'by_date';
 
-    public static function options(): array
+    public function getLabel(): string
     {
-        return [
-            self::AT_CONFIRM->value => __('warehouses::enums/reservation-method.at-confirm'),
-            self::MANUAL->value     => __('warehouses::enums/reservation-method.manual'),
-            self::BY_DATE->value    => __('warehouses::enums/reservation-method.by-date'),
-        ];
+        return match ($this) {
+            self::AT_CONFIRM => __('warehouses::enums/reservation-method.at-confirm'),
+            self::MANUAL     => __('warehouses::enums/reservation-method.manual'),
+            self::BY_DATE    => __('warehouses::enums/reservation-method.by-date'),
+        };
     }
 }

@@ -2,7 +2,9 @@
 
 namespace Webkul\Warehouse\Enums;
 
-enum PickingType: string
+use Filament\Support\Contracts\HasLabel;
+
+enum PickingType: string implements HasLabel
 {
     case INCOMING = 'incoming';
 
@@ -12,13 +14,13 @@ enum PickingType: string
 
     case DROPSHIP = 'dropship';
 
-    public static function options(): array
+    public function getLabel(): string
     {
-        return [
-            self::INCOMING->value => __('warehouses::enums/picking-type.incoming'),
-            self::OUTGOING->value => __('warehouses::enums/picking-type.outgoing'),
-            self::INTERNAL->value => __('warehouses::enums/picking-type.internal'),
-            self::DROPSHIP->value => __('warehouses::enums/picking-type.dropship'),
-        ];
+        return match ($this) {
+            self::INCOMING => __('warehouses::enums/picking-type.incoming'),
+            self::OUTGOING => __('warehouses::enums/picking-type.outgoing'),
+            self::INTERNAL => __('warehouses::enums/picking-type.internal'),
+            self::DROPSHIP => __('warehouses::enums/picking-type.dropship'),
+        };
     }
 }

@@ -2,7 +2,9 @@
 
 namespace Webkul\Warehouse\Enums;
 
-enum LocationType: string
+use Filament\Support\Contracts\HasLabel;
+
+enum LocationType: string implements HasLabel
 {
     case SUPPLIER = 'supplier';
 
@@ -18,16 +20,16 @@ enum LocationType: string
 
     case TRANSIT = 'transit';
 
-    public static function options(): array
+    public function getLabel(): string
     {
-        return [
-            self::SUPPLIER->value    => __('warehouses::enums/location-type.supplier'),
-            self::VIEW->value        => __('warehouses::enums/location-type.view'),
-            self::INTERNAL->value    => __('warehouses::enums/location-type.internal'),
-            self::CUSTOMER->value    => __('warehouses::enums/location-type.customer'),
-            self::INVENTORY->value   => __('warehouses::enums/location-type.inventory'),
-            self::PRODUCTION->value  => __('warehouses::enums/location-type.production'),
-            self::TRANSIT->value     => __('warehouses::enums/location-type.transit'),
-        ];
+        return match ($this) {
+            self::SUPPLIER    => __('warehouses::enums/location-type.supplier'),
+            self::VIEW        => __('warehouses::enums/location-type.view'),
+            self::INTERNAL    => __('warehouses::enums/location-type.internal'),
+            self::CUSTOMER    => __('warehouses::enums/location-type.customer'),
+            self::INVENTORY   => __('warehouses::enums/location-type.inventory'),
+            self::PRODUCTION  => __('warehouses::enums/location-type.production'),
+            self::TRANSIT     => __('warehouses::enums/location-type.transit'),
+        };
     }
 }
