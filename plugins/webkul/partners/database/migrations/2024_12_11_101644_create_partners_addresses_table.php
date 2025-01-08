@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('creator_id')->nullable()->comment('Created By');
             $table->unsignedBigInteger('partner_id')->comment('Partner');
 
-            $table->string('name')->nullable()->comment('Name');
+            $table->string('name')->nullable(false)->comment('Name');
             $table->string('email')->nullable()->comment('Email');
             $table->string('phone')->nullable()->comment('Phone');
             $table->string('street1')->nullable()->comment('Street 1');

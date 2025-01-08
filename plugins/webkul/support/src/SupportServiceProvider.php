@@ -34,13 +34,10 @@ class SupportServiceProvider extends PackageServiceProvider
                 '2024_12_12_115728_create_activity_plan_templates_table',
                 '2024_12_17_082318_create_activity_type_suggestions_table',
                 '2024_12_23_103137_create_activity_logs_table',
-                '2024_12_10_064135_create_company_addresses_table',
                 '2025_01_03_061444_create_email_templates_table',
                 '2025_01_03_061445_create_email_logs_table',
-                '2025_01_06_070908_add_website_column_to_companies_table',
-                '2025_01_07_104107_add_parent_id_column_to_companies_table',
-                '2025_01_07_125015_add_partner_id_to_companies_table',
                 '2025_01_07_131336_add_partner_address_id_column_company_addresses_table',
+                '2025_01_07_125015_add_partner_id_to_companies_table',
             ])
             ->runsMigrations()
             ->hasCommands([
