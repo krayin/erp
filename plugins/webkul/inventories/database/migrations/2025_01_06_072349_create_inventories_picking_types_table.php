@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('type');
             $table->string('sequence_code');
             $table->string('reservation_method');
+            $table->integer('reservation_days_before');
+            $table->integer('reservation_days_before_priority');
             $table->string('product_label_format')->nullable();
             $table->string('lot_label_format')->nullable();
             $table->string('package_label_to_print')->nullable();
@@ -65,6 +67,7 @@ return new class extends Migration
                 ->constrained('users')
                 ->nullOnDelete();
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

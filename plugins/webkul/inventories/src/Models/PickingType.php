@@ -10,7 +10,9 @@ use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 use Webkul\Inventory\Database\Factories\PickingTypeFactory;
 use Webkul\Inventory\Enums\PickingType as PickingTypeEnum;
+use Webkul\Inventory\Enums\CreateBackorder;
 use Webkul\Inventory\Enums\ReservationMethod;
+use Webkul\Inventory\Enums\MoveType;
 
 class PickingType extends Model
 {
@@ -33,6 +35,8 @@ class PickingType extends Model
         'type',
         'sequence_code',
         'reservation_method',
+        'reservation_days_before',
+        'reservation_days_before_priority',
         'product_label_format',
         'lot_label_format',
         'package_label_to_print',
@@ -69,6 +73,8 @@ class PickingType extends Model
     protected $casts = [
         'type'                               => PickingTypeEnum::class,
         'reservation_method'                 => ReservationMethod::class,
+        'create_backorder'                   => CreateBackorder::class,
+        'move_type'                          => MoveType::class,
         'show_entire_packs'                  => 'boolean',
         'use_create_lots'                    => 'boolean',
         'use_existing_lots'                  => 'boolean',

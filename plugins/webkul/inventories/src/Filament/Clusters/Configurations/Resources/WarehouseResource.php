@@ -54,14 +54,16 @@ class WarehouseResource extends Resource
                                     ->maxLength(255)
                                     ->autofocus()
                                     ->placeholder(__('inventories::filament/clusters/configurations/resources/warehouse.form.sections.general.fields.name-placeholder'))
-                                    ->extraInputAttributes(['style' => 'font-size: 1.5rem;height: 3rem;']),
+                                    ->extraInputAttributes(['style' => 'font-size: 1.5rem;height: 3rem;'])
+                                    ->unique(ignoreRecord: true),
 
                                 Forms\Components\TextInput::make('code')
                                     ->label(__('inventories::filament/clusters/configurations/resources/warehouse.form.sections.general.fields.code'))
                                     ->required()
                                     ->maxLength(255)
                                     ->placeholder(__('inventories::filament/clusters/configurations/resources/warehouse.form.sections.general.fields.code-placeholder'))
-                                    ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/warehouse.form.sections.settings.fields.code-hint-tooltip')),
+                                    ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/warehouse.form.sections.settings.fields.code-hint-tooltip'))
+                                    ->unique(ignoreRecord: true),
 
                                 Forms\Components\Group::make()
                                     ->schema([
@@ -94,12 +96,14 @@ class WarehouseResource extends Resource
                                             ->label(__('inventories::filament/clusters/configurations/resources/warehouse.form.sections.settings.fields.incoming-shipments'))
                                             ->default('internal')
                                             ->options(ReceptionStep::class)
+                                            ->default(ReceptionStep::ONE_STEP)
                                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/warehouse.form.sections.settings.fields.incoming-shipments-hint-tooltip')),
 
                                         Forms\Components\Radio::make('delivery_steps')
                                             ->label(__('inventories::filament/clusters/configurations/resources/warehouse.form.sections.settings.fields.outgoing-shipments'))
                                             ->default('internal')
                                             ->options(DeliveryStep::class)
+                                            ->default(DeliveryStep::ONE_STEP)
                                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/warehouse.form.sections.settings.fields.outgoing-shipments-hint-tooltip')),
                                     ])
                                     ->columns(1),
