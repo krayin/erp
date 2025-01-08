@@ -345,7 +345,7 @@ class Employee extends Model
             'color'        => $employee?->color,
             'parent_id'    => $employee?->parent_id,
             'company_id'   => $employee?->company_id,
-            ...Arr::except($employee->toArray(), ['time_zone', 'work_email', 'employee_type', 'is_active', 'partner_id', 'id']),
+            'user_id'      => $employee?->user_id,
         ]);
 
         $employee->partner_id = $partner->id;
@@ -371,7 +371,7 @@ class Employee extends Model
                 'color'        => $employee?->color,
                 'parent_id'    => $employee?->parent_id,
                 'company_id'   => $employee?->company_id,
-                ...Arr::except($employee->toArray(), ['time_zone', 'work_email', 'employee_type', 'is_active', 'partner_id', 'id']),
+                'user_id'      => $employee?->user_id,
             ]
         );
 
