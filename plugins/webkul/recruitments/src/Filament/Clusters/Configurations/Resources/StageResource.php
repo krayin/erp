@@ -14,13 +14,14 @@ use Filament\Infolists\Components;
 use Filament\Notifications\Notification;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Employee\Models\EmployeeJobPosition;
 
 class StageResource extends Resource
 {
     protected static ?string $model = Stage::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-cube';
+
+    protected static ?int $navigationSort = 1;
 
     protected static ?string $cluster = Configurations::class;
 
