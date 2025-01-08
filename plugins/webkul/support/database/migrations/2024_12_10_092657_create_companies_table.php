@@ -26,11 +26,16 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->date('founded_date')->nullable();
 
-            $table->unsignedBigInteger('creator_id')->nullable()->comment('Created By');
-            $table->unsignedBigInteger('currency_id')->comment('Currency');
+            $table->foreignId('currency_id')
+                ->nullable()
+                ->constrained('currencies')
+                ->nullOnDelete();
 
-            $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('cascade');
-            $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreignId('creator_id')
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
+
             $table->softDeletes();
             $table->timestamps();
         });

@@ -40,7 +40,6 @@ class ProjectServiceProvider extends PackageServiceProvider
                 $command
                     ->askToRunMigrations()
                     ->copyAndRegisterServiceProviderInApp()
-                    ->askToStarRepoOnGitHub('krayin/projects')
                     ->endWith(function (InstallCommand $command) {
                         if ($command->confirm('Would you like to seed the data now?')) {
                             $command->comment('Seeding data...');
@@ -49,7 +48,8 @@ class ProjectServiceProvider extends PackageServiceProvider
                                 '--class' => 'Webkul\\Project\\Database\Seeders\\DatabaseSeeder',
                             ]);
                         }
-                    });
+                    })
+                    ->askToStarRepoOnGitHub('krayin/projects');
             });
     }
 
