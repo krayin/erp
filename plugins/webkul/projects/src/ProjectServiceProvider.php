@@ -28,7 +28,6 @@ class ProjectServiceProvider extends PackageServiceProvider
                 '2024_12_12_101344_create_projects_tasks_table',
                 '2024_12_12_101350_create_projects_task_users_table',
                 '2024_12_12_101352_create_projects_task_tag_table',
-                '2024_12_18_145142_add_columns_to_analytic_records_table',
             ])
             ->runsMigrations()
             ->hasSettings([
