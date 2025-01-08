@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            $table->integer('sequence')->nullable();
+            $table->integer('sort')->nullable();
             $table->string('name')->nullable(false);
             $table->string('company_id')->unique();
             $table->string('tax_id')->unique()->nullable();
@@ -22,16 +22,15 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('mobile')->nullable();
 
-            $table->string('logo')->nullable();
             $table->string('color')->nullable();
             $table->boolean('is_active')->default(true);
             $table->date('founded_date')->nullable();
 
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('currency_id');
+            $table->unsignedBigInteger('creator_id')->nullable()->comment('Created By');
+            $table->unsignedBigInteger('currency_id')->comment('Currency');
 
             $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -42,13 +41,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('companies', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-            $table->dropForeign(['country_id']);
-            $table->dropForeign(['state_id']);
-            $table->dropForeign(['currency_id']);
-        });
-
         Schema::dropIfExists('companies');
     }
 };

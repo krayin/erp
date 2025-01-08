@@ -32,6 +32,7 @@ class Partner extends Model
      */
     protected $fillable = [
         'account_type',
+        'sub_type',
         'name',
         'avatar',
         'email',

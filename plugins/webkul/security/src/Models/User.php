@@ -91,35 +91,49 @@ class User extends BaseUser implements FilamentUser
     {
         parent::boot();
 
-        static::created(function ($user) {
+        static::saved(function ($user) {
             if (! $user->partner_id) {
-                $partner = $user->partner()->create([
-                    'creator_id' => Auth::user()->id ?? $user->id,
-                    'user_id'    => $user->id,
-                    ...$user->toArray(),
-                ]);
-
-                $user->partner_id = $partner->id;
-                $user->save();
+                $user->handlePartnerCreation($user);
+            } else {
+                $user->handlePartnerUpdation($user);
             }
         });
+    }
 
-        static::updated(function ($user) {
-            if ($user->partner_id) {
-                $partner = Partner::updateOrCreate(
-                    ['id' => $user->partner_id],
-                    [
-                        'creator_id' => Auth::user()->id ?? $user->id,
-                        'user_id'    => $user->id,
-                        ...$user->toArray(),
-                    ]
-                );
+    /**
+     * Handle the creation of a partner.
+     */
+    private function handlePartnerCreation(self $user)
+    {
+        $partner = $user->partner()->create([
+            'creator_id' => Auth::user()->id ?? $user->id,
+            'user_id'    => $user->id,
+            'sub_type'   => 'partner',
+            ...$user->toArray(),
+        ]);
 
-                if ($user->partner_id !== $partner->id) {
-                    $user->partner_id = $partner->id;
-                    $user->save();
-                }
-            }
-        });
+        $user->partner_id = $partner->id;
+        $user->save();
+    }
+
+    /**
+     * Handle the updation of a partner.
+     */
+    private function handlePartnerUpdation(self $user)
+    {
+        $partner = Partner::updateOrCreate(
+            ['id' => $user->partner_id],
+            [
+                'creator_id' => Auth::user()->id ?? $user->id,
+                'user_id'    => $user->id,
+                'sub_type'   => 'partner',
+                ...$user->toArray(),
+            ]
+        );
+
+        if ($user->partner_id !== $partner->id) {
+            $user->partner_id = $partner->id;
+            $user->save();
+        }
     }
 }

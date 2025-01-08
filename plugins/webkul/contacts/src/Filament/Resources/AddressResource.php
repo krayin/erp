@@ -32,6 +32,15 @@ class AddressResource extends Resource
                 ->default(AddressType::INVOICE->value)
                 ->inline()
                 ->columnSpan(2),
+            Forms\Components\TextInput::make('name')
+                ->label(__('contacts::filament/resources/address.form.name'))
+                ->required(),
+            Forms\Components\TextInput::make('email')
+                ->label(__('contacts::filament/resources/address.form.email'))
+                ->email(),
+            Forms\Components\TextInput::make('phone')
+                ->label(__('contacts::filament/resources/address.form.phone'))
+                ->tel(),
             Forms\Components\Select::make('country_id')
                 ->label(__('contacts::filament/resources/address.form.country'))
                 ->relationship(name: 'country', titleAttribute: 'name')

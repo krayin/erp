@@ -3,17 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Webkul\Employee\Database\Seeders\ActivityPlanTemplateSeeder;
-use Webkul\Employee\Database\Seeders\CalendarAttendanceSeeder;
-use Webkul\Employee\Database\Seeders\CalendarSeeder;
-use Webkul\Employee\Database\Seeders\DepartureReasonSeeder;
-use Webkul\Employee\Database\Seeders\EmployeeCategorySeeder;
-use Webkul\Employee\Database\Seeders\EmployeeJobPositionSeeder;
-use Webkul\Employee\Database\Seeders\EmploymentTypeSeeder;
-use Webkul\Employee\Database\Seeders\SkillTypeSeeder;
-use Webkul\Employee\Database\Seeders\WorkLocationSeeder;
-use Webkul\Support\Database\Seeders\ActivityPlanSeeder;
-use Webkul\Support\Database\Seeders\ActivityTypeSeeder;
+use Webkul\Support\Database\Seeders\DatabaseSeeder as SupportDatabaseSeeder;
+use Webkul\Security\Database\Seeders\DatabaseSeeder as SecurityDatabaseSeeder;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,17 +15,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            EmploymentTypeSeeder::class,
-            EmployeeJobPositionSeeder::class,
-            SkillTypeSeeder::class,
-            WorkLocationSeeder::class,
-            EmployeeCategorySeeder::class,
-            DepartureReasonSeeder::class,
-            CalendarSeeder::class,
-            CalendarAttendanceSeeder::class,
-            ActivityPlanSeeder::class,
-            ActivityTypeSeeder::class,
-            ActivityPlanTemplateSeeder::class,
+            SecurityDatabaseSeeder::class,
+            SupportDatabaseSeeder::class,
         ]);
     }
 }

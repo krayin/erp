@@ -24,6 +24,8 @@ class PartnerServiceProvider extends PackageServiceProvider
                 '2024_12_11_101644_create_partners_addresses_table',
                 '2024_12_11_101927_create_partners_tags_table',
                 '2024_12_11_111929_create_partners_partner_tag_table',
+                '2025_01_07_073804_add_sub_type_column_to_partners_partners_table',
+                '2025_01_07_081558_remove_nullable_name_column_to_partners_addresses_table',
             ])
             ->runsMigrations();
     }
