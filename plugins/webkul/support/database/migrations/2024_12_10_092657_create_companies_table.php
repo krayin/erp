@@ -13,18 +13,11 @@ return new class extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            $table->integer('sort')->nullable();
-            $table->string('name')->nullable(false);
-            $table->string('company_id')->unique();
-            $table->string('tax_id')->unique()->nullable();
-            $table->string('registration_number')->nullable();
-            $table->string('email')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('mobile')->nullable();
 
-            $table->string('color')->nullable();
-            $table->boolean('is_active')->default(true);
-            $table->date('founded_date')->nullable();
+            $table->foreignId('parent_id')
+                ->nullable()
+                ->constrained('companies')
+                ->cascadeOnDelete();
 
             $table->foreignId('currency_id')
                 ->nullable()
@@ -35,6 +28,19 @@ return new class extends Migration
                 ->nullable()
                 ->constrained('users')
                 ->nullOnDelete();
+            $table->integer('sort')->nullable();
+            $table->string('name')->nullable(false);
+            $table->string('company_id')->unique();
+            $table->string('tax_id')->unique()->nullable();
+            $table->string('registration_number')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('mobile')->nullable();
+            $table->string('website')->nullable();
+
+            $table->string('color')->nullable();
+            $table->boolean('is_active')->default(true);
+            $table->date('founded_date')->nullable();
 
             $table->softDeletes();
             $table->timestamps();
