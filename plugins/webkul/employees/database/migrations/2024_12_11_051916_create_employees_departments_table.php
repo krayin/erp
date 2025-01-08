@@ -15,17 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->text('color')->nullable();
-            $table->unsignedBigInteger('company_id')->nullable();
-            $table->unsignedBigInteger('parent_id')->nullable();
             $table->unsignedBigInteger('manager_id')->nullable();
-            $table->unsignedBigInteger('master_department_id')->nullable();
+            $table->unsignedBigInteger('company_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('set null');
-            $table->foreign('parent_id')->references('id')->on('employees_departments')->onDelete('set null');
-            $table->foreign('manager_id')->references('id')->on('employees_employees')->onDelete('set null');
-            $table->foreign('master_department_id')->references('id')->on('employees_departments')->onDelete('set null');
+            $table->foreign('manager_id')->references('id')->on('users')->onDelete('set null');
         });
     }
 
