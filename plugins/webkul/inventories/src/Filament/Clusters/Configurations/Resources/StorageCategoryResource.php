@@ -10,8 +10,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\StorageCategoryResource\Pages;
-use Webkul\Warehouse\Enums\AllowNewProduct;
-use Webkul\Warehouse\Models\StorageCategory;
+use Webkul\Inventory\Enums\AllowNewProduct;
+use Webkul\Inventory\Models\StorageCategory;
 
 class StorageCategoryResource extends Resource
 {

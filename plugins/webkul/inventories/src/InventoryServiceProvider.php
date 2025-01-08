@@ -2,6 +2,7 @@
 
 namespace Webkul\Inventory;
 
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Webkul\Support\Package;
 use Webkul\Support\PackageServiceProvider;
 
@@ -17,8 +18,32 @@ class InventoryServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasTranslations()
             ->hasMigrations([
+                '2025_01_06_072130_create_inventories_warehouses_table',
+                '2025_01_06_072135_create_inventories_storage_categories_table',
+                '2025_01_06_072224_create_inventories_locations_table',
+                '2025_01_06_072349_create_inventories_picking_types_table',
+                '2025_01_06_072353_create_inventories_routes_table',
+                '2025_01_06_072356_create_inventories_rules_table',
+                '2025_01_06_143103_create_inventories_route_warehouses_table',
+                '2025_01_07_083342_add_relationship_to_inventories_warehouses_table',
+                '2025_01_07_095737_create_inventories_warehouse_resupplies_table',
             ])
-            ->runsMigrations();
+            ->runsMigrations()
+            ->hasInstallCommand(function (InstallCommand $command) {
+                $command
+                    ->askToRunMigrations()
+                    ->copyAndRegisterServiceProviderInApp()
+                    ->endWith(function (InstallCommand $command) {
+                        if ($command->confirm('Would you like to seed the data now?')) {
+                            $command->comment('Seeding data...');
+
+                            $command->call('db:seed', [
+                                '--class' => 'Webkul\\Inventory\\Database\Seeders\\DatabaseSeeder',
+                            ]);
+                        }
+                    })
+                    ->askToStarRepoOnGitHub('krayin/inventories');
+            });
     }
 
     public function packageBooted(): void

@@ -10,8 +10,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\LocationResource\Pages;
-use Webkul\Warehouse\Enums\LocationType;
-use Webkul\Warehouse\Models\Location;
+use Webkul\Inventory\Enums\LocationType;
+use Webkul\Inventory\Models\Location;
 
 class LocationResource extends Resource
 {

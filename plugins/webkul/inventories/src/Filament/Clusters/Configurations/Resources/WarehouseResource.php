@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\Auth;
 use Webkul\Field\Filament\Traits\HasCustomFields;
 use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\WarehouseResource\Pages;
-use Webkul\Warehouse\Enums\DeliveryStep;
-use Webkul\Warehouse\Enums\ReceptionStep;
-use Webkul\Warehouse\Models\Warehouse;
+use Webkul\Inventory\Enums\DeliveryStep;
+use Webkul\Inventory\Enums\ReceptionStep;
+use Webkul\Inventory\Models\Warehouse;
 
 class WarehouseResource extends Resource
 {

@@ -8,11 +8,11 @@ return [
 
     'header-actions' => [
         'create' => [
-            'label' => 'New Storage Category',
+            'label' => 'New Route',
 
             'notification' => [
-                'title' => 'Storage Category created',
-                'body'  => 'The storage category has been created successfully.',
+                'title' => 'Route created',
+                'body'  => 'The route has been created successfully.',
             ],
         ],
     ],

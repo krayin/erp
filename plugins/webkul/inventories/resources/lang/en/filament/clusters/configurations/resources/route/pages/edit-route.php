@@ -2,15 +2,15 @@
 
 return [
     'notification' => [
-        'title' => 'Storage Category updated',
-        'body'  => 'The storage category has been updated successfully.',
+        'title' => 'Route updated',
+        'body'  => 'The route has been updated successfully.',
     ],
 
     'header-actions' => [
         'delete' => [
             'notification' => [
-                'title' => 'Storage Category deleted',
-                'body'  => 'The storage category has been deleted successfully.',
+                'title' => 'Route deleted',
+                'body'  => 'The route has been deleted successfully.',
             ],
         ],
     ],

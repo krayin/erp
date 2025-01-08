@@ -8,7 +8,7 @@ use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\WarehouseResource;
-use Webkul\Warehouse\Models\Warehouse;
+use Webkul\Inventory\Models\Warehouse;
 
 class ListWarehouses extends ListRecords
 {
