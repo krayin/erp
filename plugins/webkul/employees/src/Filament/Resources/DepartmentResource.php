@@ -65,6 +65,7 @@ class DepartmentResource extends Resource
                                         Forms\Components\TextInput::make('name')
                                             ->label(__('employees::filament/resources/department.form.sections.general.fields.name'))
                                             ->required()
+                                            ->unique(Department::class, 'name')
                                             ->maxLength(255)
                                             ->live(onBlur: true),
                                         Forms\Components\Select::make('manager_id')
@@ -191,13 +192,6 @@ class DepartmentResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\RestoreAction::make()
-                    ->successNotification(
-                        Notification::make()
-                            ->success()
-                            ->title(__('employees::filament/resources/department.table.actions.restore.notification.title'))
-                            ->body(__('employees::filament/resources/department.table.actions.restore.notification.body')),
-                    ),
                 Tables\Actions\DeleteAction::make()
                     ->successNotification(
                         Notification::make()
@@ -205,13 +199,22 @@ class DepartmentResource extends Resource
                             ->title(__('employees::filament/resources/department.table.actions.delete.notification.title'))
                             ->body(__('employees::filament/resources/department.table.actions.delete.notification.body')),
                     ),
-                Tables\Actions\ForceDeleteAction::make()
-                    ->successNotification(
-                        Notification::make()
-                            ->success()
-                            ->title(__('employees::filament/resources/department.table.actions.force-delete.notification.title'))
-                            ->body(__('employees::filament/resources/department.table.actions.force-delete.notification.body')),
-                    ),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\RestoreAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('employees::filament/resources/department.table.actions.restore.notification.title'))
+                                ->body(__('employees::filament/resources/department.table.actions.restore.notification.body')),
+                        ),
+                    Tables\Actions\ForceDeleteAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('employees::filament/resources/department.table.actions.force-delete.notification.title'))
+                                ->body(__('employees::filament/resources/department.table.actions.force-delete.notification.body')),
+                        ),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
