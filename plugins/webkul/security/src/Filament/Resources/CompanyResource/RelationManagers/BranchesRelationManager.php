@@ -59,8 +59,9 @@ class BranchesRelationManager extends RelationManager
                                     ])
                                     ->columns(2),
                                 Forms\Components\Section::make(__('security::filament/resources/company/relation-managers/manage-branch.form.tabs.general-information.sections.branding.title'))
+                                    ->relationship('partner', 'avatar')
                                     ->schema([
-                                        Forms\Components\FileUpload::make('logo')
+                                        Forms\Components\FileUpload::make('avatar')
                                             ->label(__('security::filament/resources/company/relation-managers/manage-branch.form.tabs.general-information.sections.branding.fields.branch-logo'))
                                             ->image()
                                             ->directory('company-logos')
@@ -241,7 +242,7 @@ class BranchesRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('logo')
+                Tables\Columns\ImageColumn::make('partner.avatar')
                     ->size(50)
                     ->label(__('security::filament/resources/company/relation-managers/manage-branch.table.columns.logo')),
                 Tables\Columns\TextColumn::make('name')
@@ -432,7 +433,8 @@ class BranchesRelationManager extends RelationManager
 
                                 Infolists\Components\Section::make(__('security::filament/resources/company/relation-managers/manage-branch.infolist.tabs.general-information.sections.branding.title'))
                                     ->schema([
-                                        Infolists\Components\ImageEntry::make('logo')
+                                        Infolists\Components\ImageEntry::make('partner.avatar')
+                                            ->hiddenLabel()
                                             ->label(__('security::filament/resources/company/relation-managers/manage-branch.infolist.tabs.general-information.sections.branding.entries.branch-logo'))
                                             ->placeholder('—'),
                                     ]),
