@@ -34,7 +34,7 @@ return new class extends Migration
             $table->unsignedBigInteger('state_id')->nullable()->comment('State');
             $table->unsignedBigInteger('country_of_birth')->nullable()->comment('Country of Birth');
             $table->unsignedBigInteger('departure_reason_id')->nullable()->comment('Departure Reason');
-            $table->unsignedBigInteger('attendance_manager_id')->nullable()->after('job_id');
+            $table->unsignedBigInteger('attendance_manager_id')->nullable();
 
             $table->string('name')->nullable()->comment('Employee Name');
             $table->string('job_title')->nullable()->comment('Job Title');
