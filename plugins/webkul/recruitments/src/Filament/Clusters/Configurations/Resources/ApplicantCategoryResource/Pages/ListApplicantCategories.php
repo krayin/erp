@@ -16,6 +16,7 @@ class ListApplicantCategories extends ListRecords
     {
         return [
             Actions\CreateAction::make()
+                ->label(__('recruitments::filament/clusters/configurations/resources/applicant-category/pages/list-applicant-categories.header-actions.create.label'))
                 ->icon('heroicon-o-plus-circle')
                 ->mutateFormDataUsing(function (array $data): array {
                     $data['creator_id'] = Auth::id();

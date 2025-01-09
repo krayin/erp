@@ -12,9 +12,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            StageSeeder::class,
-            DegreeSeeder::class,
-            RefuseReasonSeeder::class
+            // StageSeeder::class,
+            // DegreeSeeder::class,
+            // RefuseReasonSeeder::class,
+            ApplicantCategorySeeder::class,
         ]);
     }
 }

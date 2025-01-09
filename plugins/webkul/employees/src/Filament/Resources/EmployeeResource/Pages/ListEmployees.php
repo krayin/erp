@@ -21,7 +21,8 @@ class ListEmployees extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-                ->icon('heroicon-o-plus-circle'),
+                ->icon('heroicon-o-plus-circle')
+                ->label(__('employees::filament/resources/employee/pages/list-employee.header-actions.create.label'))
         ];
     }
 

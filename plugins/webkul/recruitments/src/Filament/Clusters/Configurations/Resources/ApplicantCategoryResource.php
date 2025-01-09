@@ -19,7 +19,7 @@ class ApplicantCategoryResource extends Resource
 {
     protected static ?string $model = ApplicantCategory::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-tag';
 
     protected static ?string $cluster = Configurations::class;
 
