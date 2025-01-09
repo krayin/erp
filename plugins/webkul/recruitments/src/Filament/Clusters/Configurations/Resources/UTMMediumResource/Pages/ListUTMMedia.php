@@ -15,13 +15,13 @@ class ListUTMMedia extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-                ->label(__('recruitments::filament/clusters/configurations/resources/utm/pages/list-utm.header-actions.create.label'))
+                ->label(__('recruitments::filament/clusters/configurations/resources/medium/pages/list-medium.header-actions.create.label'))
                 ->icon('heroicon-o-plus-circle')
                 ->successNotification(
                     Notification::make()
                         ->success()
-                        ->title(__('recruitments::filament/clusters/configurations/resources/utm/pages/list-utm.header-actions.create.notification.title'))
-                        ->body(__('recruitments::filament/clusters/configurations/resources/utm/pages/list-utm.header-actions.create.notification.body'))
+                        ->title(__('recruitments::filament/clusters/configurations/resources/medium/pages/list-medium.header-actions.create.notification.title'))
+                        ->body(__('recruitments::filament/clusters/configurations/resources/medium/pages/list-medium.header-actions.create.notification.body'))
                 )
         ];
     }

@@ -1,10 +1,10 @@
 <?php
 
 return [
-    'title' => 'Mediums',
+    'title' => 'Sources',
 
     'navigation' => [
-        'title' => 'Mediums',
+        'title' => 'Sources',
         'group' => 'UTMs',
     ],
 
@@ -23,7 +23,7 @@ return [
     'form' => [
         'fields' => [
             'name' => 'Name',
-            'name-placeholder' => 'Enter the name of the medium',
+            'name-placeholder' => 'Enter the name of the source',
             'status' => 'Status',
         ],
     ],
@@ -48,15 +48,15 @@ return [
         'actions' => [
             'edit' => [
                 'notification' => [
-                    'title' => 'Medium updated',
-                    'body'  => 'The medium has been updated successfully.',
+                    'title' => 'Source updated',
+                    'body'  => 'The source has been updated successfully.',
                 ],
             ],
 
             'delete' => [
                 'notification' => [
-                    'title' => 'Medium deleted',
-                    'body'  => 'The medium has been deleted successfully.',
+                    'title' => 'Source deleted',
+                    'body'  => 'The source has been deleted successfully.',
                 ],
             ],
         ],
@@ -64,8 +64,8 @@ return [
         'bulk-actions' => [
             'delete' => [
                 'notification' => [
-                    'title' => 'Mediums deleted',
-                    'body'  => 'The Mediums has been deleted successfully.',
+                    'title' => 'Sources deleted',
+                    'body'  => 'The Sources has been deleted successfully.',
                 ],
             ],
         ],
@@ -73,8 +73,8 @@ return [
         'empty-state-action' => [
             'create' => [
                 'notification' => [
-                    'title' => 'Medium created',
-                    'body'  => 'The medium has been created successfully.',
+                    'title' => 'Source created',
+                    'body'  => 'The source has been created successfully.',
                 ],
             ],
         ],
