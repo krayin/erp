@@ -13,13 +13,12 @@ return new class extends Migration
     {
         Schema::create('recruitments_degrees', function (Blueprint $table) {
             $table->id();
-            $table->integer('sort')->nullable()->comment('Sort Order');
-            $table->string('name')->comment('Name');
-
             $table->foreignId('creator_id')
                 ->nullable()
                 ->constrained('users')
                 ->nullOnDelete();
+            $table->integer('sort')->default(0)->nullable()->comment('Sort Order');
+            $table->string('name')->comment('Name');
             $table->timestamps();
         });
     }

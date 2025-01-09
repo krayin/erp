@@ -9,9 +9,6 @@ use Webkul\Recruitment\Models\Stage;
 
 class StageSeeder extends Seeder
 {
-    /**
-     * Seed the application's database with currencies.
-     */
     public function run(): void
     {
         DB::table('recruitments_stages')->delete();

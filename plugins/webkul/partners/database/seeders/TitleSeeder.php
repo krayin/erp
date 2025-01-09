@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class TitleSeeder extends Seeder
 {
     /**
-     * Seed the application's database with currencies.
+     * Run the database seeds.
      */
     public function run(): void
     {

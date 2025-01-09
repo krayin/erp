@@ -9,7 +9,7 @@ use Webkul\Warehouse\Enums\LocationType;
 class LocationSeeder extends Seeder
 {
     /**
-     * Seed the application's database with currencies.
+     * Run the database seeds.
      */
     public function run(): void
     {

@@ -1,29 +1,22 @@
 <?php
 
 return [
-    'title' => 'Degrees',
+    'title' => 'Refuse Reason',
 
     'navigation' => [
-        'title' => 'Degrees',
+        'title' => 'Refuse Reason',
         'group' => 'Applications',
     ],
 
-    'groups' => [
-        'status'     => 'Status',
-        'created-by' => 'Created By',
-        'created-at' => 'Created At',
-        'updated-at' => 'Updated At',
-    ],
-
     'global-search' => [
-        'name'        => 'Name',
-        'reason-code' => 'Reason Code',
+        'name'       => 'Job Position',
+        'created-by' => 'Created By',
     ],
 
     'form' => [
         'fields' => [
             'name' => 'Name',
-            'name-placeholder' => 'Enter the name of the degree',
+            'name-placeholder' => 'Enter the name of the refuse reason',
         ],
     ],
 
@@ -47,15 +40,15 @@ return [
         'actions' => [
             'edit' => [
                 'notification' => [
-                    'title' => 'Degree updated',
-                    'body'  => 'The degree has been updated successfully.',
+                    'title' => 'Refuse reason updated',
+                    'body'  => 'The refuse reason has been updated successfully.',
                 ],
             ],
 
             'delete' => [
                 'notification' => [
-                    'title' => 'Degree deleted',
-                    'body'  => 'The degree has been deleted successfully.',
+                    'title' => 'Refuse reason deleted',
+                    'body'  => 'The refuse reason has been deleted successfully.',
                 ],
             ],
         ],
@@ -63,8 +56,8 @@ return [
         'bulk-actions' => [
             'delete' => [
                 'notification' => [
-                    'title' => 'Degrees deleted',
-                    'body'  => 'The degrees has been deleted successfully.',
+                    'title' => 'Refuse reasons deleted',
+                    'body'  => 'The refuse reasons has been deleted successfully.',
                 ],
             ],
         ],
@@ -72,8 +65,8 @@ return [
         'empty-state-action' => [
             'create' => [
                 'notification' => [
-                    'title' => 'Degree created',
-                    'body'  => 'The degree has been created successfully.',
+                    'title' => 'Refuse reason created',
+                    'body'  => 'The refuse reason has been created successfully.',
                 ],
             ],
         ],
