@@ -277,15 +277,113 @@ class DepartmentResource extends Resource
                                         Infolists\Components\ColorEntry::make('color')
                                             ->placeholder('—')
                                             ->label(__('employees::filament/resources/department.infolist.sections.general.entries.color')),
-                                        Infolists\Components\TextEntry::make('complete_name')
-                                            ->placeholder('—')
-                                            ->label(__('employees::filament/resources/department.infolist.sections.general.entries.department-path')),
+                                        Infolists\Components\Fieldset::make(__('employees::filament/resources/department.infolist.sections.general.entries.hierarchy-title'))
+                                            ->schema([
+                                                Infolists\Components\TextEntry::make('hierarchy')
+                                                    ->label('')
+                                                    ->html()
+                                                    ->state(fn (Department $record): string => static::buildHierarchyTree($record)),
+                                            ])->columnSpan('full'),
                                     ])
                                     ->columns(2),
                             ]),
                     ])
                     ->columnSpan('full'),
             ]);
+    }
+
+    protected static function buildHierarchyTree(Department $currentDepartment): string
+    {
+        $rootDepartment = static::findRootDepartment($currentDepartment);
+
+        return static::renderDepartmentTree($rootDepartment, $currentDepartment);
+    }
+
+    protected static function findRootDepartment(Department $department): Department
+    {
+        $current = $department;
+        while ($current->parent_id) {
+            $current = $current->parent;
+        }
+        return $current;
+    }
+
+    protected static function renderDepartmentTree(
+        Department $department,
+        Department $currentDepartment,
+        int $depth = 0,
+        bool $isLast = true,
+        array $parentIsLast = []
+    ): string {
+        $output = static::formatDepartmentLine(
+            $department,
+            $depth,
+            $department->id === $currentDepartment->id,
+            $isLast,
+            $parentIsLast
+        );
+
+        $children = Department::where('parent_id', $department->id)
+            ->where('company_id', $department->company_id)
+            ->orderBy('name')
+            ->get();
+
+        if ($children->isNotEmpty()) {
+            $lastIndex = $children->count() - 1;
+
+            foreach ($children as $index => $child) {
+                $newParentIsLast = array_merge($parentIsLast, [$isLast]);
+
+                $output .= static::renderDepartmentTree(
+                    $child,
+                    $currentDepartment,
+                    $depth + 1,
+                    $index === $lastIndex,
+                    $newParentIsLast
+                );
+            }
+        }
+
+        return $output;
+    }
+
+    protected static function formatDepartmentLine(
+        Department $department,
+        int $depth,
+        bool $isActive,
+        bool $isLast,
+        array $parentIsLast
+    ): string {
+        $prefix = '';
+        if ($depth > 0) {
+            for ($i = 0; $i < $depth - 1; $i++) {
+                $prefix .= $parentIsLast[$i] ? '&nbsp;&nbsp;&nbsp;&nbsp;' : '&nbsp;&nbsp;&nbsp;';
+            }
+            $prefix .= $isLast ? '└──&nbsp;' : '├──&nbsp;';
+        }
+
+        $employeeCount = $department->employees()->count();
+        $managerName = $department->manager?->name ? " · {$department->manager->name}" : '';
+
+        $style = $isActive
+            ? 'color: ' . ($department->color ?? '#1D4ED8') . '; font-weight: bold;'
+            : '';
+
+        return sprintf(
+            '<div class="py-1" style="%s">
+                <span class="inline-flex items-center gap-2">
+                    %s%s%s
+                    <span class="text-sm text-gray-500">
+                        (%d members)
+                    </span>
+                </span>
+            </div>',
+            $style,
+            $prefix,
+            e($department->name),
+            e($managerName),
+            $employeeCount
+        );
     }
 
     public static function getSlug(): string

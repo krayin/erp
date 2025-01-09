@@ -117,7 +117,7 @@ return [
                     'manager' => 'Manager',
                     'company' => 'Company',
                     'color'   => 'Color',
-                    'department-path' => 'Department Path',
+                    'hierarchy-title' => 'Department Organization',
                 ],
             ],
         ],
