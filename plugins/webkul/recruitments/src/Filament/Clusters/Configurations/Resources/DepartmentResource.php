@@ -5,6 +5,7 @@ namespace Webkul\Recruitment\Filament\Clusters\Configurations\Resources;
 use Webkul\Recruitment\Filament\Clusters\Configurations;
 use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\DepartmentResource\Pages;
 use Filament\Forms\Form;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
@@ -56,6 +57,11 @@ class DepartmentResource extends Resource
             'md' => 3,
             'xl' => 3,
         ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return BaseDepartmentResource::infolist($infolist);
     }
 
     public static function getPages(): array
