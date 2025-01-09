@@ -8,4 +8,11 @@ use Webkul\Support\Filament\Resources\ActivityTypeResource\Pages\EditActivityTyp
 class EditActivityType extends BaseEditActivityType
 {
     protected static string $resource = ActivityTypeResource::class;
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $data['plugin'] = 'recruitments';
+
+        return $data;
+    }
 }
