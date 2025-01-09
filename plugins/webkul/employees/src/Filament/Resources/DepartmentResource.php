@@ -111,8 +111,9 @@ class DepartmentResource extends Resource
             ->columns([
                 Tables\Columns\Layout\Stack::make([
                     Tables\Columns\ImageColumn::make('manager.partner.avatar')
-                        ->height(150)
-                        ->width(200),
+                        ->height(35)
+                        ->circular()
+                        ->width(35),
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('name')
                             ->weight(FontWeight::Bold)
