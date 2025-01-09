@@ -4,11 +4,6 @@ namespace Webkul\Recruitment\Filament\Clusters\Configurations\Resources;
 
 use Webkul\Recruitment\Filament\Clusters\Configurations;
 use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\EmploymentTypeResource\Pages;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Model;
-use Webkul\Employee\Models\EmploymentType;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\EmploymentTypeResource as BaseEmploymentTypeResource;
 
 class EmploymentTypeResource extends BaseEmploymentTypeResource
