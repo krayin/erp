@@ -104,6 +104,15 @@ return [
                 ],
             ],
         ],
+
+        'activity-plan' => [
+            'create' => [
+                'notification' => [
+                    'title' => 'Activity Plan created',
+                    'body'  => 'The activity plan has been created successfully.',
+                ],
+            ],
+        ]
     ],
 
     'infolist' => [

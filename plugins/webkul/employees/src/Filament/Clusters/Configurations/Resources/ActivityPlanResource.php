@@ -245,7 +245,13 @@ class ActivityPlanResource extends Resource
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make()
-                    ->icon('heroicon-o-plus-circle'),
+                    ->icon('heroicon-o-plus-circle')
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title(__('employees::filament/clusters/configurations/resources/activity-plan.table.empty-state.create.notification.title'))
+                            ->body(__('employees::filament/clusters/configurations/resources/activity-plan.table.empty-state.create.notification.body')),
+                    ),
             ])
             ->modifyQueryUsing(function ($query) {
                 $query->where('plugin', 'employees');
