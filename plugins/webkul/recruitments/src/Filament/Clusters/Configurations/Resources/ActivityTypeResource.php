@@ -25,7 +25,7 @@ class ActivityTypeResource extends BaseActivityTypeResource
             'index'  => Pages\ListActivityTypes::route('/'),
             'create' => Pages\CreateActivityType::route('/create'),
             'edit'   => Pages\EditActivityType::route('/{record}/edit'),
-            'edit'   => Pages\ViewActivityType::route('/{record}/edit'),
+            'view'   => Pages\ViewActivityType::route('/{record}'),
         ];
     }
 }

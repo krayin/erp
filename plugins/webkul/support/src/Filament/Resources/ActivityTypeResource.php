@@ -182,6 +182,7 @@ class ActivityTypeResource extends Resource
                     ->badge()
                     ->label(__('support::filament/resources/activity-type.table.columns.action'))
                     ->searchable()
+                    ->formatStateUsing(fn ($state) => ActivityTypeAction::options()[$state])
                     ->sortable(),
                 Tables\Columns\IconColumn::make('is_active')
                     ->label(__('support::filament/resources/activity-type.table.columns.status'))
@@ -353,10 +354,12 @@ class ActivityTypeResource extends Resource
                                         Infolists\Components\TextEntry::make('delay_unit')
                                             ->icon('heroicon-o-calendar')
                                             ->placeholder('—')
+                                            ->formatStateUsing(fn ($state) => ActivityDelayUnit::options()[$state])
                                             ->label(__('support::filament/resources/activity-type.infolist.sections.delay-information.entries.delay-unit')),
                                         Infolists\Components\TextEntry::make('delay_from')
                                             ->icon('heroicon-o-arrow-right')
                                             ->placeholder('—')
+                                            ->formatStateUsing(fn ($state) => ActivityDelayFrom::options()[$state])
                                             ->label(__('support::filament/resources/activity-type.infolist.sections.delay-information.entries.delay-form')),
                                     ])->columns(2),
                             ])->columnSpan(2),
@@ -364,7 +367,8 @@ class ActivityTypeResource extends Resource
                             ->schema([
                                 Infolists\Components\Section::make(__('support::filament/resources/activity-type.infolist.sections.advanced-information.title'))
                                     ->schema([
-                                        Infolists\Components\IconEntry::make('icon')
+                                        Infolists\Components\TextEntry::make('icon')
+                                            ->icon(fn($record) => $record->icon)
                                             ->placeholder('—')
                                             ->label(__('support::filament/resources/activity-type.infolist.sections.advanced-information.entries.icon')),
                                         Infolists\Components\TextEntry::make('decoration_type')
