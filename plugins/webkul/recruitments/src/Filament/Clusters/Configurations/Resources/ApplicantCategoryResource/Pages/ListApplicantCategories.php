@@ -4,7 +4,9 @@ namespace Webkul\Recruitment\Filament\Clusters\Configurations\Resources\Applican
 
 use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\ApplicantCategoryResource;
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Support\Facades\Auth;
 
 class ListApplicantCategories extends ListRecords
 {
@@ -13,7 +15,19 @@ class ListApplicantCategories extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->icon('heroicon-o-plus-circle')
+                ->mutateFormDataUsing(function (array $data): array {
+                    $data['creator_id'] = Auth::id();
+
+                    return $data;
+                })
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title(__('recruitments::filament/clusters/configurations/resources/applicant-category/pages/list-applicant-categories.notification.title'))
+                        ->body(__('recruitments::filament/clusters/configurations/resources/applicant-category/pages/list-applicant-categories.notification.body'))
+                ),
         ];
     }
 }

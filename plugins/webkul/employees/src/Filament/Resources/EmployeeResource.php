@@ -260,7 +260,7 @@ class EmployeeResource extends Resource
                                     ->email(),
                                 Forms\Components\Select::make('department_id')
                                     ->label(__('employees::filament/resources/employee.form.sections.fields.department'))
-                                    ->relationship(name: 'department', titleAttribute: 'name')
+                                    ->relationship(name: 'department', titleAttribute: 'complete_name')
                                     ->searchable()
                                     ->preload()
                                     ->createOptionForm(fn (Form $form) => DepartmentResource::form($form)),
@@ -1420,7 +1420,7 @@ class EmployeeResource extends Resource
                 Tables\Grouping\Group::make('coach.name')
                     ->label(__('employees::filament/resources/employee.table.groups.coach'))
                     ->collapsible(),
-                Tables\Grouping\Group::make('department.name')
+                Tables\Grouping\Group::make('department.complete_name')
                     ->label(__('employees::filament/resources/employee.table.groups.department'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('employmentType.name')
@@ -1529,7 +1529,7 @@ class EmployeeResource extends Resource
                                     ->url(fn (?string $state) => $state ? "mailto:{$state}" : '#')
                                     ->icon('heroicon-o-envelope')
                                     ->iconPosition(IconPosition::Before),
-                                Infolists\Components\TextEntry::make('department.name')
+                                Infolists\Components\TextEntry::make('department.complete_name')
                                     ->placeholder('—')
                                     ->label(__('employees::filament/resources/employee.infolist.sections.entries.department')),
                                 Infolists\Components\TextEntry::make('mobile_phone')

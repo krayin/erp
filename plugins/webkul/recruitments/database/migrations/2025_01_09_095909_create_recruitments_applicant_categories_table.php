@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('creator_id')->nullable()->constrained('users')->nullOnDelete();
-            $table->string('name');
-            $table->string('color');
+            $table->string('name')->comment('Name');
+            $table->string('color')->nullable()->comment('Color');
 
             $table->timestamps();
         });
