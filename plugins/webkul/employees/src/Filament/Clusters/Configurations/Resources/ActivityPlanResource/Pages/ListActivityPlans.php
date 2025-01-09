@@ -30,7 +30,7 @@ class ListActivityPlans extends ListRecords
                 ->mutateFormDataUsing(function ($data) {
                     $user = Auth::user();
 
-                    $data['plugin'] = 'employees';
+                    $data['plugin'] = static::getPluginName();
 
                     $data['creator_id'] = $user->id;
 
