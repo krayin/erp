@@ -19,8 +19,8 @@ class ListDegrees extends ListRecords
                 ->successNotification(
                     Notification::make()
                         ->success()
-                        ->title(__('recruitments::filament/clusters/configurations/resources/degree/pages/create-degree.notification.title'))
-                        ->body(__('recruitments::filament/clusters/configurations/resources/degree/pages/create-degree.notification.body'))
+                        ->title(__('recruitments::filament/clusters/configurations/resources/degree/pages/list-degree.notification.title'))
+                        ->body(__('recruitments::filament/clusters/configurations/resources/degree/pages/list-degree.notification.body'))
                 )
         ];
     }

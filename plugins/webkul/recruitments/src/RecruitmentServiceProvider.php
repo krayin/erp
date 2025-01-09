@@ -23,6 +23,7 @@ class RecruitmentServiceProvider extends PackageServiceProvider
                 '2025_01_09_071817_create_recruitments_degrees_table',
                 '2025_01_09_082748_create_recruitments_refuse_reasons_table',
                 '2025_01_09_095909_create_recruitments_applicant_categories_table',
+                '2025_01_09_111545_create_recruitments_utm_mediums_table',
             ])
             ->runsMigrations()
             ->hasInstallCommand(function (InstallCommand $command) {
