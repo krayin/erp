@@ -34,6 +34,7 @@ class ActivityTypeSeeder extends Seeder
                 'chaining_type'          => ActivityChainingType::SUGGEST->value,
                 'category'               => ActivityTypeAction::MEETING->value,
                 'name'                   => 'Meeting',
+                'plugin'                 => 'support',
                 'summary'                => 'Meeting',
                 'is_active'              => true,
             ],
@@ -51,6 +52,7 @@ class ActivityTypeSeeder extends Seeder
                 'category'               => ActivityTypeAction::DEFAULT->value,
                 'name'                   => 'Exception',
                 'summary'                => 'Exception',
+                'plugin'                 => 'support',
                 'is_active'              => true,
             ],
             [
@@ -67,6 +69,7 @@ class ActivityTypeSeeder extends Seeder
                 'category'               => ActivityTypeAction::DEFAULT->value,
                 'name'                   => 'To-Do',
                 'summary'                => 'To-Do',
+                'plugin'                 => 'support',
                 'is_active'              => true,
             ],
             [
@@ -83,6 +86,7 @@ class ActivityTypeSeeder extends Seeder
                 'category'               => ActivityTypeAction::UPLOAD_FILE->value,
                 'name'                   => 'Call',
                 'summary'                => 'Call',
+                'plugin'                 => 'support',
                 'is_active'              => true,
             ],
         ];

@@ -12,6 +12,8 @@ class ListActivityPlans extends BaseListActivityPlans
 {
     protected static string $resource = ActivityPlanResource::class;
 
+    protected static ?string $pluginName = 'recruitments';
+
     protected function getHeaderActions(): array
     {
         return [

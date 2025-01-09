@@ -8,4 +8,6 @@ use Webkul\Support\Filament\Resources\ActivityTypeResource\Pages\ListActivityTyp
 class ListActivityTypes extends BaseListActivityTypes
 {
     protected static string $resource = ActivityTypeResource::class;
+
+    protected static ?string $pluginName = 'recruitments';
 }

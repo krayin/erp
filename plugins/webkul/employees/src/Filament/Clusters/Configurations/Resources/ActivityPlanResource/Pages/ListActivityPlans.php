@@ -14,6 +14,13 @@ class ListActivityPlans extends ListRecords
 {
     protected static string $resource = ActivityPlanResource::class;
 
+    protected static ?string $pluginName = 'employees';
+
+    protected static function getPluginName()
+    {
+        return static::$pluginName;
+    }
+
     protected function getHeaderActions(): array
     {
         return [
@@ -44,11 +51,11 @@ class ListActivityPlans extends ListRecords
     {
         return [
             'all' => Tab::make(__('employees::filament/clusters/configurations/resources/activity-plan/pages/list-activity-plan.tabs.all'))
-                ->badge(ActivityPlan::where('plugin', 'employees')->count()),
+                ->badge(ActivityPlan::where('plugin', static::getPluginName())->count()),
             'archived' => Tab::make(__('employees::filament/clusters/configurations/resources/activity-plan/pages/list-activity-plan.tabs.archived'))
-                ->badge(ActivityPlan::where('plugin', 'employees')->onlyTrashed()->count())
+                ->badge(ActivityPlan::where('plugin', static::getPluginName())->onlyTrashed()->count())
                 ->modifyQueryUsing(function ($query) {
-                    return $query->onlyTrashed();
+                    return $query->where('plugin', static::getPluginName())->onlyTrashed();
                 }),
         ];
     }
