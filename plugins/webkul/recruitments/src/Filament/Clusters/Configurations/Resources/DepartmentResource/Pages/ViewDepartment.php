@@ -2,29 +2,10 @@
 
 namespace Webkul\Recruitment\Filament\Clusters\Configurations\Resources\DepartmentResource\Pages;
 
-use Filament\Actions;
-use Filament\Notifications\Notification;
-use Filament\Resources\Pages\ViewRecord;
-use Webkul\Chatter\Filament\Actions as ChatterActions;
 use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\DepartmentResource;
+use Webkul\Employee\Filament\Resources\DepartmentResource\Pages\ViewDepartment as BaseViewDepartment;
 
-class ViewDepartment extends ViewRecord
+class ViewDepartment extends BaseViewDepartment
 {
     protected static string $resource = DepartmentResource::class;
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            ChatterActions\ChatterAction::make()
-                ->setResource(static::$resource),
-            Actions\EditAction::make(),
-            Actions\DeleteAction::make()
-                ->successNotification(
-                    Notification::make()
-                        ->success()
-                        ->title(__('recruitments::filament/clusters/configurations/resources/department/pages/view-department.header-actions.delete.notification.title'))
-                        ->body(__('recruitments::filament/clusters/configurations/resources/department/pages/view-department.header-actions.delete.notification.body')),
-                ),
-        ];
-    }
 }
