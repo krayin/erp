@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             StageSeeder::class,
             DegreeSeeder::class,
+            RefuseReasonSeeder::class
         ]);
     }
 }

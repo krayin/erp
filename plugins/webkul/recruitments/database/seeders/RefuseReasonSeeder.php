@@ -9,39 +9,53 @@ class RefuseReasonSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('recruitments_degrees')->delete();
+        DB::table('recruitments_refuse_reasons')->delete();
 
         $degrees = [
             [
                 'sort'       => 1,
-                'name'       => 'Graduate',
+                'name'       => 'Does not fit the job requirements',
                 'creator_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'sort'       => 2,
-                'name'       => 'Master',
+                'name'       => 'Refused by applicant: job fit',
                 'creator_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'sort'       => 3,
-                'name'       => 'Bachelor',
+                'name'       => 'Job already fulfilled',
                 'creator_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'sort'       => 4,
-                'name'       => 'Doctoral Degree',
+                'name'       => 'Duplicate',
+                'creator_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'sort'       => 4,
+                'name'       => 'Spam',
+                'creator_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'sort'       => 4,
+                'name'       => 'Refused by applicant: salary',
                 'creator_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
         ];
 
-        DB::table('recruitments_degrees')->insert($degrees);
+        DB::table('recruitments_refuse_reasons')->insert($degrees);
     }
 }
