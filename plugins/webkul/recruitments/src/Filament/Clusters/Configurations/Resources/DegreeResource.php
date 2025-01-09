@@ -125,7 +125,8 @@ class DegreeResource extends Resource
                                 ->body(__('recruitments::filament/clusters/configurations/resources/degree.table.bulk-actions.delete.notification.body'))
                         ),
                 ]),
-            ]);
+            ])
+             ->reorderable('sort', 'desc');
     }
 
     public static function infolist(Infolist $infolist): Infolist
