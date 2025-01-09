@@ -2,12 +2,12 @@
 
 namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources\RouteResource\Pages;
 
-use Webkul\Inventory\Filament\Clusters\Configurations\Resources\RouteResource;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Components\Tab;
-use Illuminate\Support\Facades\Auth;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Support\Facades\Auth;
+use Webkul\Inventory\Filament\Clusters\Configurations\Resources\RouteResource;
 use Webkul\Inventory\Models\Route;
 
 class ListRoutes extends ListRecords

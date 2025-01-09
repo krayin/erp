@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Webkul\Inventory\Database\Factories\PickingTypeFactory;
+use Webkul\Inventory\Enums\CreateBackorder;
+use Webkul\Inventory\Enums\MoveType;
+use Webkul\Inventory\Enums\PickingType as PickingTypeEnum;
+use Webkul\Inventory\Enums\ReservationMethod;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
-use Webkul\Inventory\Database\Factories\PickingTypeFactory;
-use Webkul\Inventory\Enums\PickingType as PickingTypeEnum;
-use Webkul\Inventory\Enums\CreateBackorder;
-use Webkul\Inventory\Enums\ReservationMethod;
-use Webkul\Inventory\Enums\MoveType;
 
 class PickingType extends Model
 {
@@ -33,6 +33,7 @@ class PickingType extends Model
     protected $fillable = [
         'name',
         'type',
+        'sort',
         'sequence_code',
         'reservation_method',
         'reservation_days_before',

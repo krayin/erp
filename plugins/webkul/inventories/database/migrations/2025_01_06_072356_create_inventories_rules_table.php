@@ -17,11 +17,11 @@ return new class extends Migration
             $table->string('name');
             $table->integer('route_sequence')->nullable();
             $table->integer('delay')->nullable();
-            $table->integer('group_propagation_option')->nullable();
-            $table->integer('action')->index();
-            $table->integer('procure_method');
-            $table->integer('auto');
-            $table->integer('push_domain')->nullable();
+            $table->string('group_propagation_option')->nullable();
+            $table->string('action')->index();
+            $table->string('procure_method');
+            $table->string('auto');
+            $table->string('push_domain')->nullable();
             $table->boolean('location_dest_from_rule')->nullable();
             $table->boolean('propagate_cancel')->nullable();
             $table->boolean('propagate_carrier')->nullable();

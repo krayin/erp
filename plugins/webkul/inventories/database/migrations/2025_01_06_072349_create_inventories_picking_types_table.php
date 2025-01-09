@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('type');
+            $table->integer('sort')->nullable();
             $table->string('sequence_code');
             $table->string('reservation_method');
             $table->integer('reservation_days_before');

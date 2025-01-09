@@ -8,9 +8,9 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Webkul\Inventory\Enums\LocationType;
 use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\LocationResource\Pages;
-use Webkul\Inventory\Enums\LocationType;
 use Webkul\Inventory\Models\Location;
 
 class LocationResource extends Resource

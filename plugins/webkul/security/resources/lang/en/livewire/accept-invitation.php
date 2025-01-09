@@ -5,5 +5,5 @@ return [
         'sub-heading' => [
             'accept-invitation' => 'Accept Invitation',
         ],
-    ]
+    ],
 ];

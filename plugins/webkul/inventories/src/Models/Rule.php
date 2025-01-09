@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\EloquentSortable\SortableTrait;
+use Webkul\Inventory\Database\Factories\RuleFactory;
+use Webkul\Inventory\Enums;
 use Webkul\Partner\Models\Address;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
-use Webkul\Inventory\Database\Factories\RuleFactory;
-use Spatie\EloquentSortable\SortableTrait;
 
 class Rule extends Model
 {
@@ -21,7 +22,7 @@ class Rule extends Model
      *
      * @var string
      */
-    protected $table = 'inventories_routes';
+    protected $table = 'inventories_rules';
 
     /**
      * Fillable.
@@ -58,9 +59,13 @@ class Rule extends Model
      * @var string
      */
     protected $casts = [
-        'location_dest_from_rule' => 'boolean',
-        'propagate_cancel'        => 'boolean',
-        'propagate_carrier'       => 'boolean',
+        'action'                   => Enums\RuleAction::class,
+        'group_propagation_option' => Enums\GroupPropagation::class,
+        'auto'                     => Enums\RuleAuto::class,
+        'procure_method'           => Enums\ProcureMethod::class,
+        'location_dest_from_rule'  => 'boolean',
+        'propagate_cancel'         => 'boolean',
+        'propagate_carrier'        => 'boolean',
     ];
 
     public $sortable = [

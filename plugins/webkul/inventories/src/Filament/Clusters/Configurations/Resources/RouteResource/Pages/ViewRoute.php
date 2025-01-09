@@ -2,9 +2,9 @@
 
 namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources\RouteResource\Pages;
 
-use Webkul\Inventory\Filament\Clusters\Configurations\Resources\RouteResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
+use Webkul\Inventory\Filament\Clusters\Configurations\Resources\RouteResource;
 
 class ViewRoute extends ViewRecord
 {

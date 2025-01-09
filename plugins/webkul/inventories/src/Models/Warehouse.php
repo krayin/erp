@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\EloquentSortable\SortableTrait;
+use Webkul\Inventory\Database\Factories\WarehouseFactory;
+use Webkul\Inventory\Enums\DeliveryStep;
+use Webkul\Inventory\Enums\ReceptionStep;
 use Webkul\Partner\Models\Address;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
-use Webkul\Inventory\Database\Factories\WarehouseFactory;
-use Spatie\EloquentSortable\SortableTrait;
-use Webkul\Inventory\Enums\DeliveryStep;
-use Webkul\Inventory\Enums\ReceptionStep;
 
 class Warehouse extends Model
 {

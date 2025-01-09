@@ -13,6 +13,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             LocationSeeder::class,
+            RouteSeeder::class,
+            PickingTypeSeeder::class,
+            RuleSeeder::class,
             WarehouseSeeder::class,
         ]);
     }

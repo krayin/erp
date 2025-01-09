@@ -5,10 +5,10 @@ namespace Webkul\Inventory\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Webkul\Security\Models\User;
-use Webkul\Support\Models\Company;
 use Webkul\Inventory\Database\Factories\StorageCategoryFactory;
 use Webkul\Inventory\Enums\AllowNewProduct;
+use Webkul\Security\Models\User;
+use Webkul\Support\Models\Company;
 
 class StorageCategory extends Model
 {

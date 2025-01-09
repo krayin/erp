@@ -2,9 +2,9 @@
 
 namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources\PickingTypeResource\Pages;
 
-use Webkul\Inventory\Filament\Clusters\Configurations\Resources\PickingTypeResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
+use Webkul\Inventory\Filament\Clusters\Configurations\Resources\PickingTypeResource;
 
 class ViewPickingType extends ViewRecord
 {

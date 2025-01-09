@@ -3,9 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Webkul\Support\Database\Seeders\DatabaseSeeder as SupportDatabaseSeeder;
 use Webkul\Security\Database\Seeders\DatabaseSeeder as SecurityDatabaseSeeder;
-
+use Webkul\Support\Database\Seeders\DatabaseSeeder as SupportDatabaseSeeder;
 
 class DatabaseSeeder extends Seeder
 {

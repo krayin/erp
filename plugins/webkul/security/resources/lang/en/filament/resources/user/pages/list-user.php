@@ -28,7 +28,7 @@ return [
                 'default-company-error' => [
                     'title' => 'Default Company Not Set',
                     'body'  => 'Please set the default company from settings, before inviting a user.',
-                ]
+                ],
             ],
         ],
 

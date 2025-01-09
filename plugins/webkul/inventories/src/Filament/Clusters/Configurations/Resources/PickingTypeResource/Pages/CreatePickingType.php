@@ -2,10 +2,10 @@
 
 namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources\PickingTypeResource\Pages;
 
-use Webkul\Inventory\Filament\Clusters\Configurations\Resources\PickingTypeResource;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Inventory\Filament\Clusters\Configurations\Resources\PickingTypeResource;
 
 class CreatePickingType extends CreateRecord
 {

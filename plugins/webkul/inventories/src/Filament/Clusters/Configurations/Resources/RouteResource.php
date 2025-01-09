@@ -2,18 +2,15 @@
 
 namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources;
 
-use Webkul\Inventory\Filament\Clusters\Configurations;
-use Webkul\Inventory\Filament\Clusters\Configurations\Resources\RouteResource\Pages;
-use Webkul\Inventory\Filament\Clusters\Configurations\Resources\RouteResource\RelationManagers;
-use Webkul\Inventory\Models\Route;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Notifications\Notification;
+use Webkul\Inventory\Filament\Clusters\Configurations;
+use Webkul\Inventory\Filament\Clusters\Configurations\Resources\RouteResource\Pages;
+use Webkul\Inventory\Models\Route;
 
 class RouteResource extends Resource
 {
@@ -52,41 +49,41 @@ class RouteResource extends Resource
                             ->extraInputAttributes(['style' => 'font-size: 1.5rem;height: 3rem;']),
                     ]),
 
-                    Forms\Components\Section::make(__('inventories::filament/clusters/configurations/resources/route.form.sections.applicable-on.title'))
-                        ->description(__('inventories::filament/clusters/configurations/resources/route.form.sections.applicable-on.description'))
-                        ->schema([
-                            Forms\Components\Group::make()
-                                ->schema([
-                                    Forms\Components\Toggle::make('product_category_selectable')
-                                        ->label(__('inventories::filament/clusters/configurations/resources/route.form.sections.applicable-on.fields.product-categories'))
-                                        ->inline(false)
-                                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/route.form.sections.applicable-on.fields.product-categories-hint-tooltip')),
-                                    Forms\Components\Toggle::make('product_selectable')
-                                        ->label(__('inventories::filament/clusters/configurations/resources/route.form.sections.applicable-on.fields.products'))
-                                        ->inline(false)
-                                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/route.form.sections.applicable-on.fields.products-hint-tooltip')),
-                                    Forms\Components\Toggle::make('packaging_selectable')
-                                        ->label(__('inventories::filament/clusters/configurations/resources/route.form.sections.applicable-on.fields.packaging'))
-                                        ->inline(false)
-                                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/route.form.sections.applicable-on.fields.packaging-hint-tooltip')),
-                                ]),
-                            Forms\Components\Group::make()
-                                ->schema([
-                                    Forms\Components\Toggle::make('warehouse_selectable')
-                                        ->label(__('inventories::filament/clusters/configurations/resources/route.form.sections.applicable-on.fields.warehouses'))
-                                        ->inline(false)
-                                        ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/route.form.sections.applicable-on.fields.warehouses-hint-tooltip'))
-                                        ->live(),
-                                    Forms\Components\Select::make('warehouses')
-                                        ->hiddenLabel()
-                                        ->relationship('warehouses', 'name')
-                                        ->searchable()
-                                        ->preload()
-                                        ->multiple()
-                                        ->visible(fn (Forms\Get $get) => $get('warehouse_selectable')),
-                                ])
-                        ])
-                        ->columns(2),
+                Forms\Components\Section::make(__('inventories::filament/clusters/configurations/resources/route.form.sections.applicable-on.title'))
+                    ->description(__('inventories::filament/clusters/configurations/resources/route.form.sections.applicable-on.description'))
+                    ->schema([
+                        Forms\Components\Group::make()
+                            ->schema([
+                                Forms\Components\Toggle::make('product_category_selectable')
+                                    ->label(__('inventories::filament/clusters/configurations/resources/route.form.sections.applicable-on.fields.product-categories'))
+                                    ->inline(false)
+                                    ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/route.form.sections.applicable-on.fields.product-categories-hint-tooltip')),
+                                Forms\Components\Toggle::make('product_selectable')
+                                    ->label(__('inventories::filament/clusters/configurations/resources/route.form.sections.applicable-on.fields.products'))
+                                    ->inline(false)
+                                    ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/route.form.sections.applicable-on.fields.products-hint-tooltip')),
+                                Forms\Components\Toggle::make('packaging_selectable')
+                                    ->label(__('inventories::filament/clusters/configurations/resources/route.form.sections.applicable-on.fields.packaging'))
+                                    ->inline(false)
+                                    ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/route.form.sections.applicable-on.fields.packaging-hint-tooltip')),
+                            ]),
+                        Forms\Components\Group::make()
+                            ->schema([
+                                Forms\Components\Toggle::make('warehouse_selectable')
+                                    ->label(__('inventories::filament/clusters/configurations/resources/route.form.sections.applicable-on.fields.warehouses'))
+                                    ->inline(false)
+                                    ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/route.form.sections.applicable-on.fields.warehouses-hint-tooltip'))
+                                    ->live(),
+                                Forms\Components\Select::make('warehouses')
+                                    ->hiddenLabel()
+                                    ->relationship('warehouses', 'name')
+                                    ->searchable()
+                                    ->preload()
+                                    ->multiple()
+                                    ->visible(fn (Forms\Get $get) => $get('warehouse_selectable')),
+                            ]),
+                    ])
+                    ->columns(2),
             ]);
     }
 
@@ -183,10 +180,10 @@ class RouteResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListRoutes::route('/'),
+            'index'  => Pages\ListRoutes::route('/'),
             'create' => Pages\CreateRoute::route('/create'),
-            'view' => Pages\ViewRoute::route('/{record}'),
-            'edit' => Pages\EditRoute::route('/{record}/edit'),
+            'view'   => Pages\ViewRoute::route('/{record}'),
+            'edit'   => Pages\EditRoute::route('/{record}/edit'),
         ];
     }
 }

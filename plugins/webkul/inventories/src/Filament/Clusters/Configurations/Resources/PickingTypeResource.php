@@ -2,25 +2,22 @@
 
 namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources;
 
-use Webkul\Inventory\Filament\Clusters\Configurations;
-use Webkul\Inventory\Filament\Clusters\Configurations\Resources\PickingTypeResource\Pages;
-use Webkul\Inventory\Filament\Clusters\Configurations\Resources\PickingTypeResource\RelationManagers;
-use Webkul\Inventory\Models\Warehouse;
-use Webkul\Inventory\Models\Location;
-use Webkul\Inventory\Models\PickingType;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Notifications\Notification;
-use Webkul\Inventory\Enums\PickingType as PickingTypeEnum;
-use Webkul\Inventory\Enums\LocationType;
 use Webkul\Inventory\Enums\CreateBackorder;
-use Webkul\Inventory\Enums\ReservationMethod;
+use Webkul\Inventory\Enums\LocationType;
 use Webkul\Inventory\Enums\MoveType;
+use Webkul\Inventory\Enums\PickingType as PickingTypeEnum;
+use Webkul\Inventory\Enums\ReservationMethod;
+use Webkul\Inventory\Filament\Clusters\Configurations;
+use Webkul\Inventory\Filament\Clusters\Configurations\Resources\PickingTypeResource\Pages;
+use Webkul\Inventory\Models\Location;
+use Webkul\Inventory\Models\PickingType;
+use Webkul\Inventory\Models\Warehouse;
 
 class PickingTypeResource extends Resource
 {
@@ -77,38 +74,39 @@ class PickingTypeResource extends Resource
                                                     ->default(PickingTypeEnum::INCOMING)
                                                     ->native(true)
                                                     ->live()
+                                                    ->selectablePlaceholder(false)
                                                     ->afterStateUpdated(function (Forms\Set $set, Forms\Get $get) {
                                                         // Clear existing values
-                                                        $set('auto_print_delivery_slip', null);
-                                                        
+                                                        $set('print_label', null);
+
                                                         // Get the new default values based on current type
                                                         $type = $get('type');
                                                         $warehouseId = $get('warehouse_id');
-                                                        
+
                                                         // Set new source location
-                                                        $sourceLocationId = match($type) {
+                                                        $sourceLocationId = match ($type) {
                                                             PickingTypeEnum::INCOMING => Location::where('type', LocationType::SUPPLIER)->first()?->id,
                                                             PickingTypeEnum::OUTGOING => Location::where('is_replenish', 1)
-                                                                ->when($warehouseId, fn($query) => $query->where('warehouse_id', $warehouseId))
+                                                                ->when($warehouseId, fn ($query) => $query->where('warehouse_id', $warehouseId))
                                                                 ->first()?->id,
                                                             PickingTypeEnum::INTERNAL => Location::where('is_replenish', 1)
-                                                                ->when($warehouseId, fn($query) => $query->where('warehouse_id', $warehouseId))
+                                                                ->when($warehouseId, fn ($query) => $query->where('warehouse_id', $warehouseId))
                                                                 ->first()?->id,
                                                             default => null,
                                                         };
-                                                        
+
                                                         // Set new destination location
-                                                        $destinationLocationId = match($type) {
+                                                        $destinationLocationId = match ($type) {
                                                             PickingTypeEnum::INCOMING => Location::where('is_replenish', 1)
-                                                                ->when($warehouseId, fn($query) => $query->where('warehouse_id', $warehouseId))
+                                                                ->when($warehouseId, fn ($query) => $query->where('warehouse_id', $warehouseId))
                                                                 ->first()?->id,
                                                             PickingTypeEnum::OUTGOING => Location::where('type', LocationType::CUSTOMER)->first()?->id,
                                                             PickingTypeEnum::INTERNAL => Location::where('is_replenish', 1)
-                                                                ->when($warehouseId, fn($query) => $query->where('warehouse_id', $warehouseId))
+                                                                ->when($warehouseId, fn ($query) => $query->where('warehouse_id', $warehouseId))
                                                                 ->first()?->id,
                                                             default => null,
                                                         };
-                                                        
+
                                                         // Set the new values
                                                         $set('source_location_id', $sourceLocationId);
                                                         $set('destination_location_id', $destinationLocationId);
@@ -117,7 +115,7 @@ class PickingTypeResource extends Resource
                                                     ->label(__('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.general.fields.sequence-prefix'))
                                                     ->required()
                                                     ->maxLength(255),
-                                                Forms\Components\Toggle::make('auto_print_delivery_slip')
+                                                Forms\Components\Toggle::make('print_label')
                                                     ->label(__('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.general.fields.generate-shipping-labels'))
                                                     ->inline(false)
                                                     ->visible(fn (Forms\Get $get): bool => in_array($get('type'), [PickingTypeEnum::OUTGOING, PickingTypeEnum::INTERNAL])),
@@ -127,7 +125,7 @@ class PickingTypeResource extends Resource
                                                     ->searchable()
                                                     ->preload()
                                                     ->live()
-                                                    ->default(function(Forms\Get $get) {
+                                                    ->default(function (Forms\Get $get) {
                                                         return Warehouse::first()?->id;
                                                     }),
                                                 Forms\Components\Select::make('reservation_method')
@@ -184,18 +182,18 @@ class PickingTypeResource extends Resource
                                             ->searchable()
                                             ->preload()
                                             ->live()
-                                            ->default(function(Forms\Get $get) {
+                                            ->default(function (Forms\Get $get) {
                                                 $type = $get('type');
 
                                                 $warehouseId = $get('warehouse_id');
 
-                                                return match($type) {
+                                                return match ($type) {
                                                     PickingTypeEnum::INCOMING => Location::where('type', LocationType::SUPPLIER)->first()?->id,
                                                     PickingTypeEnum::OUTGOING => Location::where('is_replenish', 1)
-                                                        ->when($warehouseId, fn($query) => $query->where('warehouse_id', $warehouseId))
+                                                        ->when($warehouseId, fn ($query) => $query->where('warehouse_id', $warehouseId))
                                                         ->first()?->id,
                                                     PickingTypeEnum::INTERNAL => Location::where('is_replenish', 1)
-                                                        ->when($warehouseId, fn($query) => $query->where('warehouse_id', $warehouseId))
+                                                        ->when($warehouseId, fn ($query) => $query->where('warehouse_id', $warehouseId))
                                                         ->first()?->id,
                                                     default => null,
                                                 };
@@ -207,18 +205,18 @@ class PickingTypeResource extends Resource
                                             ->relationship('destinationLocation', 'full_name')
                                             ->searchable()
                                             ->preload()
-                                            ->default(function(Forms\Get $get) {
+                                            ->default(function (Forms\Get $get) {
                                                 $type = $get('type');
                                                 $warehouseId = $get('warehouse_id');
 
-                                                return match($type) {
+                                                return match ($type) {
                                                     PickingTypeEnum::INCOMING => Location::where('is_replenish', 1)
-                                                        ->when($warehouseId, fn($query) => $query->where('warehouse_id', $warehouseId))
+                                                        ->when($warehouseId, fn ($query) => $query->where('warehouse_id', $warehouseId))
                                                         ->first()?->id,
                                                     PickingTypeEnum::OUTGOING => Location::where('type', LocationType::CUSTOMER)->first()?->id,
                                                     PickingTypeEnum::INTERNAL => Location::where(function ($query) use ($warehouseId) {
                                                         $query->whereNull('warehouse_id')
-                                                            ->when($warehouseId, fn($q) => $q->orWhere('warehouse_id', $warehouseId));
+                                                            ->when($warehouseId, fn ($q) => $q->orWhere('warehouse_id', $warehouseId));
                                                     })->first()?->id,
                                                     default => null,
                                                 };
@@ -229,13 +227,53 @@ class PickingTypeResource extends Resource
                                         Forms\Components\Toggle::make('show_entire_packs')
                                             ->label(__('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.general.fieldsets.packages.fields.show-entire-package'))
                                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.general.fieldsets.packages.fields.show-entire-package-hint-tooltip'))
-                                            ->inline(false)
+                                            ->inline(false),
                                     ])
                                     ->visible(fn (Forms\Get $get): bool => $get('type') != PickingTypeEnum::DROPSHIP),
                             ]),
                         Forms\Components\Tabs\Tab::make(__('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.hardware.title'))
                             ->icon('heroicon-o-computer-desktop')
                             ->schema([
+                                Forms\Components\Fieldset::make(__('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.hardware.fieldsets.print-on-validation.title'))
+                                    ->schema([
+                                        Forms\Components\Toggle::make('auto_print_delivery_slip')
+                                            ->label(__('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.hardware.fieldsets.print-on-validation.fields.delivery-slip'))
+                                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.hardware.fieldsets.print-on-validation.fields.delivery-slip-hint-tooltip'))
+                                            ->inline(false),
+                                        Forms\Components\Toggle::make('auto_print_return_slip')
+                                            ->label(__('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.hardware.fieldsets.print-on-validation.fields.return-slip'))
+                                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.hardware.fieldsets.print-on-validation.fields.return-slip-hint-tooltip'))
+                                            ->inline(false),
+                                        Forms\Components\Toggle::make('auto_print_product_labels')
+                                            ->label(__('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.hardware.fieldsets.print-on-validation.fields.product-labels'))
+                                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.hardware.fieldsets.print-on-validation.fields.product-labels-hint-tooltip'))
+                                            ->inline(false),
+                                        Forms\Components\Toggle::make('auto_print_lot_labels')
+                                            ->label(__('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.hardware.fieldsets.print-on-validation.fields.lots-labels'))
+                                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.hardware.fieldsets.print-on-validation.fields.lots-labels-hint-tooltip'))
+                                            ->inline(false),
+                                        Forms\Components\Toggle::make('auto_print_reception_report')
+                                            ->label(__('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.hardware.fieldsets.print-on-validation.fields.reception-report'))
+                                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.hardware.fieldsets.print-on-validation.fields.reception-report-hint-tooltip'))
+                                            ->inline(false),
+                                        Forms\Components\Toggle::make('auto_print_reception_report_labels')
+                                            ->label(__('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.hardware.fieldsets.print-on-validation.fields.reception-report-labels'))
+                                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.hardware.fieldsets.print-on-validation.fields.reception-report-labels-hint-tooltip'))
+                                            ->inline(false),
+                                        Forms\Components\Toggle::make('auto_print_packages')
+                                            ->label(__('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.hardware.fieldsets.print-on-validation.fields.package-content'))
+                                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.hardware.fieldsets.print-on-validation.fields.package-content-hint-tooltip'))
+                                            ->inline(false),
+                                    ])
+                                    ->columns(2),
+
+                                Forms\Components\Fieldset::make(__('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.hardware.fieldsets.print-on-pack.title'))
+                                    ->schema([
+                                        Forms\Components\Toggle::make('auto_print_delivery_slip')
+                                            ->label(__('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.hardware.fieldsets.print-on-pack.fields.package-label'))
+                                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.hardware.fieldsets.print-on-pack.fields.package-label-hint-tooltip'))
+                                            ->inline(false),
+                                    ]),
                             ])
                             ->visible(fn (Forms\Get $get): bool => $get('type') != PickingTypeEnum::DROPSHIP),
                     ])
@@ -248,80 +286,35 @@ class PickingTypeResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('inventories::filament/clusters/configurations/resources/picking-type.table.columns.name'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('type')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('sequence_code')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('reservation_method')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('product_label_format')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('lot_label_format')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('package_label_to_print')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('barcode')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('create_backorder')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('move_type')
-                    ->searchable(),
-                Tables\Columns\IconColumn::make('show_entire_packs')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('use_create_lots')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('use_existing_lots')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('print_label')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('show_operations')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('auto_show_reception_report')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('auto_print_delivery_slip')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('auto_print_return_slip')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('auto_print_product_labels')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('auto_print_lot_labels')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('auto_print_reception_report')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('auto_print_reception_report_labels')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('auto_print_packages')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('auto_print_package_label')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('returnPickingType.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('sourceLocation.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('destinationLocation.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('warehouse.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('company.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('creator.name')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('inventories::filament/clusters/configurations/resources/picking-type.table.columns.created-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('inventories::filament/clusters/configurations/resources/picking-type.table.columns.updated-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])->actions([
+            ])
+            ->groups([
+                Tables\Grouping\Group::make('warehouse.name')
+                    ->label(__('inventories::filament/clusters/configurations/resources/picking-type.table.groups.warehouse'))
+                    ->collapsible(),
+                Tables\Grouping\Group::make('type')
+                    ->label(__('inventories::filament/clusters/configurations/resources/picking-type.table.groups.type'))
+                    ->collapsible(),
+                Tables\Grouping\Group::make('created_at')
+                    ->label(__('inventories::filament/clusters/configurations/resources/picking-type.table.groups.created-at'))
+                    ->collapsible(),
+                Tables\Grouping\Group::make('updated_at')
+                    ->label(__('inventories::filament/clusters/configurations/resources/picking-type.table.groups.updated-at'))
+                    ->date()
+                    ->collapsible(),
+            ])
+            ->actions([
                 Tables\Actions\ViewAction::make()
                     ->hidden(fn ($record) => $record->trashed()),
                 Tables\Actions\EditAction::make()
@@ -390,18 +383,10 @@ class PickingTypeResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPickingTypes::route('/'),
+            'index'  => Pages\ListPickingTypes::route('/'),
             'create' => Pages\CreatePickingType::route('/create'),
-            'view' => Pages\ViewPickingType::route('/{record}'),
-            'edit' => Pages\EditPickingType::route('/{record}/edit'),
+            'view'   => Pages\ViewPickingType::route('/{record}'),
+            'edit'   => Pages\EditPickingType::route('/{record}/edit'),
         ];
-    }
-
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()
-            ->withoutGlobalScopes([
-                SoftDeletingScope::class,
-            ]);
     }
 }

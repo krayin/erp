@@ -15,9 +15,9 @@ enum CreateBackorder: string implements HasLabel
     public function getLabel(): string
     {
         return match ($this) {
-            self::ASK => __('inventories::enums/create-backorder.ask'),
+            self::ASK    => __('inventories::enums/create-backorder.ask'),
             self::ALWAYS => __('inventories::enums/create-backorder.always'),
-            self::NEVER => __('inventories::enums/create-backorder.never'),
+            self::NEVER  => __('inventories::enums/create-backorder.never'),
         };
     }
 }

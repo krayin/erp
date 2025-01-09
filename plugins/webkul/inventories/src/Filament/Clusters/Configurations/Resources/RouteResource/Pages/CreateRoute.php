@@ -2,10 +2,10 @@
 
 namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources\RouteResource\Pages;
 
-use Webkul\Inventory\Filament\Clusters\Configurations\Resources\RouteResource;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Inventory\Filament\Clusters\Configurations\Resources\RouteResource;
 
 class CreateRoute extends CreateRecord
 {

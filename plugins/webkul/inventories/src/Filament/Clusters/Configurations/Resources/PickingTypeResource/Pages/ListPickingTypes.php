@@ -2,12 +2,12 @@
 
 namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources\PickingTypeResource\Pages;
 
-use Webkul\Inventory\Filament\Clusters\Configurations\Resources\PickingTypeResource;
 use Filament\Actions;
-use Filament\Resources\Pages\ListRecords;
 use Filament\Notifications\Notification;
 use Filament\Resources\Components\Tab;
+use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Inventory\Filament\Clusters\Configurations\Resources\PickingTypeResource;
 use Webkul\Inventory\Models\PickingType;
 
 class ListPickingTypes extends ListRecords

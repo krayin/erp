@@ -122,7 +122,7 @@ class Company extends Model
         return CompanyFactory::new();
     }
 
-     /**
+    /**
      * Bootstrap the model and its traits.
      */
     protected static function boot()
@@ -144,8 +144,8 @@ class Company extends Model
     private function handlePartnerCreation(self $company)
     {
         $partner = $company->partner()->create([
-            'creator_id' => $company->creator_id ?? Auth::id(),
-            'sub_type'   => 'company',
+            'creator_id'       => $company->creator_id ?? Auth::id(),
+            'sub_type'         => 'company',
             'company_registry' => $company->registration_number,
             ...Arr::except($company->toArray(), ['sort', 'registration_number', 'is_active', 'founded_date', 'currency_id', 'partner_id']),
             'company_id'    => $company->id,
@@ -163,8 +163,8 @@ class Company extends Model
         $partner = Partner::updateOrCreate(
             ['id' => $company->partner_id],
             [
-                'creator_id' => $company->creator_id ?? Auth::id(),
-                'sub_type'   => 'company',
+                'creator_id'       => $company->creator_id ?? Auth::id(),
+                'sub_type'         => 'company',
                 'company_registry' => $company->registration_number,
                 ...Arr::except($company->toArray(), ['sort', 'registration_number', 'is_active', 'founded_date', 'currency_id', 'partner_id']),
                 'company_id'    => $company->id,

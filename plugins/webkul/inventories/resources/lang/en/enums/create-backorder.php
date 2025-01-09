@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'ask' => 'Ask',
+    'ask'    => 'Ask',
     'always' => 'Always',
-    'never' => 'Never',
+    'never'  => 'Never',
 ];

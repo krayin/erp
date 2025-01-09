@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Webkul\Security\Models\User;
-use Webkul\Support\Models\Company;
 use Webkul\Inventory\Database\Factories\LocationFactory;
 use Webkul\Inventory\Enums\LocationType;
+use Webkul\Security\Models\User;
+use Webkul\Support\Models\Company;
 
 class Location extends Model
 {
@@ -88,6 +88,72 @@ class Location extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Bootstrap any application services.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function (self $location) {
+            static::updateParentPath($location);
+
+            static::updateFullName($location);
+        });
+
+        static::updated(function (self $location) {
+            static::updateParentPath($location);
+
+            static::updateFullName($location);
+        });
+
+        static::saving(function (self $location) {
+            static::updateParentPath($location);
+
+            static::updateFullName($location);
+        });
+    }
+
+    /**
+     * Update the parent path without triggering additional events
+     */
+    protected static function updateParentPath(self $location)
+    {
+        $parentPath = $location->parent
+            ? $location->parent->parent_path.$location->id.'/'
+            : $location->id.'/';
+
+        // Use query builder to avoid triggering another update event
+        static::withoutEvents(function () use ($location, $parentPath) {
+            $location->newQuery()
+                ->withTrashed()
+                ->where('id', $location->id)
+                ->update(['parent_path' => $parentPath]);
+        });
+    }
+
+    /**
+     * Update the full name without triggering additional events
+     */
+    protected static function updateFullName(self $location)
+    {
+        if ($location->type === LocationType::VIEW) {
+            $fullName = $location->name;
+        } else {
+            $fullName = $location->parent
+                ? $location->parent->full_name.'/'.$location->name
+                : $location->name;
+        }
+
+        // Use query builder to avoid triggering another update event
+        static::withoutEvents(function () use ($location, $fullName) {
+            $location->newQuery()
+                ->withTrashed()
+                ->where('id', $location->id)
+                ->update(['full_name'   => $fullName]);
+        });
     }
 
     protected static function newFactory(): LocationFactory

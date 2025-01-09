@@ -3,8 +3,8 @@
 namespace Webkul\Inventory\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Webkul\Security\Models\User;
 use Webkul\Inventory\Models\Route;
+use Webkul\Security\Models\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Webkul\Inventory\Models\Route>
