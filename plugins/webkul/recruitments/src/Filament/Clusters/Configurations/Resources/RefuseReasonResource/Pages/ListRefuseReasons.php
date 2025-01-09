@@ -15,12 +15,13 @@ class ListRefuseReasons extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-            ->successNotification(
-                Notification::make()
-                    ->success()
-                    ->title(__('recruitments::filament/clusters/configurations/resources/refuse-reason/pages/list-refuse-reasons.notification.title'))
-                    ->body(__('recruitments::filament/clusters/configurations/resources/refuse-reason/pages/list-refuse-reasons.notification.body'))
-            ),
+                ->icon('heroicon-o-plus-circle')
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title(__('recruitments::filament/clusters/configurations/resources/refuse-reason/pages/list-refuse-reasons.notification.title'))
+                        ->body(__('recruitments::filament/clusters/configurations/resources/refuse-reason/pages/list-refuse-reasons.notification.body'))
+                ),
         ];
     }
 }

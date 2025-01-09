@@ -4,7 +4,7 @@ return [
     'title' => 'Refuse Reason',
 
     'navigation' => [
-        'title' => 'Refuse Reason',
+        'title' => 'Refuse Reasons',
         'group' => 'Applications',
     ],
 
