@@ -59,6 +59,7 @@ return [
             ],
         ],
     ],
+
     'table' => [
         'columns' => [
             'name'       => 'Full Name',
@@ -94,6 +95,58 @@ return [
                         'title' => 'Candidate Created',
                         'body'  => 'The candidate was successfully created.',
                     ],
+                ],
+            ],
+        ],
+    ],
+
+    'infolist' => [
+        'sections' => [
+            'basic-information' => [
+                'title' => 'Basic Information',
+
+                'entries' => [
+                    'full-name' => 'Full Name',
+                    'email'     => 'Email Address',
+                    'phone'     => 'Phone Number',
+                    'linkedin'  => 'LinkedIn Profile',
+                    'contact'   => 'Contact'
+                ],
+            ],
+
+            'additional-details' => [
+                'title' => 'Additional Details',
+
+                'entries' => [
+                    'company'           => 'Company',
+                    'degree'            => 'Degree',
+                    'tags'              => 'Tags',
+                    'manager'           => 'Manager',
+                    'availability-date' => 'Availability Date',
+
+                    'priority-options' => [
+                        'low'    => 'Low',
+                        'medium' => 'Medium',
+                        'high'   => 'High',
+                    ],
+                ],
+            ],
+
+            'status-and-evaluation' => [
+                'title' => 'Status',
+
+                'entries' => [
+                    'active'     => 'Active',
+                    'evaluation' => 'Evaluation',
+                ],
+            ],
+
+            'communication' => [
+                'title' => 'Communication',
+
+                'entries' => [
+                    'cc-email'      => 'CC Email',
+                    'email-bounced' => 'Email Bounced',
                 ],
             ],
         ],

@@ -3,6 +3,7 @@
 namespace Webkul\Recruitment\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Webkul\Employee\Models\Employee;
 use Webkul\Partner\Models\Partner;
 use Webkul\Recruitment\Models\Degree;
@@ -95,5 +96,10 @@ class Candidate extends Model
     public function categories()
     {
         return $this->belongsToMany(ApplicantCategory::class, 'recruitments_candidate_applicant_categories', 'candidate_id', 'category_id');
+    }
+
+    public function skills(): HasMany
+    {
+        return $this->hasMany(CandidateSkill::class, 'candidate_id');
     }
 }
