@@ -12,6 +12,8 @@ class CalendarAttendanceSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('employees_calendar_attendances')->delete();
+
         $calendarAttendanceSeeder = [
             ['creator_id' => 1, 'calendar_id' => 1, 'sort' => 10, 'name' => 'Monday Morning', 'day_of_week' => 'monday', 'day_period' => 'morning', 'week_type' => null, 'display_type' => null, 'date_from' => null, 'date_to' => null, 'hour_from' => 8, 'hour_to' => 12, 'duration_days' => 0.5],
             ['creator_id' => 1, 'calendar_id' => 1, 'sort' => 10, 'name' => 'Monday Lunch', 'day_of_week' => 'monday', 'day_period' => 'lunch', 'week_type' => null, 'display_type' => null, 'date_from' => null, 'date_to' => null, 'hour_from' => 12, 'hour_to' => 13, 'duration_days' => 0],

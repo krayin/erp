@@ -21,7 +21,7 @@ class EmployeeCategoryResource extends Resource
 {
     protected static ?string $model = EmployeeCategory::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-at-symbol';
+    protected static ?string $navigationIcon = 'heroicon-o-tag';
 
     protected static ?string $cluster = Configurations::class;
 

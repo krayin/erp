@@ -13,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Resources\DepartmentResource\Pages;
 use Webkul\Employee\Models\Department;
 use Webkul\Field\Filament\Traits\HasCustomFields;
@@ -62,10 +63,19 @@ class DepartmentResource extends Resource
                             ->schema([
                                 Forms\Components\Section::make(__('employees::filament/resources/department.form.sections.general.title'))
                                     ->schema([
+                                        Forms\Components\Hidden::make('creator_id')
+                                            ->default(Auth::id())
+                                            ->required(),
                                         Forms\Components\TextInput::make('name')
                                             ->label(__('employees::filament/resources/department.form.sections.general.fields.name'))
                                             ->required()
                                             ->maxLength(255)
+                                            ->live(onBlur: true),
+                                        Forms\Components\Select::make('parent_id')
+                                            ->label(__('employees::filament/resources/department.form.sections.general.fields.parent-department'))
+                                            ->relationship('parent', 'complete_name')
+                                            ->searchable()
+                                            ->preload()
                                             ->live(onBlur: true),
                                         Forms\Components\Select::make('manager_id')
                                             ->label(__('employees::filament/resources/department.form.sections.general.fields.manager'))
@@ -101,8 +111,9 @@ class DepartmentResource extends Resource
             ->columns([
                 Tables\Columns\Layout\Stack::make([
                     Tables\Columns\ImageColumn::make('manager.partner.avatar')
-                        ->height(150)
-                        ->width(200),
+                        ->height(35)
+                        ->circular()
+                        ->width(35),
                     Tables\Columns\Layout\Stack::make([
                         Tables\Columns\TextColumn::make('name')
                             ->weight(FontWeight::Bold)
@@ -191,13 +202,6 @@ class DepartmentResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\RestoreAction::make()
-                    ->successNotification(
-                        Notification::make()
-                            ->success()
-                            ->title(__('employees::filament/resources/department.table.actions.restore.notification.title'))
-                            ->body(__('employees::filament/resources/department.table.actions.restore.notification.body')),
-                    ),
                 Tables\Actions\DeleteAction::make()
                     ->successNotification(
                         Notification::make()
@@ -205,13 +209,22 @@ class DepartmentResource extends Resource
                             ->title(__('employees::filament/resources/department.table.actions.delete.notification.title'))
                             ->body(__('employees::filament/resources/department.table.actions.delete.notification.body')),
                     ),
-                Tables\Actions\ForceDeleteAction::make()
-                    ->successNotification(
-                        Notification::make()
-                            ->success()
-                            ->title(__('employees::filament/resources/department.table.actions.force-delete.notification.title'))
-                            ->body(__('employees::filament/resources/department.table.actions.force-delete.notification.body')),
-                    ),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\RestoreAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('employees::filament/resources/department.table.actions.restore.notification.title'))
+                                ->body(__('employees::filament/resources/department.table.actions.restore.notification.body')),
+                        ),
+                    Tables\Actions\ForceDeleteAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('employees::filament/resources/department.table.actions.force-delete.notification.title'))
+                                ->body(__('employees::filament/resources/department.table.actions.force-delete.notification.body')),
+                        ),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -252,22 +265,126 @@ class DepartmentResource extends Resource
                                     ->schema([
                                         Infolists\Components\TextEntry::make('name')
                                             ->placeholder('—')
+                                            ->icon('heroicon-o-building-office-2')
                                             ->label(__('employees::filament/resources/department.infolist.sections.general.entries.name')),
                                         Infolists\Components\TextEntry::make('manager.name')
                                             ->placeholder('—')
+                                            ->icon('heroicon-o-user')
                                             ->label(__('employees::filament/resources/department.infolist.sections.general.entries.manager')),
                                         Infolists\Components\TextEntry::make('company.name')
                                             ->placeholder('—')
+                                            ->icon('heroicon-o-building-office')
                                             ->label(__('employees::filament/resources/department.infolist.sections.general.entries.company')),
                                         Infolists\Components\ColorEntry::make('color')
                                             ->placeholder('—')
                                             ->label(__('employees::filament/resources/department.infolist.sections.general.entries.color')),
+                                        Infolists\Components\Fieldset::make(__('employees::filament/resources/department.infolist.sections.general.entries.hierarchy-title'))
+                                            ->schema([
+                                                Infolists\Components\TextEntry::make('hierarchy')
+                                                    ->label('')
+                                                    ->html()
+                                                    ->state(fn (Department $record): string => static::buildHierarchyTree($record)),
+                                            ])->columnSpan('full'),
                                     ])
                                     ->columns(2),
                             ]),
                     ])
                     ->columnSpan('full'),
             ]);
+    }
+
+    protected static function buildHierarchyTree(Department $currentDepartment): string
+    {
+        $rootDepartment = static::findRootDepartment($currentDepartment);
+
+        return static::renderDepartmentTree($rootDepartment, $currentDepartment);
+    }
+
+    protected static function findRootDepartment(Department $department): Department
+    {
+        $current = $department;
+        while ($current->parent_id) {
+            $current = $current->parent;
+        }
+        return $current;
+    }
+
+    protected static function renderDepartmentTree(
+        Department $department,
+        Department $currentDepartment,
+        int $depth = 0,
+        bool $isLast = true,
+        array $parentIsLast = []
+    ): string {
+        $output = static::formatDepartmentLine(
+            $department,
+            $depth,
+            $department->id === $currentDepartment->id,
+            $isLast,
+            $parentIsLast
+        );
+
+        $children = Department::where('parent_id', $department->id)
+            ->where('company_id', $department->company_id)
+            ->orderBy('name')
+            ->get();
+
+        if ($children->isNotEmpty()) {
+            $lastIndex = $children->count() - 1;
+
+            foreach ($children as $index => $child) {
+                $newParentIsLast = array_merge($parentIsLast, [$isLast]);
+
+                $output .= static::renderDepartmentTree(
+                    $child,
+                    $currentDepartment,
+                    $depth + 1,
+                    $index === $lastIndex,
+                    $newParentIsLast
+                );
+            }
+        }
+
+        return $output;
+    }
+
+    protected static function formatDepartmentLine(
+        Department $department,
+        int $depth,
+        bool $isActive,
+        bool $isLast,
+        array $parentIsLast
+    ): string {
+        $prefix = '';
+        if ($depth > 0) {
+            for ($i = 0; $i < $depth - 1; $i++) {
+                $prefix .= $parentIsLast[$i] ? '&nbsp;&nbsp;&nbsp;&nbsp;' : '&nbsp;&nbsp;&nbsp;';
+            }
+            $prefix .= $isLast ? '└──&nbsp;' : '├──&nbsp;';
+        }
+
+        $employeeCount = $department->employees()->count();
+        $managerName = $department->manager?->name ? " · {$department->manager->name}" : '';
+
+        $style = $isActive
+            ? 'color: ' . ($department->color ?? '#1D4ED8') . '; font-weight: bold;'
+            : '';
+
+        return sprintf(
+            '<div class="py-1" style="%s">
+                <span class="inline-flex items-center gap-2">
+                    %s%s%s
+                    <span class="text-sm text-gray-500">
+                        (%d members)
+                    </span>
+                </span>
+            </div>',
+            $style,
+            $prefix,
+            e($department->name),
+            e($managerName),
+            $employeeCount
+        );
     }
 
     public static function getSlug(): string

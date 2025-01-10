@@ -12,6 +12,8 @@ class EmployeeCategorySeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('employees_categories')->delete();
+
         $employeesCategories = [
             ['creator_id' => 1, 'name' => 'Sales', 'color' => fake()->hexColor(), 'created_at' => now(), 'updated_at' => now()],
             ['creator_id' => 1, 'name' => 'Trainer', 'color' => fake()->hexColor(), 'created_at' => now(), 'updated_at' => now()],

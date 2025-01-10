@@ -71,9 +71,6 @@ class ActivityTypeResource extends Resource
                                             ->options(fn () => User::query()->pluck('name', 'id'))
                                             ->searchable()
                                             ->preload(),
-                                        Forms\Components\TextInput::make('plugin')
-                                            ->default('support')
-                                            ->label(__('support::filament/resources/activity-type.form.sections.activity-type-details.fields.plugin')),
                                         Forms\Components\Textarea::make('summary')
                                             ->label(__('support::filament/resources/activity-type.form.sections.activity-type-details.fields.summary'))
                                             ->columnSpanFull(),
@@ -182,6 +179,7 @@ class ActivityTypeResource extends Resource
                     ->badge()
                     ->label(__('support::filament/resources/activity-type.table.columns.action'))
                     ->searchable()
+                    ->formatStateUsing(fn ($state) => ActivityTypeAction::options()[$state])
                     ->sortable(),
                 Tables\Columns\IconColumn::make('is_active')
                     ->label(__('support::filament/resources/activity-type.table.columns.status'))
@@ -321,6 +319,7 @@ class ActivityTypeResource extends Resource
                                         Infolists\Components\TextEntry::make('category')
                                             ->icon('heroicon-o-tag')
                                             ->placeholder('—')
+                                            ->formatStateUsing(fn ($state) => ActivityTypeAction::options()[$state])
                                             ->label(__('support::filament/resources/activity-type.infolist.sections.activity-type-details.entries.action')),
                                         Infolists\Components\TextEntry::make('default_user.name')
                                             ->icon('heroicon-o-user')
@@ -353,10 +352,12 @@ class ActivityTypeResource extends Resource
                                         Infolists\Components\TextEntry::make('delay_unit')
                                             ->icon('heroicon-o-calendar')
                                             ->placeholder('—')
+                                            ->formatStateUsing(fn ($state) => ActivityDelayUnit::options()[$state])
                                             ->label(__('support::filament/resources/activity-type.infolist.sections.delay-information.entries.delay-unit')),
                                         Infolists\Components\TextEntry::make('delay_from')
                                             ->icon('heroicon-o-arrow-right')
                                             ->placeholder('—')
+                                            ->formatStateUsing(fn ($state) => ActivityDelayFrom::options()[$state])
                                             ->label(__('support::filament/resources/activity-type.infolist.sections.delay-information.entries.delay-form')),
                                     ])->columns(2),
                             ])->columnSpan(2),
@@ -364,15 +365,18 @@ class ActivityTypeResource extends Resource
                             ->schema([
                                 Infolists\Components\Section::make(__('support::filament/resources/activity-type.infolist.sections.advanced-information.title'))
                                     ->schema([
-                                        Infolists\Components\IconEntry::make('icon')
+                                        Infolists\Components\TextEntry::make('icon')
+                                            ->icon(fn($record) => $record->icon)
                                             ->placeholder('—')
                                             ->label(__('support::filament/resources/activity-type.infolist.sections.advanced-information.entries.icon')),
                                         Infolists\Components\TextEntry::make('decoration_type')
                                             ->icon('heroicon-o-paint-brush')
+                                            ->formatStateUsing(fn ($state) => ActivityDecorationType::options()[$state])
                                             ->placeholder('—')
                                             ->label(__('support::filament/resources/activity-type.infolist.sections.advanced-information.entries.decoration-type')),
                                         Infolists\Components\TextEntry::make('chaining_type')
                                             ->icon('heroicon-o-link')
+                                            ->formatStateUsing(fn ($state) => ActivityChainingType::options()[$state])
                                             ->placeholder('—')
                                             ->label(__('support::filament/resources/activity-type.infolist.sections.advanced-information.entries.chaining-type')),
                                         Infolists\Components\TextEntry::make('suggestedActivityTypes.name')

@@ -11,6 +11,18 @@ class EditActivityType extends EditRecord
 {
     protected static string $resource = ActivityTypeResource::class;
 
+    protected static ?string $pluginName = 'support';
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('view', ['record' => $this->getRecord()]);
+    }
+
+    protected static function getPluginName()
+    {
+        return static::$pluginName;
+    }
+
     protected function getSavedNotification(): Notification
     {
         return Notification::make()
@@ -31,5 +43,12 @@ class EditActivityType extends EditRecord
                         ->body(__('support::filament/resources/activity-type/pages/edit-activity-type.header-actions.delete.notification.body')),
                 ),
         ];
+    }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $data['plugin'] = static::getPluginName();
+
+        return $data;
     }
 }

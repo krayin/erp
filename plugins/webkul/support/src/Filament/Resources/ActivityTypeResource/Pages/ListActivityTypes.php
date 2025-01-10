@@ -12,6 +12,13 @@ class ListActivityTypes extends ListRecords
 {
     protected static string $resource = ActivityTypeResource::class;
 
+    protected static ?string $pluginName = 'employees';
+
+    protected static function getPluginName()
+    {
+        return static::$pluginName;
+    }
+
     protected function getHeaderActions(): array
     {
         return [
@@ -25,11 +32,11 @@ class ListActivityTypes extends ListRecords
     {
         return [
             'all' => Tab::make(__('support::filament/resources/activity-type/pages/list-activity-type.tabs.all'))
-                ->badge(ActivityType::count()),
+                ->badge(ActivityType::where('plugin', static::getPluginName())->count()),
             'archived' => Tab::make(__('support::filament/resources/activity-type/pages/list-activity-type.tabs.archived'))
                 ->badge(ActivityType::onlyTrashed()->count())
                 ->modifyQueryUsing(function ($query) {
-                    return $query->onlyTrashed();
+                    return $query->where('plugin', static::getPluginName())->onlyTrashed();
                 }),
         ];
     }

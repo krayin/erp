@@ -22,6 +22,7 @@ return [
                 'fields' => [
                     'name'                => 'Name',
                     'manager'             => 'Manager',
+                    'parent-department'   => 'Parent Department',
                     'manager-placeholder' => 'Select Manager',
                     'company'             => 'Company',
                     'company-placeholder' => 'Select Company',
@@ -116,6 +117,7 @@ return [
                     'manager' => 'Manager',
                     'company' => 'Company',
                     'color'   => 'Color',
+                    'hierarchy-title' => 'Department Organization',
                 ],
             ],
         ],

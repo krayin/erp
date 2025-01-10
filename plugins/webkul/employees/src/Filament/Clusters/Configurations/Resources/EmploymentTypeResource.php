@@ -23,8 +23,6 @@ class EmploymentTypeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-cube-transparent';
 
-    protected static ?string $navigationGroup = 'Recruitment';
-
     public static function getModelLabel(): string
     {
         return __('employees::filament/clusters/configurations/resources/employment-type.title');

@@ -12,6 +12,8 @@ class SkillTypeSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('employees_skill_types')->delete();
+
         $skillTypes = [
             [
                 'name'               => 'Languages',

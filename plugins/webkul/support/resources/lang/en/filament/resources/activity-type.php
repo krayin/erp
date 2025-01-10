@@ -23,7 +23,6 @@ return [
                     'name-tooltip'        => 'Enter the official activity type name',
                     'action'              => 'Action',
                     'default-user'        => 'Default User',
-                    'plugin'              => 'Plugin',
                     'summary'             => 'Summary',
                     'note'                => 'Note',
                 ],

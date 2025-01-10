@@ -12,6 +12,8 @@ class SkillLevelSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('employees_skill_levels')->delete();
+
         $skillLevels = [
             ['creator_id' => 1, 'skill_type_id' => 1, 'level' => 10,  'name' => 'A1', 'default_level' => 1, 'created_at' => now(), 'updated_at' => now()],
             ['creator_id' => 1, 'skill_type_id' => 1, 'level' => 40,  'name' => 'A2', 'default_level' => null, 'created_at' => now(), 'updated_at' => now()],
