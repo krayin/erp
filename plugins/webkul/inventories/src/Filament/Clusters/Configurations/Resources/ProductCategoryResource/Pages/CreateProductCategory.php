@@ -2,11 +2,10 @@
 
 namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductCategoryResource\Pages;
 
-use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductCategoryResource;
-use Filament\Actions;
-use Filament\Resources\Pages\CreateRecord;
 use Filament\Notifications\Notification;
+use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductCategoryResource;
 
 class CreateProductCategory extends CreateRecord
 {

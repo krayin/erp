@@ -2,17 +2,17 @@
 
 namespace Webkul\Recruitment\Filament\Clusters\Configurations\Resources;
 
-use Webkul\Recruitment\Filament\Clusters\Configurations;
-use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\UTMMediumResource\Pages;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Infolists\Infolist;
 use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Webkul\Recruitment\Filament\Clusters\Configurations;
+use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\UTMMediumResource\Pages;
 use Webkul\Recruitment\Models\UTMMedium;
 
 class UTMMediumResource extends Resource
@@ -99,22 +99,22 @@ class UTMMediumResource extends Resource
             ])
             ->filters([
                 Tables\Filters\QueryBuilder::make()
-                ->constraintPickerColumns(2)
-                ->constraints([
-                    Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('name')
-                        ->label(__('recruitments::filament/clusters/configurations/resources/utm-medium.table.filters.name'))
-                        ->icon('heroicon-o-user'),
-                ]),
+                    ->constraintPickerColumns(2)
+                    ->constraints([
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('name')
+                            ->label(__('recruitments::filament/clusters/configurations/resources/utm-medium.table.filters.name'))
+                            ->icon('heroicon-o-user'),
+                    ]),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make()
-                ->successNotification(
-                    Notification::make()
-                        ->success()
-                        ->title(__('recruitments::filament/clusters/configurations/resources/utm-medium.table.actions.edit.notification.title'))
-                        ->body(__('recruitments::filament/clusters/configurations/resources/utm-medium.table.actions.edit.notification.body'))
-                ),
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title(__('recruitments::filament/clusters/configurations/resources/utm-medium.table.actions.edit.notification.title'))
+                            ->body(__('recruitments::filament/clusters/configurations/resources/utm-medium.table.actions.edit.notification.body'))
+                    ),
                 Tables\Actions\DeleteAction::make()
                     ->successNotification(
                         Notification::make()

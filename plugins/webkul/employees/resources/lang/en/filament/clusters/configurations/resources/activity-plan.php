@@ -112,7 +112,7 @@ return [
                     'body'  => 'The activity plan has been created successfully.',
                 ],
             ],
-        ]
+        ],
     ],
 
     'infolist' => [

@@ -2,10 +2,10 @@
 
 namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductAttributeResource\Pages;
 
-use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductAttributeResource;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductAttributeResource;
 
 class EditProductAttribute extends EditRecord
 {

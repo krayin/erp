@@ -2,18 +2,15 @@
 
 namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources;
 
-use Webkul\Inventory\Filament\Clusters\Configurations;
-use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductCategoryResource\Pages;
-use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductCategoryResource\RelationManagers;
-use Webkul\Product\Models\Category;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Notifications\Notification;
+use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Webkul\Inventory\Filament\Clusters\Configurations;
+use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductCategoryResource\Pages;
+use Webkul\Product\Models\Category;
 
 class ProductCategoryResource extends Resource
 {
@@ -119,10 +116,10 @@ class ProductCategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProductCategories::route('/'),
+            'index'  => Pages\ListProductCategories::route('/'),
             'create' => Pages\CreateProductCategory::route('/create'),
-            'view' => Pages\ViewProductCategory::route('/{record}'),
-            'edit' => Pages\EditProductCategory::route('/{record}/edit'),
+            'view'   => Pages\ViewProductCategory::route('/{record}'),
+            'edit'   => Pages\EditProductCategory::route('/{record}/edit'),
         ];
     }
 }

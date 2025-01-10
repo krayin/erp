@@ -37,6 +37,22 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('products_products', function (Blueprint $table) {
+            $table->dropForeign(['responsible_id']);
+            $table->dropColumn('responsible_id');
+
+            $table->dropColumn([
+                'sale_delay',
+                'tracking',
+                'description_picking',
+                'description_pickingout',
+                'description_pickingin',
+                'is_storable',
+                'expiration_time',
+                'use_time',
+                'removal_time',
+                'alert_time',
+                'use_expiration_date',
+            ]);
         });
     }
 };

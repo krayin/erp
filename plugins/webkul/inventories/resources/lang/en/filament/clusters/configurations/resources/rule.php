@@ -12,14 +12,14 @@ return [
                 'title'  => 'General',
 
                 'fields' => [
-                    'name'=> 'Name',
-                    'action' => 'Action',
-                    'picking-type' => 'Picking Type',
-                    'source-location' => 'Source Location',
-                    'destination-location' => 'Destination Location',
-                    'supply-method' => 'Supply Method',
-                    'supply-method-hint-tooltip' => 'Take From Stock: the products will be taken from the available stock of the source location.<br/>Trigger Another Rule: the system will try to find a stock rule to bring the products in the source location. The available stock will be ignored.<br/>Take From Stock, if Unavailable, Trigger Another Rule: the products will be taken from the available stock of the source location.If there is no stock available, the system will try to find a  rule to bring the products in the source location.',
-                    'automatic-move' => 'Automatic Move',
+                    'name'                        => 'Name',
+                    'action'                      => 'Action',
+                    'picking-type'                => 'Picking Type',
+                    'source-location'             => 'Source Location',
+                    'destination-location'        => 'Destination Location',
+                    'supply-method'               => 'Supply Method',
+                    'supply-method-hint-tooltip'  => 'Take From Stock: the products will be taken from the available stock of the source location.<br/>Trigger Another Rule: the system will try to find a stock rule to bring the products in the source location. The available stock will be ignored.<br/>Take From Stock, if Unavailable, Trigger Another Rule: the products will be taken from the available stock of the source location.If there is no stock available, the system will try to find a  rule to bring the products in the source location.',
+                    'automatic-move'              => 'Automatic Move',
                     'automatic-move-hint-tooltip' => 'The \'Manual Operation\' value will create a stock move after the current one. With \'Automatic No Step Added\', the location is replaced in the original move.',
                 ],
 
@@ -36,11 +36,11 @@ return [
                         'title'  => 'Propagation',
 
                         'fields' => [
-                            'propagation-procurement-group' => 'Propagation of Procurement Group',
+                            'propagation-procurement-group'              => 'Propagation of Procurement Group',
                             'propagation-procurement-group-hint-tooltip' => 'When ticked, if the move created by this rule is cancelled, the next move will be cancelled too.',
-                            'cancel-next-move' => 'Cancel Next Move',
-                            'warehouse-to-propagate' => 'Warehouse to Propagate',
-                            'warehouse-to-propagate-hint-tooltip' => 'The warehouse to propagate on the created move/procurement, which can be different of the warehouse this rule is for (e.g for resupplying rules from another warehouse)',
+                            'cancel-next-move'                           => 'Cancel Next Move',
+                            'warehouse-to-propagate'                     => 'Warehouse to Propagate',
+                            'warehouse-to-propagate-hint-tooltip'        => 'The warehouse to propagate on the created move/procurement, which can be different of the warehouse this rule is for (e.g for resupplying rules from another warehouse)',
                         ],
                     ],
                 ],
@@ -50,10 +50,10 @@ return [
                 'title'       => 'Options',
 
                 'fields' => [
-                    'partner-address' => 'Partner Address',
+                    'partner-address'              => 'Partner Address',
                     'partner-address-hint-tooltip' => 'Address where goods should be delivered. Optional.',
-                    'lead-time' => 'Lead Time (Days)',
-                    'lead-time-hint-tooltip' => 'The expected date of the created transfer will be computed based on this lead time.',
+                    'lead-time'                    => 'Lead Time (Days)',
+                    'lead-time-hint-tooltip'       => 'The expected date of the created transfer will be computed based on this lead time.',
                 ],
             ],
         ],

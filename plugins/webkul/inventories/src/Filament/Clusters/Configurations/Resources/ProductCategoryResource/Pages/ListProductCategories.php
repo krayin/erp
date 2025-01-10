@@ -2,11 +2,11 @@
 
 namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductCategoryResource\Pages;
 
-use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductCategoryResource;
 use Filament\Actions;
-use Filament\Resources\Pages\ListRecords;
 use Filament\Notifications\Notification;
+use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductCategoryResource;
 
 class ListProductCategories extends ListRecords
 {

@@ -2,9 +2,9 @@
 
 namespace Webkul\Inventory\Filament\Resources\ProductResource\Pages;
 
-use Webkul\Inventory\Filament\Resources\ProductResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Webkul\Inventory\Filament\Resources\ProductResource;
 
 class ListProducts extends ListRecords
 {

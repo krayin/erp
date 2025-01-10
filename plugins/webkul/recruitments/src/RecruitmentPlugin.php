@@ -37,6 +37,6 @@ class RecruitmentPlugin implements Plugin
     {
         $reflector = new \ReflectionClass(get_class($this));
 
-        return dirname($reflector->getFileName()) . ($path ?? '');
+        return dirname($reflector->getFileName()).($path ?? '');
     }
 }

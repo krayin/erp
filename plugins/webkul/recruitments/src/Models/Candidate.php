@@ -3,14 +3,13 @@
 namespace Webkul\Recruitment\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Webkul\Employee\Models\Employee;
-use Webkul\Partner\Models\Partner;
-use Webkul\Recruitment\Models\Degree;
-use Webkul\Security\Models\User;
-use Webkul\Support\Models\Company;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
+use Webkul\Employee\Models\Employee;
+use Webkul\Partner\Models\Partner;
+use Webkul\Security\Models\User;
+use Webkul\Support\Models\Company;
 
 class Candidate extends Model
 {

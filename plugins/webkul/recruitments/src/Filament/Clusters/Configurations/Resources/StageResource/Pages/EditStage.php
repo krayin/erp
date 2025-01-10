@@ -2,10 +2,10 @@
 
 namespace Webkul\Recruitment\Filament\Clusters\Configurations\Resources\StageResource\Pages;
 
-use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\StageResource;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\StageResource;
 
 class EditStage extends EditRecord
 {

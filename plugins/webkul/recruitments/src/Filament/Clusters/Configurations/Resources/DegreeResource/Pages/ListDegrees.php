@@ -2,10 +2,10 @@
 
 namespace Webkul\Recruitment\Filament\Clusters\Configurations\Resources\DegreeResource\Pages;
 
-use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\DegreeResource;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
+use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\DegreeResource;
 
 class ListDegrees extends ListRecords
 {
@@ -21,7 +21,7 @@ class ListDegrees extends ListRecords
                         ->success()
                         ->title(__('recruitments::filament/clusters/configurations/resources/degree/pages/list-degree.notification.title'))
                         ->body(__('recruitments::filament/clusters/configurations/resources/degree/pages/list-degree.notification.body'))
-                )
+                ),
         ];
     }
 }

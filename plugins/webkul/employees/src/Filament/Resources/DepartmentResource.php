@@ -224,7 +224,7 @@ class DepartmentResource extends Resource
                                 ->title(__('employees::filament/resources/department.table.actions.force-delete.notification.title'))
                                 ->body(__('employees::filament/resources/department.table.actions.force-delete.notification.body')),
                         ),
-                ])
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -306,6 +306,7 @@ class DepartmentResource extends Resource
         while ($current->parent_id) {
             $current = $current->parent;
         }
+
         return $current;
     }
 
@@ -367,7 +368,7 @@ class DepartmentResource extends Resource
         $managerName = $department->manager?->name ? " · {$department->manager->name}" : '';
 
         $style = $isActive
-            ? 'color: ' . ($department->color ?? '#1D4ED8') . '; font-weight: bold;'
+            ? 'color: '.($department->color ?? '#1D4ED8').'; font-weight: bold;'
             : '';
 
         return sprintf(

@@ -6,12 +6,12 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
-use Filament\Support\Colors\Color;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
+use Filament\Support\Colors\Color;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Notifications\Notification;
-use Filament\Support\Enums\FontWeight;
 use Illuminate\Support\HtmlString;
 use Webkul\Partner\Models\Partner;
 use Webkul\Recruitment\Filament\Clusters\Applications;
@@ -68,7 +68,7 @@ class CandidateResource extends Resource
                                     ->label(__('recruitments::filament/clusters/applications/resources/candidate.form.sections.basic-information.fields.contact'))
                                     ->relationship('partner', 'name')
                                     ->searchable()
-                                    ->afterStateUpdated(function(Set $set, Get $get) {
+                                    ->afterStateUpdated(function (Set $set, Get $get) {
                                         $set('email_from', Partner::find($get('partner_id'))?->email);
                                         $set('phone_sanitized', Partner::find($get('partner_id'))?->phone);
                                     })
@@ -135,7 +135,7 @@ class CandidateResource extends Resource
                                         for ($i = 1; $i <= 3; $i++) {
                                             $iconType = $i <= $record?->priority ? 'heroicon-s-star' : 'heroicon-o-star';
                                             $html .= view('filament::components.icon', [
-                                                'icon' => $iconType,
+                                                'icon'  => $iconType,
                                                 'class' => 'w-5 h-5',
                                             ])->render();
                                         }
@@ -173,38 +173,39 @@ class CandidateResource extends Resource
                             ->searchable()
                             ->sortable(),
                         Tables\Columns\Layout\Stack::make([
-                                Tables\Columns\TextColumn::make('categories.name')
-                                    ->label(__('recruitments::filament/clusters/applications/resources/candidate.table.columns.tags'))
-                                    ->badge()
-                                    ->weight(FontWeight::Bold)
-                                    ->state(function (Candidate $record): array {
-                                        return $record->categories->map(fn ($category) => [
-                                            'label' => $category->name,
-                                            'color' => $category->color ?? 'primary'
-                                        ])->toArray();
-                                    })
-                                    ->formatStateUsing(fn ($state) => $state['label'])
-                                    ->color(fn ($state) => Color::hex($state['color'])),
-                                Tables\Columns\TextColumn::make('priority')
-                                    ->label(__('recruitments::filament/clusters/applications/resources/candidate.table.columns.evaluation'))
-                                    ->color('warning')
-                                    ->formatStateUsing(function ($state) {
-                                        $html = '<div class="flex gap-1" style="margin-top: 6px;">';
-                                        for ($i = 1; $i <= 3; $i++) {
-                                            $iconType = $i <= $state ? 'heroicon-s-star' : 'heroicon-o-star';
-                                            $html .= view('filament::components.icon', [
-                                                'icon' => $iconType,
-                                                'class' => 'w-5 h-5',
-                                            ])->render();
-                                        }
-                                        $html .= '</div>';
-                                        return new HtmlString($html);
-                                    }),
-                            ])
+                            Tables\Columns\TextColumn::make('categories.name')
+                                ->label(__('recruitments::filament/clusters/applications/resources/candidate.table.columns.tags'))
+                                ->badge()
+                                ->weight(FontWeight::Bold)
+                                ->state(function (Candidate $record): array {
+                                    return $record->categories->map(fn ($category) => [
+                                        'label' => $category->name,
+                                        'color' => $category->color ?? 'primary',
+                                    ])->toArray();
+                                })
+                                ->formatStateUsing(fn ($state) => $state['label'])
+                                ->color(fn ($state) => Color::hex($state['color'])),
+                            Tables\Columns\TextColumn::make('priority')
+                                ->label(__('recruitments::filament/clusters/applications/resources/candidate.table.columns.evaluation'))
+                                ->color('warning')
+                                ->formatStateUsing(function ($state) {
+                                    $html = '<div class="flex gap-1" style="margin-top: 6px;">';
+                                    for ($i = 1; $i <= 3; $i++) {
+                                        $iconType = $i <= $state ? 'heroicon-s-star' : 'heroicon-o-star';
+                                        $html .= view('filament::components.icon', [
+                                            'icon'  => $iconType,
+                                            'class' => 'w-5 h-5',
+                                        ])->render();
+                                    }
+                                    $html .= '</div>';
+
+                                    return new HtmlString($html);
+                                }),
+                        ])
                             ->visible(fn ($record) => filled($record?->categories?->count())),
                     ])->space(1),
                 ])
-                ->space(4),
+                    ->space(4),
             ])
             ->contentGrid([
                 'md' => 2,
@@ -245,15 +246,15 @@ class CandidateResource extends Resource
                 //     ->tooltip('Evaluation: Excellent')
                 //     ->action(fn ($record) => $record->update(['priority' => 3])),
                 // Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make()
-                        ->successNotification(
-                            Notification::make()
-                                ->success()
-                                ->title(__('recruitments::filament/clusters/applications/resources/candidate.table.actions.delete.notification.title'))
-                                ->body(__('recruitments::filament/clusters/applications/resources/candidate.table.actions.delete.notification.body'))
-                        ),
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title(__('recruitments::filament/clusters/applications/resources/candidate.table.actions.delete.notification.title'))
+                            ->body(__('recruitments::filament/clusters/applications/resources/candidate.table.actions.delete.notification.body'))
+                    ),
                 // ]),
             ])
             ->bulkActions([

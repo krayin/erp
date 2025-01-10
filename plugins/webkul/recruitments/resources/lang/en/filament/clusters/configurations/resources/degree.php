@@ -22,7 +22,7 @@ return [
 
     'form' => [
         'fields' => [
-            'name' => 'Name',
+            'name'             => 'Name',
             'name-placeholder' => 'Enter the name of the degree',
         ],
     ],

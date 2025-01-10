@@ -10,13 +10,12 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\HtmlString;
+use Webkul\Inventory\Enums;
 use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\RuleResource\Pages;
 use Webkul\Inventory\Models\Route;
 use Webkul\Inventory\Models\Rule;
-use Webkul\Inventory\Enums;
-use Illuminate\Support\HtmlString;
-use Laravel\SerializableClosure\Serializers\Native;
 
 class RuleResource extends Resource
 {
@@ -101,11 +100,11 @@ class RuleResource extends Resource
                                     ->schema([
                                         Forms\Components\Placeholder::make('')
                                             ->hiddenLabel()
-                                            ->content(new HtmlString("When products are needed in Destination Location, </br>Operation Type are created from Source Location to fulfill the need."))
+                                            ->content(new HtmlString('When products are needed in Destination Location, </br>Operation Type are created from Source Location to fulfill the need.')),
                                     ]),
                             ])
                             ->columns(2),
-                        
+
                         Forms\Components\Group::make()
                             ->schema([
                                 Forms\Components\Group::make()
@@ -131,7 +130,7 @@ class RuleResource extends Resource
                                             ])
                                             ->columns(1),
                                     ]),
-                                
+
                                 Forms\Components\Group::make()
                                     ->schema([
                                         Forms\Components\Fieldset::make(__('inventories::filament/clusters/configurations/resources/rule.form.sections.general.fieldsets.propagation.title'))

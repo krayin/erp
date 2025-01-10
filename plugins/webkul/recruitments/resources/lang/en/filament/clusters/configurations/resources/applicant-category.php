@@ -15,9 +15,9 @@ return [
 
     'form' => [
         'fields' => [
-            'name' => 'Name',
+            'name'             => 'Name',
             'name-placeholder' => 'Enter the name of the tags',
-            'color' => 'Color',
+            'color'            => 'Color',
         ],
     ],
 
@@ -75,7 +75,7 @@ return [
     ],
 
     'infolist' => [
-        'name' => 'Name',
+        'name'  => 'Name',
         'color' => 'Color',
     ],
 ];

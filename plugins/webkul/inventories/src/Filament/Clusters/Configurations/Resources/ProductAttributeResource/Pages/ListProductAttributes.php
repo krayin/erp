@@ -2,12 +2,12 @@
 
 namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductAttributeResource\Pages;
 
-use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductAttributeResource;
 use Filament\Actions;
-use Filament\Resources\Pages\ListRecords;
 use Filament\Notifications\Notification;
-use Illuminate\Support\Facades\Auth;
 use Filament\Resources\Components\Tab;
+use Filament\Resources\Pages\ListRecords;
+use Illuminate\Support\Facades\Auth;
+use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductAttributeResource;
 use Webkul\Product\Models\Attribute;
 
 class ListProductAttributes extends ListRecords

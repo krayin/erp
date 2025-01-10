@@ -25,9 +25,9 @@ class UTMMediumSeeder extends Seeder
 
         DB::table('recruitments_utm_mediums')->insert(collect($mediums)->map(function ($medium) {
             return [
-                'name' => $medium,
+                'name'       => $medium,
                 'creator_id' => 1,
-                'is_active' => true,
+                'is_active'  => true,
                 'created_at' => now(),
                 'updated_at' => now(),
             ];

@@ -3,9 +3,9 @@
 namespace Webkul\Recruitment\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Webkul\Security\Models\User;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
+use Webkul\Security\Models\User;
 
 class RefuseReason extends Model implements Sortable
 {

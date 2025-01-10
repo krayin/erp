@@ -2,16 +2,13 @@
 
 namespace Webkul\Inventory\Filament\Resources;
 
-use Webkul\Inventory\Filament\Resources\ProductResource\Pages;
-use Webkul\Inventory\Filament\Resources\ProductResource\RelationManagers;
-use Webkul\Product\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Webkul\Inventory\Filament\Resources\ProductResource\Pages;
+use Webkul\Product\Models\Product;
 
 class ProductResource extends Resource
 {
@@ -165,10 +162,10 @@ class ProductResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProducts::route('/'),
+            'index'  => Pages\ListProducts::route('/'),
             'create' => Pages\CreateProduct::route('/create'),
-            'view' => Pages\ViewProduct::route('/{record}'),
-            'edit' => Pages\EditProduct::route('/{record}/edit'),
+            'view'   => Pages\ViewProduct::route('/{record}'),
+            'edit'   => Pages\EditProduct::route('/{record}/edit'),
         ];
     }
 }

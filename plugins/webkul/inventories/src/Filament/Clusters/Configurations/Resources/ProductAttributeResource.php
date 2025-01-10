@@ -2,24 +2,21 @@
 
 namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources;
 
-use Webkul\Inventory\Filament\Clusters\Configurations;
-use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductAttributeResource\Pages;
-use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductAttributeResource\RelationManagers;
-use Webkul\Product\Models\Attribute;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Notifications\Notification;
+use Webkul\Inventory\Filament\Clusters\Configurations;
+use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductAttributeResource\Pages;
+use Webkul\Product\Models\Attribute;
 
 class ProductAttributeResource extends Resource
 {
     protected static ?string $model = Attribute::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-swatch';
 
     protected static ?int $navigationSort = 2;
 
@@ -148,10 +145,10 @@ class ProductAttributeResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProductAttributes::route('/'),
+            'index'  => Pages\ListProductAttributes::route('/'),
             'create' => Pages\CreateProductAttribute::route('/create'),
-            'view' => Pages\ViewProductAttribute::route('/{record}'),
-            'edit' => Pages\EditProductAttribute::route('/{record}/edit'),
+            'view'   => Pages\ViewProductAttribute::route('/{record}'),
+            'edit'   => Pages\EditProductAttribute::route('/{record}/edit'),
         ];
     }
 }

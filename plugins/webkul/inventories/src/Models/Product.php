@@ -11,7 +11,6 @@ class Product extends BaseProduct
     /**
      * Create a new Eloquent model instance.
      *
-     * @param  array  $attributes
      * @return void
      */
     public function __construct(array $attributes = [])
@@ -34,7 +33,7 @@ class Product extends BaseProduct
         ]);
 
         $this->mergeCasts([
-            
+
         ]);
     }
 

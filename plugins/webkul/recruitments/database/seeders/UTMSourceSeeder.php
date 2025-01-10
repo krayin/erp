@@ -25,7 +25,7 @@ class UTMSourceSeeder extends Seeder
 
         DB::table('recruitments_utm_sources')->insert(collect($sources)->map(function ($medium) {
             return [
-                'name' => $medium,
+                'name'       => $medium,
                 'creator_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),

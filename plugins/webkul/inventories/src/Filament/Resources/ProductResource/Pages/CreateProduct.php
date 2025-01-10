@@ -2,9 +2,8 @@
 
 namespace Webkul\Inventory\Filament\Resources\ProductResource\Pages;
 
-use Webkul\Inventory\Filament\Resources\ProductResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
+use Webkul\Inventory\Filament\Resources\ProductResource;
 
 class CreateProduct extends CreateRecord
 {

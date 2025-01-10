@@ -2,11 +2,10 @@
 
 namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductCategoryResource\Pages;
 
-use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductCategoryResource;
 use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
 use Filament\Notifications\Notification;
-use Illuminate\Support\Facades\Auth;
+use Filament\Resources\Pages\EditRecord;
+use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductCategoryResource;
 
 class EditProductCategory extends EditRecord
 {
