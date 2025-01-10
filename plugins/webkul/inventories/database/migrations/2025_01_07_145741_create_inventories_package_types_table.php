@@ -18,15 +18,16 @@ return new class extends Migration
             $table->string('barcode')->nullable()->unique();
             $table->decimal('height', 15, 4)->nullable();
             $table->decimal('width', 15, 4)->nullable();
-            $table->decimal('packaging_length', 15, 4)->nullable();
+            $table->decimal('length', 15, 4)->nullable();
             $table->decimal('base_weight', 15, 4)->nullable();
             $table->decimal('max_weight', 15, 4)->nullable();
             $table->string('shipper_package_code')->nullable();
             $table->string('package_carrier_type')->nullable();
 
             $table->foreignId('company_id')
+                ->nullable()
                 ->constrained('companies')
-                ->restrictOnDelete();
+                ->nullOnDelete();
 
             $table->foreignId('creator_id')
                 ->nullable()

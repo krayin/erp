@@ -10,6 +10,7 @@ use Webkul\Inventory\Database\Factories\LocationFactory;
 use Webkul\Inventory\Enums\LocationType;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Location extends Model
 {
@@ -70,6 +71,11 @@ class Location extends Model
         return $this->belongsTo(self::class);
     }
 
+    public function children(): HasMany
+    {
+        return $this->hasMany(self::class, 'parent_id');
+    }
+
     public function storageCategory(): BelongsTo
     {
         return $this->belongsTo(StorageCategory::class);
@@ -97,62 +103,43 @@ class Location extends Model
     {
         parent::boot();
 
-        static::created(function (self $location) {
-            static::updateParentPath($location);
-
-            static::updateFullName($location);
+        static::saving(function ($category) {
+            $category->updateFullName();
         });
 
-        static::updated(function (self $location) {
-            static::updateParentPath($location);
-
-            static::updateFullName($location);
-        });
-
-        static::saving(function (self $location) {
-            static::updateParentPath($location);
-
-            static::updateFullName($location);
-        });
-    }
-
-    /**
-     * Update the parent path without triggering additional events
-     */
-    protected static function updateParentPath(self $location)
-    {
-        $parentPath = $location->parent
-            ? $location->parent->parent_path.$location->id.'/'
-            : $location->id.'/';
-
-        // Use query builder to avoid triggering another update event
-        static::withoutEvents(function () use ($location, $parentPath) {
-            $location->newQuery()
-                ->withTrashed()
-                ->where('id', $location->id)
-                ->update(['parent_path' => $parentPath]);
+        static::updated(function ($category) {
+            if ($category->wasChanged('full_name')) {
+                $category->updateChildrenFullNames();
+            }
         });
     }
 
     /**
      * Update the full name without triggering additional events
      */
-    protected static function updateFullName(self $location)
+    public function updateFullName()
     {
-        if ($location->type === LocationType::VIEW) {
-            $fullName = $location->name;
+        if ($this->type === LocationType::VIEW) {
+            $this->full_name = $this->name;
         } else {
-            $fullName = $location->parent
-                ? $location->parent->full_name.'/'.$location->name
-                : $location->name;
+            $this->full_name = $this->parent
+                ? $this->parent->full_name.'/'.$this->name
+                : $this->name;
         }
+    }
 
-        // Use query builder to avoid triggering another update event
-        static::withoutEvents(function () use ($location, $fullName) {
-            $location->newQuery()
-                ->withTrashed()
-                ->where('id', $location->id)
-                ->update(['full_name'   => $fullName]);
+    public function updateChildrenFullNames(): void
+    {
+        $children = $this->children()->getModel()
+            ->withTrashed()
+            ->where('parent_id', $this->id)
+            ->get();
+
+        $children->each(function ($child) {
+            $child->updateFullName();
+            $child->saveQuietly();
+            
+            $child->updateChildrenFullNames();
         });
     }
 

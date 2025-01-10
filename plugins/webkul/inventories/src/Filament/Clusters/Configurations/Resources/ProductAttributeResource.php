@@ -11,6 +11,8 @@ use Filament\Tables\Table;
 use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductAttributeResource\Pages;
 use Webkul\Product\Models\Attribute;
+use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductAttributeResource\RelationManagers;
+use Webkul\Product\Enums\AttributeType;
 
 class ProductAttributeResource extends Resource
 {
@@ -18,7 +20,7 @@ class ProductAttributeResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-swatch';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 9;
 
     protected static ?string $cluster = Configurations::class;
 
@@ -38,16 +40,17 @@ class ProductAttributeResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('type')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('sort')
-                    ->numeric(),
-                Forms\Components\Select::make('creator_id')
-                    ->relationship('creator', 'name'),
+                Forms\Components\Section::make(__('inventories::filament/clusters/configurations/resources/route.form.sections.general.title'))
+                    ->schema([
+                    Forms\Components\TextInput::make('name')
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\Radio::make('type')
+                        ->required()
+                        ->options(AttributeType::class)
+                        ->default(AttributeType::RADIO)
+                        ->live(),
+                ])
             ]);
     }
 
@@ -56,20 +59,18 @@ class ProductAttributeResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('inventories::filament/clusters/configurations/resources/product-attribute.table.columns.name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type')
+                    ->label(__('inventories::filament/clusters/configurations/resources/product-attribute.table.columns.type'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('sort')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('creator.name')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('inventories::filament/clusters/configurations/resources/product-attribute.table.columns.created-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('inventories::filament/clusters/configurations/resources/product-attribute.table.columns.updated-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -138,7 +139,7 @@ class ProductAttributeResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\OptionsRelationManager::class,
         ];
     }
 

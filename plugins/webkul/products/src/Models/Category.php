@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Webkul\Product\Database\Factories\CategoryFactory;
 use Webkul\Security\Models\User;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
@@ -37,9 +38,48 @@ class Category extends Model
         return $this->belongsTo(self::class);
     }
 
+    public function children(): HasMany
+    {
+        return $this->hasMany(self::class, 'parent_id');
+    }
+
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($category) {
+            $category->updateFullName();
+        });
+
+        static::updated(function ($category) {
+            if ($category->wasChanged('full_name')) {
+                $category->updateChildrenFullNames();
+            }
+        });
+    }
+
+    protected function updateFullName(): void
+    {
+        if ($this->parent) {
+            $this->full_name = $this->parent->full_name . ' / ' . $this->name;
+        } else {
+            $this->full_name = $this->name;
+        }
+    }
+
+    protected function updateChildrenFullNames(): void
+    {
+        $this->children->each(function ($child) {
+            $child->updateFullName();
+            $child->save();
+            
+            $child->updateChildrenFullNames();
+        });
     }
 
     protected static function newFactory(): CategoryFactory

@@ -4,6 +4,7 @@ namespace Webkul\Inventory\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Inventory\Database\Factories\PickingTypeFactory;
@@ -115,6 +116,11 @@ class PickingType extends Model
     public function warehouse(): BelongsTo
     {
         return $this->belongsTo(Warehouse::class);
+    }
+
+    public function storageCategoryCapacities(): BelongsToMany
+    {
+        return $this->belongsToMany(StorageCategoryCapacity::class, 'inventories_storage_category_capacities', 'storage_category_id', 'package_type_id');
     }
 
     public function company(): BelongsTo

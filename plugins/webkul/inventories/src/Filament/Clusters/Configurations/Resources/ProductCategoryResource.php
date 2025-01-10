@@ -10,15 +10,15 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductCategoryResource\Pages;
-use Webkul\Product\Models\Category;
+use Webkul\Inventory\Models\Category;
 
 class ProductCategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-folder';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 8;
 
     protected static ?string $cluster = Configurations::class;
 
@@ -38,18 +38,50 @@ class ProductCategoryResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('full_name')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('parent_path')
-                    ->maxLength(255),
-                Forms\Components\Select::make('parent_id')
-                    ->relationship('parent', 'name'),
-                Forms\Components\Select::make('creator_id')
-                    ->relationship('creator', 'name'),
-            ]);
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\Section::make(__('inventories::filament/clusters/configurations/resources/product-category.form.sections.general.title'))
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->label(__('inventories::filament/clusters/configurations/resources/product-category.form.sections.general.fields.name'))
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->autofocus()
+                                    ->placeholder(__('inventories::filament/clusters/configurations/resources/product-category.form.sections.general.fields.name-placeholder'))
+                                    ->extraInputAttributes(['style' => 'font-size: 1.5rem;height: 3rem;'])
+                                    ->unique(ignoreRecord: true),
+                                Forms\Components\Select::make('parent_id')
+                                    ->label(__('inventories::filament/clusters/configurations/resources/product-category.form.sections.general.fields.parent'))
+                                    ->relationship('parent', 'full_name')
+                                    ->searchable()
+                                    ->preload(),
+                            ]),
+                    ])
+                    ->columnSpan(['lg' => 2]),
+
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\Section::make(__('inventories::filament/clusters/configurations/resources/product-category.form.sections.settings.title'))
+                            ->schema([
+                                Forms\Components\Fieldset::make(__('inventories::filament/clusters/configurations/resources/product-category.form.sections.settings.fieldsets.logistics.title'))
+                                    ->schema([
+                                        Forms\Components\Select::make('warehouses')
+                                            ->label(__('inventories::filament/clusters/configurations/resources/product-category.form.sections.settings.fieldsets.logistics.title'))
+                                            ->relationship('routes', 'name')
+                                            ->searchable()
+                                            ->preload()
+                                            ->multiple(),
+                                    ])
+                                    ->columns(1),
+
+                                Forms\Components\Fieldset::make(__('inventories::filament/clusters/configurations/resources/product-category.form.sections.settings.fieldsets.inventory-valuation.title'))
+                                    ->schema([
+                                    ]),
+                            ]),
+                    ])
+                    ->columnSpan(['lg' => 1]),
+            ])
+            ->columns(3);
     }
 
     public static function table(Table $table): Table

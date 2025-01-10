@@ -1,15 +1,16 @@
 <?php
 
-namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources\PackageTypeResource\Pages;
+namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources\PackagingResource\Pages;
 
+use Webkul\Inventory\Filament\Clusters\Configurations\Resources\PackagingResource;
+use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Inventory\Filament\Clusters\Configurations\Resources\PackageTypeResource;
 
-class CreatePackageType extends CreateRecord
+class CreatePackaging extends CreateRecord
 {
-    protected static string $resource = PackageTypeResource::class;
+    protected static string $resource = PackagingResource::class;
 
     protected function getRedirectUrl(): string
     {
@@ -20,8 +21,8 @@ class CreatePackageType extends CreateRecord
     {
         return Notification::make()
             ->success()
-            ->title(__('inventories::filament/clusters/configurations/resources/package-type/pages/create-package-type.notification.title'))
-            ->body(__('inventories::filament/clusters/configurations/resources/package-type/pages/create-package-type.notification.body'));
+            ->title(__('inventories::filament/clusters/configurations/resources/packaging/pages/create-packaging.notification.title'))
+            ->body(__('inventories::filament/clusters/configurations/resources/packaging/pages/create-packaging.notification.body'));
     }
 
     protected function mutateFormDataBeforeCreate(array $data): array

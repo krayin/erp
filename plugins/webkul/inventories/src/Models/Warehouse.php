@@ -14,6 +14,7 @@ use Webkul\Inventory\Enums\ReceptionStep;
 use Webkul\Partner\Models\Address;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Warehouse extends Model
 {
@@ -73,6 +74,11 @@ class Warehouse extends Model
     public $sortable = [
         'order_column_name' => 'sort',
     ];
+
+    public function locations(): HasMany
+    {
+        return $this->hasMany(Location::class, 'parent_id');
+    }
 
     public function company(): BelongsTo
     {
@@ -197,6 +203,20 @@ class Warehouse extends Model
             'supplied_warehouse_id',
             'supplier_warehouse_id'
         );
+    }
+
+    /**
+     * Bootstrap any application services.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($warehouse) {
+            if ($warehouse->wasChanged('code')) {
+                $warehouse->viewLocation->update(['name' => $warehouse->code]);
+            }
+        });
     }
 
     protected static function newFactory(): WarehouseFactory

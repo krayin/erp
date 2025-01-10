@@ -2,7 +2,9 @@
 
 namespace Webkul\Product\Enums;
 
-enum AttributeType: string
+use Filament\Support\Contracts\HasLabel;
+
+enum AttributeType: string implements HasLabel
 {
     case RADIO = 'radio';
 
@@ -10,12 +12,12 @@ enum AttributeType: string
 
     case COLOR = 'color';
 
-    public static function options(): array
+    public function getLabel(): string
     {
-        return [
-            self::RADIO->value  => __('products::enums/attribute-type.radio'),
-            self::SELECT->value => __('products::enums/attribute-type.select'),
-            self::COLOR->value  => __('products::enums/attribute-type.color'),
-        ];
+        return match ($this) {
+            self::RADIO  => __('products::enums/attribute-type.radio'),
+            self::SELECT => __('products::enums/attribute-type.select'),
+            self::COLOR  => __('products::enums/attribute-type.color'),
+        };
     }
 }

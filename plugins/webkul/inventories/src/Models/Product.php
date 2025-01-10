@@ -4,6 +4,7 @@ namespace Webkul\Inventory\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Webkul\Product\Models\Product as BaseProduct;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Webkul\Security\Models\User;
 
 class Product extends BaseProduct
@@ -35,6 +36,11 @@ class Product extends BaseProduct
         $this->mergeCasts([
 
         ]);
+    }
+
+    public function storageCategoryCapacities(): BelongsToMany
+    {
+        return $this->belongsToMany(StorageCategoryCapacity::class, 'inventories_storage_category_capacities', 'storage_category_id', 'package_type_id');
     }
 
     public function responsible(): BelongsTo

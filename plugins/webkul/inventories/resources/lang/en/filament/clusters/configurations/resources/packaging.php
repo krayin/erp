@@ -2,7 +2,7 @@
 
 return [
     'navigation' => [
-        'title' => 'Categories',
+        'title' => 'Packagings',
         'group' => 'Products',
     ],
 
@@ -13,24 +13,9 @@ return [
 
                 'fields' => [
                     'name'             => 'Name',
-                    'name-placeholder' => 'eg. Lamps',
-                    'parent'           => 'Parent',
+                    'name-placeholder' => 'eg. Two Step Reception',
                 ],
             ],
-
-            'settings' => [
-                'title'  => 'Settings',
-
-                'fieldsets' => [
-                    'logistics' => [
-                        'title' => 'Logistics',
-                    ],
-
-                    'inventory-valuation' => [
-                        'title' => 'Inventory Valuation',
-                    ],
-                ]
-            ]
         ],
     ],
 
@@ -48,8 +33,8 @@ return [
         'actions' => [
             'delete' => [
                 'notification' => [
-                    'title' => 'Category deleted',
-                    'body'  => 'The Category has been deleted successfully.',
+                    'title' => 'Packaging deleted',
+                    'body'  => 'The packaging has been deleted successfully.',
                 ],
             ],
         ],
@@ -57,8 +42,8 @@ return [
         'bulk-actions' => [
             'delete' => [
                 'notification' => [
-                    'title' => 'Categories deleted',
-                    'body'  => 'The categories has been deleted successfully.',
+                    'title' => 'Packaging deleted',
+                    'body'  => 'The packaging has been deleted successfully.',
                 ],
             ],
         ],

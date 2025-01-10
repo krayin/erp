@@ -32,7 +32,7 @@ class PackageType extends Model
         'barcode',
         'height',
         'width',
-        'packaging_length',
+        'length',
         'base_weight',
         'max_weight',
         'shipper_package_code',

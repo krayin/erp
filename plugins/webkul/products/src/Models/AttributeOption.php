@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Webkul\Product\Database\Factories\AttributeOptionFactory;
 use Webkul\Security\Models\User;
+use Spatie\EloquentSortable\SortableTrait;
 
 class AttributeOption extends Model
 {
-    use HasFactory;
+    use HasFactory, SortableTrait;
 
     /**
      * Table name.
@@ -31,6 +32,10 @@ class AttributeOption extends Model
         'sort',
         'attribute_id',
         'creator_id',
+    ];
+
+    public $sortable = [
+        'order_column_name' => 'sort',
     ];
 
     public function attribute(): BelongsTo

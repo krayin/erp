@@ -5,7 +5,6 @@ namespace Webkul\Product\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\EloquentSortable\SortableTrait;
 use Webkul\Product\Database\Factories\PackagingFactory;
 use Webkul\Security\Models\User;
@@ -13,7 +12,7 @@ use Webkul\Support\Models\Company;
 
 class Packaging extends Model
 {
-    use HasFactory, SoftDeletes, SortableTrait;
+    use HasFactory, SortableTrait;
 
     /**
      * Table name.
