@@ -12,23 +12,48 @@ return [
                 'title'  => 'General',
 
                 'fields' => [
-                    'name'             => 'Name',
+                    'name'=> 'Name',
+                    'action' => 'Action',
+                    'picking-type' => 'Picking Type',
+                    'source-location' => 'Source Location',
+                    'destination-location' => 'Destination Location',
+                    'supply-method' => 'Supply Method',
+                    'supply-method-hint-tooltip' => 'Take From Stock: the products will be taken from the available stock of the source location.<br/>Trigger Another Rule: the system will try to find a stock rule to bring the products in the source location. The available stock will be ignored.<br/>Take From Stock, if Unavailable, Trigger Another Rule: the products will be taken from the available stock of the source location.If there is no stock available, the system will try to find a  rule to bring the products in the source location.',
+                    'automatic-move' => 'Automatic Move',
+                    'automatic-move-hint-tooltip' => 'The \'Manual Operation\' value will create a stock move after the current one. With \'Automatic No Step Added\', the location is replaced in the original move.',
+                ],
+
+                'fieldsets' => [
+                    'applicability' => [
+                        'title'  => 'Applicability',
+
+                        'fields' => [
+                            'route' => 'Route',
+                        ],
+                    ],
+
+                    'propagation' => [
+                        'title'  => 'Propagation',
+
+                        'fields' => [
+                            'propagation-procurement-group' => 'Propagation of Procurement Group',
+                            'propagation-procurement-group-hint-tooltip' => 'When ticked, if the move created by this rule is cancelled, the next move will be cancelled too.',
+                            'cancel-next-move' => 'Cancel Next Move',
+                            'warehouse-to-propagate' => 'Warehouse to Propagate',
+                            'warehouse-to-propagate-hint-tooltip' => 'The warehouse to propagate on the created move/procurement, which can be different of the warehouse this rule is for (e.g for resupplying rules from another warehouse)',
+                        ],
+                    ],
                 ],
             ],
 
-            'applicable-on' => [
-                'title'       => 'Applicable On',
-                'description' => 'Select the places where this route can be selected.',
+            'options' => [
+                'title'       => 'Options',
 
                 'fields' => [
-                    'products'                        => 'Products',
-                    'products-hint-tooltip'           => 'When checked, the route will be selectable on the Product.',
-                    'product-categories'              => 'Product Categories',
-                    'product-categories-hint-tooltip' => 'When checked, the route will be selectable on the Product Category.',
-                    'warehouses'                      => 'Warehouses',
-                    'warehouses-hint-tooltip'         => 'When a warehouse is selected for this route, this route should be seen as the default route when products pass through this warehouse.',
-                    'packaging'                       => 'Packaging',
-                    'packaging-hint-tooltip'          => 'When checked, the route will be selectable on the Packaging.',
+                    'partner-address' => 'Partner Address',
+                    'partner-address-hint-tooltip' => 'Address where goods should be delivered. Optional.',
+                    'lead-time' => 'Lead Time (Days)',
+                    'lead-time-hint-tooltip' => 'The expected date of the created transfer will be computed based on this lead time.',
                 ],
             ],
         ],

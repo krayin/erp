@@ -1,6 +1,7 @@
 <?php
 
 return [
-    'make-to-stock' => 'Make to Stock',
-    'make-to-order' => 'Make to Order',
+    'make-to-stock' => 'Take From Stock',
+    'make-to-order' => 'Trigger Another Rule',
+    'mts-else-mto' => 'Take From Stock, if unavailable, Trigger Another Rule',
 ];

@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Webkul\Product\Database\Factories\AttributeFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Security\Models\User;
 
 class Attribute extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * Table name.

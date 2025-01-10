@@ -10,6 +10,7 @@ return [
     Webkul\Field\FieldServiceProvider::class,
     Webkul\Partner\PartnerServiceProvider::class,
     Webkul\Project\ProjectServiceProvider::class,
+    Webkul\Product\ProductServiceProvider::class,
     Webkul\TableViews\TableViewsServiceProvider::class,
     Webkul\Security\SecurityServiceProvider::class,
     Webkul\Employee\EmployeeServiceProvider::class,

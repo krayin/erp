@@ -14,6 +14,9 @@ use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\RuleResource\Pages;
 use Webkul\Inventory\Models\Route;
 use Webkul\Inventory\Models\Rule;
+use Webkul\Inventory\Enums;
+use Illuminate\Support\HtmlString;
+use Laravel\SerializableClosure\Serializers\Native;
 
 class RuleResource extends Resource
 {
@@ -41,22 +44,136 @@ class RuleResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('route_id')
-                    ->label(__('inventories::filament/clusters/configurations/resources/warehouse.form.sections.general.fields.company'))
-                    ->relationship(
-                        'route',
-                        'name',
-                    )
-                    ->searchable()
-                    ->preload()
-                    ->required()
-                    ->getOptionLabelUsing(function ($record) {
-                        if ($record->route) {
-                            return $record->route->name;
-                        }
+                Forms\Components\Section::make(__('inventories::filament/clusters/configurations/resources/rule.form.sections.general.title'))
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->label(__('inventories::filament/clusters/configurations/resources/rule.form.sections.general.fields.name'))
+                            ->required()
+                            ->maxLength(255)
+                            ->autofocus()
+                            ->extraInputAttributes(['style' => 'font-size: 1.5rem;height: 3rem;']),
+                        Forms\Components\Group::make()
+                            ->schema([
+                                Forms\Components\Group::make()
+                                    ->schema([
+                                        Forms\Components\Select::make('action')
+                                            ->label(__('inventories::filament/clusters/configurations/resources/rule.form.sections.general.fields.action'))
+                                            ->required()
+                                            ->options(Enums\RuleAction::class)
+                                            ->default(Enums\RuleAction::PULL->value)
+                                            ->selectablePlaceholder(false)
+                                            ->live(),
+                                        Forms\Components\Select::make('picking_type_id')
+                                            ->label(__('inventories::filament/clusters/configurations/resources/rule.form.sections.general.fields.picking-type'))
+                                            ->relationship('pickingType', 'name')
+                                            ->searchable()
+                                            ->preload()
+                                            ->required(),
+                                        Forms\Components\Select::make('source_location_id')
+                                            ->label(__('inventories::filament/clusters/configurations/resources/rule.form.sections.general.fields.source-location'))
+                                            ->relationship('sourceLocation', 'full_name')
+                                            ->searchable()
+                                            ->preload()
+                                            ->required(),
+                                        Forms\Components\Select::make('destination_location_id')
+                                            ->label(__('inventories::filament/clusters/configurations/resources/rule.form.sections.general.fields.destination-location'))
+                                            ->relationship('destinationLocation', 'full_name')
+                                            ->searchable()
+                                            ->preload()
+                                            ->required(),
+                                        Forms\Components\Select::make('procure_method')
+                                            ->label(__('inventories::filament/clusters/configurations/resources/rule.form.sections.general.fields.supply-method'))
+                                            ->required()
+                                            ->options(Enums\ProcureMethod::class)
+                                            ->selectablePlaceholder(false)
+                                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: new HtmlString(__('inventories::filament/clusters/configurations/resources/rule.form.sections.general.fields.supply-method-hint-tooltip')))
+                                            ->hidden(fn (Forms\Get $get): bool => $get('action') == Enums\RuleAction::PUSH->value),
+                                        Forms\Components\Select::make('auto')
+                                            ->label(__('inventories::filament/clusters/configurations/resources/rule.form.sections.general.fields.automatic-move'))
+                                            ->required()
+                                            ->options(Enums\RuleAuto::class)
+                                            ->selectablePlaceholder(false)
+                                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: new HtmlString(__('inventories::filament/clusters/configurations/resources/rule.form.sections.general.fields.automatic-move-hint-tooltip')))
+                                            ->hidden(fn (Forms\Get $get): bool => $get('action') == Enums\RuleAction::PULL->value),
+                                    ]),
 
-                        return Route::withTrashed()->find($record->route_id)->name;
-                    }),
+                                Forms\Components\Group::make()
+                                    ->schema([
+                                        Forms\Components\Placeholder::make('')
+                                            ->hiddenLabel()
+                                            ->content(new HtmlString("When products are needed in Destination Location, </br>Operation Type are created from Source Location to fulfill the need."))
+                                    ]),
+                            ])
+                            ->columns(2),
+                        
+                        Forms\Components\Group::make()
+                            ->schema([
+                                Forms\Components\Group::make()
+                                    ->schema([
+                                        Forms\Components\Fieldset::make(__('inventories::filament/clusters/configurations/resources/rule.form.sections.general.fieldsets.applicability.title'))
+                                            ->schema([
+                                                Forms\Components\Select::make('route_id')
+                                                    ->label(__('inventories::filament/clusters/configurations/resources/rule.form.sections.general.fieldsets.applicability.fields.route'))
+                                                    ->relationship(
+                                                        'route',
+                                                        'name',
+                                                    )
+                                                    ->searchable()
+                                                    ->preload()
+                                                    ->required()
+                                                    ->getOptionLabelUsing(function ($record) {
+                                                        if ($record->route) {
+                                                            return $record->route->name;
+                                                        }
+
+                                                        return Route::withTrashed()->find($record->route_id)->name;
+                                                    }),
+                                            ])
+                                            ->columns(1),
+                                    ]),
+                                
+                                Forms\Components\Group::make()
+                                    ->schema([
+                                        Forms\Components\Fieldset::make(__('inventories::filament/clusters/configurations/resources/rule.form.sections.general.fieldsets.propagation.title'))
+                                            ->schema([
+                                                Forms\Components\Select::make('group_propagation_option')
+                                                    ->label(__('inventories::filament/clusters/configurations/resources/rule.form.sections.general.fieldsets.propagation.fields.propagation-procurement-group'))
+                                                    ->options(Enums\GroupPropagation::class)
+                                                    ->hintIcon('heroicon-m-question-mark-circle', tooltip: new HtmlString(__('inventories::filament/clusters/configurations/resources/rule.form.sections.general.fieldsets.propagation.fields.propagation-procurement-group-hint-tooltip'))),
+                                                Forms\Components\Toggle::make('propagate_cancel')
+                                                    ->label(__('inventories::filament/clusters/configurations/resources/rule.form.sections.general.fieldsets.propagation.fields.cancel-next-move'))
+                                                    ->inline(false)
+                                                    ->hidden(fn (Forms\Get $get): bool => $get('action') == Enums\RuleAction::PUSH->value),
+                                                Forms\Components\Select::make('propagate_warehouse_id')
+                                                    ->label(__('inventories::filament/clusters/configurations/resources/rule.form.sections.general.fieldsets.propagation.fields.warehouse-to-propagate'))
+                                                    ->relationship('propagateWarehouse', 'name')
+                                                    ->hintIcon('heroicon-m-question-mark-circle', tooltip: new HtmlString(__('inventories::filament/clusters/configurations/resources/rule.form.sections.general.fieldsets.propagation.fields.warehouse-to-propagate-hint-tooltip')))
+                                                    ->searchable()
+                                                    ->preload()
+                                                    ->hidden(fn (Forms\Get $get): bool => $get('action') == Enums\RuleAction::PUSH->value),
+                                            ])
+                                            ->columns(1),
+                                    ]),
+                            ])
+                            ->columns(2),
+                    ]),
+
+                Forms\Components\Section::make(__('inventories::filament/clusters/configurations/resources/rule.form.sections.options.title'))
+                    ->schema([
+                        Forms\Components\Select::make('partner_address_id')
+                            ->label(__('inventories::filament/clusters/configurations/resources/rule.form.sections.options.fields.partner-address'))
+                            ->relationship('partnerAddress', 'name')
+                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: new HtmlString(__('inventories::filament/clusters/configurations/resources/rule.form.sections.options.fields.partner-address-hint-tooltip')))
+                            ->searchable()
+                            ->preload()
+                            ->hidden(fn (Forms\Get $get): bool => $get('action') == Enums\RuleAction::PUSH->value),
+                        Forms\Components\TextInput::make('delay')
+                            ->label(__('inventories::filament/clusters/configurations/resources/rule.form.sections.options.fields.lead-time'))
+                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: new HtmlString(__('inventories::filament/clusters/configurations/resources/rule.form.sections.options.fields.lead-time-hint-tooltip')))
+                            ->integer()
+                            ->minValue(0),
+                    ])
+                    ->columns(2),
             ]);
     }
 

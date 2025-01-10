@@ -181,6 +181,7 @@ class PickingTypeResource extends Resource
                                             ->relationship('sourceLocation', 'full_name')
                                             ->searchable()
                                             ->preload()
+                                            ->required()
                                             ->live()
                                             ->default(function (Forms\Get $get) {
                                                 $type = $get('type');
@@ -205,6 +206,7 @@ class PickingTypeResource extends Resource
                                             ->relationship('destinationLocation', 'full_name')
                                             ->searchable()
                                             ->preload()
+                                            ->required()
                                             ->default(function (Forms\Get $get) {
                                                 $type = $get('type');
                                                 $warehouseId = $get('warehouse_id');
