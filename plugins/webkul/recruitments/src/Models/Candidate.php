@@ -23,7 +23,7 @@ class Candidate extends Model
         'company_id',
         'partner_id',
         'degree_id',
-        'user_id',
+        'manager_id',
         'employee_id',
         'creator_id',
         'phone_sanitized',
@@ -34,33 +34,28 @@ class Candidate extends Model
         'partner_phone',
         'partner_phone_sanitized',
         'linkedin_profile',
-        'priority',
         'availability_date',
         'candidate_properties',
         'is_active',
-        'color',
     ];
 
     protected array $logAttributes = [
-        'message_bounced',
-        'company.name',
-        'partner.name',
-        'degree.name',
-        'user.name',
-        'employee.name',
-        'creator.name',
-        'phone_sanitized',
-        'email_normalized',
-        'email_cc',
-        'partner_name',
-        'email_from',
+        'company.name'     => 'Company',
+        'partner.name'     => 'Contact',
+        'degree.name'      => 'Degree',
+        'user.name'        => 'Manager',
+        'employee.name'    => 'Employee',
+        'creator.name'     => 'Created By',
+        'phone_sanitized'  => 'Phone',
+        'email_normalized' => 'Email',
+        'email_cc'         => 'Email CC',
+        'partner_name'     => 'Candidate Name',
+        'email_from'       => 'Email From',
         'partner_phone',
         'partner_phone_sanitized',
         'linkedin_profile',
-        'priority',
         'availability_date',
         'is_active' => 'Status',
-        'color',
     ];
 
     protected $casts = [
@@ -82,9 +77,9 @@ class Candidate extends Model
         return $this->belongsTo(Degree::class, 'degree_id');
     }
 
-    public function user()
+    public function manager()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'manager_id');
     }
 
     public function employee()
@@ -95,5 +90,10 @@ class Candidate extends Model
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(ApplicantCategory::class, 'recruitments_candidate_applicant_categories', 'candidate_id', 'category_id');
     }
 }

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('company_id')->nullable()->constrained('companies')->nullOnDelete();
             $table->foreignId('partner_id')->nullable()->constrained('partners_partners')->nullOnDelete();
             $table->foreignId('degree_id')->nullable()->constrained('recruitments_degrees')->nullOnDelete();
-            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('manager_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('employee_id')->nullable()->constrained('employees_employees')->nullOnDelete();
             $table->foreignId('creator_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('phone_sanitized')->nullable()->comment('Phone Sanitized');
