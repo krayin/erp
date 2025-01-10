@@ -12,6 +12,8 @@ class ActivityPlanTemplateSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('activity_plan_templates')->delete();
+
         $activityPlans = [
             [
                 'sort'             => 1,

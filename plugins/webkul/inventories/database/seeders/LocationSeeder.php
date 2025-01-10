@@ -10,7 +10,7 @@ use Webkul\Security\Models\User;
 class LocationSeeder extends Seeder
 {
     /**
-     * Seed the application's database with currencies.
+     * Run the database seeds.
      */
     public function run(): void
     {

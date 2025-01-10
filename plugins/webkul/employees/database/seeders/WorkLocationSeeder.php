@@ -13,6 +13,8 @@ class WorkLocationSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('employees_work_locations')->delete();
+
         $company = Company::find(1) ?? Company::factory()->create();
 
         $workLocations = [

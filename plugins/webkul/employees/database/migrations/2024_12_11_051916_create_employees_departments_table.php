@@ -13,15 +13,21 @@ return new class extends Migration
     {
         Schema::create('employees_departments', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->text('color')->nullable();
-            $table->unsignedBigInteger('manager_id')->nullable();
             $table->unsignedBigInteger('company_id')->nullable();
+            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->unsignedBigInteger('master_department_id')->nullable();
+            $table->unsignedBigInteger('creator_id')->nullable();
+            $table->string('name')->nullable();
+            $table->string('complete_name')->nullable();
+            $table->string('parent_path')->nullable();
+            $table->text('color')->nullable();
             $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('manager_id')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('set null');
+            $table->foreign('parent_id')->references('id')->on('employees_departments')->onDelete('set null');
+            $table->foreign('master_department_id')->references('id')->on('employees_departments')->onDelete('set null');
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
         });
     }
 

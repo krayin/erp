@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
             CalendarSeeder::class,
             CalendarAttendanceSeeder::class,
             ActivityPlanTemplateSeeder::class,
+            EmployeeSeeder::class,
+            DepartmentSeeder::class,
         ]);
     }
 }

@@ -22,7 +22,7 @@ class ListSkillTypes extends ListRecords
                 ->createAnother(false)
                 ->after(function ($record) {
                     return redirect(
-                        SkillTypeResource::getUrl('edit', ['record' => $record])
+                        static::$resource::getUrl('edit', ['record' => $record]),
                     );
                 })
                 ->successNotification(

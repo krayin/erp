@@ -18,8 +18,8 @@ return new class extends Migration
             $table->integer('sort')->nullable();
             $table->string('sequence_code');
             $table->string('reservation_method');
-            $table->integer('reservation_days_before');
-            $table->integer('reservation_days_before_priority');
+            $table->integer('reservation_days_before')->nullable();
+            $table->integer('reservation_days_before_priority')->nullable();
             $table->string('product_label_format')->nullable();
             $table->string('lot_label_format')->nullable();
             $table->string('package_label_to_print')->nullable();

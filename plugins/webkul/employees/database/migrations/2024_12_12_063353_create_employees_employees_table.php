@@ -81,8 +81,8 @@ return new class extends Migration
             $table->boolean('is_fully_flexible')->nullable()->comment('Is Fully Flexible');
             $table->boolean('work_permit_scheduled_activity')->nullable()->comment('Work Permit Scheduled Activity');
 
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('restrict');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('set null');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('calendar_id')->references('id')->on('employees_calendars')->onDelete('set null');
             $table->foreign('department_id')->references('id')->on('employees_departments')->onDelete('set null');
@@ -94,10 +94,10 @@ return new class extends Migration
             $table->foreign('state_id')->references('id')->on('states')->onDelete('set null');
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('set null');
             $table->foreign('country_of_birth')->references('id')->on('countries')->onDelete('set null');
-            $table->foreign('departure_reason_id')->references('id')->on('employees_departure_reasons')->onDelete('set null');
+            $table->foreign('departure_reason_id')->references('id')->on('employees_departure_reasons')->onDelete('restrict');
 
             $table->foreign('bank_account_id')->references('id')->on('partners_bank_accounts')->onDelete('set null');
-            $table->foreign('leave_manager_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('leave_manager_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('attendance_manager_id')->references('id')->on('users')->onDelete('set null');
 
             $table->softDeletes();

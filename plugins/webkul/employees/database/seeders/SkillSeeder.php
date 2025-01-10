@@ -12,6 +12,8 @@ class SkillSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('employees_skills')->delete();
+
         $skills = [
             [
                 'sort'               => 10,

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
 use Webkul\Employee\Models\Department;
@@ -109,7 +110,7 @@ class User extends BaseUser implements FilamentUser
             'creator_id' => Auth::user()->id ?? $user->id,
             'user_id'    => $user->id,
             'sub_type'   => 'partner',
-            ...$user->toArray(),
+            ...Arr::except($user->toArray(), ['id']),
         ]);
 
         $user->partner_id = $partner->id;
@@ -127,7 +128,7 @@ class User extends BaseUser implements FilamentUser
                 'creator_id' => Auth::user()->id ?? $user->id,
                 'user_id'    => $user->id,
                 'sub_type'   => 'partner',
-                ...$user->toArray(),
+                ...Arr::except($user->toArray(), ['id']),
             ]
         );
 
