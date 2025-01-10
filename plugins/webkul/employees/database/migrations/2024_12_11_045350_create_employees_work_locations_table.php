@@ -22,8 +22,8 @@ return new class extends Migration
             $table->unsignedBigInteger('company_id')->comment('Company');
             $table->unsignedBigInteger('creator_id')->nullable()->comment('Created by');
 
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
-            $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('restrict');
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
 
             $table->timestamps();
             $table->softDeletes();

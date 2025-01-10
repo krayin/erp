@@ -19,14 +19,12 @@ return new class extends Migration
             $table->unsignedBigInteger('skill_level_id')->nullable();
             $table->unsignedBigInteger('skill_type_id')->nullable();
             $table->unsignedBigInteger('creator_id')->nullable()->comment('Created by');
-            $table->unsignedBigInteger('user_id')->nullable();
 
             $table->foreign('employee_id')->references('id')->on('employees_employees')->onDelete('cascade');
             $table->foreign('skill_id')->references('id')->on('employees_skills')->onDelete('cascade');
             $table->foreign('skill_level_id')->references('id')->on('employees_skill_levels')->onDelete('cascade');
             $table->foreign('skill_type_id')->references('id')->on('employees_skill_types')->onDelete('cascade');
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
 
             $table->timestamps();
             $table->softDeletes();

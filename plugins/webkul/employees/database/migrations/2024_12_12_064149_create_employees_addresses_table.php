@@ -31,7 +31,7 @@ return new class extends Migration
             $table->foreign('state_id')->references('id')->on('states')->onDelete('set null');
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('set null');
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('partner_address_id')->references('id')->on('partners_addresses')->onDelete('cascade');
+            $table->foreign('partner_address_id')->references('id')->on('partners_addresses')->onDelete('restrict');
 
             $table->softDeletes();
             $table->timestamps();
