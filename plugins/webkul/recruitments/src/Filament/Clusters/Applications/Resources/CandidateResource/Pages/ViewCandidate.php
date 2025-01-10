@@ -6,6 +6,7 @@ use Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResourc
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
+use Webkul\Chatter\Filament\Actions as ChatterActions;
 
 class ViewCandidate extends ViewRecord
 {
@@ -14,6 +15,8 @@ class ViewCandidate extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
+            ChatterActions\ChatterAction::make()
+                ->setResource(static::$resource),
             Actions\DeleteAction::make()
                 ->successNotification(
                     Notification::make()
