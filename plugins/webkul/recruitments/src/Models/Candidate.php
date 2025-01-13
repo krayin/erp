@@ -31,6 +31,7 @@ class Candidate extends Model
         'email_cc',
         'name',
         'email_from',
+        'priority',
         'phone',
         'linkedin_profile',
         'availability_date',

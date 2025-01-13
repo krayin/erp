@@ -17,16 +17,55 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Forms\Set;
+use Filament\Pages\SubNavigationPosition;
 use Filament\Support\Enums\ActionSize;
+use Illuminate\Support\HtmlString;
 use Webkul\Security\Filament\Resources\UserResource;
+use Webkul\Field\Filament\Forms\Components\ProgressStepper;
+use Webkul\Recruitment\Models\Stage as RecruitmentStage;
 
 class ApplicantResource extends Resource
 {
     protected static ?string $model = Applicant::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     protected static ?string $cluster = Applications::class;
+
+    // public static function getSubNavigationPosition(): SubNavigationPosition
+    // {
+    //     if (str_contains(Route::currentRouteName(), 'index')) {
+    //         return SubNavigationPosition::Start;
+    //     }
+
+    //     return SubNavigationPosition::Top;
+    // }
+
+    public static function getModelLabel(): string
+    {
+        return __('Applicants');
+    }
+
+    public static function getNavigationGroup(): string
+    {
+        return __('Recruitment');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Applicants');
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return [
+            'name',
+            'email_from',
+            'phone',
+            'company.name',
+            'degree.name',
+        ];
+    }
 
     public static function form(Form $form): Form
     {
@@ -34,53 +73,114 @@ class ApplicantResource extends Resource
             ->schema([
                 Forms\Components\Grid::make()
                     ->schema([
+                        ProgressStepper::make('stage_id')
+                            ->hiddenLabel()
+                            ->inline()
+                            ->required()
+                            ->options(fn() => RecruitmentStage::orderBy('sort')->get()->mapWithKeys(fn($stage) => [$stage->id => $stage->name]))
+                            ->default(RecruitmentStage::first()?->id)
+                            ->columnSpan('full')
+                            ->live()
+                            ->afterStateUpdated(function ($state, $record) {
+                                if ($record && $state) {
+                                    $selectedStage = RecruitmentStage::find($state);
+
+                                    $data = [
+                                        'stage_id'               => $state,
+                                        'last_stage_id'          => $record->stage_id,
+                                        'date_last_stage_update' => now(),
+                                    ];
+
+                                    if ($selectedStage && $selectedStage->hired_stage) {
+                                        $data['date_closed'] = now();
+                                    } elseif ($record->stage && $record->stage->hired_stage) {
+                                        $data['date_closed'] = null;
+                                    }
+
+                                    $record->update($data);
+                                }
+                            })
+                    ])
+                    ->columns(1),
+                Forms\Components\Grid::make()
+                    ->schema([
                         Forms\Components\Section::make('General Information')
                             ->schema([
-                                Forms\Components\Actions::make([
-                                    Forms\Components\Actions\Action::make('good')
-                                        ->hiddenLabel()
-                                        ->outlined(false)
-                                        ->icon(fn($record) => $record?->priority >= 1 ? 'heroicon-s-star' : 'heroicon-o-star')
-                                        ->color(fn($record) => $record?->priority >= 1 ? 'warning' : 'gray')
-                                        ->size(ActionSize::ExtraLarge)
-                                        ->iconButton()
-                                        ->tooltip('Evaluation: Good')
-                                        ->action(function ($record) {
-                                            if ($record?->priority == 1) {
-                                                $record->update(['priority' => 0]);
-                                            } else {
-                                                $record->update(['priority' => 1]);
-                                            }
-                                        }),
-                                    Forms\Components\Actions\Action::make('veryGood')
-                                        ->hiddenLabel()
-                                        ->icon(fn($record) => $record?->priority >= 2 ? 'heroicon-s-star' : 'heroicon-o-star')
-                                        ->color(fn($record) => $record?->priority >= 2 ? 'warning' : 'gray')
-                                        ->size(ActionSize::ExtraLarge)
-                                        ->iconButton()
-                                        ->tooltip('Evaluation: Very Good')
-                                        ->action(function ($record) {
-                                            if ($record?->priority == 2) {
-                                                $record->update(['priority' => 0]);
-                                            } else {
-                                                $record->update(['priority' => 2]);
-                                            }
-                                        }),
-                                    Forms\Components\Actions\Action::make('excellent')
-                                        ->hiddenLabel()
-                                        ->icon(fn($record) => $record?->priority >= 3 ? 'heroicon-s-star' : 'heroicon-o-star')
-                                        ->color(fn($record) => $record?->priority >= 3 ? 'warning' : 'gray')
-                                        ->size(ActionSize::ExtraLarge)
-                                        ->iconButton()
-                                        ->tooltip('Evaluation: Excellent')
-                                        ->action(function ($record) {
-                                            if ($record?->priority == 3) {
-                                                $record->update(['priority' => 0]);
-                                            } else {
-                                                $record->update(['priority' => 3]);
-                                            }
-                                        })
-                                ]),
+                                Forms\Components\Group::make()
+                                    ->schema([
+                                        Forms\Components\Actions::make([
+                                            Forms\Components\Actions\Action::make('good')
+                                                ->hiddenLabel()
+                                                ->outlined(false)
+                                                ->icon(fn($record) => $record?->priority >= 1 ? 'heroicon-s-star' : 'heroicon-o-star')
+                                                ->color('warning')
+                                                ->size(ActionSize::ExtraLarge)
+                                                ->iconButton()
+                                                ->tooltip('Evaluation: Good')
+                                                ->action(function ($record) {
+                                                    if ($record?->priority == 1) {
+                                                        $record->update(['priority' => 0]);
+                                                        $record->candidate->update(['priority' => 0]);
+                                                    } else {
+                                                        $record->update(['priority' => 1]);
+                                                        $record->candidate->update(['priority' => 1]);
+                                                    }
+                                                }),
+                                            Forms\Components\Actions\Action::make('veryGood')
+                                                ->hiddenLabel()
+                                                ->icon(fn($record) => $record?->priority >= 2 ? 'heroicon-s-star' : 'heroicon-o-star')
+                                                ->color('warning')
+                                                ->size(ActionSize::ExtraLarge)
+                                                ->iconButton()
+                                                ->tooltip('Evaluation: Very Good')
+                                                ->action(function ($record) {
+                                                    if ($record?->priority == 2) {
+                                                        $record->update(['priority' => 0]);
+                                                        $record->candidate->update(['priority' => 0]);
+                                                    } else {
+                                                        $record->update(['priority' => 2]);
+                                                        $record->candidate->update(['priority' => 2]);
+                                                    }
+                                                }),
+                                            Forms\Components\Actions\Action::make('excellent')
+                                                ->hiddenLabel()
+                                                ->icon(fn($record) => $record?->priority >= 3 ? 'heroicon-s-star' : 'heroicon-o-star')
+                                                ->color('warning')
+                                                ->size(ActionSize::ExtraLarge)
+                                                ->iconButton()
+                                                ->tooltip('Evaluation: Excellent')
+                                                ->action(function ($record) {
+                                                    if ($record?->priority == 3) {
+                                                        $record->update(['priority' => 0]);
+                                                        $record->candidate->update(['priority' => 0]);
+                                                    } else {
+                                                        $record->update(['priority' => 3]);
+                                                        $record->candidate->update(['priority' => 3]);
+                                                    }
+                                                }),
+                                        ]),
+                                        Forms\Components\Placeholder::make('date_closed')
+                                            ->hidden(fn($record) => !$record->date_closed)
+                                            ->live()
+                                            ->hiddenLabel()
+                                            ->content(function ($record) {
+                                                $html = '<span style="display: inline-flex; align-items: center; background-color: #28a745; color: white; padding: 4px 8px; border-radius: 12px; font-size: 18px; font-weight: 500;">';
+
+                                                $html .= view('filament::components.icon', [
+                                                    'icon' => 'heroicon-c-check-badge',
+                                                    'class' => 'w-6 h-6',
+                                                ])->render();
+
+                                                $html .= 'HIRED';
+                                                $html .= '</span>';
+
+                                                return new HtmlString($html);
+                                            }),
+                                    ])
+                                    ->extraAttributes([
+                                        'class' => 'flex !items-center justify-between'
+                                    ])
+                                    ->columns(2),
                                 Forms\Components\Group::make()
                                     ->schema([
                                         Forms\Components\Select::make('candidate_id')

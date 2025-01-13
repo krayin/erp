@@ -33,11 +33,12 @@ return new class extends Migration
             $table->json('applicant_properties')->nullable()->comment('Applicant Properties');
             $table->text('applicant_notes')->nullable()->comment('Applicant Notes');
             $table->boolean('is_active')->default(false)->comment('Active Status');
-            $table->date('create_date')->nullable()->comment('Applied On');
-            $table->date('date_closed')->nullable()->comment('Hired Date');
-            $table->date('date_opened')->nullable()->comment('Assigned');
-            $table->date('date_last_stage_updated')->nullable()->comment('Last Stage Updated');
-            $table->date('refuse_date')->nullable()->comment('Refused Date');
+            $table->string('state')->nullable()->comment('Applicant State');
+            $table->timestamp('create_date')->nullable()->comment('Applied On');
+            $table->timestamp('date_closed')->nullable()->comment('Hired Date');
+            $table->timestamp('date_opened')->nullable()->comment('Assigned');
+            $table->timestamp('date_last_stage_updated')->nullable()->comment('Last Stage Updated');
+            $table->timestamp('refuse_date')->nullable()->comment('Refused Date');
 
             $table->double('probability')->nullable()->comment('Probability');
             $table->double('salary_proposed')->nullable()->comment('Salary Proposed');
