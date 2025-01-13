@@ -23,7 +23,7 @@ class Applicant extends Model
         'stage_id',
         'last_stage_id',
         'company_id',
-        'user_id',
+        'recruiter_id',
         'job_id',
         'department_id',
         'refuse_reason_id',
@@ -90,9 +90,19 @@ class Applicant extends Model
         return $this->belongsTo(Company::class);
     }
 
-    public function user(): BelongsTo
+    public function recruiter(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'recruiter_id');
+    }
+
+    public function interviewer()
+    {
+        return $this->belongsToMany(User::class, 'recruitments_applicant_interviewers', 'applicant_id', 'interviewer_id');
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(ApplicantCategory::class, 'recruitments_applicant_applicant_categories', 'applicant_id', 'category_id');
     }
 
     public function job(): BelongsTo

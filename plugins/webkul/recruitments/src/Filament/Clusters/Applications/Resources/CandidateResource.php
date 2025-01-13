@@ -23,6 +23,7 @@ use Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResourc
 use Webkul\Recruitment\Models\Candidate;
 use Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource\RelationManagers;
 use Filament\Resources\Pages\Page;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 class CandidateResource extends Resource
@@ -60,9 +61,9 @@ class CandidateResource extends Resource
     public static function getGloballySearchableAttributes(): array
     {
         return [
-            'partner_name',
+            'name',
             'email_from',
-            'phone_sanitized',
+            'phone',
             'company.name',
             'degree.name',
         ];
@@ -76,26 +77,18 @@ class CandidateResource extends Resource
                     ->schema([
                         Forms\Components\Section::make(__('recruitments::filament/clusters/applications/resources/candidate.form.sections.basic-information.title'))
                             ->schema([
-                                Forms\Components\TextInput::make('partner_name')
+                                Forms\Components\Hidden::make('creator_id')
+                                    ->default(Auth::id()),
+                                Forms\Components\TextInput::make('name')
                                     ->label(__('recruitments::filament/clusters/applications/resources/candidate.form.sections.basic-information.fields.full-name'))
                                     ->required()
                                     ->maxLength(255),
-                                Forms\Components\Select::make('partner_id')
-                                    ->label(__('recruitments::filament/clusters/applications/resources/candidate.form.sections.basic-information.fields.contact'))
-                                    ->relationship('partner', 'name')
-                                    ->searchable()
-                                    ->afterStateUpdated(function(Set $set, Get $get) {
-                                        $set('email_from', Partner::find($get('partner_id'))?->email);
-                                        $set('phone_sanitized', Partner::find($get('partner_id'))?->phone);
-                                    })
-                                    ->preload()
-                                    ->live(),
                                 Forms\Components\TextInput::make('email_from')
                                     ->label(__('recruitments::filament/clusters/applications/resources/candidate.form.sections.basic-information.fields.email'))
                                     ->email()
                                     ->live()
                                     ->maxLength(255),
-                                Forms\Components\TextInput::make('phone_sanitized')
+                                Forms\Components\TextInput::make('phone')
                                     ->label(__('recruitments::filament/clusters/applications/resources/candidate.form.sections.basic-information.fields.phone'))
                                     ->tel()
                                     ->maxLength(255),
@@ -117,7 +110,7 @@ class CandidateResource extends Resource
                                     ->searchable()
                                     ->preload()
                                     ->label(__('recruitments::filament/clusters/applications/resources/candidate.form.sections.additional-details.fields.degree')),
-                                Forms\Components\Select::make('recruitments_candidate_applicant_categories')
+                                Forms\Components\Select::make('recruitments_candidate_categories')
                                     ->multiple()
                                     ->relationship('categories', 'name')
                                     ->searchable()
@@ -183,44 +176,44 @@ class CandidateResource extends Resource
             ->columns([
                 Tables\Columns\Layout\Stack::make([
                     Tables\Columns\Layout\Stack::make([
-                        Tables\Columns\TextColumn::make('partner_name')
+                        Tables\Columns\TextColumn::make('name')
                             ->weight(FontWeight::Bold)
                             ->label(__('recruitments::filament/clusters/applications/resources/candidate.table.columns.name'))
                             ->searchable()
                             ->sortable(),
                         Tables\Columns\Layout\Stack::make([
-                                Tables\Columns\TextColumn::make('categories.name')
-                                    ->label(__('recruitments::filament/clusters/applications/resources/candidate.table.columns.tags'))
-                                    ->badge()
-                                    ->weight(FontWeight::Bold)
-                                    ->state(function (Candidate $record): array {
-                                        return $record->categories->map(fn ($category) => [
-                                            'label' => $category->name,
-                                            'color' => $category->color ?? 'primary'
-                                        ])->toArray();
-                                    })
-                                    ->formatStateUsing(fn ($state) => $state['label'])
-                                    ->color(fn ($state) => Color::hex($state['color'])),
-                                Tables\Columns\TextColumn::make('priority')
-                                    ->label(__('recruitments::filament/clusters/applications/resources/candidate.table.columns.evaluation'))
-                                    ->color('warning')
-                                    ->formatStateUsing(function ($state) {
-                                        $html = '<div class="flex gap-1" style="margin-top: 6px;">';
-                                        for ($i = 1; $i <= 3; $i++) {
-                                            $iconType = $i <= $state ? 'heroicon-s-star' : 'heroicon-o-star';
-                                            $html .= view('filament::components.icon', [
-                                                'icon' => $iconType,
-                                                'class' => 'w-5 h-5',
-                                            ])->render();
-                                        }
-                                        $html .= '</div>';
-                                        return new HtmlString($html);
-                                    }),
-                            ])
-                            ->visible(fn ($record) => filled($record?->categories?->count())),
+                            Tables\Columns\TextColumn::make('categories.name')
+                                ->label(__('recruitments::filament/clusters/applications/resources/candidate.table.columns.tags'))
+                                ->badge()
+                                ->weight(FontWeight::Bold)
+                                ->state(function (Candidate $record): array {
+                                    return $record->categories->map(fn($category) => [
+                                        'label' => $category->name,
+                                        'color' => $category->color ?? 'primary'
+                                    ])->toArray();
+                                })
+                                ->formatStateUsing(fn($state) => $state['label'])
+                                ->color(fn($state) => Color::hex($state['color'])),
+                            Tables\Columns\TextColumn::make('priority')
+                                ->label(__('recruitments::filament/clusters/applications/resources/candidate.table.columns.evaluation'))
+                                ->color('warning')
+                                ->formatStateUsing(function ($state) {
+                                    $html = '<div class="flex gap-1" style="margin-top: 6px;">';
+                                    for ($i = 1; $i <= 3; $i++) {
+                                        $iconType = $i <= $state ? 'heroicon-s-star' : 'heroicon-o-star';
+                                        $html .= view('filament::components.icon', [
+                                            'icon' => $iconType,
+                                            'class' => 'w-5 h-5',
+                                        ])->render();
+                                    }
+                                    $html .= '</div>';
+                                    return new HtmlString($html);
+                                }),
+                        ])
+                            ->visible(fn($record) => filled($record?->categories?->count())),
                     ])->space(1),
                 ])
-                ->space(4),
+                    ->space(4),
             ])
             ->contentGrid([
                 'md' => 2,
@@ -259,15 +252,15 @@ class CandidateResource extends Resource
                 //     ->tooltip('Evaluation: Excellent')
                 //     ->action(fn ($record) => $record->update(['priority' => 3])),
                 // Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make()
-                        ->successNotification(
-                            Notification::make()
-                                ->success()
-                                ->title(__('recruitments::filament/clusters/applications/resources/candidate.table.actions.delete.notification.title'))
-                                ->body(__('recruitments::filament/clusters/applications/resources/candidate.table.actions.delete.notification.body'))
-                        ),
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title(__('recruitments::filament/clusters/applications/resources/candidate.table.actions.delete.notification.title'))
+                            ->body(__('recruitments::filament/clusters/applications/resources/candidate.table.actions.delete.notification.body'))
+                    ),
                 // ]),
             ])
             ->bulkActions([
@@ -304,7 +297,7 @@ class CandidateResource extends Resource
                             ->schema([
                                 Infolists\Components\Section::make(__('recruitments::filament/clusters/applications/resources/candidate.infolist.sections.basic-information.title'))
                                     ->schema([
-                                        Infolists\Components\TextEntry::make('partner_name')
+                                        Infolists\Components\TextEntry::make('name')
                                             ->icon('heroicon-o-user')
                                             ->placeholder('—')
                                             ->label(__('recruitments::filament/clusters/applications/resources/candidate.infolist.sections.basic-information.entries.full-name')),
@@ -316,7 +309,7 @@ class CandidateResource extends Resource
                                             ->icon('heroicon-o-envelope')
                                             ->placeholder('—')
                                             ->label(__('recruitments::filament/clusters/applications/resources/candidate.infolist.sections.basic-information.entries.email')),
-                                        Infolists\Components\TextEntry::make('phone_sanitized')
+                                        Infolists\Components\TextEntry::make('phone')
                                             ->icon('heroicon-o-phone')
                                             ->placeholder('—')
                                             ->label(__('recruitments::filament/clusters/applications/resources/candidate.infolist.sections.basic-information.entries.phone')),
@@ -341,14 +334,14 @@ class CandidateResource extends Resource
                                             ->icon('heroicon-o-tag')
                                             ->placeholder('—')
                                             ->state(function (Candidate $record): array {
-                                                return $record->categories->map(fn ($category) => [
+                                                return $record->categories->map(fn($category) => [
                                                     'label' => $category->name,
                                                     'color' => $category->color ?? 'primary'
                                                 ])->toArray();
                                             })
                                             ->badge()
-                                            ->formatStateUsing(fn ($state) => $state['label'])
-                                            ->color(fn ($state) => Color::hex($state['color']))
+                                            ->formatStateUsing(fn($state) => $state['label'])
+                                            ->color(fn($state) => Color::hex($state['color']))
                                             ->listWithLineBreaks()
                                             ->label(__('recruitments::filament/clusters/applications/resources/candidate.infolist.sections.additional-details.entries.tags')),
                                         Infolists\Components\TextEntry::make('manager.name')

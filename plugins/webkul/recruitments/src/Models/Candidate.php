@@ -10,6 +10,7 @@ use Webkul\Recruitment\Models\Degree;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
 
@@ -27,13 +28,10 @@ class Candidate extends Model
         'manager_id',
         'employee_id',
         'creator_id',
-        'phone_sanitized',
-        'email_normalized',
         'email_cc',
-        'partner_name',
+        'name',
         'email_from',
-        'partner_phone',
-        'partner_phone_sanitized',
+        'phone',
         'linkedin_profile',
         'availability_date',
         'candidate_properties',
@@ -50,10 +48,9 @@ class Candidate extends Model
         'phone_sanitized'  => 'Phone',
         'email_normalized' => 'Email',
         'email_cc'         => 'Email CC',
-        'partner_name'     => 'Candidate Name',
+        'name'             => 'Candidate Name',
         'email_from'       => 'Email From',
-        'partner_phone',
-        'partner_phone_sanitized',
+        'phone',
         'linkedin_profile',
         'availability_date',
         'is_active' => 'Status',
@@ -101,5 +98,62 @@ class Candidate extends Model
     public function skills(): HasMany
     {
         return $this->hasMany(CandidateSkill::class, 'candidate_id');
+    }
+
+    /**
+     * Bootstrap the model and its traits.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saved(function (self $candidate) {
+            if (! $candidate->partner_id) {
+                $candidate->handlePartnerCreation($candidate);
+            } else {
+                $candidate->handlePartnerUpdation($candidate);
+            }
+        });
+    }
+
+    /**
+     * Handle the creation of a partner.
+     */
+    private function handlePartnerCreation(self $candidate)
+    {
+        $partner = $candidate->partner()->create([
+            'creator_id' => Auth::user()->id ?? $candidate->id,
+            'sub_type'   => 'partner',
+            'company_id' => $candidate->company_id,
+            'phone'      => $candidate->phone,
+            'email'      => $candidate->email_from,
+            'name'       => $candidate->name,
+        ]);
+
+        $candidate->partner_id = $partner->id;
+        $candidate->save();
+    }
+
+    /**
+     * Handle the updation of a partner.
+     */
+    private function handlePartnerUpdation(self $candidate)
+    {
+        $partner = Partner::updateOrCreate(
+            ['id' => $candidate->partner_id],
+            [
+                'creator_id' => Auth::user()->id ?? $candidate->id,
+                'sub_type'   => 'partner',
+                'company_id' => $candidate->company_id,
+                'phone'      => $candidate->phone,
+                'email'      => $candidate->email_from,
+                'name'       => $candidate->name,
+            ]
+        );
+
+        if ($candidate->partner_id !== $partner->id) {
+            $candidate->partner_id = $partner->id;
+            $candidate->save();
+        }
     }
 }

@@ -5,8 +5,10 @@ namespace Webkul\Recruitment\Filament\Clusters\Applications\Resources\ApplicantR
 use Webkul\Recruitment\Filament\Clusters\Applications\Resources\ApplicantResource;
 use Filament\Actions;
 use Filament\Forms;
+use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
+use Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource;
 
 class ListApplicants extends ListRecords
 {
@@ -22,13 +24,15 @@ class ListApplicants extends ListRecords
                     Forms\Components\Group::make()
                         ->schema([
                             Forms\Components\Select::make('candidate_id')
-                                ->relationship('candidate', 'partner_name')
+                                ->relationship('candidate', 'name')
                                 ->required()
                                 ->searchable()
                                 ->preload()
                                 ->label('Candidate')
+                                ->createOptionForm(fn(Form $form) => CandidateResource::form($form)),
                         ])->columns(2),
                 ])
+                ->createAnother(false)
                 ->after(function ($record) {
                     return redirect(
                         static::$resource::getUrl('edit', ['record' => $record]),

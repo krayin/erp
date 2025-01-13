@@ -21,13 +21,11 @@ return new class extends Migration
             $table->foreignId('manager_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('employee_id')->nullable()->constrained('employees_employees')->nullOnDelete();
             $table->foreignId('creator_id')->nullable()->constrained('users')->nullOnDelete();
-            $table->string('phone_sanitized')->nullable()->comment('Phone Sanitized');
-            $table->string('email_normalized')->nullable()->comment('Email Normalized');
+
             $table->string('email_cc')->nullable()->comment('Email CC');
-            $table->string('partner_name')->nullable()->comment('Partner Name');
+            $table->string('name')->nullable()->comment('Partner Name');
             $table->string('email_from')->nullable()->comment('Email From');
-            $table->string('partner_phone')->nullable()->comment('Partner Phone');
-            $table->string('partner_phone_sanitized')->nullable()->comment('Partner Phone Sanitized');
+            $table->string('phone')->nullable()->comment('Partner Phone');
             $table->string('linkedin_profile')->nullable()->comment('Linkedin Profile');
             $table->integer('priority')->nullable()->default(0)->comment('Priority');
             $table->date('availability_date')->nullable()->comment('Availability Date');

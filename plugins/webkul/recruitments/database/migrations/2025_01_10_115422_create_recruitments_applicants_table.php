@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('stage_id')->nullable()->constrained('recruitments_stages')->restrictOnDelete();
             $table->foreignId('last_stage_id')->nullable()->constrained('recruitments_stages')->nullOnDelete();
             $table->foreignId('company_id')->nullable()->constrained('companies')->nullOnDelete();
-            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('recruiter_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('job_id')->nullable()->constrained('employees_job_positions')->nullOnDelete();
             $table->foreignId('department_id')->nullable()->constrained('employees_departments')->nullOnDelete();
             $table->foreignId('refuse_reason_id')->nullable()->constrained('recruitments_refuse_reasons')->nullOnDelete();
@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('salary_proposed_extra')->nullable()->comment('Salary Proposed Extra');
             $table->string('salary_expected_extra')->nullable()->comment('Salary Expected Extra');
             $table->json('applicant_properties')->nullable()->comment('Applicant Properties');
-            $table->string('applicant_notes')->nullable()->comment('Applicant Notes');
+            $table->text('applicant_notes')->nullable()->comment('Applicant Notes');
             $table->boolean('is_active')->default(false)->comment('Active Status');
             $table->date('create_date')->nullable()->comment('Applied On');
             $table->date('date_closed')->nullable()->comment('Hired Date');

@@ -14,11 +14,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Support\Enums\ActionSize;
-use Illuminate\Support\HtmlString;
+use Webkul\Security\Filament\Resources\UserResource;
 
 class ApplicantResource extends Resource
 {
@@ -34,151 +32,161 @@ class ApplicantResource extends Resource
             ->schema([
                 Forms\Components\Grid::make()
                     ->schema([
-                        Forms\Components\Section::make('Basic Information')
+                        Forms\Components\Section::make('General Information')
                             ->schema([
                                 Forms\Components\Actions::make([
                                     Forms\Components\Actions\Action::make('good')
                                         ->hiddenLabel()
                                         ->outlined(false)
-                                        ->icon(fn ($record) => $record?->priority >= 1 ? 'heroicon-s-star' : 'heroicon-o-star')
-                                        ->color(fn ($record) => $record?->priority >= 1 ? 'warning' : 'gray')
+                                        ->icon(fn($record) => $record?->priority >= 1 ? 'heroicon-s-star' : 'heroicon-o-star')
+                                        ->color(fn($record) => $record?->priority >= 1 ? 'warning' : 'gray')
                                         ->size(ActionSize::ExtraLarge)
                                         ->iconButton()
                                         ->tooltip('Evaluation: Good')
-                                        ->action(fn ($record) => $record?->update(['priority' => 1])),
+                                        ->action(function ($record) {
+                                            if ($record?->priority == 1) {
+                                                $record->update(['priority' => 0]);
+                                            } else {
+                                                $record->update(['priority' => 1]);
+                                            }
+                                        }),
                                     Forms\Components\Actions\Action::make('veryGood')
                                         ->hiddenLabel()
-                                        ->icon(fn ($record) => $record?->priority >= 2 ? 'heroicon-s-star' : 'heroicon-o-star')
-                                        ->color(fn ($record) => $record?->priority >= 2 ? 'warning' : 'gray')
+                                        ->icon(fn($record) => $record?->priority >= 2 ? 'heroicon-s-star' : 'heroicon-o-star')
+                                        ->color(fn($record) => $record?->priority >= 2 ? 'warning' : 'gray')
                                         ->size(ActionSize::ExtraLarge)
                                         ->iconButton()
                                         ->tooltip('Evaluation: Very Good')
-                                        ->action(fn ($record) => $record?->update(['priority' => 2])),
+                                        ->action(function ($record) {
+                                            if ($record?->priority == 2) {
+                                                $record->update(['priority' => 0]);
+                                            } else {
+                                                $record->update(['priority' => 2]);
+                                            }
+                                        }),
                                     Forms\Components\Actions\Action::make('excellent')
                                         ->hiddenLabel()
-                                        ->icon(fn ($record) => $record?->priority >= 3 ? 'heroicon-s-star' : 'heroicon-o-star')
-                                        ->color(fn ($record) => $record?->priority >= 3 ? 'warning' : 'gray')
+                                        ->icon(fn($record) => $record?->priority >= 3 ? 'heroicon-s-star' : 'heroicon-o-star')
+                                        ->color(fn($record) => $record?->priority >= 3 ? 'warning' : 'gray')
                                         ->size(ActionSize::ExtraLarge)
                                         ->iconButton()
                                         ->tooltip('Evaluation: Excellent')
-                                        ->action(fn ($record) => $record?->update(['priority' => 3]))
+                                        ->action(function ($record) {
+                                            if ($record?->priority == 3) {
+                                                $record->update(['priority' => 0]);
+                                            } else {
+                                                $record->update(['priority' => 3]);
+                                            }
+                                        })
                                 ]),
                                 Forms\Components\Group::make()
                                     ->schema([
                                         Forms\Components\Select::make('candidate_id')
-                                            ->relationship('candidate', 'partner_name')
+                                            ->relationship('candidate', 'name')
                                             ->required()
                                             ->preload()
                                             ->searchable()
                                             ->live()
-                                            ->afterStateUpdated(function (Set $set, $state) {
+                                            ->afterStateHydrated(function (Set $set, $state) {
                                                 if ($state) {
                                                     $candidate = \Webkul\Recruitment\Models\Candidate::find($state);
 
-                                                    $set('candidate.email_normalized', $candidate?->email_normalized);
-                                                    $set('candidate.phone_sanitized', $candidate?->phone_sanitized);
+                                                    $set('candidate.email_from', $candidate?->email_from);
+                                                    $set('candidate.phone', $candidate?->phone);
                                                     $set('candidate.linkedin_profile', $candidate?->linkedin_profile);
                                                 }
                                             })
-                                    ])
-                                    ->columns(2),
-                                Forms\Components\Group::make()
-                                    ->relationship('candidate', 'partner_name')
-                                    ->schema([
-                                        Forms\Components\TextInput::make('email_normalized')
+                                            ->columnSpan(1),
+                                        Forms\Components\TextInput::make('candidate.email_from')
+                                            ->label(__('Email'))
                                             ->email()
-                                            ->required(),
-                                        Forms\Components\TextInput::make('phone_sanitized')
+                                            ->required()
+                                            ->columnSpan(1),
+                                        Forms\Components\TextInput::make('candidate.phone')
+                                            ->label(__('Phone'))
                                             ->tel()
-                                            ->required(),
-                                        Forms\Components\TextInput::make('linkedin_profile')
+                                            ->required()
+                                            ->columnSpan(1),
+                                        Forms\Components\TextInput::make('candidate.linkedin_profile')
+                                            ->label(__('LinkedIn Profile'))
                                             ->url()
-                                            ->required(),
-                                    ])->columns(2),
-                                Forms\Components\Grid::make(2)
-                                    ->schema([
+                                            ->required()
+                                            ->columnSpan(1),
                                         Forms\Components\Select::make('job_id')
                                             ->relationship('job', 'name')
+                                            ->label(__('Job Position'))
+                                            ->preload()
                                             ->searchable(),
-                                        Forms\Components\Select::make('department_id')
-                                            ->relationship('department', 'name')
+                                        Forms\Components\Select::make('recruiter')
+                                            ->relationship('recruiter', 'name')
+                                            ->label(__('Recruiter'))
+                                            ->preload()
                                             ->searchable(),
-                                        Forms\Components\Select::make('company_id')
-                                            ->relationship('company', 'name')
-                                            ->searchable(),
-                                        Forms\Components\Select::make('stage_id')
-                                            ->relationship('stage', 'name')
-                                            ->required()
-                                            ->searchable(),
-                                        Forms\Components\TextInput::make('email_cc')
-                                            ->email()
-                                            ->label('Email CC'),
-                                    ])->columns(2)
+                                        Forms\Components\Select::make('recruitments_applicant_interviewers')
+                                            ->relationship('interviewer', 'name')
+                                            ->label(__('Interviewer'))
+                                            ->preload()
+                                            ->multiple()
+                                            ->searchable()
+                                            ->createOptionForm(fn(Form $form) => UserResource::form($form)),
+                                        Forms\Components\Select::make('recruitments_applicant_applicant_categories')
+                                            ->multiple()
+                                            ->label(__('Tags'))
+                                            ->relationship('categories', 'name')
+                                            ->searchable()
+                                            ->preload(),
+                                    ])
+                                    ->columns(2)
                             ]),
-                        Forms\Components\Section::make('Source Information')
+                        Forms\Components\Section::make()
                             ->schema([
-                            Forms\Components\Select::make('source_id')
-                                    ->relationship('source', 'name')
-                                    ->preload()
-                                    ->searchable(),
-                            Forms\Components\Select::make('medium_id')
-                                    ->relationship('medium', 'name')
-                                    ->preload()
-                                    ->searchable(),
-                            Forms\Components\Select::make('user_id')
-                                    ->relationship('user', 'name')
-                                    ->preload()
-                                    ->label('Assigned To')
-                                    ->searchable(),
-                            ])->columns(2),
-                        Forms\Components\Section::make('Salary Information')
-                            ->schema([
-                                Forms\Components\TextInput::make('salary_expected')
-                                    ->numeric()
-                                    ->label('Expected Salary'),
-                                Forms\Components\TextInput::make('salary_expected_extra')
-                                    ->label('Expected Salary Extra'),
-                                Forms\Components\TextInput::make('salary_proposed')
-                                    ->numeric()
-                                    ->label('Proposed Salary'),
-                                Forms\Components\TextInput::make('salary_proposed_extra')
-                                    ->label('Proposed Salary Extra'),
-                            ])->columns(2),
+                                Forms\Components\RichEditor::make('applicant_notes')
+                                    ->label(__('Notes'))
+                                    ->columnSpan(2),
+                            ])
                     ])
                     ->columnSpan(['lg' => 2]),
                 Forms\Components\Grid::make()
                     ->schema([
-                        Forms\Components\Section::make('Status')
+                        Forms\Components\Section::make('Details')
                             ->schema([
-                                Forms\Components\Toggle::make('is_active')
-                                    ->label('Active Status'),
-                                Forms\Components\TextInput::make('priority')
-                                    ->numeric()
-                                    ->label('Evaluation'),
-                                Forms\Components\TextInput::make('probability')
-                                    ->numeric()
-                                    ->label('Probability'),
-                            ]),
-
-                        Forms\Components\Section::make('Dates')
-                            ->schema([
-                                Forms\Components\DatePicker::make('create_date')
-                                    ->label('Applied On'),
-                                Forms\Components\DatePicker::make('date_opened')
-                                    ->label('Assigned Date'),
-                                Forms\Components\DatePicker::make('date_closed')
-                                    ->label('Hired Date'),
-                                Forms\Components\DatePicker::make('refuse_date')
-                                    ->label('Refused Date'),
-                            ]),
-
-                        Forms\Components\Section::make('Additional Information')
-                            ->schema([
-                                Forms\Components\Select::make('refuse_reason_id')
-                                    ->relationship('refuseReason', 'name')
-                                    ->searchable(),
-                                Forms\Components\Textarea::make('applicant_notes')
-                                    ->label('Notes'),
+                                Forms\Components\Fieldset::make('Applicant')
+                                    ->relationship('candidate', 'name')
+                                    ->schema([
+                                        Forms\Components\Select::make('degree_id')
+                                            ->relationship('degree', 'name')
+                                            ->searchable()
+                                            ->preload(),
+                                        Forms\Components\DatePicker::make('availability_date')
+                                            ->native(false)
+                                    ])->columns(1),
+                                Forms\Components\Fieldset::make('Job')
+                                    ->schema([
+                                        Forms\Components\Select::make('department_id')
+                                            ->relationship('department', 'name')
+                                            ->searchable()
+                                            ->preload(),
+                                    ])->columns(1),
+                                Forms\Components\Fieldset::make('Salary Package')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('salary_expected')
+                                            ->label(__('Expected Salary'))
+                                            ->numeric()
+                                            ->step(0.01),
+                                        Forms\Components\TextInput::make('salary_proposed')
+                                            ->label(__('Proposed Salary'))
+                                            ->numeric()
+                                            ->step(0.01),
+                                    ])->columns(1),
+                                Forms\Components\Fieldset::make('Sourcing')
+                                    ->schema([
+                                        Forms\Components\Select::make('source_id')
+                                            ->relationship('source', 'name')
+                                            ->label(__('Source')),
+                                        Forms\Components\Select::make('medium_id')
+                                            ->relationship('medium', 'name')
+                                            ->label(__('Medium')),
+                                    ])->columns(1),
                             ]),
                     ])
                     ->columnSpan(['lg' => 1]),
