@@ -2,12 +2,6 @@
 
 namespace Webkul\Recruitment\Filament\Clusters\Applications\Resources\ApplicantResource\RelationManagers;
 
-use Filament\Resources\RelationManagers\RelationManager;
-use Webkul\Recruitment\Traits\CandidateSkillRelation;
+use Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource\RelationManagers\SkillsRelationManager as BaseSkillsRelationManager;
 
-class SkillsRelationManager extends RelationManager
-{
-    use CandidateSkillRelation;
-
-    protected static string $relationship = 'skills';
-}
+class SkillsRelationManager extends BaseSkillsRelationManager {}

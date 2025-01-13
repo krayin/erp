@@ -18,7 +18,6 @@ class ManageSkill extends ManageRelatedRecords
 
     public static function getNavigationLabel(): string
     {
-        return 'Manage Skills';
         return __('employees::filament/resources/employee/pages/manage-skill.navigation.title');
     }
 }
