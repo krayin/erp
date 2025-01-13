@@ -8,6 +8,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource;
 
 class ListApplicants extends ListRecords
@@ -32,6 +33,12 @@ class ListApplicants extends ListRecords
                                 ->createOptionForm(fn(Form $form) => CandidateResource::form($form)),
                         ])->columns(2),
                 ])
+                ->mutateFormDataUsing(function (array $data): array {
+                    $data['creator_id'] = Auth::id();
+                    $data['company_id'] = Auth::user()->default_company_id;
+
+                    return $data;
+                })
                 ->createAnother(false)
                 ->after(function ($record) {
                     return redirect(

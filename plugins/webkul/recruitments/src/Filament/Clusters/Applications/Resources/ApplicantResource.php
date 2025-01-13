@@ -7,6 +7,8 @@ use Webkul\Recruitment\Filament\Clusters\Applications\Resources\ApplicantResourc
 use Webkul\Recruitment\Models\Applicant;
 use Filament\Forms\Form;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -87,7 +89,7 @@ class ApplicantResource extends Resource
                                             ->preload()
                                             ->searchable()
                                             ->live()
-                                            ->afterStateHydrated(function (Set $set, $state) {
+                                            ->afterStateHydrated(function (Set $set, Get $get, $state) {
                                                 if ($state) {
                                                     $candidate = \Webkul\Recruitment\Models\Candidate::find($state);
 
@@ -132,6 +134,14 @@ class ApplicantResource extends Resource
                                         Forms\Components\Select::make('recruitments_applicant_applicant_categories')
                                             ->multiple()
                                             ->label(__('Tags'))
+                                            ->afterStateHydrated(function (Select $component, $state, $record) {
+                                                if (
+                                                    empty($state)
+                                                    && $record?->candidate
+                                                ) {
+                                                    $component->state($record->candidate->categories->pluck('id')->toArray());
+                                                }
+                                            })
                                             ->relationship('categories', 'name')
                                             ->searchable()
                                             ->preload(),
@@ -148,45 +158,42 @@ class ApplicantResource extends Resource
                     ->columnSpan(['lg' => 2]),
                 Forms\Components\Grid::make()
                     ->schema([
-                        Forms\Components\Section::make('Details')
+                        Forms\Components\Section::make('Education & Availability')
+                            ->relationship('candidate', 'name')
                             ->schema([
-                                Forms\Components\Fieldset::make('Applicant')
-                                    ->relationship('candidate', 'name')
-                                    ->schema([
-                                        Forms\Components\Select::make('degree_id')
-                                            ->relationship('degree', 'name')
-                                            ->searchable()
-                                            ->preload(),
-                                        Forms\Components\DatePicker::make('availability_date')
-                                            ->native(false)
-                                    ])->columns(1),
-                                Forms\Components\Fieldset::make('Job')
-                                    ->schema([
-                                        Forms\Components\Select::make('department_id')
-                                            ->relationship('department', 'name')
-                                            ->searchable()
-                                            ->preload(),
-                                    ])->columns(1),
-                                Forms\Components\Fieldset::make('Salary Package')
-                                    ->schema([
-                                        Forms\Components\TextInput::make('salary_expected')
-                                            ->label(__('Expected Salary'))
-                                            ->numeric()
-                                            ->step(0.01),
-                                        Forms\Components\TextInput::make('salary_proposed')
-                                            ->label(__('Proposed Salary'))
-                                            ->numeric()
-                                            ->step(0.01),
-                                    ])->columns(1),
-                                Forms\Components\Fieldset::make('Sourcing')
-                                    ->schema([
-                                        Forms\Components\Select::make('source_id')
-                                            ->relationship('source', 'name')
-                                            ->label(__('Source')),
-                                        Forms\Components\Select::make('medium_id')
-                                            ->relationship('medium', 'name')
-                                            ->label(__('Medium')),
-                                    ])->columns(1),
+                                Forms\Components\Select::make('degree_id')
+                                    ->relationship('degree', 'name')
+                                    ->searchable()
+                                    ->preload(),
+                                Forms\Components\DatePicker::make('availability_date')
+                                    ->native(false),
+                            ]),
+                        Forms\Components\Section::make('Department')
+                            ->schema([
+                                Forms\Components\Select::make('department_id')
+                                    ->relationship('department', 'name')
+                                    ->searchable()
+                                    ->preload(),
+                            ]),
+                        Forms\Components\Section::make('Salary')
+                            ->schema([
+                                Forms\Components\TextInput::make('salary_expected')
+                                    ->label(__('Expected Salary'))
+                                    ->numeric()
+                                    ->step(0.01),
+                                Forms\Components\TextInput::make('salary_proposed')
+                                    ->label(__('Proposed Salary'))
+                                    ->numeric()
+                                    ->step(0.01),
+                            ]),
+                        Forms\Components\Section::make('Source & Medium')
+                            ->schema([
+                                Forms\Components\Select::make('source_id')
+                                    ->relationship('source', 'name')
+                                    ->label(__('Source')),
+                                Forms\Components\Select::make('medium_id')
+                                    ->relationship('medium', 'name')
+                                    ->label(__('Medium')),
                             ]),
                     ])
                     ->columnSpan(['lg' => 1]),

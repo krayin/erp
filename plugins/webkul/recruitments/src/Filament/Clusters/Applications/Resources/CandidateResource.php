@@ -100,11 +100,6 @@ class CandidateResource extends Resource
                             ->columns(2),
                         Forms\Components\Section::make(__('recruitments::filament/clusters/applications/resources/candidate.form.sections.additional-details.title'))
                             ->schema([
-                                Forms\Components\Select::make('company_id')
-                                    ->relationship('company', 'name')
-                                    ->searchable()
-                                    ->preload()
-                                    ->label(__('recruitments::filament/clusters/applications/resources/candidate.form.sections.additional-details.fields.company')),
                                 Forms\Components\Select::make('degree_id')
                                     ->relationship('degree', 'name')
                                     ->searchable()
@@ -153,16 +148,6 @@ class CandidateResource extends Resource
 
                                         return new HtmlString($html);
                                     }),
-                            ]),
-                        Forms\Components\Section::make(__('recruitments::filament/clusters/applications/resources/candidate.form.sections.communication.title'))
-                            ->schema([
-                                Forms\Components\TextInput::make('email_cc')
-                                    ->label(__('recruitments::filament/clusters/applications/resources/candidate.form.sections.communication.fields.cc-email'))
-                                    ->email()
-                                    ->maxLength(255),
-                                Forms\Components\Toggle::make('message_bounced')
-                                    ->label(__('recruitments::filament/clusters/applications/resources/candidate.form.sections.communication.fields.email-bounced'))
-                                    ->default(false),
                             ]),
                     ])
                     ->columnSpan(['lg' => 1]),
