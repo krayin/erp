@@ -27,6 +27,7 @@ return [
                     'tags' => 'Tags',
                     'notes' => 'Notes',
                     'job-position' => 'Job Positions',
+                    'hired-date' => 'Hired Date',
                 ],
             ],
 
@@ -48,7 +49,9 @@ return [
 
                 'fields' => [
                     'expected-salary' => 'Expected Salary',
+                    'salary-proposed-extra' => 'Other Benefit',
                     'proposed-salary' => 'Proposed Salary',
+                    'salary-expected-extra' => 'Other Benefit',
                 ],
             ],
 
@@ -65,8 +68,11 @@ return [
 
     'table' => [
         'columns' => [
-            'name'       => 'Full Name',
-            'tags'       => 'Tags',
+            'partner-name' => 'Partner Name',
+            'applied-on' => 'Applied On',
+            'job-position' => 'Job Position',
+            'stage' => 'Stage',
+            'candidate-name' => 'Candidate Name',
             'evaluation' => 'Evaluation',
         ],
 
@@ -143,7 +149,9 @@ return [
 
                 'entries' => [
                     'expected-salary' => 'Expected Salary',
+                    'salary-proposed-extra' => 'Other Benefit',
                     'proposed-salary' => 'Proposed Salary',
+                    'salary-expected-extra' => 'Other Benefit',
                 ],
             ],
 

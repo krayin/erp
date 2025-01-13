@@ -36,6 +36,7 @@ class ListApplicants extends ListRecords
                 ->mutateFormDataUsing(function (array $data): array {
                     $data['creator_id'] = Auth::id();
                     $data['company_id'] = Auth::user()->default_company_id;
+                    $data['create_date'] = now();
 
                     return $data;
                 })
