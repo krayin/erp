@@ -5,6 +5,8 @@ namespace Webkul\Recruitment\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Webkul\Employee\Models\Department;
 use Webkul\Employee\Models\EmployeeJobPosition;
 use Webkul\Security\Models\User;
@@ -74,6 +76,18 @@ class Applicant extends Model
     public function candidate(): BelongsTo
     {
         return $this->belongsTo(Candidate::class);
+    }
+
+    public function skills(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            CandidateSkill::class,
+            Candidate::class,
+            'id',
+            'candidate_id',
+            'candidate_id',
+            'id'
+        );
     }
 
     public function stage(): BelongsTo

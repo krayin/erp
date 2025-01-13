@@ -4,6 +4,7 @@ namespace Webkul\Recruitment\Filament\Clusters\Applications\Resources;
 
 use Webkul\Recruitment\Filament\Clusters\Applications;
 use Webkul\Recruitment\Filament\Clusters\Applications\Resources\ApplicantResource\Pages;
+use Webkul\Recruitment\Filament\Clusters\Applications\Resources\ApplicantResource\RelationManagers;
 use Webkul\Recruitment\Models\Applicant;
 use Filament\Forms\Form;
 use Filament\Forms;
@@ -17,8 +18,11 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Forms\Set;
+use Filament\Pages\Page;
 use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\ActionSize;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\HtmlString;
 use Webkul\Security\Filament\Resources\UserResource;
 use Webkul\Field\Filament\Forms\Components\ProgressStepper;
@@ -32,14 +36,14 @@ class ApplicantResource extends Resource
 
     protected static ?string $cluster = Applications::class;
 
-    // public static function getSubNavigationPosition(): SubNavigationPosition
-    // {
-    //     if (str_contains(Route::currentRouteName(), 'index')) {
-    //         return SubNavigationPosition::Start;
-    //     }
+    public static function getSubNavigationPosition(): SubNavigationPosition
+    {
+        if (str_contains(Route::currentRouteName(), 'index')) {
+            return SubNavigationPosition::Start;
+        }
 
-    //     return SubNavigationPosition::Top;
-    // }
+        return SubNavigationPosition::Top;
+    }
 
     public static function getModelLabel(): string
     {
@@ -341,12 +345,32 @@ class ApplicantResource extends Resource
             ]);
     }
 
+    public static function getRecordSubNavigation(Page $page): array
+    {
+        return $page->generateNavigationItems([
+            Pages\ViewApplicant::class,
+            Pages\EditApplicant::class,
+            Pages\ManageSkill::class,
+        ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            RelationGroup::make('Manage Skills', [
+                RelationManagers\SkillsRelationManager::class,
+            ])
+                ->icon('heroicon-o-bolt'),
+        ];
+    }
+
     public static function getPages(): array
     {
         return [
             'index'  => Pages\ListApplicants::route('/'),
             'view'   => Pages\ViewApplicant::route('/{record}'),
             'edit'   => Pages\EditApplicant::route('/{record}/edit'),
+            'skills' => Pages\ManageSkill::route('/{record}/skills'),
         ];
     }
 
