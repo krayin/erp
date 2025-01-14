@@ -16,7 +16,6 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ToggleColumn;
 use Filament\Forms\Set;
 use Filament\Infolists\Infolist;
 use Filament\Support\Colors\Color;
@@ -27,7 +26,6 @@ use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\ActionSize;
 use Filament\Support\Enums\FontWeight;
-use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\HtmlString;
@@ -35,7 +33,6 @@ use Webkul\Security\Filament\Resources\UserResource;
 use Webkul\Field\Filament\Forms\Components\ProgressStepper;
 use Webkul\Recruitment\Enums\ApplicationStatus;
 use Webkul\Recruitment\Models\Stage as RecruitmentStage;
-use Webkul\Security\Models\User;
 
 class ApplicantResource extends Resource
 {
@@ -51,6 +48,7 @@ class ApplicantResource extends Resource
 
         if ($currentRoute === 'livewire.update') {
             return str_contains(url()->previous(), 'index')
+                || str_contains(url()->previous(), 'tableGrouping')
                 ? SubNavigationPosition::Start
                 : SubNavigationPosition::Top;
         }
@@ -488,7 +486,7 @@ class ApplicantResource extends Resource
                 Tables\Grouping\Group::make('created_at')
                     ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.groups.creation-date'))
                     ->collapsible(),
-                Tables\Grouping\Group::make('close_date')
+                Tables\Grouping\Group::make('date_closed')
                     ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.groups.hired-date'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('lastStage.name')
