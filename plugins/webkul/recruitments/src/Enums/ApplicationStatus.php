@@ -17,9 +17,30 @@ enum ApplicationStatus: string implements HasColor, HasIcon, HasLabel
     public function getLabel(): string
     {
         return match ($this) {
-            self::Home   => __('employees::enums/work-location.home'),
-            self::Office => __('employees::enums/work-location.office'),
-            self::Other  => __('employees::enums/work-location.other'),
+            self::ONGOING   => __('Ongoing'),
+            self::HIRED     => __('Hired'),
+            self::REFUSED   => __('Refused'),
+            self::ARCHIVED  => __('Archived'),
+        };
+    }
+
+    public function getColor(): string
+    {
+        return match ($this) {
+            self::ONGOING   => '#17a2b8',
+            self::HIRED     => '#28a745',
+            self::REFUSED   => '#dc3545',
+            self::ARCHIVED  => '#6c757d',
+        };
+    }
+
+    public function getIcon(): ?string
+    {
+        return match ($this) {
+            self::ONGOING   => 'heroicon-m-clock',
+            self::HIRED     => 'heroicon-m-check-circle',
+            self::REFUSED   => 'heroicon-m-x-circle',
+            self::ARCHIVED  => 'heroicon-m-x-circle',
         };
     }
 

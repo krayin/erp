@@ -8,24 +8,58 @@ use Filament\Forms;
 use Filament\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Webkul\Recruitment\Enums\ApplicationStatus;
+use Webkul\Recruitment\Models\Applicant;
 use Webkul\Recruitment\Models\RefuseReason;
 
 class EditApplicant extends EditRecord
 {
     protected static string $resource = ApplicantResource::class;
 
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('view', ['record' => $this->getRecord()]);
+    }
+
+    protected function getSavedNotification(): ?Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.notification.title'))
+            ->body(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.notification.body'));
+    }
+
+
     protected function getHeaderActions(): array
     {
         return [
-            Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
-            Actions\ForceDeleteAction::make(),
-            Actions\RestoreAction::make(),
-            Action::make('Refuse')
+            Actions\DeleteAction::make()
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.header-actions.delete.notification.title'))
+                        ->body(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.header-actions.delete.notification.body'))
+                ),
+            Actions\ForceDeleteAction::make()
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.header-actions.force-delete.notification.title'))
+                        ->body(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.header-actions.force-delete.notification.body'))
+                ),
+            Actions\RestoreAction::make()
+                ->successNotification(
+                    Notification::make()
+                        ->info()
+                        ->title(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.header-actions.restore.notification.title'))
+                        ->body(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.header-actions.restore.notification.body'))
+                ),
+            Action::make('refuse')
                 ->modalIcon('heroicon-s-bug-ant')
-                ->hidden(fn($record) => $record->refuse_reason_id)
-                ->modalHeading('Refuse Reason')
+                ->hidden(fn($record) => $record->refuse_reason_id || $record->application_status->value === ApplicationStatus::ARCHIVED->value)
+                ->modalHeading(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.header-actions.refuse.title'))
                 ->form(function (Form $form, $record) {
                     return $form->schema([
                         Forms\Components\ToggleButtons::make('refuse_reason_id')
@@ -45,24 +79,28 @@ class EditApplicant extends EditRecord
                             ->label('Email To')
                     ]);
                 })
-                ->action(function (array $data, $record) {
-                    $record->update([
-                        'refuse_reason_id' => $data['refuse_reason_id'],
-                        'refuse_date'      => now(),
-                        'date_closed'      => null,
-                    ]);
+                ->action(function (array $data, Applicant $record) {
+                    $record->setAsRefused($data['refuse_reason_id']);
+
+                    Notification::make()
+                        ->info()
+                        ->title(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.header-actions.refuse.notification.title'))
+                        ->body(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.header-actions.refuse.notification.body'))
+                        ->send();
                 }),
-            Action::make('Restore')
+            Action::make('restore')
                 ->hidden(fn($record) => ! $record->refuse_reason_id)
-                ->modalHeading('Restore Applicant from refuse')
+                ->modalHeading(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.header-actions.reopen.title'))
                 ->requiresConfirmation()
-                ->action(function ($record) {
-                    $record->update([
-                        'refuse_reason_id' => null,
-                        'refuse_date'      => null,
-                        'date_closed'      => null,
-                        'stage_id'         => null,
-                    ]);
+                ->color('gray')
+                ->action(function (Applicant $record) {
+                    $record->reopen();
+
+                    Notification::make()
+                        ->info()
+                        ->title(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.header-actions.reopen.notification.title'))
+                        ->body(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.header-actions.reopen.notification.body'))
+                        ->send();
                 })
         ];
     }

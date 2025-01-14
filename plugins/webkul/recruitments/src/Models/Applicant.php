@@ -64,6 +64,10 @@ class Applicant extends Model
         'delay_close'             => 'double',
     ];
 
+    protected $appends = [
+        'application_status',
+    ];
+
     public function source(): BelongsTo
     {
         return $this->belongsTo(UTMSource::class);
@@ -171,5 +175,18 @@ class Applicant extends Model
     public function updateStage(array $data): bool
     {
         return $this->update($data);
+    }
+
+    public function getApplicationStatusAttribute(): ?ApplicationStatus
+    {
+        if ($this->refuse_reason_id) {
+            return ApplicationStatus::REFUSED;
+        } else if (! $this->is_active || $this->deleted_at) {
+            return ApplicationStatus::ARCHIVED;
+        } else if ($this->date_closed) {
+            return ApplicationStatus::HIRED;
+        } else {
+            return ApplicationStatus::ONGOING;
+        }
     }
 }

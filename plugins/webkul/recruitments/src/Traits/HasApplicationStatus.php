@@ -5,24 +5,28 @@ namespace Webkul\Recruitment\Traits;
 use Webkul\Recruitment\Enums\ApplicationStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
+use Webkul\Recruitment\Models\Stage;
 
 trait HasApplicationStatus
 {
-    public function getApplicationStatusAttribute(): string
+    public function getApplicationStatusAttribute(): ApplicationStatus
     {
-        if ($this->trashed()) {
-            return ApplicationStatus::ARCHIVED->value;
+        if (
+            $this->trashed()
+            || ! $this->is_active
+        ) {
+            return ApplicationStatus::ARCHIVED;
         }
 
         if ($this->refuse_reason_id) {
-            return ApplicationStatus::REFUSED->value;
+            return ApplicationStatus::REFUSED;
         }
 
         if ($this->date_closed) {
-            return ApplicationStatus::HIRED->value;
+            return ApplicationStatus::HIRED;
         }
 
-        return ApplicationStatus::ONGOING->value;
+        return ApplicationStatus::ONGOING;
     }
 
     public function scopeStatus(Builder $query, string|array $status): Builder
@@ -56,9 +60,10 @@ trait HasApplicationStatus
 
             $updates = match ($newStatus) {
                 ApplicationStatus::REFUSED => [
-                    'refuse_date' => now(),
                     'refuse_reason_id' => $attributes['refuse_reason_id'] ?? null,
+                    'refuse_date' => now(),
                     'date_closed' => null,
+                    'is_active' => false,
                 ],
                 ApplicationStatus::HIRED => [
                     'date_closed' => now(),
@@ -66,18 +71,22 @@ trait HasApplicationStatus
                     'refuse_date' => null,
                 ],
                 ApplicationStatus::ONGOING => [
-                    'date_closed' => null,
+                    'date_closed'      => null,
                     'refuse_reason_id' => null,
-                    'refuse_date' => null,
+                    'refuse_date'      => null,
+                    'is_active'        => true,
+                    'stage_id'         => Stage::where('is_default', 1)->first()->id ?? null,
                 ],
-                ApplicationStatus::ARCHIVED => [],
+                ApplicationStatus::ARCHIVED => [
+                    'date_closed'      => null,
+                    'refuse_reason_id' => null,
+                    'refuse_date'      => null,
+                    'is_active'        => false,
+                    'deleted_at'       => now(),
+                ],
             };
 
             $updated = $this->update($updates);
-
-            if ($newStatus === ApplicationStatus::ARCHIVED) {
-                $this->delete();
-            }
 
             return $updated;
         });

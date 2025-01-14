@@ -117,6 +117,8 @@ class StageResource extends Resource
                                         ->label(__('recruitments::filament/clusters/configurations/resources/stage.form.sections.additional-information.fields.folded')),
                                     Forms\Components\Toggle::make('hired_stage')
                                         ->label(__('recruitments::filament/clusters/configurations/resources/stage.form.sections.additional-information.fields.hired-stage')),
+                                    Forms\Components\Toggle::make('is_default')
+                                        ->label(__('recruitments::filament/clusters/configurations/resources/stage.form.sections.additional-information.fields.default-stage')),
                                 ]),
                         ])
                         ->columnSpan(['lg' => 1]),
@@ -141,6 +143,9 @@ class StageResource extends Resource
                 ->placeholder('-')
                 ->badge()
                 ->label(__('recruitments::filament/clusters/configurations/resources/stage.table.columns.job-positions')),
+            Tables\Columns\IconColumn::make('is_default')
+                ->boolean()
+                ->label(__('recruitments::filament/clusters/configurations/resources/stage.table.columns.default-stage')),
             Tables\Columns\IconColumn::make('fold')
                 ->boolean()
                 ->label(__('recruitments::filament/clusters/configurations/resources/stage.table.columns.folded')),
@@ -310,6 +315,9 @@ class StageResource extends Resource
                                         Components\IconEntry::make('hired_stage')
                                             ->boolean()
                                             ->label(__('recruitments::filament/clusters/configurations/resources/stage.infolist.sections.additional-information.entries.hired-stage')),
+                                        Components\IconEntry::make('is_default')
+                                            ->boolean()
+                                            ->label(__('recruitments::filament/clusters/configurations/resources/stage.infolist.sections.additional-information.entries.default-stage')),
                                     ]),
                             ])->columnSpan(2),
                         Components\Group::make([

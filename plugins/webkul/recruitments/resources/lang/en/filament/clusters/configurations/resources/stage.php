@@ -46,6 +46,7 @@ return [
                     'job-positions' => 'Job Positions',
                     'folded' => 'Folded',
                     'hired-stage' => 'Hired Stage',
+                    'default-stage' => 'Default Stage',
                 ],
             ]
         ],
@@ -55,24 +56,25 @@ return [
         'columns' => [
             'id'                 => 'ID',
             'name'               => 'Stage Name',
-            'hired-stage' => 'Hired Stage',
-            'folded' => 'Folded',
-            'job-positions' => 'Job Positions',
+            'hired-stage'        => 'Hired Stage',
+            'default-stage'      => 'Default Stage',
+            'folded'             => 'Folded',
+            'job-positions'      => 'Job Positions',
             'created-by'         => 'Created By',
             'created-at'         => 'Created At',
             'updated-at'         => 'Updated At',
         ],
 
         'filters' => [
-            'name'       => 'Stage Name',
+            'name'         => 'Stage Name',
             'job-position' => 'Job Position',
-            'folded' => 'Folded',
-            'gray-label' => 'Gray Label',
-            'red-label' => 'Red Label',
-            'green-label' => 'Green Label',
-            'created-by' => 'Created By',
-            'created-at' => 'Created At',
-            'updated-at' => 'Updated At',
+            'folded'       => 'Folded',
+            'gray-label'   => 'Gray Label',
+            'red-label'    => 'Red Label',
+            'green-label'  => 'Green Label',
+            'created-by'   => 'Created By',
+            'created-at'   => 'Created At',
+            'updated-at'   => 'Updated At',
         ],
 
         'groups' => [
@@ -145,6 +147,7 @@ return [
                     'job-positions' => 'Job Position',
                     'folded' => 'Folded',
                     'hired-stage' => 'Hired Stage',
+                    'default-stage'      => 'Default Stage',
                 ],
             ]
         ],

@@ -21,16 +21,19 @@ use Filament\Forms\Set;
 use Filament\Infolists\Infolist;
 use Filament\Support\Colors\Color;
 use Filament\Infolists;
+use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\ActionSize;
 use Filament\Support\Enums\FontWeight;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\HtmlString;
 use Webkul\Security\Filament\Resources\UserResource;
 use Webkul\Field\Filament\Forms\Components\ProgressStepper;
+use Webkul\Recruitment\Enums\ApplicationStatus;
 use Webkul\Recruitment\Models\Stage as RecruitmentStage;
 use Webkul\Security\Models\User;
 
@@ -44,14 +47,17 @@ class ApplicantResource extends Resource
 
     public static function getSubNavigationPosition(): SubNavigationPosition
     {
-        if (
-            str_contains(Route::currentRouteName(), 'index')
-            && Route::currentRouteName() == "livewire.update"
-        ) {
-            return SubNavigationPosition::Start;
+        $currentRoute = Route::currentRouteName();
+
+        if ($currentRoute === 'livewire.update') {
+            return str_contains(url()->previous(), 'index')
+                ? SubNavigationPosition::Start
+                : SubNavigationPosition::Top;
         }
 
-        return SubNavigationPosition::Top;
+        return str_contains($currentRoute, 'index')
+            ? SubNavigationPosition::Start
+            : SubNavigationPosition::Top;
     }
 
     public static function getModelLabel(): string
@@ -173,19 +179,19 @@ class ApplicantResource extends Resource
                                                     }
                                                 }),
                                         ]),
-                                        Forms\Components\Placeholder::make('date_closed')
-                                            ->hidden(fn($record) => !$record->date_closed)
+                                        Forms\Components\Placeholder::make('application_status')
                                             ->live()
                                             ->hiddenLabel()
-                                            ->content(function () {
-                                                $html = '<span style="display: inline-flex; align-items: center; background-color: #28a745; color: white; padding: 4px 8px; border-radius: 12px; font-size: 18px; font-weight: 500;">';
+                                            ->hidden(fn($record) => $record->application_status->value === ApplicationStatus::ONGOING->value)
+                                            ->content(function ($record) {
+                                                $html = '<span style="display: inline-flex; align-items: center; background-color: ' . $record->application_status->getColor() . '; color: white; padding: 4px 8px; border-radius: 12px; font-size: 18px; font-weight: 500;">';
 
                                                 $html .= view('filament::components.icon', [
-                                                    'icon' => 'heroicon-c-check-badge',
+                                                    'icon' => $record->application_status->getIcon(),
                                                     'class' => 'w-6 h-6',
                                                 ])->render();
 
-                                                $html .= __('recruitments::filament/clusters/applications/resources/applicant.form.sections.general-information.fields.hired');
+                                                $html .= $record->application_status->getLabel();
                                                 $html .= '</span>';
 
                                                 return new HtmlString($html);
@@ -232,10 +238,12 @@ class ApplicantResource extends Resource
                                             ->label(__('recruitments::filament/clusters/applications/resources/applicant.form.sections.general-information.fields.job-position'))
                                             ->preload()
                                             ->searchable(),
-                                        Forms\Components\TextInput::make('date_closed')
+                                        Forms\Components\DatePicker::make('date_closed')
                                             ->label(__('recruitments::filament/clusters/applications/resources/applicant.form.sections.general-information.fields.hired-date'))
                                             ->hidden(fn($record) => !$record->date_closed)
                                             ->visible()
+                                            ->disabled()
+                                            ->live()
                                             ->columnSpan(1),
                                         Forms\Components\Select::make('recruiter')
                                             ->relationship('recruiter', 'name')
@@ -371,6 +379,36 @@ class ApplicantResource extends Resource
                     ->placeholder('-')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('application_status')
+                    ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.columns.application-status'))
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->state(function (Applicant $record) {
+                        return [
+                            'label' => $record->application_status->getLabel(),
+                            'color' => $record->application_status->getColor(),
+                        ];
+                    })
+                    ->tooltip(fn($record) => $record->refuseReason?->name)
+                    ->formatStateUsing(function ($record) {
+                        $html = '<span style="display: inline-flex; align-items: center; background-color: ' . $record->application_status->getColor() . '; color: white; padding: 4px 8px; border-radius: 12px; font-size: 18px; font-weight: 500;">';
+
+                        $html .= view('filament::components.icon', [
+                            'icon'  => $record->application_status->getIcon(),
+                            'class' => 'w-6 h-6',
+                        ])->render();
+
+                        $html .= $record->application_status->getLabel();
+                        $html .= '</span>';
+
+                        return new HtmlString($html);
+                    })
+                    ->placeholder('-'),
+                TextColumn::make('refuseReason.name')
+                    ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.columns.refuse-reason'))
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->placeholder('-')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('priority')
                     ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.columns.evaluation'))
                     ->toggleable(isToggledHiddenByDefault: true)
@@ -392,38 +430,113 @@ class ApplicantResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('categories.name')
-                    ->label(__('recruitments::filament/clusters/applications/resources/candidate.table.columns.tags'))
+                    ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.columns.tags'))
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->badge()
                     ->weight(FontWeight::Bold)
                     ->state(function (Applicant $record): array {
-                        return $record->categories->map(fn($category) => [
+                        $tags = $record->categories ?? $record->candidate->categories;
+
+                        return $tags->map(fn($category) => [
                             'label' => $category->name,
                             'color' => $category->color ?? 'primary'
                         ])->toArray();
                     })
                     ->formatStateUsing(fn($state) => $state['label'])
                     ->color(fn($state) => Color::hex($state['color'])),
+                Tables\Columns\TextColumn::make('candidate.email_from')
+                    ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.columns.email'))
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('recruiter.name')
+                    ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.columns.recruiter'))
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('interviewer.name')
+                    ->badge()
+                    ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.columns.interviewer'))
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('candidate.phone')
+                    ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.columns.candidate-phone'))
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('medium.name')
+                    ->badge()
+                    ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.columns.medium'))
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('source.name')
+                    ->badge()
+                    ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.columns.source'))
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('salary_expected')
+                    ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.columns.salary-expected'))
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('candidate.availability_date')
+                    ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.columns.availability-date'))
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->groups([
                 Tables\Grouping\Group::make('stage.name')
-                    ->label(__('Stage'))
+                    ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.groups.stage'))
+                    ->collapsible(),
+                Tables\Grouping\Group::make('job.name')
+                    ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.groups.job-position'))
+                    ->collapsible(),
+                Tables\Grouping\Group::make('candidate.name')
+                    ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.groups.candidate-name'))
+                    ->collapsible(),
+                Tables\Grouping\Group::make('recruiter.name')
+                    ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.groups.responsible'))
+                    ->collapsible(),
+                Tables\Grouping\Group::make('created_at')
+                    ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.groups.creation-date'))
+                    ->collapsible(),
+                Tables\Grouping\Group::make('close_date')
+                    ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.groups.hired-date'))
+                    ->collapsible(),
+                Tables\Grouping\Group::make('lastStage.name')
+                    ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.groups.last-stage'))
+                    ->collapsible(),
+                Tables\Grouping\Group::make('refuseReason.name')
+                    ->label(__('Refuse Reason'))
+                    ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.groups.refuse-reason'))
                     ->collapsible(),
             ])
             ->defaultGroup('stage.name')
-            ->columnToggleFormColumns(2)
-            ->filters([
-                Tables\Filters\TrashedFilter::make(),
-            ])
+            ->columnToggleFormColumns(3)
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('recruitments::filament/clusters/applications/resources/applicant.table.actions.delete.notification.title'))
+                                ->body(__('recruitments::filament/clusters/applications/resources/applicant.table.actions.delete.notification.body'))
+                        ),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('recruitments::filament/clusters/applications/resources/applicant.table.bulk-actions.delete.notification.title'))
+                                ->body(__('recruitments::filament/clusters/applications/resources/applicant.table.bulk-actions.delete.notification.body'))
+                        ),
+                    Tables\Actions\ForceDeleteBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('recruitments::filament/clusters/applications/resources/applicant.table.bulk-actions.force-delete.notification.title'))
+                                ->body(__('recruitments::filament/clusters/applications/resources/applicant.table.bulk-actions.force-delete.notification.body'))
+                        ),
+                    Tables\Actions\RestoreBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('recruitments::filament/clusters/applications/resources/applicant.table.bulk-actions.restore.notification.title'))
+                                ->body(__('recruitments::filament/clusters/applications/resources/applicant.table.bulk-actions.restore.notification.body'))
+                        ),
                 ]),
             ]);
     }
@@ -457,23 +570,29 @@ class ApplicantResource extends Resource
                                                         return new HtmlString($html);
                                                     })
                                                     ->placeholder('—'),
-                                                Infolists\Components\TextEntry::make('priority')
-                                                    ->hidden(fn($record) => !$record->date_closed)
+                                                Infolists\Components\TextEntry::make('application_status')
                                                     ->hiddenLabel()
-                                                    ->formatStateUsing(function ($state) {
-                                                        $html = '<span style="display: inline-flex; align-items: center; background-color: #28a745; color: white; padding: 4px 8px; border-radius: 12px; font-size: 18px; font-weight: 500;">';
+                                                    ->icon(null)
+                                                    ->state(function (Applicant $record) {
+                                                        return [
+                                                            'label' => $record->application_status->getLabel(),
+                                                            'color' => $record->application_status->getColor()
+                                                        ];
+                                                    })
+                                                    ->hidden(fn($record) => $record->application_status->value === ApplicationStatus::ONGOING->value)
+                                                    ->formatStateUsing(function ($record, $state) {
+                                                        $html = '<span style="display: inline-flex; align-items: center; background-color: ' . $record->application_status->getColor() . '; color: white; padding: 4px 8px; border-radius: 12px; font-size: 18px; font-weight: 500;">';
 
                                                         $html .= view('filament::components.icon', [
-                                                            'icon' => 'heroicon-c-check-badge',
+                                                            'icon'  => $record->application_status->getIcon(),
                                                             'class' => 'w-6 h-6',
                                                         ])->render();
 
-                                                        $html .= __('recruitments::filament/clusters/applications/resources/applicant.infolist.sections.general-information.entries.hired');
+                                                        $html .= $record->application_status->getLabel();
                                                         $html .= '</span>';
 
                                                         return new HtmlString($html);
                                                     })
-                                                    ->placeholder('—'),
                                             ])
                                             ->extraAttributes([
                                                 'class' => 'flex'
@@ -512,7 +631,9 @@ class ApplicantResource extends Resource
                                             ->icon('heroicon-o-tag')
                                             ->placeholder('—')
                                             ->state(function (Applicant $record): array {
-                                                return $record->categories->map(fn($category) => [
+                                                $tags = $record->categories ?? $record->candidate->categories;
+
+                                                return $tags->map(fn($category) => [
                                                     'label' => $category->name,
                                                     'color' => $category->color ?? 'primary'
                                                 ])->toArray();
