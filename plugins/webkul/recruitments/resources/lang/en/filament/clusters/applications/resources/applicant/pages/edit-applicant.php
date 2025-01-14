@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'create-employee' => 'Create Employee',
+    'goto-employee'   => 'Go to Employee',
+
     'notification' => [
         'title' => 'Applicant updated',
         'body'  => 'The applicant has been updated successfully.',

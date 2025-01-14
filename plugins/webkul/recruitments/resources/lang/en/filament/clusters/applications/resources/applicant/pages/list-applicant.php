@@ -17,5 +17,13 @@ return [
         'directly-available' => 'Directly Available',
         'created-recently' => 'Created Recently',
         'stage-updated-recently' => 'Stage Updated Recently',
-    ]
+    ],
+
+    'header-actions' => [
+        'create-applicant' => [
+            'label' => 'New Applicant',
+
+            'modal-title' => 'Create Applicant',
+        ],
+    ],
 ];

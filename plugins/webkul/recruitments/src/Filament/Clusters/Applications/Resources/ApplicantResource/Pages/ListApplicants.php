@@ -122,7 +122,9 @@ class ListApplicants extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-                ->modalHeading('Create Applicant')
+                ->icon('heroicon-o-plus-circle')
+                ->label(__('recruitments::filament/clusters/applications/resources/applicant/pages/list-applicant.header-actions.create-applicant.label'))
+                ->modalHeading(__('recruitments::filament/clusters/applications/resources/applicant/pages/list-applicant.header-actions.create-applicant.modal-title'))
                 ->modalIcon('heroicon-s-user')
                 ->form([
                     Forms\Components\Group::make()
@@ -154,8 +156,8 @@ class ListApplicants extends ListRecords
                 ->successNotification(
                     Notification::make()
                         ->success()
-                        ->title(__('recruitments::filament/clusters/applications/resources/applicant/pages/list-applicant.notification.title'))
-                        ->body(__('recruitments::filament/clusters/applications/resources/applicant/pages/list-applicant.notification.body')),
+                        ->title(__('recruitments::filament/clusters/applications/resources/applicant/pages/list-applicant.header-actions.create-applicant.notification.title'))
+                        ->body(__('recruitments::filament/clusters/applications/resources/applicant/pages/list-applicant.header-actions.create-applicant.notification.body')),
                 ),
         ];
     }

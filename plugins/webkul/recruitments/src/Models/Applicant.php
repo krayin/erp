@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Webkul\Employee\Models\Department;
+use Webkul\Employee\Models\Employee;
 use Webkul\Employee\Models\EmployeeJobPosition;
 use Webkul\Recruitment\Enums\ApplicationStatus;
 use Webkul\Recruitment\Traits\HasApplicationStatus;
@@ -189,5 +190,34 @@ class Applicant extends Model
         } else {
             return ApplicationStatus::ONGOING;
         }
+    }
+
+    public function createEmployee(): ?Employee
+    {
+        if (! $this->candidate?->partner_id) {
+            return null;
+        }
+
+        if ($this->candidate->employee_id) {
+            return $this->candidate->employee;
+        }
+
+        $employee = Employee::create([
+            'name'          => $this->candidate->name,
+            'user_id'       => $this->candidate->user_id,
+            'job_id'        => $this->job_id,
+            'department_id' => $this->department_id,
+            'company_id'    => $this->company_id,
+            'partner_id'    => $this->candidate->partner_id,
+            'company_id'    => $this->candidate->company_id,
+            'work_email'    => $this->candidate->email_from,
+            'mobile_phone'  => $this->candidate->phone,
+        ]);
+
+        $this->candidate()->update([
+            'employee_id' => $employee->id,
+        ]);
+
+        return $employee;
     }
 }
