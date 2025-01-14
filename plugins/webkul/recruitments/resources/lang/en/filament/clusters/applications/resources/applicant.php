@@ -36,7 +36,7 @@ return [
 
                 'fields' => [
                     'degree'            => 'Degree',
-                    'availability-date' => 'Availability Date'
+                    'availability-date' => 'Availability Date',
                 ],
             ],
 
@@ -61,8 +61,8 @@ return [
                 'fields' => [
                     'source' => 'Source',
                     'medium' => 'Medium',
-                ]
-            ]
+                ],
+            ],
         ],
     ],
 
@@ -88,17 +88,16 @@ return [
         ],
 
         'filters' => [
-            'company'  => 'Company',
-            'degree'   => 'Degree',
-            'priority' => 'Priority',
-
-            'priority-options' => [
-                'low'    => 'Low',
-                'medium' => 'Medium',
-                'high'   => 'High',
-            ],
-
-            'status' => 'Status',
+            'source'                  => 'Source',
+            'medium'                  => 'Medium',
+            'candidate'               => 'Candidate',
+            'priority'                => 'Priority',
+            'salary_proposed_extra'   => 'Salary Proposed Extra',
+            'salary_expected_extra'   => 'Salary Expected Extra',
+            'applicant_notes'         => 'Applicant Notes',
+            'create_date'             => 'Applied On',
+            'date_closed'             => 'Hired Date',
+            'date_last_stage_updated' => 'Last Stage Updated',
         ],
 
         'actions' => [
@@ -111,16 +110,15 @@ return [
         ],
 
         'groups' => [
-            'stage' => 'Stage',
-            'job-position' => 'Job Position',
+            'stage'          => 'Stage',
+            'job-position'   => 'Job Position',
             'candidate-name' => 'Candidate Name',
-            'responsible' => 'Responsible',
-            'creation-date' => 'Creation Date',
-            'hired-date' => 'Hired Date',
-            'last-stage' => 'Last Stage',
-            'refuse-reason' => 'Refuse Reason',
+            'responsible'    => 'Responsible',
+            'creation-date'  => 'Creation Date',
+            'hired-date'     => 'Hired Date',
+            'last-stage'     => 'Last Stage',
+            'refuse-reason'  => 'Refuse Reason',
         ],
-
 
         'bulk-actions' => [
             'delete' => [
@@ -173,7 +171,7 @@ return [
 
                 'entries' => [
                     'degree'            => 'Degree',
-                    'availability-date' => 'Availability Date'
+                    'availability-date' => 'Availability Date',
                 ],
             ],
 
@@ -198,8 +196,8 @@ return [
                 'entries' => [
                     'source' => 'Source',
                     'medium' => 'Medium',
-                ]
-            ]
+                ],
+            ],
         ],
     ],
 ];
