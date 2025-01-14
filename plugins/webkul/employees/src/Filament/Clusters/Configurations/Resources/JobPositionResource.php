@@ -84,18 +84,25 @@ class JobPositionResource extends Resource
                                             ->relationship(name: 'department', titleAttribute: 'name')
                                             ->searchable()
                                             ->preload()
-                                            ->createOptionForm(fn (Form $form) => DepartmentResource::form($form))
+                                            ->createOptionForm(fn(Form $form) => DepartmentResource::form($form))
                                             ->createOptionAction(function (Action $action) {
                                                 return $action
                                                     ->modalHeading(__('employees::filament/clusters/configurations/resources/job-position.form.sections.employment-information.fields.department-modal-title'))
                                                     ->modalSubmitActionLabel(__('employees::filament/clusters/configurations/resources/job-position.form.sections.employment-information.fields.department-modal-title'))
                                                     ->modalWidth('2xl');
                                             }),
-                                        Forms\Components\Select::make('company_id')
-                                            ->label(__('employees::filament/clusters/configurations/resources/job-position.form.sections.employment-information.fields.company'))
-                                            ->relationship('company', 'name')
+                                        Forms\Components\Select::make('address_id')
+                                            ->label(__('Job Location'))
+                                            ->relationship(name: 'address', titleAttribute: 'name')
                                             ->searchable()
-                                            ->preload(),
+                                            ->preload()
+                                            ->createOptionForm(fn(Form $form) => DepartmentResource::form($form))
+                                            ->createOptionAction(function (Action $action) {
+                                                return $action
+                                                    ->modalHeading(__('employees::filament/clusters/configurations/resources/job-position.form.sections.employment-information.fields.department-modal-title'))
+                                                    ->modalSubmitActionLabel(__('employees::filament/clusters/configurations/resources/job-position.form.sections.employment-information.fields.department-modal-title'))
+                                                    ->modalWidth('2xl');
+                                            }),
                                         Forms\Components\Select::make('employment_type_id')
                                             ->label(__('employees::filament/clusters/configurations/resources/job-position.form.sections.employment-information.fields.employment-type'))
                                             ->relationship('employmentType', 'name')

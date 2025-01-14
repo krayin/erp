@@ -10,6 +10,8 @@ use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use Webkul\Employee\Database\Factories\EmployeeJobPositionFactory;
 use Webkul\Field\Traits\HasCustomFields;
+use Webkul\Partner\Models\Industry;
+use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 
@@ -26,17 +28,24 @@ class EmployeeJobPosition extends Model implements Sortable
      */
     protected $fillable = [
         'sort',
+        'address_id',
+        'manager_id',
+        'industry_id',
+        'expected_employees',
+        'no_of_employee',
+        'no_of_recruitment',
+        'department_id',
+        'company_id',
+        'creator_id',
+        'employment_type_id',
+        'recruiter_id',
+        'no_of_hired_employee',
+        'date_from',
+        'date_to',
         'name',
         'description',
         'requirements',
-        'expected_employees',
-        'no_of_employee',
         'is_active',
-        'no_of_recruitment',
-        'department_id',
-        'employment_type_id',
-        'company_id',
-        'creator_id',
     ];
 
     protected $casts = [
@@ -46,6 +55,26 @@ class EmployeeJobPosition extends Model implements Sortable
     public $sortable = [
         'order_column_name' => 'sort',
     ];
+
+    public function address(): BelongsTo
+    {
+        return $this->belongsTo(Partner::class, 'address_id')->where('sub_type', 'company');
+    }
+
+    public function manager(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class, 'manager_id');
+    }
+
+    public function recruiter(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'recruiter_id');
+    }
+
+    public function industry(): BelongsTo
+    {
+        return $this->belongsTo(Industry::class, 'industry_id');
+    }
 
     public function department(): BelongsTo
     {
