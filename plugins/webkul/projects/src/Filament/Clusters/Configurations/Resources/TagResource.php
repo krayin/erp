@@ -36,6 +36,8 @@ class TagResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->unique(ignoreRecord: true),
+                Forms\Components\ColorPicker::make('color')
+                    ->label(__('projects::filament/clusters/configurations/resources/tag.form.color'))
             ]);
     }
 
@@ -47,10 +49,12 @@ class TagResource extends Resource
                     ->label(__('projects::filament/clusters/configurations/resources/tag.table.columns.name'))
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\ColorColumn::make('color')
+                    ->label(__('projects::filament/clusters/configurations/resources/tag.table.columns.color')),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
-                    ->hidden(fn ($record) => $record->trashed())
+                    ->hidden(fn($record) => $record->trashed())
                     ->successNotification(
                         Notification::make()
                             ->success()

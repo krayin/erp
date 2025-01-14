@@ -7,11 +7,13 @@ return [
 
     'form' => [
         'name' => 'Name',
+        'color' => 'Color',
     ],
 
     'table' => [
         'columns' => [
             'name'       => 'Name',
+            'color'      => 'Color',
             'created-at' => 'Created At',
             'updated-at' => 'Updated At',
         ],
