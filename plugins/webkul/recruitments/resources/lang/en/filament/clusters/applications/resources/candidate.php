@@ -68,17 +68,14 @@ return [
         ],
 
         'filters' => [
-            'company'  => 'Company',
-            'degree'   => 'Degree',
-            'priority' => 'Priority',
+            'company' => 'Company',
+            'partner-name' => 'Contact',
+            'degree'  => 'Degree',
+            'manager-name' => 'Manager',
+        ],
 
-            'priority-options' => [
-                'low'    => 'Low',
-                'medium' => 'Medium',
-                'high'   => 'High',
-            ],
-
-            'status' => 'Status',
+        'groups' => [
+            'manager-name' => 'Manager',
         ],
 
         'actions' => [

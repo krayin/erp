@@ -14,6 +14,7 @@ use Webkul\Recruitment\Models\Stage;
 use Webkul\TableViews\Filament\Components\PresetView;
 use Webkul\TableViews\Filament\Concerns\HasTableViews;
 use Illuminate\Database\Eloquent\Builder;
+use Webkul\Recruitment\Enums\RecruitmentState;
 
 class ListApplicants extends ListRecords
 {
@@ -86,7 +87,8 @@ class ListApplicants extends ListRecords
                     return $query
                         ->where(function (Builder $subQuery) {
                             $subQuery
-                                ->where('is_active', false);
+                                ->where('is_active', false)
+                                ->orWhere('state', RecruitmentState::BLOCKED->value);
                         });
                 }),
 

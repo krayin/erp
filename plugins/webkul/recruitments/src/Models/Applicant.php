@@ -31,6 +31,7 @@ class Applicant extends Model
         'job_id',
         'department_id',
         'refuse_reason_id',
+        'state',
         'creator_id',
         'email_cc',
         'priority',

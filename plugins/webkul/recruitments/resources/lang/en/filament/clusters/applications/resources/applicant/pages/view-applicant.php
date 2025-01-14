@@ -21,6 +21,13 @@ return [
                 'title' => 'Applicant reopened',
                 'body'  => 'The applicant has been reopened successfully.',
             ],
+        ],
+
+        'state' => [
+            'notification' => [
+                'title' => 'Applicant state updated',
+                'body'  => 'The applicant state has been updated successfully.',
+            ],
         ]
     ],
 ];

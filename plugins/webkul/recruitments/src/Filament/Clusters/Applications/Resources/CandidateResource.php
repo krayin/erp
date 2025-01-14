@@ -23,6 +23,7 @@ use Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResourc
 use Webkul\Recruitment\Models\Candidate;
 use Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource\RelationManagers;
 use Filament\Resources\Pages\Page;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -178,6 +179,7 @@ class CandidateResource extends Resource
                             Tables\Columns\TextColumn::make('categories.name')
                                 ->label(__('recruitments::filament/clusters/applications/resources/candidate.table.columns.tags'))
                                 ->badge()
+                                ->searchable()
                                 ->weight(FontWeight::Bold)
                                 ->state(function (Candidate $record): array {
                                     return $record->categories->map(fn($category) => [
@@ -213,38 +215,53 @@ class CandidateResource extends Resource
                 'xl' => 3,
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('company')
-                    ->relationship('company', 'name')
-                    ->label(__('recruitments::filament/clusters/applications/resources/candidate.table.filters.company')),
-                Tables\Filters\SelectFilter::make('degree')
-                    ->relationship('degree', 'name')
-                    ->label(__('recruitments::filament/clusters/applications/resources/candidate.table.filters.degree')),
-                Tables\Filters\SelectFilter::make('priority')
-                    ->options([
-                        '0' => __('recruitments::filament/clusters/applications/resources/candidate.table.filters.priority-options.low'),
-                        '1' => __('recruitments::filament/clusters/applications/resources/candidate.table.filters.priority-options.medium'),
-                        '2' => __('recruitments::filament/clusters/applications/resources/candidate.table.filters.priority-options.high'),
-                    ])
-                    ->label(__('recruitments::filament/clusters/applications/resources/candidate.table.filters.priority')),
-                Tables\Filters\TernaryFilter::make('is_active')
-                    ->label(__('recruitments::filament/clusters/applications/resources/candidate.table.filters.status')),
+                Tables\Filters\QueryBuilder::make()
+                    ->constraintPickerColumns(5)
+                    ->constraints([
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('company')
+                            ->label(__('recruitments::filament/clusters/applications/resources/candidate.table.filters.company'))
+                            ->icon('heroicon-o-building-office-2')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('partner')
+                            ->label(__('recruitments::filament/clusters/applications/resources/candidate.table.filters.partner-name'))
+                            ->icon('heroicon-o-user')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('degree')
+                            ->label(__('recruitments::filament/clusters/applications/resources/candidate.table.filters.degree'))
+                            ->icon('heroicon-o-academic-cap')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('manager')
+                            ->label(__('recruitments::filament/clusters/applications/resources/candidate.table.filters.manager-name'))
+                            ->icon('heroicon-o-user'),
+                    ]),
+            ])
+            ->groups([
+                Tables\Grouping\Group::make('manager.name')
+                    ->label(__('recruitments::filament/clusters/applications/resources/candidate.table.groups.manager-name'))
+                    ->collapsible(),
             ])
             ->actions([
-                // Tables\Actions\Action::make('star2')
-                //     ->hiddenLabel()
-                //     ->icon(fn ($record) => $record->priority >= 2 ? 'heroicon-s-star' : 'heroicon-o-star')
-                //     ->color(fn ($record) => $record->priority >= 2 ? 'warning' : 'gray')
-                //     ->size('md')
-                //     ->tooltip('Evaluation: Very Good')
-                //     ->action(fn ($record) => $record->update(['priority' => 2])),
-                // Tables\Actions\Action::make('star3')
-                //     ->hiddenLabel()
-                //     ->icon(fn ($record) => $record->priority >= 3 ? 'heroicon-s-star' : 'heroicon-o-star')
-                //     ->color(fn ($record) => $record->priority >= 3 ? 'warning' : 'gray')
-                //     ->size('md')
-                //     ->tooltip('Evaluation: Excellent')
-                //     ->action(fn ($record) => $record->update(['priority' => 3])),
-                // Tables\Actions\ActionGroup::make([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()
@@ -254,7 +271,6 @@ class CandidateResource extends Resource
                             ->title(__('recruitments::filament/clusters/applications/resources/candidate.table.actions.delete.notification.title'))
                             ->body(__('recruitments::filament/clusters/applications/resources/candidate.table.actions.delete.notification.body'))
                     ),
-                // ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

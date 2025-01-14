@@ -32,6 +32,7 @@ class RecruitmentServiceProvider extends PackageServiceProvider
                 '2025_01_13_072547_create_recruitments_applicant_interviewers_table',
                 '2025_01_13_075926_create_recruitments_applicant_applicant_categories_table',
                 '2025_01_14_080159_add_is_default_column_stages_table',
+                '2025_01_14_111153_add_state_column_to_recruitments_applicants_table',
             ])
             ->runsMigrations()
             ->hasInstallCommand(function (InstallCommand $command) {
