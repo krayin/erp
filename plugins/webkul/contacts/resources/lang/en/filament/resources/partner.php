@@ -29,6 +29,7 @@ return [
                     'name'       => 'Name',
                     'short-name' => 'Short Name',
                     'tags'       => 'Tags',
+                    'color'      => 'Color',
                 ],
             ],
         ],
