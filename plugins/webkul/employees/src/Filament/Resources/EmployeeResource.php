@@ -1023,7 +1023,6 @@ class EmployeeResource extends Resource
                                 ->label(__('employees::filament/resources/employee.table.columns.categories'))
                                 ->badge()
                                 ->state(function (Employee $record): array {
-                                    dd($record, $record->categories());
                                     return $record->categories->map(fn($category) => [
                                         'label' => $category->name,
                                         'color' => $category->color ?? 'primary'
