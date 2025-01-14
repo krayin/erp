@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Webkul\Product\Database\Factories\AttributeFactory;
 use Spatie\EloquentSortable\SortableTrait;
-use Webkul\Security\Models\User;
+use Webkul\Product\Database\Factories\AttributeFactory;
 use Webkul\Product\Enums\AttributeType;
+use Webkul\Security\Models\User;
 
 class Attribute extends Model
 {

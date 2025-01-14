@@ -5,9 +5,9 @@ namespace Webkul\Product\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Webkul\Product\Database\Factories\CategoryFactory;
 use Webkul\Security\Models\User;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
@@ -43,6 +43,11 @@ class Category extends Model
         return $this->hasMany(self::class, 'parent_id');
     }
 
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
+    }
+
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -66,7 +71,7 @@ class Category extends Model
     protected function updateFullName(): void
     {
         if ($this->parent) {
-            $this->full_name = $this->parent->full_name . ' / ' . $this->name;
+            $this->full_name = $this->parent->full_name.' / '.$this->name;
         } else {
             $this->full_name = $this->name;
         }
@@ -77,7 +82,7 @@ class Category extends Model
         $this->children->each(function ($child) {
             $child->updateFullName();
             $child->save();
-            
+
             $child->updateChildrenFullNames();
         });
     }

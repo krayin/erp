@@ -28,7 +28,7 @@ class CreateRoute extends CreateRecord
     {
         $data['creator_id'] = Auth::id();
 
-        $data['company_id'] = Auth::user()->default_company_id;
+        $data['company_id'] = $data['company_id'] ?? Auth::user()->default_company_id;
 
         return $data;
     }

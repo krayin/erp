@@ -16,10 +16,12 @@ return new class extends Migration
             $table->decimal('extra_price', 15, 4)->nullable();
 
             $table->foreignId('product_id')
+                ->nullable()
                 ->constrained('products_products')
                 ->cascadeOnDelete();
 
             $table->foreignId('attribute_id')
+                ->nullable()
                 ->constrained('products_attributes')
                 ->cascadeOnDelete();
 
@@ -30,8 +32,6 @@ return new class extends Migration
             $table->foreignId('attribute_option_id')
                 ->constrained('products_attribute_options')
                 ->cascadeOnDelete();
-
-            $table->timestamps();
         });
     }
 

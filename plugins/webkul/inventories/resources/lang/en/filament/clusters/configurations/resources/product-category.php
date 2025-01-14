@@ -29,8 +29,8 @@ return [
                     'inventory-valuation' => [
                         'title' => 'Inventory Valuation',
                     ],
-                ]
-            ]
+                ],
+            ],
         ],
     ],
 

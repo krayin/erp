@@ -5,11 +5,15 @@ namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
+use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\RouteResource\Pages;
+use Webkul\Inventory\Filament\Clusters\Configurations\Resources\WarehouseResource\Pages\ManageRoutes;
 use Webkul\Inventory\Models\Route;
 
 class RouteResource extends Resource
@@ -47,6 +51,12 @@ class RouteResource extends Resource
                             ->autofocus()
                             ->placeholder(__('inventories::filament/clusters/configurations/resources/route.form.sections.general.fields.route-placeholder'))
                             ->extraInputAttributes(['style' => 'font-size: 1.5rem;height: 3rem;']),
+                        Forms\Components\Select::make('company_id')
+                            ->label(__('inventories::filament/clusters/configurations/resources/route.form.sections.general.fields.company'))
+                            ->relationship(name: 'company', titleAttribute: 'name')
+                            ->searchable()
+                            ->preload()
+                            ->default(Auth::user()->default_company_id),
                     ]),
 
                 Forms\Components\Section::make(__('inventories::filament/clusters/configurations/resources/route.form.sections.applicable-on.title'))
@@ -81,7 +91,8 @@ class RouteResource extends Resource
                                     ->preload()
                                     ->multiple()
                                     ->visible(fn (Forms\Get $get) => $get('warehouse_selectable')),
-                            ]),
+                            ])
+                            ->hiddenOn(ManageRoutes::class),
                     ])
                     ->columns(2),
             ]);
@@ -93,6 +104,9 @@ class RouteResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('inventories::filament/clusters/configurations/resources/route.table.columns.route'))
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('company.name')
+                    ->label(__('inventories::filament/clusters/configurations/resources/route.table.columns.company'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->label(__('inventories::filament/clusters/configurations/resources/route.table.columns.deleted-at'))
@@ -116,7 +130,13 @@ class RouteResource extends Resource
                 Tables\Actions\ViewAction::make()
                     ->hidden(fn ($record) => $record->trashed()),
                 Tables\Actions\EditAction::make()
-                    ->hidden(fn ($record) => $record->trashed()),
+                    ->hidden(fn ($record) => $record->trashed())
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title(__('inventories::filament/clusters/configurations/resources/route.table.actions.edit.notification.title'))
+                            ->body(__('inventories::filament/clusters/configurations/resources/route.table.actions.edit.notification.body')),
+                    ),
                 Tables\Actions\RestoreAction::make()
                     ->successNotification(
                         Notification::make()
@@ -170,6 +190,26 @@ class RouteResource extends Resource
             ]);
     }
 
+    public static function getSubNavigationPosition(): SubNavigationPosition
+    {
+        $currentRoute = request()->route()?->getName();
+
+        if ($currentRoute === self::getRouteBaseName().'.index') {
+            return SubNavigationPosition::Start;
+        }
+
+        return SubNavigationPosition::Top;
+    }
+
+    public static function getRecordSubNavigation(Page $page): array
+    {
+        return $page->generateNavigationItems([
+            Pages\ViewRoute::class,
+            Pages\EditRoute::class,
+            Pages\ManageRules::class,
+        ]);
+    }
+
     public static function getRelations(): array
     {
         return [
@@ -180,10 +220,11 @@ class RouteResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListRoutes::route('/'),
-            'create' => Pages\CreateRoute::route('/create'),
-            'view'   => Pages\ViewRoute::route('/{record}'),
-            'edit'   => Pages\EditRoute::route('/{record}/edit'),
+            'index'   => Pages\ListRoutes::route('/'),
+            'create'  => Pages\CreateRoute::route('/create'),
+            'view'    => Pages\ViewRoute::route('/{record}'),
+            'edit'    => Pages\EditRoute::route('/{record}/edit'),
+            'rules'   => Pages\ManageRules::route('/{record}/rules'),
         ];
     }
 }

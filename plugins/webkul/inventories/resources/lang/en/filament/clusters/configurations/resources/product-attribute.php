@@ -23,9 +23,9 @@ return [
         'columns' => [
             'name'        => 'Name',
             'type'        => 'Type',
-            'deleted-at' => 'Deleted At',
-            'created-at' => 'Created At',
-            'updated-at' => 'Updated At',
+            'deleted-at'  => 'Deleted At',
+            'created-at'  => 'Created At',
+            'updated-at'  => 'Updated At',
         ],
 
         'groups' => [

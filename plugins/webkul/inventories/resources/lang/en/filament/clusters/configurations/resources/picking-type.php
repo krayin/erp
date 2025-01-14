@@ -35,6 +35,7 @@ return [
                     'warehouse'                          => 'Warehouse',
                     'show-reception-report'              => 'Show Reception Report at Validation',
                     'show-reception-report-hint-tooltip' => 'If checked, System will automatically show the reception report (if there are moves to allocate to) when validating.',
+                    'company'                            => 'Company',
                     'return-type'                        => 'Return Type',
                     'create-backorder'                   => 'Create Backorder',
                     'move-type'                          => 'Move Type',
@@ -122,6 +123,7 @@ return [
     'table' => [
         'columns' => [
             'name'       => 'Name',
+            'company'    => 'Company',
             'deleted-at' => 'Deleted At',
             'created-at' => 'Created At',
             'updated-at' => 'Updated At',

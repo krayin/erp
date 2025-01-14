@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\HtmlString;
 use Webkul\Inventory\Enums;
 use Webkul\Inventory\Filament\Clusters\Configurations;
+use Webkul\Inventory\Filament\Clusters\Configurations\Resources\RouteResource\Pages\ManageRules;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\RuleResource\Pages;
 use Webkul\Inventory\Models\Route;
 use Webkul\Inventory\Models\Rule;
@@ -129,7 +130,8 @@ class RuleResource extends Resource
                                                     }),
                                             ])
                                             ->columns(1),
-                                    ]),
+                                    ])
+                                    ->hiddenOn(ManageRules::class),
 
                                 Forms\Components\Group::make()
                                     ->schema([
@@ -182,9 +184,9 @@ class RuleResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('action')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('sourceLocation.name')
+                Tables\Columns\TextColumn::make('sourceLocation.full_name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('destinationLocation.name')
+                Tables\Columns\TextColumn::make('destinationLocation.full_name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('route.name')
                     ->searchable(),
@@ -207,7 +209,13 @@ class RuleResource extends Resource
                 Tables\Actions\ViewAction::make()
                     ->hidden(fn ($record) => $record->trashed()),
                 Tables\Actions\EditAction::make()
-                    ->hidden(fn ($record) => $record->trashed()),
+                    ->hidden(fn ($record) => $record->trashed())
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title(__('inventories::filament/clusters/configurations/resources/rule.table.actions.edit.notification.title'))
+                            ->body(__('inventories::filament/clusters/configurations/resources/rule.table.actions.edit.notification.body')),
+                    ),
                 Tables\Actions\RestoreAction::make()
                     ->successNotification(
                         Notification::make()

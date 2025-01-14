@@ -30,8 +30,12 @@ class InventoryServiceProvider extends PackageServiceProvider
                 '2025_01_07_145741_create_inventories_package_types_table',
                 '2025_01_10_091035_alter_products_products_table',
                 '2025_01_10_095946_create_inventories_category_routes_table',
+                '2025_01_10_095946_create_inventories_product_routes_table',
                 '2025_01_10_102716_add_package_type_id_column_in_products_packagings_table',
                 '2025_01_10_111734_create_inventories_storage_category_capacities_table',
+                '2025_01_13_061029_create_inventories_route_packagings_table',
+                '2025_01_14_133233_create_inventories_operations_table',
+                '2025_01_14_133247_create_inventories_moves_table',
             ])
             ->runsMigrations()
             ->hasInstallCommand(function (InstallCommand $command) {

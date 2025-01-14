@@ -10,9 +10,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductAttributeResource\Pages;
-use Webkul\Product\Models\Attribute;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductAttributeResource\RelationManagers;
 use Webkul\Product\Enums\AttributeType;
+use Webkul\Product\Models\Attribute;
 
 class ProductAttributeResource extends Resource
 {
@@ -42,15 +42,15 @@ class ProductAttributeResource extends Resource
             ->schema([
                 Forms\Components\Section::make(__('inventories::filament/clusters/configurations/resources/route.form.sections.general.title'))
                     ->schema([
-                    Forms\Components\TextInput::make('name')
-                        ->required()
-                        ->maxLength(255),
-                    Forms\Components\Radio::make('type')
-                        ->required()
-                        ->options(AttributeType::class)
-                        ->default(AttributeType::RADIO)
-                        ->live(),
-                ])
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Radio::make('type')
+                            ->required()
+                            ->options(AttributeType::class)
+                            ->default(AttributeType::RADIO)
+                            ->live(),
+                    ]),
             ]);
     }
 

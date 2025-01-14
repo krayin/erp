@@ -4,11 +4,10 @@ namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductAtt
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Product\Enums\AttributeType;
 

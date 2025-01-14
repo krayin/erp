@@ -5,6 +5,8 @@ namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
+use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -94,14 +96,12 @@ class WarehouseResource extends Resource
                                     ->schema([
                                         Forms\Components\Radio::make('reception_steps')
                                             ->label(__('inventories::filament/clusters/configurations/resources/warehouse.form.sections.settings.fields.incoming-shipments'))
-                                            ->default('internal')
                                             ->options(ReceptionStep::class)
                                             ->default(ReceptionStep::ONE_STEP)
                                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/warehouse.form.sections.settings.fields.incoming-shipments-hint-tooltip')),
 
                                         Forms\Components\Radio::make('delivery_steps')
                                             ->label(__('inventories::filament/clusters/configurations/resources/warehouse.form.sections.settings.fields.outgoing-shipments'))
-                                            ->default('internal')
                                             ->options(DeliveryStep::class)
                                             ->default(DeliveryStep::ONE_STEP)
                                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/warehouse.form.sections.settings.fields.outgoing-shipments-hint-tooltip')),
@@ -225,6 +225,26 @@ class WarehouseResource extends Resource
             ]);
     }
 
+    public static function getSubNavigationPosition(): SubNavigationPosition
+    {
+        $currentRoute = request()->route()?->getName();
+
+        if ($currentRoute === self::getRouteBaseName().'.index') {
+            return SubNavigationPosition::Start;
+        }
+
+        return SubNavigationPosition::Top;
+    }
+
+    public static function getRecordSubNavigation(Page $page): array
+    {
+        return $page->generateNavigationItems([
+            Pages\ViewWarehouse::class,
+            Pages\EditWarehouse::class,
+            Pages\ManageRoutes::class,
+        ]);
+    }
+
     public static function getRelations(): array
     {
         return [
@@ -239,6 +259,7 @@ class WarehouseResource extends Resource
             'create' => Pages\CreateWarehouse::route('/create'),
             'view'   => Pages\ViewWarehouse::route('/{record}'),
             'edit'   => Pages\EditWarehouse::route('/{record}/edit'),
+            'routes' => Pages\ManageRoutes::route('/{record}/routes'),
         ];
     }
 }

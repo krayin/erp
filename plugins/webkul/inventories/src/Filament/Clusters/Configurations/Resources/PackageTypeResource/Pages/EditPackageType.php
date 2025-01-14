@@ -3,9 +3,9 @@
 namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources\PackageTypeResource\Pages;
 
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\PackageTypeResource;
-use Filament\Notifications\Notification;
 
 class EditPackageType extends EditRecord
 {

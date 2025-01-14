@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('products_products', function (Blueprint $table) {
             $table->integer('sale_delay')->nullable();
-            $table->integer('tracking')->nullable();
+            $table->string('tracking')->nullable();
             $table->text('description_picking')->nullable();
             $table->text('description_pickingout')->nullable();
             $table->text('description_pickingin')->nullable();

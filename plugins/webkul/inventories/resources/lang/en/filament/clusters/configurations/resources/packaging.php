@@ -7,30 +7,36 @@ return [
     ],
 
     'form' => [
-        'sections' => [
-            'general' => [
-                'title'  => 'General',
-
-                'fields' => [
-                    'name'             => 'Name',
-                    'name-placeholder' => 'eg. Two Step Reception',
-                ],
-            ],
-        ],
+        'name'         => 'Name',
+        'barcode'      => 'Barcode',
+        'product'      => 'Product',
+        'routes'       => 'Routes',
+        'qty'          => 'Qty',
+        'package-type' => 'Package Type',
+        'company'      => 'Company',
     ],
 
     'table' => [
         'columns' => [
-            'created-at' => 'Created At',
-            'updated-at' => 'Updated At',
-        ],
-
-        'groups' => [
-            'created-at' => 'Created At',
-            'updated-at' => 'Updated At',
+            'name'         => 'Name',
+            'product'      => 'Product',
+            'package-type' => 'Package Type',
+            'routes'       => 'Routes',
+            'qty'          => 'Qty',
+            'company'      => 'Company',
+            'barcode'      => 'Barcode',
+            'created-at'   => 'Created At',
+            'updated-at'   => 'Updated At',
         ],
 
         'actions' => [
+            'edit' => [
+                'notification' => [
+                    'title' => 'Packaging update',
+                    'body'  => 'The packaging has been update successfully.',
+                ],
+            ],
+
             'delete' => [
                 'notification' => [
                     'title' => 'Packaging deleted',
@@ -42,15 +48,21 @@ return [
         'bulk-actions' => [
             'delete' => [
                 'notification' => [
-                    'title' => 'Packaging deleted',
-                    'body'  => 'The packaging has been deleted successfully.',
+                    'title' => 'Packagings deleted',
+                    'body'  => 'The packagings has been deleted successfully.',
                 ],
             ],
         ],
-    ],
 
-    'infolist' => [
-        'name'   => 'Name',
-        'status' => 'Status',
+        'empty-state-actions' => [
+            'create' => [
+                'label' => 'New Packaging',
+
+                'notification' => [
+                    'title' => 'Packaging created',
+                    'body'  => 'The packaging has been created successfully.',
+                ],
+            ],
+        ],
     ],
 ];

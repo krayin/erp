@@ -2,18 +2,16 @@
 
 namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources;
 
-use Webkul\Inventory\Filament\Clusters\Configurations;
-use Webkul\Inventory\Filament\Clusters\Configurations\Resources\PackagingResource\Pages;
-use Webkul\Inventory\Filament\Clusters\Configurations\Resources\PackagingResource\RelationManagers;
-use Webkul\Inventory\Models\Packaging;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\Auth;
+use Webkul\Inventory\Filament\Clusters\Configurations;
+use Webkul\Inventory\Filament\Clusters\Configurations\Resources\PackagingResource\Pages;
+use Webkul\Inventory\Models\Packaging;
 
 class PackagingResource extends Resource
 {
@@ -42,23 +40,39 @@ class PackagingResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(__('inventories::filament/clusters/configurations/resources/packaging.form.name'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('barcode')
+                    ->label(__('inventories::filament/clusters/configurations/resources/packaging.form.barcode'))
                     ->maxLength(255),
-                Forms\Components\TextInput::make('qty')
-                    ->numeric(),
-                Forms\Components\TextInput::make('sort')
-                    ->numeric(),
                 Forms\Components\Select::make('product_id')
+                    ->label(__('inventories::filament/clusters/configurations/resources/packaging.form.product'))
                     ->relationship('product', 'name')
-                    ->required(),
-                Forms\Components\Select::make('creator_id')
-                    ->relationship('creator', 'name'),
-                Forms\Components\Select::make('company_id')
-                    ->relationship('company', 'name'),
+                    ->required()
+                    ->searchable()
+                    ->preload(),
+                Forms\Components\TextInput::make('qty')
+                    ->label(__('inventories::filament/clusters/configurations/resources/packaging.form.qty'))
+                    ->required()
+                    ->numeric()
+                    ->minValue(0.00),
                 Forms\Components\Select::make('package_type_id')
-                    ->relationship('packageType', 'name'),
+                    ->label(__('inventories::filament/clusters/configurations/resources/packaging.form.package-type'))
+                    ->relationship('packageType', 'name')
+                    ->searchable()
+                    ->preload(),
+                Forms\Components\Select::make('routes')
+                    ->label(__('inventories::filament/clusters/configurations/resources/packaging.form.routes'))
+                    ->relationship('routes', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->multiple(),
+                Forms\Components\Select::make('company_id')
+                    ->label(__('inventories::filament/clusters/configurations/resources/packaging.form.company'))
+                    ->relationship('company', 'name')
+                    ->searchable()
+                    ->preload(),
             ]);
     }
 
@@ -67,42 +81,49 @@ class PackagingResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('inventories::filament/clusters/configurations/resources/packaging.table.columns.name'))
                     ->searchable(),
-                Tables\Columns\TextColumn::make('barcode')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('qty')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('sort')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('product.name')
+                    ->label(__('inventories::filament/clusters/configurations/resources/packaging.table.columns.product'))
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('creator.name')
+                Tables\Columns\TextColumn::make('packageType.name')
+                    ->label(__('inventories::filament/clusters/configurations/resources/packaging.table.columns.package-type'))
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('qty')
+                    ->label(__('inventories::filament/clusters/configurations/resources/packaging.table.columns.qty'))
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('barcode')
+                    ->label(__('inventories::filament/clusters/configurations/resources/packaging.table.columns.barcode'))
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('company.name')
+                    ->label(__('inventories::filament/clusters/configurations/resources/packaging.table.columns.company'))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('inventories::filament/clusters/configurations/resources/packaging.table.columns.created-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('inventories::filament/clusters/configurations/resources/packaging.table.columns.updated-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('packageType.name')
-                    ->numeric()
-                    ->sortable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title(__('inventories::filament/clusters/configurations/resources/packaging.table.actions.edit.notification.title'))
+                            ->body(__('inventories::filament/clusters/configurations/resources/packaging.table.actions.edit.notification.body')),
+                    ),
                 Tables\Actions\DeleteAction::make()
                     ->successNotification(
                         Notification::make()
@@ -112,34 +133,38 @@ class PackagingResource extends Resource
                     ),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make()
-                    ->successNotification(
-                        Notification::make()
-                            ->success()
-                            ->title(__('inventories::filament/clusters/configurations/resources/packaging.table.bulk-actions.delete.notification.title'))
-                            ->body(__('inventories::filament/clusters/configurations/resources/packaging.table.bulk-actions.delete.notification.body')),
-                    ),
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('inventories::filament/clusters/configurations/resources/packaging.table.bulk-actions.delete.notification.title'))
+                                ->body(__('inventories::filament/clusters/configurations/resources/packaging.table.bulk-actions.delete.notification.body')),
+                        ),
+                ]),
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make()
-                    ->icon('heroicon-o-plus-circle'),
-            ]);
-    }
+                    ->label(__('inventories::filament/clusters/configurations/resources/packaging.table.empty-state-actions.create.label'))
+                    ->icon('heroicon-o-plus-circle')
+                    ->mutateFormDataUsing(function (array $data): array {
+                        $data['creator_id'] = Auth::id();
 
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
+                        return $data;
+                    })
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title(__('inventories::filament/clusters/configurations/resources/packaging.table.empty-state-actions.create.notification.title'))
+                            ->body(__('inventories::filament/clusters/configurations/resources/packaging.table.empty-state-actions.create.notification.body')),
+                    ),
+            ]);
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPackagings::route('/'),
-            'create' => Pages\CreatePackaging::route('/create'),
-            'view' => Pages\ViewPackaging::route('/{record}'),
-            'edit' => Pages\EditPackaging::route('/{record}/edit'),
+            'index' => Pages\ManagePackagings::route('/'),
         ];
     }
 }

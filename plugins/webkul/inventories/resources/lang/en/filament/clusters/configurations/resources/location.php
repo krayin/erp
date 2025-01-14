@@ -25,6 +25,8 @@ return [
 
                 'fields' => [
                     'location-type'               => 'Location Type',
+                    'company'                     => 'Company',
+                    'storage-category'            => 'Storage Category',
                     'is-scrap'                    => 'Is a Scrap Location?',
                     'is-scrap-hint-tooltip'       => 'Check this box to allow using this location to put scrapped/damaged goods.',
                     'is-dock'                     => 'Is a Dock Location?',
@@ -52,6 +54,7 @@ return [
             'location'         => 'Location',
             'type'             => 'Type',
             'storage-category' => 'Storage Category',
+            'company'          => 'Company',
             'deleted-at'       => 'deleted At',
             'created-at'       => 'Created At',
             'updated-at'       => 'Updated At',

@@ -18,6 +18,7 @@ use Webkul\Inventory\Filament\Clusters\Configurations\Resources\PickingTypeResou
 use Webkul\Inventory\Models\Location;
 use Webkul\Inventory\Models\PickingType;
 use Webkul\Inventory\Models\Warehouse;
+use Illuminate\Support\Facades\Auth;
 
 class PickingTypeResource extends Resource
 {
@@ -71,7 +72,7 @@ class PickingTypeResource extends Resource
                                                     ->label(__('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.general.fields.operator-type'))
                                                     ->required()
                                                     ->options(PickingTypeEnum::class)
-                                                    ->default(PickingTypeEnum::INCOMING)
+                                                    ->default(PickingTypeEnum::INCOMING->value)
                                                     ->native(true)
                                                     ->live()
                                                     ->selectablePlaceholder(false)
@@ -85,7 +86,7 @@ class PickingTypeResource extends Resource
 
                                                         // Set new source location
                                                         $sourceLocationId = match ($type) {
-                                                            PickingTypeEnum::INCOMING => Location::where('type', LocationType::SUPPLIER)->first()?->id,
+                                                            PickingTypeEnum::INCOMING => Location::where('type', LocationType::SUPPLIER->value)->first()?->id,
                                                             PickingTypeEnum::OUTGOING => Location::where('is_replenish', 1)
                                                                 ->when($warehouseId, fn ($query) => $query->where('warehouse_id', $warehouseId))
                                                                 ->first()?->id,
@@ -100,7 +101,7 @@ class PickingTypeResource extends Resource
                                                             PickingTypeEnum::INCOMING => Location::where('is_replenish', 1)
                                                                 ->when($warehouseId, fn ($query) => $query->where('warehouse_id', $warehouseId))
                                                                 ->first()?->id,
-                                                            PickingTypeEnum::OUTGOING => Location::where('type', LocationType::CUSTOMER)->first()?->id,
+                                                            PickingTypeEnum::OUTGOING => Location::where('type', LocationType::CUSTOMER->value)->first()?->id,
                                                             PickingTypeEnum::INTERNAL => Location::where('is_replenish', 1)
                                                                 ->when($warehouseId, fn ($query) => $query->where('warehouse_id', $warehouseId))
                                                                 ->first()?->id,
@@ -118,7 +119,7 @@ class PickingTypeResource extends Resource
                                                 Forms\Components\Toggle::make('print_label')
                                                     ->label(__('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.general.fields.generate-shipping-labels'))
                                                     ->inline(false)
-                                                    ->visible(fn (Forms\Get $get): bool => in_array($get('type'), [PickingTypeEnum::OUTGOING, PickingTypeEnum::INTERNAL])),
+                                                    ->visible(fn (Forms\Get $get): bool => in_array($get('type'), [PickingTypeEnum::OUTGOING->value, PickingTypeEnum::INTERNAL->value])),
                                                 Forms\Components\Select::make('warehouse_id')
                                                     ->label(__('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.general.fields.warehouse'))
                                                     ->relationship('warehouse', 'name')
@@ -128,36 +129,42 @@ class PickingTypeResource extends Resource
                                                     ->default(function (Forms\Get $get) {
                                                         return Warehouse::first()?->id;
                                                     }),
-                                                Forms\Components\Select::make('reservation_method')
+                                                Forms\Components\Radio::make('reservation_method')
                                                     ->required()
                                                     ->options(ReservationMethod::class)
-                                                    ->default(ReservationMethod::AT_CONFIRM)
-                                                    ->visible(fn (Forms\Get $get): bool => $get('type') != PickingTypeEnum::INCOMING),
+                                                    ->default(ReservationMethod::AT_CONFIRM->value)
+                                                    ->visible(fn (Forms\Get $get): bool => $get('type') != PickingTypeEnum::INCOMING->value),
                                                 Forms\Components\Toggle::make('auto_show_reception_report')
                                                     ->label(__('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.general.fields.show-reception-report'))
                                                     ->inline(false)
                                                     ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.general.fields.show-reception-report-hint-tooltip'))
-                                                    ->visible(fn (Forms\Get $get): bool => in_array($get('type'), [PickingTypeEnum::INCOMING, PickingTypeEnum::INTERNAL])),
+                                                    ->visible(fn (Forms\Get $get): bool => in_array($get('type'), [PickingTypeEnum::INCOMING->value, PickingTypeEnum::INTERNAL->value])),
                                             ]),
 
                                         Forms\Components\Group::make()
                                             ->schema([
+                                                Forms\Components\Select::make('company_id')
+                                                    ->label(__('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.general.fields.company'))
+                                                    ->relationship('company', 'name')
+                                                    ->searchable()
+                                                    ->preload()
+                                                    ->default(Auth::user()->default_company_id),
                                                 Forms\Components\Select::make('return_picking_type_id')
                                                     ->label(__('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.general.fields.return-type'))
                                                     ->relationship('returnPickingType', 'name')
                                                     ->searchable()
                                                     ->preload()
-                                                    ->visible(fn (Forms\Get $get): bool => $get('type') != PickingTypeEnum::DROPSHIP),
+                                                    ->visible(fn (Forms\Get $get): bool => $get('type') != PickingTypeEnum::DROPSHIP->value),
                                                 Forms\Components\Select::make('create_backorder')
                                                     ->label(__('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.general.fields.create-backorder'))
                                                     ->required()
                                                     ->options(CreateBackorder::class)
-                                                    ->default(CreateBackorder::ASK),
+                                                    ->default(CreateBackorder::ASK->value),
                                                 Forms\Components\Select::make('move_type')
                                                     ->label(__('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.general.fields.move-type'))
                                                     ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.general.fields.move-type-hint-tooltip'))
                                                     ->options(MoveType::class)
-                                                    ->visible(fn (Forms\Get $get): bool => $get('type') == PickingTypeEnum::INTERNAL),
+                                                    ->visible(fn (Forms\Get $get): bool => $get('type') == PickingTypeEnum::INTERNAL->value),
                                             ]),
                                     ])
                                     ->columns(2),
@@ -172,7 +179,7 @@ class PickingTypeResource extends Resource
                                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.general.fieldsets.lots.fields.use-existing-hint-tooltip'))
                                             ->inline(false),
                                     ])
-                                    ->visible(fn (Forms\Get $get): bool => $get('type') != PickingTypeEnum::DROPSHIP),
+                                    ->visible(fn (Forms\Get $get): bool => $get('type') != PickingTypeEnum::DROPSHIP->value),
                                 Forms\Components\Fieldset::make(__('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.general.fieldsets.locations.title'))
                                     ->schema([
                                         Forms\Components\Select::make('source_location_id')
@@ -189,7 +196,7 @@ class PickingTypeResource extends Resource
                                                 $warehouseId = $get('warehouse_id');
 
                                                 return match ($type) {
-                                                    PickingTypeEnum::INCOMING => Location::where('type', LocationType::SUPPLIER)->first()?->id,
+                                                    PickingTypeEnum::INCOMING => Location::where('type', LocationType::SUPPLIER->value)->first()?->id,
                                                     PickingTypeEnum::OUTGOING => Location::where('is_replenish', 1)
                                                         ->when($warehouseId, fn ($query) => $query->where('warehouse_id', $warehouseId))
                                                         ->first()?->id,
@@ -215,7 +222,7 @@ class PickingTypeResource extends Resource
                                                     PickingTypeEnum::INCOMING => Location::where('is_replenish', 1)
                                                         ->when($warehouseId, fn ($query) => $query->where('warehouse_id', $warehouseId))
                                                         ->first()?->id,
-                                                    PickingTypeEnum::OUTGOING => Location::where('type', LocationType::CUSTOMER)->first()?->id,
+                                                    PickingTypeEnum::OUTGOING => Location::where('type', LocationType::CUSTOMER->value)->first()?->id,
                                                     PickingTypeEnum::INTERNAL => Location::where(function ($query) use ($warehouseId) {
                                                         $query->whereNull('warehouse_id')
                                                             ->when($warehouseId, fn ($q) => $q->orWhere('warehouse_id', $warehouseId));
@@ -231,7 +238,7 @@ class PickingTypeResource extends Resource
                                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.general.fieldsets.packages.fields.show-entire-package-hint-tooltip'))
                                             ->inline(false),
                                     ])
-                                    ->visible(fn (Forms\Get $get): bool => $get('type') != PickingTypeEnum::DROPSHIP),
+                                    ->visible(fn (Forms\Get $get): bool => $get('type') != PickingTypeEnum::DROPSHIP->value),
                             ]),
                         Forms\Components\Tabs\Tab::make(__('inventories::filament/clusters/configurations/resources/picking-type.form.tabs.hardware.title'))
                             ->icon('heroicon-o-computer-desktop')
@@ -277,7 +284,7 @@ class PickingTypeResource extends Resource
                                             ->inline(false),
                                     ]),
                             ])
-                            ->visible(fn (Forms\Get $get): bool => $get('type') != PickingTypeEnum::DROPSHIP),
+                            ->visible(fn (Forms\Get $get): bool => $get('type') != PickingTypeEnum::DROPSHIP->value),
                     ])
                     ->columnSpan('full'),
             ]);
@@ -289,6 +296,9 @@ class PickingTypeResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('inventories::filament/clusters/configurations/resources/picking-type.table.columns.name'))
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('company.name')
+                    ->label(__('inventories::filament/clusters/configurations/resources/picking-type.table.columns.company'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(__('inventories::filament/clusters/configurations/resources/picking-type.table.columns.created-at'))

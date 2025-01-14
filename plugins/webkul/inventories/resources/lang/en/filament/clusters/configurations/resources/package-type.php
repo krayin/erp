@@ -12,9 +12,10 @@ return [
                 'title'  => 'General',
 
                 'fields' => [
-                    'name' => 'Name',
-                    'barcode' => 'Barcode',
-                    'weight' => 'Weight',
+                    'name'       => 'Name',
+                    'barcode'    => 'Barcode',
+                    'company'    => 'Company',
+                    'weight'     => 'Weight',
                     'max-weight' => 'Max Weight',
 
                     'fieldsets' => [
@@ -26,7 +27,7 @@ return [
                                 'width'  => 'Width',
                                 'height' => 'Height',
                             ],
-                        ]
+                        ],
                     ],
                 ],
             ],
@@ -35,13 +36,13 @@ return [
 
     'table' => [
         'columns' => [
-            'name' => 'Name',
-            'barcode' => 'Barcode',
-            'weight' => 'Weight',
+            'name'       => 'Name',
+            'barcode'    => 'Barcode',
+            'weight'     => 'Weight',
             'max-weight' => 'Max Weight',
-            'width' => 'Width',
-            'height' => 'Height',
-            'length' => 'Length',
+            'width'      => 'Width',
+            'height'     => 'Height',
+            'length'     => 'Length',
             'created-at' => 'Created At',
             'updated-at' => 'Updated At',
         ],

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->string('parent_path')->nullable();
             $table->string('barcode')->nullable();
+            $table->string('removal_strategy')->nullable();
             $table->integer('cyclic_inventory_frequency')->nullable();
             $table->date('last_inventory_date')->nullable();
             $table->date('next_inventory_date')->nullable();

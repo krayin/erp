@@ -3,9 +3,9 @@
 namespace Webkul\Inventory\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Webkul\Inventory\Database\Factories\StorageCategoryFactory;
 use Webkul\Inventory\Enums\AllowNewProduct;
 use Webkul\Security\Models\User;
@@ -46,9 +46,19 @@ class StorageCategory extends Model
         'allow_new_products' => AllowNewProduct::class,
     ];
 
-    public function storageCategoryCapacities(): BelongsToMany
+    public function storageCategoryCapacities(): HasMany
     {
-        return $this->belongsToMany(StorageCategoryCapacity::class, 'inventories_storage_category_capacities', 'storage_category_id', 'package_type_id');
+        return $this->hasMany(StorageCategoryCapacity::class, 'storage_category_id');
+    }
+
+    public function storageCategoryCapacitiesByProduct(): HasMany
+    {
+        return $this->storageCategoryCapacities()->whereNotNull('product_id');
+    }
+
+    public function storageCategoryCapacitiesByPackageType(): HasMany
+    {
+        return $this->storageCategoryCapacities()->whereNotNull('package_type_id');
     }
 
     public function company(): BelongsTo

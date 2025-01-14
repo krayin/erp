@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\EloquentSortable\SortableTrait;
 use Webkul\Inventory\Database\Factories\RouteFactory;
@@ -80,6 +81,16 @@ class Route extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function packagings(): BelongsToMany
+    {
+        return $this->belongsToMany(Route::class, 'inventories_route_packagings', 'route_id', 'packaging_id');
+    }
+
+    public function rules(): HasMany
+    {
+        return $this->hasMany(Rule::class);
     }
 
     protected static function newFactory(): RouteFactory

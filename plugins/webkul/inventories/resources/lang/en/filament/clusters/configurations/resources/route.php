@@ -14,6 +14,7 @@ return [
                 'fields' => [
                     'route'             => 'Route',
                     'route-placeholder' => 'eg. Two Step Reception',
+                    'company'           => 'Company',
                 ],
             ],
 
@@ -38,6 +39,7 @@ return [
     'table' => [
         'columns' => [
             'route'      => 'Route',
+            'company'    => 'Company',
             'deleted-at' => 'Deleted At',
             'created-at' => 'Created At',
             'updated-at' => 'Updated At',
@@ -49,6 +51,13 @@ return [
         ],
 
         'actions' => [
+            'edit' => [
+                'notification' => [
+                    'title' => 'Route updated',
+                    'body'  => 'The route has been updated successfully.',
+                ],
+            ],
+
             'restore' => [
                 'notification' => [
                     'title' => 'Route restored',

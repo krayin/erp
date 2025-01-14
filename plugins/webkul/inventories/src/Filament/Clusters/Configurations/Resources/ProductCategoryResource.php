@@ -11,6 +11,8 @@ use Filament\Tables\Table;
 use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductCategoryResource\Pages;
 use Webkul\Inventory\Models\Category;
+use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\Pages\Page;
 
 class ProductCategoryResource extends Resource
 {
@@ -138,6 +140,26 @@ class ProductCategoryResource extends Resource
             ]);
     }
 
+    public static function getSubNavigationPosition(): SubNavigationPosition
+    {
+        $currentRoute = request()->route()?->getName();
+
+        if ($currentRoute === self::getRouteBaseName().'.index') {
+            return SubNavigationPosition::Start;
+        }
+
+        return SubNavigationPosition::Top;
+    }
+
+    public static function getRecordSubNavigation(Page $page): array
+    {
+        return $page->generateNavigationItems([
+            Pages\ViewProductCategory::class,
+            Pages\EditProductCategory::class,
+            Pages\ManageProducts::class,
+        ]);
+    }
+
     public static function getRelations(): array
     {
         return [
@@ -152,6 +174,7 @@ class ProductCategoryResource extends Resource
             'create' => Pages\CreateProductCategory::route('/create'),
             'view'   => Pages\ViewProductCategory::route('/{record}'),
             'edit'   => Pages\EditProductCategory::route('/{record}/edit'),
+            'products' => Pages\ManageProducts::route('/{record}/products'),
         ];
     }
 }

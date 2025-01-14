@@ -2,13 +2,10 @@
 
 namespace Webkul\Inventory\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Webkul\Inventory\Database\Factories\StorageCategoryCapacityFactory;
-use Webkul\Inventory\Enums\AllowNewProduct;
 use Webkul\Security\Models\User;
-use Webkul\Support\Models\Company;
 
 class StorageCategoryCapacity extends Model
 {
@@ -31,6 +28,11 @@ class StorageCategoryCapacity extends Model
         'package_type_id',
         'creator_id',
     ];
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
 
     public function storageCategory(): BelongsTo
     {

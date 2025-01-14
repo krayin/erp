@@ -28,8 +28,6 @@ class CreatePickingType extends CreateRecord
     {
         $data['creator_id'] = Auth::id();
 
-        $data['company_id'] = Auth::user()->default_company_id;
-
         return $data;
     }
 }

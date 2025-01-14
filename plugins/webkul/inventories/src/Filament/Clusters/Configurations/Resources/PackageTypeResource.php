@@ -4,13 +4,13 @@ namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\PackageTypeResource\Pages;
 use Webkul\Inventory\Models\PackageType;
-use Filament\Notifications\Notification;
 
 class PackageTypeResource extends Resource
 {
@@ -81,6 +81,11 @@ class PackageTypeResource extends Resource
                             ->default(0.0000),
                         Forms\Components\TextInput::make('barcode')
                             ->label(__('inventories::filament/clusters/configurations/resources/package-type.form.sections.general.fields.barcode')),
+                        Forms\Components\Select::make('company_id')
+                            ->label(__('inventories::filament/clusters/configurations/resources/package-type.form.sections.general.fields.company'))
+                            ->relationship('company', 'name')
+                            ->searchable()
+                            ->preload(),
                     ]),
             ]);
     }

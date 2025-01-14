@@ -3,8 +3,8 @@
 return [
     'form' => [
         'fields' => [
-            'name' => 'Name',
-            'color' => 'Color',
+            'name'        => 'Name',
+            'color'       => 'Color',
             'extra-price' => 'Extra Price',
         ],
     ],
@@ -22,8 +22,8 @@ return [
         ],
 
         'columns' => [
-            'name' => 'Name',
-            'color' => 'Color',
+            'name'        => 'Name',
+            'color'       => 'Color',
             'extra-price' => 'Extra Price',
         ],
 

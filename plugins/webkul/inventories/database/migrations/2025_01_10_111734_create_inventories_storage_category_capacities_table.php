@@ -20,16 +20,17 @@ return new class extends Migration
                 ->constrained('products_products')
                 ->cascadeOnDelete();
 
-            $table->foreignId('storage_category_id')
-                ->constrained('inventories_storage_categories')
-                ->cascadeOnDelete()
-                ->name('fk_storage_category');
+            $table->unsignedBigInteger('storage_category_id');
+            $table->foreign('storage_category_id', 'fk_storage_category')
+                ->references('id')
+                ->on('inventories_storage_categories')
+                ->cascadeOnDelete();
 
-            $table->foreignId('package_type_id')
-                ->nullable()
-                ->constrained('inventories_package_types')
-                ->cascadeOnDelete()
-                ->name('fk_package_type');
+            $table->unsignedBigInteger('package_type_id')->nullable();
+            $table->foreign('package_type_id', 'fk_package_type')
+                ->references('id')
+                ->on('inventories_package_types')
+                ->cascadeOnDelete();
 
             $table->foreignId('creator_id')
                 ->nullable()

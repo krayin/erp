@@ -5,12 +5,13 @@ namespace Webkul\Inventory\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Inventory\Database\Factories\LocationFactory;
 use Webkul\Inventory\Enums\LocationType;
+use Webkul\Product\Enums\ProductRemoval;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Location extends Model
 {
@@ -38,6 +39,7 @@ class Location extends Model
         'description',
         'parent_path',
         'barcode',
+        'removal_strategy',
         'cyclic_inventory_frequency',
         'last_inventory_date',
         'next_inventory_date',
@@ -59,6 +61,7 @@ class Location extends Model
      */
     protected $casts = [
         'type'                => LocationType::class,
+        'removal_strategy'    => ProductRemoval::class,
         'last_inventory_date' => 'date',
         'next_inventory_date' => 'date',
         'is_scrap'            => 'boolean',
@@ -138,7 +141,7 @@ class Location extends Model
         $children->each(function ($child) {
             $child->updateFullName();
             $child->saveQuietly();
-            
+
             $child->updateChildrenFullNames();
         });
     }

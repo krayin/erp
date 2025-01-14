@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\EloquentSortable\SortableTrait;
 use Webkul\Inventory\Database\Factories\WarehouseFactory;
@@ -14,7 +15,6 @@ use Webkul\Inventory\Enums\ReceptionStep;
 use Webkul\Partner\Models\Address;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Warehouse extends Model
 {
@@ -183,6 +183,11 @@ class Warehouse extends Model
     public function deliveryRoute(): BelongsTo
     {
         return $this->belongsTo(Route::class, 'delivery_route_id');
+    }
+
+    public function routes(): BelongsToMany
+    {
+        return $this->belongsToMany(Route::class, 'inventories_route_warehouses', 'warehouse_id', 'route_id');
     }
 
     public function suppliedWarehouses(): BelongsToMany
