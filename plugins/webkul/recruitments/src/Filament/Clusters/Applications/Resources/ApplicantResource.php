@@ -48,7 +48,11 @@ class ApplicantResource extends Resource
 
         if ($currentRoute === 'livewire.update') {
             return str_contains(url()->previous(), 'index')
+                || str_contains(url()->previous(), 'edit')
                 || str_contains(url()->previous(), 'tableGrouping')
+                || str_contains(url()->previous(), 'tableSortColumn')
+                || str_contains(url()->previous(), 'activeTableView')
+                || str_contains(url()->previous(), 'applicants')
                 ? SubNavigationPosition::Start
                 : SubNavigationPosition::Top;
         }
@@ -444,30 +448,46 @@ class ApplicantResource extends Resource
                     ->color(fn($state) => Color::hex($state['color'])),
                 Tables\Columns\TextColumn::make('candidate.email_from')
                     ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.columns.email'))
+                    ->searchable()
+                    ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('recruiter.name')
                     ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.columns.recruiter'))
+                    ->searchable()
+                    ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('interviewer.name')
                     ->badge()
+                    ->searchable()
+                    ->sortable()
                     ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.columns.interviewer'))
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('candidate.phone')
                     ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.columns.candidate-phone'))
+                    ->searchable()
+                    ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('medium.name')
+                    ->searchable()
+                    ->sortable()
                     ->badge()
                     ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.columns.medium'))
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('source.name')
                     ->badge()
+                    ->searchable()
+                    ->sortable()
                     ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.columns.source'))
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('salary_expected')
                     ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.columns.salary-expected'))
+                    ->searchable()
+                    ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('candidate.availability_date')
                     ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.columns.availability-date'))
+                    ->searchable()
+                    ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->groups([
