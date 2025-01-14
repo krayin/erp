@@ -5,16 +5,17 @@ namespace Webkul\Recruitment\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Webkul\Employee\Models\Department;
 use Webkul\Employee\Models\EmployeeJobPosition;
+use Webkul\Recruitment\Enums\ApplicationStatus;
+use Webkul\Recruitment\Traits\HasApplicationStatus;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 
 class Applicant extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasApplicationStatus;
 
     protected $table = 'recruitments_applicants';
 
@@ -138,5 +139,37 @@ class Applicant extends Model
     public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    public static function getStatusOptions(): array
+    {
+        return ApplicationStatus::options();
+    }
+
+    public function setAsHired(): bool
+    {
+        return $this->updateStatus(ApplicationStatus::HIRED->value);
+    }
+
+    public function setAsRefused(int $refuseReasonId): bool
+    {
+        return $this->updateStatus(ApplicationStatus::REFUSED->value, [
+            'refuse_reason_id' => $refuseReasonId,
+        ]);
+    }
+
+    public function setAsArchived(): bool
+    {
+        return $this->updateStatus(ApplicationStatus::ARCHIVED->value);
+    }
+
+    public function reopen(): bool
+    {
+        return $this->updateStatus(ApplicationStatus::ONGOING->value);
+    }
+
+    public function updateStage(array $data): bool
+    {
+        return $this->update($data);
     }
 }

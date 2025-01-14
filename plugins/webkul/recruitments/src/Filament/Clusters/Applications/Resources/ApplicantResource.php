@@ -26,6 +26,7 @@ use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\ActionSize;
 use Filament\Support\Enums\FontWeight;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\HtmlString;
 use Webkul\Security\Filament\Resources\UserResource;
@@ -43,7 +44,10 @@ class ApplicantResource extends Resource
 
     public static function getSubNavigationPosition(): SubNavigationPosition
     {
-        if (str_contains(Route::currentRouteName(), 'index')) {
+        if (
+            str_contains(Route::currentRouteName(), 'index')
+            && Route::currentRouteName() == "livewire.update"
+        ) {
             return SubNavigationPosition::Start;
         }
 
@@ -92,23 +96,23 @@ class ApplicantResource extends Resource
                                     return true;
                                 }
                             })
-                            ->afterStateUpdated(function ($state, $record) {
+                            ->afterStateUpdated(function ($state, Applicant $record) {
                                 if ($record && $state) {
-                                    $selectedStage = RecruitmentStage::find($state);
+                                    DB::transaction(function () use ($state, $record) {
+                                        $selectedStage = RecruitmentStage::find($state);
 
-                                    $data = [
-                                        'stage_id'               => $state,
-                                        'last_stage_id'          => $record->stage_id,
-                                        'date_last_stage_update' => now(),
-                                    ];
+                                        if ($selectedStage && $selectedStage->hired_stage) {
+                                            $record->setAsHired();
+                                        } elseif ($record->stage && $record->stage->hired_stage) {
+                                            $record->reopen();
+                                        }
 
-                                    if ($selectedStage && $selectedStage->hired_stage) {
-                                        $data['date_closed'] = now();
-                                    } elseif ($record->stage && $record->stage->hired_stage) {
-                                        $data['date_closed'] = null;
-                                    }
-
-                                    $record->update($data);
+                                        $record->updateStage([
+                                            'stage_id'                => $state,
+                                            'last_stage_id'           => $record->stage_id,
+                                            'date_last_stage_updated' => now(),
+                                        ]);
+                                    });
                                 }
                             })
                     ])->columns(2),
@@ -403,7 +407,7 @@ class ApplicantResource extends Resource
             ])
             ->groups([
                 Tables\Grouping\Group::make('stage.name')
-                    ->label(__('Stage'))    
+                    ->label(__('Stage'))
                     ->collapsible(),
             ])
             ->defaultGroup('stage.name')

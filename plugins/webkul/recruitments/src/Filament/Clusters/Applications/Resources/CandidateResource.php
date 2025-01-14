@@ -36,7 +36,10 @@ class CandidateResource extends Resource
 
     public static function getSubNavigationPosition(): SubNavigationPosition
     {
-        if (str_contains(Route::currentRouteName(), 'index')) {
+        if (
+            str_contains(Route::currentRouteName(), 'index')
+            || Route::currentRouteName() == "livewire.update"
+        ) {
             return SubNavigationPosition::Start;
         }
 
