@@ -22,6 +22,14 @@ class ListApplicants extends ListRecords
 
     protected static string $resource = ApplicantResource::class;
 
+    public function getHeaderWidgets(): array
+    {
+        return [
+            \Webkul\Recruitment\Filament\Widgets\JobPositionStatsWidget::make(),
+            \Webkul\Recruitment\Filament\Widgets\ApplicantChartWidget::make(),
+        ];
+    }
+
     public function getPresetTableViews(): array
     {
         return [
