@@ -46,4 +46,8 @@ return [
             ],
         ]
     ],
+
+    'mail' => [
+        'subject' => 'Your Job Application: :job_position',
+    ]
 ];

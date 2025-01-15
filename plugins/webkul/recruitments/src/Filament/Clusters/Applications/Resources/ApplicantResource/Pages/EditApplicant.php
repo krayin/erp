@@ -10,11 +10,15 @@ use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Resources\EmployeeResource;
 use Webkul\Recruitment\Enums\ApplicationStatus;
 use Webkul\Recruitment\Enums\RecruitmentState;
+use Webkul\Recruitment\Mail\ApplicationConfirm;
 use Webkul\Recruitment\Models\Applicant;
 use Webkul\Recruitment\Models\RefuseReason;
+use Webkul\Support\Services\EmailService;
+use Webkul\Chatter\Filament\Actions as ChatterActions;
 
 class EditApplicant extends EditRecord
 {
@@ -93,6 +97,8 @@ class EditApplicant extends EditRecord
 
                     return redirect(EmployeeResource::getUrl('view', ['record' => $employee]));
                 }),
+            ChatterActions\ChatterAction::make()
+                ->setResource(static::$resource),
             Action::make('createEmployee')
                 ->label(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.create-employee'))
                 ->hidden(fn($record) => $record->application_status->value == ApplicationStatus::HIRED->value || $record->candidate->employee_id)
@@ -167,6 +173,47 @@ class EditApplicant extends EditRecord
                         ->body(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.header-actions.reopen.notification.body'))
                         ->send();
                 }),
+        ];
+    }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        if ($data['job_id']) {
+            $this->notifyCandidate($data);
+        }
+
+        return $data;
+    }
+
+    private function notifyCandidate(array $data): void
+    {
+        app(EmailService::class)->send(
+            mailClass: ApplicationConfirm::class,
+            view: $viewName = 'recruitments::mails.application-confirm',
+            payload: $data = $this->preparePayload($data),
+        );
+
+        $data['from']['company'] = Auth::user()->defaultCompany->toArray();
+
+        $data['body'] = view($viewName, ['payload' => $data])->render();
+
+        $data['type'] = 'comment';
+
+        $this->record->addMessage($data, Auth::user()->id);
+    }
+
+    private function preparePayload(array $data): array
+    {
+        return [
+            'record_name'    => $this->record->candidate->name,
+            'job_position'   => $jobPosition = $this->record->job?->name,
+            'subject'        => __('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.mail.subject', [
+                'job_position' => $jobPosition,
+            ]),
+            'to'             => [
+                'address' => $this->record->candidate->email_from,
+                'name'    => $this->record->candidate->name,
+            ],
         ];
     }
 }

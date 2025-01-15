@@ -1,25 +1,31 @@
 <x-support::emails.layout>
     <div class="breadcrumb">
-        Your Applicant <p>{{ $payload['record_name']  }}</p>
+        {{ __('recruitments::mails/application-confirm.breadcrumb') }} <p>{{ $payload['record_name'] }}</p>
     </div>
 
     <div class="notification">
-        <p>Hello,</p>
-        <p>We confirm we successfully received your application for the job
-            "<strong class="highlighted-text">{{ $payload['job_position'] }}</strong>" @isset($payload['from']['company']) at <strong>{{ $payload['from']['company']['name'] }}</strong>@endisset.
+        <p>{{ __('recruitments::mails/application-confirm.hello') }}</p>
+        <p>
+            {!! __('recruitments::mails/application-confirm.application_received', [
+                'job_position' => "<strong class='highlighted-text'>{$payload['job_position']}</strong>",
+                'company' => isset($payload['from']['company']) ? "at <strong>{$payload['from']['company']['name']}</strong>" : ''
+            ]) !!}
         </p>
-        <p>We will come back to you shortly.</p>
+        <p>{{ __('recruitments::mails/application-confirm.response_soon') }}</p>
         <hr class="separator">
-        <h3 class="next-step-title">What is the next step?</h3>
-        <p>We usually <strong>answer applications within a few days.</strong></p>
-        <p>Feel free to <strong>contact us if you want faster feedback</strong> or if you don't get news from us quickly enough (just reply to this email).</p>
+        <h3 class="next-step-title">{{ __('recruitments::mails/application-confirm.next_step_title') }}</h3>
+        <p>{!! __('recruitments::mails/application-confirm.next_step_content') !!}</p>
+        <p>{!! __('recruitments::mails/application-confirm.contact_us') !!}</p>
     </div>
 
     @isset($payload['from']['company'])
         <div class="company-info">
             <div class="company-name">{{ $payload['from']['company']['name'] }}</div>
             <p class="company-details">
-                {{ $payload['from']['company']['phone'] }} | {{ $payload['from']['company']['email'] }} | <a href="{{ $payload['from']['company']['website'] }}">{{ str_replace(['https://', 'http://'], '', $payload['from']['company']['website']) }}</a>
+                {{ $payload['from']['company']['phone'] }} | {{ $payload['from']['company']['email'] }} |
+                <a href="{{ $payload['from']['company']['website'] }}">
+                    {{ str_replace(['https://', 'http://'], '', $payload['from']['company']['website']) }}
+                </a>
             </p>
         </div>
     @endisset
@@ -63,7 +69,7 @@
     }
 
     .highlighted-text {
-        color: #9A6C8E;
+        color: #0056b3;
     }
 
     .separator {
@@ -77,7 +83,7 @@
     }
 
     .next-step-title {
-        color: #9A6C8E;
+        color: #0056b3;
     }
 
     .company-info {

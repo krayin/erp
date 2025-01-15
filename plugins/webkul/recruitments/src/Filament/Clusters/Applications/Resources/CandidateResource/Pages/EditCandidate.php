@@ -9,7 +9,9 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Webkul\Chatter\Filament\Actions as ChatterActions;
 use Webkul\Employee\Filament\Resources\EmployeeResource;
+use Webkul\Recruitment\Mail\ApplicationConfirm;
 use Webkul\Recruitment\Models\Candidate;
+use Webkul\Support\Services\EmailService;
 
 class EditCandidate extends EditRecord
 {

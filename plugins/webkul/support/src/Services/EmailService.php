@@ -29,8 +29,6 @@ class EmailService
         } catch (\Exception $e) {
             $this->logEmail($payload['to']['address'], $payload['to']['name'], $payload['subject'], 'failed', $e->getMessage());
 
-            dd($e);
-
             throw $e;
         }
     }
