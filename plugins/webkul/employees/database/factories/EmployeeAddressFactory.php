@@ -2,8 +2,8 @@
 
 namespace Webkul\Employee\Database\Factories;
 
-use App\Models\EmployeeAddress;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Webkul\Employee\Models\EmployeeAddress;
 
 class EmployeeAddressFactory extends Factory
 {

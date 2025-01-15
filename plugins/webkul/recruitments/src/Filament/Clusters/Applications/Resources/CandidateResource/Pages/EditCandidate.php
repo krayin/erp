@@ -4,9 +4,12 @@ namespace Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateR
 
 use Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource;
 use Filament\Actions;
+use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Webkul\Chatter\Filament\Actions as ChatterActions;
+use Webkul\Employee\Filament\Resources\EmployeeResource;
+use Webkul\Recruitment\Models\Candidate;
 
 class EditCandidate extends EditRecord
 {
@@ -28,6 +31,24 @@ class EditCandidate extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            Action::make('gotoEmployee')
+                ->tooltip(__('recruitments::filament/clusters/applications/resources/candidate/pages/edit-candidate.goto-employee-tooltip'))
+                ->visible(fn($record) => $record->employee_id)
+                ->icon('heroicon-s-arrow-top-right-on-square')
+                ->iconButton()
+                ->action(function (Candidate $record) {
+                    $employee = $record->createEmployee();
+
+                    return redirect(EmployeeResource::getUrl('view', ['record' => $employee]));
+                }),
+            Action::make('createEmployee')
+                ->label(__('recruitments::filament/clusters/applications/resources/candidate/pages/edit-candidate.create-employee'))
+                ->hidden(fn($record) => $record->employee_id)
+                ->action(function (Candidate $record) {
+                    $employee = $record->createEmployee();
+
+                    return redirect(EmployeeResource::getUrl('edit', ['record' => $employee]));
+                }),
             ChatterActions\ChatterAction::make()
                 ->setResource(static::$resource),
             Actions\DeleteAction::make()

@@ -23,6 +23,8 @@ return [
                     'job-position-title-tooltip' => 'Enter the official job position title',
                     'department'                 => 'Department',
                     'department-modal-title'     => 'Department Create',
+                    'job-location'               => 'Job Location',
+                    'industry'                   => 'Industry',
                     'company'                    => 'Company',
                     'employment-type'            => 'Employment Type',
                 ],
@@ -41,9 +43,11 @@ return [
                 'title' => 'Workforce Planning',
 
                 'fields' => [
-                    'expected-employees' => 'Expected Employees',
-                    'current-employees'  => 'Current Employees',
                     'recruitment-target' => 'Recruitment Target',
+                    'date-from'          => 'Date From',
+                    'date-to'            => 'Date To',
+                    'expected-skills'    => 'Expected Skills',
+                    'employment-type'    => 'Employment Type',
                 ],
             ],
 
@@ -152,6 +156,8 @@ return [
                     'department'         => 'Department',
                     'company'            => 'Company',
                     'employment-type'    => 'Employment Type',
+                    'job-location'       => 'Job Location',
+                    'industry'           => 'Industry',
                 ],
             ],
             'job-description' => [
@@ -168,6 +174,8 @@ return [
                 'entries' => [
                     'expected-employees' => 'Expected Employees',
                     'current-employees'  => 'Current Employees',
+                    'date-from'          => 'Date From',
+                    'date-to'            => 'Date To',
                     'recruitment-target' => 'Recruitment Target',
                 ],
             ],
