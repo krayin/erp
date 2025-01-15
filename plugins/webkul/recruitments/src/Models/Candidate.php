@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Webkul\Employee\Models\Employee;
 use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
@@ -94,5 +95,10 @@ class Candidate extends Model
     public function categories()
     {
         return $this->belongsToMany(ApplicantCategory::class, 'recruitments_candidate_applicant_categories', 'candidate_id', 'category_id');
+    }
+
+    public function skills(): HasMany
+    {
+        return $this->hasMany(CandidateSkill::class, 'candidate_id');
     }
 }
