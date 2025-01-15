@@ -680,7 +680,7 @@ class ApplicantResource extends Resource
                                                             $iconType = $i <= $state ? 'heroicon-s-star' : 'heroicon-o-star';
                                                             $html .= view('filament::components.icon', [
                                                                 'icon'  => $iconType,
-                                                                'class' => 'w-10 h-10',
+                                                                'class' => 'w-5 h-5',
                                                             ])->render();
                                                         }
 
