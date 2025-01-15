@@ -5,14 +5,14 @@ namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
+use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductCategoryResource\Pages;
 use Webkul\Inventory\Models\Category;
-use Filament\Pages\SubNavigationPosition;
-use Filament\Resources\Pages\Page;
 
 class ProductCategoryResource extends Resource
 {
@@ -170,10 +170,10 @@ class ProductCategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListProductCategories::route('/'),
-            'create' => Pages\CreateProductCategory::route('/create'),
-            'view'   => Pages\ViewProductCategory::route('/{record}'),
-            'edit'   => Pages\EditProductCategory::route('/{record}/edit'),
+            'index'    => Pages\ListProductCategories::route('/'),
+            'create'   => Pages\CreateProductCategory::route('/create'),
+            'view'     => Pages\ViewProductCategory::route('/{record}'),
+            'edit'     => Pages\EditProductCategory::route('/{record}/edit'),
             'products' => Pages\ManageProducts::route('/{record}/products'),
         ];
     }

@@ -1,22 +1,27 @@
 <?php
 
-namespace Webkul\Inventory\Filament\Clusters\Operations\Resources;
+namespace Webkul\Inventory\Filament\Clusters\Products\Resources;
 
 use Filament\Forms\Form;
+use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Webkul\Inventory\Filament\Clusters\Operations;
-use Webkul\Inventory\Filament\Clusters\Operations\Resources\OperationResource\Pages;
-use Webkul\Inventory\Models\Operation;
+use Webkul\Inventory\Filament\Clusters\Products;
+use Webkul\Inventory\Filament\Clusters\Products\Resources\PackageResource\Pages;
+use Webkul\Inventory\Models\Package;
 
-class OperationResource extends Resource
+class PackageResource extends Resource
 {
-    protected static ?string $model = Operation::class;
+    protected static ?string $model = Package::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-cube';
 
-    protected static ?string $cluster = Operations::class;
+    protected static ?string $cluster = Products::class;
+
+    protected static ?int $navigationSort = 2;
+
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
     public static function form(Form $form): Form
     {
@@ -55,9 +60,9 @@ class OperationResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListOperations::route('/'),
-            'create' => Pages\CreateOperation::route('/create'),
-            'edit'   => Pages\EditOperation::route('/{record}/edit'),
+            'index'  => Pages\ListPackages::route('/'),
+            'create' => Pages\CreatePackage::route('/create'),
+            'edit'   => Pages\EditPackage::route('/{record}/edit'),
         ];
     }
 }

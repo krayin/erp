@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('inventories_operations', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
+            $table->text('description')->nullable();
             $table->string('origin')->nullable();
             $table->string('move_type');
             $table->string('state')->nullable();
             $table->boolean('is_favorite')->default(0);
-            $table->text('note')->nullable();
             $table->boolean('has_deadline_issue')->default(0);
             $table->boolean('is_printed')->default(0);
             $table->boolean('is_locked')->default(0);

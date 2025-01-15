@@ -33,8 +33,17 @@ return new class extends Migration
             $table->datetime('deadline')->nullable();
             $table->datetime('alert_Date')->nullable();
 
+            $table->foreignId('operation_id')
+                ->nullable()
+                ->constrained('inventories_operations')
+                ->nullOnDelete();
+
             $table->foreignId('product_id')
                 ->constrained('products_products')
+                ->restrictOnDelete();
+
+            $table->foreignId('uom_id')
+                ->constrained('unit_of_measures')
                 ->restrictOnDelete();
 
             $table->foreignId('source_location_id')
@@ -50,15 +59,10 @@ return new class extends Migration
                 ->constrained('partners_partners')
                 ->nullOnDelete();
 
-            $table->foreignId('operation_id')
+            $table->foreignId('scrap_id')
                 ->nullable()
-                ->constrained('inventories_operations')
+                ->constrained('inventories_scraps')
                 ->nullOnDelete();
-
-            // $table->foreignId('scrap_id')
-            //     ->nullable()
-            //     ->constrained('inventories_operations')
-            //     ->nullOnDelete();
 
             $table->foreignId('rule_id')
                 ->constrained('inventories_rules')
@@ -80,9 +84,9 @@ return new class extends Migration
                 ->constrained('inventories_warehouses')
                 ->restrictOnDelete();
 
-            // $table->foreignId('package_level_id')
-            //     ->constrained('inventories_package_levels')
-            //     ->restrictOnDelete();
+            $table->foreignId('package_level_id')
+                ->constrained('inventories_package_levels')
+                ->restrictOnDelete();
 
             // $table->foreignId('warehouse_order_point_id')
             //     ->constrained('inventories_warehouse_order_points')

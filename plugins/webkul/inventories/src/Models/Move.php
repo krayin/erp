@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Webkul\Inventory\Database\Factories\MoveFactory;
+use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
-use Webkul\Partner\Models\Partner;
+use Webkul\Support\Models\UOM;
 
 class Move extends Model
 {
@@ -46,6 +47,7 @@ class Move extends Model
         'reservation_date',
         'scheduled_at',
         'product_id',
+        'uom_id',
         'source_location_id',
         'destination_location_id',
         'partner_id',
@@ -66,19 +68,24 @@ class Move extends Model
      * @var string
      */
     protected $casts = [
-        'is_favorite' => 'boolean',
-        'is_picked' => 'boolean',
-        'is_scraped' => 'boolean',
-        'is_inventory' => 'boolean',
+        'is_favorite'      => 'boolean',
+        'is_picked'        => 'boolean',
+        'is_scraped'       => 'boolean',
+        'is_inventory'     => 'boolean',
         'reservation_date' => 'date',
-        'scheduled_at' => 'datetime',
-        'deadline' => 'datetime',
-        'alert_Date' => 'datetime',
+        'scheduled_at'     => 'datetime',
+        'deadline'         => 'datetime',
+        'alert_Date'       => 'datetime',
     ];
 
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function uom(): BelongsTo
+    {
+        return $this->belongsTo(UOM::class);
     }
 
     public function sourceLocation(): BelongsTo
@@ -126,9 +133,19 @@ class Move extends Model
         return $this->belongsTo(Warehouse::class);
     }
 
-    public function packaging(): BelongsTo
+    public function packageLevel(): BelongsTo
+    {
+        return $this->belongsTo(PackageLevel::class);
+    }
+
+    public function productPackaging(): BelongsTo
     {
         return $this->belongsTo(Packaging::class);
+    }
+
+    public function lines(): HasMany
+    {
+        return $this->hasMany(MoveLine::class);
     }
 
     public function company(): BelongsTo

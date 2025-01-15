@@ -8,8 +8,8 @@ use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Inventory\Filament\Resources\ProductResource;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductCategoryResource;
+use Webkul\Inventory\Filament\Resources\ProductResource;
 
 class ManageProducts extends ManageRelatedRecords
 {

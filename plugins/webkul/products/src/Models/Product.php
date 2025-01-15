@@ -12,6 +12,7 @@ use Webkul\Product\Database\Factories\ProductFactory;
 use Webkul\Product\Enums\ProductType;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
+use Webkul\Support\Models\UOM;
 
 class Product extends Model
 {
@@ -49,6 +50,8 @@ class Product extends Model
         'images',
         'sort',
         'parent_id',
+        'uom_id',
+        'uom_po_id',
         'category_id',
         'company_id',
         'creator_id',
@@ -71,6 +74,16 @@ class Product extends Model
     public function parent(): BelongsTo
     {
         return $this->belongsTo(self::class);
+    }
+
+    public function uom(): BelongsTo
+    {
+        return $this->belongsTo(UOM::class);
+    }
+
+    public function uomPO(): BelongsTo
+    {
+        return $this->belongsTo(UOM::class);
     }
 
     public function category(): BelongsTo

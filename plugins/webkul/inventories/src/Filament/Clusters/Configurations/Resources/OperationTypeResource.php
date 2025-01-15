@@ -8,6 +8,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Inventory\Enums\CreateBackorder;
 use Webkul\Inventory\Enums\LocationType;
 use Webkul\Inventory\Enums\MoveType;
@@ -18,13 +19,10 @@ use Webkul\Inventory\Filament\Clusters\Configurations\Resources\OperationTypeRes
 use Webkul\Inventory\Models\Location;
 use Webkul\Inventory\Models\OperationType;
 use Webkul\Inventory\Models\Warehouse;
-use Illuminate\Support\Facades\Auth;
 
 class OperationTypeResource extends Resource
 {
     protected static ?string $model = OperationType::class;
-
-    protected static ?string $slug = 'operations-types';
 
     protected static ?string $navigationIcon = 'heroicon-o-queue-list';
 

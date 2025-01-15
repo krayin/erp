@@ -2,9 +2,8 @@
 
 namespace Webkul\Inventory\Filament\Clusters\Operations\Resources\OperationResource\Pages;
 
-use Webkul\Inventory\Filament\Clusters\Operations\Resources\OperationResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
+use Webkul\Inventory\Filament\Clusters\Operations\Resources\OperationResource;
 
 class CreateOperation extends CreateRecord
 {

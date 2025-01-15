@@ -16,11 +16,11 @@ use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Field\Filament\Traits\HasCustomFields;
 use Webkul\Inventory\Enums\ProductTracking;
+use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductCategoryResource\Pages\ManageProducts;
+use Webkul\Inventory\Filament\Clusters\Products;
 use Webkul\Inventory\Filament\Clusters\Products\Resources\ProductResource\Pages;
 use Webkul\Inventory\Models\Product;
 use Webkul\Product\Enums\ProductType;
-use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductCategoryResource\Pages\ManageProducts;
-use Webkul\Inventory\Filament\Clusters\Products;
 
 class ProductResource extends Resource
 {
@@ -28,13 +28,11 @@ class ProductResource extends Resource
 
     protected static ?string $model = Product::class;
 
-    protected static ?string $slug = 'inventory/products';
-
     protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
 
     protected static ?string $cluster = Products::class;
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 1;
 
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
@@ -44,11 +42,6 @@ class ProductResource extends Resource
     {
         return __('inventories::filament/clusters/products/resources/product.navigation.title');
     }
-
-    // public static function getNavigationGroup(): string
-    // {
-    //     return __('inventories::filament/clusters/products/resources/product.navigation.group');
-    // }
 
     public static function form(Form $form): Form
     {

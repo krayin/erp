@@ -4,6 +4,7 @@ namespace Webkul\Inventory\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Field\Traits\HasCustomFields;
@@ -71,6 +72,11 @@ class Product extends BaseProduct
     public function routes(): BelongsToMany
     {
         return $this->belongsToMany(Route::class, 'inventories_product_routes', 'product_id', 'route_id');
+    }
+
+    public function quantities(): HasMany
+    {
+        return $this->hasMany(ProductQuantity::class);
     }
 
     public function storageCategoryCapacities(): BelongsToMany

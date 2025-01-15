@@ -35,6 +35,14 @@ return new class extends Migration
                 ->constrained('products_categories')
                 ->restrictOnDelete();
 
+            $table->foreignId('uom_id')
+                ->constrained('unit_of_measures')
+                ->restrictOnDelete();
+
+            $table->foreignId('uom_po_id')
+                ->constrained('unit_of_measures')
+                ->restrictOnDelete();
+
             $table->foreignId('category_id')
                 ->constrained('products_products')
                 ->cascadeOnDelete();

@@ -2,9 +2,9 @@
 
 namespace Webkul\Inventory\Filament\Clusters\Operations\Resources\OperationResource\Pages;
 
-use Webkul\Inventory\Filament\Clusters\Operations\Resources\OperationResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Webkul\Inventory\Filament\Clusters\Operations\Resources\OperationResource;
 
 class EditOperation extends EditRecord
 {

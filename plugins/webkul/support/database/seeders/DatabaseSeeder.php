@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
             CompanySeeder::class,
             ActivityTypeSeeder::class,
             ActivityPlanSeeder::class,
+            UOMCategorySeeder::class,
+            UOMSeeder::class,
         ]);
     }
 }

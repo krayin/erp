@@ -5,11 +5,10 @@ namespace Webkul\Inventory\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Webkul\Inventory\Database\Factories\OperationFactory;
+use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
-use Webkul\Partner\Models\Partner;
 
 class Operation extends Model
 {
@@ -33,7 +32,7 @@ class Operation extends Model
         'move_type',
         'state',
         'is_favorite',
-        'note',
+        'description',
         'has_deadline_issue',
         'is_printed',
         'is_locked',
@@ -58,13 +57,13 @@ class Operation extends Model
      * @var string
      */
     protected $casts = [
-        'is_favorite' => 'boolean',
+        'is_favorite'        => 'boolean',
         'has_deadline_issue' => 'boolean',
-        'is_printed' => 'boolean',
-        'is_locked' => 'boolean',
-        'deadline' => 'datetime',
-        'scheduled_at' => 'datetime',
-        'closed_at' => 'datetime',
+        'is_printed'         => 'boolean',
+        'is_locked'          => 'boolean',
+        'deadline'           => 'datetime',
+        'scheduled_at'       => 'datetime',
+        'closed_at'          => 'datetime',
     ];
 
     public function user(): BelongsTo

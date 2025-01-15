@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Webkul\Inventory\Enums\ProductTracking;
 
 return new class extends Migration
 {
@@ -13,7 +14,7 @@ return new class extends Migration
     {
         Schema::table('products_products', function (Blueprint $table) {
             $table->integer('sale_delay')->nullable();
-            $table->string('tracking')->nullable();
+            $table->string('tracking')->nullable()->default(ProductTracking::QTY);
             $table->text('description_picking')->nullable();
             $table->text('description_pickingout')->nullable();
             $table->text('description_pickingin')->nullable();
