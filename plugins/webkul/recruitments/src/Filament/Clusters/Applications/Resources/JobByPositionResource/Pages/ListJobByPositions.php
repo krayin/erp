@@ -3,10 +3,14 @@
 namespace Webkul\Recruitment\Filament\Clusters\Applications\Resources\JobByPositionResource\Pages;
 
 use Webkul\Recruitment\Filament\Clusters\Applications\Resources\JobByPositionResource;
-use Filament\Actions;
-use Filament\Resources\Pages\ListRecords;
+use Webkul\Employee\Filament\Clusters\Configurations\Resources\JobPositionResource\Pages\ListJobPositions as JobPositionResource;
 
-class ListJobByPositions extends ListRecords
+class ListJobByPositions extends JobPositionResource
 {
     protected static string $resource = JobByPositionResource::class;
+
+    public function getHeaderActions(): array
+    {
+        return [];
+    }
 }

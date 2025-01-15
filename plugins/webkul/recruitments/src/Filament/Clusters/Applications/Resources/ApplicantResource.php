@@ -45,6 +45,8 @@ class ApplicantResource extends Resource
 
     protected static ?string $cluster = Applications::class;
 
+    protected static ?int $navigationSort = 2;
+
     public static function getSubNavigationPosition(): SubNavigationPosition
     {
         $currentRoute = Route::currentRouteName();

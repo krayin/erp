@@ -23,11 +23,27 @@ class JobByPositionResource extends Resource
 
     protected static ?string $cluster = Applications::class;
 
+    protected static ?int $navigationSort = 1;
+
     public static function form(Form $form): Form
     {
         return JobPositionResource::form($form);
     }
 
+    public static function getModelLabel(): string
+    {
+        return __('recruitments::filament/clusters/applications/resources/job-by-application.title');
+    }
+
+    public static function getNavigationGroup(): string
+    {
+        return __('recruitments::filament/clusters/applications/resources/job-by-application.navigation.group');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('recruitments::filament/clusters/applications/resources/job-by-application.navigation.title');
+    }
 
     public static function table(Table $table): Table
     {
@@ -38,19 +54,21 @@ class JobByPositionResource extends Resource
                         Tables\Columns\TextColumn::make('name')
                             ->weight(FontWeight::Bold)
                             ->label(__('Name'))
+                            ->label(__('recruitments::filament/clusters/applications/resources/job-by-application.table.columns.name'))
                             ->searchable()
                             ->sortable(),
                         Tables\Columns\Layout\Stack::make([
                             Tables\Columns\TextColumn::make('department.manager.name')
                                 ->icon('heroicon-m-briefcase')
                                 ->label(__('Manager'))
+                                ->label(__('recruitments::filament/clusters/applications/resources/job-by-application.table.columns.manager-name'))
                                 ->sortable()
                                 ->searchable(),
                         ]),
                         Tables\Columns\Layout\Stack::make([
                             Tables\Columns\TextColumn::make('company.name')
                                 ->searchable()
-                                ->label(__('employees::filament/resources/department.table.columns.company-name'))
+                                ->label(__('recruitments::filament/clusters/applications/resources/job-by-application.table.columns.company-name'))
                                 ->icon('heroicon-m-building-office-2')
                                 ->searchable(),
                         ])
@@ -69,7 +87,7 @@ class JobByPositionResource extends Resource
                             ->where('stage_id', 1)
                             ->count();
 
-                        return __(':count New Applications', [
+                        return __('recruitments::filament/clusters/applications/resources/job-by-application.table.actions.applications.new-applications', [
                             'count' => $totalNewApplicantCount,
                         ]);
                     })
@@ -104,44 +122,47 @@ class JobByPositionResource extends Resource
                             ]
                         ]));
                     }),
-                Tables\Actions\EditAction::make('to_recruitment')
-                    ->label(function ($record) {
-                        return __(':count to recruitment', [
-                            'count' => $record->no_of_recruitment,
-                        ]);
-                    })
-                    ->color('primary')
-                    ->size(ActionSize::Large),
-                Tables\Actions\Action::make('total_applications')
-                    ->label(function ($record) {
-                        $totalApplicantCount = Applicant::where('job_id', $record->id)
-                            ->count();
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make('to_recruitment')
+                        ->label(function ($record) {
+                            return __('recruitments::filament/clusters/applications/resources/job-by-application.table.actions.to-recruitment.to-recruitment', [
+                                'count' => $record->no_of_recruitment,
+                            ]);
+                        })
+                        ->icon(null)
+                        ->color('primary')
+                        ->size(ActionSize::Large),
+                    Tables\Actions\Action::make('total_applications')
+                        ->label(function ($record) {
+                            $totalApplicantCount = Applicant::where('job_id', $record->id)
+                                ->count();
 
-                        return __(':count Applications', [
-                            'count' => $totalApplicantCount,
-                        ]);
-                    })
-                    ->color('primary')
-                    ->size(ActionSize::Large)
-                    ->action(function ($record) {
-                        return redirect(ApplicantResource::getUrl('index', [
-                            'tableFilters' => [
-                                'queryBuilder' => [
-                                    'rules' => [
-                                        'kwWd' => [
-                                            'type' => 'job',
-                                            'data' => [
-                                                'operator' => 'isRelatedTo',
-                                                'settings' => [
-                                                    'values' => [$record->id]
+                            return __('recruitments::filament/clusters/applications/resources/job-by-application.table.actions.total-application.total-application', [
+                                'count' => $totalApplicantCount,
+                            ]);
+                        })
+                        ->color('primary')
+                        ->size(ActionSize::Large)
+                        ->action(function ($record) {
+                            return redirect(ApplicantResource::getUrl('index', [
+                                'tableFilters' => [
+                                    'queryBuilder' => [
+                                        'rules' => [
+                                            'kwWd' => [
+                                                'type' => 'job',
+                                                'data' => [
+                                                    'operator' => 'isRelatedTo',
+                                                    'settings' => [
+                                                        'values' => [$record->id]
+                                                    ]
                                                 ]
                                             ]
                                         ]
                                     ]
                                 ]
-                            ]
-                        ]));
-                    }),
+                            ]));
+                        }),
+                ])
             ]);
     }
 
