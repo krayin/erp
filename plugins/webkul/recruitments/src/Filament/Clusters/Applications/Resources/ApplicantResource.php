@@ -558,27 +558,57 @@ class ApplicantResource extends Resource
                                     ->multiple()
                                     ->preload(),
                             ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('date_last_stage_updated')
+                            ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.filters.date-last-stage-updated'))
+                            ->icon('heroicon-o-user-circle')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('stage')
+                            ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.filters.stage'))
+                            ->icon('heroicon-o-user-circle')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('job')
+                            ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.filters.job-position'))
+                            ->icon('heroicon-o-briefcase')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('priority')
                             ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.filters.priority'))
                             ->icon('heroicon-o-exclamation-circle'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('salary_proposed_extra')
-                            ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.filters.salary_proposed_extra'))
+                            ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.filters.salary-proposed-extra'))
                             ->icon('heroicon-o-currency-dollar'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('salary_expected_extra')
-                            ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.filters.salary_expected_extra'))
+                            ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.filters.salary-expected-extra'))
                             ->icon('heroicon-o-currency-dollar'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('applicant_notes')
-                            ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.filters.applicant_notes'))
+                            ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.filters.applicant-notes'))
                             ->icon('heroicon-o-document-text'),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('create_date')
-                            ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.filters.create_date'))
+                            ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.filters.create-date'))
                             ->icon('heroicon-o-calendar'),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('date_closed')
-                            ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.filters.date_closed'))
+                            ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.filters.date-closed'))
                             ->icon('heroicon-o-check-badge'),
-                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('date_last_stage_updated')
-                            ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.filters.date_last_stage_updated'))
-                            ->icon('heroicon-o-arrow-path'),
                     ]),
             ])
             ->defaultGroup('stage.name')

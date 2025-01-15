@@ -28,7 +28,6 @@ class Applicant extends Model
         'last_stage_id',
         'company_id',
         'recruiter_id',
-        'state',
         'job_id',
         'department_id',
         'refuse_reason_id',
