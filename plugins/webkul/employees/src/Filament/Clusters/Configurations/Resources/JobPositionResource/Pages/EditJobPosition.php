@@ -40,12 +40,29 @@ class EditJobPosition extends EditRecord
         ];
     }
 
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        return $this->prepareData($data);
+    }
+
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        $data['user_id'] = Auth::user()->id;
+        return $this->prepareData($data);
+    }
 
-        $data['sort'] = EmployeeJobPosition::max('sort') + 1;
+    protected function afterSave(): void
+    {
+        $this->record->refresh();
+    }
 
-        return $data;
+    public function prepareData($data): array
+    {
+        $model = $this->record;
+
+        return array_merge($data, [
+            'no_of_employee' => $model->no_of_employee,
+            'no_of_hired_employee' => $model->no_of_hired_employee,
+            'expected_employees' => $model->expected_employees,
+        ]);
     }
 }

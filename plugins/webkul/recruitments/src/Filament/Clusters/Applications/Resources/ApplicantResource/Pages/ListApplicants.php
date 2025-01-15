@@ -156,8 +156,8 @@ class ListApplicants extends ListRecords
                 ->successNotification(
                     Notification::make()
                         ->success()
-                        ->title(__('recruitments::filament/clusters/applications/resources/applicant/pages/list-applicant.header-actions.create-applicant.notification.title'))
-                        ->body(__('recruitments::filament/clusters/applications/resources/applicant/pages/list-applicant.header-actions.create-applicant.notification.body')),
+                        ->title(__('recruitments::filament/clusters/applications/resources/applicant/pages/list-applicant.notification.title'))
+                        ->body(__('recruitments::filament/clusters/applications/resources/applicant/pages/list-applicant.notification.body')),
                 ),
         ];
     }

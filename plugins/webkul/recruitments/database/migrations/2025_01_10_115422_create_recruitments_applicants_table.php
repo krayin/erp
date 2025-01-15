@@ -27,7 +27,7 @@ return new class extends Migration
             $table->foreignId('creator_id')->nullable()->constrained('users')->nullOnDelete();
 
             $table->string('email_cc')->nullable()->comment('Email CC');
-            $table->string('priority')->nullable()->comment('Evaluation');
+            $table->string('priority')->nullable()->default(0)->comment('Evaluation');
             $table->string('salary_proposed_extra')->nullable()->comment('Salary Proposed Extra');
             $table->string('salary_expected_extra')->nullable()->comment('Salary Expected Extra');
             $table->json('applicant_properties')->nullable()->comment('Applicant Properties');

@@ -14,6 +14,8 @@ use Webkul\Partner\Models\Industry;
 use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Webkul\Recruitment\Models\Applicant;
 
 class EmployeeJobPosition extends Model implements Sortable
 {
@@ -66,6 +68,11 @@ class EmployeeJobPosition extends Model implements Sortable
         return $this->belongsTo(Employee::class, 'manager_id');
     }
 
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class, 'job_position_skills', 'job_position_id', 'skill_id');
+    }
+
     public function recruiter(): BelongsTo
     {
         return $this->belongsTo(User::class, 'recruiter_id');
@@ -76,19 +83,25 @@ class EmployeeJobPosition extends Model implements Sortable
         return $this->belongsTo(Industry::class, 'industry_id');
     }
 
-    public function department(): BelongsTo
-    {
-        return $this->belongsTo(Department::class);
-    }
-
-    public function company(): BelongsTo
-    {
-        return $this->belongsTo(Company::class);
-    }
-
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'creator_id');
+    }
+
+
+    public function employees()
+    {
+        return $this->hasMany(Employee::class, 'job_id');
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'department_id');
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'company_id');
     }
 
     public function employmentType()
@@ -99,5 +112,59 @@ class EmployeeJobPosition extends Model implements Sortable
     protected static function newFactory(): EmployeeJobPositionFactory
     {
         return EmployeeJobPositionFactory::new();
+    }
+
+    protected function noOfEmployee(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return once(function () {
+                    return $this->employees()
+                        ->where('is_active', true)
+                        ->count();
+                });
+            }
+        );
+    }
+
+    protected function noOfHiredEmployee(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return once(function () {
+                    return $this->applications()
+                        ->where(function ($query) {
+                            $query->whereNotNull('date_closed')
+                                ->where('is_active', true);
+                        })
+                        ->count();
+                });
+            }
+        );
+    }
+
+    protected function expectedEmployees(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $currentEmployees = $this->getAttributeValue('no_of_employee');
+                return $currentEmployees + ($this->no_of_recruitment ?? 0);
+            }
+        );
+    }
+
+    public function applications()
+    {
+        return $this->hasMany(Applicant::class, 'job_id');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($jobPosition) {
+            cache()->forget("job_position_{$jobPosition->id}_employee_count");
+            cache()->forget("job_position_{$jobPosition->id}_hired_count");
+        });
     }
 }

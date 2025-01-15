@@ -101,6 +101,27 @@ class Candidate extends Model
         return $this->hasMany(CandidateSkill::class, 'candidate_id');
     }
 
+    public function createEmployee()
+    {
+        $employee = $this->employee()->create([
+            'name'          => $this->name,
+            'user_id'       => $this->user_id,
+            'department_id' => $this->department_id,
+            'company_id'    => $this->company_id,
+            'partner_id'    => $this->partner_id,
+            'company_id'    => $this->company_id,
+            'work_email'    => $this->email_from,
+            'mobile_phone'  => $this->phone,
+            'is_active'     => true,
+        ]);
+
+        $this->update([
+            'employee_id' => $employee->id
+        ]);
+
+        return $employee;
+    }
+
     /**
      * Bootstrap the model and its traits.
      */

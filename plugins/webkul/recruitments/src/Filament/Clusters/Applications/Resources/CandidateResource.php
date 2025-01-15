@@ -4,8 +4,6 @@ namespace Webkul\Recruitment\Filament\Clusters\Applications\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Infolists\Infolist;
 use Filament\Infolists;
 use Filament\Support\Colors\Color;
@@ -17,7 +15,6 @@ use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Support\Enums\FontWeight;
 use Illuminate\Support\HtmlString;
-use Webkul\Partner\Models\Partner;
 use Webkul\Recruitment\Filament\Clusters\Applications;
 use Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource\Pages;
 use Webkul\Recruitment\Models\Candidate;

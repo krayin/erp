@@ -85,7 +85,7 @@ class EditApplicant extends EditRecord
                 }),
             Action::make('gotoEmployee')
                 ->tooltip(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.goto-employee'))
-                ->visible(fn($record) => $record->application_status->value == ApplicationStatus::HIRED->value && $record->candidate->employee_id)
+                ->visible(fn($record) => $record->application_status->value == ApplicationStatus::HIRED->value || $record->candidate->employee_id)
                 ->icon('heroicon-s-arrow-top-right-on-square')
                 ->iconButton()
                 ->action(function (Applicant $record) {
@@ -95,7 +95,7 @@ class EditApplicant extends EditRecord
                 }),
             Action::make('createEmployee')
                 ->label(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.create-employee'))
-                ->hidden(fn($record) => $record->application_status->value == ApplicationStatus::HIRED->value && $record->candidate->employee_id)
+                ->hidden(fn($record) => $record->application_status->value == ApplicationStatus::HIRED->value || $record->candidate->employee_id)
                 ->action(function (Applicant $record) {
                     $employee = $record->createEmployee();
                     return redirect(EmployeeResource::getUrl('edit', ['record' => $employee]));

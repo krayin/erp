@@ -212,6 +212,7 @@ class Applicant extends Model
             'company_id'    => $this->candidate->company_id,
             'work_email'    => $this->candidate->email_from,
             'mobile_phone'  => $this->candidate->phone,
+            'is_active'     => true,
         ]);
 
         $this->candidate()->update([
