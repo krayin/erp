@@ -1,12 +1,12 @@
 <?php
 
-namespace Webkul\Inventory\Filament\Resources\ProductResource\Pages;
+namespace Webkul\Inventory\Filament\Clusters\Products\Resources\ProductResource\Pages;
 
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Webkul\Chatter\Filament\Actions\ChatterAction;
-use Webkul\Inventory\Filament\Resources\ProductResource;
+use Webkul\Inventory\Filament\Clusters\Products\Resources\ProductResource;
 
 class EditProduct extends EditRecord
 {
@@ -21,8 +21,8 @@ class EditProduct extends EditRecord
     {
         return Notification::make()
             ->success()
-            ->title(__('inventories::filament/resources/product/pages/edit-product.notification.title'))
-            ->body(__('inventories::filament/resources/product/pages/edit-product.notification.body'));
+            ->title(__('inventories::filament/clusters/products/resources/product/pages/edit-product.notification.title'))
+            ->body(__('inventories::filament/clusters/products/resources/product/pages/edit-product.notification.body'));
     }
 
     protected function getHeaderActions(): array
@@ -34,8 +34,8 @@ class EditProduct extends EditRecord
                 ->successNotification(
                     Notification::make()
                         ->success()
-                        ->title(__('inventories::filament/resources/product/pages/edit-product.header-actions.delete.notification.title'))
-                        ->body(__('inventories::filament/resources/product/pages/edit-product.header-actions.delete.notification.body')),
+                        ->title(__('inventories::filament/clusters/products/resources/product/pages/edit-product.header-actions.delete.notification.title'))
+                        ->body(__('inventories::filament/clusters/products/resources/product/pages/edit-product.header-actions.delete.notification.body')),
                 ),
         ];
     }

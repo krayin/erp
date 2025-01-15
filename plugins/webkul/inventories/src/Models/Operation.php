@@ -42,7 +42,7 @@ class Operation extends Model
         'closed_at',
         'user_id',
         'owner_id',
-        'picking_type_id',
+        'operation_type_id',
         'source_location_id',
         'destination_location_id',
         'back_order_id',
@@ -77,9 +77,9 @@ class Operation extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function pickingType(): BelongsTo
+    public function operationType(): BelongsTo
     {
-        return $this->belongsTo(PickingType::class);
+        return $this->belongsTo(OperationType::class);
     }
 
     public function sourceLocation(): BelongsTo

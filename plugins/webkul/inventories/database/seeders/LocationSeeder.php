@@ -18,7 +18,7 @@ class LocationSeeder extends Seeder
 
         DB::table('inventories_rules')->delete();
 
-        DB::table('inventories_picking_types')->delete();
+        DB::table('inventories_operation_types')->delete();
 
         DB::table('inventories_warehouses')->delete();
 

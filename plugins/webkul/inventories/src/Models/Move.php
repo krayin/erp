@@ -51,7 +51,7 @@ class Move extends Model
         'partner_id',
         'operation_id',
         'rule_id',
-        'picking_type_id',
+        'operation_type_id',
         'origin_returned_move_id',
         'restrict_partner_id',
         'warehouse_id',
@@ -106,9 +106,9 @@ class Move extends Model
         return $this->belongsTo(Rule::class);
     }
 
-    public function pickingType(): BelongsTo
+    public function operationType(): BelongsTo
     {
-        return $this->belongsTo(PickingType::class);
+        return $this->belongsTo(OperationType::class);
     }
 
     public function originReturnMove(): BelongsTo

@@ -1,12 +1,12 @@
 <?php
 
-namespace Webkul\Inventory\Filament\Resources\ProductResource\Pages;
+namespace Webkul\Inventory\Filament\Clusters\Products\Resources\ProductResource\Pages;
 
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
 use Webkul\Chatter\Filament\Actions\ChatterAction;
-use Webkul\Inventory\Filament\Resources\ProductResource;
+use Webkul\Inventory\Filament\Clusters\Products\Resources\ProductResource;
 
 class ViewProduct extends ViewRecord
 {
@@ -21,8 +21,8 @@ class ViewProduct extends ViewRecord
                 ->successNotification(
                     Notification::make()
                         ->success()
-                        ->title(__('inventories::filament/resources/product/pages/view-product.header-actions.delete.notification.title'))
-                        ->body(__('inventories::filament/resources/product/pages/view-product.header-actions.delete.notification.body')),
+                        ->title(__('inventories::filament/clusters/products/resources/product/pages/view-product.header-actions.delete.notification.title'))
+                        ->body(__('inventories::filament/clusters/products/resources/product/pages/view-product.header-actions.delete.notification.body')),
                 ),
         ];
     }

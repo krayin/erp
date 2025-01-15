@@ -3,20 +3,20 @@
 namespace Webkul\Inventory\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Webkul\Inventory\Models\PickingType;
+use Webkul\Inventory\Models\OperationType;
 use Webkul\Security\Models\User;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Webkul\Inventory\Models\PickingType>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Webkul\Inventory\Models\OperationType>
  */
-class PickingTypeFactory extends Factory
+class OperationTypeFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = PickingType::class;
+    protected $model = OperationType::class;
 
     /**
      * Define the model's default state.

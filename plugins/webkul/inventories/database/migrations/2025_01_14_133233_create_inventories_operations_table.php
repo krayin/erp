@@ -36,8 +36,8 @@ return new class extends Migration
                 ->constrained('users')
                 ->nullOnDelete();
 
-            $table->foreignId('picking_type_id')
-                ->constrained('inventories_picking_types')
+            $table->foreignId('operation_type_id')
+                ->constrained('inventories_operation_types')
                 ->restrictOnDelete();
 
             $table->foreignId('source_location_id')

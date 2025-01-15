@@ -6,11 +6,11 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Webkul\Inventory\Enums\CreateBackorder;
 use Webkul\Inventory\Enums\MoveType;
-use Webkul\Inventory\Enums\PickingType;
+use Webkul\Inventory\Enums\OperationType;
 use Webkul\Inventory\Enums\ReservationMethod;
 use Webkul\Security\Models\User;
 
-class PickingTypeSeeder extends Seeder
+class OperationTypeSeeder extends Seeder
 {
     /**
      * Seed the application's database with currencies.
@@ -19,14 +19,14 @@ class PickingTypeSeeder extends Seeder
     {
         $user = User::first();
 
-        DB::table('inventories_picking_types')->delete();
+        DB::table('inventories_operation_types')->delete();
 
-        DB::table('inventories_picking_types')->insert([
+        DB::table('inventories_operation_types')->insert([
             [
                 'id'                      => 1,
                 'sort'                    => 1,
                 'name'                    => 'Receipts',
-                'type'                    => PickingType::INCOMING,
+                'type'                    => OperationType::INCOMING,
                 'sequence_code'           => 'IN',
                 'reservation_method'      => ReservationMethod::AT_CONFIRM,
                 'product_label_format'    => '2x7xprice',
@@ -50,7 +50,7 @@ class PickingTypeSeeder extends Seeder
                 'id'                      => 2,
                 'sort'                    => 2,
                 'name'                    => 'Delivery Orders',
-                'type'                    => PickingType::OUTGOING,
+                'type'                    => OperationType::OUTGOING,
                 'sequence_code'           => 'OUT',
                 'reservation_method'      => ReservationMethod::AT_CONFIRM,
                 'product_label_format'    => '2x7xprice',
@@ -74,7 +74,7 @@ class PickingTypeSeeder extends Seeder
                 'id'                      => 3,
                 'sort'                    => 3,
                 'name'                    => 'Pick',
-                'type'                    => PickingType::INTERNAL,
+                'type'                    => OperationType::INTERNAL,
                 'sequence_code'           => 'PICK',
                 'reservation_method'      => ReservationMethod::AT_CONFIRM,
                 'product_label_format'    => '2x7xprice',
@@ -98,7 +98,7 @@ class PickingTypeSeeder extends Seeder
                 'id'                      => 4,
                 'sort'                    => 4,
                 'name'                    => 'Pack',
-                'type'                    => PickingType::INTERNAL,
+                'type'                    => OperationType::INTERNAL,
                 'sequence_code'           => 'PACK',
                 'reservation_method'      => ReservationMethod::AT_CONFIRM,
                 'product_label_format'    => '2x7xprice',
@@ -122,7 +122,7 @@ class PickingTypeSeeder extends Seeder
                 'id'                      => 5,
                 'sort'                    => 5,
                 'name'                    => 'Quality Control',
-                'type'                    => PickingType::INTERNAL,
+                'type'                    => OperationType::INTERNAL,
                 'sequence_code'           => 'QC',
                 'reservation_method'      => ReservationMethod::AT_CONFIRM,
                 'product_label_format'    => '2x7xprice',
@@ -146,7 +146,7 @@ class PickingTypeSeeder extends Seeder
                 'id'                      => 6,
                 'sort'                    => 6,
                 'name'                    => 'Storage',
-                'type'                    => PickingType::INTERNAL,
+                'type'                    => OperationType::INTERNAL,
                 'sequence_code'           => 'STOR',
                 'reservation_method'      => ReservationMethod::AT_CONFIRM,
                 'product_label_format'    => '2x7xprice',
@@ -170,7 +170,7 @@ class PickingTypeSeeder extends Seeder
                 'id'                      => 7,
                 'sort'                    => 7,
                 'name'                    => 'Internal Transfers',
-                'type'                    => PickingType::INTERNAL,
+                'type'                    => OperationType::INTERNAL,
                 'sequence_code'           => 'INT',
                 'reservation_method'      => ReservationMethod::AT_CONFIRM,
                 'product_label_format'    => '2x7xprice',
@@ -194,7 +194,7 @@ class PickingTypeSeeder extends Seeder
                 'id'                      => 8,
                 'sort'                    => 8,
                 'name'                    => 'Cross Dock',
-                'type'                    => PickingType::INTERNAL,
+                'type'                    => OperationType::INTERNAL,
                 'sequence_code'           => 'XD',
                 'reservation_method'      => ReservationMethod::AT_CONFIRM,
                 'product_label_format'    => '2x7xprice',
@@ -217,12 +217,12 @@ class PickingTypeSeeder extends Seeder
             ],
         ]);
 
-        DB::table('inventories_picking_types')->where('id', 1)->update([
-            'return_picking_type_id' => 2,
+        DB::table('inventories_operation_types')->where('id', 1)->update([
+            'return_operation_type_id' => 2,
         ]);
 
-        DB::table('inventories_picking_types')->where('id', 2)->update([
-            'return_picking_type_id' => 1,
+        DB::table('inventories_operation_types')->where('id', 2)->update([
+            'return_operation_type_id' => 1,
         ]);
     }
 }

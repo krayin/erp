@@ -47,42 +47,42 @@ return new class extends Migration
 
             $table->foreignId('pick_type_id')
                 ->nullable()
-                ->constrained('inventories_picking_types')
+                ->constrained('inventories_operation_types')
                 ->nullOnDelete();
 
             $table->foreignId('pack_type_id')
                 ->nullable()
-                ->constrained('inventories_picking_types')
+                ->constrained('inventories_operation_types')
                 ->nullOnDelete();
 
             $table->foreignId('out_type_id')
                 ->nullable()
-                ->constrained('inventories_picking_types')
+                ->constrained('inventories_operation_types')
                 ->nullOnDelete();
 
             $table->foreignId('in_type_id')
                 ->nullable()
-                ->constrained('inventories_picking_types')
+                ->constrained('inventories_operation_types')
                 ->nullOnDelete();
 
             $table->foreignId('internal_type_id')
                 ->nullable()
-                ->constrained('inventories_picking_types')
+                ->constrained('inventories_operation_types')
                 ->nullOnDelete();
 
             $table->foreignId('qc_type_id')
                 ->nullable()
-                ->constrained('inventories_picking_types')
+                ->constrained('inventories_operation_types')
                 ->nullOnDelete();
 
             $table->foreignId('store_type_id')
                 ->nullable()
-                ->constrained('inventories_picking_types')
+                ->constrained('inventories_operation_types')
                 ->nullOnDelete();
 
             $table->foreignId('xdock_type_id')
                 ->nullable()
-                ->constrained('inventories_picking_types')
+                ->constrained('inventories_operation_types')
                 ->nullOnDelete();
 
             $table->foreignId('crossdock_route_id')

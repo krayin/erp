@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('inventories_picking_types', function (Blueprint $table) {
+        Schema::create('inventories_operation_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('type');
@@ -41,9 +41,9 @@ return new class extends Migration
             $table->boolean('auto_print_packages')->nullable();
             $table->boolean('auto_print_package_label')->nullable();
 
-            $table->foreignId('return_picking_type_id')
+            $table->foreignId('return_operation_type_id')
                 ->nullable()
-                ->constrained('inventories_picking_types')
+                ->constrained('inventories_operation_types')
                 ->nullOnDelete();
 
             $table->foreignId('source_location_id')
@@ -78,6 +78,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('inventories_picking_types');
+        Schema::dropIfExists('inventories_operation_types');
     }
 };

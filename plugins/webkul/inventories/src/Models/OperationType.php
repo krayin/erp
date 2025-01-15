@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Webkul\Inventory\Database\Factories\PickingTypeFactory;
+use Webkul\Inventory\Database\Factories\OperationTypeFactory;
 use Webkul\Inventory\Enums\CreateBackorder;
 use Webkul\Inventory\Enums\MoveType;
-use Webkul\Inventory\Enums\PickingType as PickingTypeEnum;
+use Webkul\Inventory\Enums\OperationType as OperationTypeEnum;
 use Webkul\Inventory\Enums\ReservationMethod;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 
-class PickingType extends Model
+class OperationType extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -24,7 +24,7 @@ class PickingType extends Model
      *
      * @var string
      */
-    protected $table = 'inventories_picking_types';
+    protected $table = 'inventories_operation_types';
 
     /**
      * Fillable.
@@ -59,7 +59,7 @@ class PickingType extends Model
         'auto_print_reception_report_labels',
         'auto_print_packages',
         'auto_print_package_label',
-        'return_picking_type_id',
+        'return_operation_type_id',
         'source_location_id',
         'destination_location_id',
         'warehouse_id',
@@ -73,7 +73,7 @@ class PickingType extends Model
      * @var string
      */
     protected $casts = [
-        'type'                               => PickingTypeEnum::class,
+        'type'                               => OperationTypeEnum::class,
         'reservation_method'                 => ReservationMethod::class,
         'create_backorder'                   => CreateBackorder::class,
         'move_type'                          => MoveType::class,
@@ -93,7 +93,7 @@ class PickingType extends Model
         'auto_print_package_label'           => 'boolean',
     ];
 
-    public function returnPickingType(): BelongsTo
+    public function returnOperationType(): BelongsTo
     {
         return $this->belongsTo(self::class);
     }
@@ -133,8 +133,8 @@ class PickingType extends Model
         return $this->belongsTo(User::class);
     }
 
-    protected static function newFactory(): PickingTypeFactory
+    protected static function newFactory(): OperationTypeFactory
     {
-        return PickingTypeFactory::new();
+        return OperationTypeFactory::new();
     }
 }

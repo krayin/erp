@@ -1,11 +1,11 @@
 <?php
 
-namespace Webkul\Inventory\Filament\Resources\ProductResource\Pages;
+namespace Webkul\Inventory\Filament\Clusters\Products\Resources\ProductResource\Pages;
 
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Inventory\Filament\Resources\ProductResource;
+use Webkul\Inventory\Filament\Clusters\Products\Resources\ProductResource;
 
 class CreateProduct extends CreateRecord
 {
@@ -20,8 +20,8 @@ class CreateProduct extends CreateRecord
     {
         return Notification::make()
             ->success()
-            ->title(__('inventories::filament/resources/product/pages/create-product.notification.title'))
-            ->body(__('inventories::filament/resources/product/pages/create-product.notification.body'));
+            ->title(__('inventories::filament/clusters/products/resources/product/pages/create-product.notification.title'))
+            ->body(__('inventories::filament/clusters/products/resources/product/pages/create-product.notification.body'));
     }
 
     protected function mutateFormDataBeforeCreate(array $data): array

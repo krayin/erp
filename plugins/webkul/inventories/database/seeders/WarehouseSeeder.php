@@ -67,7 +67,7 @@ class WarehouseSeeder extends Seeder
             ],
         ]);
 
-        DB::table('inventories_picking_types')->update(['warehouse_id' => 1]);
+        DB::table('inventories_operation_types')->update(['warehouse_id' => 1]);
 
         DB::table('inventories_rules')->update(['warehouse_id' => 1]);
     }

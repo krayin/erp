@@ -45,7 +45,7 @@ class Rule extends Model
         'source_location_id',
         'destination_location_id',
         'route_id',
-        'picking_type_id',
+        'operation_type_id',
         'partner_address_id',
         'warehouse_id',
         'propagate_warehouse_id',
@@ -87,9 +87,9 @@ class Rule extends Model
         return $this->belongsTo(Route::class);
     }
 
-    public function pickingType(): BelongsTo
+    public function operationType(): BelongsTo
     {
-        return $this->belongsTo(PickingType::class);
+        return $this->belongsTo(OperationType::class);
     }
 
     public function warehouse(): BelongsTo

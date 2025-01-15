@@ -39,9 +39,9 @@ return new class extends Migration
                 ->constrained('inventories_routes')
                 ->cascadeOnDelete();
 
-            $table->foreignId('picking_type_id')
+            $table->foreignId('operation_type_id')
                 ->nullable()
-                ->constrained('inventories_picking_types')
+                ->constrained('inventories_operation_types')
                 ->nullOnDelete();
 
             $table->foreignId('partner_address_id')

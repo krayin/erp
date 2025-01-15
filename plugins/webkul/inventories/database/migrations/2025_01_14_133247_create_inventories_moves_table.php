@@ -64,8 +64,8 @@ return new class extends Migration
                 ->constrained('inventories_rules')
                 ->restrictOnDelete();
 
-            $table->foreignId('picking_type_id')
-                ->constrained('inventories_picking_types')
+            $table->foreignId('operation_type_id')
+                ->constrained('inventories_operation_types')
                 ->restrictOnDelete();
 
             $table->foreignId('origin_returned_move_id')

@@ -63,9 +63,9 @@ class RuleResource extends Resource
                                             ->default(Enums\RuleAction::PULL->value)
                                             ->selectablePlaceholder(false)
                                             ->live(),
-                                        Forms\Components\Select::make('picking_type_id')
-                                            ->label(__('inventories::filament/clusters/configurations/resources/rule.form.sections.general.fields.picking-type'))
-                                            ->relationship('pickingType', 'name')
+                                        Forms\Components\Select::make('operation_type_id')
+                                            ->label(__('inventories::filament/clusters/configurations/resources/rule.form.sections.general.fields.operation-type'))
+                                            ->relationship('operationType', 'name')
                                             ->searchable()
                                             ->preload()
                                             ->required(),

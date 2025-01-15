@@ -132,42 +132,42 @@ class Warehouse extends Model
 
     public function pickType(): BelongsTo
     {
-        return $this->belongsTo(PickingType::class, 'pick_type_id');
+        return $this->belongsTo(OperationType::class, 'pick_type_id');
     }
 
     public function packType(): BelongsTo
     {
-        return $this->belongsTo(PickingType::class, 'pack_type_id');
+        return $this->belongsTo(OperationType::class, 'pack_type_id');
     }
 
     public function outType(): BelongsTo
     {
-        return $this->belongsTo(PickingType::class, 'out_type_id');
+        return $this->belongsTo(OperationType::class, 'out_type_id');
     }
 
     public function inType(): BelongsTo
     {
-        return $this->belongsTo(PickingType::class, 'in_type_id');
+        return $this->belongsTo(OperationType::class, 'in_type_id');
     }
 
     public function internalType(): BelongsTo
     {
-        return $this->belongsTo(PickingType::class, 'internal_type_id');
+        return $this->belongsTo(OperationType::class, 'internal_type_id');
     }
 
     public function qcType(): BelongsTo
     {
-        return $this->belongsTo(PickingType::class, 'qc_type_id');
+        return $this->belongsTo(OperationType::class, 'qc_type_id');
     }
 
     public function storeType(): BelongsTo
     {
-        return $this->belongsTo(PickingType::class, 'store_type_id');
+        return $this->belongsTo(OperationType::class, 'store_type_id');
     }
 
     public function xdockType(): BelongsTo
     {
-        return $this->belongsTo(PickingType::class, 'xdock_type_id');
+        return $this->belongsTo(OperationType::class, 'xdock_type_id');
     }
 
     public function crossdockRoute(): BelongsTo

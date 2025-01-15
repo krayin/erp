@@ -14,7 +14,7 @@ return [
                 'fields' => [
                     'name'                        => 'Name',
                     'action'                      => 'Action',
-                    'picking-type'                => 'Picking Type',
+                    'operation-type'              => 'Operation Type',
                     'source-location'             => 'Source Location',
                     'destination-location'        => 'Destination Location',
                     'supply-method'               => 'Supply Method',
