@@ -26,7 +26,6 @@ class ListApplicants extends ListRecords
     {
         return [
             \Webkul\Recruitment\Filament\Widgets\JobPositionStatsWidget::make(),
-            \Webkul\Recruitment\Filament\Widgets\ApplicantChartWidget::make(),
         ];
     }
 

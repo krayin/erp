@@ -144,19 +144,19 @@ class JobPositionStatsWidget extends BaseWidget
         );
 
         return [
-            Stat::make('Active Job Positions', $current['active_jobs'])
+            Stat::make(__('recruitments::filament/widgets/job-position.active-job-applications'), $current['active_jobs'])
                 ->description($jobsChange['percentage'] . '% ' . ($jobsChange['trend'] === 'success' ? 'increase' : 'decrease'))
                 ->descriptionIcon($jobsChange['trend'] === 'success' ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($jobsChange['trend'])
                 ->chart($data['charts']['jobs']),
 
-            Stat::make('Total Applications', $current['total_applications'])
+            Stat::make(__('recruitments::filament/widgets/job-position.total-applications'), $current['total_applications'])
                 ->description($applicationsChange['percentage'] . '% ' . ($applicationsChange['trend'] === 'success' ? 'increase' : 'decrease'))
                 ->descriptionIcon($applicationsChange['trend'] === 'success' ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($applicationsChange['trend'])
                 ->chart($data['charts']['applications']),
 
-            Stat::make('Hired Candidates', $current['hired_count'])
+            Stat::make(__('recruitments::filament/widgets/job-position.hired-candidate'), $current['hired_count'])
                 ->description($hiredChange['percentage'] . '% ' . ($hiredChange['trend'] === 'success' ? 'increase' : 'decrease'))
                 ->descriptionIcon($hiredChange['trend'] === 'success' ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($hiredChange['trend'])

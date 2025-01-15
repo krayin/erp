@@ -19,7 +19,7 @@ class JobByPositionResource extends Resource
 {
     protected static ?string $model = EmployeeJobPosition::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-briefcase';
 
     protected static ?string $cluster = Applications::class;
 
