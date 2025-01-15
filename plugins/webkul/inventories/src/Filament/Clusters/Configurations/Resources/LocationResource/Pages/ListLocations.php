@@ -7,9 +7,9 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Inventory\Enums\LocationType;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\LocationResource;
-use Webkul\Warehouse\Enums\LocationType;
-use Webkul\Warehouse\Models\Location;
+use Webkul\Inventory\Models\Location;
 
 class ListLocations extends ListRecords
 {

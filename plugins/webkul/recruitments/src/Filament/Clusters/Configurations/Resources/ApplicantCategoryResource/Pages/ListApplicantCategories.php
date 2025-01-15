@@ -2,11 +2,11 @@
 
 namespace Webkul\Recruitment\Filament\Clusters\Configurations\Resources\ApplicantCategoryResource\Pages;
 
-use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\ApplicantCategoryResource;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\ApplicantCategoryResource;
 
 class ListApplicantCategories extends ListRecords
 {

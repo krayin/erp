@@ -3,12 +3,12 @@
 namespace Webkul\Recruitment\Filament\Clusters\Configurations\Resources;
 
 use Filament\Notifications\Notification;
-use Webkul\Recruitment\Filament\Clusters\Configurations;
-use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\ActivityPlanResource\Pages;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\ActivityPlanResource as BaseActivityPlanResource;
+use Webkul\Recruitment\Filament\Clusters\Configurations;
+use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\ActivityPlanResource\Pages;
 
 class ActivityPlanResource extends BaseActivityPlanResource
 {

@@ -2,9 +2,9 @@
 
 namespace Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource\Pages;
 
-use Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource;
 use Webkul\TableViews\Filament\Concerns\HasTableViews;
 use Webkul\TableViews\Filament\Components\PresetView;
 use Illuminate\Database\Eloquent\Builder;

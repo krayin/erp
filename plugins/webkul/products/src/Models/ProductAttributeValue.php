@@ -16,6 +16,13 @@ class ProductAttributeValue extends Model
     protected $table = 'products_product_attribute_values';
 
     /**
+     * Timestamps.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * Fillable.
      *
      * @var array

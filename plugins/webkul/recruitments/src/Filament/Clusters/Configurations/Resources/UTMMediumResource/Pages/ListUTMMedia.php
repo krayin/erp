@@ -2,10 +2,10 @@
 
 namespace Webkul\Recruitment\Filament\Clusters\Configurations\Resources\UTMMediumResource\Pages;
 
-use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\UTMMediumResource;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
+use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\UTMMediumResource;
 
 class ListUTMMedia extends ListRecords
 {
@@ -22,7 +22,7 @@ class ListUTMMedia extends ListRecords
                         ->success()
                         ->title(__('recruitments::filament/clusters/configurations/resources/medium/pages/list-medium.header-actions.create.notification.title'))
                         ->body(__('recruitments::filament/clusters/configurations/resources/medium/pages/list-medium.header-actions.create.notification.body'))
-                )
+                ),
         ];
     }
 }

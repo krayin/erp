@@ -2,10 +2,10 @@
 
 namespace Webkul\Recruitment\Filament\Clusters\Configurations\Resources\UTMSourceResource\Pages;
 
-use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\UTMSourceResource;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
+use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\UTMSourceResource;
 
 class ListUTMSources extends ListRecords
 {
@@ -22,7 +22,7 @@ class ListUTMSources extends ListRecords
                         ->success()
                         ->title(__('recruitments::filament/clusters/configurations/resources/source/pages/list-source.header-actions.create.notification.title'))
                         ->body(__('recruitments::filament/clusters/configurations/resources/source/pages/list-source.header-actions.create.notification.body'))
-                )
+                ),
         ];
     }
 }

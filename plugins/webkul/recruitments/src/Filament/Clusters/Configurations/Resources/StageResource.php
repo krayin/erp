@@ -2,18 +2,18 @@
 
 namespace Webkul\Recruitment\Filament\Clusters\Configurations\Resources;
 
-use Webkul\Recruitment\Filament\Clusters\Configurations;
-use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\StageResource\Pages;
 use Filament\Forms;
+use Filament\Infolists\Components;
+use Filament\Infolists\Infolist;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Model;
-use Webkul\Recruitment\Models\Stage;
-use Filament\Infolists\Infolist;
-use Filament\Infolists\Components;
-use Filament\Notifications\Notification;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Recruitment\Filament\Clusters\Configurations;
+use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\StageResource\Pages;
+use Webkul\Recruitment\Models\Stage;
 
 class StageResource extends Resource
 {
@@ -48,7 +48,7 @@ class StageResource extends Resource
     public static function getGlobalSearchResultDetails(Model $record): array
     {
         return [
-            __('recruitments::filament/clusters/configurations/resources/stage.global-search.name') => $record->name ?? '—',
+            __('recruitments::filament/clusters/configurations/resources/stage.global-search.name')       => $record->name ?? '—',
             __('recruitments::filament/clusters/configurations/resources/stage.global-search.created-by') => $record->createdBy?->name ?? '—',
         ];
     }
@@ -80,7 +80,7 @@ class StageResource extends Resource
                                                 ->maxLength(255)
                                                 ->columnSpanFull(),
                                         ])->columns(2),
-                                ])
+                                ]),
                         ])
                         ->columnSpan(['lg' => 2]),
                     Forms\Components\Group::make()
@@ -250,7 +250,7 @@ class StageResource extends Resource
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make()
                     ->label(__('recruitments::filament/clusters/configurations/resources/stage.table.empty-state-actions.create.label'))
-                    ->icon('heroicon-o-plus-circle')
+                    ->icon('heroicon-o-plus-circle'),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),

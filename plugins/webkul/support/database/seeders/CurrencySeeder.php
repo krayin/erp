@@ -19,12 +19,12 @@ class CurrencySeeder extends Seeder
             $currencies = json_decode(File::get($path), true);
 
             $currencies = collect($currencies)->map(function ($currency) {
-                $currency['iso_numeric']    = (int) ($currency['iso_numeric'] ?? null);
+                $currency['iso_numeric'] = (int) ($currency['iso_numeric'] ?? null);
                 $currency['decimal_places'] = (int) ($currency['decimal_places'] ?? null);
-                $currency['rounding']       = (float) ($currency['rounding'] ?? 0.00);
-                $currency['active']         = (bool) ($currency['active'] ?? true);
-                $currency['created_at']     = now();
-                $currency['updated_at']     = now();
+                $currency['rounding'] = (float) ($currency['rounding'] ?? 0.00);
+                $currency['active'] = (bool) ($currency['active'] ?? true);
+                $currency['created_at'] = now();
+                $currency['updated_at'] = now();
 
                 return $currency;
             })->toArray();

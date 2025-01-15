@@ -2,13 +2,12 @@
 
 namespace Webkul\Support\Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Webkul\Support\Models\Currency;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 use Webkul\Support\Models\Company;
 use Webkul\Support\Models\CompanyAddress;
 use Webkul\Support\Models\Country;
+use Webkul\Support\Models\Currency;
 use Webkul\Support\Models\State;
 
 class CompanySeeder extends Seeder

@@ -5,13 +5,16 @@ namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
+use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
+use Webkul\Inventory\Enums\AllowNewProduct;
 use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\StorageCategoryResource\Pages;
-use Webkul\Warehouse\Enums\AllowNewProduct;
-use Webkul\Warehouse\Models\StorageCategory;
+use Webkul\Inventory\Models\StorageCategory;
 
 class StorageCategoryResource extends Resource
 {
@@ -23,7 +26,7 @@ class StorageCategoryResource extends Resource
 
     protected static ?string $cluster = Configurations::class;
 
-    protected static ?string $recordTitleAttribute = 'full_name';
+    protected static ?string $recordTitleAttribute = 'name';
 
     public static function getNavigationGroup(): string
     {
@@ -54,6 +57,12 @@ class StorageCategoryResource extends Resource
                             ->options(AllowNewProduct::class)
                             ->required()
                             ->default(AllowNewProduct::MIXED),
+                        Forms\Components\Select::make('company_id')
+                            ->label(__('inventories::filament/clusters/configurations/resources/storage-category.form.sections.general.fields.company'))
+                            ->relationship(name: 'company', titleAttribute: 'name')
+                            ->searchable()
+                            ->preload()
+                            ->default(Auth::user()->default_company_id),
                     ])
                     ->columns(2),
             ]);
@@ -73,13 +82,17 @@ class StorageCategoryResource extends Resource
                     ->label(__('inventories::filament/clusters/configurations/resources/storage-category.table.columns.max-weight'))
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('company.name')
+                    ->label(__('inventories::filament/clusters/configurations/resources/storage-category.table.columns.company'))
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label(__('inventories::filament/clusters/configurations/resources/storage-category.table.columns.title'))
+                    ->label(__('inventories::filament/clusters/configurations/resources/storage-category.table.columns.created-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label(__('inventories::filament/clusters/configurations/resources/storage-category.table.columns.title'))
+                    ->label(__('inventories::filament/clusters/configurations/resources/storage-category.table.columns.updated-at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -125,6 +138,27 @@ class StorageCategoryResource extends Resource
             ]);
     }
 
+    public static function getSubNavigationPosition(): SubNavigationPosition
+    {
+        $currentRoute = request()->route()?->getName();
+
+        if (in_array($currentRoute, [self::getRouteBaseName().'.index', self::getRouteBaseName().'.create'])) {
+            return SubNavigationPosition::Start;
+        }
+
+        return SubNavigationPosition::Top;
+    }
+
+    public static function getRecordSubNavigation(Page $page): array
+    {
+        return $page->generateNavigationItems([
+            Pages\ViewStorageCategory::class,
+            Pages\EditStorageCategory::class,
+            Pages\ManageCapacityByPackages::class,
+            Pages\ManageCapacityByProducts::class,
+        ]);
+    }
+
     public static function getRelations(): array
     {
         return [
@@ -135,9 +169,11 @@ class StorageCategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListStorageCategories::route('/'),
-            'view'  => Pages\ViewStorageCategory::route('/{record}'),
-            'edit'  => Pages\EditStorageCategory::route('/{record}/edit'),
+            'index'     => Pages\ListStorageCategories::route('/'),
+            'view'      => Pages\ViewStorageCategory::route('/{record}'),
+            'edit'      => Pages\EditStorageCategory::route('/{record}/edit'),
+            'packages'  => Pages\ManageCapacityByPackages::route('/{record}/packages'),
+            'products'  => Pages\ManageCapacityByProducts::route('/{record}/products'),
         ];
     }
 }

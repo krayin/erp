@@ -2,9 +2,9 @@
 
 namespace Webkul\Recruitment\Filament\Clusters\Configurations\Resources;
 
+use Webkul\Employee\Filament\Clusters\Configurations\Resources\SkillTypeResource as BaseSkillTypeResource;
 use Webkul\Recruitment\Filament\Clusters\Configurations;
 use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\SkillTypeResource\Pages;
-use Webkul\Employee\Filament\Clusters\Configurations\Resources\SkillTypeResource as BaseSkillTypeResource;
 
 class SkillTypeResource extends BaseSkillTypeResource
 {

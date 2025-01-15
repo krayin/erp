@@ -2,11 +2,9 @@
 
 namespace Webkul\Recruitment\Filament\Clusters\Configurations\Resources\StageResource\Pages;
 
-use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\StageResource;
-use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
-use Illuminate\Contracts\Support\Htmlable;
+use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\StageResource;
 
 class CreateStage extends CreateRecord
 {

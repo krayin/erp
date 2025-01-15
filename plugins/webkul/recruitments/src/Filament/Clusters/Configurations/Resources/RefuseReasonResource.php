@@ -2,17 +2,17 @@
 
 namespace Webkul\Recruitment\Filament\Clusters\Configurations\Resources;
 
-use Webkul\Recruitment\Filament\Clusters\Configurations;
-use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\RefuseReasonResource\Pages;
-use Filament\Forms\Form;
 use Filament\Forms;
-use Filament\Infolists\Infolist;
+use Filament\Forms\Form;
 use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Webkul\Recruitment\Filament\Clusters\Configurations;
+use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\RefuseReasonResource\Pages;
 use Webkul\Recruitment\Models\RefuseReason;
 
 class RefuseReasonResource extends Resource
@@ -46,18 +46,19 @@ class RefuseReasonResource extends Resource
     public static function getGlobalSearchResultDetails(Model $record): array
     {
         return [
-            __('recruitments::filament/clusters/configurations/resources/refuse-reason.global-search.name') => $record->name ?? '—',
+            __('recruitments::filament/clusters/configurations/resources/refuse-reason.global-search.name')       => $record->name ?? '—',
             __('recruitments::filament/clusters/configurations/resources/refuse-reason.global-search.created-by') => $record->createdBy?->name ?? '—',
         ];
     }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                ->label(__('recruitments::filament/clusters/configurations/resources/refuse-reason.form.fields.name'))
-                ->required()
-                ->placeholder(__('recruitments::filament/clusters/configurations/resources/refuse-reason.form.fields.name-placeholder')),
+                    ->label(__('recruitments::filament/clusters/configurations/resources/refuse-reason.form.fields.name'))
+                    ->required()
+                    ->placeholder(__('recruitments::filament/clusters/configurations/resources/refuse-reason.form.fields.name-placeholder')),
             ]);
     }
 
@@ -91,22 +92,22 @@ class RefuseReasonResource extends Resource
             ])
             ->filters([
                 Tables\Filters\QueryBuilder::make()
-                ->constraintPickerColumns(2)
-                ->constraints([
-                    Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('name')
-                        ->label(__('recruitments::filament/clusters/configurations/resources/refuse-reason.table.filters.name'))
-                        ->icon('heroicon-o-user'),
-                ]),
+                    ->constraintPickerColumns(2)
+                    ->constraints([
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('name')
+                            ->label(__('recruitments::filament/clusters/configurations/resources/refuse-reason.table.filters.name'))
+                            ->icon('heroicon-o-user'),
+                    ]),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make()
-                ->successNotification(
-                    Notification::make()
-                        ->success()
-                        ->title(__('recruitments::filament/clusters/configurations/resources/refuse-reason.table.actions.edit.notification.title'))
-                        ->body(__('recruitments::filament/clusters/configurations/resources/refuse-reason.table.actions.edit.notification.body'))
-                ),
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title(__('recruitments::filament/clusters/configurations/resources/refuse-reason.table.actions.edit.notification.title'))
+                            ->body(__('recruitments::filament/clusters/configurations/resources/refuse-reason.table.actions.edit.notification.body'))
+                    ),
                 Tables\Actions\DeleteAction::make()
                     ->successNotification(
                         Notification::make()
@@ -126,7 +127,7 @@ class RefuseReasonResource extends Resource
                         ),
                 ]),
             ])
-             ->reorderable('sort', 'desc');
+            ->reorderable('sort', 'desc');
     }
 
     public static function infolist(Infolist $infolist): Infolist

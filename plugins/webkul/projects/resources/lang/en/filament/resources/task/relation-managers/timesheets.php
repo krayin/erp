@@ -34,15 +34,15 @@ return [
         'actions' => [
             'edit' => [
                 'notification' => [
-                    'title' => 'Task updated',
-                    'body'  => 'The task has been updated successfully.',
+                    'title' => 'Timesheet updated',
+                    'body'  => 'The timesheet has been updated successfully.',
                 ],
             ],
 
             'delete' => [
                 'notification' => [
-                    'title' => 'Task deleted',
-                    'body'  => 'The task has been deleted successfully.',
+                    'title' => 'Timesheet deleted',
+                    'body'  => 'The timesheet has been deleted successfully.',
                 ],
             ],
         ],

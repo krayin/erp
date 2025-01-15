@@ -113,10 +113,10 @@ return [
                 'title' => 'General',
 
                 'entries' => [
-                    'name'    => 'Name',
-                    'manager' => 'Manager',
-                    'company' => 'Company',
-                    'color'   => 'Color',
+                    'name'            => 'Name',
+                    'manager'         => 'Manager',
+                    'company'         => 'Company',
+                    'color'           => 'Color',
                     'hierarchy-title' => 'Department Organization',
                 ],
             ],

@@ -149,7 +149,7 @@ class UserResource extends Resource
                                             ->relationship('defaultCompany', 'name')
                                             ->required()
                                             ->searchable()
-                                            ->createOptionForm(fn(Form $form) => CompanyResource::form($form))
+                                            ->createOptionForm(fn (Form $form) => CompanyResource::form($form))
                                             ->createOptionAction(function (Forms\Components\Actions\Action $action) {
                                                 $action
                                                     ->fillForm(function (array $arguments): array {

@@ -5,13 +5,17 @@ namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
+use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
+use Webkul\Inventory\Enums\LocationType;
 use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\LocationResource\Pages;
-use Webkul\Warehouse\Enums\LocationType;
-use Webkul\Warehouse\Models\Location;
+use Webkul\Inventory\Models\Location;
+use Webkul\Product\Enums\ProductRemoval;
 
 class LocationResource extends Resource
 {
@@ -50,10 +54,9 @@ class LocationResource extends Resource
                                     ->autofocus()
                                     ->placeholder(__('inventories::filament/clusters/configurations/resources/location.form.sections.general.fields.location-placeholder'))
                                     ->extraInputAttributes(['style' => 'font-size: 1.5rem;height: 3rem;']),
-
                                 Forms\Components\Select::make('parent_id')
                                     ->label(__('inventories::filament/clusters/configurations/resources/location.form.sections.general.fields.parent-location'))
-                                    ->relationship('parent', 'name')
+                                    ->relationship('parent', 'full_name')
                                     ->searchable()
                                     ->preload()
                                     ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/location.form.sections.general.fields.parent-location-hint-tooltip')),
@@ -71,13 +74,39 @@ class LocationResource extends Resource
                                 Forms\Components\Select::make('type')
                                     ->label(__('inventories::filament/clusters/configurations/resources/location.form.sections.settings.fields.location-type'))
                                     ->options(LocationType::class)
+                                    ->selectablePlaceholder(false)
                                     ->required()
-                                    ->default(LocationType::INTERNAL),
+                                    ->default(LocationType::INTERNAL->value)
+                                    ->live()
+                                    ->afterStateUpdated(function (Forms\Set $set, Forms\Get $get) {
+                                        if (! $get('type') === in_array($get('type'), [LocationType::INTERNAL->value, LocationType::INVENTORY->value])) {
+                                            $set('is_scrap', false);
+                                        }
 
+                                        if ($get('type') !== LocationType::INTERNAL->value) {
+                                            $set('storage_category_id', null);
+
+                                            $set('is_replenish', false);
+                                        }
+                                    }),
+                                Forms\Components\Select::make('company_id')
+                                    ->label(__('inventories::filament/clusters/configurations/resources/location.form.sections.settings.fields.company'))
+                                    ->relationship('company', 'name')
+                                    ->searchable()
+                                    ->preload()
+                                    ->default(Auth::user()->default_company_id),
+                                Forms\Components\Select::make('storage_category_id')
+                                    ->label(__('inventories::filament/clusters/configurations/resources/location.form.sections.settings.fields.storage-category'))
+                                    ->relationship('storageCategory', 'name')
+                                    ->searchable()
+                                    ->preload()
+                                    ->visible(fn (Forms\Get $get): bool => $get('type') === LocationType::INTERNAL->value),
                                 Forms\Components\Toggle::make('is_scrap')
                                     ->label(__('inventories::filament/clusters/configurations/resources/location.form.sections.settings.fields.is-scrap'))
                                     ->inline(false)
-                                    ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/location.form.sections.settings.fields.is-scrap-hint-tooltip')),
+                                    ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/location.form.sections.settings.fields.is-scrap-hint-tooltip'))
+                                    ->visible(fn (Forms\Get $get): bool => in_array($get('type'), [LocationType::INTERNAL->value, LocationType::INVENTORY->value]))
+                                    ->live(),
 
                                 Forms\Components\Toggle::make('is_dock')
                                     ->label(__('inventories::filament/clusters/configurations/resources/location.form.sections.settings.fields.is-dock'))
@@ -87,12 +116,17 @@ class LocationResource extends Resource
                                 Forms\Components\Toggle::make('is_replenish')
                                     ->label(__('inventories::filament/clusters/configurations/resources/location.form.sections.settings.fields.is-replenish'))
                                     ->inline(false)
-                                    ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/location.form.sections.settings.fields.is-replenish-hint-tooltip')),
+                                    ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/location.form.sections.settings.fields.is-replenish-hint-tooltip'))
+                                    ->visible(fn (Forms\Get $get): bool => $get('type') === LocationType::INTERNAL->value),
 
                                 Forms\Components\Fieldset::make(__('inventories::filament/clusters/configurations/resources/location.form.sections.settings.fields.logistics'))
                                     ->schema([
+                                        Forms\Components\Radio::make('removal_strategy')
+                                            ->label(__('inventories::filament/clusters/configurations/resources/location.form.sections.settings.fields.location-type'))
+                                            ->options(ProductRemoval::class),
                                     ])
-                                    ->columns(1),
+                                    ->columns(1)
+                                    ->visible(fn (Forms\Get $get): bool => in_array($get('type'), [LocationType::VIEW->value, LocationType::INTERNAL->value, LocationType::TRANSIT->value]) && ! $get('is_scrap')),
 
                                 Forms\Components\Fieldset::make(__('inventories::filament/clusters/configurations/resources/location.form.sections.settings.fields.cyclic-counting'))
                                     ->schema([
@@ -112,6 +146,7 @@ class LocationResource extends Resource
                                             ->readOnly()
                                             ->disabled(),
                                     ])
+                                    ->visible(fn (Forms\Get $get): bool => in_array($get('type'), [LocationType::INTERNAL->value, LocationType::TRANSIT->value]))
                                     ->columns(1),
                             ]),
                     ])
@@ -132,6 +167,10 @@ class LocationResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('storageCategory.name')
                     ->label(__('inventories::filament/clusters/configurations/resources/location.table.columns.storage-category'))
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('company.name')
+                    ->label(__('inventories::filament/clusters/configurations/resources/location.table.columns.company'))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('deleted_at')
@@ -221,6 +260,25 @@ class LocationResource extends Resource
                 Tables\Actions\CreateAction::make()
                     ->icon('heroicon-o-plus-circle'),
             ]);
+    }
+
+    public static function getSubNavigationPosition(): SubNavigationPosition
+    {
+        $currentRoute = request()->route()?->getName();
+
+        if ($currentRoute === self::getRouteBaseName().'.index') {
+            return SubNavigationPosition::Start;
+        }
+
+        return SubNavigationPosition::Top;
+    }
+
+    public static function getRecordSubNavigation(Page $page): array
+    {
+        return $page->generateNavigationItems([
+            Pages\ViewLocation::class,
+            Pages\EditLocation::class,
+        ]);
     }
 
     public static function getRelations(): array

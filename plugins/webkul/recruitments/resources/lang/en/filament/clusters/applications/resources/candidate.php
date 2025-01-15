@@ -18,7 +18,7 @@ return [
                     'email'     => 'Email Address',
                     'phone'     => 'Phone Number',
                     'linkedin'  => 'LinkedIn Profile',
-                    'contact'   => 'Contact'
+                    'contact'   => 'Contact',
                 ],
             ],
 

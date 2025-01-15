@@ -2,17 +2,19 @@
 
 namespace Webkul\Product\Enums;
 
-enum ProductType: string
+use Filament\Support\Contracts\HasLabel;
+
+enum ProductType: string implements HasLabel
 {
     case GOODS = 'goods';
 
     case SERVICE = 'service';
 
-    public static function options(): array
+    public function getLabel(): string
     {
-        return [
-            self::GOODS->value   => __('products::enums/product-type.goods'),
-            self::SERVICE->value => __('products::enums/product-type.service'),
-        ];
+        return match ($this) {
+            self::GOODS   => __('products::enums/product-type.goods'),
+            self::SERVICE => __('products::enums/product-type.service'),
+        };
     }
 }

@@ -3,9 +3,9 @@
 namespace Webkul\Recruitment\Filament\Clusters\Configurations\Resources;
 
 use Filament\Tables\Table;
+use Webkul\Employee\Filament\Resources\DepartmentResource as BaseDepartmentResource;
 use Webkul\Recruitment\Filament\Clusters\Configurations;
 use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\DepartmentResource\Pages;
-use Webkul\Employee\Filament\Resources\DepartmentResource as BaseDepartmentResource;
 
 class DepartmentResource extends BaseDepartmentResource
 {
@@ -33,10 +33,10 @@ class DepartmentResource extends BaseDepartmentResource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDepartments::route('/'),
+            'index'  => Pages\ListDepartments::route('/'),
             'create' => Pages\CreateDepartment::route('/create'),
-            'edit' => Pages\EditDepartment::route('/{record}/edit'),
-            'view' => Pages\ViewDepartment::route('/{record}'),
+            'edit'   => Pages\EditDepartment::route('/{record}/edit'),
+            'view'   => Pages\ViewDepartment::route('/{record}'),
         ];
     }
 }

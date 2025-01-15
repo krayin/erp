@@ -19,10 +19,13 @@ class ProductServiceProvider extends PackageServiceProvider
             ->hasMigrations([
                 '2025_01_05_063925_create_products_categories_table',
                 '2025_01_05_100751_create_products_products_table',
+                '2025_01_05_100830_create_products_tags_table',
+                '2025_01_05_100832_create_products_product_tag_table',
                 '2025_01_05_104456_create_products_attributes_table',
                 '2025_01_05_104512_create_products_attribute_options_table',
                 '2025_01_05_104759_create_products_product_attributes_table',
                 '2025_01_05_104809_create_products_product_attribute_values_table',
+                '2025_01_05_105626_create_products_packagings_table',
             ])
             ->runsMigrations();
     }

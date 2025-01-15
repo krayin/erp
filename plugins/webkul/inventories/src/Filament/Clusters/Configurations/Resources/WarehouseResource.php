@@ -5,16 +5,18 @@ namespace Webkul\Inventory\Filament\Clusters\Configurations\Resources;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
+use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Field\Filament\Traits\HasCustomFields;
+use Webkul\Inventory\Enums\DeliveryStep;
+use Webkul\Inventory\Enums\ReceptionStep;
 use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\WarehouseResource\Pages;
-use Webkul\Warehouse\Enums\DeliveryStep;
-use Webkul\Warehouse\Enums\ReceptionStep;
-use Webkul\Warehouse\Models\Warehouse;
+use Webkul\Inventory\Models\Warehouse;
 
 class WarehouseResource extends Resource
 {
@@ -54,14 +56,16 @@ class WarehouseResource extends Resource
                                     ->maxLength(255)
                                     ->autofocus()
                                     ->placeholder(__('inventories::filament/clusters/configurations/resources/warehouse.form.sections.general.fields.name-placeholder'))
-                                    ->extraInputAttributes(['style' => 'font-size: 1.5rem;height: 3rem;']),
+                                    ->extraInputAttributes(['style' => 'font-size: 1.5rem;height: 3rem;'])
+                                    ->unique(ignoreRecord: true),
 
                                 Forms\Components\TextInput::make('code')
                                     ->label(__('inventories::filament/clusters/configurations/resources/warehouse.form.sections.general.fields.code'))
                                     ->required()
                                     ->maxLength(255)
                                     ->placeholder(__('inventories::filament/clusters/configurations/resources/warehouse.form.sections.general.fields.code-placeholder'))
-                                    ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/warehouse.form.sections.settings.fields.code-hint-tooltip')),
+                                    ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/warehouse.form.sections.settings.fields.code-hint-tooltip'))
+                                    ->unique(ignoreRecord: true),
 
                                 Forms\Components\Group::make()
                                     ->schema([
@@ -92,14 +96,14 @@ class WarehouseResource extends Resource
                                     ->schema([
                                         Forms\Components\Radio::make('reception_steps')
                                             ->label(__('inventories::filament/clusters/configurations/resources/warehouse.form.sections.settings.fields.incoming-shipments'))
-                                            ->default('internal')
                                             ->options(ReceptionStep::class)
+                                            ->default(ReceptionStep::ONE_STEP)
                                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/warehouse.form.sections.settings.fields.incoming-shipments-hint-tooltip')),
 
                                         Forms\Components\Radio::make('delivery_steps')
                                             ->label(__('inventories::filament/clusters/configurations/resources/warehouse.form.sections.settings.fields.outgoing-shipments'))
-                                            ->default('internal')
                                             ->options(DeliveryStep::class)
+                                            ->default(DeliveryStep::ONE_STEP)
                                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/warehouse.form.sections.settings.fields.outgoing-shipments-hint-tooltip')),
                                     ])
                                     ->columns(1),
@@ -221,6 +225,26 @@ class WarehouseResource extends Resource
             ]);
     }
 
+    public static function getSubNavigationPosition(): SubNavigationPosition
+    {
+        $currentRoute = request()->route()?->getName();
+
+        if ($currentRoute === self::getRouteBaseName().'.index') {
+            return SubNavigationPosition::Start;
+        }
+
+        return SubNavigationPosition::Top;
+    }
+
+    public static function getRecordSubNavigation(Page $page): array
+    {
+        return $page->generateNavigationItems([
+            Pages\ViewWarehouse::class,
+            Pages\EditWarehouse::class,
+            Pages\ManageRoutes::class,
+        ]);
+    }
+
     public static function getRelations(): array
     {
         return [
@@ -235,6 +259,7 @@ class WarehouseResource extends Resource
             'create' => Pages\CreateWarehouse::route('/create'),
             'view'   => Pages\ViewWarehouse::route('/{record}'),
             'edit'   => Pages\EditWarehouse::route('/{record}/edit'),
+            'routes' => Pages\ManageRoutes::route('/{record}/routes'),
         ];
     }
 }

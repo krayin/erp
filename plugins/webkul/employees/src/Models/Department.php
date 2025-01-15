@@ -78,14 +78,14 @@ class Department extends Model
         parent::boot();
 
         static::creating(function ($department) {
-            if (!static::validateNoRecursion($department)) {
+            if (! static::validateNoRecursion($department)) {
                 throw new InvalidArgumentException('Circular reference detected in department hierarchy');
             }
             static::handleDepartmentData($department);
         });
 
         static::updating(function ($department) {
-            if (!static::validateNoRecursion($department)) {
+            if (! static::validateNoRecursion($department)) {
                 throw new InvalidArgumentException('Circular reference detected in department hierarchy');
             }
             static::handleDepartmentData($department);
@@ -94,7 +94,7 @@ class Department extends Model
 
     protected static function validateNoRecursion($department)
     {
-        if (!$department->parent_id) {
+        if (! $department->parent_id) {
             return true;
         }
 
@@ -113,7 +113,7 @@ class Department extends Model
             $visitedIds[] = $currentParentId;
             $parent = static::find($currentParentId);
 
-            if (!$parent) {
+            if (! $parent) {
                 break;
             }
 
@@ -127,7 +127,7 @@ class Department extends Model
     {
         if ($department->parent_id) {
             $parent = static::find($department->parent_id);
-            $department->parent_path = $parent?->parent_path . $parent?->id . '/';
+            $department->parent_path = $parent?->parent_path.$parent?->id.'/';
 
             $department->master_department_id = static::findTopLevelParentId($parent);
         } else {

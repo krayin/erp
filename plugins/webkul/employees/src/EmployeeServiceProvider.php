@@ -2,9 +2,9 @@
 
 namespace Webkul\Employee;
 
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Webkul\Support\Package;
 use Webkul\Support\PackageServiceProvider;
-use Spatie\LaravelPackageTools\Commands\InstallCommand;
 
 class EmployeeServiceProvider extends PackageServiceProvider
 {

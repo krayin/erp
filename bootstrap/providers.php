@@ -10,11 +10,11 @@ return [
     Webkul\Field\FieldServiceProvider::class,
     Webkul\Partner\PartnerServiceProvider::class,
     Webkul\Project\ProjectServiceProvider::class,
+    Webkul\Product\ProductServiceProvider::class,
     Webkul\TableViews\TableViewsServiceProvider::class,
     Webkul\Recruitment\RecruitmentServiceProvider::class,
     Webkul\Security\SecurityServiceProvider::class,
     Webkul\Employee\EmployeeServiceProvider::class,
     Webkul\Timesheet\TimesheetServiceProvider::class,
-    Webkul\Warehouse\WarehouseServiceProvider::class,
     Webkul\Inventory\InventoryServiceProvider::class,
 ];

@@ -12,6 +12,25 @@ return [
                 'title'  => 'General',
 
                 'fields' => [
+                    'route'             => 'Route',
+                    'route-placeholder' => 'eg. Two Step Reception',
+                    'company'           => 'Company',
+                ],
+            ],
+
+            'applicable-on' => [
+                'title'       => 'Applicable On',
+                'description' => 'Select the places where this route can be selected.',
+
+                'fields' => [
+                    'products'                        => 'Products',
+                    'products-hint-tooltip'           => 'When checked, the route will be selectable on the Product.',
+                    'product-categories'              => 'Product Categories',
+                    'product-categories-hint-tooltip' => 'When checked, the route will be selectable on the Product Category.',
+                    'warehouses'                      => 'Warehouses',
+                    'warehouses-hint-tooltip'         => 'When a warehouse is selected for this route, this route should be seen as the default route when products pass through this warehouse.',
+                    'packaging'                       => 'Packaging',
+                    'packaging-hint-tooltip'          => 'When checked, the route will be selectable on the Packaging.',
                 ],
             ],
         ],
@@ -19,6 +38,8 @@ return [
 
     'table' => [
         'columns' => [
+            'route'      => 'Route',
+            'company'    => 'Company',
             'deleted-at' => 'Deleted At',
             'created-at' => 'Created At',
             'updated-at' => 'Updated At',
@@ -30,6 +51,13 @@ return [
         ],
 
         'actions' => [
+            'edit' => [
+                'notification' => [
+                    'title' => 'Route updated',
+                    'body'  => 'The route has been updated successfully.',
+                ],
+            ],
+
             'restore' => [
                 'notification' => [
                     'title' => 'Route restored',

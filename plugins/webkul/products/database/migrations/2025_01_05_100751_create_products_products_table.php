@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('type');
             $table->string('name');
-            $table->string('service_tracking');
+            $table->string('service_tracking')->default('none');
             $table->string('reference')->nullable();
             $table->string('barcode')->nullable();
             $table->decimal('price', 15, 4)->nullable();
@@ -31,9 +31,21 @@ return new class extends Migration
             $table->boolean('is_configurable')->nullable();
             $table->integer('sort')->nullable();
 
-            $table->foreignId('category_id')
+            $table->foreignId('parent_id')
                 ->constrained('products_categories')
                 ->restrictOnDelete();
+
+            $table->foreignId('uom_id')
+                ->constrained('unit_of_measures')
+                ->restrictOnDelete();
+
+            $table->foreignId('uom_po_id')
+                ->constrained('unit_of_measures')
+                ->restrictOnDelete();
+
+            $table->foreignId('category_id')
+                ->constrained('products_products')
+                ->cascadeOnDelete();
 
             $table->foreignId('company_id')
                 ->nullable()

@@ -96,7 +96,7 @@ class StageSeeder extends Seeder
                 'fold'           => 0,
                 'created_at'     => now(),
                 'updated_at'     => now(),
-            ]
+            ],
         ];
 
         DB::table('recruitments_stages')->insert($recruitmentStages);

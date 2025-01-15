@@ -4,7 +4,6 @@ namespace Webkul\Employee\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Webkul\Employee\Models\Department;
 use Webkul\Employee\Models\Employee;
 
 class DepartmentSeeder extends Seeder

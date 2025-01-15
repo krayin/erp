@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Field\Traits\HasCustomFields;
@@ -122,7 +121,7 @@ class Company extends Model
         return CompanyFactory::new();
     }
 
-     /**
+    /**
      * Bootstrap the model and its traits.
      */
     protected static function boot()
