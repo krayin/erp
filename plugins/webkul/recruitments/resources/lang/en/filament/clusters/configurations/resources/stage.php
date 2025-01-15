@@ -44,8 +44,9 @@ return [
 
                 'fields' => [
                     'job-positions' => 'Job Positions',
-                    'folded'        => 'Folded',
-                    'hired-stage'   => 'Hired Stage',
+                    'folded' => 'Folded',
+                    'hired-stage' => 'Hired Stage',
+                    'default-stage' => 'Default Stage',
                 ],
             ],
         ],
@@ -56,6 +57,7 @@ return [
             'id'                 => 'ID',
             'name'               => 'Stage Name',
             'hired-stage'        => 'Hired Stage',
+            'default-stage'      => 'Default Stage',
             'folded'             => 'Folded',
             'job-positions'      => 'Job Positions',
             'created-by'         => 'Created By',
@@ -143,8 +145,9 @@ return [
 
                 'entries' => [
                     'job-positions' => 'Job Position',
-                    'folded'        => 'Folded',
-                    'hired-stage'   => 'Hired Stage',
+                    'folded' => 'Folded',
+                    'hired-stage' => 'Hired Stage',
+                    'default-stage'      => 'Default Stage',
                 ],
             ],
         ],
