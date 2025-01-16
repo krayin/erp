@@ -19,6 +19,7 @@ use Webkul\Recruitment\Models\Applicant;
 use Webkul\Recruitment\Models\RefuseReason;
 use Webkul\Support\Services\EmailService;
 use Webkul\Chatter\Filament\Actions as ChatterActions;
+use Webkul\Recruitment\Mail\ApplicantRefuseMail;
 use Webkul\Recruitment\Mail\InterviewerAssignedMail;
 use Webkul\Security\Models\User;
 
@@ -157,7 +158,23 @@ class EditApplicant extends EditRecord
                     ]);
                 })
                 ->action(function (array $data, Applicant $record) {
-                    $record->setAsRefused($data['refuse_reason_id']);
+                    $refuseReason = RefuseReason::find($data['refuse_reason_id']);
+
+                    if (! $refuseReason) {
+                        return null;
+                    }
+
+                    $record->setAsRefused($refuseReason?->id);
+
+                    if (isset($data['notify']) && $data['notify']) {
+                        $data = $this->prepareApplicantRefuseNotificationPayload($data);
+
+                        app(EmailService::class)->send(
+                            mailClass: ApplicantRefuseMail::class,
+                            view: "recruitments::mails.{$refuseReason?->template}",
+                            payload: $data
+                        );
+                    }
 
                     Notification::make()
                         ->info()
@@ -300,6 +317,20 @@ class EditApplicant extends EditRecord
             'to' => [
                 'address' => $interviewer->email,
                 'name' => $interviewer->name,
+            ],
+        ];
+    }
+
+    private function prepareApplicantRefuseNotificationPayload(array $data): array
+    {
+        return [
+            'applicant_name' => $this->record->candidate->name,
+            'subject' => __('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.mail.application-refused.subject', [
+                'application' => $this->record->job?->name,
+            ]),
+            'to' => [
+                'address' => $data['email'] ?? $this->record?->candidate?->email_from,
+                'name' => $this->record?->candidate?->name,
             ],
         ];
     }

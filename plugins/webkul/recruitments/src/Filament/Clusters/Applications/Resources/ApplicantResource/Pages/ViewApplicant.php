@@ -129,7 +129,7 @@ class ViewApplicant extends ViewRecord
                         return null;
                     }
 
-                    // $record->setAsRefused($refuseReason?->id);
+                    $record->setAsRefused($refuseReason?->id);
 
                     if (isset($data['notify']) && $data['notify']) {
                         $data = $this->prepareApplicantRefuseNotificationPayload($data);
@@ -169,8 +169,8 @@ class ViewApplicant extends ViewRecord
     {
         return [
             'applicant_name' => $this->record->candidate->name,
-            'subject' => __('recruitments::filament/clusters/applications/resources/applicant/pages/view-applicant.mail.subject', [
-                'applicant' => $this->record->job?->name,
+            'subject' => __('recruitments::filament/clusters/applications/resources/applicant/pages/view-applicant.mail.application-refused.subject', [
+                'application' => $this->record->job?->name,
             ]),
             'to' => [
                 'address' => $data['email'] ?? $this->record?->candidate?->email_from,

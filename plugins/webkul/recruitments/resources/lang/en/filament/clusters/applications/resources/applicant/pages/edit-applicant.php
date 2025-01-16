@@ -48,6 +48,10 @@ return [
     ],
 
     'mail' => [
+        'application-refused' => [
+            'subject' => 'Your Job Application: :application',
+        ],
+
         'application-confirm' => [
             'subject' => 'Your Job Application: :job_position',
         ],

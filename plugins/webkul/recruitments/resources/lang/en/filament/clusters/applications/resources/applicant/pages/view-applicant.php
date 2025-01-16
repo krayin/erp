@@ -32,6 +32,8 @@ return [
     ],
 
     'mail' => [
-        'subject' => 'Your Job Application: :application',
+        'application-refused' => [
+            'subject' => 'Your Job Application: :application',
+        ],
     ]
 ];
