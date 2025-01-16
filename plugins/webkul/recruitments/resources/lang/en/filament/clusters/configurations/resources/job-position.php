@@ -162,6 +162,9 @@ return [
                     'employment-type'    => 'Employment Type',
                     'job-location'       => 'Job Location',
                     'industry'           => 'Industry',
+                    'manager'            => 'Manager',
+                    'recruiter'          => 'Recruiter',
+                    'interviewers'       => 'Interviewers',
                 ],
             ],
             'job-description' => [

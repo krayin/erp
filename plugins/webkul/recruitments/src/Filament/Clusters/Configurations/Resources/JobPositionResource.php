@@ -128,7 +128,7 @@ class JobPositionResource extends Resource
                                             }),
                                         Forms\Components\Select::make('recruitments_job_position_interviewers')
                                             ->label(__('recruitments::filament/clusters/configurations/resources/job-position.form.sections.employment-information.fields.interviewers'))
-                                            ->relationship(name: 'users', titleAttribute: 'name')
+                                            ->relationship(name: 'interviewers', titleAttribute: 'name')
                                             ->searchable()
                                             ->multiple()
                                             ->preload()
@@ -432,10 +432,28 @@ class JobPositionResource extends Resource
                                             ->placeholder('—')
                                             ->icon('heroicon-o-building-office')
                                             ->label(__('recruitments::filament/clusters/configurations/resources/job-position.infolist.sections.employment-information.entries.department')),
+                                        Infolists\Components\TextEntry::make('manager.name')
+                                            ->placeholder('—')
+                                            ->icon('heroicon-o-user')
+                                            ->label(__('recruitments::filament/clusters/configurations/resources/job-position.infolist.sections.employment-information.entries.manager')),
+                                        Infolists\Components\TextEntry::make('company.name')
+                                            ->placeholder('—')
+                                            ->icon('heroicon-o-building-office')
+                                            ->label(__('recruitments::filament/clusters/configurations/resources/job-position.infolist.sections.employment-information.entries.company')),
+                                        Infolists\Components\TextEntry::make('recruiter.name')
+                                            ->placeholder('—')
+                                            ->icon('heroicon-o-user')
+                                            ->label(__('recruitments::filament/clusters/configurations/resources/job-position.infolist.sections.employment-information.entries.recruiter')),
+                                        Infolists\Components\TextEntry::make('interviewers.name')
+                                            ->placeholder('—')
+                                            ->icon('heroicon-o-user')
+                                            ->listWithLineBreaks()
+                                            ->badge()
+                                            ->listWithLineBreaks()
+                                            ->label(__('recruitments::filament/clusters/configurations/resources/job-position.infolist.sections.employment-information.entries.interviewers')),
                                         Infolists\Components\TextEntry::make('address.name')
                                             ->placeholder('—')
                                             ->icon('heroicon-o-building-office-2')
-                                            ->label(__('Job Location'))
                                             ->label(__('recruitments::filament/clusters/configurations/resources/job-position.infolist.sections.employment-information.entries.job-location')),
                                         Infolists\Components\TextEntry::make('industry.name')
                                             ->placeholder('—')
@@ -504,9 +522,10 @@ class JobPositionResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListJobPositions::route('/'),
+            'index'  => Pages\ListJobPositions::route('/'),
             'create' => Pages\CreateJobPosition::route('/create'),
-            'edit' => Pages\EditJobPosition::route('/{record}/edit'),
+            'edit'   => Pages\EditJobPosition::route('/{record}/edit'),
+            'view'   => Pages\ViewJobPosition::route('/{record}'),
         ];
     }
 }

@@ -34,7 +34,7 @@ class JobPosition extends BaseJobPosition
 
         $this->mergeCasts([
             'date_from' => 'datetime',
-            'date_to' => 'datetime',
+            'date_to'   => 'datetime',
         ]);
     }
 
@@ -48,7 +48,7 @@ class JobPosition extends BaseJobPosition
         return $this->belongsToMany(Skill::class, 'job_position_skills', 'job_position_id', 'skill_id');
     }
 
-    public function users()
+    public function interviewers()
     {
         return $this->belongsToMany(User::class, 'recruitments_job_position_interviewers', 'job_position_id', 'user_id');
     }
