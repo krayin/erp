@@ -92,7 +92,7 @@ class StageSeeder extends Seeder
                 'legend_blocked' => 'Blocked',
                 'legend_done'    => 'Ready for Next Stage',
                 'legend_normal'  => 'In Progress	',
-                'hired_stage'    => false,
+                'hired_stage'    => true,
                 'fold'           => 0,
                 'created_at'     => now(),
                 'updated_at'     => now(),
