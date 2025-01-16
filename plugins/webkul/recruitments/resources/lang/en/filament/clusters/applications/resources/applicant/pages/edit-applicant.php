@@ -48,6 +48,11 @@ return [
     ],
 
     'mail' => [
-        'subject' => 'Your Job Application: :job_position',
+        'application-confirm' => [
+            'subject' => 'Your Job Application: :job_position',
+        ],
+        'interviewer-assigned' => [
+            'subject' => 'You have been assigned to the Applicant :applicant.',
+        ]
     ]
 ];

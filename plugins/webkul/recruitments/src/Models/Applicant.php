@@ -10,7 +10,6 @@ use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Employee\Models\Department;
 use Webkul\Employee\Models\Employee;
-use Webkul\Employee\Models\EmployeeJobPosition;
 use Webkul\Recruitment\Enums\ApplicationStatus;
 use Webkul\Recruitment\Traits\HasApplicationStatus;
 use Webkul\Security\Models\User;
@@ -130,7 +129,7 @@ class Applicant extends Model
 
     public function job(): BelongsTo
     {
-        return $this->belongsTo(EmployeeJobPosition::class, 'job_id');
+        return $this->belongsTo(JobPosition::class, 'job_id');
     }
 
     public function department(): BelongsTo

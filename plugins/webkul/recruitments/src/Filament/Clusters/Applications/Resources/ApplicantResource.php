@@ -34,8 +34,10 @@ use Webkul\Recruitment\Filament\Clusters\Applications;
 use Webkul\Recruitment\Filament\Clusters\Applications\Resources\ApplicantResource\Pages;
 use Webkul\Recruitment\Filament\Clusters\Applications\Resources\ApplicantResource\RelationManagers;
 use Webkul\Recruitment\Models\Applicant;
+use Webkul\Recruitment\Models\JobPosition;
 use Webkul\Recruitment\Models\Stage as RecruitmentStage;
 use Webkul\Security\Filament\Resources\UserResource;
+use Webkul\Security\Models\User;
 
 class ApplicantResource extends Resource
 {
@@ -243,14 +245,41 @@ class ApplicantResource extends Resource
                                             ->columnSpan(1),
                                         Forms\Components\Select::make('job_id')
                                             ->relationship('job', 'name')
-                                            ->label(__(''))
                                             ->label(__('recruitments::filament/clusters/applications/resources/applicant.form.sections.general-information.fields.job-position'))
                                             ->preload()
                                             ->live()
                                             ->reactive()
-                                            ->afterStateUpdated(function (Applicant $record, Set $set) {
-                                                if ($record->job_id == null) {
+                                            ->afterStateHydrated(function (Set $set, Get $get, $state) {
+                                                if (!$get('stage_id') && $state) {
                                                     $set('stage_id', RecruitmentStage::where('is_default', 1)->first()->id ?? null);
+                                                }
+                                            })
+                                            ->afterStateUpdated(function (Set $set, Get $get, ?string $state, ?string $old) {
+                                                if (is_null($state)) {
+                                                    $set('stage_id', null);
+                                                    return;
+                                                }
+
+                                                if (is_null($old) && $state) {
+                                                    $set('stage_id', RecruitmentStage::where('is_default', 1)->first()->id ?? null);
+                                                }
+
+                                                if (!is_null($old) && !is_null($state)) {
+                                                    $jobPosition = JobPosition::find($state);
+
+                                                    if ($jobPosition) {
+                                                        if ($jobPosition->recruiter_id) {
+                                                            $set('recruiter', $jobPosition->recruiter_id);
+                                                        }
+
+                                                        if ($jobPosition->interviewers) {
+                                                            $set('recruitments_applicant_interviewers', $jobPosition->interviewers->pluck('id')->toArray() ?? []);
+                                                        }
+
+                                                        if ($jobPosition->department_id) {
+                                                            $set('department_id', $jobPosition->department_id);
+                                                        }
+                                                    }
                                                 }
                                             })
                                             ->searchable(),
@@ -265,6 +294,8 @@ class ApplicantResource extends Resource
                                             ->relationship('recruiter', 'name')
                                             ->label(__('recruitments::filament/clusters/applications/resources/applicant.form.sections.general-information.fields.recruiter'))
                                             ->preload()
+                                            ->live()
+                                            ->reactive()
                                             ->searchable(),
                                         Forms\Components\Select::make('recruitments_applicant_interviewers')
                                             ->relationship('interviewer', 'name')
@@ -272,6 +303,8 @@ class ApplicantResource extends Resource
                                             ->preload()
                                             ->multiple()
                                             ->searchable()
+                                            ->dehydrated(true)
+                                            ->saveRelationshipsUsing(function () {})
                                             ->createOptionForm(fn(Form $form) => UserResource::form($form)),
                                         Forms\Components\Select::make('recruitments_applicant_applicant_categories')
                                             ->multiple()
