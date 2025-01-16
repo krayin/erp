@@ -55,6 +55,7 @@ class RefuseReasonSeeder extends Seeder
             [
                 'sort'       => 4,
                 'name'       => 'Refused by applicant: salary',
+                'template'   => 'applicant-not-interested',
                 'creator_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
