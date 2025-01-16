@@ -12,8 +12,8 @@ return [
                 'title'  => 'General',
 
                 'fields' => [
-                    'name'             => 'Name',
-                    'name-placeholder' => 'eg. Two Step Reception',
+                    'name' => 'Name',
+                    'type' => 'Type',
                 ],
             ],
         ],

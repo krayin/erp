@@ -5,9 +5,7 @@ namespace Webkul\Employee\Filament\Clusters\Configurations\Resources\JobPosition
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
-use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\JobPositionResource;
-use Webkul\Employee\Models\EmployeeJobPosition;
 
 class EditJobPosition extends EditRecord
 {
@@ -60,9 +58,9 @@ class EditJobPosition extends EditRecord
         $model = $this->record;
 
         return array_merge($data, [
-            'no_of_employee' => $model->no_of_employee,
+            'no_of_employee'       => $model->no_of_employee,
             'no_of_hired_employee' => $model->no_of_hired_employee,
-            'expected_employees' => $model->expected_employees,
+            'expected_employees'   => $model->expected_employees,
         ]);
     }
 }

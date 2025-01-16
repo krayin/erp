@@ -85,7 +85,7 @@ class JobPositionResource extends Resource
                                             ->relationship(name: 'department', titleAttribute: 'name')
                                             ->searchable()
                                             ->preload()
-                                            ->createOptionForm(fn(Form $form) => DepartmentResource::form($form))
+                                            ->createOptionForm(fn (Form $form) => DepartmentResource::form($form))
                                             ->createOptionAction(function (Action $action) {
                                                 return $action
                                                     ->modalHeading(__('employees::filament/clusters/configurations/resources/job-position.form.sections.employment-information.fields.department-modal-title'))
@@ -97,7 +97,7 @@ class JobPositionResource extends Resource
                                             ->relationship(name: 'address', titleAttribute: 'name')
                                             ->searchable()
                                             ->preload()
-                                            ->createOptionForm(fn(Form $form) => DepartmentResource::form($form))
+                                            ->createOptionForm(fn (Form $form) => DepartmentResource::form($form))
                                             ->createOptionAction(function (Action $action) {
                                                 return $action
                                                     ->modalHeading(__('employees::filament/clusters/configurations/resources/job-position.form.sections.employment-information.fields.department-modal-title'))
@@ -108,7 +108,7 @@ class JobPositionResource extends Resource
                                             ->label(__('employees::filament/clusters/configurations/resources/job-position.form.sections.employment-information.fields.industry'))
                                             ->relationship('industry', 'name')
                                             ->searchable()
-                                            ->createOptionForm(fn($form) => IndustryResource::form($form)->columns(2))
+                                            ->createOptionForm(fn ($form) => IndustryResource::form($form)->columns(2))
                                             ->preload(),
                                     ])->columns(2),
                                 Forms\Components\Section::make()

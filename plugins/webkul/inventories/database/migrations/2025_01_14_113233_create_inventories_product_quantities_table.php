@@ -36,6 +36,7 @@ return new class extends Migration
                 ->nullOnDelete();
 
             $table->foreignId('lot_id')
+                ->nullable()
                 ->constrained('inventories_lots')
                 ->restrictOnDelete();
 

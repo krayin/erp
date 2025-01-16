@@ -42,8 +42,8 @@ enum RecruitmentState: string implements HasColor, HasIcon, HasLabel
     public static function options(): array
     {
         return [
-            self::NORMAL->value => __('Normal'),
-            self::DONE->value => __('Done'),
+            self::NORMAL->value  => __('Normal'),
+            self::DONE->value    => __('Done'),
             self::BLOCKED->value => __('Blocked'),
         ];
     }

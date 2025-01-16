@@ -50,6 +50,7 @@ class Move extends Model
         'uom_id',
         'source_location_id',
         'destination_location_id',
+        'final_location_id',
         'partner_id',
         'operation_id',
         'rule_id',
@@ -94,6 +95,11 @@ class Move extends Model
     }
 
     public function destinationLocation(): BelongsTo
+    {
+        return $this->belongsTo(Location::class);
+    }
+
+    public function finalLocation(): BelongsTo
     {
         return $this->belongsTo(Location::class);
     }

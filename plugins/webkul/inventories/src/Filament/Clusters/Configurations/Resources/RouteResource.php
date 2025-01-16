@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\RouteResource\Pages;
+use Webkul\Inventory\Filament\Clusters\Configurations\Resources\RouteResource\RelationManagers;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\WarehouseResource\Pages\ManageRoutes;
 use Webkul\Inventory\Models\Route;
 
@@ -213,7 +214,7 @@ class RouteResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\RulesRelationManager::class,
         ];
     }
 

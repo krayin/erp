@@ -5,14 +5,19 @@ namespace Webkul\Inventory\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Webkul\Chatter\Traits\HasChatter;
+use Webkul\Chatter\Traits\HasLogActivity;
+use Webkul\Field\Traits\HasCustomFields;
 use Webkul\Inventory\Database\Factories\OperationFactory;
+use Webkul\Inventory\Enums;
 use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 
 class Operation extends Model
 {
-    use HasFactory;
+    use HasChatter, HasCustomFields, HasFactory, HasLogActivity;
 
     /**
      * Table name.
@@ -57,6 +62,7 @@ class Operation extends Model
      * @var string
      */
     protected $casts = [
+        'state'              => Enums\OperationState::class,
         'is_favorite'        => 'boolean',
         'has_deadline_issue' => 'boolean',
         'is_printed'         => 'boolean',
@@ -64,6 +70,9 @@ class Operation extends Model
         'deadline'           => 'datetime',
         'scheduled_at'       => 'datetime',
         'closed_at'          => 'datetime',
+    ];
+
+    protected array $logAttributes = [
     ];
 
     public function user(): BelongsTo
@@ -114,6 +123,11 @@ class Operation extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function moves(): HasMany
+    {
+        return $this->hasMany(Move::class);
     }
 
     protected static function newFactory(): OperationFactory

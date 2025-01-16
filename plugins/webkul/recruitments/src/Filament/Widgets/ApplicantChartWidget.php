@@ -9,14 +9,14 @@ use Webkul\Recruitment\Models\Applicant;
 
 class ApplicantChartWidget extends ChartWidget
 {
-    public function getHeading(): string | Htmlable | null
+    public function getHeading(): string|Htmlable|null
     {
         return __('recruitments::filament/widgets/applicant.overview.label');
     }
 
     protected static ?int $sort = 2;
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected static ?string $maxHeight = '400px';
 
@@ -71,7 +71,7 @@ class ApplicantChartWidget extends ChartWidget
             'hired'    => ['Hired' => $stats->hired ?? 0],
             'refused'  => ['Refused' => $stats->refused ?? 0],
             'archived' => ['Archived' => $stats->archived ?? 0],
-            default => [
+            default    => [
                 'Ongoing'  => $stats->ongoing ?? 0,
                 'Hired'    => $stats->hired ?? 0,
                 'Refused'  => $stats->refused ?? 0,
@@ -82,9 +82,9 @@ class ApplicantChartWidget extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => __('recruitments::filament/widgets/applicant.overview.label'),
-                    'data' => array_values($data),
-                    'backgroundColor' => array_map(fn($key) => match ($key) {
+                    'label'           => __('recruitments::filament/widgets/applicant.overview.label'),
+                    'data'            => array_values($data),
+                    'backgroundColor' => array_map(fn ($key) => match ($key) {
                         __('recruitments::filament/widgets/applicant.ongoing')  => '#3b82f6',
                         __('recruitments::filament/widgets/applicant.hired')    => '#22c55e',
                         __('recruitments::filament/widgets/applicant.refused')  => '#ef4444',

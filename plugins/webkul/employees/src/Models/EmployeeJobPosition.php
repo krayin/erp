@@ -2,6 +2,7 @@
 
 namespace Webkul\Employee\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,10 +13,9 @@ use Webkul\Employee\Database\Factories\EmployeeJobPositionFactory;
 use Webkul\Field\Traits\HasCustomFields;
 use Webkul\Partner\Models\Industry;
 use Webkul\Partner\Models\Partner;
+use Webkul\Recruitment\Models\Applicant;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Webkul\Recruitment\Models\Applicant;
 
 class EmployeeJobPosition extends Model implements Sortable
 {
@@ -88,7 +88,6 @@ class EmployeeJobPosition extends Model implements Sortable
         return $this->belongsTo(User::class, 'creator_id');
     }
 
-
     public function employees()
     {
         return $this->hasMany(Employee::class, 'job_id');
@@ -148,6 +147,7 @@ class EmployeeJobPosition extends Model implements Sortable
         return Attribute::make(
             get: function () {
                 $currentEmployees = $this->getAttributeValue('no_of_employee');
+
                 return $currentEmployees + ($this->no_of_recruitment ?? 0);
             }
         );

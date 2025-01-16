@@ -54,6 +54,11 @@ return new class extends Migration
                 ->constrained('inventories_locations')
                 ->restrictOnDelete();
 
+            $table->foreignId('final_location_id')
+                ->nullable()
+                ->constrained('inventories_locations')
+                ->nullOnDelete();
+
             $table->foreignId('partner_id')
                 ->nullable()
                 ->constrained('partners_partners')
@@ -65,36 +70,43 @@ return new class extends Migration
                 ->nullOnDelete();
 
             $table->foreignId('rule_id')
+                ->nullable()
                 ->constrained('inventories_rules')
-                ->restrictOnDelete();
+                ->nullOnDelete();
 
             $table->foreignId('operation_type_id')
+                ->nullable()
                 ->constrained('inventories_operation_types')
-                ->restrictOnDelete();
+                ->nullOnDelete();
 
             $table->foreignId('origin_returned_move_id')
+                ->nullable()
                 ->constrained('inventories_moves')
-                ->restrictOnDelete();
+                ->nullOnDelete();
 
             $table->foreignId('restrict_partner_id')
+                ->nullable()
                 ->constrained('partners_partners')
-                ->restrictOnDelete();
+                ->nullOnDelete();
 
             $table->foreignId('warehouse_id')
+                ->nullable()
                 ->constrained('inventories_warehouses')
-                ->restrictOnDelete();
+                ->nullOnDelete();
 
             $table->foreignId('package_level_id')
+                ->nullable()
                 ->constrained('inventories_package_levels')
-                ->restrictOnDelete();
+                ->nullOnDelete();
 
             // $table->foreignId('warehouse_order_point_id')
             //     ->constrained('inventories_warehouse_order_points')
             //     ->restrictOnDelete();
 
             $table->foreignId('product_packaging_id')
+                ->nullable()
                 ->constrained('products_packagings')
-                ->restrictOnDelete();
+                ->nullOnDelete();
 
             $table->foreignId('company_id')
                 ->constrained('companies')

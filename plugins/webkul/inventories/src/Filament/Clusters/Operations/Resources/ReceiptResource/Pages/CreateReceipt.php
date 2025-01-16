@@ -1,0 +1,48 @@
+<?php
+
+namespace Webkul\Inventory\Filament\Clusters\Operations\Resources\ReceiptResource\Pages;
+
+use Filament\Notifications\Notification;
+use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Facades\Auth;
+use Webkul\Inventory\Filament\Clusters\Operations\Resources\ReceiptResource;
+
+class CreateReceipt extends CreateRecord
+{
+    protected static string $resource = ReceiptResource::class;
+
+    public function getTitle(): string|Htmlable
+    {
+        return __('inventories::filament/clusters/operations/resources/receipt/pages/create-receipt.title');
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('view', ['record' => $this->getRecord()]);
+    }
+
+    protected function getCreatedNotification(): Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title(__('inventories::filament/clusters/operations/resources/receipt/pages/create-receipt.notification.title'))
+            ->body(__('inventories::filament/clusters/operations/resources/receipt/pages/create-receipt.notification.body'));
+    }
+
+    public function mount(): void
+    {
+        parent::mount();
+
+        $this->data['operation_type_id'] = 1;
+        
+        $this->form->fill($this->data);
+    }
+
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['creator_id'] = Auth::id();
+
+        return $data;
+    }
+}

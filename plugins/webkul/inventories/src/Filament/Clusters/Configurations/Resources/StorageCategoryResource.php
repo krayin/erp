@@ -7,6 +7,7 @@ use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Pages\Page;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Webkul\Inventory\Enums\AllowNewProduct;
 use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\StorageCategoryResource\Pages;
+use Webkul\Inventory\Filament\Clusters\Configurations\Resources\StorageCategoryResource\RelationManagers;
 use Webkul\Inventory\Models\StorageCategory;
 
 class StorageCategoryResource extends Resource
@@ -156,24 +158,35 @@ class StorageCategoryResource extends Resource
             Pages\EditStorageCategory::class,
             Pages\ManageCapacityByPackages::class,
             Pages\ManageCapacityByProducts::class,
+            Pages\ManageLocations::class,
         ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            //
+            RelationGroup::make('Capacity By Packages', [
+                RelationManagers\CapacityByPackagesRelationManager::class,
+            ])
+                ->icon('heroicon-o-cube'),
+
+            RelationGroup::make('Capacity By Products', [
+                RelationManagers\CapacityByProductsRelationManager::class,
+            ])
+                ->icon('heroicon-o-clipboard-document-check'),
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index'     => Pages\ListStorageCategories::route('/'),
-            'view'      => Pages\ViewStorageCategory::route('/{record}'),
-            'edit'      => Pages\EditStorageCategory::route('/{record}/edit'),
-            'packages'  => Pages\ManageCapacityByPackages::route('/{record}/packages'),
-            'products'  => Pages\ManageCapacityByProducts::route('/{record}/products'),
+            'index'      => Pages\ListStorageCategories::route('/'),
+            'create'     => Pages\CreateStorageCategory::route('/create'),
+            'view'       => Pages\ViewStorageCategory::route('/{record}'),
+            'edit'       => Pages\EditStorageCategory::route('/{record}/edit'),
+            'packages'   => Pages\ManageCapacityByPackages::route('/{record}/packages'),
+            'products'   => Pages\ManageCapacityByProducts::route('/{record}/products'),
+            'locations'  => Pages\ManageLocations::route('/{record}/locations'),
         ];
     }
 }

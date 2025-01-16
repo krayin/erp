@@ -8,10 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Inventory\Database\Factories\OperationTypeFactory;
-use Webkul\Inventory\Enums\CreateBackorder;
-use Webkul\Inventory\Enums\MoveType;
-use Webkul\Inventory\Enums\OperationType as OperationTypeEnum;
-use Webkul\Inventory\Enums\ReservationMethod;
+use Webkul\Inventory\Enums;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 
@@ -73,10 +70,10 @@ class OperationType extends Model
      * @var string
      */
     protected $casts = [
-        'type'                               => OperationTypeEnum::class,
-        'reservation_method'                 => ReservationMethod::class,
-        'create_backorder'                   => CreateBackorder::class,
-        'move_type'                          => MoveType::class,
+        'type'                               => Enums\OperationType::class,
+        'reservation_method'                 => Enums\ReservationMethod::class,
+        'create_backorder'                   => Enums\CreateBackorder::class,
+        'move_type'                          => Enums\MoveType::class,
         'show_entire_packs'                  => 'boolean',
         'use_create_lots'                    => 'boolean',
         'use_existing_lots'                  => 'boolean',

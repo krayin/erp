@@ -28,6 +28,6 @@ return [
                 'title' => 'Applicant state updated',
                 'body'  => 'The applicant state has been updated successfully.',
             ],
-        ]
+        ],
     ],
 ];

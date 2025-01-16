@@ -4,10 +4,9 @@ namespace Webkul\Recruitment\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use phpDocumentor\Reflection\Types\Boolean;
-use Webkul\Employee\Models\EmployeeJobPosition;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
+use Webkul\Employee\Models\EmployeeJobPosition;
 use Webkul\Security\Models\User;
 
 class Stage extends Model implements Sortable
@@ -31,9 +30,9 @@ class Stage extends Model implements Sortable
     ];
 
     protected $casts = [
-        'is_default' => 'boolean',
+        'is_default'  => 'boolean',
         'hired_stage' => 'boolean',
-        'fold' => 'boolean',
+        'fold'        => 'boolean',
     ];
 
     public $sortable = [

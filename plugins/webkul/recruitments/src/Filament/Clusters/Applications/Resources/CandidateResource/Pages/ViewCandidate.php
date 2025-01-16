@@ -2,13 +2,13 @@
 
 namespace Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource\Pages;
 
-use Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource;
 use Filament\Actions;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
 use Webkul\Chatter\Filament\Actions as ChatterActions;
 use Webkul\Employee\Filament\Resources\EmployeeResource;
+use Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource;
 use Webkul\Recruitment\Models\Candidate;
 
 class ViewCandidate extends ViewRecord
@@ -20,7 +20,7 @@ class ViewCandidate extends ViewRecord
         return [
             Action::make('gotoEmployee')
                 ->tooltip(__('recruitments::filament/clusters/applications/resources/candidate/pages/view-candidate.goto-employee-tooltip'))
-                ->visible(fn($record) => $record->employee_id)
+                ->visible(fn ($record) => $record->employee_id)
                 ->icon('heroicon-s-arrow-top-right-on-square')
                 ->iconButton()
                 ->action(function (Candidate $record) {
@@ -30,7 +30,7 @@ class ViewCandidate extends ViewRecord
                 }),
             Action::make('createEmployee')
                 ->label(__('recruitments::filament/clusters/applications/resources/candidate/pages/view-candidate.create-employee'))
-                ->hidden(fn($record) => $record->employee_id)
+                ->hidden(fn ($record) => $record->employee_id)
                 ->action(function (Candidate $record) {
                     $employee = $record->createEmployee();
 

@@ -68,9 +68,9 @@ return [
         ],
 
         'filters' => [
-            'company' => 'Company',
+            'company'      => 'Company',
             'partner-name' => 'Contact',
-            'degree'  => 'Degree',
+            'degree'       => 'Degree',
             'manager-name' => 'Manager',
         ],
 
@@ -107,7 +107,7 @@ return [
                     'email'     => 'Email Address',
                     'phone'     => 'Phone Number',
                     'linkedin'  => 'LinkedIn Profile',
-                    'contact'   => 'Contact'
+                    'contact'   => 'Contact',
                 ],
             ],
 

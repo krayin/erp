@@ -2,21 +2,19 @@
 
 namespace Webkul\Recruitment\Filament\Clusters\Applications\Resources\ApplicantResource\Pages;
 
-use Webkul\Recruitment\Filament\Clusters\Applications\Resources\ApplicantResource;
 use Filament\Actions;
-use Filament\Resources\Pages\ViewRecord;
-use Filament\Forms;
 use Filament\Actions\Action;
+use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
-use Filament\Resources\Pages\EditRecord;
+use Filament\Resources\Pages\ViewRecord;
 use Webkul\Employee\Filament\Resources\EmployeeResource;
 use Webkul\Recruitment\Enums\ApplicationStatus;
 use Webkul\Recruitment\Enums\RecruitmentState;
+use Webkul\Recruitment\Filament\Clusters\Applications\Resources\ApplicantResource;
 use Webkul\Recruitment\Models\Applicant;
 use Webkul\Recruitment\Models\RefuseReason;
-
 
 class ViewApplicant extends ViewRecord
 {
@@ -30,9 +28,9 @@ class ViewApplicant extends ViewRecord
                 ->icon(function ($record) {
                     if ($record->state == RecruitmentState::DONE->value) {
                         return RecruitmentState::DONE->getIcon();
-                    } else if ($record->state == RecruitmentState::BLOCKED->value) {
+                    } elseif ($record->state == RecruitmentState::BLOCKED->value) {
                         return RecruitmentState::BLOCKED->getIcon();
-                    } else if ($record->state == RecruitmentState::NORMAL->value) {
+                    } elseif ($record->state == RecruitmentState::NORMAL->value) {
                         return RecruitmentState::NORMAL->getIcon();
                     }
                 })
@@ -40,26 +38,26 @@ class ViewApplicant extends ViewRecord
                 ->color(function ($record) {
                     if ($record->state == RecruitmentState::DONE->value) {
                         return RecruitmentState::DONE->getColor();
-                    } else if ($record->state == RecruitmentState::BLOCKED->value) {
+                    } elseif ($record->state == RecruitmentState::BLOCKED->value) {
                         return RecruitmentState::BLOCKED->getColor();
-                    } else if ($record->state == RecruitmentState::NORMAL->value) {
+                    } elseif ($record->state == RecruitmentState::NORMAL->value) {
                         return RecruitmentState::NORMAL->getColor();
                     }
                 })
                 ->form([
                     Forms\Components\ToggleButtons::make('state')
                         ->inline()
-                        ->options(RecruitmentState::class)
+                        ->options(RecruitmentState::class),
                 ])
-                ->fillForm(fn($record) => [
-                    'state' => $record->state
+                ->fillForm(fn ($record) => [
+                    'state' => $record->state,
                 ])
                 ->tooltip(function ($record) {
                     if ($record->state == RecruitmentState::DONE->value) {
                         return RecruitmentState::DONE->getLabel();
-                    } else if ($record->state == RecruitmentState::BLOCKED->value) {
+                    } elseif ($record->state == RecruitmentState::BLOCKED->value) {
                         return RecruitmentState::BLOCKED->getLabel();
-                    } else if ($record->state == RecruitmentState::NORMAL->value) {
+                    } elseif ($record->state == RecruitmentState::NORMAL->value) {
                         return RecruitmentState::NORMAL->getLabel();
                     }
                 })
@@ -74,7 +72,7 @@ class ViewApplicant extends ViewRecord
                 }),
             Action::make('gotoEmployee')
                 ->tooltip(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.goto-employee'))
-                ->visible(fn($record) => $record->application_status->value == ApplicationStatus::HIRED->value || $record->candidate->employee_id)
+                ->visible(fn ($record) => $record->application_status->value == ApplicationStatus::HIRED->value || $record->candidate->employee_id)
                 ->icon('heroicon-s-arrow-top-right-on-square')
                 ->iconButton()
                 ->action(function (Applicant $record) {
@@ -84,9 +82,10 @@ class ViewApplicant extends ViewRecord
                 }),
             Action::make('createEmployee')
                 ->label(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.create-employee'))
-                ->hidden(fn($record) => $record->application_status->value == ApplicationStatus::HIRED->value || $record->candidate->employee_id)
+                ->hidden(fn ($record) => $record->application_status->value == ApplicationStatus::HIRED->value || $record->candidate->employee_id)
                 ->action(function (Applicant $record) {
                     $employee = $record->createEmployee();
+
                     return redirect(EmployeeResource::getUrl('edit', ['record' => $employee]));
                 }),
             Actions\DeleteAction::make()
@@ -98,7 +97,7 @@ class ViewApplicant extends ViewRecord
                 ),
             Action::make('Refuse')
                 ->modalIcon('heroicon-s-bug-ant')
-                ->hidden(fn($record) => $record->refuse_reason_id || $record->application_status->value === ApplicationStatus::ARCHIVED->value)
+                ->hidden(fn ($record) => $record->refuse_reason_id || $record->application_status->value === ApplicationStatus::ARCHIVED->value)
                 ->modalHeading('Refuse Reason')
                 ->form(function (Form $form, $record) {
                     return $form->schema([
@@ -111,12 +110,12 @@ class ViewApplicant extends ViewRecord
                             ->inline()
                             ->live()
                             ->default(true)
-                            ->visible(fn(Get $get) => $get('refuse_reason_id'))
+                            ->visible(fn (Get $get) => $get('refuse_reason_id'))
                             ->label('Notify'),
                         Forms\Components\TextInput::make('email')
-                            ->visible(fn(Get $get) => $get('notify') && $get('refuse_reason_id'))
+                            ->visible(fn (Get $get) => $get('notify') && $get('refuse_reason_id'))
                             ->default($record->candidate->email_from)
-                            ->label('Email To')
+                            ->label('Email To'),
                     ]);
                 })
                 ->action(function (array $data, Applicant $record) {
@@ -129,7 +128,7 @@ class ViewApplicant extends ViewRecord
                         ->send();
                 }),
             Action::make('Restore')
-                ->hidden(fn($record) => ! $record->refuse_reason_id)
+                ->hidden(fn ($record) => ! $record->refuse_reason_id)
                 ->modalHeading('Restore Applicant from refuse')
                 ->requiresConfirmation()
                 ->color('gray')

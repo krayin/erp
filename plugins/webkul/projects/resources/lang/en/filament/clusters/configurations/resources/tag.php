@@ -6,7 +6,7 @@ return [
     ],
 
     'form' => [
-        'name' => 'Name',
+        'name'  => 'Name',
         'color' => 'Color',
     ],
 

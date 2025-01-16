@@ -10,7 +10,7 @@ return [
 
     'table' => [
         'columns' => [
-            'name' => 'Name',
+            'name'         => 'Name',
             'manager-name' => 'Manager',
             'company-name' => 'Company',
         ],
@@ -26,7 +26,7 @@ return [
 
             'total-application' => [
                 'total-application' => ':count Applications',
-            ]
+            ],
         ],
     ],
 

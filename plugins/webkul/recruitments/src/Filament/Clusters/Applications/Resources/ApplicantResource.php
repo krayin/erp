@@ -17,7 +17,6 @@ use Filament\Resources\Resource;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\ActionSize;
 use Filament\Support\Enums\FontWeight;
-use Webkul\Recruitment\Enums\RecruitmentState as RecruitmentStateEnum;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
@@ -30,6 +29,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\HtmlString;
 use Webkul\Field\Filament\Forms\Components\ProgressStepper;
 use Webkul\Recruitment\Enums\ApplicationStatus;
+use Webkul\Recruitment\Enums\RecruitmentState as RecruitmentStateEnum;
 use Webkul\Recruitment\Filament\Clusters\Applications;
 use Webkul\Recruitment\Filament\Clusters\Applications\Resources\ApplicantResource\Pages;
 use Webkul\Recruitment\Filament\Clusters\Applications\Resources\ApplicantResource\RelationManagers;
@@ -98,7 +98,7 @@ class ApplicantResource extends Resource
                         ProgressStepper::make('stage_id')
                             ->hiddenLabel()
                             ->inline()
-                            ->options(fn() => RecruitmentStage::orderBy('sort')->get()->mapWithKeys(fn($stage) => [$stage->id => $stage->name]))
+                            ->options(fn () => RecruitmentStage::orderBy('sort')->get()->mapWithKeys(fn ($stage) => [$stage->id => $stage->name]))
                             ->default(RecruitmentStage::first()?->id)
                             ->columnSpan('full')
                             ->live()
@@ -140,7 +140,7 @@ class ApplicantResource extends Resource
                                             Forms\Components\Actions\Action::make('good')
                                                 ->hiddenLabel()
                                                 ->outlined(false)
-                                                ->icon(fn($record) => $record?->priority >= 1 ? 'heroicon-s-star' : 'heroicon-o-star')
+                                                ->icon(fn ($record) => $record?->priority >= 1 ? 'heroicon-s-star' : 'heroicon-o-star')
                                                 ->color('warning')
                                                 ->size(ActionSize::ExtraLarge)
                                                 ->iconButton()
@@ -156,7 +156,7 @@ class ApplicantResource extends Resource
                                                 }),
                                             Forms\Components\Actions\Action::make('veryGood')
                                                 ->hiddenLabel()
-                                                ->icon(fn($record) => $record?->priority >= 2 ? 'heroicon-s-star' : 'heroicon-o-star')
+                                                ->icon(fn ($record) => $record?->priority >= 2 ? 'heroicon-s-star' : 'heroicon-o-star')
                                                 ->color('warning')
                                                 ->size(ActionSize::ExtraLarge)
                                                 ->iconButton()
@@ -172,7 +172,7 @@ class ApplicantResource extends Resource
                                                 }),
                                             Forms\Components\Actions\Action::make('excellent')
                                                 ->hiddenLabel()
-                                                ->icon(fn($record) => $record?->priority >= 3 ? 'heroicon-s-star' : 'heroicon-o-star')
+                                                ->icon(fn ($record) => $record?->priority >= 3 ? 'heroicon-s-star' : 'heroicon-o-star')
                                                 ->color('warning')
                                                 ->size(ActionSize::ExtraLarge)
                                                 ->iconButton()
@@ -190,9 +190,9 @@ class ApplicantResource extends Resource
                                         Forms\Components\Placeholder::make('application_status')
                                             ->live()
                                             ->hiddenLabel()
-                                            ->hidden(fn($record) => $record->application_status->value === ApplicationStatus::ONGOING->value)
+                                            ->hidden(fn ($record) => $record->application_status->value === ApplicationStatus::ONGOING->value)
                                             ->content(function ($record) {
-                                                $html = '<span style="display: inline-flex; align-items: center; background-color: ' . $record->application_status->getColor() . '; color: white; padding: 4px 8px; border-radius: 12px; font-size: 18px; font-weight: 500;">';
+                                                $html = '<span style="display: inline-flex; align-items: center; background-color: '.$record->application_status->getColor().'; color: white; padding: 4px 8px; border-radius: 12px; font-size: 18px; font-weight: 500;">';
 
                                                 $html .= view('filament::components.icon', [
                                                     'icon'  => $record->application_status->getIcon(),
@@ -248,7 +248,7 @@ class ApplicantResource extends Resource
                                             ->searchable(),
                                         Forms\Components\DatePicker::make('date_closed')
                                             ->label(__('recruitments::filament/clusters/applications/resources/applicant.form.sections.general-information.fields.hired-date'))
-                                            ->hidden(fn($record) => ! $record->date_closed)
+                                            ->hidden(fn ($record) => ! $record->date_closed)
                                             ->visible()
                                             ->disabled()
                                             ->live()
@@ -264,7 +264,7 @@ class ApplicantResource extends Resource
                                             ->preload()
                                             ->multiple()
                                             ->searchable()
-                                            ->createOptionForm(fn(Form $form) => UserResource::form($form)),
+                                            ->createOptionForm(fn (Form $form) => UserResource::form($form)),
                                         Forms\Components\Select::make('recruitments_applicant_applicant_categories')
                                             ->multiple()
                                             ->label(__('recruitments::filament/clusters/applications/resources/applicant.form.sections.general-information.fields.tags'))
@@ -396,9 +396,9 @@ class ApplicantResource extends Resource
                             'color' => $record->application_status->getColor(),
                         ];
                     })
-                    ->tooltip(fn($record) => $record->refuseReason?->name)
+                    ->tooltip(fn ($record) => $record->refuseReason?->name)
                     ->formatStateUsing(function ($record) {
-                        $html = '<span style="display: inline-flex; align-items: center; background-color: ' . $record->application_status->getColor() . '; color: white; padding: 4px 8px; border-radius: 12px; font-size: 18px; font-weight: 500;">';
+                        $html = '<span style="display: inline-flex; align-items: center; background-color: '.$record->application_status->getColor().'; color: white; padding: 4px 8px; border-radius: 12px; font-size: 18px; font-weight: 500;">';
 
                         $html .= view('filament::components.icon', [
                             'icon'  => $record->application_status->getIcon(),
@@ -445,13 +445,13 @@ class ApplicantResource extends Resource
                     ->state(function (Applicant $record): array {
                         $tags = $record->categories ?? $record->candidate->categories;
 
-                        return $tags->map(fn($category) => [
+                        return $tags->map(fn ($category) => [
                             'label' => $category->name,
                             'color' => $category->color ?? 'primary',
                         ])->toArray();
                     })
-                    ->formatStateUsing(fn($state) => $state['label'])
-                    ->color(fn($state) => Color::hex($state['color'])),
+                    ->formatStateUsing(fn ($state) => $state['label'])
+                    ->color(fn ($state) => Color::hex($state['color'])),
                 Tables\Columns\TextColumn::make('candidate.email_from')
                     ->label(__('recruitments::filament/clusters/applications/resources/applicant.table.columns.email'))
                     ->searchable()
@@ -698,9 +698,9 @@ class ApplicantResource extends Resource
                                                             'color' => $record->application_status->getColor(),
                                                         ];
                                                     })
-                                                    ->hidden(fn($record) => $record->application_status->value === ApplicationStatus::ONGOING->value)
+                                                    ->hidden(fn ($record) => $record->application_status->value === ApplicationStatus::ONGOING->value)
                                                     ->formatStateUsing(function ($record, $state) {
-                                                        $html = '<span style="display: inline-flex; align-items: center; background-color: ' . $record->application_status->getColor() . '; color: white; padding: 4px 8px; border-radius: 12px; font-size: 18px; font-weight: 500;">';
+                                                        $html = '<span style="display: inline-flex; align-items: center; background-color: '.$record->application_status->getColor().'; color: white; padding: 4px 8px; border-radius: 12px; font-size: 18px; font-weight: 500;">';
 
                                                         $html .= view('filament::components.icon', [
                                                             'icon'  => $record->application_status->getIcon(),
@@ -732,7 +732,7 @@ class ApplicantResource extends Resource
                                         Infolists\Components\TextEntry::make('candidate.linkedin_profile')
                                             ->icon('heroicon-o-link')
                                             ->placeholder('—')
-                                            ->url(fn($record) => $record->candidate->linkedin_profile)
+                                            ->url(fn ($record) => $record->candidate->linkedin_profile)
                                             ->label(__('recruitments::filament/clusters/applications/resources/applicant.infolist.sections.general-information.entries.linkedin-profile')),
                                         Infolists\Components\TextEntry::make('job.name')
                                             ->icon('heroicon-o-briefcase')
@@ -752,14 +752,14 @@ class ApplicantResource extends Resource
                                             ->state(function (Applicant $record): array {
                                                 $tags = $record->categories ?? $record->candidate->categories;
 
-                                                return $tags->map(fn($category) => [
+                                                return $tags->map(fn ($category) => [
                                                     'label' => $category->name,
                                                     'color' => $category->color ?? 'primary',
                                                 ])->toArray();
                                             })
                                             ->badge()
-                                            ->formatStateUsing(fn($state) => $state['label'])
-                                            ->color(fn($state) => Color::hex($state['color']))
+                                            ->formatStateUsing(fn ($state) => $state['label'])
+                                            ->color(fn ($state) => Color::hex($state['color']))
                                             ->listWithLineBreaks()
                                             ->label('Tags'),
                                         Infolists\Components\TextEntry::make('interviewer.name')
@@ -772,7 +772,7 @@ class ApplicantResource extends Resource
                                 Infolists\Components\Section::make()
                                     ->schema([
                                         Infolists\Components\TextEntry::make('applicant_notes')
-                                            ->formatStateUsing(fn($state) => new HtmlString($state))
+                                            ->formatStateUsing(fn ($state) => new HtmlString($state))
                                             ->placeholder('—')
                                             ->label(__('recruitments::filament/clusters/applications/resources/applicant.infolist.sections.general-information.entries.notes')),
                                     ]),

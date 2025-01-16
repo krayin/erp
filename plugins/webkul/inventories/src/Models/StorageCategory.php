@@ -61,6 +61,11 @@ class StorageCategory extends Model
         return $this->storageCategoryCapacities()->whereNotNull('package_type_id');
     }
 
+    public function locations(): HasMany
+    {
+        return $this->hasMany(Location::class);
+    }
+
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);

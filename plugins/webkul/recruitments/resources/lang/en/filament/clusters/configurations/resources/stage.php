@@ -44,8 +44,8 @@ return [
 
                 'fields' => [
                     'job-positions' => 'Job Positions',
-                    'folded' => 'Folded',
-                    'hired-stage' => 'Hired Stage',
+                    'folded'        => 'Folded',
+                    'hired-stage'   => 'Hired Stage',
                     'default-stage' => 'Default Stage',
                 ],
             ],
@@ -144,9 +144,9 @@ return [
                 'title' => 'Additional Information',
 
                 'entries' => [
-                    'job-positions' => 'Job Position',
-                    'folded' => 'Folded',
-                    'hired-stage' => 'Hired Stage',
+                    'job-positions'      => 'Job Position',
+                    'folded'             => 'Folded',
+                    'hired-stage'        => 'Hired Stage',
                     'default-stage'      => 'Default Stage',
                 ],
             ],

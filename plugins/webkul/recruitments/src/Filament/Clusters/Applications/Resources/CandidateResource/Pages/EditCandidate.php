@@ -7,8 +7,8 @@ use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Webkul\Chatter\Filament\Actions as ChatterActions;
-use Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource;
 use Webkul\Employee\Filament\Resources\EmployeeResource;
+use Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource;
 use Webkul\Recruitment\Models\Candidate;
 
 class EditCandidate extends EditRecord
@@ -33,7 +33,7 @@ class EditCandidate extends EditRecord
         return [
             Action::make('gotoEmployee')
                 ->tooltip(__('recruitments::filament/clusters/applications/resources/candidate/pages/edit-candidate.goto-employee-tooltip'))
-                ->visible(fn($record) => $record->employee_id)
+                ->visible(fn ($record) => $record->employee_id)
                 ->icon('heroicon-s-arrow-top-right-on-square')
                 ->iconButton()
                 ->action(function (Candidate $record) {
@@ -43,7 +43,7 @@ class EditCandidate extends EditRecord
                 }),
             Action::make('createEmployee')
                 ->label(__('recruitments::filament/clusters/applications/resources/candidate/pages/edit-candidate.create-employee'))
-                ->hidden(fn($record) => $record->employee_id)
+                ->hidden(fn ($record) => $record->employee_id)
                 ->action(function (Candidate $record) {
                     $employee = $record->createEmployee();
 

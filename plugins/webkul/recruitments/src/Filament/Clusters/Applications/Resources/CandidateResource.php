@@ -6,24 +6,24 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
-use Filament\Notifications\Notification;
-use Filament\Infolists\Infolist;
 use Filament\Infolists;
-use Filament\Support\Colors\Color;
+use Filament\Infolists\Infolist;
+use Filament\Notifications\Notification;
+use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\Pages\Page;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Resources\Resource;
+use Filament\Support\Colors\Color;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Pages\SubNavigationPosition;
-use Filament\Resources\RelationManagers\RelationGroup;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\HtmlString;
 use Webkul\Partner\Models\Partner;
 use Webkul\Recruitment\Filament\Clusters\Applications;
 use Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource\Pages;
-use Webkul\Recruitment\Models\Candidate;
 use Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource\RelationManagers;
-use Filament\Resources\Pages\Page;
-use Illuminate\Support\Facades\Route;
+use Webkul\Recruitment\Models\Candidate;
 
 class CandidateResource extends Resource
 {
@@ -324,7 +324,7 @@ class CandidateResource extends Resource
                                         Infolists\Components\TextEntry::make('linkedin_profile')
                                             ->icon('heroicon-o-link')
                                             ->placeholder('—')
-                                            ->url(fn($record) => $record->linkedin_profile)
+                                            ->url(fn ($record) => $record->linkedin_profile)
                                             ->label(__('recruitments::filament/clusters/applications/resources/candidate.infolist.sections.basic-information.entries.linkedin')),
                                     ])
                                     ->columns(2),
@@ -344,7 +344,7 @@ class CandidateResource extends Resource
                                             ->state(function (Candidate $record): array {
                                                 return $record->categories->map(fn ($category) => [
                                                     'label' => $category->name,
-                                                    'color' => $category->color ?? 'primary'
+                                                    'color' => $category->color ?? 'primary',
                                                 ])->toArray();
                                             })
                                             ->badge()
@@ -379,7 +379,7 @@ class CandidateResource extends Resource
                                                 for ($i = 1; $i <= 3; $i++) {
                                                     $iconType = $i <= $state ? 'heroicon-s-star' : 'heroicon-o-star';
                                                     $html .= view('filament::components.icon', [
-                                                        'icon' => $iconType,
+                                                        'icon'  => $iconType,
                                                         'class' => 'w-5 h-5',
                                                     ])->render();
                                                 }
@@ -388,7 +388,7 @@ class CandidateResource extends Resource
 
                                                 return new HtmlString($html);
                                             })
-                                            ->placeholder('—')
+                                            ->placeholder('—'),
                                     ]),
                                 Infolists\Components\Section::make(__('recruitments::filament/clusters/applications/resources/candidate.infolist.sections.communication.title'))
                                     ->schema([
@@ -402,7 +402,7 @@ class CandidateResource extends Resource
                                     ]),
                             ])
                             ->columnSpan(1),
-                    ])
+                    ]),
             ]);
     }
 

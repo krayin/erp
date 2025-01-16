@@ -30,10 +30,12 @@ return new class extends Migration
             $table->boolean('is_favorite')->nullable();
             $table->boolean('is_configurable')->nullable();
             $table->integer('sort')->nullable();
+            $table->json('images')->nullable();
 
             $table->foreignId('parent_id')
+                ->nullable()
                 ->constrained('products_categories')
-                ->restrictOnDelete();
+                ->cascadeOnDelete();
 
             $table->foreignId('uom_id')
                 ->constrained('unit_of_measures')

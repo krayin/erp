@@ -17,7 +17,7 @@ class ManageCapacityByPackages extends ManageRelatedRecords
 
     protected static string $relationship = 'storageCategoryCapacitiesByPackageType';
 
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
+    protected static ?string $navigationIcon = 'heroicon-o-cube';
 
     public static function getNavigationLabel(): string
     {

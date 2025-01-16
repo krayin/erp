@@ -65,7 +65,6 @@ class ManageAttributes extends ManageRelatedRecords
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                    ->label('Add Timesheet')
                     ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-attributes.table.header-actions.create.label'))
                     ->icon('heroicon-o-plus-circle')
                     ->mutateFormDataUsing(function (array $data): array {

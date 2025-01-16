@@ -40,12 +40,14 @@ class ProductAttributeResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make(__('inventories::filament/clusters/configurations/resources/route.form.sections.general.title'))
+                Forms\Components\Section::make(__('inventories::filament/clusters/configurations/resources/product-attribute.form.sections.general.title'))
                     ->schema([
                         Forms\Components\TextInput::make('name')
+                            ->label(__('inventories::filament/clusters/configurations/resources/product-attribute.form.sections.general.fields.name'))
                             ->required()
                             ->maxLength(255),
                         Forms\Components\Radio::make('type')
+                            ->label(__('inventories::filament/clusters/configurations/resources/product-attribute.form.sections.general.fields.type'))
                             ->required()
                             ->options(AttributeType::class)
                             ->default(AttributeType::RADIO)

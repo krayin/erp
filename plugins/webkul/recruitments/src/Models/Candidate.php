@@ -3,15 +3,15 @@
 namespace Webkul\Recruitment\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Webkul\Employee\Models\Employee;
 use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
-use Illuminate\Support\Facades\Auth;
 
 class Candidate extends Model
 {
@@ -115,7 +115,7 @@ class Candidate extends Model
         ]);
 
         $this->update([
-            'employee_id' => $employee->id
+            'employee_id' => $employee->id,
         ]);
 
         return $employee;

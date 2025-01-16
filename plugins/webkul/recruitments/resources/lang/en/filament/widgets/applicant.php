@@ -5,8 +5,8 @@ return [
         'label' => 'Applicant Overview',
     ],
 
-    'ongoing' => 'Ongoing',
-    'hired' => 'Hired',
-    'refused' => 'Refused',
+    'ongoing'  => 'Ongoing',
+    'hired'    => 'Hired',
+    'refused'  => 'Refused',
     'archived' => 'Archived',
 ];
