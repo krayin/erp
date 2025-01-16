@@ -16,7 +16,7 @@ use Webkul\Recruitment\Enums\ApplicationStatus;
 use Webkul\Recruitment\Enums\RecruitmentState;
 use Webkul\Recruitment\Models\Applicant;
 use Webkul\Recruitment\Models\RefuseReason;
-
+use Webkul\Chatter\Filament\Actions as ChatterActions;
 
 class ViewApplicant extends ViewRecord
 {
@@ -82,6 +82,8 @@ class ViewApplicant extends ViewRecord
 
                     return redirect(EmployeeResource::getUrl('view', ['record' => $employee]));
                 }),
+            ChatterActions\ChatterAction::make()
+                ->setResource(static::$resource),
             Action::make('createEmployee')
                 ->label(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.create-employee'))
                 ->hidden(fn($record) => $record->application_status->value == ApplicationStatus::HIRED->value || $record->candidate->employee_id)
