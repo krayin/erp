@@ -150,7 +150,6 @@ class ListApplicants extends ListRecords
                     $data['company_id']  = Auth::user()->default_company_id;
                     $data['create_date'] = now();
                     $data['is_active']   = true;
-                    $data['stage_id']    = Stage::where('is_default', 1)->first()->id ?? null;
 
                     return $data;
                 })

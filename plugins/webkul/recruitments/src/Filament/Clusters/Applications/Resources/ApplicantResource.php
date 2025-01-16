@@ -49,6 +49,7 @@ class ApplicantResource extends Resource
 
     public static function getSubNavigationPosition(): SubNavigationPosition
     {
+        return SubNavigationPosition::Top;
         $currentRoute = Route::currentRouteName();
 
         if ($currentRoute === 'livewire.update') {
@@ -99,9 +100,9 @@ class ApplicantResource extends Resource
                             ->hiddenLabel()
                             ->inline()
                             ->options(fn() => RecruitmentStage::orderBy('sort')->get()->mapWithKeys(fn($stage) => [$stage->id => $stage->name]))
-                            ->default(RecruitmentStage::first()?->id)
                             ->columnSpan('full')
                             ->live()
+                            ->reactive()
                             ->hidden(function ($record, Set $set) {
                                 if ($record->refuse_reason_id) {
                                     $set('stage_id', null);
@@ -109,26 +110,26 @@ class ApplicantResource extends Resource
                                     return true;
                                 }
                             })
-                            ->afterStateUpdated(function ($state, Applicant $record) {
-                                if ($record && $state) {
-                                    DB::transaction(function () use ($state, $record) {
-                                        $selectedStage = RecruitmentStage::find($state);
+                        // ->afterStateUpdated(function ($state, Applicant $record) {
+                        //     if ($record && $state) {
+                        //         DB::transaction(function () use ($state, $record) {
+                        //             $selectedStage = RecruitmentStage::find($state);
 
-                                        if ($selectedStage && $selectedStage->hired_stage) {
-                                            $record->setAsHired();
-                                        } elseif ($record->stage && $record->stage->hired_stage) {
-                                            $record->reopen();
-                                        }
+                        //             if ($selectedStage && $selectedStage->hired_stage) {
+                        //                 $record->setAsHired();
+                        //             } elseif ($record->stage && $record->stage->hired_stage) {
+                        //                 $record->reopen();
+                        //             }
 
-                                        $record->updateStage([
-                                            'stage_id'                => $state,
-                                            'last_stage_id'           => $record->stage_id,
-                                            'date_last_stage_updated' => now(),
-                                            'state'                   => RecruitmentStateEnum::NORMAL->value,
-                                        ]);
-                                    });
-                                }
-                            }),
+                        //             $record->updateStage([
+                        //                 'stage_id'                => $state,
+                        //                 'last_stage_id'           => $record->stage_id,
+                        //                 'date_last_stage_updated' => now(),
+                        //                 'state'                   => RecruitmentStateEnum::NORMAL->value,
+                        //             ]);
+                        //         });
+                        //     }
+                        // }),
                     ])->columns(2),
                 Forms\Components\Grid::make()
                     ->schema([
@@ -245,6 +246,13 @@ class ApplicantResource extends Resource
                                             ->label(__(''))
                                             ->label(__('recruitments::filament/clusters/applications/resources/applicant.form.sections.general-information.fields.job-position'))
                                             ->preload()
+                                            ->live()
+                                            ->reactive()
+                                            ->afterStateUpdated(function (Applicant $record, Set $set) {
+                                                if ($record->job_id == null) {
+                                                    $set('stage_id', RecruitmentStage::where('is_default', 1)->first()->id ?? null);
+                                                }
+                                            })
                                             ->searchable(),
                                         Forms\Components\DatePicker::make('date_closed')
                                             ->label(__('recruitments::filament/clusters/applications/resources/applicant.form.sections.general-information.fields.hired-date'))

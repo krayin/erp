@@ -10,6 +10,7 @@ use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Resources\EmployeeResource;
 use Webkul\Recruitment\Enums\ApplicationStatus;
@@ -19,6 +20,8 @@ use Webkul\Recruitment\Models\Applicant;
 use Webkul\Recruitment\Models\RefuseReason;
 use Webkul\Support\Services\EmailService;
 use Webkul\Chatter\Filament\Actions as ChatterActions;
+use Webkul\Recruitment\Models\Stage;
+use Webkul\Security\Models\User;
 
 class EditApplicant extends EditRecord
 {
@@ -176,13 +179,125 @@ class EditApplicant extends EditRecord
         ];
     }
 
+    // protected function mutateFormDataBeforeSave(array $data): array
+    // {
+    //     if ($data['job_id']) {
+    //         $data['stage_id']    = Stage::where('is_default', 1)->first()->id ?? null;
+
+    //         $this->notifyCandidate($data);
+    //     } else {
+    //         $data['stage_id'] = null;
+    //     }
+
+    //     return $data;
+    // }
+
+    // private function notifyCandidate(array $data): void
+    // {
+    //     app(EmailService::class)->send(
+    //         mailClass: ApplicationConfirm::class,
+    //         view: $viewName = 'recruitments::mails.application-confirm',
+    //         payload: $data = $this->preparePayload($data),
+    //     );
+
+    //     $data['from']['company'] = Auth::user()->defaultCompany->toArray();
+
+    //     $data['body'] = view($viewName, ['payload' => $data])->render();
+
+    //     $data['type'] = 'comment';
+
+    //     $this->record->addMessage($data, Auth::user()->id);
+    // }
+
+    // private function preparePayload(array $data): array
+    // {
+    //     return [
+    //         'record_name'    => $this->record->candidate->name,
+    //         'job_position'   => $jobPosition = $this->record->job?->name,
+    //         'subject'        => __('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.mail.subject', [
+    //             'job_position' => $jobPosition,
+    //         ]),
+    //         'to'             => [
+    //             'address' => $this->record->candidate->email_from,
+    //             'name'    => $this->record->candidate->name,
+    //         ],
+    //     ];
+    // }
+
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        if ($data['job_id']) {
-            $this->notifyCandidate($data);
+        $record = $this->record;
+        $oldData = $record->toArray();
+
+        if (isset($data['recruiter_id']) && $data['recruiter_id'] !== $oldData['recruiter_id']) {
+            $data['date_opened'] = now();
+        }
+
+        if (isset($data['stage_id']) && $data['stage_id'] !== $oldData['stage_id']) {
+            $data['date_last_stage_updated'] = now();
+            $data['last_stage_id'] = $oldData['stage_id'];
+        }
+
+        if (isset($data['job_id']) && !$oldData['job_id']) {
+            $data['stage_id'] = Stage::where('is_default', 1)->first()->id ?? null;
+
+            $this->afterSave(function () use ($data) {
+                $this->notifyCandidate($data);
+            });
+        }
+
+        if (isset($data['interviewer']) && is_array($data['interviewer'])) {
+            $oldInterviewers = collect($record->interviewer->pluck('id'));
+            $newInterviewers = collect($data['interviewer']);
+
+            $this->afterSave(function () use ($oldInterviewers, $newInterviewers) {
+                $this->handleInterviewerChanges($oldInterviewers, $newInterviewers);
+            });
+        }
+
+        if (isset($data['company_id'])) {
+            $this->afterSave(function () use ($data) {
+                $this->propagateCompanyChange($data['company_id']);
+            });
         }
 
         return $data;
+    }
+
+    protected function handleInterviewerChanges(Collection $oldInterviewers, Collection $newInterviewers): void
+    {
+
+        // $removedInterviewers = $oldInterviewers->diff($newInterviewers);
+        // $addedInterviewers = $newInterviewers->diff($oldInterviewers)->forget(Auth::id());
+
+        // foreach ($addedInterviewers as $interviewerId) {
+        //     $interviewer = User::find($interviewerId);
+
+        //     Mail::to($interviewer->email)->send(new InterviewerAssigned([
+        //         'applicant_name' => $this->record->candidate->name,
+        //         'interviewer_name' => $interviewer->name,
+        //         'job_position' => $this->record->job?->name,
+        //     ]));
+        // }
+
+        // // Log the changes using HasLogActivity trait
+        // if ($removedInterviewers->isNotEmpty() || $addedInterviewers->isNotEmpty()) {
+        //     $this->record->logActivity(
+        //         'interviewers_updated',
+        //         'Interviewers list updated',
+        //         [
+        //             'removed' => $removedInterviewers->toArray(),
+        //             'added' => $addedInterviewers->toArray(),
+        //         ]
+        //     );
+        // }
+    }
+
+    protected function propagateCompanyChange(int $companyId): void
+    {
+        $this->record->candidate()->update([
+            'company_id' => $companyId
+        ]);
     }
 
     private function notifyCandidate(array $data): void
@@ -193,26 +308,27 @@ class EditApplicant extends EditRecord
             payload: $data = $this->preparePayload($data),
         );
 
-        $data['from']['company'] = Auth::user()->defaultCompany->toArray();
-
-        $data['body'] = view($viewName, ['payload' => $data])->render();
-
-        $data['type'] = 'comment';
-
-        $this->record->addMessage($data, Auth::user()->id);
+        // Log the notification using HasChatter trait
+        $this->record->addMessage([
+            'from' => [
+                'company' => Auth::user()->defaultCompany->toArray()
+            ],
+            'body' => view($viewName, ['payload' => $data])->render(),
+            'type' => 'comment'
+        ], Auth::user()->id);
     }
 
     private function preparePayload(array $data): array
     {
         return [
-            'record_name'    => $this->record->candidate->name,
-            'job_position'   => $jobPosition = $this->record->job?->name,
-            'subject'        => __('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.mail.subject', [
+            'record_name' => $this->record->candidate->name,
+            'job_position' => $jobPosition = $this->record->job?->name,
+            'subject' => __('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.mail.subject', [
                 'job_position' => $jobPosition,
             ]),
-            'to'             => [
+            'to' => [
                 'address' => $this->record->candidate->email_from,
-                'name'    => $this->record->candidate->name,
+                'name' => $this->record->candidate->name,
             ],
         ];
     }
