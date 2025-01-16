@@ -10,13 +10,14 @@ use Filament\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
-use Filament\Resources\Pages\EditRecord;
 use Webkul\Employee\Filament\Resources\EmployeeResource;
 use Webkul\Recruitment\Enums\ApplicationStatus;
 use Webkul\Recruitment\Enums\RecruitmentState;
 use Webkul\Recruitment\Models\Applicant;
 use Webkul\Recruitment\Models\RefuseReason;
 use Webkul\Chatter\Filament\Actions as ChatterActions;
+use Webkul\Recruitment\Mail\ApplicantRefuseMail;
+use Webkul\Support\Services\EmailService;
 
 class ViewApplicant extends ViewRecord
 {
@@ -122,7 +123,23 @@ class ViewApplicant extends ViewRecord
                     ]);
                 })
                 ->action(function (array $data, Applicant $record) {
-                    $record->setAsRefused($data['refuse_reason_id']);
+                    $refuseReason = RefuseReason::find($data['refuse_reason_id']);
+
+                    if (! $refuseReason) {
+                        return null;
+                    }
+
+                    // $record->setAsRefused($refuseReason?->id);
+
+                    if (isset($data['notify']) && $data['notify']) {
+                        $data = $this->prepareApplicantRefuseNotificationPayload($data);
+
+                        app(EmailService::class)->send(
+                            mailClass: ApplicantRefuseMail::class,
+                            view: "recruitments::mails.{$refuseReason?->template}",
+                            payload: $data
+                        );
+                    }
 
                     Notification::make()
                         ->info()
@@ -145,6 +162,20 @@ class ViewApplicant extends ViewRecord
                         ->send();
                 }),
 
+        ];
+    }
+
+    private function prepareApplicantRefuseNotificationPayload(array $data): array
+    {
+        return [
+            'applicant_name' => $this->record->candidate->name,
+            'subject' => __('recruitments::filament/clusters/applications/resources/applicant/pages/view-applicant.mail.subject', [
+                'applicant' => $this->record->job?->name,
+            ]),
+            'to' => [
+                'address' => $data['email'] ?? $this->record?->candidate?->email_from,
+                'name' => $this->record?->candidate?->name,
+            ],
         ];
     }
 }

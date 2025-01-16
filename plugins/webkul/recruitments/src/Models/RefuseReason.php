@@ -17,7 +17,7 @@ class RefuseReason extends Model implements Sortable
 
     protected $table = 'recruitments_refuse_reasons';
 
-    protected $fillable = ['creator_id', 'sort', 'name', 'is_active'];
+    protected $fillable = ['creator_id', 'sort', 'name', 'template', 'is_active'];
 
     public function createdBy()
     {

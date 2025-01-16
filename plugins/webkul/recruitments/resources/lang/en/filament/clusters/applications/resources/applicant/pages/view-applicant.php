@@ -30,4 +30,8 @@ return [
             ],
         ]
     ],
+
+    'mail' => [
+        'subject' => 'Your Job Application: :application',
+    ]
 ];

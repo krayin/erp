@@ -14,12 +14,12 @@ use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Resources\EmployeeResource;
 use Webkul\Recruitment\Enums\ApplicationStatus;
 use Webkul\Recruitment\Enums\RecruitmentState;
-use Webkul\Recruitment\Mail\ApplicationConfirm;
+use Webkul\Recruitment\Mail\ApplicationConfirmMail;
 use Webkul\Recruitment\Models\Applicant;
 use Webkul\Recruitment\Models\RefuseReason;
 use Webkul\Support\Services\EmailService;
 use Webkul\Chatter\Filament\Actions as ChatterActions;
-use Webkul\Recruitment\Mail\InterviewerAssigned;
+use Webkul\Recruitment\Mail\InterviewerAssignedMail;
 use Webkul\Security\Models\User;
 
 class EditApplicant extends EditRecord
@@ -232,7 +232,7 @@ class EditApplicant extends EditRecord
         $data = $this->prepareCandidateNotificationPayload();
 
         app(EmailService::class)->send(
-            mailClass: ApplicationConfirm::class,
+            mailClass: ApplicationConfirmMail::class,
             view: $viewName = 'recruitments::mails.application-confirm',
             payload: $data
         );
@@ -265,7 +265,7 @@ class EditApplicant extends EditRecord
                     $data = $this->prepareInterviewerNotificationPayload($interviewer);
 
                     app(EmailService::class)->send(
-                        mailClass: InterviewerAssigned::class,
+                        mailClass: InterviewerAssignedMail::class,
                         view: 'recruitments::mails.interviewer-assigned',
                         payload: $data
                     );
