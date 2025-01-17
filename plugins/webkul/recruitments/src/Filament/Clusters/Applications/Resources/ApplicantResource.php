@@ -51,7 +51,6 @@ class ApplicantResource extends Resource
 
     public static function getSubNavigationPosition(): SubNavigationPosition
     {
-        return SubNavigationPosition::Top;
         $currentRoute = Route::currentRouteName();
 
         if ($currentRoute === 'livewire.update') {
