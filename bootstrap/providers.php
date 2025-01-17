@@ -16,5 +16,6 @@ return [
     Webkul\Security\SecurityServiceProvider::class,
     Webkul\Employee\EmployeeServiceProvider::class,
     Webkul\Timesheet\TimesheetServiceProvider::class,
+    Webkul\Timeoff\TimeoffServiceProvider::class,
     Webkul\Inventory\InventoryServiceProvider::class,
 ];
