@@ -21,6 +21,11 @@ class ManageUsers extends SettingsPage
 
     protected static string $settings = UserSettings::class;
 
+    public static function getNavigationGroup(): string
+    {
+        return __('security::filament/clusters/manage-users.group');
+    }
+
     public function getBreadcrumbs(): array
     {
         return [

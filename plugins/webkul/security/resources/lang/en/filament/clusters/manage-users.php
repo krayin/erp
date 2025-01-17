@@ -3,6 +3,7 @@
 return [
     'breadcrumb' => 'Manage Users',
     'title'      => 'Manage Users',
+    'group'      => 'General',
 
     'navigation' => [
         'label' => 'Manage Users',
