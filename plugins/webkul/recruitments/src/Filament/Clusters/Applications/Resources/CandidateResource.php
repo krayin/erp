@@ -39,14 +39,13 @@ class CandidateResource extends Resource
         $currentRoute = Route::currentRouteName();
 
         if ($currentRoute === 'livewire.update') {
-            return str_contains(url()->previous(), 'index')
-                || str_contains(url()->previous(), 'tableGrouping')
-                || str_contains(url()->previous(), 'tableSortColumn')
+            $previousUrl = url()->previous();
+            return str_contains($previousUrl, '/index') || str_contains($previousUrl, '?tableGrouping') || str_contains($previousUrl, '?tableFilters')
                 ? SubNavigationPosition::Start
                 : SubNavigationPosition::Top;
         }
 
-        return str_contains($currentRoute, 'index')
+        return str_contains($currentRoute, '.index')
             ? SubNavigationPosition::Start
             : SubNavigationPosition::Top;
     }
