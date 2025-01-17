@@ -15,11 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('lot_name')->nullable();
             $table->string('state')->nullable();
+            $table->string('reference')->nullable();
             $table->string('picking_description')->nullable();
             $table->decimal('quantity', 15, 4)->nullable();
             $table->decimal('quantity_product_uom', 15, 4)->nullable();
             $table->boolean('is_picked')->default(0);
-            $table->date('date');
+            $table->datetime('scheduled_at');
 
             $table->foreignId('move_id')
                 ->nullable()
@@ -40,10 +41,12 @@ return new class extends Migration
                 ->restrictOnDelete();
 
             $table->foreignId('package_id')
+                ->nullable()
                 ->constrained('inventories_packages')
                 ->restrictOnDelete();
 
             $table->foreignId('result_package_id')
+                ->nullable()
                 ->constrained('inventories_packages')
                 ->restrictOnDelete();
 

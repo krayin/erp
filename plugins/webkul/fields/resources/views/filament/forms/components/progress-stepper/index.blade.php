@@ -71,7 +71,7 @@
                 <x-filament::button
                     class="stage-button"
                     :color="$getColor($value)"
-                    :disabled="$shouldOptionBeDisabled"
+                    {{-- :disabled="$shouldOptionBeDisabled" --}}
                     :for="$inputId"
                     :icon="$getIcon($value)"
                     tag="label"

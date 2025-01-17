@@ -18,6 +18,17 @@ return [
                     'operation-type' => 'Operation Type',
                     'source-location' => 'Source Location',
                     'destination-location' => 'Destination Location',
+                    'external-notes' => 'External Notes',
+                ],
+            ],
+
+            'additional' => [
+                'title' => 'Additional',
+
+                'fields' => [
+                    'responsible' => 'Responsible',
+                    'shipping-policy' => 'Shipping Policy',
+                    'shipping-policy-hint-tooltip' => 'It specifies goods to be deliver partially or all at once.',
                     'scheduled-at' => 'Scheduled At',
                     'scheduled-at-hint-tooltip' => 'Scheduled time for the first part of the shipment to be processed. Setting manually a value here would set it as expected date for all the stock moves.',
                     'source-document' => 'Source Document',
@@ -29,6 +40,18 @@ return [
 
     'table' => [
         'columns' => [
+            'reference' => 'Reference',
+            'from'      => 'From',
+            'to'        => 'To',
+            'contact'   => 'Contact',
+            'responsible' => 'Responsible',
+            'scheduled-at' => 'Scheduled At',
+            'deadline'  => 'Deadline',
+            'closed-at' => 'Closed At',
+            'source-document' => 'Source Document',
+            'operation-type' => 'Operation Type',
+            'company'   => 'Company',
+            'state'    => 'State',
             'deleted-at'  => 'Deleted At',
             'created-at'  => 'Created At',
             'updated-at'  => 'Updated At',

@@ -7,6 +7,8 @@ use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Inventory\Filament\Clusters\Operations\Resources\ReceiptResource;
+use Webkul\Inventory\Models\OperationType;
+use Webkul\Inventory\Enums;
 
 class CreateReceipt extends CreateRecord
 {
@@ -19,7 +21,7 @@ class CreateReceipt extends CreateRecord
 
     protected function getRedirectUrl(): string
     {
-        return $this->getResource()::getUrl('view', ['record' => $this->getRecord()]);
+        return $this->getResource()::getUrl('edit', ['record' => $this->getRecord()]);
     }
 
     protected function getCreatedNotification(): Notification
@@ -34,7 +36,13 @@ class CreateReceipt extends CreateRecord
     {
         parent::mount();
 
-        $this->data['operation_type_id'] = 1;
+        $operationType = OperationType::where('type', Enums\OperationType::INCOMING)->first();
+
+        $this->data['operation_type_id'] = $operationType?->id;
+
+        $this->data['source_location_id'] = $operationType?->source_location_id;
+
+        $this->data['destination_location_id'] = $operationType?->destination_location_id;
         
         $this->form->fill($this->data);
     }

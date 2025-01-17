@@ -82,8 +82,7 @@ class TaskResource extends Resource
                             ->inline()
                             ->required()
                             ->options(fn () => TaskStage::orderBy('sort')->get()->mapWithKeys(fn ($stage) => [$stage->id => $stage->name]))
-                            ->default(TaskStage::first()?->id)
-                            ->disabled(),
+                            ->default(TaskStage::first()?->id),
                         Forms\Components\Section::make(__('projects::filament/resources/task.form.sections.general.title'))
                             ->schema([
                                 Forms\Components\TextInput::make('title')

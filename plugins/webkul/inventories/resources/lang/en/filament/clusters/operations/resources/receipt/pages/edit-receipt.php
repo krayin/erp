@@ -7,6 +7,18 @@ return [
     ],
 
     'header-actions' => [
+        'todo' => [
+            'label' => 'Mark as Todo',
+        ],
+
+        'validate' => [
+            'label' => 'Validate',
+        ],
+
+        'return' => [
+            'label' => 'Return',
+        ],
+
         'delete' => [
             'notification' => [
                 'title' => 'Receipt deleted',

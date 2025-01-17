@@ -1,26 +1,21 @@
 <?php
 
-namespace Webkul\Inventory\Filament\Clusters\Operations\Resources\ReceiptResource\Pages;
+namespace Webkul\Inventory\Filament\Clusters\Operations\Resources\ReceiptResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
-use Filament\Resources\Pages\ManageRelatedRecords;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Webkul\Inventory\Filament\Clusters\Operations\Resources\ReceiptResource;
 use Webkul\Inventory\Filament\Clusters\Operations\Resources\MoveResource;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Inventory\Models\Product;
 use Webkul\Inventory\Enums;
 
-class ManageMoves extends ManageRelatedRecords
+class MovesRelationManager extends RelationManager
 {
-    protected static string $resource = ReceiptResource::class;
-
     protected static string $relationship = 'moves';
-
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
     public function form(Form $form): Form
     {

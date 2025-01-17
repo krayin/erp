@@ -7,6 +7,8 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Webkul\Chatter\Filament\Actions\ChatterAction;
 use Webkul\Inventory\Filament\Clusters\Operations\Resources\ReceiptResource;
+use Webkul\Inventory\Models\Operation;
+use Webkul\Inventory\Enums;
 
 class EditReceipt extends EditRecord
 {
@@ -30,6 +32,19 @@ class EditReceipt extends EditRecord
         return [
             ChatterAction::make()
                 ->setResource(static::$resource),
+            Actions\Action::make('todo')
+                ->label(__('inventories::filament/clusters/operations/resources/receipt/pages/edit-receipt.header-actions.todo.label'))
+                ->requiresConfirmation()
+                ->action(function (Operation $record) {
+                    $record->update(['state' => Enums\OperationState::READY]);
+                })
+                ->hidden(fn () => $this->getRecord()->state !== Enums\OperationState::DRAFT),
+            Actions\Action::make('validate')
+                ->label(__('inventories::filament/clusters/operations/resources/receipt/pages/edit-receipt.header-actions.validate.label'))
+                ->color('gray'),
+            Actions\Action::make('return')
+                ->label(__('inventories::filament/clusters/operations/resources/receipt/pages/edit-receipt.header-actions.return.label'))
+                ->color('gray'),
             Actions\DeleteAction::make()
                 ->successNotification(
                     Notification::make()

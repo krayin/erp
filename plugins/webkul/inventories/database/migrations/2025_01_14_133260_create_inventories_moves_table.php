@@ -29,7 +29,7 @@ return new class extends Migration
             $table->boolean('is_scraped')->default(0);
             $table->boolean('is_inventory')->default(0);
             $table->date('reservation_date')->nullable();
-            $table->datetime('scheduled_at')->nullable();
+            $table->datetime('scheduled_at');
             $table->datetime('deadline')->nullable();
             $table->datetime('alert_Date')->nullable();
 

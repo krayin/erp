@@ -11,6 +11,7 @@ use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 use Webkul\Support\Models\UOM;
+use Webkul\Inventory\Enums;
 
 class Move extends Model
 {
@@ -69,6 +70,7 @@ class Move extends Model
      * @var string
      */
     protected $casts = [
+        'state'            => Enums\MoveState::class,
         'is_favorite'      => 'boolean',
         'is_picked'        => 'boolean',
         'is_scraped'       => 'boolean',

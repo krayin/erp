@@ -19,7 +19,7 @@ class ManageAttributes extends ManageRelatedRecords
 
     protected static string $relationship = 'attributes';
 
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
+    protected static ?string $navigationIcon = 'heroicon-o-swatch';
 
     public static function getNavigationLabel(): string
     {

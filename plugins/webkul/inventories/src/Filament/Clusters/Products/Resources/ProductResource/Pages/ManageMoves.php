@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\Inventory\Filament\Clusters\Operations\Resources\ReceiptResource\Pages;
+namespace Webkul\Inventory\Filament\Clusters\Products\Resources\ProductResource\Pages;
 
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -8,7 +8,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Webkul\Inventory\Filament\Clusters\Operations\Resources\ReceiptResource;
+use Webkul\Inventory\Filament\Clusters\Products\Resources\ProductResource;
 use Webkul\Inventory\Filament\Clusters\Operations\Resources\MoveResource;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Inventory\Models\Product;
@@ -16,9 +16,9 @@ use Webkul\Inventory\Enums;
 
 class ManageMoves extends ManageRelatedRecords
 {
-    protected static string $resource = ReceiptResource::class;
+    protected static string $resource = ProductResource::class;
 
-    protected static string $relationship = 'moves';
+    protected static string $relationship = 'moveLines';
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
@@ -42,10 +42,6 @@ class ManageMoves extends ManageRelatedRecords
                         $data['source_location_id'] = $this->getOwnerRecord()->source_location_id;
 
                         $data['destination_location_id'] = $this->getOwnerRecord()->destination_location_id;
-
-                        $data['scheduled_at'] = $this->getOwnerRecord()->scheduled_at;
-
-                        $data['reference'] = $this->getOwnerRecord()->name;
 
                         $data['creator_id'] = Auth::id();
 

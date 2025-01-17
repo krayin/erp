@@ -11,7 +11,10 @@ use Filament\Resources\Pages\Page;
 use Filament\Tables\Table;
 use Webkul\Inventory\Filament\Clusters\Operations;
 use Webkul\Inventory\Filament\Clusters\Operations\Resources\ReceiptResource\Pages;
+use Webkul\Inventory\Filament\Clusters\Operations\Resources\ReceiptResource\RelationManagers;
 use Webkul\Inventory\Models\Operation;
+use Illuminate\Database\Eloquent\Builder;
+use Webkul\Inventory\Enums;
 
 class ReceiptResource extends Resource
 {
@@ -64,7 +67,12 @@ class ReceiptResource extends Resource
                             ->title(__('inventories::filament/clusters/products/resources/product.table.bulk-actions.delete.notification.title'))
                             ->body(__('inventories::filament/clusters/products/resources/product.table.bulk-actions.delete.notification.body')),
                     ),
-            ]);
+            ])
+            ->modifyQueryUsing(function (Builder $query) {
+                return $query->whereHas('operationType', function (Builder $query) {
+                    $query->where('type', Enums\OperationType::INCOMING);
+                });
+            });
     }
 
     public static function getRecordSubNavigation(Page $page): array
@@ -79,7 +87,7 @@ class ReceiptResource extends Resource
     public static function getRelations(): array
     {
         return [
-            // Pages\ManageMoves::class
+            RelationManagers\MovesRelationManager::class
         ];
     }
 

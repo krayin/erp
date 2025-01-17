@@ -10,6 +10,8 @@ use Filament\Tables\Table;
 use Webkul\Inventory\Models\Move;
 use Webkul\Inventory\Models\Product;
 use Webkul\Inventory\Enums;
+use Filament\Notifications\Notification;
+use Illuminate\Validation\ValidationException;
 
 class MoveResource extends Resource
 {
@@ -34,17 +36,36 @@ class MoveResource extends Resource
                             $set('uom_id', $product->uom_id);
                         }
                     }),
+                Forms\Components\Select::make('final_location_id')
+                    ->label(__('inventories::filament/clusters/operations/resources/move.form.fields.final-location'))
+                    ->relationship('finalLocation', 'full_name')
+                    ->searchable()
+                    ->preload(),
+                Forms\Components\TextInput::make('description')
+                    ->label(__('inventories::filament/clusters/operations/resources/move.form.fields.description')),
+                Forms\Components\DateTimePicker::make('scheduled_at')
+                    ->label(__('inventories::filament/clusters/operations/resources/move.form.fields.scheduled-at'))
+                    ->default(now())
+                    ->native(false),
+                Forms\Components\DateTimePicker::make('deadline')
+                    ->label(__('inventories::filament/clusters/operations/resources/move.form.fields.deadline'))
+                    ->native(false),
                 Forms\Components\Select::make('product_packaging_id')
                     ->label(__('inventories::filament/clusters/operations/resources/move.form.fields.packaging'))
                     ->relationship('productPackaging', 'name')
                     ->searchable()
                     ->preload(),
-                Forms\Components\TextInput::make('product_uom_qty')
+                Forms\Components\TextInput::make('product_qty')
                     ->label(__('inventories::filament/clusters/operations/resources/move.form.fields.demand'))
                     ->numeric()
                     ->minValue(0)
                     ->default(0)
                     ->required(),
+                Forms\Components\TextInput::make('quantity')
+                    ->label(__('inventories::filament/clusters/operations/resources/move.form.fields.quantity'))
+                    ->numeric()
+                    ->minValue(0)
+                    ->default(0),
                 Forms\Components\Select::make('uom_id')
                     ->label(__('inventories::filament/clusters/operations/resources/move.form.fields.unit'))
                     ->relationship(
@@ -55,8 +76,10 @@ class MoveResource extends Resource
                     ->searchable()
                     ->preload()
                     ->required(),
-            ])
-            ->columns(1);
+                Forms\Components\Toggle::make('is_picked')
+                    ->label(__('inventories::filament/clusters/operations/resources/move.form.fields.picked'))
+                    ->default(0),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -89,14 +112,34 @@ class MoveResource extends Resource
                     ->label(__('inventories::filament/clusters/operations/resources/move.table.columns.packaging'))
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('product_uom_qty')
+                Tables\Columns\TextColumn::make('product_qty')
                     ->label(__('inventories::filament/clusters/operations/resources/move.table.columns.demand'))
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('quantity')
+                Tables\Columns\TextInputColumn::make('qty')
                     ->label(__('inventories::filament/clusters/operations/resources/move.table.columns.quantity'))
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->beforeStateUpdated(function (Move $record, $state) {
+                        if (in_array($record->operation->state, [Enums\OperationState::DRAFT, Enums\OperationState::WAITING])) {
+                            Notification::make()
+                                ->success()
+                                ->title(__('projects::filament/resources/task.table.actions.delete.notification.title'))
+                                ->body(__('projects::filament/resources/task.table.actions.delete.notification.body'))
+                                ->warning()
+                                ->send();
+
+                                throw \Illuminate\Validation\ValidationException::withMessages([]);
+                        }
+                    })
+                    ->afterStateUpdated(function (Move $record, $state) {
+                        Notification::make()
+                            ->success()
+                            ->title(__('projects::filament/resources/task.table.actions.delete.notification.title'))
+                            ->body(__('projects::filament/resources/task.table.actions.delete.notification.body'))
+                            ->success()
+                            ->send();
+                    }),
                 Tables\Columns\TextColumn::make('is_picked')
                     ->label(__('inventories::filament/clusters/operations/resources/move.table.columns.picked'))
                     ->searchable()

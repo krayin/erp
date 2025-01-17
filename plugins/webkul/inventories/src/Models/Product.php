@@ -79,6 +79,16 @@ class Product extends BaseProduct
         return $this->hasMany(ProductQuantity::class);
     }
 
+    public function moves(): HasMany
+    {
+        return $this->hasMany(Move::class);
+    }
+
+    public function moveLines(): HasMany
+    {
+        return $this->hasMany(MoveLine::class);
+    }
+
     public function storageCategoryCapacities(): BelongsToMany
     {
         return $this->belongsToMany(StorageCategoryCapacity::class, 'inventories_storage_category_capacities', 'storage_category_id', 'package_type_id');

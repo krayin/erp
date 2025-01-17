@@ -10,6 +10,7 @@ use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 use Webkul\Support\Models\UOM;
+use Webkul\Inventory\Enums;
 
 class MoveLine extends Model
 {
@@ -30,11 +31,12 @@ class MoveLine extends Model
     protected $fillable = [
         'lot_name',
         'state',
+        'reference',
         'picking_description',
         'quantity',
         'quantity_product_uom',
         'is_picked',
-        'date',
+        'scheduled_at',
         'move_id',
         'operation_id',
         'product_id',
@@ -57,8 +59,9 @@ class MoveLine extends Model
      * @var string
      */
     protected $casts = [
+        'state'     => Enums\MoveState::class,
         'is_picked' => 'boolean',
-        'date'      => 'date',
+        'scheduled_at'      => 'datetime',
     ];
 
     public function move(): BelongsTo

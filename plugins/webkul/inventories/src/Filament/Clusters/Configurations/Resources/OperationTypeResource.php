@@ -298,6 +298,9 @@ class OperationTypeResource extends Resource
                 Tables\Columns\TextColumn::make('company.name')
                     ->label(__('inventories::filament/clusters/configurations/resources/operation-type.table.columns.company'))
                     ->searchable(),
+                Tables\Columns\TextColumn::make('warehouse.name')
+                    ->label(__('inventories::filament/clusters/configurations/resources/operation-type.table.columns.warehouse'))
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(__('inventories::filament/clusters/configurations/resources/operation-type.table.columns.created-at'))
                     ->dateTime()
