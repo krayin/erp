@@ -18,6 +18,6 @@ class OperationSettings extends Settings
 
     public static function group(): string
     {
-        return 'inventories.operation';
+        return 'inventories_operation';
     }
 }

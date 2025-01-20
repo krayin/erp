@@ -10,10 +10,16 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Inventory\Settings\OperationSettings;
 
 class CapacityByPackagesRelationManager extends RelationManager
 {
     protected static string $relationship = 'storageCategoryCapacitiesByPackageType';
+
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        return app(OperationSettings::class)->enable_packages;
+    }
 
     public static function getTitle(Model $ownerRecord, string $pageClass): string
     {

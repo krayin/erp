@@ -13,9 +13,11 @@ class ManageWarehouses extends SettingsPage
 {
     use HasPageShield;
 
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
+    protected static ?string $navigationIcon = 'heroicon-o-building-storefront';
 
-    protected static ?string $navigationGroup = 'Project';
+    protected static ?string $navigationGroup = 'Inventory';
+
+    protected static ?int $navigationSort = 3;
 
     protected static string $settings = WarehouseSettings::class;
 
@@ -24,28 +26,42 @@ class ManageWarehouses extends SettingsPage
     public function getBreadcrumbs(): array
     {
         return [
-            __('projects::filament/clusters/settings/pages/manage-tasks.title'),
+            __('inventories::filament/clusters/settings/pages/manage-warehouses.title'),
         ];
     }
 
     public function getTitle(): string
     {
-        return __('projects::filament/clusters/settings/pages/manage-tasks.title');
+        return __('inventories::filament/clusters/settings/pages/manage-warehouses.title');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('projects::filament/clusters/settings/pages/manage-tasks.title');
+        return __('inventories::filament/clusters/settings/pages/manage-warehouses.title');
     }
 
     public function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Toggle::make('enable_milestones')
-                    ->label(__('projects::filament/clusters/settings/pages/manage-tasks.form.enable-milestones'))
-                    ->helperText(__('projects::filament/clusters/settings/pages/manage-tasks.form.enable-milestones-helper-text'))
-                    ->required(),
+                Forms\Components\Toggle::make('enable_locations')
+                    ->label(__('inventories::filament/clusters/settings/pages/manage-warehouses.form.enable-locations'))
+                    ->helperText(__('inventories::filament/clusters/settings/pages/manage-warehouses.form.enable-locations-helper-text'))
+                    ->afterStateUpdated(function (Forms\Set $set, Forms\Get $get) {
+                        if (! $get('enable_locations')) {
+                            $set('enable_multi_steps_routes', false);
+                        }
+                    })
+                    ->live(),
+                Forms\Components\Toggle::make('enable_multi_steps_routes')
+                    ->label(__('inventories::filament/clusters/settings/pages/manage-warehouses.form.enable-multi-steps-routes'))
+                    ->helperText(__('inventories::filament/clusters/settings/pages/manage-warehouses.form.enable-multi-steps-routes-helper-text'))
+                    ->afterStateUpdated(function (Forms\Set $set, Forms\Get $get) {
+                        if ($get('enable_multi_steps_routes')) {
+                            $set('enable_locations', true);
+                        }
+                    })
+                    ->live(),
             ]);
     }
 }

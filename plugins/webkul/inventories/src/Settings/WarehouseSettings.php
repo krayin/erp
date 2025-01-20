@@ -12,6 +12,6 @@ class WarehouseSettings extends Settings
 
     public static function group(): string
     {
-        return 'inventories.warehouse';
+        return 'inventories_warehouse';
     }
 }

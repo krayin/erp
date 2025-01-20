@@ -13,9 +13,11 @@ class ManageLogistics extends SettingsPage
 {
     use HasPageShield;
 
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
+    protected static ?string $navigationIcon = 'heroicon-o-truck';
 
-    protected static ?string $navigationGroup = 'Project';
+    protected static ?string $navigationGroup = 'Inventory';
+
+    protected static ?int $navigationSort = 5;
 
     protected static string $settings = LogisticSettings::class;
 
@@ -24,28 +26,27 @@ class ManageLogistics extends SettingsPage
     public function getBreadcrumbs(): array
     {
         return [
-            __('projects::filament/clusters/settings/pages/manage-tasks.title'),
+            __('inventories::filament/clusters/settings/pages/manage-logistics.title'),
         ];
     }
 
     public function getTitle(): string
     {
-        return __('projects::filament/clusters/settings/pages/manage-tasks.title');
+        return __('inventories::filament/clusters/settings/pages/manage-logistics.title');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('projects::filament/clusters/settings/pages/manage-tasks.title');
+        return __('inventories::filament/clusters/settings/pages/manage-logistics.title');
     }
 
     public function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Toggle::make('enable_milestones')
-                    ->label(__('projects::filament/clusters/settings/pages/manage-tasks.form.enable-milestones'))
-                    ->helperText(__('projects::filament/clusters/settings/pages/manage-tasks.form.enable-milestones-helper-text'))
-                    ->required(),
+                Forms\Components\Toggle::make('enable_dropshipping')
+                    ->label(__('inventories::filament/clusters/settings/pages/manage-logistics.form.enable-dropshipping'))
+                    ->helperText(__('inventories::filament/clusters/settings/pages/manage-logistics.form.enable-dropshipping-helper-text')),
             ]);
     }
 }

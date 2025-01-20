@@ -10,6 +10,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\StorageCategoryResource;
+use Webkul\Inventory\Settings\OperationSettings;
 
 class ManageCapacityByPackages extends ManageRelatedRecords
 {
@@ -18,6 +19,20 @@ class ManageCapacityByPackages extends ManageRelatedRecords
     protected static string $relationship = 'storageCategoryCapacitiesByPackageType';
 
     protected static ?string $navigationIcon = 'heroicon-o-cube';
+
+    /**
+     * @param  array<string, mixed>  $parameters
+     */
+    public static function canAccess(array $parameters = []): bool
+    {
+        $canAccess = parent::canAccess($parameters);
+
+        if (! $canAccess) {
+            return false;
+        }
+
+        return app(OperationSettings::class)->enable_packages;
+    }
 
     public static function getNavigationLabel(): string
     {

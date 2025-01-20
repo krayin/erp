@@ -6,6 +6,6 @@ return new class extends SettingsMigration
 {
     public function up(): void
     {
-        $this->migrator->add('inventories.logistic.enable_dropshipping', false);
+        $this->migrator->add('inventories_logistic.enable_dropshipping', false);
     }
 };

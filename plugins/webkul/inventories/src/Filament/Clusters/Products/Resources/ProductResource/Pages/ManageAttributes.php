@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Inventory\Filament\Clusters\Products\Resources\ProductResource;
 use Webkul\Product\Models\ProductAttribute;
+use Webkul\Inventory\Settings\ProductSettings;
 
 class ManageAttributes extends ManageRelatedRecords
 {
@@ -20,6 +21,20 @@ class ManageAttributes extends ManageRelatedRecords
     protected static string $relationship = 'attributes';
 
     protected static ?string $navigationIcon = 'heroicon-o-swatch';
+
+    /**
+     * @param  array<string, mixed>  $parameters
+     */
+    public static function canAccess(array $parameters = []): bool
+    {
+        $canAccess = parent::canAccess($parameters);
+
+        if (! $canAccess) {
+            return false;
+        }
+
+        return app(ProductSettings::class)->enable_variants;
+    }
 
     public static function getNavigationLabel(): string
     {

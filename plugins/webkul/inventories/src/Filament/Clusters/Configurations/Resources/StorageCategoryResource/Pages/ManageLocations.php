@@ -10,6 +10,7 @@ use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\LocationResource;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\StorageCategoryResource;
+use Webkul\Inventory\Settings\WarehouseSettings;
 
 class ManageLocations extends ManageRelatedRecords
 {
@@ -18,6 +19,20 @@ class ManageLocations extends ManageRelatedRecords
     protected static string $relationship = 'locations';
 
     protected static ?string $navigationIcon = 'heroicon-o-map-pin';
+
+    /**
+     * @param  array<string, mixed>  $parameters
+     */
+    public static function canAccess(array $parameters = []): bool
+    {
+        $canAccess = parent::canAccess($parameters);
+
+        if (! $canAccess) {
+            return false;
+        }
+
+        return app(WarehouseSettings::class)->enable_locations;
+    }
 
     public static function getNavigationLabel(): string
     {

@@ -19,6 +19,9 @@ use Webkul\Inventory\Filament\Clusters\Configurations\Resources\OperationTypeRes
 use Webkul\Inventory\Models\Location;
 use Webkul\Inventory\Models\OperationType;
 use Webkul\Inventory\Models\Warehouse;
+use Webkul\Inventory\Settings\OperationSettings;
+use Webkul\Inventory\Settings\WarehouseSettings;
+use Webkul\Inventory\Settings\TraceabilitySettings;
 
 class OperationTypeResource extends Resource
 {
@@ -136,7 +139,7 @@ class OperationTypeResource extends Resource
                                                     ->label(__('inventories::filament/clusters/configurations/resources/operation-type.form.tabs.general.fields.show-reception-report'))
                                                     ->inline(false)
                                                     ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/operation-type.form.tabs.general.fields.show-reception-report-hint-tooltip'))
-                                                    ->visible(fn (Forms\Get $get): bool => in_array($get('type'), [OperationTypeEnum::INCOMING->value, OperationTypeEnum::INTERNAL->value])),
+                                                    ->visible(fn (OperationSettings $operationSettings, Forms\Get $get): bool => $operationSettings->enable_reception_report && in_array($get('type'), [OperationTypeEnum::INCOMING->value, OperationTypeEnum::INTERNAL->value])),
                                             ]),
 
                                         Forms\Components\Group::make()
@@ -177,7 +180,7 @@ class OperationTypeResource extends Resource
                                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/operation-type.form.tabs.general.fieldsets.lots.fields.use-existing-hint-tooltip'))
                                             ->inline(false),
                                     ])
-                                    ->visible(fn (Forms\Get $get): bool => $get('type') != OperationTypeEnum::DROPSHIP->value),
+                                    ->visible(fn (TraceabilitySettings $traceabilitySettings, Forms\Get $get): bool => $traceabilitySettings->enable_lots_serial_numbers && $get('type') != OperationTypeEnum::DROPSHIP->value),
                                 Forms\Components\Fieldset::make(__('inventories::filament/clusters/configurations/resources/operation-type.form.tabs.general.fieldsets.locations.title'))
                                     ->schema([
                                         Forms\Components\Select::make('source_location_id')
@@ -228,7 +231,8 @@ class OperationTypeResource extends Resource
                                                     default => null,
                                                 };
                                             }),
-                                    ]),
+                                    ])
+                                    ->visible(fn (WarehouseSettings $warehouseSettings): bool => $warehouseSettings->enable_locations),
                                 Forms\Components\Fieldset::make(__('inventories::filament/clusters/configurations/resources/operation-type.form.tabs.general.fieldsets.packages.title'))
                                     ->schema([
                                         Forms\Components\Toggle::make('show_entire_packs')
@@ -236,7 +240,7 @@ class OperationTypeResource extends Resource
                                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/operation-type.form.tabs.general.fieldsets.packages.fields.show-entire-package-hint-tooltip'))
                                             ->inline(false),
                                     ])
-                                    ->visible(fn (Forms\Get $get): bool => $get('type') != OperationTypeEnum::DROPSHIP->value),
+                                    ->visible(fn (OperationSettings $operationSettings, Forms\Get $get): bool => $operationSettings->enable_packages && $get('type') != OperationTypeEnum::DROPSHIP->value),
                             ]),
                         Forms\Components\Tabs\Tab::make(__('inventories::filament/clusters/configurations/resources/operation-type.form.tabs.hardware.title'))
                             ->icon('heroicon-o-computer-desktop')
@@ -258,29 +262,34 @@ class OperationTypeResource extends Resource
                                         Forms\Components\Toggle::make('auto_print_lot_labels')
                                             ->label(__('inventories::filament/clusters/configurations/resources/operation-type.form.tabs.hardware.fieldsets.print-on-validation.fields.lots-labels'))
                                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/operation-type.form.tabs.hardware.fieldsets.print-on-validation.fields.lots-labels-hint-tooltip'))
-                                            ->inline(false),
+                                            ->inline(false)
+                                            ->visible(fn (TraceabilitySettings $traceabilitySettings): bool => $traceabilitySettings->enable_lots_serial_numbers),
                                         Forms\Components\Toggle::make('auto_print_reception_report')
                                             ->label(__('inventories::filament/clusters/configurations/resources/operation-type.form.tabs.hardware.fieldsets.print-on-validation.fields.reception-report'))
                                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/operation-type.form.tabs.hardware.fieldsets.print-on-validation.fields.reception-report-hint-tooltip'))
-                                            ->inline(false),
+                                            ->inline(false)
+                                            ->visible(fn (OperationSettings $operationSettings): bool => $operationSettings->enable_reception_report),
                                         Forms\Components\Toggle::make('auto_print_reception_report_labels')
                                             ->label(__('inventories::filament/clusters/configurations/resources/operation-type.form.tabs.hardware.fieldsets.print-on-validation.fields.reception-report-labels'))
                                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/operation-type.form.tabs.hardware.fieldsets.print-on-validation.fields.reception-report-labels-hint-tooltip'))
-                                            ->inline(false),
+                                            ->inline(false)
+                                            ->visible(fn (OperationSettings $operationSettings): bool => $operationSettings->enable_reception_report),
                                         Forms\Components\Toggle::make('auto_print_packages')
                                             ->label(__('inventories::filament/clusters/configurations/resources/operation-type.form.tabs.hardware.fieldsets.print-on-validation.fields.package-content'))
                                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/operation-type.form.tabs.hardware.fieldsets.print-on-validation.fields.package-content-hint-tooltip'))
-                                            ->inline(false),
+                                            ->inline(false)
+                                            ->visible(fn (OperationSettings $operationSettings): bool => $operationSettings->enable_packages),
                                     ])
                                     ->columns(2),
 
                                 Forms\Components\Fieldset::make(__('inventories::filament/clusters/configurations/resources/operation-type.form.tabs.hardware.fieldsets.print-on-pack.title'))
                                     ->schema([
-                                        Forms\Components\Toggle::make('auto_print_delivery_slip')
+                                        Forms\Components\Toggle::make('auto_print_package_label')
                                             ->label(__('inventories::filament/clusters/configurations/resources/operation-type.form.tabs.hardware.fieldsets.print-on-pack.fields.package-label'))
                                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/operation-type.form.tabs.hardware.fieldsets.print-on-pack.fields.package-label-hint-tooltip'))
                                             ->inline(false),
-                                    ]),
+                                    ])
+                                    ->visible(fn (OperationSettings $operationSettings): bool => $operationSettings->enable_packages),
                             ])
                             ->visible(fn (Forms\Get $get): bool => $get('type') != OperationTypeEnum::DROPSHIP->value),
                     ])

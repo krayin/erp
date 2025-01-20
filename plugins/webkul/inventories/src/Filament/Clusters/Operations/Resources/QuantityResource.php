@@ -9,11 +9,11 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Webkul\Inventory\Filament\Clusters\Operations;
 use Webkul\Inventory\Filament\Clusters\Operations\Resources\QuantityResource\Pages;
-use Webkul\Inventory\Models\Quantity;
+use Webkul\Inventory\Models\ProductQuantity;
 
 class QuantityResource extends Resource
 {
-    protected static ?string $model = Quantity::class;
+    protected static ?string $model = ProductQuantity::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 

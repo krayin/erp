@@ -9,6 +9,7 @@ use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Webkul\Inventory\Filament\Clusters\Products\Resources\ProductResource;
+use Webkul\Inventory\Settings\ProductSettings;
 
 class ManageVariants extends ManageRelatedRecords
 {
@@ -17,6 +18,20 @@ class ManageVariants extends ManageRelatedRecords
     protected static string $relationship = 'variants';
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
+
+    /**
+     * @param  array<string, mixed>  $parameters
+     */
+    public static function canAccess(array $parameters = []): bool
+    {
+        $canAccess = parent::canAccess($parameters);
+
+        if (! $canAccess) {
+            return false;
+        }
+
+        return app(ProductSettings::class)->enable_variants;
+    }
 
     public static function getNavigationLabel(): string
     {

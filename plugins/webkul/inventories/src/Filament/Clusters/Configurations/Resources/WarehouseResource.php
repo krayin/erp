@@ -17,6 +17,7 @@ use Webkul\Inventory\Enums\ReceptionStep;
 use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\WarehouseResource\Pages;
 use Webkul\Inventory\Models\Warehouse;
+use Webkul\Inventory\Settings\WarehouseSettings;
 
 class WarehouseResource extends Resource
 {
@@ -106,17 +107,20 @@ class WarehouseResource extends Resource
                                             ->default(DeliveryStep::ONE_STEP)
                                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/warehouse.form.sections.settings.fields.outgoing-shipments-hint-tooltip')),
                                     ])
-                                    ->columns(1),
+                                    ->columns(1)
+                                    ->visible(fn (WarehouseSettings $warehouseSettings): bool => $warehouseSettings->enable_multi_steps_routes),
 
                                 Forms\Components\Fieldset::make(__('inventories::filament/clusters/configurations/resources/warehouse.form.sections.settings.fields.resupply-management'))
                                     ->schema([
                                         Forms\Components\CheckboxList::make('supplierWarehouses')
                                             ->label(__('inventories::filament/clusters/configurations/resources/warehouse.form.sections.settings.fields.resupply-from'))
                                             ->relationship('supplierWarehouses', 'name'),
-                                    ]),
+                                    ])
+                                    ->visible(Warehouse::count() > 1),
                             ]),
                     ])
-                    ->columnSpan(['lg' => 1]),
+                    ->columnSpan(['lg' => 1])
+                    ->visible(fn (WarehouseSettings $warehouseSettings): bool => $warehouseSettings->enable_multi_steps_routes && Warehouse::count() > 1),
             ])
             ->columns(3);
     }

@@ -18,7 +18,25 @@ return [
                     'operation-type' => 'Operation Type',
                     'source-location' => 'Source Location',
                     'destination-location' => 'Destination Location',
-                    'external-notes' => 'External Notes',
+                ],
+            ],
+        ],
+
+        'tabs' => [
+            'operations' => [
+                'title' => 'Operations',
+
+                'fields' => [
+                    'product' => 'Product',
+                    'final-location' => 'Final Location',
+                    'description' => 'Description',
+                    'scheduled-at' => 'Scheduled At',
+                    'deadline' => 'Deadline',
+                    'packaging' => 'Packaging',
+                    'demand' => 'Demand',
+                    'quantity' => 'Quantity',
+                    'unit' => 'Unit',
+                    'picked' => 'Picked',
                 ],
             ],
 
@@ -33,6 +51,14 @@ return [
                     'scheduled-at-hint-tooltip' => 'Scheduled time for the first part of the shipment to be processed. Setting manually a value here would set it as expected date for all the stock moves.',
                     'source-document' => 'Source Document',
                     'source-document-hint-tooltip' => 'Reference of the document',
+                ],
+            ],
+
+            'note' => [
+                'title' => 'Note',
+
+                'fields' => [
+
                 ],
             ],
         ],

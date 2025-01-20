@@ -14,6 +14,6 @@ class ProductSettings extends Settings
 
     public static function group(): string
     {
-        return 'inventories.product';
+        return 'inventories_product';
     }
 }

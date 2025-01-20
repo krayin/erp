@@ -187,7 +187,7 @@ class OperationTypeSeeder extends Seeder
                 'destination_location_id' => 12,
                 'company_id'              => $user->default_company_id,
                 'creator_id'              => $user->id,
-                'deleted_at'              => null,
+                'deleted_at'              => now(),
                 'created_at'              => now(),
                 'updated_at'              => now(),
             ], [

@@ -17,6 +17,7 @@ use Webkul\Inventory\Filament\Clusters\Configurations\Resources\LocationResource
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\StorageCategoryResource\Pages\ManageLocations;
 use Webkul\Inventory\Models\Location;
 use Webkul\Product\Enums\ProductRemoval;
+use Webkul\Inventory\Settings\WarehouseSettings;
 
 class LocationResource extends Resource
 {
@@ -29,6 +30,15 @@ class LocationResource extends Resource
     protected static ?string $cluster = Configurations::class;
 
     protected static ?string $recordTitleAttribute = 'full_name';
+
+    public static function isDiscovered(): bool
+    {
+        if (app()->runningInConsole()) {
+            return true;
+        }
+
+        return app(WarehouseSettings::class)->enable_locations;
+    }
 
     public static function getNavigationGroup(): string
     {

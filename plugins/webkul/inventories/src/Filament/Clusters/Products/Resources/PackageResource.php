@@ -14,6 +14,7 @@ use Webkul\Inventory\Filament\Clusters\Products;
 use Webkul\Inventory\Filament\Clusters\Products\Resources\PackageResource\Pages;
 use Webkul\Inventory\Filament\Clusters\Products\Resources\PackageResource\RelationManagers;
 use Webkul\Inventory\Models\Package;
+use Webkul\Inventory\Settings\OperationSettings;
 
 class PackageResource extends Resource
 {
@@ -26,6 +27,15 @@ class PackageResource extends Resource
     protected static ?int $navigationSort = 2;
 
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
+
+    public static function isDiscovered(): bool
+    {
+        if (app()->runningInConsole()) {
+            return true;
+        }
+
+        return app(OperationSettings::class)->enable_packages;
+    }
 
     public static function getNavigationLabel(): string
     {

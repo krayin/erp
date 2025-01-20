@@ -49,6 +49,14 @@ class CreateReceipt extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
+        $operationType = OperationType::find($data['operation_type_id']);
+
+        $data['source_location_id'] ??= $operationType->source_location_id;
+
+        $data['destination_location_id'] ??= $operationType->destination_location_id;
+
+        $data['state'] ??= Enums\OperationState::DRAFT;
+
         $data['creator_id'] = Auth::id();
 
         return $data;

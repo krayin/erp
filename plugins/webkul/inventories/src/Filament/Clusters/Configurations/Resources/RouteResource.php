@@ -16,6 +16,7 @@ use Webkul\Inventory\Filament\Clusters\Configurations\Resources\RouteResource\Pa
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\RouteResource\RelationManagers;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\WarehouseResource\Pages\ManageRoutes;
 use Webkul\Inventory\Models\Route;
+use Webkul\Inventory\Settings\WarehouseSettings;
 
 class RouteResource extends Resource
 {
@@ -28,6 +29,15 @@ class RouteResource extends Resource
     protected static ?string $cluster = Configurations::class;
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    public static function isDiscovered(): bool
+    {
+        if (app()->runningInConsole()) {
+            return true;
+        }
+
+        return app(WarehouseSettings::class)->enable_multi_steps_routes;
+    }
 
     public static function getNavigationGroup(): string
     {

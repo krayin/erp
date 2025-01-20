@@ -17,6 +17,7 @@ use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\StorageCategoryResource\Pages;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\StorageCategoryResource\RelationManagers;
 use Webkul\Inventory\Models\StorageCategory;
+use Webkul\Inventory\Settings\WarehouseSettings;
 
 class StorageCategoryResource extends Resource
 {
@@ -29,6 +30,15 @@ class StorageCategoryResource extends Resource
     protected static ?string $cluster = Configurations::class;
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    public static function isDiscovered(): bool
+    {
+        if (app()->runningInConsole()) {
+            return true;
+        }
+
+        return app(WarehouseSettings::class)->enable_locations;
+    }
 
     public static function getNavigationGroup(): string
     {

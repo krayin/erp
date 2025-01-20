@@ -13,6 +13,7 @@ use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductAttribute
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductAttributeResource\RelationManagers;
 use Webkul\Product\Enums\AttributeType;
 use Webkul\Product\Models\Attribute;
+use Webkul\Inventory\Settings\ProductSettings;
 
 class ProductAttributeResource extends Resource
 {
@@ -25,6 +26,15 @@ class ProductAttributeResource extends Resource
     protected static ?string $cluster = Configurations::class;
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    public static function isDiscovered(): bool
+    {
+        if (app()->runningInConsole()) {
+            return true;
+        }
+
+        return app(ProductSettings::class)->enable_variants;
+    }
 
     public static function getNavigationGroup(): string
     {
