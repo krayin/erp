@@ -73,40 +73,6 @@ class CalendarWidget extends FullCalendarWidget
         ];
     }
 
-    public function config(): array
-    {
-        return [
-            'initialView' => 'multiMonthYear',
-            // 'headerToolbar' => [
-            //     'left' => 'prev,next today',
-            //     'center' => 'title',
-            //     'right' => 'dayGridMonth,dayGridWeek,dayGridDay',
-            // ],
-            // 'editable' => true,
-            // 'selectable' => true,
-            // 'selectMirror' => true,
-            // 'dayMaxEvents' => true,
-            // 'weekends' => true,
-            // 'selectConstraint' => null,
-            // 'selectOverlap' => true,
-            // 'selectMinDistance' => 0,
-            // 'longPressDelay' => 100,
-            // 'eventDisplay' => 'block',
-            // 'displayEventTime' => true,
-            // 'displayEventEnd' => true,
-            // 'fixedWeekCount' => false,
-            // 'showNonCurrentDates' => true,
-            // 'eventTimeFormat' => [
-            //     'hour' => '2-digit',
-            //     'minute' => '2-digit',
-            //     'meridiem' => false,
-            // ],
-            // 'height' => '650px',
-            // 'plugins' =>  ['multiMonthPlugin'],
-            // 'initialView' => 'multiMonthYear',
-        ];
-    }
-
     public function fetchEvents(array $info): array
     {
 

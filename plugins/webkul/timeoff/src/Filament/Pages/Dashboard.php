@@ -2,24 +2,24 @@
 
 namespace Webkul\Timeoff\Filament\Pages;
 
-use Filament\Pages\Page;
 use Webkul\Timeoff\Filament\Clusters\MyTime;
+use Filament\Pages\Dashboard as BaseDashboard;
 use Webkul\Timeoff\Filament\Widgets\CalendarWidget;
 
-class Dashboard extends Page
+class Dashboard extends BaseDashboard
 {
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static string $routePath = 'timeoff';
 
-    protected static string $view = 'webkul.timeoff.filament.pages.dashboard';
+    protected static ?string $navigationIcon = 'heroicon-o-folder';
 
     protected static ?string $cluster = MyTime::class;
 
-    public static function getSlug(): string
+    public static function getNavigationLabel(): string
     {
-        return 'timeoff/dashboard';
+        return __('Time off');
     }
 
-    protected function getHeaderWidgets(): array
+    public function getWidgets(): array
     {
         return [
             CalendarWidget::class
