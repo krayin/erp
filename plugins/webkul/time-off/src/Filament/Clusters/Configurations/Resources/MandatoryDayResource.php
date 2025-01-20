@@ -156,8 +156,8 @@ class MandatoryDayResource extends Resource
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title(__('time_off::filament/clusters/configurations/resources/mandatory-days.table.actions.bulk-actions.notification.title'))
-                                ->body(__('time_off::filament/clusters/configurations/resources/mandatory-days.table.actions.bulk-actions.notification.body')),
+                                ->title(__('time_off::filament/clusters/configurations/resources/mandatory-days.table.bulk-actions.delete.notification.title'))
+                                ->body(__('time_off::filament/clusters/configurations/resources/mandatory-days.table.bulk-actions.delete.notification.body')),
                         ),
                 ]),
             ]);

@@ -6,7 +6,6 @@ use Webkul\Support\Filament\Resources\ActivityTypeResource as BaseActivityTypeRe
 use Webkul\TimeOff\Filament\Clusters\Configurations;
 use Webkul\TimeOff\Filament\Clusters\Configurations\Resources\ActivityTypeResource\Pages;
 
-
 class ActivityTypeResource extends BaseActivityTypeResource
 {
     protected static ?string $navigationIcon = 'heroicon-o-clock';

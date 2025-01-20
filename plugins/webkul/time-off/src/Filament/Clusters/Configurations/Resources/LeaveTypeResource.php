@@ -2,7 +2,6 @@
 
 namespace Webkul\TimeOff\Filament\Clusters\Configurations\Resources;
 
-// use Webkul\TimeOff\Filament\Clusters\Configurations;
 use Webkul\TimeOff\Filament\Clusters\Configurations;
 use Webkul\TimeOff\Filament\Clusters\Configurations\Resources\LeaveTypeResource\Pages;
 use Webkul\TimeOff\Models\LeaveType;
