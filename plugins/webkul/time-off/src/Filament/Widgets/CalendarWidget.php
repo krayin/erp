@@ -1,6 +1,6 @@
 <?php
 
-namespace Webkul\Timeoff\Filament\Widgets;
+namespace Webkul\TimeOff\Filament\Widgets;
 
 use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
 use Filament\Forms;

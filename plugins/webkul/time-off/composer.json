@@ -1,5 +1,5 @@
 {
-    "name": "webkul/timeoff",
+    "name": "webkul/time-off",
     "description": "",
     "authors": [
         {
@@ -10,21 +10,21 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Webkul\\Timeoff\\Providers\\TimeoffServiceProvider"
+                "Webkul\\TimeOff\\Providers\\TimeOffServiceProvider"
             ],
             "aliases": {}
         }
     },
     "autoload": {
         "psr-4": {
-            "Webkul\\Timeoff\\": "src/",
-            "Webkul\\Timeoff\\Database\\Factories\\": "database/factories/",
-            "Webkul\\Timeoff\\Database\\Seeders\\": "database/seeders/"
+            "Webkul\\TimeOff\\": "src/",
+            "Webkul\\TimeOff\\Database\\Factories\\": "database/factories/",
+            "Webkul\\TimeOff\\Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Webkul\\Timeoff\\Tests\\": "tests/"
+            "Webkul\\TimeOff\\Tests\\": "tests/"
         }
     }
 }

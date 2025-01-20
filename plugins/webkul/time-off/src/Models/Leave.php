@@ -1,10 +1,10 @@
 <?php
 
-namespace Webkul\Timeoff\Models;
+namespace Webkul\TimeOff\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Leave extends Model
 {
-    protected $table = 'timeoff_leaves';
+    protected $table = 'time_off_leaves';
 }

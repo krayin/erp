@@ -1,16 +1,16 @@
 <?php
 
-namespace Webkul\Timeoff;
+namespace Webkul\TimeOff;
 
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Webkul\Support\Package;
 use Webkul\Support\PackageServiceProvider;
 
-class TimeoffServiceProvider extends PackageServiceProvider
+class TimeOffServiceProvider extends PackageServiceProvider
 {
-    public static string $name = 'timeoff';
+    public static string $name = 'time_off';
 
-    public static string $viewNamespace = 'timeoff';
+    public static string $viewNamespace = 'time_off';
 
     public function configureCustomPackage(Package $package): void
     {
@@ -18,7 +18,9 @@ class TimeoffServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasTranslations()
             ->hasMigrations([
-                '2025_01_17_080712_create_timeoff_leaves_table'
+                '2025_01_17_080712_create_time_off_leaves_table',
+                '2025_01_20_055423_create_time_off_leave_types_table',
+                '2025_01_20_080058_create_time_off_user_leave_types_table'
             ])
             ->runsMigrations()
             ->hasInstallCommand(function (InstallCommand $command) {
@@ -30,11 +32,11 @@ class TimeoffServiceProvider extends PackageServiceProvider
                             $command->comment('Seeding data...');
 
                             $command->call('db:seed', [
-                                '--class' => 'Webkul\\Timeoff\\Database\Seeders\\DatabaseSeeder',
+                                '--class' => 'Webkul\\TimeOff\\Database\Seeders\\DatabaseSeeder',
                             ]);
                         }
                     })
-                    ->askToStarRepoOnGitHub('krayin/timeoff');
+                    ->askToStarRepoOnGitHub('krayin/time-off');
             });
     }
 }
