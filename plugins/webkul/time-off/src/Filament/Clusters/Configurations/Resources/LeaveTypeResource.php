@@ -2,6 +2,7 @@
 
 namespace Webkul\TimeOff\Filament\Clusters\Configurations\Resources;
 
+// use Webkul\TimeOff\Filament\Clusters\Configurations;
 use Webkul\TimeOff\Filament\Clusters\Configurations;
 use Webkul\TimeOff\Filament\Clusters\Configurations\Resources\LeaveTypeResource\Pages;
 use Webkul\TimeOff\Models\LeaveType;
@@ -16,6 +17,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Webkul\TimeOff\Enums;
 use Webkul\TimeOff\Enums\RequiresAllocation;
 
@@ -26,6 +28,29 @@ class LeaveTypeResource extends Resource
     protected static ?string $navigationIcon =  'heroicon-o-document-text';
 
     protected static ?string $cluster = Configurations::class;
+
+    public static function getModelLabel(): string
+    {
+        return __('time_off::filament/clusters/configurations/resources/leave-type.title');
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return [
+            'name',
+            'company.name',
+            'creator.name',
+        ];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            __('time_off::filament/clusters/configurations/resources/leave-type.global-search.name')            => $record->name ?? '—',
+            __('time_off::filament/clusters/configurations/resources/leave-type.global-search.company')         => $record->company?->name ?? '—',
+            __('time_off::filament/clusters/configurations/resources/leave-type.global-search.created-by')      => $record->createdBy?->name ?? '—',
+        ];
+    }
 
     public static function form(Form $form): Form
     {

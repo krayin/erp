@@ -1,7 +1,17 @@
 <?php
 
 return [
-    'test' => 'Test',
+    'title' => 'Leave Type',
+    'navigation' => [
+        'title' => 'Leave Type',
+    ],
+
+    'global-search' => [
+        'name'       => 'Name',
+        'company'    => 'Company',
+        'created-by' => 'Created By',
+    ],
+
     'form' => [
         'sections' => [
             'general' => [
