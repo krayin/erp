@@ -20,7 +20,8 @@ class TimeOffServiceProvider extends PackageServiceProvider
             ->hasMigrations([
                 '2025_01_17_080712_create_time_off_leaves_table',
                 '2025_01_20_055423_create_time_off_leave_types_table',
-                '2025_01_20_080058_create_time_off_user_leave_types_table'
+                '2025_01_20_080058_create_time_off_user_leave_types_table',
+                '2025_01_20_130725_create_time_off_leave_mandatory_days_table',
             ])
             ->runsMigrations()
             ->hasInstallCommand(function (InstallCommand $command) {
