@@ -5,9 +5,9 @@ namespace Webkul\TimeOff\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Leave>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\LeaveAccrualPlan>
  */
-class LeaveFactory extends Factory
+class LeaveAccrualPlanFactory extends Factory
 {
     /**
      * Define the model's default state.
