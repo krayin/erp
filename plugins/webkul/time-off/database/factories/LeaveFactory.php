@@ -2,12 +2,13 @@
 
 namespace Webkul\TimeOff\Database\Factories;
 
+
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\LeaveMandatoryDay>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Leave>
  */
-class LeaveMandatoryDayFactory extends Factory
+class LeaveFactory extends Factory
 {
     /**
      * Define the model's default state.
