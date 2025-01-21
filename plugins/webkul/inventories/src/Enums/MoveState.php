@@ -19,10 +19,10 @@ enum MoveState: string implements HasLabel
     public function getLabel(): string
     {
         return match ($this) {
-            self::DRAFT    => __('inventories::enums/move-state.draft'),
-            self::CONFIRMED => __('inventories::enums/move-state.confirmed'),
-            self::ASSIGNED => __('inventories::enums/move-state.assigned'),
-            self::DONE     => __('inventories::enums/move-state.done'),
+            self::DRAFT        => __('inventories::enums/move-state.draft'),
+            self::CONFIRMED    => __('inventories::enums/move-state.confirmed'),
+            self::ASSIGNED     => __('inventories::enums/move-state.assigned'),
+            self::DONE         => __('inventories::enums/move-state.done'),
             self::CANCELED     => __('inventories::enums/move-state.canceled'),
         };
     }

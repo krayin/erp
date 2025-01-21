@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Webkul\Inventory\Database\Factories\MoveLineFactory;
+use Webkul\Inventory\Enums;
 use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 use Webkul\Support\Models\UOM;
-use Webkul\Inventory\Enums;
 
 class MoveLine extends Model
 {
@@ -33,8 +33,8 @@ class MoveLine extends Model
         'state',
         'reference',
         'picking_description',
-        'quantity',
-        'quantity_product_uom',
+        'qty',
+        'uom_qty',
         'is_picked',
         'scheduled_at',
         'move_id',
@@ -59,8 +59,8 @@ class MoveLine extends Model
      * @var string
      */
     protected $casts = [
-        'state'     => Enums\MoveState::class,
-        'is_picked' => 'boolean',
+        'state'             => Enums\MoveState::class,
+        'is_picked'         => 'boolean',
         'scheduled_at'      => 'datetime',
     ];
 

@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'draft' => 'Draft',
+    'draft'     => 'Draft',
     'confirmed' => 'Confirmed',
-    'assigned' => 'Assigned',
-    'done' => 'Done',
-    'canceled' => 'Canceled',
+    'assigned'  => 'Assigned',
+    'done'      => 'Done',
+    'canceled'  => 'Canceled',
 ];

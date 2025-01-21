@@ -643,6 +643,7 @@ class ProductResource extends Resource
             Pages\EditProduct::class,
             Pages\ManageAttributes::class,
             Pages\ManageVariants::class,
+            Pages\ManageQuantities::class,
             Pages\ManageMoves::class,
         ]);
     }
@@ -664,6 +665,7 @@ class ProductResource extends Resource
             'attributes' => Pages\ManageAttributes::route('/{record}/attributes'),
             'variants'   => Pages\ManageVariants::route('/{record}/variants'),
             'moves'      => Pages\ManageMoves::route('/{record}/moves'),
+            'quantities' => Pages\ManageQuantities::route('/{record}/quantities'),
         ];
     }
 }

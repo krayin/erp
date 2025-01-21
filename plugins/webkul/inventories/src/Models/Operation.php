@@ -163,7 +163,7 @@ class Operation extends Model
      */
     public function updateName()
     {
-        $this->name = $this->operationType->warehouse->code . '/' . $this->operationType->sequence_code . '/' . $this->id;
+        $this->name = $this->operationType->warehouse->code.'/'.$this->operationType->sequence_code.'/'.$this->id;
     }
 
     public function updateChildrenNames(): void

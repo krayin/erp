@@ -11,9 +11,9 @@ use Filament\Tables\Table;
 use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductAttributeResource\Pages;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductAttributeResource\RelationManagers;
+use Webkul\Inventory\Settings\ProductSettings;
 use Webkul\Product\Enums\AttributeType;
 use Webkul\Product\Models\Attribute;
-use Webkul\Inventory\Settings\ProductSettings;
 
 class ProductAttributeResource extends Resource
 {

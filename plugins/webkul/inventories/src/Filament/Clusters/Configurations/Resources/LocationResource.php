@@ -16,8 +16,8 @@ use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\LocationResource\Pages;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\StorageCategoryResource\Pages\ManageLocations;
 use Webkul\Inventory\Models\Location;
-use Webkul\Product\Enums\ProductRemoval;
 use Webkul\Inventory\Settings\WarehouseSettings;
+use Webkul\Product\Enums\ProductRemoval;
 
 class LocationResource extends Resource
 {

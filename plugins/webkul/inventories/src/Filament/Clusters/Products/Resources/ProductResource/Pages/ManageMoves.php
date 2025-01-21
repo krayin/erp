@@ -2,17 +2,13 @@
 
 namespace Webkul\Inventory\Filament\Clusters\Products\Resources\ProductResource\Pages;
 
-use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Webkul\Inventory\Filament\Clusters\Products\Resources\ProductResource;
-use Webkul\Inventory\Filament\Clusters\Operations\Resources\MoveResource;
-use Illuminate\Support\Facades\Auth;
-use Webkul\Inventory\Models\Product;
-use Webkul\Inventory\Enums;
+use Webkul\Inventory\Settings\OperationSettings;
+use Webkul\Inventory\Settings\WarehouseSettings;
 
 class ManageMoves extends ManageRelatedRecords
 {
@@ -20,49 +16,54 @@ class ManageMoves extends ManageRelatedRecords
 
     protected static string $relationship = 'moveLines';
 
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
+    protected static ?string $navigationIcon = 'heroicon-o-arrows-right-left';
 
-    public function form(Form $form): Form
+    public static function getNavigationLabel(): string
     {
-        return MoveResource::form($form);
+        return __('inventories::filament/clusters/products/resources/product/pages/manage-moves.title');
     }
 
     public function table(Table $table): Table
     {
-        return MoveResource::table($table)
-            ->headerActions([
-                Tables\Actions\CreateAction::make()
-                    ->label(__('inventories::filament/clusters/operations/resources/receipt/pages/manage-moves.table.header-actions.create.label'))
-                    ->icon('heroicon-o-plus-circle')
-                    ->mutateFormDataUsing(function (array $data): array {
-                        $data['name'] = Product::find($data['product_id'])->name;
-                        
-                        $data['procure_method'] = Enums\ProcureMethod::MAKE_TO_STOCK;
-
-                        $data['source_location_id'] = $this->getOwnerRecord()->source_location_id;
-
-                        $data['destination_location_id'] = $this->getOwnerRecord()->destination_location_id;
-
-                        $data['creator_id'] = Auth::id();
-
-                        $data['company_id'] = $this->getOwnerRecord()->company_id ?? Auth::user()->default_company_id;
-
-                        return $data;
-                    })
-                    ->successNotification(
-                        Notification::make()
-                            ->success()
-                            ->title(__('inventories::filament/clusters/operations/resources/receipt/pages/manage-moves.table.header-actions.create.notification.title'))
-                            ->body(__('inventories::filament/clusters/operations/resources/receipt/pages/manage-moves.table.header-actions.create.notification.body')),
-                    ),
+        return $table
+            ->columns([
+                Tables\Columns\TextColumn::make('scheduled_at')
+                    ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-moves.table.columns.date'))
+                    ->sortable()
+                    ->dateTime(),
+                Tables\Columns\TextColumn::make('reference')
+                    ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-moves.table.columns.reference'))
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('resultPackage.name')
+                    ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-moves.table.columns.package'))
+                    ->sortable()
+                    ->visible(fn (OperationSettings $operationSettings) => $operationSettings->enable_packages),
+                Tables\Columns\TextColumn::make('sourceLocation.full_name')
+                    ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-moves.table.columns.source-location'))
+                    ->visible(fn (WarehouseSettings $warehouseSettings) => $warehouseSettings->enable_locations),
+                Tables\Columns\TextColumn::make('destinationLocation.full_name')
+                    ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-moves.table.columns.destination-location'))
+                    ->visible(fn (WarehouseSettings $warehouseSettings) => $warehouseSettings->enable_locations),
+                Tables\Columns\TextColumn::make('qty')
+                    ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-moves.table.columns.quantity'))
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('state')
+                    ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-moves.table.columns.state'))
+                    ->sortable()
+                    ->badge()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('creator.name')
+                    ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-moves.table.columns.done-by'))
+                    ->sortable(),
             ])
             ->actions([
                 Tables\Actions\DeleteAction::make()
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title(__('inventories::filament/clusters/operations/resources/receipt/pages/manage-moves.table.actions.delete.notification.title'))
-                            ->body(__('inventories::filament/clusters/operations/resources/receipt/pages/manage-moves.table.actions.delete.notification.body')),
+                            ->title(__('inventories::filament/clusters/products/resources/product/pages/manage-moves.table.actions.delete.notification.title'))
+                            ->body(__('inventories::filament/clusters/products/resources/product/pages/manage-moves.table.actions.delete.notification.body')),
                     ),
             ]);
     }

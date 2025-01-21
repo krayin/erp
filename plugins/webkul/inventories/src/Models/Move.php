@@ -7,12 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Webkul\Inventory\Database\Factories\MoveFactory;
+use Webkul\Inventory\Enums;
 use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
-use Illuminate\Support\Facades\Auth;
 use Webkul\Support\Models\UOM;
-use Webkul\Inventory\Enums;
 
 class Move extends Model
 {
@@ -40,9 +39,9 @@ class Move extends Model
         'next_serial',
         'next_serial_count',
         'is_favorite',
-        'product_qty',
-        'product_uom_qty',
-        'qty',
+        'requested_qty',
+        'requested_uom_qty',
+        'received_qty',
         'is_picked',
         'is_scraped',
         'is_inventory',
@@ -171,81 +170,26 @@ class Move extends Model
     {
         static::creating(function ($move) {
             $product = Product::find($move->product_id);
-            
-            $move->fill([
-                'name' => $product->name,
-                'procure_method' => Enums\ProcureMethod::MAKE_TO_STOCK,
-                'state' => Enums\MoveState::DRAFT,
-                'uom_id' => $product->uom_id,
-                'product_uom_qty' => $move->product_qty,
-            ]);
 
-            // Get parent operation details if available
-            if ($move->operation) {
-                $move->fill([
-                    'operation_type_id' => $move->operation->operation_type_id,
-                    'source_location_id' => $move->operation->source_location_id,
-                    'destination_location_id' => $move->operation->destination_location_id,
-                    'scheduled_at' => $move->operation->scheduled_at ?? now(),
-                    'reference' => $move->operation->name,
-                ]);
-            }
-        });
-
-        static::creating(function ($move) {
-            // Fill default attributes during creation
-            $product = Product::find($move->product_id);
-            
             $move->fill([
-                'name' => $product->name,
-                'procure_method' => Enums\ProcureMethod::MAKE_TO_STOCK,
-                'state' => Enums\MoveState::DRAFT,
-                'uom_id' => $product->uom_id,
-                'product_uom_qty' => $move->product_qty,
+                'name'              => $move->name ?? $product->name,
+                'procure_method'    => $move->procure_method ?? Enums\ProcureMethod::MAKE_TO_STOCK,
+                'state'             => $move->state ?? Enums\MoveState::DRAFT,
+                'uom_id'            => $move->uom_id ?? $product->uom_id,
+                'requested_uom_qty' => $move->requested_qty,
+                'scheduled_at'      => $move->scheduled_at ?? now(),
             ]);
 
             if ($move->operation) {
                 $move->fill([
-                    'operation_type_id' => $move->operation->operation_type_id,
-                    'source_location_id' => $move->operation->source_location_id,
+                    'operation_type_id'       => $move->operation->operation_type_id,
+                    'source_location_id'      => $move->operation->source_location_id,
                     'destination_location_id' => $move->operation->destination_location_id,
-                    'scheduled_at' => $move->operation->scheduled_at ?? now(),
-                    'reference' => $move->operation->name,
+                    'scheduled_at'            => $move->scheduled_at ?? ($move->operation->scheduled_at ?? now()),
+                    'reference'               => $move->operation->name,
                 ]);
             }
         });
-
-        static::saved(function ($move) {
-            if ($move->qty > 0) {
-                $move->createOrUpdateMoveLine();
-            } else {
-                $move->lines()->delete();
-            }
-        });
-    }
-
-    public function createOrUpdateMoveLine()
-    {
-        $this->lines()->updateOrCreate(
-            ['move_id' => $this->id],
-            [
-                'lot_name' => null,
-                'state' => $this->state,
-                'reference' => $this->reference,
-                'picking_description' => $this->description_picking,
-                'quantity' => $this->qty,
-                'quantity_product_uom' => $this->product_uom_qty,
-                'is_picked' => $this->is_picked,
-                'scheduled_at' => $this->scheduled_at,
-                'operation_id' => $this->operation_id,
-                'product_id' => $this->product_id,
-                'uom_id' => $this->uom_id,
-                'source_location_id' => $this->source_location_id,
-                'destination_location_id' => $this->destination_location_id,
-                'company_id' => $this->company_id,
-                'creator_id' => $this->creator_id,
-            ]
-        );
     }
 
     protected static function newFactory(): MoveFactory

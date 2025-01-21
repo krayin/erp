@@ -6,9 +6,9 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Inventory\Enums;
 use Webkul\Inventory\Filament\Clusters\Operations\Resources\ReceiptResource;
 use Webkul\Inventory\Models\OperationType;
-use Webkul\Inventory\Enums;
 
 class CreateReceipt extends CreateRecord
 {
@@ -43,7 +43,7 @@ class CreateReceipt extends CreateRecord
         $this->data['source_location_id'] = $operationType?->source_location_id;
 
         $this->data['destination_location_id'] = $operationType?->destination_location_id;
-        
+
         $this->form->fill($this->data);
     }
 

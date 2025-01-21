@@ -20,8 +20,8 @@ use Webkul\Inventory\Models\Location;
 use Webkul\Inventory\Models\OperationType;
 use Webkul\Inventory\Models\Warehouse;
 use Webkul\Inventory\Settings\OperationSettings;
-use Webkul\Inventory\Settings\WarehouseSettings;
 use Webkul\Inventory\Settings\TraceabilitySettings;
+use Webkul\Inventory\Settings\WarehouseSettings;
 
 class OperationTypeResource extends Resource
 {

@@ -5,16 +5,15 @@ namespace Webkul\Inventory\Filament\Clusters\Operations\Resources;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Resources\Pages\Page;
 use Filament\Tables\Table;
-use Webkul\Inventory\Filament\Clusters\Operations;
-use Webkul\Inventory\Filament\Clusters\Operations\Resources\ReceiptResource\Pages;
-use Webkul\Inventory\Filament\Clusters\Operations\Resources\ReceiptResource\RelationManagers;
-use Webkul\Inventory\Models\Operation;
 use Illuminate\Database\Eloquent\Builder;
 use Webkul\Inventory\Enums;
+use Webkul\Inventory\Filament\Clusters\Operations;
+use Webkul\Inventory\Filament\Clusters\Operations\Resources\ReceiptResource\Pages;
+use Webkul\Inventory\Models\Operation;
 
 class ReceiptResource extends Resource
 {
@@ -87,7 +86,6 @@ class ReceiptResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\MovesRelationManager::class
         ];
     }
 

@@ -4,16 +4,15 @@ namespace Webkul\Inventory\Filament\Clusters\Operations\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Webkul\Inventory\Enums;
 use Webkul\Inventory\Models\Move;
 use Webkul\Inventory\Models\Product;
-use Webkul\Inventory\Enums;
-use Filament\Notifications\Notification;
-use Illuminate\Validation\ValidationException;
-use Webkul\Inventory\Settings\WarehouseSettings;
 use Webkul\Inventory\Settings\ProductSettings;
+use Webkul\Inventory\Settings\WarehouseSettings;
 
 class MoveResource extends Resource
 {
@@ -60,7 +59,7 @@ class MoveResource extends Resource
                     ->searchable()
                     ->preload()
                     ->visible(fn (ProductSettings $productSettings) => $productSettings->enable_packagings),
-                Forms\Components\TextInput::make('product_qty')
+                Forms\Components\TextInput::make('requested_qty')
                     ->label(__('inventories::filament/clusters/operations/resources/move.form.fields.demand'))
                     ->numeric()
                     ->minValue(0)
@@ -115,7 +114,7 @@ class MoveResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->visible(fn (ProductSettings $productSettings) => $productSettings->enable_packagings),
-                Tables\Columns\TextColumn::make('product_qty')
+                Tables\Columns\TextColumn::make('requested_qty')
                     ->label(__('inventories::filament/clusters/operations/resources/move.table.columns.demand'))
                     ->searchable()
                     ->sortable(),
@@ -133,7 +132,7 @@ class MoveResource extends Resource
                                 ->warning()
                                 ->send();
 
-                                throw \Illuminate\Validation\ValidationException::withMessages([]);
+                            throw \Illuminate\Validation\ValidationException::withMessages([]);
                         }
                     })
                     ->afterStateUpdated(function (Move $record, $state) {

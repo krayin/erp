@@ -22,9 +22,9 @@ return new class extends Migration
             $table->string('next_serial')->nullable();
             $table->integer('next_serial_count')->nullable();
             $table->boolean('is_favorite')->default(0);
-            $table->decimal('product_qty', 15, 4)->nullable();
-            $table->decimal('product_uom_qty', 15, 4)->nullable();
-            $table->decimal('qty', 15, 4)->nullable();
+            $table->decimal('requested_qty', 15, 4)->nullable()->default(0);
+            $table->decimal('requested_uom_qty', 15, 4)->nullable()->default(0);
+            $table->decimal('received_qty', 15, 4)->nullable()->default(0);
             $table->boolean('is_picked')->default(0);
             $table->boolean('is_scraped')->default(0);
             $table->boolean('is_inventory')->default(0);

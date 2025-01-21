@@ -26,7 +26,6 @@ return [
         'validate' => [
             'label' => 'Validate',
 
-
             'notification' => [
                 'warning' => [
                     'title' => 'Insufficient stock',

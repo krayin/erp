@@ -2,17 +2,16 @@
 
 namespace Webkul\Inventory\Filament\Clusters\Operations\Resources\ReceiptResource\Pages;
 
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Webkul\Inventory\Filament\Clusters\Operations\Resources\ReceiptResource;
-use Webkul\Inventory\Filament\Clusters\Operations\Resources\MoveResource;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Inventory\Models\Product;
 use Webkul\Inventory\Enums;
+use Webkul\Inventory\Filament\Clusters\Operations\Resources\MoveResource;
+use Webkul\Inventory\Filament\Clusters\Operations\Resources\ReceiptResource;
+use Webkul\Inventory\Models\Product;
 
 class ManageMoves extends ManageRelatedRecords
 {
@@ -36,7 +35,7 @@ class ManageMoves extends ManageRelatedRecords
                     ->icon('heroicon-o-plus-circle')
                     ->mutateFormDataUsing(function (array $data): array {
                         $data['name'] = Product::find($data['product_id'])->name;
-                        
+
                         $data['procure_method'] = Enums\ProcureMethod::MAKE_TO_STOCK;
 
                         $data['source_location_id'] = $this->getOwnerRecord()->source_location_id;

@@ -17,8 +17,9 @@ return new class extends Migration
             $table->string('state')->nullable();
             $table->string('reference')->nullable();
             $table->string('picking_description')->nullable();
-            $table->decimal('quantity', 15, 4)->nullable();
-            $table->decimal('quantity_product_uom', 15, 4)->nullable();
+            $table->decimal('qty', 15, 4)->nullable()->default(0);
+            $table->decimal('uom_qty', 15, 4)->nullable()->default(0);
+            $table->decimal('received_qty', 15, 4)->nullable();
             $table->boolean('is_picked')->default(0);
             $table->datetime('scheduled_at');
 

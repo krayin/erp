@@ -11,8 +11,8 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Inventory\Filament\Clusters\Products\Resources\ProductResource;
-use Webkul\Product\Models\ProductAttribute;
 use Webkul\Inventory\Settings\ProductSettings;
+use Webkul\Product\Models\ProductAttribute;
 
 class ManageAttributes extends ManageRelatedRecords
 {
