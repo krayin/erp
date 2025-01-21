@@ -18,7 +18,7 @@ class LeaveTypeSeeder extends Seeder
 
         $timeOffLeaveTypes = [
             [
-                'sort' => 100,
+                'sort' => 1,
                 'color' => null,
                 'company_id' => 1,
                 'max_allowed_negative' => 20,
@@ -60,7 +60,7 @@ class LeaveTypeSeeder extends Seeder
                 'allows_negative' => null,
             ],
             [
-                'sort' => 100,
+                'sort' => 3,
                 'color' => null,
                 'company_id' => 1,
                 'max_allowed_negative' => null,
@@ -102,7 +102,7 @@ class LeaveTypeSeeder extends Seeder
                 'allows_negative' => true,
             ],
             [
-                'sort' => 2,
+                'sort' => 5,
                 'color' => 0,
                 'company_id' => 1,
                 'max_allowed_negative' => null,
@@ -123,7 +123,7 @@ class LeaveTypeSeeder extends Seeder
                 'allows_negative' => null,
             ],
             [
-                'sort' => 3,
+                'sort' => 6,
                 'color' => 5,
                 'company_id' => 1,
                 'max_allowed_negative' => null,
