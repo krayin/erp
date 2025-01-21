@@ -5,77 +5,62 @@ namespace Webkul\TimeOff\Filament\Widgets;
 use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
 use Filament\Forms;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+use Webkul\TimeOff\Models\Leave;
+use Saade\FilamentFullCalendar\Actions;
 
 class CalendarWidget extends FullCalendarWidget
 {
+    public Model | string | null $model = Leave::class;
+
+    protected function headerActions(): array
+    {
+        return [
+            Actions\CreateAction::make()
+                ->mountUsing(
+                    function (Forms\Form $form, array $arguments) {
+                        $form->fill($arguments);
+                    }
+                )
+        ];
+    }
+
     public function getFormSchema(): array
     {
         return [
             Forms\Components\Select::make('time_off_type')
                 ->label('Time Off Type')
-                ->options([
-                    'paid' => 'Paid Time Off',
-                    'unpaid' => 'Unpaid Time Off',
-                    'sick' => 'Sick Leave',
-                    'other' => 'Other',
-                ])
-                ->required()
-                ->default('paid'),
-
-            Forms\Components\TextInput::make('name')
-                ->label('Description')
-                ->required()
-                ->maxLength(255),
-
+                ->relationship('holidayStatus', 'name')
+                ->searchable()
+                ->preload()
+                ->required(),
             Forms\Components\Grid::make()
                 ->schema([
-                    Forms\Components\DatePicker::make('starts_at')
+                    Forms\Components\DatePicker::make('start_date')
                         ->label('Start Date')
                         ->required()
                         ->native(false)
-                        ->closeOnDateSelection(),
-
-                    Forms\Components\DatePicker::make('ends_at')
+                        ->closeOnDateSelection()
+                        ->live(),
+                    Forms\Components\DatePicker::make('end_date')
                         ->label('End Date')
                         ->required()
                         ->native(false)
-                        ->closeOnDateSelection(),
+                        ->closeOnDateSelection()
+                        ->live()
                 ]),
-
-            Forms\Components\Select::make('duration_type')
-                ->label('Duration')
-                ->options([
-                    'full_day' => 'Full Day',
-                    'half_day_morning' => 'Half Day - Morning',
-                    'half_day_afternoon' => 'Half Day - Afternoon',
-                    'custom_hours' => 'Custom Hours',
-                ])
-                ->required()
-                ->default('full_day')
-                ->reactive(),
-
-            Forms\Components\Grid::make()
-                ->schema([
-                    Forms\Components\TimePicker::make('custom_start_time')
-                        ->label('Start Time')
-                        ->native(false)
-                        ->visible(fn(callable $get) => $get('duration_type') === 'custom_hours'),
-
-                    Forms\Components\TimePicker::make('custom_end_time')
-                        ->label('End Time')
-                        ->native(false)
-                        ->visible(fn(callable $get) => $get('duration_type') === 'custom_hours'),
-                ]),
-
+            Forms\Components\Placeholder::make('requested_days')
+                ->label('Requested Days')
+                ->content(fn($state): string => $state),
             Forms\Components\Textarea::make('reason')
                 ->label('Reason')
+                ->placeholder('Write the reason for your time off')
                 ->rows(3),
         ];
     }
 
     public function fetchEvents(array $info): array
     {
-
         $today = Carbon::now();
 
         return [
@@ -114,21 +99,18 @@ class CalendarWidget extends FullCalendarWidget
 
     public function onDateSelect(string $start, ?string $end, bool $allDay, ?array $view, ?array $resource): void
     {
+        $startDate = Carbon::parse($start);
+        $endDate = $end ? Carbon::parse($end) : $startDate;
+
+        $numberOfDays = $startDate->diffInDays($endDate) + 1;
+
         $data = [
-            'starts_at' => Carbon::parse($start)->toDateString(),
-            'ends_at' => $end ? Carbon::parse($end)->toDateString() : $start,
-            'duration_type' => 'full_day',
-            'name' => Carbon::parse($start)->format('M d') .
-                ($start !== $end
-                    ? ' - ' . Carbon::parse($end)->format('M d')
-                    : '') .
-                ' Time Off',
+            'start_date' => $startDate->toDateString(),
+            'end_date' => $endDate->toDateString(),
+            'requested_days' => $numberOfDays . ' Days',
         ];
 
-        $this->mountAction('create', [
-            'type' => 'select',
-            'data' => $data,
-        ]);
+        $this->mountAction('create', $data);
     }
 
     protected function getEventColor(string $type): string
