@@ -3,6 +3,11 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Webkul\TimeOff\Enums\AccruedGainTime;
+use Webkul\TimeOff\Enums\CarryoverDate;
+use Webkul\TimeOff\Enums\CarryoverDay;
+use Webkul\TimeOff\Enums\CarryoverMonth;
+use Webkul\TimeOff\Enums\TransitionMode;
 
 return new class extends Migration
 {
@@ -19,10 +24,10 @@ return new class extends Migration
             $table->integer('carryover_day')->nullable();
             $table->foreignId('creator_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('name');
-            $table->string('transition_mode');
-            $table->string('accrued_gain_time');
-            $table->string('carryover_date');
-            $table->string('carryover_month')->nullable();
+            $table->enum('transition_mode', collect(TransitionMode::options())->keys()->toArray())->default(TransitionMode::IMMEDIATELY->value)->comment('Transition Mode');
+            $table->enum('accrued_gain_time', collect(AccruedGainTime::options())->keys()->toArray())->default(AccruedGainTime::END->value)->comment('Accrued Gain Time');
+            $table->enum('carryover_date', collect(CarryoverDate::options())->keys()->toArray())->default(CarryoverDate::YEAR_START->value)->comment('Carryover Date');
+            $table->enum('carryover_month', collect(CarryoverMonth::options())->keys()->toArray())->default(CarryoverMonth::JAN->value)->comment('Carryover Month');
             $table->string('added_value_type')->nullable();
             $table->boolean('is_active')->nullable();
             $table->boolean('is_based_on_worked_time')->nullable();
