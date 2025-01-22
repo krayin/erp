@@ -31,6 +31,7 @@ class Leave extends Model
         'second_approver_id',
         'creator_id',
         'private_name',
+        'attachment',
         'state',
         'duration_display',
         'request_date_from_period',

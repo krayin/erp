@@ -63,6 +63,19 @@ class CalendarWidget extends FullCalendarWidget
     {
         $today = Carbon::now();
 
+        // $events = Leave::all()->map(function ($leave) {
+        //     return [
+        //         'id' => $leave->id,
+        //         'title' => $leave->holidayStatus->name,
+        //         'start' => $leave->request_date_from,
+        //         'end' => $leave->request_date_to,
+        //         'allDay' => true,
+        //         'backgroundColor' => $this->getEventColor('paid'),
+        //         'borderColor' => $this->getEventColor('paid'),
+        //         'textColor' => '#ffffff',
+        //     ];
+        // });
+
         return [
             [
                 'id' => 1,

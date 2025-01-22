@@ -18,11 +18,9 @@ class AllocationResource extends Resource
 {
     protected static ?string $model = LeaveAllocation::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
 
     protected static ?string $cluster = Management::class;
-
-    protected $listeners = ['refresh' => '$refresh'];
 
     public static function form(Form $form): Form
     {

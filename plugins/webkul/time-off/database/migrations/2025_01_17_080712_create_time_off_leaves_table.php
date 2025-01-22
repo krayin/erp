@@ -33,6 +33,7 @@ return new class extends Migration
             $table->timestamp('request_date_from')->nullable();
             $table->timestamp('request_date_to')->nullable();
             $table->text('notes')->nullable();
+            $table->string('attachment')->nullable();
             $table->boolean('request_unit_half')->nullable();
             $table->boolean('request_unit_hours')->nullable();
             $table->timestamp('date_from')->nullable();
