@@ -29,7 +29,7 @@ class ListAllocations extends ListRecords
                     State::VALIDATE_ONE->value,
                 ])),
             'second_approval' => PresetView::make(__('Second Approval'))
-                ->icon('heroicon-s-shield-check')
+                ->icon('heroicon-o-shield-check')
                 ->favorite()
                 ->default()
                 ->modifyQueryUsing(fn(Builder $query) => $query->whereIn('state', [
@@ -37,12 +37,12 @@ class ListAllocations extends ListRecords
                     State::VALIDATE_TWO->value,
                 ])),
             'approved' => PresetView::make(__('Approved'))
-                ->icon('heroicon-s-check-badge')
+                ->icon('heroicon-o-check-badge')
                 ->favorite()
                 ->default()
                 ->modifyQueryUsing(fn(Builder $query) => $query->where('state', State::VALIDATE_TWO->value)),
             'valid' => PresetView::make(__('Currently Valid'))
-                ->icon('heroicon-s-check')
+                ->icon('heroicon-o-check')
                 ->default()
                 ->modifyQueryUsing(function (Builder $query) {
                     $today = now()->format('Y-m-d');
@@ -55,7 +55,7 @@ class ListAllocations extends ListRecords
                         });
                 }),
             'my_team' => PresetView::make(__('My Team'))
-                ->icon('heroicon-s-users')
+                ->icon('heroicon-o-users')
                 ->default()
                 ->modifyQueryUsing(function (Builder $query) {
                     $currentUserId = Auth::user()->id;
@@ -66,7 +66,7 @@ class ListAllocations extends ListRecords
                     });
                 }),
             'my_department' => PresetView::make(__('My Team'))
-                ->icon('heroicon-s-building-office')
+                ->icon('heroicon-o-building-office')
                 ->default()
                 ->modifyQueryUsing(function (Builder $query) {
                     $currentUserId = Auth::user()->id;

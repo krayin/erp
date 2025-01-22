@@ -32,16 +32,16 @@ class AllocationResource extends Resource
                             ->hiddenLabel()
                             ->inline()
                             ->options(function ($record) {
-                                $exceptState = [
+                                $onlyStates = [
                                     State::CONFIRM->value,
                                     State::VALIDATE_TWO->value,
                                 ];
 
                                 if ($record->state === State::REFUSE->value) {
-                                    $exceptState[] = State::REFUSE->value;
+                                    $onlyStates[] = State::REFUSE->value;
                                 }
 
-                                return collect(State::options())->only($exceptState)->toArray();
+                                return collect(State::options())->only($onlyStates)->toArray();
                             })
                             ->default(State::CONFIRM->value)
                             ->columnSpan('full')
