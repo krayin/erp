@@ -94,7 +94,13 @@ class AccrualPlanResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable()
+                    ->label(__('Name')),
+                Tables\Columns\TextColumn::make('leaveAccrualLevels')
+                    ->searchable()
+                    ->formatStateUsing(fn($record) => $record->leaveAccrualLevels?->count())
+                    ->label(__('Levels')),
             ])
             ->filters([
                 //
@@ -131,22 +137,22 @@ class AccrualPlanResource extends Resource
                                         Infolists\Components\TextEntry::make('accrued_gain_time')
                                             ->icon('heroicon-o-clock')
                                             ->placeholder('—')
-                                            ->formatStateUsing(fn ($state) => AccruedGainTime::options()[$state])
+                                            ->formatStateUsing(fn($state) => AccruedGainTime::options()[$state])
                                             ->label(__('Accrued Gain Time')),
                                         Infolists\Components\TextEntry::make('carryover_date')
                                             ->icon('heroicon-o-calendar')
                                             ->placeholder('—')
-                                            ->formatStateUsing(fn ($state) => CarryoverDate::options()[$state])
+                                            ->formatStateUsing(fn($state) => CarryoverDate::options()[$state])
                                             ->label(__('Carryover Time')),
                                         Infolists\Components\TextEntry::make('carryover_day')
                                             ->icon('heroicon-o-calendar')
                                             ->placeholder('—')
-                                            ->formatStateUsing(fn ($state) => CarryoverDay::options()[$state])
+                                            ->formatStateUsing(fn($state) => CarryoverDay::options()[$state])
                                             ->label(__('Carryover Day')),
                                         Infolists\Components\TextEntry::make('carryover_month')
                                             ->icon('heroicon-o-calendar')
                                             ->placeholder('—')
-                                            ->formatStateUsing(fn ($state) => CarryoverMonth::options()[$state])
+                                            ->formatStateUsing(fn($state) => CarryoverMonth::options()[$state])
                                             ->label(__('Carryover Month')),
                                     ]),
                             ])
