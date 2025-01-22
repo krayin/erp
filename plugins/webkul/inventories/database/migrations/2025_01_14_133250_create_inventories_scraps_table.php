@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('origin')->nullable();
             $table->string('state')->nullable();
-            $table->decimal('qty', 15, 4);
+            $table->decimal('qty', 15, 4)->default(0);
             $table->boolean('should_replenish')->default(0);
             $table->date('date_done')->nullable();
 

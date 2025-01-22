@@ -18,12 +18,12 @@ return new class extends Migration
             $table->text('description_picking')->nullable();
             $table->text('description_pickingout')->nullable();
             $table->text('description_pickingin')->nullable();
-            $table->integer('is_storable')->nullable();
-            $table->integer('expiration_time')->nullable();
-            $table->integer('use_time')->nullable();
-            $table->integer('removal_time')->nullable();
-            $table->integer('alert_time')->nullable();
-            $table->boolean('use_expiration_date')->nullable();
+            $table->boolean('is_storable')->nullable()->default(0);
+            $table->integer('expiration_time')->nullable()->default(0);
+            $table->integer('use_time')->nullable()->default(0);
+            $table->integer('removal_time')->nullable()->default(0);
+            $table->integer('alert_time')->nullable()->default(0);
+            $table->boolean('use_expiration_date')->nullable()->default(0);
 
             $table->foreignId('responsible_id')
                 ->nullable()

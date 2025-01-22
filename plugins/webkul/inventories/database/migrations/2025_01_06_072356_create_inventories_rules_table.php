@@ -15,16 +15,16 @@ return new class extends Migration
             $table->id();
             $table->integer('sort')->nullable();
             $table->string('name');
-            $table->integer('route_sequence')->nullable();
-            $table->integer('delay')->nullable();
+            $table->integer('route_sequence')->nullable()->default(0);
+            $table->integer('delay')->nullable()->default(0);
             $table->string('group_propagation_option')->nullable();
             $table->string('action')->index();
             $table->string('procure_method');
             $table->string('auto');
             $table->string('push_domain')->nullable();
-            $table->boolean('location_dest_from_rule')->nullable();
-            $table->boolean('propagate_cancel')->nullable();
-            $table->boolean('propagate_carrier')->nullable();
+            $table->boolean('location_dest_from_rule')->nullable()->default(0);
+            $table->boolean('propagate_cancel')->nullable()->default(0);
+            $table->boolean('propagate_carrier')->nullable()->default(0);
 
             $table->foreignId('source_location_id')
                 ->nullable()

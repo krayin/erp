@@ -73,6 +73,7 @@ class EditReceipt extends EditRecord
                     foreach ($record->moves as $move) {
                         $move->update([
                             'state'        => Enums\MoveState::DONE,
+                            'is_picked'    => true,
                             'received_qty' => $move->received_qty > 0 ? $move->received_qty : $move->requested_qty,
                         ]);
 

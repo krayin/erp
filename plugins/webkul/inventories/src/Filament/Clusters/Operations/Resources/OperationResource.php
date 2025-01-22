@@ -18,6 +18,8 @@ use Webkul\Inventory\Models\Product;
 use Webkul\Inventory\Models\Location;
 use Webkul\Inventory\Settings\ProductSettings;
 use Webkul\Inventory\Settings\WarehouseSettings;
+use Filament\Infolists\Infolist;
+use Filament\Infolists;
 
 class OperationResource extends Resource
 {
@@ -219,6 +221,146 @@ class OperationResource extends Resource
                     ->slideOver(),
             )
             ->filtersFormColumns(2);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\Section::make()
+                    ->schema([
+                        Infolists\Components\TextEntry::make('state')
+                            ->badge()
+                    ])
+                    ->compact(),
+
+                Infolists\Components\Section::make(__('inventories::filament/clusters/operations/resources/operation.infolist.sections.general.title'))
+                    ->schema([
+                        Infolists\Components\Grid::make(2)
+                            ->schema([
+                                Infolists\Components\TextEntry::make('partner.name')
+                                    ->label(__('inventories::filament/clusters/operations/resources/operation.infolist.sections.general.entries.contact'))
+                                    ->icon('heroicon-o-user-group')
+                                    ->placeholder('—'),
+
+                                Infolists\Components\TextEntry::make('operationType.name')
+                                    ->label(__('inventories::filament/clusters/operations/resources/operation.infolist.sections.general.entries.operation-type'))
+                                    ->icon('heroicon-o-clipboard-document-list'),
+
+                                Infolists\Components\TextEntry::make('sourceLocation.full_name')
+                                    ->label(__('inventories::filament/clusters/operations/resources/operation.infolist.sections.general.entries.source-location'))
+                                    ->icon('heroicon-o-arrow-up-tray')
+                                    ->visible(fn (WarehouseSettings $warehouseSettings): bool => $warehouseSettings->enable_locations),
+
+                                Infolists\Components\TextEntry::make('destinationLocation.full_name')
+                                    ->label(__('inventories::filament/clusters/operations/resources/operation.infolist.sections.general.entries.destination-location'))
+                                    ->icon('heroicon-o-arrow-down-tray')
+                                    ->visible(fn (WarehouseSettings $warehouseSettings): bool => $warehouseSettings->enable_locations),
+                            ]),
+                    ]),
+
+                // Tabs Section
+                Infolists\Components\Tabs::make('Details')
+                    ->tabs([
+                        // Operations Tab
+                        Infolists\Components\Tabs\Tab::make(__('inventories::filament/clusters/operations/resources/operation.infolist.tabs.operations.title'))
+                            ->schema([
+                                Infolists\Components\RepeatableEntry::make('moves')
+                                    ->schema([
+                                        Infolists\Components\Grid::make(5)
+                                            ->schema([
+                                                Infolists\Components\TextEntry::make('product.name')
+                                                    ->label(__('inventories::filament/clusters/operations/resources/operation.infolist.tabs.operations.entries.product'))
+                                                    ->icon('heroicon-o-cube'),
+
+                                                Infolists\Components\TextEntry::make('finalLocation.full_name')
+                                                    ->label(__('inventories::filament/clusters/operations/resources/operation.infolist.tabs.operations.entries.final-location'))
+                                                    ->icon('heroicon-o-map-pin')
+                                                    ->placeholder('—')
+                                                    ->visible(fn (WarehouseSettings $warehouseSettings) => $warehouseSettings->enable_locations),
+
+                                                Infolists\Components\TextEntry::make('description')
+                                                    ->label(__('inventories::filament/clusters/operations/resources/operation.infolist.tabs.operations.entries.description'))
+                                                    ->icon('heroicon-o-document-text')
+                                                    ->placeholder('—'),
+
+                                                Infolists\Components\TextEntry::make('scheduled_at')
+                                                    ->label(__('inventories::filament/clusters/operations/resources/operation.infolist.tabs.operations.entries.scheduled-at'))
+                                                    ->dateTime()
+                                                    ->icon('heroicon-o-calendar')
+                                                    ->placeholder('—'),
+
+                                                Infolists\Components\TextEntry::make('deadline')
+                                                    ->label(__('inventories::filament/clusters/operations/resources/operation.infolist.tabs.operations.entries.deadline'))
+                                                    ->dateTime()
+                                                    ->icon('heroicon-o-clock')
+                                                    ->placeholder('—'),
+
+                                                Infolists\Components\TextEntry::make('productPackaging.name')
+                                                    ->label(__('inventories::filament/clusters/operations/resources/operation.infolist.tabs.operations.entries.packaging'))
+                                                    ->icon('heroicon-o-gift')
+                                                    ->visible(fn (ProductSettings $productSettings) => $productSettings->enable_packagings)
+                                                    ->placeholder('—'),
+
+                                                Infolists\Components\TextEntry::make('requested_qty')
+                                                    ->label(__('inventories::filament/clusters/operations/resources/operation.infolist.tabs.operations.entries.demand'))
+                                                    ->icon('heroicon-o-calculator'),
+
+                                                Infolists\Components\TextEntry::make('received_qty')
+                                                    ->label(__('inventories::filament/clusters/operations/resources/operation.infolist.tabs.operations.entries.quantity'))
+                                                    ->icon('heroicon-o-scale')
+                                                    ->placeholder('—'),
+
+                                                Infolists\Components\TextEntry::make('uom.name')
+                                                    ->label(__('inventories::filament/clusters/operations/resources/operation.infolist.tabs.operations.entries.unit'))
+                                                    ->icon('heroicon-o-beaker')
+                                                    ->visible(fn (ProductSettings $productSettings) => $productSettings->enable_uom),
+
+                                                Infolists\Components\IconEntry::make('is_picked')
+                                                    ->label(__('inventories::filament/clusters/operations/resources/operation.infolist.tabs.operations.entries.picked'))
+                                                    ->icon(fn (bool $state): string => $state ? 'heroicon-o-check-circle' : 'heroicon-o-x-circle')
+                                                    ->color(fn (bool $state): string => $state ? 'success' : 'danger'),
+                                            ]),
+                                    ]),
+                            ]),
+
+                        Infolists\Components\Tabs\Tab::make(__('inventories::filament/clusters/operations/resources/operation.infolist.tabs.additional.title'))
+                            ->schema([
+                                Infolists\Components\Grid::make(2)
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('user.name')
+                                            ->label(__('inventories::filament/clusters/operations/resources/operation.infolist.tabs.additional.entries.responsible'))
+                                            ->icon('heroicon-o-user')
+                                            ->placeholder('—'),
+
+                                        Infolists\Components\TextEntry::make('move_type')
+                                            ->label(__('inventories::filament/clusters/operations/resources/operation.infolist.tabs.additional.entries.shipping-policy'))
+                                            ->icon('heroicon-o-truck')
+                                            ->placeholder('—'),
+
+                                        Infolists\Components\TextEntry::make('scheduled_at')
+                                            ->label(__('inventories::filament/clusters/operations/resources/operation.infolist.tabs.additional.entries.scheduled-at'))
+                                            ->dateTime()
+                                            ->icon('heroicon-o-calendar')
+                                            ->placeholder('—'),
+
+                                        Infolists\Components\TextEntry::make('origin')
+                                            ->label(__('inventories::filament/clusters/operations/resources/operation.infolist.tabs.additional.entries.source-document'))
+                                            ->icon('heroicon-o-document-text')
+                                            ->placeholder('—'),
+                                    ]),
+                            ]),
+
+                        Infolists\Components\Tabs\Tab::make(__('inventories::filament/clusters/operations/resources/operation.infolist.tabs.note.title'))
+                            ->schema([
+                                Infolists\Components\TextEntry::make('description')
+                                    ->markdown()
+                                    ->hiddenLabel()
+                                    ->placeholder('—'),
+                            ]),
+                    ]),
+            ])
+            ->columns(1);
     }
 
     public static function getMovesRepeater(): Forms\Components\Repeater

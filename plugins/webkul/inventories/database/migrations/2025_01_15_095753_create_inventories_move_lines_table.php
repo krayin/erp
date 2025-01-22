@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('picking_description')->nullable();
             $table->decimal('qty', 15, 4)->nullable()->default(0);
             $table->decimal('uom_qty', 15, 4)->nullable()->default(0);
-            $table->decimal('received_qty', 15, 4)->nullable();
+            $table->decimal('received_qty', 15, 4)->nullable()->default(0);
             $table->boolean('is_picked')->default(0);
             $table->datetime('scheduled_at');
 

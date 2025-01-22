@@ -7,6 +7,7 @@ return [
         'fields' => [
             'location'         => 'Location',
             'package'          => 'Package',
+            'lot'          => 'Lot / Serial Numbers',
             'on-hand-qty'      => 'On Hand Quantity',
             'storage-category' => 'Storage Category',
         ],
@@ -15,6 +16,7 @@ return [
     'table' => [
         'columns' => [
             'location'         => 'Location',
+            'lot'         => 'Lot / Serial Numbers',
             'storage-category' => 'Storage Category',
             'quantity'         => 'Quantity',
             'package'          => 'Package',
@@ -32,8 +34,8 @@ return [
 
                 'before' => [
                     'notification' => [
-                        'title' => 'Location already exists',
-                        'body'  => 'The location already has a quantity. Please update the quantity instead.',
+                        'title' => 'Quantity already exists',
+                        'body'  => 'Already has a quantity for the same configuration. Please update the quantity instead.',
                     ],
                 ],
             ],

@@ -9,6 +9,7 @@ return [
             'reference'            => 'Reference',
             'product'              => 'Product',
             'package'              => 'Package',
+            'lot'         => 'Lot / Serial Numbers',
             'source-location'      => 'Source Location',
             'destination-location' => 'Destination Location',
             'quantity'             => 'Quantity',

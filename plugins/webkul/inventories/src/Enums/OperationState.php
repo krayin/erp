@@ -43,10 +43,10 @@ enum OperationState: string implements HasColor, HasLabel
     {
         return match ($this) {
             self::DRAFT    => 'gray',
-            self::WAITING  => 'yellow',
-            self::READY    => 'blue',
-            self::DONE     => 'green',
-            self::CANCELED => 'red',
+            self::WAITING  => 'warning',
+            self::READY    => 'primary',
+            self::DONE     => 'success',
+            self::CANCELED => 'danger',
         };
     }
 }

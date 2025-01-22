@@ -15,6 +15,8 @@ use Webkul\Inventory\Models\Move;
 use Webkul\Inventory\Models\Product;
 use Webkul\Inventory\Models\ProductQuantity;
 use Webkul\Inventory\Models\Warehouse;
+use Webkul\Inventory\Settings\TraceabilitySettings;
+use Webkul\Inventory\Settings\OperationSettings;
 use Webkul\Inventory\Settings\WarehouseSettings;
 
 class EditProduct extends EditRecord
@@ -51,8 +53,20 @@ class EditProduct extends EditRecord
                         ->default($record->quantities()->sum('quantity')),
                 ])
                 ->modalSubmitActionLabel(__('inventories::filament/clusters/products/resources/product/pages/edit-product.header-actions.update-quantity.modal-submit-action-label'))
-                ->beforeFormFilled(function (WarehouseSettings $warehouseSettings, Product $record) {
-                    if ($warehouseSettings->enable_locations) {
+                ->beforeFormFilled(function (
+                    OperationSettings $operationSettings,
+                    TraceabilitySettings $traceabilitySettings,
+                    WarehouseSettings $warehouseSettings,
+                    Product $record
+                ) {
+                    if (
+                        $operationSettings->enable_packages
+                        || $warehouseSettings->enable_locations
+                        || (
+                            $traceabilitySettings->enable_lots_serial_numbers
+                            && $record->tracking != Enums\ProductTracking::QTY
+                        )
+                    ) {
                         return redirect()->to(ProductResource::getUrl('quantities', ['record' => $record]));
                     }
                 })

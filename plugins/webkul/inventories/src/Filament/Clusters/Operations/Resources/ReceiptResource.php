@@ -14,6 +14,7 @@ use Webkul\Inventory\Enums;
 use Webkul\Inventory\Filament\Clusters\Operations;
 use Webkul\Inventory\Filament\Clusters\Operations\Resources\ReceiptResource\Pages;
 use Webkul\Inventory\Models\Operation;
+use Filament\Infolists\Infolist;
 
 class ReceiptResource extends Resource
 {
@@ -53,8 +54,8 @@ class ReceiptResource extends Resource
                         ->successNotification(
                             Notification::make()
                                 ->success()
-                                ->title(__('inventories::filament/clusters/products/resources/product.table.actions.delete.notification.title'))
-                                ->body(__('inventories::filament/clusters/products/resources/product.table.actions.delete.notification.body')),
+                                ->title(__('inventories::filament/clusters/operations/resources/receipt.table.actions.delete.notification.title'))
+                                ->body(__('inventories::filament/clusters/operations/resources/receipt.table.actions.delete.notification.body')),
                         ),
                 ]),
             ])
@@ -63,8 +64,8 @@ class ReceiptResource extends Resource
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title(__('inventories::filament/clusters/products/resources/product.table.bulk-actions.delete.notification.title'))
-                            ->body(__('inventories::filament/clusters/products/resources/product.table.bulk-actions.delete.notification.body')),
+                            ->title(__('inventories::filament/clusters/operations/resources/receipt.table.bulk-actions.delete.notification.title'))
+                            ->body(__('inventories::filament/clusters/operations/resources/receipt.table.bulk-actions.delete.notification.body')),
                     ),
             ])
             ->modifyQueryUsing(function (Builder $query) {
@@ -72,6 +73,11 @@ class ReceiptResource extends Resource
                     $query->where('type', Enums\OperationType::INCOMING);
                 });
             });
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return OperationResource::infolist($infolist);
     }
 
     public static function getRecordSubNavigation(Page $page): array

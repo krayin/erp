@@ -18,28 +18,28 @@ return new class extends Migration
             $table->integer('sort')->nullable();
             $table->string('sequence_code');
             $table->string('reservation_method');
-            $table->integer('reservation_days_before')->nullable();
-            $table->integer('reservation_days_before_priority')->nullable();
+            $table->integer('reservation_days_before')->nullable()->default(0);
+            $table->integer('reservation_days_before_priority')->nullable()->default(0);
             $table->string('product_label_format')->nullable();
             $table->string('lot_label_format')->nullable();
             $table->string('package_label_to_print')->nullable();
             $table->string('barcode')->nullable();
             $table->string('create_backorder');
             $table->string('move_type')->nullable();
-            $table->boolean('show_entire_packs')->nullable();
-            $table->boolean('use_create_lots')->nullable();
-            $table->boolean('use_existing_lots')->nullable();
-            $table->boolean('print_label')->nullable();
-            $table->boolean('show_operations')->nullable();
-            $table->boolean('auto_show_reception_report')->nullable();
-            $table->boolean('auto_print_delivery_slip')->nullable();
-            $table->boolean('auto_print_return_slip')->nullable();
-            $table->boolean('auto_print_product_labels')->nullable();
-            $table->boolean('auto_print_lot_labels')->nullable();
-            $table->boolean('auto_print_reception_report')->nullable();
-            $table->boolean('auto_print_reception_report_labels')->nullable();
-            $table->boolean('auto_print_packages')->nullable();
-            $table->boolean('auto_print_package_label')->nullable();
+            $table->boolean('show_entire_packs')->nullable()->default(0);
+            $table->boolean('use_create_lots')->nullable()->default(0);
+            $table->boolean('use_existing_lots')->nullable()->default(0);
+            $table->boolean('print_label')->nullable()->default(0);
+            $table->boolean('show_operations')->nullable()->default(0);
+            $table->boolean('auto_show_reception_report')->nullable()->default(0);
+            $table->boolean('auto_print_delivery_slip')->nullable()->default(0);
+            $table->boolean('auto_print_return_slip')->nullable()->default(0);
+            $table->boolean('auto_print_product_labels')->nullable()->default(0);
+            $table->boolean('auto_print_lot_labels')->nullable()->default(0);
+            $table->boolean('auto_print_reception_report')->nullable()->default(0);
+            $table->boolean('auto_print_reception_report_labels')->nullable()->default(0);
+            $table->boolean('auto_print_packages')->nullable()->default(0);
+            $table->boolean('auto_print_package_label')->nullable()->default(0);
 
             $table->foreignId('return_operation_type_id')
                 ->nullable()

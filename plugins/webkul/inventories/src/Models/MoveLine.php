@@ -41,7 +41,6 @@ class MoveLine extends Model
         'operation_id',
         'product_id',
         'uom_id',
-        'uom_id',
         'package_id',
         'result_package_id',
         'package_level_id',

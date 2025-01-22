@@ -15,8 +15,12 @@ use Webkul\Inventory\Filament\Clusters\Products\Resources\PackageResource;
 use Webkul\Inventory\Filament\Clusters\Products\Resources\ProductResource;
 use Webkul\Inventory\Models\Location;
 use Webkul\Inventory\Models\Move;
+use Webkul\Inventory\Models\Operation;
 use Webkul\Inventory\Models\ProductQuantity;
+use Webkul\Inventory\Settings\TraceabilitySettings;
+use Webkul\Inventory\Settings\OperationSettings;
 use Webkul\Inventory\Settings\WarehouseSettings;
+use Webkul\Inventory\Models\Warehouse;
 
 class ManageQuantities extends ManageRelatedRecords
 {
@@ -37,7 +41,12 @@ class ManageQuantities extends ManageRelatedRecords
             return false;
         }
 
-        return app(WarehouseSettings::class)->enable_locations;
+        return app(OperationSettings::class)->enable_packages
+            || app(WarehouseSettings::class)->enable_locations
+            || (
+                app(TraceabilitySettings::class)->enable_lots_serial_numbers
+                && $parameters['record']->tracking != Enums\ProductTracking::QTY
+            );
     }
 
     public static function getNavigationLabel(): string
@@ -60,13 +69,23 @@ class ManageQuantities extends ManageRelatedRecords
                     ->preload()
                     ->required()
                     ->visible(fn (WarehouseSettings $warehouseSettings) => $warehouseSettings->enable_locations),
+                Forms\Components\Select::make('lot_id')
+                    ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-quantities.form.fields.lot'))
+                    ->relationship(
+                        name: 'lot',
+                        titleAttribute: 'name',
+                        modifyQueryUsing: fn (Builder $query) => $query->where('product_id', $this->getOwnerRecord()->id),
+                    )
+                    ->searchable()
+                    ->preload()
+                    ->visible(fn (TraceabilitySettings $traceabilitySettings) => $traceabilitySettings->enable_lots_serial_numbers && $this->getOwnerRecord()->tracking != Enums\ProductTracking::QTY),
                 Forms\Components\Select::make('package_id')
                     ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-quantities.form.fields.package'))
                     ->relationship('package', 'name')
                     ->searchable()
                     ->preload()
                     ->createOptionForm(fn (Form $form): Form => PackageResource::form($form))
-                    ->visible(fn (WarehouseSettings $warehouseSettings) => $warehouseSettings->enable_locations),
+                    ->visible(fn (OperationSettings $operationSettings) => $operationSettings->enable_packages),
                 Forms\Components\TextInput::make('quantity')
                     ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-quantities.form.fields.on-hand-qty'))
                     ->numeric()
@@ -83,11 +102,19 @@ class ManageQuantities extends ManageRelatedRecords
             ->recordTitleAttribute('name')
             ->columns([
                 Tables\Columns\TextColumn::make('location.full_name')
-                    ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-quantities.table.columns.location')),
+                    ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-quantities.table.columns.location'))
+                    ->visible(fn (WarehouseSettings $warehouseSettings) => $warehouseSettings->enable_locations),
                 Tables\Columns\TextColumn::make('storageCategory.name')
-                    ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-quantities.table.columns.storage-category')),
+                    ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-quantities.table.columns.storage-category'))
+                    ->placeholder('—'),
                 Tables\Columns\TextColumn::make('package.name')
-                    ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-quantities.table.columns.package')),
+                    ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-quantities.table.columns.package'))
+                    ->placeholder('—')
+                    ->visible(fn (OperationSettings $operationSettings) => $operationSettings->enable_packages),
+                Tables\Columns\TextColumn::make('lot.name')
+                    ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-quantities.table.columns.lot'))
+                    ->placeholder('—')
+                    ->visible(fn (TraceabilitySettings $traceabilitySettings) => $traceabilitySettings->enable_lots_serial_numbers),
                 Tables\Columns\TextInputColumn::make('quantity')
                     ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-quantities.table.columns.on-hand'))
                     ->searchable()
@@ -131,6 +158,8 @@ class ManageQuantities extends ManageRelatedRecords
                     ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-quantities.table.header-actions.create.label'))
                     ->icon('heroicon-o-plus-circle')
                     ->mutateFormDataUsing(function (array $data): array {
+                        $data['location_id'] = $data['location_id'] ?? Warehouse::first()->lot_stock_location_id;
+
                         $data['creator_id'] = Auth::id();
 
                         $data['company_id'] = $this->getOwnerRecord()->company_id;
@@ -140,9 +169,10 @@ class ManageQuantities extends ManageRelatedRecords
                         return $data;
                     })
                     ->before(function (array $data) {
-                        $existingQuantity = ProductQuantity::where('location_id', $data['location_id'])
+                        $existingQuantity = ProductQuantity::where('location_id', $data['location_id'] ?? Warehouse::first()->lot_stock_location_id)
                             ->where('product_id', $this->getOwnerRecord()->id)
-                            ->where('package_id', $data['package_id'])
+                            ->where('package_id', $data['package_id'] ?? null)
+                            ->where('lot_id', $data['lot_id'] ?? null)
                             ->exists();
 
                         if ($existingQuantity) {

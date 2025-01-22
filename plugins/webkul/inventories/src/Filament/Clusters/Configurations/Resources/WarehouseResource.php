@@ -120,7 +120,7 @@ class WarehouseResource extends Resource
                             ]),
                     ])
                     ->columnSpan(['lg' => 1])
-                    ->visible(fn (WarehouseSettings $warehouseSettings): bool => $warehouseSettings->enable_multi_steps_routes && Warehouse::count() > 1),
+                    ->visible(fn (WarehouseSettings $warehouseSettings): bool => $warehouseSettings->enable_multi_steps_routes),
             ])
             ->columns(3);
     }

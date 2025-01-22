@@ -7,8 +7,10 @@ use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Webkul\Inventory\Filament\Clusters\Products\Resources\ProductResource;
+use Webkul\Inventory\Settings\TraceabilitySettings;
 use Webkul\Inventory\Settings\OperationSettings;
 use Webkul\Inventory\Settings\WarehouseSettings;
+use Webkul\Inventory\Enums;
 
 class ManageMoves extends ManageRelatedRecords
 {
@@ -35,6 +37,10 @@ class ManageMoves extends ManageRelatedRecords
                     ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-moves.table.columns.reference'))
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('lot.name')
+                    ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-moves.table.columns.lot'))
+                    ->sortable()
+                    ->visible(fn (TraceabilitySettings $traceabilitySettings) => $traceabilitySettings->enable_lots_serial_numbers && $this->getOwnerRecord()->tracking != Enums\ProductTracking::QTY),
                 Tables\Columns\TextColumn::make('resultPackage.name')
                     ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-moves.table.columns.package'))
                     ->sortable()

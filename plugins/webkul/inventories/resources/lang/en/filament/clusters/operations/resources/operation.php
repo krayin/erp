@@ -146,4 +146,47 @@ return [
             ],
         ],
     ],
+
+    'infolist' => [
+        'sections' => [
+            'general' => [
+                'title' => 'General Information',
+                'entries' => [
+                    'contact' => 'Contact',
+                    'operation-type' => 'Operation Type',
+                    'source-location' => 'Source Location',
+                    'destination-location' => 'Destination Location',
+                ],
+            ],
+        ],
+        'tabs' => [
+            'operations' => [
+                'title' => 'Operations',
+                'entries' => [
+                    'product' => 'Product',
+                    'final-location' => 'Final Location',
+                    'description' => 'Description',
+                    'scheduled-at' => 'Scheduled At',
+                    'deadline' => 'Deadline',
+                    'packaging' => 'Packaging',
+                    'demand' => 'Demand',
+                    'quantity' => 'Quantity',
+                    'unit' => 'Unit',
+                    'picked' => 'Picked',
+                ],
+            ],
+            'additional' => [
+                'title' => 'Additional Information',
+                'entries' => [
+                    'responsible' => 'Responsible',
+                    'shipping-policy' => 'Shipping Policy',
+                    'scheduled-at' => 'Scheduled At',
+                    'source-document' => 'Source Document',
+                ],
+            ],
+            'note' => [
+                'title' => 'Note',
+            ],
+        ],
+    ],
 ];
