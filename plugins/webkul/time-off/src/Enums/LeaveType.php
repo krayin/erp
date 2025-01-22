@@ -17,20 +17,20 @@ enum LeaveType: string implements HasLabel
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::NO_VALIDATION => __('No Validation'),
-            self::HR            => __('By Time Off Officer'),
-            self::MANAGER       => __('By Employee\'s Approver'),
-            self::BOTH          => __('By Employee\'s Approver and Time Off Officer'),
+            self::NO_VALIDATION => __('time_off::enums/leave-type.no-validation'),
+            self::HR            => __('time_off::enums/leave-type.by-time-off-officer'),
+            self::MANAGER       => __('time_off::enums/leave-type.by-employees-approver'),
+            self::BOTH          => __('time_off::enums/leave-type.by-employees-approver-and-time-off-officer'),
         };
     }
 
     public static function options(): array
     {
         return [
-            self::NO_VALIDATION->value => __('No Validation'),
-            self::HR->value            => __('By Time Off Officer'),
-            self::MANAGER->value       => __('By Employee\'s Approver'),
-            self::BOTH->value          => __('By Employee\'s Approver and Time Off Officer'),
+            self::NO_VALIDATION->value => __('time_off::enums/leave-type.no-validation'),
+            self::HR->value            => __('time_off::enums/leave-type.by-time-off-officer'),
+            self::MANAGER->value       => __('time_off::enums/leave-type.by-employees-approver'),
+            self::BOTH->value          => __('time_off::enums/leave-type.by-employees-approver-and-time-off-officer'),
         ];
     }
 }

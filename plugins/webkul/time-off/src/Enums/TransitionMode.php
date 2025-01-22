@@ -13,16 +13,16 @@ enum TransitionMode: string implements HasLabel
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::IMMEDIATELY => __('Immediately'),
-            self::END_OF_ACCRUAL => __('After this accrual period'),
+            self::IMMEDIATELY    => __('time_off::enums/transition-mode.immediately'),
+            self::END_OF_ACCRUAL => __('time_off::enums/transition-mode.end-of-accrual'),
         };
     }
 
     public static function options(): array
     {
         return [
-            self::IMMEDIATELY->value => __('Immediately'),
-            self::END_OF_ACCRUAL->value => __('After this accrual period'),
+            self::IMMEDIATELY->value    => __('time_off::enums/transition-mode.immediately'),
+            self::END_OF_ACCRUAL->value => __('time_off::enums/transition-mode.end-of-accrual'),
         ];
     }
 }

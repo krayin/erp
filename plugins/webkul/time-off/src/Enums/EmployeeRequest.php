@@ -13,16 +13,16 @@ enum EmployeeRequest: string implements HasLabel
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::YES => __('Extra Days Request Allowed'),
-            self::NO  => __('Not Allowed'),
+            self::YES => __('time_off::enums/employee-request.yes'),
+            self::NO  => __('time_off::enums/employee-request.no'),
         };
     }
 
     public static function options(): array
     {
         return [
-            self::YES->value => __('Extra Days Request Allowed'),
-            self::NO->value  => __('Not Allowed'),
+            self::YES->value => __('time_off::enums/employee-request.yes'),
+            self::NO->value  => __('time_off::enums/employee-request.no'),
         ];
     }
 }

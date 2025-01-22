@@ -2,12 +2,10 @@
 
 namespace Webkul\TimeOff\Filament\Clusters\Configurations\Resources;
 
-use Webkul\TimeOff\Filament\Clusters\Configurations;
-use Webkul\TimeOff\Filament\Clusters\Configurations\Resources\AccrualPlanResource\Pages;
-use Filament\Forms\Form;
 use Filament\Forms;
-use Filament\Infolists\Infolist;
+use Filament\Forms\Form;
 use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Pages\Page;
 use Filament\Resources\RelationManagers\RelationGroup;
@@ -20,6 +18,8 @@ use Webkul\TimeOff\Enums\AccruedGainTime;
 use Webkul\TimeOff\Enums\CarryoverDate;
 use Webkul\TimeOff\Enums\CarryoverDay;
 use Webkul\TimeOff\Enums\CarryoverMonth;
+use Webkul\TimeOff\Filament\Clusters\Configurations;
+use Webkul\TimeOff\Filament\Clusters\Configurations\Resources\AccrualPlanResource\Pages;
 use Webkul\TimeOff\Filament\Clusters\Configurations\Resources\AccrualPlanResource\RelationManagers;
 use Webkul\TimeOff\Models\LeaveAccrualPlan;
 
@@ -84,7 +84,7 @@ class AccrualPlanResource extends Resource
                                             ->options(CarryoverMonth::class)
                                             ->default(CarryoverMonth::JAN->value)
                                             ->required(),
-                                    ])->columns(2)
+                                    ])->columns(2),
                             ]),
                     ])->columns(2),
             ]);
@@ -131,27 +131,27 @@ class AccrualPlanResource extends Resource
                                         Infolists\Components\TextEntry::make('accrued_gain_time')
                                             ->icon('heroicon-o-clock')
                                             ->placeholder('—')
-                                            ->formatStateUsing(fn($state) => AccruedGainTime::options()[$state])
+                                            ->formatStateUsing(fn ($state) => AccruedGainTime::options()[$state])
                                             ->label(__('Accrued Gain Time')),
                                         Infolists\Components\TextEntry::make('carryover_date')
                                             ->icon('heroicon-o-calendar')
                                             ->placeholder('—')
-                                            ->formatStateUsing(fn($state) => CarryoverDate::options()[$state])
+                                            ->formatStateUsing(fn ($state) => CarryoverDate::options()[$state])
                                             ->label(__('Carryover Time')),
                                         Infolists\Components\TextEntry::make('carryover_day')
                                             ->icon('heroicon-o-calendar')
                                             ->placeholder('—')
-                                            ->formatStateUsing(fn($state) => CarryoverDay::options()[$state])
+                                            ->formatStateUsing(fn ($state) => CarryoverDay::options()[$state])
                                             ->label(__('Carryover Day')),
                                         Infolists\Components\TextEntry::make('carryover_month')
                                             ->icon('heroicon-o-calendar')
                                             ->placeholder('—')
-                                            ->formatStateUsing(fn($state) => CarryoverMonth::options()[$state])
+                                            ->formatStateUsing(fn ($state) => CarryoverMonth::options()[$state])
                                             ->label(__('Carryover Month')),
-                                    ])
+                                    ]),
                             ])
                             ->columnSpan(2),
-                    ])
+                    ]),
             ]);
     }
 
@@ -170,6 +170,7 @@ class AccrualPlanResource extends Resource
             RelationGroup::make('Manage Milestones', [
                 RelationManagers\MilestoneRelationManager::class,
             ])
+                ->icon('heroicon-o-clipboard-list'),
         ];
     }
 
@@ -181,6 +182,7 @@ class AccrualPlanResource extends Resource
             'view'       => Pages\ViewAccrualPlan::route('/{record}'),
             'edit'       => Pages\EditAccrualPlan::route('/{record}/edit'),
             'milestones' => Pages\ManageMilestone::route('/{record}/milestones'),
+            // 'skills' => Pages\ManageSkill::route('/{record}/skills'),
         ];
     }
 }

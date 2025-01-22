@@ -13,16 +13,16 @@ enum AccruedGainTime: string implements HasLabel
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::START => __('At the start of the accrual period'),
-            self::END   => __('At the end of the accrual period'),
+            self::START => __('time_off::enums/accrued-gain-time.start'),
+            self::END   => __('time_off::enums/accrued-gain-time.end'),
         };
     }
 
     public static function options(): array
     {
         return [
-            self::START->value => __('At the start of the accrual period'),
-            self::END->value   => __('At the end of the accrual period'),
+            self::START->value => __('time_off::enums/accrued-gain-time.start'),
+            self::END->value   => __('time_off::enums/accrued-gain-time.end'),
         ];
     }
 }

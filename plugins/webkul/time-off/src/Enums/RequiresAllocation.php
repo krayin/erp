@@ -13,16 +13,16 @@ enum RequiresAllocation: string implements HasLabel
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::YES => __('Yes'),
-            self::NO  => __('No Limit'),
+            self::YES => __('time_off::enums/requires-allocation.yes'),
+            self::NO  => __('time_off::enums/requires-allocation.no'),
         };
     }
 
     public static function options(): array
     {
         return [
-            self::YES->value            => __('Yes'),
-            self::NO->value             => __('No Limit'),
+            self::YES->value => __('time_off::enums/requires-allocation.yes'),
+            self::NO->value  => __('time_off::enums/requires-allocation.no'),
         ];
     }
 }

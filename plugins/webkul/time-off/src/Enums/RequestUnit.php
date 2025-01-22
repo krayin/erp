@@ -15,18 +15,18 @@ enum RequestUnit: string implements HasLabel
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::DAY      => __('Day'),
-            self::HALF_DAY => __('Half Day'),
-            self::HOUR     => __('Hour'),
+            self::DAY      => __('time_off::enums/request-unit.day'),
+            self::HALF_DAY => __('time_off::enums/request-unit.half-day'),
+            self::HOUR     => __('time_off::enums/request-unit.hour'),
         };
     }
 
     public static function options(): array
     {
         return [
-            self::DAY->value      => __('Day'),
-            self::HALF_DAY->value => __('Half Day'),
-            self::HOUR->value     => __('Hour'),
+            self::DAY->value      => __('time_off::enums/request-unit.day'),
+            self::HALF_DAY->value => __('time_off::enums/request-unit.half-day'),
+            self::HOUR->value     => __('time_off::enums/request-unit.hour'),
         ];
     }
 }

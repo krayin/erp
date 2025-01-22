@@ -42,8 +42,8 @@ enum CarryoverDay: string implements HasLabel
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::LAST => __('Last day of the month'),
-            default    => __('Day :day', ['day' => $this->value]),
+            self::LAST => __('time_off::enums/carry-over-day.last-day-of-month'),
+            default    => __('time_off::enums/carry-over-day.day', ['day' => $this->value]),
         };
     }
 
@@ -51,11 +51,11 @@ enum CarryoverDay: string implements HasLabel
     {
         return array_merge(
             [
-                self::LAST->value => __('Last day of the month'),
+                self::LAST->value => __('time_off::enums/carry-over-day.last-day-of-month'),
             ],
             array_combine(
-                array_map(fn($day) => strval($day), range(1, 31)),
-                array_map(fn($day) => __('Day :day', ['day' => $day]), range(1, 31))
+                array_map(fn ($day) => strval($day), range(1, 31)),
+                array_map(fn ($day) => __('time_off::enums/carry-over-day.day', ['day' => $day]), range(1, 31))
             )
         );
     }

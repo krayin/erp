@@ -46,7 +46,6 @@ class LeaveAccrualLevel extends Model
         return $this->belongsTo(LeaveAccrualPlan::class, 'accrual_plan_id');
     }
 
-
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'creator_id');

@@ -13,16 +13,16 @@ enum TimeType: string implements HasLabel
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::LEAVE => __('Absence'),
-            self::OTHER => __('Worked Time'),
+            self::LEAVE => __('time_off::enums/time-type.leave'),
+            self::OTHER => __('time_off::enums/time-type.other'),
         };
     }
 
     public static function options(): array
     {
         return [
-            self::LEAVE->value => __('Absence'),
-            self::OTHER->value => __('Worked Time'),
+            self::LEAVE->value => __('time_off::enums/time-type.leave'),
+            self::OTHER->value => __('time_off::enums/time-type.other'),
         ];
     }
 }

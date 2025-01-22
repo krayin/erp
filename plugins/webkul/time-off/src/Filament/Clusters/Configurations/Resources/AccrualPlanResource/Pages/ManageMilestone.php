@@ -2,14 +2,14 @@
 
 namespace Webkul\TimeOff\Filament\Clusters\Configurations\Resources\AccrualPlanResource\Pages;
 
-use Filament\Forms\Form;
-use Filament\Infolists\Infolist;
 use Filament\Resources\Pages\ManageRelatedRecords;
-use Filament\Tables\Table;
 use Webkul\TimeOff\Filament\Clusters\Configurations\Resources\AccrualPlanResource;
+use Webkul\TimeOff\Traits\LeaveAccrualPlan;
 
 class ManageMilestone extends ManageRelatedRecords
 {
+    use LeaveAccrualPlan;
+
     protected static string $resource = AccrualPlanResource::class;
 
     protected static string $relationship = 'leaveAccrualLevels';
@@ -19,28 +19,5 @@ class ManageMilestone extends ManageRelatedRecords
     public static function getNavigationLabel(): string
     {
         return __('Manage Milestones');
-    }
-
-    public function form(Form $form): Form
-    {
-        return $form
-            ->schema([]);
-    }
-
-    public function table(Table $table): Table
-    {
-        return $table
-            ->columns([])
-            ->groups([])
-            ->filters([])
-            ->headerActions([])
-            ->actions([])
-            ->bulkActions([]);
-    }
-
-    public function infolist(Infolist $infolist): Infolist
-    {
-        return $infolist
-            ->schema([]);
     }
 }
