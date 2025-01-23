@@ -1,66 +1,87 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+    <a href="http://krayincrm.com">
+        <img 
+            src="https://bagisto.com/wp-content/uploads/2021/06/bagisto-logo.png" 
+            alt="Total Downloads"
+        >
+    </a>
 </p>
 
-## About Laravel
+## Topics
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1. [Introduction](#introduction)
+2. [Requirements](#requirements)
+3. [Installation & Configuration](#installation-and-configuration)
+4. [License](#license)
+5. [Security Vulnerabilities](#security-vulnerabilities)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Introduction
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Krayin ERP is a comprehensive, open-source Enterprise Resource Planning (ERP) solution designed for Small and Medium Enterprises (SMEs) and large-scale enterprises. Built on **[Laravel](https://laravel.com)**, the most popular PHP framework, and **[FilamentPHP](https://filamentphp.com)**, a dynamic resource management library, Krayin ERP offers an extensible and developer-friendly platform for managing every aspect of your business operations.
 
-## Learning Laravel
+**Key Features**
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-   **Built with Laravel**: Leverages the robust and scalable features of Laravel, ensuring security, reliability, and flexibility for enterprise needs.
+-   **Powered by FilamentPHP**: Incorporates FilamentPHP for intuitive resource management, modular forms, and dynamic admin panels.
+-   **Highly Modular Design**: Enables seamless integration of custom modules for finance, HR, inventory, CRM, and more.
+-   **Open-Source Solution**: Free to use, modify, and extend, fostering community-driven innovation and improvements.
+-   **Scalable for Enterprises**: Built to handle complex business processes and workflows, making it suitable for growing organizations.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+**Why Choose Krayin ERP?**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+-   **Modern Technology Stack**: Combines Laravel's backend strength with FilamentPHP's efficient frontend capabilities.
+-   **Developer-Centric Design**: Offers clean code, modular architecture, and extensive documentation for custom development.
+-   **User-Friendly Interface**: Features responsive and visually appealing designs with TailwindCSS.
+-   **Scalable & Customizable**: Adapts to the unique requirements of businesses of all sizes.
+-   **Community-Driven**: Backed by a thriving open-source community for support and innovation.
 
-## Laravel Sponsors
+### Requirements
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+To run and develop Krayin ERP, ensure your environment meets the following requirements:
 
-### Premium Partners
+-   **PHP**: Version 8.2 or higher.
+-   **Laravel**: Version 11.x, for leveraging the latest framework features and improvements.
+-   **FilamentPHP**: Version 3.x, for a seamless and modern admin panel experience.
+-   **Database**: MySQL 8.0+ or SQLite for database management.
+-   **Composer**: Latest version, to manage PHP dependencies.
+-   **Node.js & NPM**: Latest stable versions for compiling front-end assets.
+-   **Server**: Apache/Nginx with required PHP extensions (e.g., OpenSSL, PDO, Mbstring, Tokenizer, XML, Ctype, JSON).
+-   **Browser**: A modern browser (Chrome, Firefox, Edge) for accessing the admin panel.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Installation & Configuration
 
-## Contributing
+Installing and setting up Krayin ERP is quick and straightforward. Follow the steps below to get started:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. **Run the Installation Command**  
+   Simply execute the following command in your terminal:
 
-## Code of Conduct
+    ```bash
+    php artisan erp:install
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+2. **What Happens During Installation**:
 
-## Security Vulnerabilities
+    - **Migrations & Seeders**:
+        - All migrations and seeders from the core or base Laravel project are executed to set up the database schema and populate initial data.
+    - **Roles & Permissions**:
+        - The `Filament Shield` package automatically generates roles and permissions for the application.
+    - **Database Seeders**:
+        - Additional seeders are generated and executed to ensure the database is fully populated with the required default configurations.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+3. **Admin Account Setup**
 
-## License
+    - After the installation process, the command prompts you to provide **Admin Login Credentials** (email and password).
+    - These credentials are used to log in to the admin panel.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+4. **Installation Complete**  
+   Once the above steps are finished, the installation process is complete, and you can start using Krayin ERP.
+
+That’s it! With just one command, your Krayin ERP environment is ready to use.
+
+### License
+
+Krayin CRM is a truly opensource CRM framework which will always be free under the OSL-3.0 License.
+
+### Security Vulnerabilities
+
+Please don't disclose security vulnerabilities publicly. If you find any security vulnerability in Krayin CRM then please email us: sales@krayinerp.com.
