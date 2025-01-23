@@ -5,7 +5,6 @@ namespace Webkul\Inventory\Filament\Clusters\Products\Resources\LotResource\Page
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
-use Webkul\Chatter\Filament\Actions\ChatterAction;
 use Webkul\Inventory\Filament\Clusters\Products\Resources\LotResource;
 
 class ViewLot extends ViewRecord

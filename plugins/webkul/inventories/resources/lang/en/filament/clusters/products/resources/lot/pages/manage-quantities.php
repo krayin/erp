@@ -5,7 +5,7 @@ return [
 
     'table' => [
         'columns' => [
-            'product'         => 'Product',
+            'product'          => 'Product',
             'location'         => 'Location',
             'storage-category' => 'Storage Category',
             'quantity'         => 'Quantity',

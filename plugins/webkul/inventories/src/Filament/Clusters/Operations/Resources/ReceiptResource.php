@@ -3,6 +3,7 @@
 namespace Webkul\Inventory\Filament\Clusters\Operations\Resources;
 
 use Filament\Forms\Form;
+use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Pages\Page;
@@ -14,7 +15,6 @@ use Webkul\Inventory\Enums;
 use Webkul\Inventory\Filament\Clusters\Operations;
 use Webkul\Inventory\Filament\Clusters\Operations\Resources\ReceiptResource\Pages;
 use Webkul\Inventory\Models\Operation;
-use Filament\Infolists\Infolist;
 
 class ReceiptResource extends Resource
 {

@@ -27,7 +27,7 @@ class CreateJobPosition extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        $data['user_id'] = Auth::user()->id;
+        $data['creator_id'] = Auth::user()->id;
 
         $data['sort'] = EmployeeJobPosition::max('sort') + 1;
 

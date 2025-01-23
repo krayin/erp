@@ -41,7 +41,7 @@ class Product extends BaseProduct
         $this->mergeCasts([
             'tracking'            => ProductTracking::class,
             'use_expiration_date' => 'boolean',
-            'is_storable' => 'boolean',
+            'is_storable'         => 'boolean',
         ]);
 
         parent::__construct($attributes);

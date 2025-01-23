@@ -3,11 +3,11 @@
 namespace Webkul\Inventory\Filament\Clusters\Operations\Resources\DeliveryResource\Pages;
 
 use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
-use Webkul\Inventory\Filament\Clusters\Operations\Resources\DeliveryResource;
 use Filament\Notifications\Notification;
+use Filament\Resources\Pages\EditRecord;
 use Webkul\Chatter\Filament\Actions\ChatterAction;
 use Webkul\Inventory\Enums;
+use Webkul\Inventory\Filament\Clusters\Operations\Resources\DeliveryResource;
 use Webkul\Inventory\Models\Move;
 use Webkul\Inventory\Models\Operation;
 use Webkul\Inventory\Models\Product;
@@ -186,9 +186,9 @@ class EditDelivery extends EditRecord
                 $newQty = min($line->qty, $remainingQty);
 
                 $linesToKeep->push([
-                    'state' => $move->state,
-                    'line' => $line,
-                    'new_qty' => $newQty
+                    'state'   => $move->state,
+                    'line'    => $line,
+                    'new_qty' => $newQty,
                 ]);
 
                 $remainingQty -= $newQty;
@@ -200,8 +200,8 @@ class EditDelivery extends EditRecord
 
             if ($lineToKeep) {
                 $line->update([
-                    'state' => $move->state,
-                    'qty' => $lineToKeep['new_qty'],
+                    'state'   => $move->state,
+                    'qty'     => $lineToKeep['new_qty'],
                     'uom_qty' => $lineToKeep['new_qty'],
                 ]);
             } else {

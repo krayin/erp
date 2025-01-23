@@ -2,25 +2,18 @@
 
 namespace Webkul\Inventory\Filament\Clusters\Products\Resources\LotResource\Pages;
 
-use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Inventory\Enums;
-use Webkul\Inventory\Filament\Clusters\Products\Resources\PackageResource;
 use Webkul\Inventory\Filament\Clusters\Products\Resources\LotResource;
 use Webkul\Inventory\Models\Location;
 use Webkul\Inventory\Models\Move;
-use Webkul\Inventory\Models\Operation;
-use Webkul\Inventory\Models\ProductQuantity;
-use Webkul\Inventory\Settings\TraceabilitySettings;
 use Webkul\Inventory\Settings\OperationSettings;
+use Webkul\Inventory\Settings\TraceabilitySettings;
 use Webkul\Inventory\Settings\WarehouseSettings;
-use Webkul\Inventory\Models\Warehouse;
 
 class ManageQuantities extends ManageRelatedRecords
 {

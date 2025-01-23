@@ -2,20 +2,17 @@
 
 namespace Webkul\Inventory\Filament\Clusters\Products\Resources;
 
-use Webkul\Inventory\Filament\Clusters\Products;
-use Filament\Notifications\Notification;
-use Filament\Pages\SubNavigationPosition;
-use Webkul\Inventory\Filament\Clusters\Products\Resources\LotResource\Pages;
-use Webkul\Inventory\Filament\Clusters\Products\Resources\LotResource\RelationManagers;
-use Webkul\Inventory\Models\Lot;
-use Filament\Resources\Pages\Page;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
+use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Webkul\Inventory\Filament\Clusters\Products;
+use Webkul\Inventory\Filament\Clusters\Products\Resources\LotResource\Pages;
+use Webkul\Inventory\Models\Lot;
 use Webkul\Inventory\Settings\TraceabilitySettings;
 
 class LotResource extends Resource
@@ -157,10 +154,10 @@ class LotResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListLots::route('/'),
-            'create' => Pages\CreateLot::route('/create'),
-            'view'    => Pages\ViewLot::route('/{record}'),
-            'edit' => Pages\EditLot::route('/{record}/edit'),
+            'index'      => Pages\ListLots::route('/'),
+            'create'     => Pages\CreateLot::route('/create'),
+            'view'       => Pages\ViewLot::route('/{record}'),
+            'edit'       => Pages\EditLot::route('/{record}/edit'),
             'quantities' => Pages\ManageQuantities::route('/{record}/quantities'),
         ];
     }

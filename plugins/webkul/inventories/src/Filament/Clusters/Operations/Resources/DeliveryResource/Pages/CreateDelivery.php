@@ -3,12 +3,12 @@
 namespace Webkul\Inventory\Filament\Clusters\Operations\Resources\DeliveryResource\Pages;
 
 use Filament\Notifications\Notification;
-use Illuminate\Contracts\Support\Htmlable;
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Inventory\Enums;
-use Webkul\Inventory\Models\OperationType;
 use Webkul\Inventory\Filament\Clusters\Operations\Resources\DeliveryResource;
+use Webkul\Inventory\Models\OperationType;
 
 class CreateDelivery extends CreateRecord
 {

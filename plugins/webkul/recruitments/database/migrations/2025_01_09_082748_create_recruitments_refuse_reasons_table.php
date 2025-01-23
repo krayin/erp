@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('creator_id')->nullable()->constrained('users')->nullOnDelete();
             $table->integer('sort')->default(0)->comment('Sort order');
             $table->string('name');
+            $table->string('template')->nullable()->comment('Template');
             $table->boolean('is_active')->default(true)->comment('Active Status');
             $table->timestamps();
         });

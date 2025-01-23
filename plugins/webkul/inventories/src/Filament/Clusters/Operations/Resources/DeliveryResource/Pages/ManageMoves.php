@@ -9,8 +9,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Inventory\Enums;
-use Webkul\Inventory\Filament\Clusters\Operations\Resources\MoveResource;
 use Webkul\Inventory\Filament\Clusters\Operations\Resources\DeliveryResource;
+use Webkul\Inventory\Filament\Clusters\Operations\Resources\MoveResource;
 use Webkul\Inventory\Models\Product;
 
 class ManageMoves extends ManageRelatedRecords

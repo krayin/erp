@@ -186,9 +186,9 @@ class EditReceipt extends EditRecord
                 $newQty = min($line->qty, $remainingQty);
 
                 $linesToKeep->push([
-                    'state' => $move->state,
-                    'line' => $line,
-                    'new_qty' => $newQty
+                    'state'   => $move->state,
+                    'line'    => $line,
+                    'new_qty' => $newQty,
                 ]);
 
                 $remainingQty -= $newQty;
@@ -200,8 +200,8 @@ class EditReceipt extends EditRecord
 
             if ($lineToKeep) {
                 $line->update([
-                    'state' => $move->state,
-                    'qty' => $lineToKeep['new_qty'],
+                    'state'   => $move->state,
+                    'qty'     => $lineToKeep['new_qty'],
                     'uom_qty' => $lineToKeep['new_qty'],
                 ]);
             } else {

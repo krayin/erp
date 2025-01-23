@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Auth;
 use Webkul\Recruitment\Enums\RecruitmentState;
 use Webkul\Recruitment\Filament\Clusters\Applications\Resources\ApplicantResource;
 use Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource;
-use Webkul\Recruitment\Models\Stage;
 use Webkul\TableViews\Filament\Components\PresetView;
 use Webkul\TableViews\Filament\Concerns\HasTableViews;
 
@@ -150,7 +149,6 @@ class ListApplicants extends ListRecords
                     $data['company_id'] = Auth::user()->default_company_id;
                     $data['create_date'] = now();
                     $data['is_active'] = true;
-                    $data['stage_id'] = Stage::where('is_default', 1)->first()->id ?? null;
 
                     return $data;
                 })

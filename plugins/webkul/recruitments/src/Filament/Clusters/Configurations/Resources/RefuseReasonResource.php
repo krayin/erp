@@ -59,6 +59,13 @@ class RefuseReasonResource extends Resource
                     ->label(__('recruitments::filament/clusters/configurations/resources/refuse-reason.form.fields.name'))
                     ->required()
                     ->placeholder(__('recruitments::filament/clusters/configurations/resources/refuse-reason.form.fields.name-placeholder')),
+                Forms\Components\Select::make('template')
+                    ->label(__('recruitments::filament/clusters/configurations/resources/refuse-reason.form.fields.template.title'))
+                    ->options([
+                        'applicant-refuse'         => __('recruitments::filament/clusters/configurations/resources/refuse-reason.form.fields.template.applicant-refuse'),
+                        'applicant-not-interested' => __('recruitments::filament/clusters/configurations/resources/refuse-reason.form.fields.template.applicant-not-interested'),
+                    ])
+                    ->required(),
             ]);
     }
 
@@ -73,6 +80,10 @@ class RefuseReasonResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('recruitments::filament/clusters/configurations/resources/refuse-reason.table.columns.name'))
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('template')
+                    ->label(__('recruitments::filament/clusters/configurations/resources/refuse-reason.table.columns.template'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('createdBy.name')
@@ -138,6 +149,10 @@ class RefuseReasonResource extends Resource
                     ->placeholder('—')
                     ->icon('heroicon-o-briefcase')
                     ->label(__('recruitments::filament/clusters/configurations/resources/refuse-reason.infolist.name')),
+                Infolists\Components\TextEntry::make('name')
+                    ->placeholder('—')
+                    ->icon('heroicon-o-briefcase')
+                    ->label(__('recruitments::filament/clusters/configurations/resources/refuse-reason.infolist.template')),
             ]);
     }
 

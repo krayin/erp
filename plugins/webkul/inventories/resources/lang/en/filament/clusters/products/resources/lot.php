@@ -12,13 +12,13 @@ return [
                 'title' => 'General',
 
                 'fields' => [
-                    'name'             => 'Name',
-                    'name-placeholder' => 'e.g. LOT/0001/20121',
-                    'product'          => 'Product',
-                    'product-hint-tooltip' => 'Product this lot/serial number contains. You cannot change it anymore if it has already been moved.',
-                    'reference'        => 'Reference',
+                    'name'                   => 'Name',
+                    'name-placeholder'       => 'e.g. LOT/0001/20121',
+                    'product'                => 'Product',
+                    'product-hint-tooltip'   => 'Product this lot/serial number contains. You cannot change it anymore if it has already been moved.',
+                    'reference'              => 'Reference',
                     'reference-hint-tooltip' => 'Internal reference number in case it differs from the manufacturer\'s lot/serial number',
-                    'description'      => 'Description',
+                    'description'            => 'Description',
                 ],
             ],
         ],
@@ -26,10 +26,10 @@ return [
 
     'table' => [
         'columns' => [
-            'name'     => 'Name',
-            'product'  => 'Product',
-            'on-hand-qty' => 'On Hand Quantity',
-            'reference' => 'Internal Reference',
+            'name'         => 'Name',
+            'product'      => 'Product',
+            'on-hand-qty'  => 'On Hand Quantity',
+            'reference'    => 'Internal Reference',
             'created-at'   => 'Created At',
             'updated-at'   => 'Updated At',
         ],

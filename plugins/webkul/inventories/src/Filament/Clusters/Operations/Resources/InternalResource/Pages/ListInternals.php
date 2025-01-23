@@ -4,11 +4,11 @@ namespace Webkul\Inventory\Filament\Clusters\Operations\Resources\InternalResour
 
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
-use Webkul\Inventory\Filament\Clusters\Operations\Resources\InternalResource;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Inventory\Enums\OperationState;
+use Webkul\Inventory\Filament\Clusters\Operations\Resources\InternalResource;
 use Webkul\TableViews\Filament\Components\PresetView;
 use Webkul\TableViews\Filament\Concerns\HasTableViews;
 

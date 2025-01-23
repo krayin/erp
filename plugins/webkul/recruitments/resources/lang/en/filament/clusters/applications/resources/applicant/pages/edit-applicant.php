@@ -46,4 +46,17 @@ return [
             ],
         ],
     ],
+
+    'mail' => [
+        'application-refused' => [
+            'subject' => 'Your Job Application: :application',
+        ],
+
+        'application-confirm' => [
+            'subject' => 'Your Job Application: :job_position',
+        ],
+        'interviewer-assigned' => [
+            'subject' => 'You have been assigned to the Applicant :applicant.',
+        ],
+    ],
 ];

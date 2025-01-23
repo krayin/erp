@@ -16,6 +16,11 @@ return [
     'form' => [
         'fields' => [
             'name'             => 'Name',
+            'template'         => [
+                'title'                    => 'Template',
+                'applicant-refuse'         => 'Applicant Refuse',
+                'applicant-not-interested' => 'Applicant Not Interested',
+            ],
             'name-placeholder' => 'Enter the name of the refuse reason',
         ],
     ],
@@ -24,6 +29,7 @@ return [
         'columns' => [
             'id'         => 'ID',
             'name'       => 'Name',
+            'template'   => 'Template',
             'created-by' => 'Created By',
             'created-at' => 'Created At',
             'updated-at' => 'Updated At',
@@ -73,6 +79,7 @@ return [
     ],
 
     'infolist' => [
-        'name' => 'Name',
+        'name'       => 'Name',
+        'template'   => 'Template',
     ],
 ];

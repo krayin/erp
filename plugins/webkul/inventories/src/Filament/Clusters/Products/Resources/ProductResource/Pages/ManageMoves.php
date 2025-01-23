@@ -6,11 +6,11 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Webkul\Inventory\Filament\Clusters\Products\Resources\ProductResource;
-use Webkul\Inventory\Settings\TraceabilitySettings;
-use Webkul\Inventory\Settings\OperationSettings;
-use Webkul\Inventory\Settings\WarehouseSettings;
 use Webkul\Inventory\Enums;
+use Webkul\Inventory\Filament\Clusters\Products\Resources\ProductResource;
+use Webkul\Inventory\Settings\OperationSettings;
+use Webkul\Inventory\Settings\TraceabilitySettings;
+use Webkul\Inventory\Settings\WarehouseSettings;
 
 class ManageMoves extends ManageRelatedRecords
 {

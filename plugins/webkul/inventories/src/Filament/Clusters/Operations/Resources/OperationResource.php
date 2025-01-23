@@ -4,6 +4,8 @@ namespace Webkul\Inventory\Filament\Clusters\Operations\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -15,11 +17,8 @@ use Webkul\Inventory\Models\Move;
 use Webkul\Inventory\Models\Operation;
 use Webkul\Inventory\Models\OperationType;
 use Webkul\Inventory\Models\Product;
-use Webkul\Inventory\Models\Location;
 use Webkul\Inventory\Settings\ProductSettings;
 use Webkul\Inventory\Settings\WarehouseSettings;
-use Filament\Infolists\Infolist;
-use Filament\Infolists;
 
 class OperationResource extends Resource
 {
@@ -230,7 +229,7 @@ class OperationResource extends Resource
                 Infolists\Components\Section::make()
                     ->schema([
                         Infolists\Components\TextEntry::make('state')
-                            ->badge()
+                            ->badge(),
                     ])
                     ->compact(),
 
@@ -503,19 +502,19 @@ class OperationResource extends Resource
                         $data['company_id'] = $move->company_id;
 
                         return $data;
-                    })
+                    }),
             ])
             ->modalWidth('6xl')
             ->mountUsing(function (Forms\ComponentContainer $form, Move $record) {
                 $form->fill([
                     'lines' => $record->lines()->get()->map(function ($line) {
                         return [
-                            'id' => $line->id,
+                            'id'                      => $line->id,
                             'destination_location_id' => $line->destination_location_id,
-                            'result_package_id' => $line->result_package_id,
-                            'qty' => $line->qty,
+                            'result_package_id'       => $line->result_package_id,
+                            'qty'                     => $line->qty,
                         ];
-                    })->toArray()
+                    })->toArray(),
                 ]);
             })
             ->action(function (Forms\Set $set, array $data, Move $record): void {

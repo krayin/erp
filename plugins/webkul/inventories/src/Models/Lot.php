@@ -50,12 +50,12 @@ class Lot extends Model
      * @var string
      */
     protected $casts = [
-        'properties' => 'array',
+        'properties'      => 'array',
         'expiry_reminded' => 'boolean',
         'expiration_date' => 'datetime',
-        'use_date' => 'datetime',
-        'removal_date' => 'datetime',
-        'alert_date' => 'datetime',
+        'use_date'        => 'datetime',
+        'removal_date'    => 'datetime',
+        'alert_date'      => 'datetime',
     ];
 
     public function product(): BelongsTo

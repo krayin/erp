@@ -22,11 +22,14 @@ return [
                     'job-position-title'         => 'Job Position Title',
                     'job-position-title-tooltip' => 'Enter the official job position title',
                     'department'                 => 'Department',
-                    'department-modal-title'     => 'Department Create',
+                    'department-modal-title'     => 'Create Department',
+                    'company-modal-title'        => 'Create Company',
                     'job-location'               => 'Job Location',
                     'industry'                   => 'Industry',
                     'company'                    => 'Company',
                     'employment-type'            => 'Employment Type',
+                    'recruiter'                  => 'Recruiter',
+                    'interviewer'                => 'Interviewer',
                 ],
             ],
 
@@ -43,11 +46,12 @@ return [
                 'title' => 'Workforce Planning',
 
                 'fields' => [
-                    'recruitment-target' => 'Recruitment Target',
-                    'date-from'          => 'Date From',
-                    'date-to'            => 'Date To',
-                    'expected-skills'    => 'Expected Skills',
-                    'employment-type'    => 'Employment Type',
+                    'recruitment-target'         => 'Recruitment Target',
+                    'date-from'                  => 'Date From',
+                    'date-to'                    => 'Date To',
+                    'expected-skills'            => 'Expected Skills',
+                    'employment-type'            => 'Employment Type',
+                    'status'                     => 'Status',
                 ],
             ],
 

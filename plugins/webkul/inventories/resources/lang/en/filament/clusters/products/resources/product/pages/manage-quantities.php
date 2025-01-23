@@ -7,7 +7,7 @@ return [
         'fields' => [
             'location'         => 'Location',
             'package'          => 'Package',
-            'lot'          => 'Lot / Serial Numbers',
+            'lot'              => 'Lot / Serial Numbers',
             'on-hand-qty'      => 'On Hand Quantity',
             'storage-category' => 'Storage Category',
         ],
@@ -16,7 +16,7 @@ return [
     'table' => [
         'columns' => [
             'location'         => 'Location',
-            'lot'         => 'Lot / Serial Numbers',
+            'lot'              => 'Lot / Serial Numbers',
             'storage-category' => 'Storage Category',
             'quantity'         => 'Quantity',
             'package'          => 'Package',
