@@ -2,8 +2,8 @@
 
 namespace Webkul\Recruitment\Filament\Clusters\Configurations\Resources\JobPositionResource\Pages;
 
-use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\JobPositionResource;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\JobPositionResource\Pages\EditJobPosition as BaseEditJobPosition;
+use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\JobPositionResource;
 
 class EditJobPosition extends BaseEditJobPosition
 {
@@ -29,9 +29,9 @@ class EditJobPosition extends BaseEditJobPosition
         $model = $this->record;
 
         return array_merge($data, [
-            'no_of_employee' => $model->no_of_employee,
+            'no_of_employee'       => $model->no_of_employee,
             'no_of_hired_employee' => $model->no_of_hired_employee,
-            'expected_employees' => $model->expected_employees,
+            'expected_employees'   => $model->expected_employees,
         ]);
     }
 }

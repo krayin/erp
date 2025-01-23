@@ -38,7 +38,7 @@ class TagResource extends Resource
                     ->unique(ignoreRecord: true),
                 Forms\Components\ColorPicker::make('color')
                     ->label(__('contacts::filament/clusters/configurations/resources/tag.form.color'))
-                    ->required()
+                    ->required(),
             ]);
     }
 
@@ -54,7 +54,7 @@ class TagResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
-                    ->hidden(fn($record) => $record->trashed())
+                    ->hidden(fn ($record) => $record->trashed())
                     ->successNotification(
                         Notification::make()
                             ->success()

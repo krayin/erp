@@ -2,14 +2,14 @@
 
 namespace Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource\Pages;
 
-use Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
-use Webkul\TableViews\Filament\Concerns\HasTableViews;
-use Webkul\TableViews\Filament\Components\PresetView;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Recruitment\Enums\RecruitmentState;
+use Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource;
+use Webkul\TableViews\Filament\Components\PresetView;
+use Webkul\TableViews\Filament\Concerns\HasTableViews;
 
 class ListCandidates extends ListRecords
 {
@@ -21,7 +21,7 @@ class ListCandidates extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-                ->icon('heroicon-o-plus-circle')
+                ->icon('heroicon-o-plus-circle'),
         ];
     }
 

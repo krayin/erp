@@ -2,16 +2,16 @@
 
 namespace Webkul\TimeOff\Filament\Clusters\Management\Resources;
 
-use Webkul\TimeOff\Filament\Clusters\Management;
-use Webkul\TimeOff\Filament\Clusters\Management\Resources\AllocationResource\Pages;
-use Filament\Forms\Form;
 use Filament\Forms;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Webkul\Field\Filament\Forms\Components\ProgressStepper;
 use Webkul\TimeOff\Enums\AllocationType;
 use Webkul\TimeOff\Enums\State;
+use Webkul\TimeOff\Filament\Clusters\Management;
+use Webkul\TimeOff\Filament\Clusters\Management\Resources\AllocationResource\Pages;
 use Webkul\TimeOff\Models\LeaveAllocation;
 
 class AllocationResource extends Resource
@@ -47,7 +47,7 @@ class AllocationResource extends Resource
                             ->columnSpan('full')
                             ->disabled()
                             ->reactive()
-                            ->live()
+                            ->live(),
                     ])->columns(2),
                 Forms\Components\Section::make()
                     ->schema([
@@ -87,7 +87,7 @@ class AllocationResource extends Resource
                                         Forms\Components\DatePicker::make('date_to')
                                             ->label('To')
                                             ->native(false)
-                                            ->placeholder('No limit')
+                                            ->placeholder('No limit'),
                                     ]),
                                 Forms\Components\TextInput::make('number_of_days')
                                     ->label('Allocation')
@@ -97,8 +97,8 @@ class AllocationResource extends Resource
                                     ->suffix('Number of Days'),
                                 Forms\Components\RichEditor::make('notes')
                                     ->label('Reason'),
-                            ])
-                    ])->columns(2)
+                            ]),
+                    ])->columns(2),
             ]);
     }
 
@@ -119,12 +119,12 @@ class AllocationResource extends Resource
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('allocation_type')
-                    ->formatStateUsing(fn($state) => AllocationType::options()[$state])
+                    ->formatStateUsing(fn ($state) => AllocationType::options()[$state])
                     ->label(__('Allocation Type'))
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('state')
-                    ->formatStateUsing(fn($state) => State::options()[$state])
+                    ->formatStateUsing(fn ($state) => State::options()[$state])
                     ->label(__('Status'))
                     ->badge()
                     ->sortable()
@@ -153,7 +153,7 @@ class AllocationResource extends Resource
                     Tables\Actions\Action::make('approve')
                         ->icon('heroicon-o-check-circle')
                         ->color('success')
-                        ->hidden(fn($record) => $record->state === State::VALIDATE_TWO->value)
+                        ->hidden(fn ($record) => $record->state === State::VALIDATE_TWO->value)
                         ->action(function ($record) {
                             if ($record->state === State::VALIDATE_ONE->value) {
                                 $record->update(['state' => State::VALIDATE_TWO->value]);
@@ -170,7 +170,7 @@ class AllocationResource extends Resource
                         }),
                     Tables\Actions\Action::make('refuse')
                         ->icon('heroicon-o-x-circle')
-                        ->hidden(fn($record) => $record->state === State::REFUSE->value)
+                        ->hidden(fn ($record) => $record->state === State::REFUSE->value)
                         ->color('danger')
                         ->action(function ($record) {
                             $record->update(['state' => State::REFUSE->value]);
@@ -195,9 +195,9 @@ class AllocationResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAllocations::route('/'),
+            'index'  => Pages\ListAllocations::route('/'),
             'create' => Pages\CreateAllocation::route('/create'),
-            'edit' => Pages\EditAllocation::route('/{record}/edit'),
+            'edit'   => Pages\EditAllocation::route('/{record}/edit'),
         ];
     }
 }

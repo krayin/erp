@@ -2,19 +2,17 @@
 
 namespace Webkul\TimeOff\Filament\Clusters\Management\Resources;
 
-use Webkul\TimeOff\Filament\Clusters\Management;
-use Webkul\TimeOff\Filament\Clusters\Management\Resources\TimeOffResource\Pages;
-use Webkul\TimeOff\Filament\Clusters\Management\Resources\TimeOffResource\RelationManagers;
-use Filament\Forms\Form;
 use Filament\Forms;
+use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\HtmlString;
 use Webkul\Employee\Models\Employee;
+use Webkul\TimeOff\Filament\Clusters\Management;
+use Webkul\TimeOff\Filament\Clusters\Management\Resources\TimeOffResource\Pages;
 use Webkul\TimeOff\Models\Leave;
 use Webkul\TimeOff\Models\LeaveType;
 
@@ -81,7 +79,7 @@ class TimeOffResource extends Resource
                                         Forms\Components\DatePicker::make('request_date_to')
                                             ->native(false)
                                             ->default(now())
-                                            ->hidden(fn(Get $get) => $get('request_unit_half'))
+                                            ->hidden(fn (Get $get) => $get('request_unit_half'))
                                             ->required(),
                                         Forms\Components\Select::make('request_date_from_period')
                                             ->label('Period')
@@ -90,7 +88,7 @@ class TimeOffResource extends Resource
                                                 'afternoon' => 'Afternoon',
                                             ])
                                             ->native(false)
-                                            ->visible(fn(Get $get) => $get('request_unit_half'))
+                                            ->visible(fn (Get $get) => $get('request_unit_half'))
                                             ->required(),
                                     ]),
                                 Forms\Components\Toggle::make('request_unit_half')
@@ -105,7 +103,7 @@ class TimeOffResource extends Resource
                                         $startDate = Carbon::parse($get('request_date_from'));
                                         $endDate = $get('request_date_to') ? Carbon::parse($get('request_date_to')) : $startDate;
 
-                                        return $startDate->diffInDays($endDate) + 1 . ' day(s)';
+                                        return $startDate->diffInDays($endDate) + 1 .' day(s)';
                                     }),
                                 Forms\Components\TextInput::make('private_name')
                                     ->label('Private Name')
@@ -121,9 +119,9 @@ class TimeOffResource extends Resource
 
                                         return false;
                                     })
-                                    ->live()
-                            ])
-                    ])->columns(2)
+                                    ->live(),
+                            ]),
+                    ])->columns(2),
             ]);
     }
 

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Webkul\Inventory\Database\Factories\MoveFactory;
+use Webkul\Inventory\Enums;
 use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
@@ -38,9 +39,9 @@ class Move extends Model
         'next_serial',
         'next_serial_count',
         'is_favorite',
-        'product_qty',
-        'product_uom_qty',
-        'qty',
+        'requested_qty',
+        'requested_uom_qty',
+        'received_qty',
         'is_picked',
         'is_scraped',
         'is_inventory',
@@ -50,6 +51,7 @@ class Move extends Model
         'uom_id',
         'source_location_id',
         'destination_location_id',
+        'final_location_id',
         'partner_id',
         'operation_id',
         'rule_id',
@@ -68,6 +70,7 @@ class Move extends Model
      * @var string
      */
     protected $casts = [
+        'state'            => Enums\MoveState::class,
         'is_favorite'      => 'boolean',
         'is_picked'        => 'boolean',
         'is_scraped'       => 'boolean',
@@ -94,6 +97,11 @@ class Move extends Model
     }
 
     public function destinationLocation(): BelongsTo
+    {
+        return $this->belongsTo(Location::class);
+    }
+
+    public function finalLocation(): BelongsTo
     {
         return $this->belongsTo(Location::class);
     }
@@ -156,6 +164,32 @@ class Move extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($move) {
+            $product = Product::find($move->product_id);
+
+            $move->fill([
+                'name'              => $move->name ?? $product->name,
+                'procure_method'    => $move->procure_method ?? Enums\ProcureMethod::MAKE_TO_STOCK,
+                'state'             => $move->state ?? Enums\MoveState::DRAFT,
+                'uom_id'            => $move->uom_id ?? $product->uom_id,
+                'requested_uom_qty' => $move->requested_qty,
+                'scheduled_at'      => $move->scheduled_at ?? now(),
+            ]);
+
+            if ($move->operation) {
+                $move->fill([
+                    'operation_type_id'       => $move->operation->operation_type_id,
+                    'source_location_id'      => $move->operation->source_location_id,
+                    'destination_location_id' => $move->operation->destination_location_id,
+                    'scheduled_at'            => $move->scheduled_at ?? ($move->operation->scheduled_at ?? now()),
+                    'reference'               => $move->operation->name,
+                ]);
+            }
+        });
     }
 
     protected static function newFactory(): MoveFactory

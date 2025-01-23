@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('inventories_storage_category_capacities', function (Blueprint $table) {
             $table->id();
-            $table->decimal('qty', 15, 4);
+            $table->decimal('qty', 15, 4)->default(0);
 
             $table->foreignId('product_id')
                 ->nullable()

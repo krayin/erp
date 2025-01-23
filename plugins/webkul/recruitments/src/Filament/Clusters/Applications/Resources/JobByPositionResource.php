@@ -2,8 +2,6 @@
 
 namespace Webkul\Recruitment\Filament\Clusters\Applications\Resources;
 
-use Webkul\Recruitment\Filament\Clusters\Applications;
-use Webkul\Recruitment\Filament\Clusters\Applications\Resources\JobByPositionResource\Pages;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
@@ -13,6 +11,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\JobPositionResource;
 use Webkul\Employee\Models\EmployeeJobPosition;
+use Webkul\Recruitment\Filament\Clusters\Applications;
+use Webkul\Recruitment\Filament\Clusters\Applications\Resources\JobByPositionResource\Pages;
 use Webkul\Recruitment\Models\Applicant;
 
 class JobByPositionResource extends Resource
@@ -72,7 +72,7 @@ class JobByPositionResource extends Resource
                                 ->icon('heroicon-m-building-office-2')
                                 ->searchable(),
                         ])
-                            ->visible(fn($record) => filled($record?->company?->name)),
+                            ->visible(fn ($record) => filled($record?->company?->name)),
                     ])->space(1),
                 ])->space(4),
             ])
@@ -104,22 +104,22 @@ class JobByPositionResource extends Resource
                                             'data' => [
                                                 'operator' => 'isRelatedTo',
                                                 'settings' => [
-                                                    'values' => [1]
-                                                ]
-                                            ]
+                                                    'values' => [1],
+                                                ],
+                                            ],
                                         ],
                                         'kwWd' => [
                                             'type' => 'job',
                                             'data' => [
                                                 'operator' => 'isRelatedTo',
                                                 'settings' => [
-                                                    'values' => [$record->id]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
+                                                    'values' => [$record->id],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
                         ]));
                     }),
                 Tables\Actions\ActionGroup::make([
@@ -153,16 +153,16 @@ class JobByPositionResource extends Resource
                                                 'data' => [
                                                     'operator' => 'isRelatedTo',
                                                     'settings' => [
-                                                        'values' => [$record->id]
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
+                                                        'values' => [$record->id],
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
                             ]));
                         }),
-                ])
+                ]),
             ]);
     }
 
@@ -170,7 +170,6 @@ class JobByPositionResource extends Resource
     {
         return JobPositionResource::infolist($infolist);
     }
-
 
     public static function getPages(): array
     {

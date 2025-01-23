@@ -123,6 +123,7 @@ return [
     'table' => [
         'columns' => [
             'name'       => 'Name',
+            'warehouse'  => 'Warehouse',
             'company'    => 'Company',
             'deleted-at' => 'Deleted At',
             'created-at' => 'Created At',

@@ -17,8 +17,8 @@ enum State: string implements HasLabel
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::CONFIRM => __('time_off::enums/state.confirm'),
-            self::REFUSE => __('time_off::enums/state.refuse'),
+            self::CONFIRM      => __('time_off::enums/state.confirm'),
+            self::REFUSE       => __('time_off::enums/state.refuse'),
             self::VALIDATE_ONE => __('time_off::enums/state.validate_one'),
             self::VALIDATE_TWO => __('time_off::enums/state.validate_two'),
         };
@@ -27,8 +27,8 @@ enum State: string implements HasLabel
     public static function options(): array
     {
         return [
-            self::CONFIRM->value => __('time_off::enums/state.confirm'),
-            self::REFUSE->value => __('time_off::enums/state.refuse'),
+            self::CONFIRM->value      => __('time_off::enums/state.confirm'),
+            self::REFUSE->value       => __('time_off::enums/state.refuse'),
             self::VALIDATE_ONE->value => __('time_off::enums/state.validate_one'),
             self::VALIDATE_TWO->value => __('time_off::enums/state.validate_two'),
         ];

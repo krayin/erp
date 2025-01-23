@@ -62,10 +62,10 @@ class RefuseReasonResource extends Resource
                 Forms\Components\Select::make('template')
                     ->label(__('recruitments::filament/clusters/configurations/resources/refuse-reason.form.fields.template.title'))
                     ->options([
-                        'applicant-refuse' => __('recruitments::filament/clusters/configurations/resources/refuse-reason.form.fields.template.applicant-refuse'),
+                        'applicant-refuse'         => __('recruitments::filament/clusters/configurations/resources/refuse-reason.form.fields.template.applicant-refuse'),
                         'applicant-not-interested' => __('recruitments::filament/clusters/configurations/resources/refuse-reason.form.fields.template.applicant-not-interested'),
                     ])
-                    ->required()
+                    ->required(),
             ]);
     }
 

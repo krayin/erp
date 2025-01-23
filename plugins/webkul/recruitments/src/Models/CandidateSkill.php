@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Webkul\Employee\Models\Skill;
 use Webkul\Employee\Models\SkillLevel;
 use Webkul\Employee\Models\SkillType;
-use Webkul\Recruitment\Models\Candidate;
 use Webkul\Security\Models\User;
 
 class CandidateSkill extends Model
@@ -51,5 +50,4 @@ class CandidateSkill extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-
 }

@@ -16,11 +16,11 @@ return new class extends Migration
             $table->integer('sort')->nullable();
             $table->string('name');
             $table->string('barcode')->nullable()->unique();
-            $table->decimal('height', 15, 4)->nullable();
-            $table->decimal('width', 15, 4)->nullable();
-            $table->decimal('length', 15, 4)->nullable();
-            $table->decimal('base_weight', 15, 4)->nullable();
-            $table->decimal('max_weight', 15, 4)->nullable();
+            $table->decimal('height', 15, 4)->nullable()->default(0);
+            $table->decimal('width', 15, 4)->nullable()->default(0);
+            $table->decimal('length', 15, 4)->nullable()->default(0);
+            $table->decimal('base_weight', 15, 4)->nullable()->default(0);
+            $table->decimal('max_weight', 15, 4)->nullable()->default(0);
             $table->string('shipper_package_code')->nullable();
             $table->string('package_carrier_type')->nullable();
 

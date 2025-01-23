@@ -19,22 +19,22 @@ return [
                 'title' => 'General Information',
 
                 'fields' => [
-                    'stage-name' => 'Stage Name',
-                    'sort'      => 'Sequence Order',
+                    'stage-name'   => 'Stage Name',
+                    'sort'         => 'Sequence Order',
                     'requirements' => 'Requirements',
                 ],
             ],
 
             'tooltips' => [
-                'title' => 'Tooltips',
+                'title'       => 'Tooltips',
                 'description' => 'Define the custom label for application status.',
 
                 'fields' => [
-                    'gray-label' => 'Gray Label',
-                    'gray-label-tooltip' => 'The label for the gray status.',
-                    'red-label' => 'Red Label',
-                    'red-label-tooltip' => 'The label for the red status.',
-                    'green-label' => 'Green Label',
+                    'gray-label'          => 'Gray Label',
+                    'gray-label-tooltip'  => 'The label for the gray status.',
+                    'red-label'           => 'Red Label',
+                    'red-label-tooltip'   => 'The label for the red status.',
+                    'green-label'         => 'Green Label',
                     'green-label-tooltip' => 'The label for the green status.',
                 ],
             ],
@@ -44,11 +44,11 @@ return [
 
                 'fields' => [
                     'job-positions' => 'Job Positions',
-                    'folded' => 'Folded',
-                    'hired-stage' => 'Hired Stage',
+                    'folded'        => 'Folded',
+                    'hired-stage'   => 'Hired Stage',
                     'default-stage' => 'Default Stage',
                 ],
-            ]
+            ],
         ],
     ],
 
@@ -120,22 +120,22 @@ return [
                 'title' => 'General Information',
 
                 'entries' => [
-                    'stage-name' => 'Stage Name',
-                    'sort'      => 'Sequence Order',
+                    'stage-name'   => 'Stage Name',
+                    'sort'         => 'Sequence Order',
                     'requirements' => 'Requirements',
                 ],
             ],
 
             'tooltips' => [
-                'title' => 'Tooltips',
+                'title'       => 'Tooltips',
                 'description' => 'Define the custom label for application status.',
 
                 'entries' => [
-                    'gray-label' => 'Gray Label',
-                    'gray-label-tooltip' => 'The label for the gray status.',
-                    'red-label' => 'Red Label',
-                    'red-label-tooltip' => 'The label for the red status.',
-                    'green-label' => 'Green Label',
+                    'gray-label'          => 'Gray Label',
+                    'gray-label-tooltip'  => 'The label for the gray status.',
+                    'red-label'           => 'Red Label',
+                    'red-label-tooltip'   => 'The label for the red status.',
+                    'green-label'         => 'Green Label',
                     'green-label-tooltip' => 'The label for the green status.',
                 ],
             ],
@@ -144,12 +144,12 @@ return [
                 'title' => 'Additional Information',
 
                 'entries' => [
-                    'job-positions' => 'Job Position',
-                    'folded' => 'Folded',
-                    'hired-stage' => 'Hired Stage',
+                    'job-positions'      => 'Job Position',
+                    'folded'             => 'Folded',
+                    'hired-stage'        => 'Hired Stage',
                     'default-stage'      => 'Default Stage',
                 ],
-            ]
+            ],
         ],
     ],
 

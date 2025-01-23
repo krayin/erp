@@ -5,7 +5,6 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Webkul\TimeOff\Enums\AccruedGainTime;
 use Webkul\TimeOff\Enums\CarryoverDate;
-use Webkul\TimeOff\Enums\CarryoverDay;
 use Webkul\TimeOff\Enums\CarryoverMonth;
 use Webkul\TimeOff\Enums\TransitionMode;
 

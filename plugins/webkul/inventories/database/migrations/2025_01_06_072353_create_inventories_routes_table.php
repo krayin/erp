@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->integer('sort')->nullable();
             $table->string('name');
-            $table->boolean('product_selectable')->nullable();
-            $table->boolean('product_category_selectable')->nullable();
-            $table->boolean('warehouse_selectable')->nullable();
-            $table->boolean('packaging_selectable')->nullable();
+            $table->boolean('product_selectable')->nullable()->default(0);
+            $table->boolean('product_category_selectable')->nullable()->default(0);
+            $table->boolean('warehouse_selectable')->nullable()->default(0);
+            $table->boolean('packaging_selectable')->nullable()->default(0);
 
             $table->foreignId('supplied_warehouse_id')
                 ->nullable()

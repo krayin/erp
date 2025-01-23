@@ -2,19 +2,18 @@
 
 namespace Webkul\Recruitment\Filament\Clusters\Applications\Resources\ApplicantResource\Pages;
 
-use Webkul\Recruitment\Filament\Clusters\Applications\Resources\ApplicantResource;
 use Filament\Actions;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Recruitment\Enums\RecruitmentState;
+use Webkul\Recruitment\Filament\Clusters\Applications\Resources\ApplicantResource;
 use Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource;
-use Webkul\Recruitment\Models\Stage;
 use Webkul\TableViews\Filament\Components\PresetView;
 use Webkul\TableViews\Filament\Concerns\HasTableViews;
-use Illuminate\Database\Eloquent\Builder;
-use Webkul\Recruitment\Enums\RecruitmentState;
 
 class ListApplicants extends ListRecords
 {
@@ -142,14 +141,14 @@ class ListApplicants extends ListRecords
                                 ->searchable()
                                 ->preload()
                                 ->label('Candidate')
-                                ->createOptionForm(fn(Form $form) => CandidateResource::form($form)),
+                                ->createOptionForm(fn (Form $form) => CandidateResource::form($form)),
                         ])->columns(2),
                 ])
                 ->mutateFormDataUsing(function (array $data): array {
-                    $data['creator_id']  = Auth::id();
-                    $data['company_id']  = Auth::user()->default_company_id;
+                    $data['creator_id'] = Auth::id();
+                    $data['company_id'] = Auth::user()->default_company_id;
                     $data['create_date'] = now();
-                    $data['is_active']   = true;
+                    $data['is_active'] = true;
 
                     return $data;
                 })

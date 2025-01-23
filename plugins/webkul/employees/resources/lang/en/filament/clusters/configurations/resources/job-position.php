@@ -46,11 +46,11 @@ return [
                 'title' => 'Workforce Planning',
 
                 'fields' => [
-                    'recruitment-target' => 'Recruitment Target',
-                    'date-from'          => 'Date From',
-                    'date-to'            => 'Date To',
-                    'expected-skills'    => 'Expected Skills',
-                    'employment-type'    => 'Employment Type',
+                    'recruitment-target'         => 'Recruitment Target',
+                    'date-from'                  => 'Date From',
+                    'date-to'                    => 'Date To',
+                    'expected-skills'            => 'Expected Skills',
+                    'employment-type'            => 'Employment Type',
                     'status'                     => 'Status',
                 ],
             ],

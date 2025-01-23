@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\PackagingResource\Pages;
 use Webkul\Inventory\Models\Packaging;
+use Webkul\Inventory\Settings\ProductSettings;
 
 class PackagingResource extends Resource
 {
@@ -24,6 +25,15 @@ class PackagingResource extends Resource
     protected static ?string $cluster = Configurations::class;
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    public static function isDiscovered(): bool
+    {
+        if (app()->runningInConsole()) {
+            return true;
+        }
+
+        return app(ProductSettings::class)->enable_packagings;
+    }
 
     public static function getNavigationGroup(): string
     {

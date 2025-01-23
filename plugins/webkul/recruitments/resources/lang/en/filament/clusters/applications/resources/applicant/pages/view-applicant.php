@@ -28,12 +28,12 @@ return [
                 'title' => 'Applicant state updated',
                 'body'  => 'The applicant state has been updated successfully.',
             ],
-        ]
+        ],
     ],
 
     'mail' => [
         'application-refused' => [
             'subject' => 'Your Job Application: :application',
         ],
-    ]
+    ],
 ];

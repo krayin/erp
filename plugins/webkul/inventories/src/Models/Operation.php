@@ -5,14 +5,19 @@ namespace Webkul\Inventory\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Webkul\Chatter\Traits\HasChatter;
+use Webkul\Chatter\Traits\HasLogActivity;
+use Webkul\Field\Traits\HasCustomFields;
 use Webkul\Inventory\Database\Factories\OperationFactory;
+use Webkul\Inventory\Enums;
 use Webkul\Partner\Models\Partner;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 
 class Operation extends Model
 {
-    use HasFactory;
+    use HasChatter, HasCustomFields, HasFactory, HasLogActivity;
 
     /**
      * Table name.
@@ -57,6 +62,8 @@ class Operation extends Model
      * @var string
      */
     protected $casts = [
+        'state'              => Enums\OperationState::class,
+        'move_type'          => Enums\MoveType::class,
         'is_favorite'        => 'boolean',
         'has_deadline_issue' => 'boolean',
         'is_printed'         => 'boolean',
@@ -64,6 +71,9 @@ class Operation extends Model
         'deadline'           => 'datetime',
         'scheduled_at'       => 'datetime',
         'closed_at'          => 'datetime',
+    ];
+
+    protected array $logAttributes = [
     ];
 
     public function user(): BelongsTo
@@ -114,6 +124,57 @@ class Operation extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function moves(): HasMany
+    {
+        return $this->hasMany(Move::class);
+    }
+
+    public function moveLines(): HasMany
+    {
+        return $this->hasMany(MoveLine::class);
+    }
+
+    /**
+     * Bootstrap any application services.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($operation) {
+            $operation->updateName();
+        });
+
+        static::created(function ($operation) {
+            $operation->update(['name' => $operation->name]);
+        });
+
+        static::updated(function ($operation) {
+            if ($operation->wasChanged('operation_type_id')) {
+                $operation->updateChildrenNames();
+            }
+        });
+    }
+
+    /**
+     * Update the full name without triggering additional events
+     */
+    public function updateName()
+    {
+        $this->name = $this->operationType->warehouse->code.'/'.$this->operationType->sequence_code.'/'.$this->id;
+    }
+
+    public function updateChildrenNames(): void
+    {
+        foreach ($this->moves as $move) {
+            $move->update(['name' => $this->name]);
+        }
+
+        foreach ($this->moveLines as $moveLine) {
+            $moveLine->update(['name' => $this->name]);
+        }
     }
 
     protected static function newFactory(): OperationFactory

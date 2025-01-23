@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'title' => 'Leave Type',
+    'title'      => 'Leave Type',
     'navigation' => [
         'title' => 'Leave Type',
     ],
@@ -15,42 +15,42 @@ return [
     'form' => [
         'sections' => [
             'general' => [
-                'title' => 'General Information',
+                'title'  => 'General Information',
                 'fields' => [
-                    'name' => 'Title',
-                    'approval' => 'Approval',
+                    'name'                => 'Title',
+                    'approval'            => 'Approval',
                     'requires-allocation' => 'Requires Allocation',
-                    'employee-requests' => 'Employee Requests',
-                    'display-option'    => 'Display Option'
+                    'employee-requests'   => 'Employee Requests',
+                    'display-option'      => 'Display Option',
                 ],
             ],
             'display-option' => [
-                'title' => 'Display Option',
+                'title'  => 'Display Option',
                 'fields' => [
                     'color' => 'Color',
-                ]
+                ],
             ],
             'configuration' => [
                 'title' => 'Configuration',
 
                 'fields' => [
-                    'notified-time-off-officers' => 'Notified Time Off Officers',
-                    'take-time-off-in' => 'Take Time Off In',
-                    'public-holiday-included' => 'Public Holiday Included',
+                    'notified-time-off-officers'          => 'Notified Time Off Officers',
+                    'take-time-off-in'                    => 'Take Time Off In',
+                    'public-holiday-included'             => 'Public Holiday Included',
                     'allow-to-attach-supporting-document' => 'Allow to Attach Supporting Document',
-                    'show-on-dashboard' => 'Show on Dashboard',
-                    'allow-negative-cap' => 'Allow Negative Cap',
-                    'kind-off-time' => 'Kind of Time',
-                    'max-negative-cap' => 'Max Negative Cap',
-                    'kind-of-time' => 'Kind of Time Off',
-                ]
-            ]
+                    'show-on-dashboard'                   => 'Show on Dashboard',
+                    'allow-negative-cap'                  => 'Allow Negative Cap',
+                    'kind-off-time'                       => 'Kind of Time',
+                    'max-negative-cap'                    => 'Max Negative Cap',
+                    'kind-of-time'                        => 'Kind of Time Off',
+                ],
+            ],
         ],
     ],
 
     'table' => [
         'columns' => [
-            'name' => 'Name',
+            'name'                      => 'Name',
             'company-name'              => 'Company',
             'color'                     => 'Color',
             'notified-time-officers'    => 'Notified Time Officers',
@@ -61,7 +61,7 @@ return [
         ],
 
         'filters' => [
-            'name' => 'Name',
+            'name'                => 'Name',
             'company-name'        => 'Company',
             'time-off-approval'   => 'Time Off Approval',
             'requires-allocation' => 'Requires Allocation',
@@ -75,13 +75,13 @@ return [
                 'notification' => [
                     'title' => 'Leave Type deleted',
                     'body'  => 'The Leave type has been deleted successfully.',
-                ]
+                ],
             ],
             'restore' => [
                 'notification' => [
                     'title' => 'Leave Type restored',
                     'body'  => 'The Leave type has been restored successfully.',
-                ]
+                ],
             ],
         ],
 
@@ -112,20 +112,20 @@ return [
     'infolist' => [
         'sections' => [
             'general' => [
-                'title' => 'General Information',
+                'title'   => 'General Information',
                 'entries' => [
-                    'name' => 'Title',
-                    'approval' => 'Approval',
+                    'name'                => 'Title',
+                    'approval'            => 'Approval',
                     'requires-allocation' => 'Requires Allocation',
                     'employee-requests'   => 'Employee Requests',
                     'display-option'      => 'Display Option',
                 ],
             ],
             'display-option' => [
-                'title' => 'Display Option',
+                'title'   => 'Display Option',
                 'entries' => [
                     'color' => 'Color',
-                ]
+                ],
             ],
             'configuration' => [
                 'title' => 'Configuration',
@@ -139,8 +139,8 @@ return [
                     'kind-off-time'                       => 'Kind of Time',
                     'max-negative-cap'                    => 'Max Negative Cap',
                     'kind-of-time'                        => 'Kind of Time Off',
-                ]
-            ]
+                ],
+            ],
         ],
     ],
 ];

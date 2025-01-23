@@ -2,9 +2,9 @@
 
 namespace Webkul\TimeOff\Filament\Clusters\Management\Resources\TimeOffResource\Pages;
 
-use Webkul\TimeOff\Filament\Clusters\Management\Resources\TimeOffResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Webkul\TimeOff\Filament\Clusters\Management\Resources\TimeOffResource;
 
 class EditTimeOff extends EditRecord
 {

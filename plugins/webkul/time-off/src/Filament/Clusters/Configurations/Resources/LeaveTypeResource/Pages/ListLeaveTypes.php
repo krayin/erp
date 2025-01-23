@@ -2,10 +2,10 @@
 
 namespace Webkul\TimeOff\Filament\Clusters\Configurations\Resources\LeaveTypeResource\Pages;
 
-use Webkul\TimeOff\Filament\Clusters\Configurations\Resources\LeaveTypeResource;
 use Filament\Actions;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
+use Webkul\TimeOff\Filament\Clusters\Configurations\Resources\LeaveTypeResource;
 use Webkul\TimeOff\Models\LeaveType;
 
 class ListLeaveTypes extends ListRecords

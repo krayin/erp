@@ -11,6 +11,7 @@ use Filament\Tables\Table;
 use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\PackageTypeResource\Pages;
 use Webkul\Inventory\Models\PackageType;
+use Webkul\Inventory\Settings\OperationSettings;
 
 class PackageTypeResource extends Resource
 {
@@ -32,6 +33,15 @@ class PackageTypeResource extends Resource
     public static function getNavigationLabel(): string
     {
         return __('inventories::filament/clusters/configurations/resources/package-type.navigation.title');
+    }
+
+    public static function isDiscovered(): bool
+    {
+        if (app()->runningInConsole()) {
+            return true;
+        }
+
+        return app(OperationSettings::class)->enable_packages;
     }
 
     public static function form(Form $form): Form

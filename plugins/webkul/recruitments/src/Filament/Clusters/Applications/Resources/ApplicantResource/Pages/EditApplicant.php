@@ -2,26 +2,26 @@
 
 namespace Webkul\Recruitment\Filament\Clusters\Applications\Resources\ApplicantResource\Pages;
 
-use Webkul\Recruitment\Filament\Clusters\Applications\Resources\ApplicantResource;
 use Filament\Actions;
-use Filament\Forms;
 use Filament\Actions\Action;
+use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Chatter\Filament\Actions as ChatterActions;
 use Webkul\Employee\Filament\Resources\EmployeeResource;
 use Webkul\Recruitment\Enums\ApplicationStatus;
 use Webkul\Recruitment\Enums\RecruitmentState;
+use Webkul\Recruitment\Filament\Clusters\Applications\Resources\ApplicantResource;
+use Webkul\Recruitment\Mail\ApplicantRefuseMail;
 use Webkul\Recruitment\Mail\ApplicationConfirmMail;
+use Webkul\Recruitment\Mail\InterviewerAssignedMail;
 use Webkul\Recruitment\Models\Applicant;
 use Webkul\Recruitment\Models\RefuseReason;
-use Webkul\Support\Services\EmailService;
-use Webkul\Chatter\Filament\Actions as ChatterActions;
-use Webkul\Recruitment\Mail\ApplicantRefuseMail;
-use Webkul\Recruitment\Mail\InterviewerAssignedMail;
 use Webkul\Security\Models\User;
+use Webkul\Support\Services\EmailService;
 
 class EditApplicant extends EditRecord
 {
@@ -52,9 +52,9 @@ class EditApplicant extends EditRecord
                 ->icon(function ($record) {
                     if ($record->state == RecruitmentState::DONE->value) {
                         return RecruitmentState::DONE->getIcon();
-                    } else if ($record->state == RecruitmentState::BLOCKED->value) {
+                    } elseif ($record->state == RecruitmentState::BLOCKED->value) {
                         return RecruitmentState::BLOCKED->getIcon();
-                    } else if ($record->state == RecruitmentState::NORMAL->value) {
+                    } elseif ($record->state == RecruitmentState::NORMAL->value) {
                         return RecruitmentState::NORMAL->getIcon();
                     }
                 })
@@ -62,26 +62,26 @@ class EditApplicant extends EditRecord
                 ->color(function ($record) {
                     if ($record->state == RecruitmentState::DONE->value) {
                         return RecruitmentState::DONE->getColor();
-                    } else if ($record->state == RecruitmentState::BLOCKED->value) {
+                    } elseif ($record->state == RecruitmentState::BLOCKED->value) {
                         return RecruitmentState::BLOCKED->getColor();
-                    } else if ($record->state == RecruitmentState::NORMAL->value) {
+                    } elseif ($record->state == RecruitmentState::NORMAL->value) {
                         return RecruitmentState::NORMAL->getColor();
                     }
                 })
                 ->form([
                     Forms\Components\ToggleButtons::make('state')
                         ->inline()
-                        ->options(RecruitmentState::class)
+                        ->options(RecruitmentState::class),
                 ])
-                ->fillForm(fn($record) => [
-                    'state' => $record->state
+                ->fillForm(fn ($record) => [
+                    'state' => $record->state,
                 ])
                 ->tooltip(function ($record) {
                     if ($record->state == RecruitmentState::DONE->value) {
                         return RecruitmentState::DONE->getLabel();
-                    } else if ($record->state == RecruitmentState::BLOCKED->value) {
+                    } elseif ($record->state == RecruitmentState::BLOCKED->value) {
                         return RecruitmentState::BLOCKED->getLabel();
-                    } else if ($record->state == RecruitmentState::NORMAL->value) {
+                    } elseif ($record->state == RecruitmentState::NORMAL->value) {
                         return RecruitmentState::NORMAL->getLabel();
                     }
                 })
@@ -96,7 +96,7 @@ class EditApplicant extends EditRecord
                 }),
             Action::make('gotoEmployee')
                 ->tooltip(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.goto-employee'))
-                ->visible(fn($record) => $record->application_status->value == ApplicationStatus::HIRED->value || $record->candidate->employee_id)
+                ->visible(fn ($record) => $record->application_status->value == ApplicationStatus::HIRED->value || $record->candidate->employee_id)
                 ->icon('heroicon-s-arrow-top-right-on-square')
                 ->iconButton()
                 ->action(function (Applicant $record) {
@@ -108,9 +108,10 @@ class EditApplicant extends EditRecord
                 ->setResource(static::$resource),
             Action::make('createEmployee')
                 ->label(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.create-employee'))
-                ->hidden(fn($record) => $record->application_status->value == ApplicationStatus::HIRED->value || $record->candidate->employee_id)
+                ->hidden(fn ($record) => $record->application_status->value == ApplicationStatus::HIRED->value || $record->candidate->employee_id)
                 ->action(function (Applicant $record) {
                     $employee = $record->createEmployee();
+
                     return redirect(EmployeeResource::getUrl('edit', ['record' => $employee]));
                 }),
             Actions\DeleteAction::make()
@@ -136,7 +137,7 @@ class EditApplicant extends EditRecord
                 ),
             Action::make('refuse')
                 ->modalIcon('heroicon-s-bug-ant')
-                ->hidden(fn($record) => $record->refuse_reason_id || $record->application_status->value === ApplicationStatus::ARCHIVED->value)
+                ->hidden(fn ($record) => $record->refuse_reason_id || $record->application_status->value === ApplicationStatus::ARCHIVED->value)
                 ->modalHeading(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.header-actions.refuse.title'))
                 ->form(function (Form $form, $record) {
                     return $form->schema([
@@ -149,12 +150,12 @@ class EditApplicant extends EditRecord
                             ->inline()
                             ->live()
                             ->default(true)
-                            ->visible(fn(Get $get) => $get('refuse_reason_id'))
+                            ->visible(fn (Get $get) => $get('refuse_reason_id'))
                             ->label('Notify'),
                         Forms\Components\TextInput::make('email')
-                            ->visible(fn(Get $get) => $get('notify') && $get('refuse_reason_id'))
+                            ->visible(fn (Get $get) => $get('notify') && $get('refuse_reason_id'))
                             ->default($record->candidate->email_from)
-                            ->label('Email To')
+                            ->label('Email To'),
                     ]);
                 })
                 ->action(function (array $data, Applicant $record) {
@@ -183,7 +184,7 @@ class EditApplicant extends EditRecord
                         ->send();
                 }),
             Action::make('restore')
-                ->hidden(fn($record) => ! $record->refuse_reason_id)
+                ->hidden(fn ($record) => ! $record->refuse_reason_id)
                 ->modalHeading(__('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.header-actions.reopen.title'))
                 ->requiresConfirmation()
                 ->color('gray')
@@ -220,10 +221,10 @@ class EditApplicant extends EditRecord
             $oldInterviewers = collect($record->interviewer->pluck('id'));
             $newInterviewers = collect($data['recruitments_applicant_interviewers']);
 
-            if (!$oldInterviewers->isEmpty() || !$newInterviewers->isEmpty()) {
+            if (! $oldInterviewers->isEmpty() || ! $newInterviewers->isEmpty()) {
                 $this->interviewerChanges = [
                     'old' => $oldInterviewers,
-                    'new' => $newInterviewers
+                    'new' => $newInterviewers,
                 ];
             }
         }
@@ -256,10 +257,10 @@ class EditApplicant extends EditRecord
 
         $messageData = [
             'from' => [
-                'company' => Auth::user()->defaultCompany->toArray()
+                'company' => Auth::user()->defaultCompany->toArray(),
             ],
             'body' => view($viewName, ['payload' => $data])->render(),
-            'type' => 'comment'
+            'type' => 'comment',
         ];
 
         $this->record->addMessage($messageData, Auth::user()->id);
@@ -272,7 +273,7 @@ class EditApplicant extends EditRecord
 
         $addedInterviewers = $newInterviewers->diff($oldInterviewers);
 
-        $addedInterviewers = $addedInterviewers->reject(fn($id) => $id == Auth::id());
+        $addedInterviewers = $addedInterviewers->reject(fn ($id) => $id == Auth::id());
 
         if ($addedInterviewers->isNotEmpty()) {
             foreach ($addedInterviewers as $interviewerId) {
@@ -294,14 +295,14 @@ class EditApplicant extends EditRecord
     private function prepareCandidateNotificationPayload(): array
     {
         return [
-            'record_name' => $this->record->candidate->name,
+            'record_name'  => $this->record->candidate->name,
             'job_position' => $jobPosition = $this->record->job?->name,
-            'subject' => __('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.mail.application-confirm.subject', [
+            'subject'      => __('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.mail.application-confirm.subject', [
                 'job_position' => $jobPosition,
             ]),
             'to' => [
                 'address' => $this->record->candidate->email_from,
-                'name' => $this->record->candidate->name,
+                'name'    => $this->record->candidate->name,
             ],
         ];
     }
@@ -311,12 +312,12 @@ class EditApplicant extends EditRecord
         return [
             'record_name' => $candidateName = $this->record->candidate->name,
             'record_url'  => $this->getRedirectUrl(),
-            'subject' => __('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.mail.interviewer-assigned.subject', [
+            'subject'     => __('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.mail.interviewer-assigned.subject', [
                 'applicant' => $candidateName,
             ]),
             'to' => [
                 'address' => $interviewer->email,
-                'name' => $interviewer->name,
+                'name'    => $interviewer->name,
             ],
         ];
     }
@@ -325,12 +326,12 @@ class EditApplicant extends EditRecord
     {
         return [
             'applicant_name' => $this->record->candidate->name,
-            'subject' => __('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.mail.application-refused.subject', [
+            'subject'        => __('recruitments::filament/clusters/applications/resources/applicant/pages/edit-applicant.mail.application-refused.subject', [
                 'application' => $this->record->job?->name,
             ]),
             'to' => [
                 'address' => $data['email'] ?? $this->record?->candidate?->email_from,
-                'name' => $this->record?->candidate?->name,
+                'name'    => $this->record?->candidate?->name,
             ],
         ];
     }

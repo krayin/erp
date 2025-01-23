@@ -3,9 +3,9 @@
 namespace Webkul\TimeOff\Filament\Clusters\Configurations\Resources\LeaveTypeResource\Pages;
 
 use Filament\Notifications\Notification;
-use Webkul\TimeOff\Filament\Clusters\Configurations\Resources\LeaveTypeResource;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Auth;
+use Webkul\TimeOff\Filament\Clusters\Configurations\Resources\LeaveTypeResource;
 use Webkul\TimeOff\Models\LeaveType;
 
 class CreateLeaveType extends CreateRecord

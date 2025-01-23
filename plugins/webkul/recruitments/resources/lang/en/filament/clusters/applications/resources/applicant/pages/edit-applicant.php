@@ -24,7 +24,7 @@ return [
         ],
 
         'refuse' => [
-            'title' => 'Refuse Reason',
+            'title'        => 'Refuse Reason',
             'notification' => [
                 'title' => 'Applicant refused',
                 'body'  => 'The applicant has been refused successfully.',
@@ -32,7 +32,7 @@ return [
         ],
 
         'reopen' => [
-            'title' => 'Reopen Applicant',
+            'title'        => 'Reopen Applicant',
             'notification' => [
                 'title' => 'Applicant reopened',
                 'body'  => 'The applicant has been reopened successfully.',
@@ -44,7 +44,7 @@ return [
                 'title' => 'Applicant state updated',
                 'body'  => 'The applicant state has been updated successfully.',
             ],
-        ]
+        ],
     ],
 
     'mail' => [
@@ -57,6 +57,6 @@ return [
         ],
         'interviewer-assigned' => [
             'subject' => 'You have been assigned to the Applicant :applicant.',
-        ]
-    ]
+        ],
+    ],
 ];

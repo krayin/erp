@@ -53,6 +53,11 @@ class Category extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function priceRuleItems(): HasMany
+    {
+        return $this->hasMany(PriceRuleItem::class);
+    }
+
     protected static function boot()
     {
         parent::boot();

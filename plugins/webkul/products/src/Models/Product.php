@@ -121,6 +121,11 @@ class Product extends Model
         return $this->hasMany(self::class, 'parent_id');
     }
 
+    public function priceRuleItems(): HasMany
+    {
+        return $this->hasMany(PriceRuleItem::class);
+    }
+
     protected static function newFactory(): ProductFactory
     {
         return ProductFactory::new();

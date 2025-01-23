@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'create-employee' => 'Create employee',
+    'create-employee'       => 'Create employee',
     'goto-employee-tooltip' => 'Go to employee',
 
     'header-actions' => [

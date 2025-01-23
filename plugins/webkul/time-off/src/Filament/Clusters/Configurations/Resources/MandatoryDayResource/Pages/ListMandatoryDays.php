@@ -2,11 +2,11 @@
 
 namespace Webkul\TimeOff\Filament\Clusters\Configurations\Resources\MandatoryDayResource\Pages;
 
-use Webkul\TimeOff\Filament\Clusters\Configurations\Resources\MandatoryDayResource;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\Auth;
+use Webkul\TimeOff\Filament\Clusters\Configurations\Resources\MandatoryDayResource;
 
 class ListMandatoryDays extends ListRecords
 {

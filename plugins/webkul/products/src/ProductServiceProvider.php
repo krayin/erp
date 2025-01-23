@@ -26,6 +26,8 @@ class ProductServiceProvider extends PackageServiceProvider
                 '2025_01_05_104759_create_products_product_attributes_table',
                 '2025_01_05_104809_create_products_product_attribute_values_table',
                 '2025_01_05_105626_create_products_packagings_table',
+                '2025_01_05_113357_create_products_price_rules_table',
+                '2025_01_05_113402_create_products_price_rule_items_table',
             ])
             ->runsMigrations();
     }

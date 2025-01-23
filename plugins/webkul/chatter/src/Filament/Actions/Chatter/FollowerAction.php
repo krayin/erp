@@ -64,7 +64,7 @@ class FollowerAction extends Action
             ->modal()
             ->tooltip(__('chatter::filament/resources/actions/chatter/follower-action.setup.tooltip'))
             ->modalIcon('heroicon-s-user-plus')
-            ->badge(fn(Model $record): int => $record->followers->count())
+            ->badge(fn (Model $record): int => $record->followers->count())
             ->modalWidth(MaxWidth::TwoExtraLarge)
             ->slideOver(false)
             ->form(function (Form $form) {
@@ -98,7 +98,7 @@ class FollowerAction extends Action
                                 'underline',
                                 'undo',
                             ])
-                            ->visible(fn(Get $get) => $get('notify'))
+                            ->visible(fn (Get $get) => $get('notify'))
                             ->hiddenLabel()
                             ->placeholder(__('chatter::filament/resources/actions/chatter/follower-action.setup.form.fields.add-a-note')),
                     ])
@@ -147,7 +147,7 @@ class FollowerAction extends Action
             ->hiddenLabel()
             ->modalHeading(__('chatter::filament/resources/actions/chatter/follower-action.setup.title'))
             ->modalSubmitAction(
-                fn($action) => $action
+                fn ($action) => $action
                     ->label(__('chatter::filament/resources/actions/chatter/follower-action.setup.submit-action-title'))
                     ->icon('heroicon-m-user-plus')
             );

@@ -2,8 +2,8 @@
 
 namespace Webkul\TimeOff\Filament\Pages;
 
-use Webkul\TimeOff\Filament\Clusters\MyTime;
 use Filament\Pages\Dashboard as BaseDashboard;
+use Webkul\TimeOff\Filament\Clusters\MyTime;
 use Webkul\TimeOff\Filament\Widgets\CalendarWidget;
 
 class Dashboard extends BaseDashboard
@@ -22,7 +22,7 @@ class Dashboard extends BaseDashboard
     public function getWidgets(): array
     {
         return [
-            CalendarWidget::class
+            CalendarWidget::class,
         ];
     }
 }

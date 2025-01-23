@@ -11,6 +11,6 @@ return [
                     'body'  => 'The mandatory day has been created successfully.',
                 ],
             ],
-        ]
+        ],
     ],
 ];

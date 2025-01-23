@@ -5,7 +5,6 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Webkul\TimeOff\Enums\AllocationValidationType;
 use Webkul\TimeOff\Enums\EmployeeRequest;
-use Webkul\TimeOff\Enums\LeaveType;
 use Webkul\TimeOff\Enums\LeaveValidationType;
 use Webkul\TimeOff\Enums\RequestUnit;
 use Webkul\TimeOff\Enums\RequiresAllocation;

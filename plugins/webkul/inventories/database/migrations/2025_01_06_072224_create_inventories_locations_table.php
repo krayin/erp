@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('inventories_locations', function (Blueprint $table) {
             $table->id();
-            $table->integer('position_x')->nullable()->comment('Corridor X');
-            $table->integer('position_y')->nullable()->comment('Shelves Y');
-            $table->integer('position_z')->nullable()->comment('Height Z');
+            $table->integer('position_x')->nullable()->default(0)->comment('Corridor X');
+            $table->integer('position_y')->nullable()->default(0)->comment('Shelves Y');
+            $table->integer('position_z')->nullable()->default(0)->comment('Height Z');
             $table->string('type');
             $table->string('name');
             $table->string('full_name')->nullable();
@@ -23,12 +23,12 @@ return new class extends Migration
             $table->string('parent_path')->nullable();
             $table->string('barcode')->nullable();
             $table->string('removal_strategy')->nullable();
-            $table->integer('cyclic_inventory_frequency')->nullable();
+            $table->integer('cyclic_inventory_frequency')->nullable()->default(0);
             $table->date('last_inventory_date')->nullable();
             $table->date('next_inventory_date')->nullable();
-            $table->boolean('is_scrap')->nullable();
-            $table->boolean('is_replenish')->nullable();
-            $table->boolean('is_dock')->nullable();
+            $table->boolean('is_scrap')->nullable()->default(0);
+            $table->boolean('is_replenish')->nullable()->default(0);
+            $table->boolean('is_dock')->nullable()->default(0);
 
             $table->foreignId('parent_id')
                 ->nullable()

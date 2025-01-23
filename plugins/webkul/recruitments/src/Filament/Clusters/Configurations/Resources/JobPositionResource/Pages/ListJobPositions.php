@@ -2,9 +2,8 @@
 
 namespace Webkul\Recruitment\Filament\Clusters\Configurations\Resources\JobPositionResource\Pages;
 
-use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\JobPositionResource;
-use Filament\Actions;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\JobPositionResource\Pages\ListJobPositions as BaseListJobPositions;
+use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\JobPositionResource;
 
 class ListJobPositions extends BaseListJobPositions
 {

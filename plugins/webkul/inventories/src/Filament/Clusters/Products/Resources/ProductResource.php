@@ -19,8 +19,10 @@ use Webkul\Inventory\Enums\ProductTracking;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductCategoryResource\Pages\ManageProducts;
 use Webkul\Inventory\Filament\Clusters\Products;
 use Webkul\Inventory\Filament\Clusters\Products\Resources\ProductResource\Pages;
+use Webkul\Inventory\Models\Category;
 use Webkul\Inventory\Models\Product;
 use Webkul\Product\Enums\ProductType;
+use Webkul\Support\Models\UOM;
 
 class ProductResource extends Resource
 {
@@ -200,6 +202,7 @@ class ProductResource extends Resource
                                     ->relationship('category', 'full_name')
                                     ->searchable()
                                     ->preload()
+                                    ->default(Category::first()?->id)
                                     ->hiddenOn(ManageProducts::class),
                                 Forms\Components\Select::make('company_id')
                                     ->label(__('inventories::filament/clusters/products/resources/product.form.sections.settings.fields.company'))
@@ -219,6 +222,10 @@ class ProductResource extends Resource
                                     ->label(__('inventories::filament/clusters/products/resources/product.form.sections.pricing.fields.cost'))
                                     ->numeric()
                                     ->default(0.00),
+                                Forms\Components\Hidden::make('uom_id')
+                                    ->default(UOM::first()->id),
+                                Forms\Components\Hidden::make('uom_po_id')
+                                    ->default(UOM::first()->id),
                             ]),
                     ])
                     ->columnSpan(['lg' => 1]),
@@ -636,6 +643,8 @@ class ProductResource extends Resource
             Pages\EditProduct::class,
             Pages\ManageAttributes::class,
             Pages\ManageVariants::class,
+            Pages\ManageQuantities::class,
+            Pages\ManageMoves::class,
         ]);
     }
 
@@ -655,6 +664,8 @@ class ProductResource extends Resource
             'edit'       => Pages\EditProduct::route('/{record}/edit'),
             'attributes' => Pages\ManageAttributes::route('/{record}/attributes'),
             'variants'   => Pages\ManageVariants::route('/{record}/variants'),
+            'moves'      => Pages\ManageMoves::route('/{record}/moves'),
+            'quantities' => Pages\ManageQuantities::route('/{record}/quantities'),
         ];
     }
 }

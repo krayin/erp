@@ -17,6 +17,11 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('reference')->nullable();
             $table->json('properties')->nullable();
+            $table->boolean('expiry_reminded')->nullable()->default(0);
+            $table->datetime('expiration_date')->nullable();
+            $table->datetime('use_date')->nullable();
+            $table->datetime('removal_date')->nullable();
+            $table->datetime('alert_date')->nullable();
 
             $table->foreignId('product_id')
                 ->constrained('products_products')

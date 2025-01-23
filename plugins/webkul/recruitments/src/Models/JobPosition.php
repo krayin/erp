@@ -102,6 +102,7 @@ class JobPosition extends BaseJobPosition
         return Attribute::make(
             get: function () {
                 $currentEmployees = $this->getAttributeValue('no_of_employee');
+
                 return $currentEmployees + ($this->no_of_recruitment ?? 0);
             }
         );

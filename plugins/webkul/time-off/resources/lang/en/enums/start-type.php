@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'days' => 'Days',
+    'days'   => 'Days',
     'months' => 'Months',
-    'years' => 'Years',
+    'years'  => 'Years',
 ];

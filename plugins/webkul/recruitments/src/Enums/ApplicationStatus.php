@@ -13,7 +13,6 @@ enum ApplicationStatus: string implements HasColor, HasIcon, HasLabel
     case REFUSED = 'refused';
     case ARCHIVED = 'archived';
 
-
     public function getLabel(): string
     {
         return match ($this) {
@@ -47,9 +46,9 @@ enum ApplicationStatus: string implements HasColor, HasIcon, HasLabel
     public static function options(): array
     {
         return [
-            self::ONGOING->value => 'Ongoing',
-            self::HIRED->value => 'Hired',
-            self::REFUSED->value => 'Refused',
+            self::ONGOING->value  => 'Ongoing',
+            self::HIRED->value    => 'Hired',
+            self::REFUSED->value  => 'Refused',
             self::ARCHIVED->value => 'Archived',
         ];
     }

@@ -3,9 +3,9 @@
 namespace Webkul\Recruitment\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Employee\Models\Department;
@@ -17,7 +17,7 @@ use Webkul\Support\Models\Company;
 
 class Applicant extends Model
 {
-    use HasChatter, HasLogActivity, SoftDeletes, HasApplicationStatus;
+    use HasApplicationStatus, HasChatter, HasLogActivity, SoftDeletes;
 
     protected $table = 'recruitments_applicants';
 
@@ -183,9 +183,9 @@ class Applicant extends Model
     {
         if ($this->refuse_reason_id) {
             return ApplicationStatus::REFUSED;
-        } else if (! $this->is_active || $this->deleted_at) {
+        } elseif (! $this->is_active || $this->deleted_at) {
             return ApplicationStatus::ARCHIVED;
-        } else if ($this->date_closed) {
+        } elseif ($this->date_closed) {
             return ApplicationStatus::HIRED;
         } else {
             return ApplicationStatus::ONGOING;

@@ -2,17 +2,17 @@
 
 namespace Webkul\TimeOff\Filament\Clusters\Configurations\Resources;
 
-use Webkul\TimeOff\Filament\Clusters\Configurations;
-use Webkul\TimeOff\Filament\Clusters\Configurations\Resources\MandatoryDayResource\Pages;
-use Webkul\TimeOff\Models\LeaveMandatoryDay;
-use Filament\Forms\Form;
 use Filament\Forms;
-use Filament\Infolists\Infolist;
+use Filament\Forms\Form;
 use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Webkul\TimeOff\Filament\Clusters\Configurations;
+use Webkul\TimeOff\Filament\Clusters\Configurations\Resources\MandatoryDayResource\Pages;
+use Webkul\TimeOff\Models\LeaveMandatoryDay;
 
 class MandatoryDayResource extends Resource
 {

@@ -11,10 +11,10 @@ use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\View\LegacyComponents\Widget;
 use Webkul\Employee\Models\Department;
 use Webkul\Employee\Models\EmployeeJobPosition;
+use Webkul\Recruitment\Filament\Widgets;
 use Webkul\Recruitment\Models\Stage;
 use Webkul\Support\Filament\Clusters\Dashboard as DashboardCluster;
 use Webkul\Support\Models\Company;
-use Webkul\Recruitment\Filament\Widgets;
 
 class Recruitments extends BaseDashboard
 {
@@ -42,28 +42,28 @@ class Recruitments extends BaseDashboard
                             ->multiple()
                             ->searchable()
                             ->preload()
-                            ->options(fn() => EmployeeJobPosition::where('is_active', true)->pluck('name', 'id'))
+                            ->options(fn () => EmployeeJobPosition::where('is_active', true)->pluck('name', 'id'))
                             ->reactive(),
                         Select::make('selectedDepartments')
                             ->label(__('recruitments::filament/pages/recruitment.filters-form.departments'))
                             ->multiple()
                             ->searchable()
                             ->preload()
-                            ->options(fn() => Department::pluck('name', 'id'))
+                            ->options(fn () => Department::pluck('name', 'id'))
                             ->reactive(),
                         Select::make('selectedCompanies')
                             ->label(__('recruitments::filament/pages/recruitment.filters-form.companies'))
                             ->multiple()
                             ->searchable()
                             ->preload()
-                            ->options(fn() => Company::pluck('name', 'id'))
+                            ->options(fn () => Company::pluck('name', 'id'))
                             ->reactive(),
                         Select::make('selectedStages')
                             ->label(__('recruitments::filament/pages/recruitment.filters-form.stages'))
                             ->multiple()
                             ->searchable()
                             ->preload()
-                            ->options(fn() => Stage::pluck('name', 'id'))
+                            ->options(fn () => Stage::pluck('name', 'id'))
                             ->reactive(),
                         Select::make('status')
                             ->label(__('recruitments::filament/pages/recruitment.filters-form.status.title'))
@@ -78,12 +78,12 @@ class Recruitments extends BaseDashboard
                             ->reactive(),
                         DatePicker::make('startDate')
                             ->label(__('recruitments::filament/pages/recruitment.filters-form.start-date'))
-                            ->maxDate(fn(Get $get) => $get('endDate') ?: now())
+                            ->maxDate(fn (Get $get) => $get('endDate') ?: now())
                             ->default(now()->subMonth()->format('Y-m-d'))
                             ->native(false),
                         DatePicker::make('endDate')
                             ->label(__('recruitments::filament/pages/recruitment.filters-form.end-date'))
-                            ->minDate(fn(Get $get) => $get('startDate') ?: now())
+                            ->minDate(fn (Get $get) => $get('startDate') ?: now())
                             ->maxDate(now())
                             ->default(now())
                             ->native(false),

@@ -11,6 +11,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Inventory\Filament\Clusters\Products\Resources\ProductResource;
+use Webkul\Inventory\Settings\ProductSettings;
 use Webkul\Product\Models\ProductAttribute;
 
 class ManageAttributes extends ManageRelatedRecords
@@ -19,7 +20,21 @@ class ManageAttributes extends ManageRelatedRecords
 
     protected static string $relationship = 'attributes';
 
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
+    protected static ?string $navigationIcon = 'heroicon-o-swatch';
+
+    /**
+     * @param  array<string, mixed>  $parameters
+     */
+    public static function canAccess(array $parameters = []): bool
+    {
+        $canAccess = parent::canAccess($parameters);
+
+        if (! $canAccess) {
+            return false;
+        }
+
+        return app(ProductSettings::class)->enable_variants;
+    }
 
     public static function getNavigationLabel(): string
     {
@@ -65,7 +80,6 @@ class ManageAttributes extends ManageRelatedRecords
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                    ->label('Add Timesheet')
                     ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-attributes.table.header-actions.create.label'))
                     ->icon('heroicon-o-plus-circle')
                     ->mutateFormDataUsing(function (array $data): array {

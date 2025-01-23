@@ -2,10 +2,10 @@
 
 namespace Webkul\TimeOff\Filament\Clusters\Configurations\Resources\LeaveTypeResource\Pages;
 
-use Webkul\TimeOff\Filament\Clusters\Configurations\Resources\LeaveTypeResource;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
+use Webkul\TimeOff\Filament\Clusters\Configurations\Resources\LeaveTypeResource;
 
 class ViewLeaveType extends ViewRecord
 {

@@ -34,7 +34,7 @@ class ApplicantRefuseMail extends Mailable
     {
         return new Envelope(
             subject: $this->payload['subject'],
-            from: new Address($this->payload['from']['address'], '"' . addslashes($this->payload['from']['name']) . '"'),
+            from: new Address($this->payload['from']['address'], '"'.addslashes($this->payload['from']['name']).'"'),
         );
     }
 
@@ -62,7 +62,7 @@ class ApplicantRefuseMail extends Mailable
                     ->withMime($attachment['mime'] ?? null);
             } elseif (isset($attachment['data'])) {
                 $attachments[] = Attachment::fromData(
-                    fn() => $attachment['data'],
+                    fn () => $attachment['data'],
                     $attachment['name']
                 )->withMime($attachment['mime'] ?? null);
             }

@@ -16,8 +16,8 @@ return [
     'form' => [
         'fields' => [
             'name'             => 'Name',
-            'template' => [
-                'title'         => 'Template',
+            'template'         => [
+                'title'                    => 'Template',
                 'applicant-refuse'         => 'Applicant Refuse',
                 'applicant-not-interested' => 'Applicant Not Interested',
             ],
@@ -79,7 +79,7 @@ return [
     ],
 
     'infolist' => [
-        'name' => 'Name',
+        'name'       => 'Name',
         'template'   => 'Template',
     ],
 ];

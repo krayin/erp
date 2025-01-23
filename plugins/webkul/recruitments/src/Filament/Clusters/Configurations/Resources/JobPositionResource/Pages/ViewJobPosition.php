@@ -2,8 +2,8 @@
 
 namespace Webkul\Recruitment\Filament\Clusters\Configurations\Resources\JobPositionResource\Pages;
 
-use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\JobPositionResource;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\JobPositionResource\Pages\ViewJobPosition as BaseViewJobPosition;
+use Webkul\Recruitment\Filament\Clusters\Configurations\Resources\JobPositionResource;
 
 class ViewJobPosition extends BaseViewJobPosition
 {

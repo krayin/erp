@@ -41,6 +41,7 @@ class Product extends BaseProduct
         $this->mergeCasts([
             'tracking'            => ProductTracking::class,
             'use_expiration_date' => 'boolean',
+            'is_storable'         => 'boolean',
         ]);
 
         parent::__construct($attributes);
@@ -77,6 +78,16 @@ class Product extends BaseProduct
     public function quantities(): HasMany
     {
         return $this->hasMany(ProductQuantity::class);
+    }
+
+    public function moves(): HasMany
+    {
+        return $this->hasMany(Move::class);
+    }
+
+    public function moveLines(): HasMany
+    {
+        return $this->hasMany(MoveLine::class);
     }
 
     public function storageCategoryCapacities(): BelongsToMany

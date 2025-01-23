@@ -2,9 +2,9 @@
 
 namespace Webkul\TimeOff\Filament\Clusters\Configurations\Resources\AccrualPlanResource\Pages;
 
-use Webkul\TimeOff\Filament\Clusters\Configurations\Resources\AccrualPlanResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Webkul\TimeOff\Filament\Clusters\Configurations\Resources\AccrualPlanResource;
 
 class ListAccrualPlans extends ListRecords
 {

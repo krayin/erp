@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Auth;
 use Webkul\Inventory\Enums\LocationType;
 use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\LocationResource\Pages;
+use Webkul\Inventory\Filament\Clusters\Configurations\Resources\StorageCategoryResource\Pages\ManageLocations;
 use Webkul\Inventory\Models\Location;
+use Webkul\Inventory\Settings\WarehouseSettings;
 use Webkul\Product\Enums\ProductRemoval;
 
 class LocationResource extends Resource
@@ -28,6 +30,15 @@ class LocationResource extends Resource
     protected static ?string $cluster = Configurations::class;
 
     protected static ?string $recordTitleAttribute = 'full_name';
+
+    public static function isDiscovered(): bool
+    {
+        if (app()->runningInConsole()) {
+            return true;
+        }
+
+        return app(WarehouseSettings::class)->enable_locations;
+    }
 
     public static function getNavigationGroup(): string
     {
@@ -100,7 +111,8 @@ class LocationResource extends Resource
                                     ->relationship('storageCategory', 'name')
                                     ->searchable()
                                     ->preload()
-                                    ->visible(fn (Forms\Get $get): bool => $get('type') === LocationType::INTERNAL->value),
+                                    ->visible(fn (Forms\Get $get): bool => $get('type') === LocationType::INTERNAL->value)
+                                    ->hiddenOn(ManageLocations::class),
                                 Forms\Components\Toggle::make('is_scrap')
                                     ->label(__('inventories::filament/clusters/configurations/resources/location.form.sections.settings.fields.is-scrap'))
                                     ->inline(false)
@@ -122,8 +134,9 @@ class LocationResource extends Resource
                                 Forms\Components\Fieldset::make(__('inventories::filament/clusters/configurations/resources/location.form.sections.settings.fields.logistics'))
                                     ->schema([
                                         Forms\Components\Radio::make('removal_strategy')
-                                            ->label(__('inventories::filament/clusters/configurations/resources/location.form.sections.settings.fields.location-type'))
-                                            ->options(ProductRemoval::class),
+                                            ->label(__('inventories::filament/clusters/configurations/resources/location.form.sections.settings.fields.removal-strategy'))
+                                            ->options(ProductRemoval::class)
+                                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: __('inventories::filament/clusters/configurations/resources/location.form.sections.settings.fields.removal-strategy-hint-tooltip')),
                                     ])
                                     ->columns(1)
                                     ->visible(fn (Forms\Get $get): bool => in_array($get('type'), [LocationType::VIEW->value, LocationType::INTERNAL->value, LocationType::TRANSIT->value]) && ! $get('is_scrap')),
@@ -168,7 +181,8 @@ class LocationResource extends Resource
                 Tables\Columns\TextColumn::make('storageCategory.name')
                     ->label(__('inventories::filament/clusters/configurations/resources/location.table.columns.storage-category'))
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->hiddenOn(ManageLocations::class),
                 Tables\Columns\TextColumn::make('company.name')
                     ->label(__('inventories::filament/clusters/configurations/resources/location.table.columns.company'))
                     ->numeric()
@@ -206,9 +220,17 @@ class LocationResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
-                    ->hidden(fn ($record) => $record->trashed()),
+                    ->hidden(fn ($record) => $record->trashed())
+                    ->modalWidth('6xl'),
                 Tables\Actions\EditAction::make()
-                    ->hidden(fn ($record) => $record->trashed()),
+                    ->hidden(fn ($record) => $record->trashed())
+                    ->modalWidth('6xl')
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title(__('inventories::filament/clusters/configurations/resources/location.table.actions.edit.notification.title'))
+                            ->body(__('inventories::filament/clusters/configurations/resources/location.table.actions.edit.notification.body')),
+                    ),
                 Tables\Actions\RestoreAction::make()
                     ->successNotification(
                         Notification::make()

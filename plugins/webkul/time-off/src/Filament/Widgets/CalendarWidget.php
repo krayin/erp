@@ -2,16 +2,16 @@
 
 namespace Webkul\TimeOff\Filament\Widgets;
 
-use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
-use Filament\Forms;
 use Carbon\Carbon;
+use Filament\Forms;
 use Illuminate\Database\Eloquent\Model;
-use Webkul\TimeOff\Models\Leave;
 use Saade\FilamentFullCalendar\Actions;
+use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
+use Webkul\TimeOff\Models\Leave;
 
 class CalendarWidget extends FullCalendarWidget
 {
-    public Model | string | null $model = Leave::class;
+    public Model|string|null $model = Leave::class;
 
     protected function headerActions(): array
     {
@@ -21,7 +21,7 @@ class CalendarWidget extends FullCalendarWidget
                     function (Forms\Form $form, array $arguments) {
                         $form->fill($arguments);
                     }
-                )
+                ),
         ];
     }
 
@@ -47,11 +47,11 @@ class CalendarWidget extends FullCalendarWidget
                         ->required()
                         ->native(false)
                         ->closeOnDateSelection()
-                        ->live()
+                        ->live(),
                 ]),
             Forms\Components\Placeholder::make('requested_days')
                 ->label('Requested Days')
-                ->content(fn($state): string => $state),
+                ->content(fn ($state): string => $state),
             Forms\Components\Textarea::make('reason')
                 ->label('Reason')
                 ->placeholder('Write the reason for your time off')
@@ -78,34 +78,34 @@ class CalendarWidget extends FullCalendarWidget
 
         return [
             [
-                'id' => 1,
-                'title' => 'Vacation in Paris',
-                'start' => $today->subDays(10)->toDateString(),
-                'end' => $today->subDays(5)->toDateString(),
-                'allDay' => true,
+                'id'              => 1,
+                'title'           => 'Vacation in Paris',
+                'start'           => $today->subDays(10)->toDateString(),
+                'end'             => $today->subDays(5)->toDateString(),
+                'allDay'          => true,
                 'backgroundColor' => $this->getEventColor('paid'),
-                'borderColor' => $this->getEventColor('paid'),
-                'textColor' => '#ffffff',
+                'borderColor'     => $this->getEventColor('paid'),
+                'textColor'       => '#ffffff',
             ],
             [
-                'id' => 2,
-                'title' => 'Sick Leave',
-                'start' => $today->toDateString(),
-                'end' => $today->addDay()->toDateString(),
-                'allDay' => true,
+                'id'              => 2,
+                'title'           => 'Sick Leave',
+                'start'           => $today->toDateString(),
+                'end'             => $today->addDay()->toDateString(),
+                'allDay'          => true,
                 'backgroundColor' => $this->getEventColor('sick'),
-                'borderColor' => $this->getEventColor('sick'),
-                'textColor' => '#ffffff',
+                'borderColor'     => $this->getEventColor('sick'),
+                'textColor'       => '#ffffff',
             ],
             [
-                'id' => 3,
-                'title' => 'Family Wedding',
-                'start' => $today->addDays(5)->toDateString(),
-                'end' => $today->addDays(7)->toDateString(),
-                'allDay' => true,
+                'id'              => 3,
+                'title'           => 'Family Wedding',
+                'start'           => $today->addDays(5)->toDateString(),
+                'end'             => $today->addDays(7)->toDateString(),
+                'allDay'          => true,
                 'backgroundColor' => $this->getEventColor('paid'),
-                'borderColor' => $this->getEventColor('paid'),
-                'textColor' => '#ffffff',
+                'borderColor'     => $this->getEventColor('paid'),
+                'textColor'       => '#ffffff',
             ],
         ];
     }
@@ -118,9 +118,9 @@ class CalendarWidget extends FullCalendarWidget
         $numberOfDays = $startDate->diffInDays($endDate) + 1;
 
         $data = [
-            'start_date' => $startDate->toDateString(),
-            'end_date' => $endDate->toDateString(),
-            'requested_days' => $numberOfDays . ' Days',
+            'start_date'     => $startDate->toDateString(),
+            'end_date'       => $endDate->toDateString(),
+            'requested_days' => $numberOfDays.' Days',
         ];
 
         $this->mountAction('create', $data);
@@ -129,10 +129,10 @@ class CalendarWidget extends FullCalendarWidget
     protected function getEventColor(string $type): string
     {
         return match ($type) {
-            'paid' => '#28a745',
+            'paid'   => '#28a745',
             'unpaid' => '#dc3545',
-            'sick' => '#ffc107',
-            default => '#6c757d',
+            'sick'   => '#ffc107',
+            default  => '#6c757d',
         };
     }
 }

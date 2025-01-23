@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'create-employee' => 'Create employee',
+    'create-employee'       => 'Create employee',
     'goto-employee-tooltip' => 'Go to employee',
-    'notification' => [
+    'notification'          => [
         'title' => 'Candidate updated',
         'body'  => 'The candidate has been updated successfully.',
     ],

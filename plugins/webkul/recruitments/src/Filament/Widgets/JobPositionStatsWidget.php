@@ -21,21 +21,21 @@ class JobPositionStatsWidget extends BaseWidget
         $query = EmployeeJobPosition::query();
         $applicantQuery = Applicant::query();
 
-        if (!empty($this->filters['selectedDepartments'])) {
+        if (! empty($this->filters['selectedDepartments'])) {
             $query->whereIn('department_id', $this->filters['selectedDepartments']);
             $applicantQuery->whereIn('department_id', $this->filters['selectedDepartments']);
         }
 
-        if (!empty($this->filters['selectedCompanies'])) {
+        if (! empty($this->filters['selectedCompanies'])) {
             $query->whereIn('company_id', $this->filters['selectedCompanies']);
             $applicantQuery->whereIn('company_id', $this->filters['selectedCompanies']);
         }
 
-        $currentPeriodStart = !is_null($this->filters['startDate'] ?? null) ?
+        $currentPeriodStart = ! is_null($this->filters['startDate'] ?? null) ?
             Carbon::parse($this->filters['startDate']) :
             now()->subMonth();
 
-        $currentPeriodEnd = !is_null($this->filters['endDate'] ?? null) ?
+        $currentPeriodEnd = ! is_null($this->filters['endDate'] ?? null) ?
             Carbon::parse($this->filters['endDate']) :
             now();
 
@@ -56,12 +56,12 @@ class JobPositionStatsWidget extends BaseWidget
         );
 
         return [
-            'current' => $currentStats,
+            'current'  => $currentStats,
             'previous' => $previousStats,
-            'charts' => [
-                'jobs' => $jobsChart,
+            'charts'   => [
+                'jobs'         => $jobsChart,
                 'applications' => $applicationsChart,
-                'hired' => $hiredChart,
+                'hired'        => $hiredChart,
             ],
         ];
     }
@@ -83,10 +83,10 @@ class JobPositionStatsWidget extends BaseWidget
             ->first();
 
         return [
-            'total_jobs' => $jobStats->total_jobs ?? 0,
-            'active_jobs' => $jobStats->active_jobs ?? 0,
+            'total_jobs'         => $jobStats->total_jobs ?? 0,
+            'active_jobs'        => $jobStats->active_jobs ?? 0,
             'total_applications' => $applicantStats->total_applications ?? 0,
-            'hired_count' => $applicantStats->hired_count ?? 0,
+            'hired_count'        => $applicantStats->hired_count ?? 0,
         ];
     }
 
@@ -109,7 +109,7 @@ class JobPositionStatsWidget extends BaseWidget
         if ($previous == 0) {
             return [
                 'percentage' => 100,
-                'trend' => 'success',
+                'trend'      => 'success',
             ];
         }
 
@@ -117,7 +117,7 @@ class JobPositionStatsWidget extends BaseWidget
 
         return [
             'percentage' => abs(round($change, 1)),
-            'trend' => $change >= 0 ? 'success' : 'danger',
+            'trend'      => $change >= 0 ? 'success' : 'danger',
         ];
     }
 
@@ -145,19 +145,19 @@ class JobPositionStatsWidget extends BaseWidget
 
         return [
             Stat::make(__('recruitments::filament/widgets/job-position.active-job-applications'), $current['active_jobs'])
-                ->description($jobsChange['percentage'] . '% ' . ($jobsChange['trend'] === 'success' ? 'increase' : 'decrease'))
+                ->description($jobsChange['percentage'].'% '.($jobsChange['trend'] === 'success' ? 'increase' : 'decrease'))
                 ->descriptionIcon($jobsChange['trend'] === 'success' ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($jobsChange['trend'])
                 ->chart($data['charts']['jobs']),
 
             Stat::make(__('recruitments::filament/widgets/job-position.total-applications'), $current['total_applications'])
-                ->description($applicationsChange['percentage'] . '% ' . ($applicationsChange['trend'] === 'success' ? 'increase' : 'decrease'))
+                ->description($applicationsChange['percentage'].'% '.($applicationsChange['trend'] === 'success' ? 'increase' : 'decrease'))
                 ->descriptionIcon($applicationsChange['trend'] === 'success' ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($applicationsChange['trend'])
                 ->chart($data['charts']['applications']),
 
             Stat::make(__('recruitments::filament/widgets/job-position.hired-candidate'), $current['hired_count'])
-                ->description($hiredChange['percentage'] . '% ' . ($hiredChange['trend'] === 'success' ? 'increase' : 'decrease'))
+                ->description($hiredChange['percentage'].'% '.($hiredChange['trend'] === 'success' ? 'increase' : 'decrease'))
                 ->descriptionIcon($hiredChange['trend'] === 'success' ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($hiredChange['trend'])
                 ->chart($data['charts']['hired']),

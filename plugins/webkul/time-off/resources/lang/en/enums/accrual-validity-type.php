@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'days' => 'Days',
+    'days'   => 'Days',
     'months' => 'Months',
 ];

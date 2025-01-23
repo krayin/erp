@@ -7,11 +7,11 @@ return [
     ],
 
     'global-search' => [
-        'name'       => 'Job Position',
-        'department' => 'Department',
+        'name'            => 'Job Position',
+        'department'      => 'Department',
         'employment-type' => 'Employment Type',
-        'company'    => 'Company',
-        'created-by' => 'Created By',
+        'company'         => 'Company',
+        'created-by'      => 'Created By',
     ],
 
     'form' => [

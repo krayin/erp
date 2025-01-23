@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('inventories_product_quantities', function (Blueprint $table) {
             $table->id();
-            $table->decimal('quantity', 15, 4)->nullable();
-            $table->decimal('reserved_quantity', 15, 4);
-            $table->decimal('counted_quantity', 15, 4)->nullable();
-            $table->decimal('difference_quantity', 15, 4)->nullable();
-            $table->decimal('inventory_diff_quantity', 15, 4)->nullable();
+            $table->decimal('quantity', 15, 4)->nullable()->default(0);
+            $table->decimal('reserved_quantity', 15, 4)->default(0);
+            $table->decimal('counted_quantity', 15, 4)->nullable()->default(0);
+            $table->decimal('difference_quantity', 15, 4)->nullable()->default(0);
+            $table->decimal('inventory_diff_quantity', 15, 4)->nullable()->default(0);
             $table->boolean('inventory_quantity_set')->default(0);
             $table->date('scheduled_at')->nullable();
             $table->date('incoming_at');
@@ -36,10 +36,12 @@ return new class extends Migration
                 ->nullOnDelete();
 
             $table->foreignId('lot_id')
+                ->nullable()
                 ->constrained('inventories_lots')
                 ->restrictOnDelete();
 
             $table->foreignId('package_id')
+                ->nullable()
                 ->constrained('inventories_packages')
                 ->restrictOnDelete();
 

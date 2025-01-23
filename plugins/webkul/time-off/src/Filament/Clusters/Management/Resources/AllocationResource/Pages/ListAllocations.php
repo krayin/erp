@@ -2,14 +2,14 @@
 
 namespace Webkul\TimeOff\Filament\Clusters\Management\Resources\AllocationResource\Pages;
 
-use Webkul\TimeOff\Filament\Clusters\Management\Resources\AllocationResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
-use Webkul\TableViews\Filament\Concerns\HasTableViews;
-use Webkul\TableViews\Filament\Components\PresetView;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Webkul\TableViews\Filament\Components\PresetView;
+use Webkul\TableViews\Filament\Concerns\HasTableViews;
 use Webkul\TimeOff\Enums\State;
+use Webkul\TimeOff\Filament\Clusters\Management\Resources\AllocationResource;
 
 class ListAllocations extends ListRecords
 {
@@ -24,7 +24,7 @@ class ListAllocations extends ListRecords
                 ->icon('heroicon-o-user-circle')
                 ->favorite()
                 ->default()
-                ->modifyQueryUsing(fn(Builder $query) => $query->whereIn('state', [
+                ->modifyQueryUsing(fn (Builder $query) => $query->whereIn('state', [
                     State::CONFIRM->value,
                     State::VALIDATE_ONE->value,
                 ])),
@@ -32,7 +32,7 @@ class ListAllocations extends ListRecords
                 ->icon('heroicon-o-shield-check')
                 ->favorite()
                 ->default()
-                ->modifyQueryUsing(fn(Builder $query) => $query->whereIn('state', [
+                ->modifyQueryUsing(fn (Builder $query) => $query->whereIn('state', [
                     State::CONFIRM->value,
                     State::VALIDATE_TWO->value,
                 ])),
@@ -40,7 +40,7 @@ class ListAllocations extends ListRecords
                 ->icon('heroicon-o-check-badge')
                 ->favorite()
                 ->default()
-                ->modifyQueryUsing(fn(Builder $query) => $query->where('state', State::VALIDATE_TWO->value)),
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('state', State::VALIDATE_TWO->value)),
             'valid' => PresetView::make(__('Currently Valid'))
                 ->icon('heroicon-o-check')
                 ->default()
@@ -80,7 +80,7 @@ class ListAllocations extends ListRecords
             'refused' => PresetView::make(__('Refused'))
                 ->icon('heroicon-o-x-circle')
                 ->default()
-                ->modifyQueryUsing(fn(Builder $query) => $query->where('state', State::REFUSE->value)),
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('state', State::REFUSE->value)),
         ];
     }
 

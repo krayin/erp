@@ -2,5 +2,5 @@
 
 return [
     'yes' => 'Extra Days Request Allowed',
-    'no' => 'Not Allowed',
+    'no'  => 'Not Allowed',
 ];

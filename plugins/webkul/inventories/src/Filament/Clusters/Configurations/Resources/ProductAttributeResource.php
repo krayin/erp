@@ -11,6 +11,7 @@ use Filament\Tables\Table;
 use Webkul\Inventory\Filament\Clusters\Configurations;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductAttributeResource\Pages;
 use Webkul\Inventory\Filament\Clusters\Configurations\Resources\ProductAttributeResource\RelationManagers;
+use Webkul\Inventory\Settings\ProductSettings;
 use Webkul\Product\Enums\AttributeType;
 use Webkul\Product\Models\Attribute;
 
@@ -26,6 +27,15 @@ class ProductAttributeResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
+    public static function isDiscovered(): bool
+    {
+        if (app()->runningInConsole()) {
+            return true;
+        }
+
+        return app(ProductSettings::class)->enable_variants;
+    }
+
     public static function getNavigationGroup(): string
     {
         return __('inventories::filament/clusters/configurations/resources/product-attribute.navigation.group');
@@ -40,12 +50,14 @@ class ProductAttributeResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make(__('inventories::filament/clusters/configurations/resources/route.form.sections.general.title'))
+                Forms\Components\Section::make(__('inventories::filament/clusters/configurations/resources/product-attribute.form.sections.general.title'))
                     ->schema([
                         Forms\Components\TextInput::make('name')
+                            ->label(__('inventories::filament/clusters/configurations/resources/product-attribute.form.sections.general.fields.name'))
                             ->required()
                             ->maxLength(255),
                         Forms\Components\Radio::make('type')
+                            ->label(__('inventories::filament/clusters/configurations/resources/product-attribute.form.sections.general.fields.type'))
                             ->required()
                             ->options(AttributeType::class)
                             ->default(AttributeType::RADIO)

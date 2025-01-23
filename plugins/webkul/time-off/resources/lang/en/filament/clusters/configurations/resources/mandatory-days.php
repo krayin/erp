@@ -5,36 +5,36 @@ return [
 
     'form' => [
         'fields' => [
-            'name' => 'Name',
+            'name'       => 'Name',
             'start-date' => 'Start Date',
-            'end-date' => 'End Date',
-            'color' => 'Color',
+            'end-date'   => 'End Date',
+            'color'      => 'Color',
         ],
     ],
 
     'table' => [
         'columns' => [
-            'name' => 'Name',
+            'name'         => 'Name',
             'company-name' => 'Company Name',
-            'created-by' => 'Created By',
-            'start-date' => 'Start Date',
-            'end-date' => 'End Date',
+            'created-by'   => 'Created By',
+            'start-date'   => 'Start Date',
+            'end-date'     => 'End Date',
         ],
 
         'filters' => [
-            'name' => 'Name',
+            'name'         => 'Name',
             'company-name' => 'Company Name',
-            'created-by' => 'Created By',
-            'start-date' => 'Start Date',
-            'end-date' => 'End Date',
+            'created-by'   => 'Created By',
+            'start-date'   => 'Start Date',
+            'end-date'     => 'End Date',
         ],
 
         'groups' => [
-            'name' => 'Name',
+            'name'         => 'Name',
             'company-name' => 'Company Name',
-            'created-by' => 'Created By',
-            'start-date' => 'Start Date',
-            'end-date' => 'End Date',
+            'created-by'   => 'Created By',
+            'start-date'   => 'Start Date',
+            'end-date'     => 'End Date',
         ],
 
         'actions' => [
@@ -65,10 +65,10 @@ return [
 
     'infolist' => [
         'entries' => [
-            'name' => 'Name',
+            'name'       => 'Name',
             'start-date' => 'Start Date',
-            'end-date' => 'End Date',
-            'color' => 'Color',
-        ]
+            'end-date'   => 'End Date',
+            'color'      => 'Color',
+        ],
     ],
 ];

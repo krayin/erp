@@ -5,9 +5,7 @@ namespace Webkul\Employee\Filament\Clusters\Configurations\Resources\JobPosition
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
-use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Filament\Clusters\Configurations\Resources\JobPositionResource;
-use Webkul\Employee\Models\EmployeeJobPosition;
 
 class EditJobPosition extends EditRecord
 {

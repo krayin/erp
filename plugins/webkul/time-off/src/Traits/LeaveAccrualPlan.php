@@ -46,7 +46,7 @@ trait LeaveAccrualPlan
                                     ->live()
                                     ->default(Enums\Frequency::WEEKLY->value)
                                     ->required()
-                                    ->afterStateUpdated(fn(Forms\Set $set) => $set('week_day', null)),
+                                    ->afterStateUpdated(fn (Forms\Set $set) => $set('week_day', null)),
                                 Forms\Components\Grid::make()
                                     ->schema([
                                         Forms\Components\Group::make()
@@ -57,7 +57,7 @@ trait LeaveAccrualPlan
                                                     ->default(Week::MONDAY->value)
                                                     ->required(),
                                             ])
-                                            ->visible(fn(Get $get) => $get('frequency') === Enums\Frequency::WEEKLY->value),
+                                            ->visible(fn (Get $get) => $get('frequency') === Enums\Frequency::WEEKLY->value),
                                         Forms\Components\Group::make()
                                             ->schema([
                                                 Forms\Components\Select::make('monthly_day')
@@ -66,7 +66,7 @@ trait LeaveAccrualPlan
                                                     ->default(Enums\CarryoverDay::DAY_1->value)
                                                     ->required(),
                                             ])
-                                            ->visible(fn(Get $get) => $get('frequency') === Enums\Frequency::MONTHLY->value),
+                                            ->visible(fn (Get $get) => $get('frequency') === Enums\Frequency::MONTHLY->value),
                                         Forms\Components\Grid::make(2)
                                             ->schema([
                                                 Forms\Components\Select::make('first_day')
@@ -80,7 +80,7 @@ trait LeaveAccrualPlan
                                                     ->default(Enums\CarryoverDay::DAY_15->value)
                                                     ->required(),
                                             ])
-                                            ->visible(fn(Get $get) => $get('frequency') === Enums\Frequency::BIMONTHLY->value),
+                                            ->visible(fn (Get $get) => $get('frequency') === Enums\Frequency::BIMONTHLY->value),
                                         Forms\Components\Grid::make(2)
                                             ->schema([
                                                 Forms\Components\Group::make()
@@ -110,7 +110,7 @@ trait LeaveAccrualPlan
                                                             ->required(),
                                                     ]),
                                             ])
-                                            ->visible(fn(Get $get) => $get('frequency') === Enums\Frequency::BIYEARLY->value),
+                                            ->visible(fn (Get $get) => $get('frequency') === Enums\Frequency::BIYEARLY->value),
                                         Forms\Components\Grid::make(2)
                                             ->schema([
                                                 Forms\Components\Group::make()
@@ -127,7 +127,7 @@ trait LeaveAccrualPlan
                                                             ->required(),
                                                     ]),
                                             ])
-                                            ->visible(fn(Get $get) => $get('frequency') === Enums\Frequency::YEARLY->value),
+                                            ->visible(fn (Get $get) => $get('frequency') === Enums\Frequency::YEARLY->value),
                                     ]),
                             ]),
                         Forms\Components\Fieldset::make('Cap Accrued')
@@ -139,7 +139,7 @@ trait LeaveAccrualPlan
                                     ->label('Cap accrued time'),
                                 Forms\Components\TextInput::make('maximum_leave')
                                     ->label('Days')
-                                    ->visible(fn(Get $get) => $get('cap_accrued_time') === true)
+                                    ->visible(fn (Get $get) => $get('cap_accrued_time') === true)
                                     ->numeric(),
                             ])->columns(4),
                         Forms\Components\Fieldset::make('Start Accrual')
@@ -167,12 +167,12 @@ trait LeaveAccrualPlan
                                         Forms\Components\Toggle::make('cap_accrued_time_yearly')
                                             ->inline(false)
                                             ->live()
-                                            ->visible(fn(Get $get) => $get('action_with_unused_accruals') == Enums\CarryOverUnusedAccruals::ALL_ACCRUED_TIME_CARRIED_OVER->value)
+                                            ->visible(fn (Get $get) => $get('action_with_unused_accruals') == Enums\CarryOverUnusedAccruals::ALL_ACCRUED_TIME_CARRIED_OVER->value)
                                             ->default(false)
                                             ->label('Milestone cap'),
                                         Forms\Components\TextInput::make('maximum_leave_yearly')
                                             ->numeric()
-                                            ->visible(fn(Get $get) => $get('cap_accrued_time_yearly'))
+                                            ->visible(fn (Get $get) => $get('cap_accrued_time_yearly'))
                                             ->label('Days'),
                                     ]),
                                 Forms\Components\Grid::make(2)
@@ -180,16 +180,16 @@ trait LeaveAccrualPlan
                                         Forms\Components\Toggle::make('accrual_validity')
                                             ->inline(false)
                                             ->live()
-                                            ->visible(fn(Get $get) => $get('action_with_unused_accruals') == Enums\CarryOverUnusedAccruals::ALL_ACCRUED_TIME_CARRIED_OVER->value)
+                                            ->visible(fn (Get $get) => $get('action_with_unused_accruals') == Enums\CarryOverUnusedAccruals::ALL_ACCRUED_TIME_CARRIED_OVER->value)
                                             ->default(false)
                                             ->label('Milestone cap'),
                                         Forms\Components\TextInput::make('accrual_validity_count')
                                             ->numeric()
-                                            ->visible(fn(Get $get) => $get('accrual_validity'))
+                                            ->visible(fn (Get $get) => $get('accrual_validity'))
                                             ->label('Days'),
                                         Forms\Components\Select::make('accrual_validity_type')
                                             ->required()
-                                            ->visible(fn(Get $get) => $get('accrual_validity'))
+                                            ->visible(fn (Get $get) => $get('accrual_validity'))
                                             ->options(Enums\AccrualValidityType::class)
                                             ->label('Days'),
                                     ]),
@@ -231,7 +231,7 @@ trait LeaveAccrualPlan
                         Forms\Components\Toggle::make('cap_accrued_time')
                             ->label(__('Cap Accrued Time')),
                     ])
-                    ->query(fn($query, $data) => $query->where('cap_accrued_time', $data['cap_accrued_time']))
+                    ->query(fn ($query, $data) => $query->where('cap_accrued_time', $data['cap_accrued_time']))
                     ->label(__('Cap Accrued Time')),
                 SelectFilter::make('action_with_unused_accruals')
                     ->options(\Webkul\TimeOff\Enums\CarryOverUnusedAccruals::class)
