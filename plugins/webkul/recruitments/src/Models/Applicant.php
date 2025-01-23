@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Webkul\Chatter\Traits\HasChatter;
+use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Employee\Models\Department;
 use Webkul\Employee\Models\Employee;
-use Webkul\Employee\Models\EmployeeJobPosition;
 use Webkul\Recruitment\Enums\ApplicationStatus;
 use Webkul\Recruitment\Traits\HasApplicationStatus;
 use Webkul\Security\Models\User;
@@ -16,7 +17,7 @@ use Webkul\Support\Models\Company;
 
 class Applicant extends Model
 {
-    use SoftDeletes, HasApplicationStatus;
+    use HasChatter, HasLogActivity, SoftDeletes, HasApplicationStatus;
 
     protected $table = 'recruitments_applicants';
 
@@ -128,7 +129,7 @@ class Applicant extends Model
 
     public function job(): BelongsTo
     {
-        return $this->belongsTo(EmployeeJobPosition::class, 'job_id');
+        return $this->belongsTo(JobPosition::class, 'job_id');
     }
 
     public function department(): BelongsTo

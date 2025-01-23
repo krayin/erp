@@ -2,9 +2,9 @@
 
 namespace Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource\Pages;
 
+use Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
-use Webkul\Recruitment\Filament\Clusters\Applications\Resources\CandidateResource;
 use Illuminate\Support\Facades\Auth;
 
 class CreateCandidate extends CreateRecord

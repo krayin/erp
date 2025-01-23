@@ -23,11 +23,6 @@ return new class extends Migration
             $table->unsignedBigInteger('creator_id')->nullable()->comment('Created By');
             $table->unsignedBigInteger('employment_type_id')->nullable()->comment('Employment Type');
 
-            $table->unsignedBigInteger('recruiter_id')->nullable()->comment('Recruiter');
-            $table->integer('no_of_hired_employee')->nullable()->comment('No of Hired Employee');
-            $table->timestamp('date_from')->nullable()->comment('Date From');
-            $table->timestamp('date_to')->nullable()->comment('Date To');
-
             $table->string('name')->comment('Job Position Name');
             $table->text('description')->nullable()->comment('Job Description');
             $table->text('requirements')->nullable()->comment('Requirements');
@@ -37,7 +32,6 @@ return new class extends Migration
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('set null');
             $table->foreign('employment_type_id')->references('id')->on('employees_employment_types')->onDelete('set null');
-            $table->foreign('recruiter_id')->references('id')->on('users')->onDelete('set null');
 
             $table->softDeletes();
             $table->timestamps();

@@ -1,15 +1,16 @@
 <?php
 
 return [
-    'title' => 'Job Positions',
-
     'navigation' => [
         'title' => 'Job Positions',
-        'group' => 'Recruitment',
+        'group' => 'Job Positions',
     ],
 
     'global-search' => [
         'name'       => 'Job Position',
+        'department' => 'Department',
+        'employment-type' => 'Employment Type',
+        'company'    => 'Company',
         'created-by' => 'Created By',
     ],
 
@@ -22,14 +23,14 @@ return [
                     'job-position-title'         => 'Job Position Title',
                     'job-position-title-tooltip' => 'Enter the official job position title',
                     'department'                 => 'Department',
-                    'department-modal-title'     => 'Create Department',
-                    'company-modal-title'        => 'Create Company',
+                    'department-modal-title'     => 'Department Create',
                     'job-location'               => 'Job Location',
                     'industry'                   => 'Industry',
                     'company'                    => 'Company',
                     'employment-type'            => 'Employment Type',
+                    'interviewers'               => 'Interviewers',
                     'recruiter'                  => 'Recruiter',
-                    'interviewer'                => 'Interviewer',
+                    'manager'                    => 'Manager',
                 ],
             ],
 
@@ -51,7 +52,6 @@ return [
                     'date-to'            => 'Date To',
                     'expected-skills'    => 'Expected Skills',
                     'employment-type'    => 'Employment Type',
-                    'status'                     => 'Status',
                 ],
             ],
 
@@ -162,6 +162,9 @@ return [
                     'employment-type'    => 'Employment Type',
                     'job-location'       => 'Job Location',
                     'industry'           => 'Industry',
+                    'manager'            => 'Manager',
+                    'recruiter'          => 'Recruiter',
+                    'interviewers'       => 'Interviewers',
                 ],
             ],
             'job-description' => [

@@ -34,8 +34,10 @@ use Webkul\Recruitment\Filament\Clusters\Applications;
 use Webkul\Recruitment\Filament\Clusters\Applications\Resources\ApplicantResource\Pages;
 use Webkul\Recruitment\Filament\Clusters\Applications\Resources\ApplicantResource\RelationManagers;
 use Webkul\Recruitment\Models\Applicant;
+use Webkul\Recruitment\Models\JobPosition;
 use Webkul\Recruitment\Models\Stage as RecruitmentStage;
 use Webkul\Security\Filament\Resources\UserResource;
+use Webkul\Security\Models\User;
 
 class ApplicantResource extends Resource
 {
@@ -52,17 +54,13 @@ class ApplicantResource extends Resource
         $currentRoute = Route::currentRouteName();
 
         if ($currentRoute === 'livewire.update') {
-            return str_contains(url()->previous(), 'index')
-                || str_contains(url()->previous(), 'edit')
-                || str_contains(url()->previous(), 'tableGrouping')
-                || str_contains(url()->previous(), 'tableSortColumn')
-                || str_contains(url()->previous(), 'activeTableView')
-                || str_contains(url()->previous(), 'applicants')
+            $previousUrl = url()->previous();
+            return str_contains($previousUrl, '/index') || str_contains($previousUrl, '?tableGrouping') || str_contains($previousUrl, '?tableFilters')
                 ? SubNavigationPosition::Start
                 : SubNavigationPosition::Top;
         }
 
-        return str_contains($currentRoute, 'index')
+        return str_contains($currentRoute, '.index')
             ? SubNavigationPosition::Start
             : SubNavigationPosition::Top;
     }
@@ -99,9 +97,9 @@ class ApplicantResource extends Resource
                             ->hiddenLabel()
                             ->inline()
                             ->options(fn() => RecruitmentStage::orderBy('sort')->get()->mapWithKeys(fn($stage) => [$stage->id => $stage->name]))
-                            ->default(RecruitmentStage::first()?->id)
                             ->columnSpan('full')
                             ->live()
+                            ->reactive()
                             ->hidden(function ($record, Set $set) {
                                 if ($record->refuse_reason_id) {
                                     $set('stage_id', null);
@@ -242,9 +240,43 @@ class ApplicantResource extends Resource
                                             ->columnSpan(1),
                                         Forms\Components\Select::make('job_id')
                                             ->relationship('job', 'name')
-                                            ->label(__(''))
                                             ->label(__('recruitments::filament/clusters/applications/resources/applicant.form.sections.general-information.fields.job-position'))
                                             ->preload()
+                                            ->live()
+                                            ->reactive()
+                                            ->afterStateHydrated(function (Set $set, Get $get, $state) {
+                                                if (!$get('stage_id') && $state) {
+                                                    $set('stage_id', RecruitmentStage::where('is_default', 1)->first()->id ?? null);
+                                                }
+                                            })
+                                            ->afterStateUpdated(function (Set $set, Get $get, ?string $state, ?string $old) {
+                                                if (is_null($state)) {
+                                                    $set('stage_id', null);
+                                                    return;
+                                                }
+
+                                                if (is_null($old) && $state) {
+                                                    $set('stage_id', RecruitmentStage::where('is_default', 1)->first()->id ?? null);
+                                                }
+
+                                                if (!is_null($old) && !is_null($state)) {
+                                                    $jobPosition = JobPosition::find($state);
+
+                                                    if ($jobPosition) {
+                                                        if ($jobPosition->recruiter_id) {
+                                                            $set('recruiter', $jobPosition->recruiter_id);
+                                                        }
+
+                                                        if ($jobPosition->interviewers) {
+                                                            $set('recruitments_applicant_interviewers', $jobPosition->interviewers->pluck('id')->toArray() ?? []);
+                                                        }
+
+                                                        if ($jobPosition->department_id) {
+                                                            $set('department_id', $jobPosition->department_id);
+                                                        }
+                                                    }
+                                                }
+                                            })
                                             ->searchable(),
                                         Forms\Components\DatePicker::make('date_closed')
                                             ->label(__('recruitments::filament/clusters/applications/resources/applicant.form.sections.general-information.fields.hired-date'))
@@ -257,6 +289,8 @@ class ApplicantResource extends Resource
                                             ->relationship('recruiter', 'name')
                                             ->label(__('recruitments::filament/clusters/applications/resources/applicant.form.sections.general-information.fields.recruiter'))
                                             ->preload()
+                                            ->live()
+                                            ->reactive()
                                             ->searchable(),
                                         Forms\Components\Select::make('recruitments_applicant_interviewers')
                                             ->relationship('interviewer', 'name')
@@ -264,6 +298,8 @@ class ApplicantResource extends Resource
                                             ->preload()
                                             ->multiple()
                                             ->searchable()
+                                            ->dehydrated(true)
+                                            ->saveRelationshipsUsing(function () {})
                                             ->createOptionForm(fn(Form $form) => UserResource::form($form)),
                                         Forms\Components\Select::make('recruitments_applicant_applicant_categories')
                                             ->multiple()
@@ -656,7 +692,8 @@ class ApplicantResource extends Resource
                 ]),
             ])
             ->modifyQueryUsing(function (Builder $query) {
-                $query->whereNot('state', RecruitmentStateEnum::BLOCKED->value);
+                $query->where('state', '!=', RecruitmentStateEnum::BLOCKED->value)
+                    ->orWhereNull('state');
             });
     }
 
@@ -689,6 +726,9 @@ class ApplicantResource extends Resource
                                                         return new HtmlString($html);
                                                     })
                                                     ->placeholder('—'),
+                                                Infolists\Components\TextEntry::make('stage.name')
+                                                    ->hiddenLabel()
+                                                    ->badge(),
                                                 Infolists\Components\TextEntry::make('application_status')
                                                     ->hiddenLabel()
                                                     ->icon(null)
