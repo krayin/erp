@@ -3,6 +3,7 @@
 return [
     'breadcrumb' => 'Manage Activities',
     'title'      => 'Manage Activities',
+    'group'      => 'General',
 
     'navigation' => [
         'label' => 'Manage Activities',
