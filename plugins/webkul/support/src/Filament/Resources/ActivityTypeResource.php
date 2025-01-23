@@ -366,7 +366,7 @@ class ActivityTypeResource extends Resource
                                 Infolists\Components\Section::make(__('support::filament/resources/activity-type.infolist.sections.advanced-information.title'))
                                     ->schema([
                                         Infolists\Components\TextEntry::make('icon')
-                                            ->icon(fn ($record) => $record->icon)
+                                            ->icon(fn($record) => $record->icon)
                                             ->placeholder('—')
                                             ->label(__('support::filament/resources/activity-type.infolist.sections.advanced-information.entries.icon')),
                                         Infolists\Components\TextEntry::make('decoration_type')

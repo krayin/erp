@@ -1,0 +1,30 @@
+{
+    "name": "webkul/time-off",
+    "description": "",
+    "authors": [
+        {
+            "name": "Jitendra Singh",
+            "email": "jitendra@webkul.in"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webkul\\TimeOff\\Providers\\TimeOffServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Webkul\\TimeOff\\": "src/",
+            "Webkul\\TimeOff\\Database\\Factories\\": "database/factories/",
+            "Webkul\\TimeOff\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webkul\\TimeOff\\Tests\\": "tests/"
+        }
+    }
+}

@@ -60,7 +60,7 @@ class CandidateResource extends Resource
     public static function getGloballySearchableAttributes(): array
     {
         return [
-            'partner_name',
+            'name',
             'email_from',
             'phone_sanitized',
             'company.name',
@@ -76,7 +76,7 @@ class CandidateResource extends Resource
                     ->schema([
                         Forms\Components\Section::make(__('recruitments::filament/clusters/applications/resources/candidate.form.sections.basic-information.title'))
                             ->schema([
-                                Forms\Components\TextInput::make('partner_name')
+                                Forms\Components\TextInput::make('name')
                                     ->label(__('recruitments::filament/clusters/applications/resources/candidate.form.sections.basic-information.fields.full-name'))
                                     ->required()
                                     ->maxLength(255),
@@ -183,7 +183,7 @@ class CandidateResource extends Resource
             ->columns([
                 Tables\Columns\Layout\Stack::make([
                     Tables\Columns\Layout\Stack::make([
-                        Tables\Columns\TextColumn::make('partner_name')
+                        Tables\Columns\TextColumn::make('name')
                             ->weight(FontWeight::Bold)
                             ->label(__('recruitments::filament/clusters/applications/resources/candidate.table.columns.name'))
                             ->searchable()
@@ -194,13 +194,13 @@ class CandidateResource extends Resource
                                 ->badge()
                                 ->weight(FontWeight::Bold)
                                 ->state(function (Candidate $record): array {
-                                    return $record->categories->map(fn ($category) => [
+                                    return $record->categories->map(fn($category) => [
                                         'label' => $category->name,
                                         'color' => $category->color ?? 'primary',
                                     ])->toArray();
                                 })
-                                ->formatStateUsing(fn ($state) => $state['label'])
-                                ->color(fn ($state) => Color::hex($state['color'])),
+                                ->formatStateUsing(fn($state) => $state['label'])
+                                ->color(fn($state) => Color::hex($state['color'])),
                             Tables\Columns\TextColumn::make('priority')
                                 ->label(__('recruitments::filament/clusters/applications/resources/candidate.table.columns.evaluation'))
                                 ->color('warning')
@@ -218,7 +218,7 @@ class CandidateResource extends Resource
                                     return new HtmlString($html);
                                 }),
                         ])
-                            ->visible(fn ($record) => filled($record?->categories?->count())),
+                            ->visible(fn($record) => filled($record?->categories?->count())),
                     ])->space(1),
                 ])
                     ->space(4),
@@ -305,7 +305,7 @@ class CandidateResource extends Resource
                             ->schema([
                                 Infolists\Components\Section::make(__('recruitments::filament/clusters/applications/resources/candidate.infolist.sections.basic-information.title'))
                                     ->schema([
-                                        Infolists\Components\TextEntry::make('partner_name')
+                                        Infolists\Components\TextEntry::make('name')
                                             ->icon('heroicon-o-user')
                                             ->placeholder('—')
                                             ->label(__('recruitments::filament/clusters/applications/resources/candidate.infolist.sections.basic-information.entries.full-name')),
@@ -342,14 +342,14 @@ class CandidateResource extends Resource
                                             ->icon('heroicon-o-tag')
                                             ->placeholder('—')
                                             ->state(function (Candidate $record): array {
-                                                return $record->categories->map(fn ($category) => [
+                                                return $record->categories->map(fn($category) => [
                                                     'label' => $category->name,
                                                     'color' => $category->color ?? 'primary'
                                                 ])->toArray();
                                             })
                                             ->badge()
-                                            ->formatStateUsing(fn ($state) => $state['label'])
-                                            ->color(fn ($state) => Color::hex($state['color']))
+                                            ->formatStateUsing(fn($state) => $state['label'])
+                                            ->color(fn($state) => Color::hex($state['color']))
                                             ->listWithLineBreaks()
                                             ->label(__('recruitments::filament/clusters/applications/resources/candidate.infolist.sections.additional-details.entries.tags')),
                                         Infolists\Components\TextEntry::make('manager.name')
