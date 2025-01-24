@@ -20,7 +20,6 @@ return new class extends Migration
 
             $table->unsignedBigInteger('creator_id')->nullable()->comment('Created By');
             $table->unsignedBigInteger('company_id')->nullable()->comment('Company');
-            $table->unsignedBigInteger('department_id')->nullable()->comment('Department');
 
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('set null');

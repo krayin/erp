@@ -38,6 +38,7 @@ class EmployeeServiceProvider extends PackageServiceProvider
                 '2024_12_16_070029_create_employees_employee_resumes_table',
                 '2025_01_08_104443_add_manager_id_to_employees_departments_table',
                 '2025_01_15_045708_create_job_position_skills_table',
+                '2025_01_24_052852_add_department_id_to_activity_plans_table',
             ])
             ->runsMigrations()
             ->hasInstallCommand(function (InstallCommand $command) {
