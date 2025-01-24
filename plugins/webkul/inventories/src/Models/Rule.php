@@ -51,6 +51,7 @@ class Rule extends Model
         'propagate_warehouse_id',
         'company_id',
         'creator_id',
+        'deleted_at',
     ];
 
     /**

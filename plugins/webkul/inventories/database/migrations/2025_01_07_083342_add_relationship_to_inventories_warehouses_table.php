@@ -45,6 +45,11 @@ return new class extends Migration
                 ->constrained('inventories_rules')
                 ->nullOnDelete();
 
+            $table->foreignId('buy_pull_id')
+                ->nullable()
+                ->constrained('inventories_rules')
+                ->nullOnDelete();
+
             $table->foreignId('pick_type_id')
                 ->nullable()
                 ->constrained('inventories_operation_types')

@@ -39,6 +39,7 @@ class WarehouseSeeder extends Seeder
                 'output_stock_location_id' => 15,
                 'pack_stock_location_id'   => 16,
                 'mto_pull_id'              => 5,
+                'buy_pull_id'              => 13,
                 'pick_type_id'             => 3,
                 'pack_type_id'             => 4,
                 'out_type_id'              => 2,
@@ -67,8 +68,8 @@ class WarehouseSeeder extends Seeder
             ],
         ]);
 
-        DB::table('inventories_operation_types')->update(['warehouse_id' => 1]);
+        DB::table('inventories_operation_types')->where('id', '<>', 9)->update(['warehouse_id' => 1]);
 
-        DB::table('inventories_rules')->update(['warehouse_id' => 1]);
+        DB::table('inventories_rules')->where('id', '<>', 14)->update(['warehouse_id' => 1]);
     }
 }
