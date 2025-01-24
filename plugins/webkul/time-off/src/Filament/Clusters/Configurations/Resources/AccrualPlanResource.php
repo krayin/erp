@@ -4,6 +4,7 @@ namespace Webkul\TimeOff\Filament\Clusters\Configurations\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
 use Filament\Pages\SubNavigationPosition;
@@ -69,9 +70,14 @@ class AccrualPlanResource extends Resource
                                     ->label(__('Carry-Over Time'))
                                     ->options(CarryoverDate::class)
                                     ->default(CarryoverDate::OTHER->value)
+                                    ->live()
                                     ->required(),
                                 Forms\Components\Fieldset::make()
                                     ->label('Carry-Over Date')
+                                    ->live()
+                                    ->visible(function (Get $get) {
+                                        return $get('carryover_date') === CarryoverDate::OTHER->value;
+                                    })
                                     ->schema([
                                         Forms\Components\Select::make('carryover_day')
                                             ->hiddenLabel()
@@ -85,6 +91,9 @@ class AccrualPlanResource extends Resource
                                             ->default(CarryoverMonth::JAN->value)
                                             ->required(),
                                     ])->columns(2),
+                                Forms\Components\Toggle::make('is_active')
+                                    ->inline(false)
+                                    ->label(__('Status')),
                             ]),
                     ])->columns(2),
             ]);
@@ -99,7 +108,7 @@ class AccrualPlanResource extends Resource
                     ->label(__('Name')),
                 Tables\Columns\TextColumn::make('leaveAccrualLevels')
                     ->searchable()
-                    ->formatStateUsing(fn ($record) => $record->leaveAccrualLevels?->count())
+                    ->formatStateUsing(fn($record) => $record->leaveAccrualLevels?->count())
                     ->label(__('Levels')),
             ])
             ->filters([
@@ -137,22 +146,22 @@ class AccrualPlanResource extends Resource
                                         Infolists\Components\TextEntry::make('accrued_gain_time')
                                             ->icon('heroicon-o-clock')
                                             ->placeholder('—')
-                                            ->formatStateUsing(fn ($state) => AccruedGainTime::options()[$state])
+                                            ->formatStateUsing(fn($state) => AccruedGainTime::options()[$state])
                                             ->label(__('Accrued Gain Time')),
                                         Infolists\Components\TextEntry::make('carryover_date')
                                             ->icon('heroicon-o-calendar')
                                             ->placeholder('—')
-                                            ->formatStateUsing(fn ($state) => CarryoverDate::options()[$state])
+                                            ->formatStateUsing(fn($state) => CarryoverDate::options()[$state])
                                             ->label(__('Carryover Time')),
                                         Infolists\Components\TextEntry::make('carryover_day')
                                             ->icon('heroicon-o-calendar')
                                             ->placeholder('—')
-                                            ->formatStateUsing(fn ($state) => CarryoverDay::options()[$state])
+                                            ->formatStateUsing(fn($state) => CarryoverDay::options()[$state])
                                             ->label(__('Carryover Day')),
                                         Infolists\Components\TextEntry::make('carryover_month')
                                             ->icon('heroicon-o-calendar')
                                             ->placeholder('—')
-                                            ->formatStateUsing(fn ($state) => CarryoverMonth::options()[$state])
+                                            ->formatStateUsing(fn($state) => CarryoverMonth::options()[$state])
                                             ->label(__('Carryover Month')),
                                     ]),
                             ])

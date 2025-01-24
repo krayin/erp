@@ -125,7 +125,7 @@ class TimeOffResource extends Resource
                                     })
                                     ->live(),
                             ]),
-                    ])->columns(2),
+                    ]),
             ]);
     }
 
@@ -163,6 +163,23 @@ class TimeOffResource extends Resource
                     ->sortable()
                     ->badge()
                     ->searchable(),
+            ])
+            ->groups([
+                Tables\Grouping\Group::make('employee.name')
+                    ->label(__('Employee Name'))
+                    ->collapsible(),
+                Tables\Grouping\Group::make('holidayStatus.name')
+                    ->label(__('Time Off Type'))
+                    ->collapsible(),
+                Tables\Grouping\Group::make('state')
+                    ->label(__('Status'))
+                    ->collapsible(),
+                Tables\Grouping\Group::make('date_from')
+                    ->label(__('Start Date'))
+                    ->collapsible(),
+                Tables\Grouping\Group::make('date_to')
+                    ->label(__('Start To'))
+                    ->collapsible(),
             ])
             ->filters([
                 //
