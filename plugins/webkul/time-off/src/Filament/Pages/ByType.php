@@ -1,0 +1,30 @@
+<?php
+
+namespace Webkul\TimeOff\Filament\Pages;
+
+use Filament\Pages\Dashboard as BaseDashboard;
+use Webkul\TimeOff\Filament\Clusters\Reporting;
+use Webkul\TimeOff\Filament\Widgets\LeaveTypeWidget;
+
+class ByType extends BaseDashboard
+{
+    protected static string $routePath = 'reporting/by-type';
+
+    protected static ?string $navigationIcon = 'heroicon-o-folder';
+
+    protected static ?int $navigationSort = 2;
+
+    protected static ?string $cluster = Reporting::class;
+
+    public static function getNavigationLabel(): string
+    {
+        return __('By Type');
+    }
+
+    public function getWidgets(): array
+    {
+        return [
+            LeaveTypeWidget::class,
+        ];
+    }
+}

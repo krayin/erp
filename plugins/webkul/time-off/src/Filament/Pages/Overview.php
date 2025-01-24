@@ -3,6 +3,7 @@
 namespace Webkul\TimeOff\Filament\Pages;
 
 use Filament\Pages\Dashboard as BaseDashboard;
+use Webkul\TimeOff\Filament\Widgets\LeaveTypeWidget;
 use Webkul\TimeOff\Filament\Widgets\OverviewCalendarWidget;
 
 class Overview extends BaseDashboard
