@@ -10,13 +10,13 @@ class Dashboard extends BaseDashboard
 {
     protected static string $routePath = 'time-off';
 
-    protected static ?string $navigationIcon = 'heroicon-o-sparkles';
+    protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
 
     protected static ?string $cluster = MyTime::class;
 
     public static function getNavigationLabel(): string
     {
-        return __('Time Off');
+        return __('Dashboard');
     }
 
     public function getWidgets(): array

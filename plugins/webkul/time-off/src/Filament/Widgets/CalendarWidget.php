@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Saade\FilamentFullCalendar\Actions;
 use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
 use Webkul\TimeOff\Filament\Clusters\Management\Resources\TimeOffResource;
@@ -64,21 +65,25 @@ class CalendarWidget extends FullCalendarWidget
 
     public function fetchEvents(array $fetchInfo): array
     {
+        $user = Auth::user();
+
         return Leave::query()
+            ->where('user_id', $user->id)
+            ->orWhere('employee_id', $user->employee->id)
             ->where('request_date_from', '>=', $fetchInfo['start'])
             ->where('request_date_to', '<=', $fetchInfo['end'])
             ->with('holidayStatus')
             ->get()
             ->map(function (Leave $leave) {
                 return [
-                    'id' => $leave->id,
-                    'title' => $leave->holidayStatus->name,
-                    'start' => $leave->request_date_from,
-                    'end' => $leave->request_date_to,
-                    'allDay' => true,
+                    'id'              => $leave->id,
+                    'title'           => $leave->holidayStatus->name,
+                    'start'           => $leave->request_date_from,
+                    'end'             => $leave->request_date_to,
+                    'allDay'          => true,
                     'backgroundColor' => $leave->holidayStatus->color,
-                    'borderColor' => $leave->holidayStatus->color,
-                    'textColor' => '#ffffff',
+                    'borderColor'     => $leave->holidayStatus->color,
+                    'textColor'       => '#ffffff',
                 ];
             })
             ->all();

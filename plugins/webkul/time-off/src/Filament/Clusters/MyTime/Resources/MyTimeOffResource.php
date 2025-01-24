@@ -1,32 +1,30 @@
 <?php
 
-namespace Webkul\TimeOff\Filament\Clusters\Management\Resources;
+namespace Webkul\TimeOff\Filament\Clusters\MyTime\Resources;
 
-use Filament\Forms;
+use Webkul\TimeOff\Filament\Clusters\MyTime;
+use Webkul\TimeOff\Filament\Clusters\MyTime\Resources\MyTimeOffResource\Pages;
 use Filament\Forms\Form;
+use Filament\Forms;
 use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Carbon;
-use Webkul\Employee\Models\Employee;
 use Webkul\TimeOff\Enums\RequestDateFromPeriod;
 use Webkul\TimeOff\Enums\State;
-use Webkul\TimeOff\Filament\Clusters\Management;
-use Webkul\TimeOff\Filament\Clusters\Management\Resources\TimeOffResource\Pages;
 use Webkul\TimeOff\Models\Leave;
 use Webkul\TimeOff\Models\LeaveType;
 
-class TimeOffResource extends Resource
+class MyTimeOffResource extends Resource
 {
     protected static ?string $model = Leave::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-lifebuoy';
 
-    protected static ?string $cluster = Management::class;
+    protected static ?string $modelLabel = 'My Time Off';
 
-    protected static ?string $modelLabel = 'Time Off';
+    protected static ?string $cluster = MyTime::class;
 
     public static function form(Form $form): Form
     {
@@ -36,28 +34,6 @@ class TimeOffResource extends Resource
                     ->schema([
                         Forms\Components\Group::make()
                             ->schema([
-                                Forms\Components\Select::make('employee_id')
-                                    ->relationship('employee', 'name')
-                                    ->searchable()
-                                    ->preload()
-                                    ->live()
-                                    ->afterStateUpdated(function (Get $get, Set $set, $state) {
-                                        if ($state) {
-                                            $employee = Employee::find($state);
-
-                                            if ($employee->department) {
-                                                $set('department_id', $employee->department->id);
-                                            } else {
-                                                $set('department_id', null);
-                                            }
-                                        }
-                                    })
-                                    ->required(),
-                                Forms\Components\Select::make('department_id')
-                                    ->relationship('department', 'name')
-                                    ->searchable()
-                                    ->preload()
-                                    ->required(),
                                 Forms\Components\Select::make('holiday_status_id')
                                     ->relationship('holidayStatus', 'name')
                                     ->searchable()
@@ -181,12 +157,9 @@ class TimeOffResource extends Resource
                     ->label(__('Start To'))
                     ->collapsible(),
             ])
-            ->filters([
-                //
-            ])
             ->actions([
-                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\Action::make('approve')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
@@ -218,22 +191,18 @@ class TimeOffResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
+            ])
+            ->modifyQueryUsing(function ($query) {
+                $query->where('employee_id', auth()->user()->employee->id);
+            });
     }
 
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListTimeOffs::route('/'),
-            'create' => Pages\CreateTimeOff::route('/create'),
-            'edit'   => Pages\EditTimeOff::route('/{record}/edit'),
+            'index'  => Pages\ListMyTimeOffs::route('/'),
+            'create' => Pages\CreateMyTimeOff::route('/create'),
+            'edit'   => Pages\EditMyTimeOff::route('/{record}/edit'),
         ];
     }
 }

@@ -1,26 +1,29 @@
 <?php
 
-namespace Webkul\TimeOff\Filament\Clusters\Management\Resources;
+namespace Webkul\TimeOff\Filament\Clusters\MyTime\Resources;
 
-use Filament\Forms;
+use Webkul\TimeOff\Filament\Clusters\MyTime;
+use Webkul\TimeOff\Filament\Clusters\MyTime\Resources\MyAllocationResource\Pages;
 use Filament\Forms\Form;
+use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Field\Filament\Forms\Components\ProgressStepper;
 use Webkul\TimeOff\Enums\AllocationType;
 use Webkul\TimeOff\Enums\State;
-use Webkul\TimeOff\Filament\Clusters\Management;
-use Webkul\TimeOff\Filament\Clusters\Management\Resources\AllocationResource\Pages;
 use Webkul\TimeOff\Models\LeaveAllocation;
 
-class AllocationResource extends Resource
+class MyAllocationResource extends Resource
 {
     protected static ?string $model = LeaveAllocation::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
+    protected static ?string $navigationIcon = 'heroicon-o-calendar';
 
-    protected static ?string $cluster = Management::class;
+    protected static ?string $cluster = MyTime::class;
+
+    protected static ?string $modelLabel = 'My Allocation';
 
     public static function form(Form $form): Form
     {
@@ -59,17 +62,11 @@ class AllocationResource extends Resource
                                     ->label('Name')
                                     ->placeholder('Time Off Type (From validity start to validity end/no limit)')
                                     ->required(),
-                                Forms\Components\Grid::make(2)
+                                Forms\Components\Grid::make(1)
                                     ->schema([
                                         Forms\Components\Select::make('holiday_status_id')
                                             ->label('Time Off Type')
                                             ->relationship('holidayStatus', 'name')
-                                            ->searchable()
-                                            ->preload()
-                                            ->required(),
-                                        Forms\Components\Select::make('employee_id')
-                                            ->label('Employee')
-                                            ->relationship('employee', 'name')
                                             ->searchable()
                                             ->preload()
                                             ->required(),
@@ -108,10 +105,6 @@ class AllocationResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('employee.name')
-                    ->label(__('Employee Name'))
-                    ->sortable()
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('holidayStatus.name')
                     ->label(__('Time Off Type'))
                     ->sortable()
@@ -185,16 +178,18 @@ class AllocationResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->modifyQueryUsing(function ($query) {
+                $query->where('employee_id', Auth::user()->employee->id);
+            });
     }
 
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListAllocations::route('/'),
-            'create' => Pages\CreateAllocation::route('/create'),
-            'edit'   => Pages\EditAllocation::route('/{record}/edit'),
-            'view'   => Pages\ViewAllocation::route('/{record}'),
+            'index' => Pages\ListMyAllocations::route('/'),
+            'create' => Pages\CreateMyAllocation::route('/create'),
+            'edit' => Pages\EditMyAllocation::route('/{record}/edit'),
         ];
     }
 }
