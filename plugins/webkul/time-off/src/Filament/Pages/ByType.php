@@ -16,6 +16,11 @@ class ByType extends BaseDashboard
 
     protected static ?string $cluster = Reporting::class;
 
+    public function getTitle(): string
+    {
+        return __('time_off::filament/pages/by-type.navigation.title');
+    }
+
     public static function getNavigationLabel(): string
     {
         return __('time_off::filament/pages/by-type.navigation.title');

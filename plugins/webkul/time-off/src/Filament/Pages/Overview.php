@@ -13,6 +13,11 @@ class Overview extends BaseDashboard
 
     protected static ?int $navigationSort = 2;
 
+    public function getTitle(): string
+    {
+        return __('time_off::filament/pages/overview.navigation.title');
+    }
+
     public static function getNavigationLabel(): string
     {
         return __('time_off::filament/pages/overview.navigation.title');
