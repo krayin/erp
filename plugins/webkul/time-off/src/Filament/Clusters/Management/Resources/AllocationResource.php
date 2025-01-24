@@ -119,12 +119,12 @@ class AllocationResource extends Resource
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('allocation_type')
-                    ->formatStateUsing(fn ($state) => AllocationType::options()[$state])
+                    ->formatStateUsing(fn($state) => AllocationType::options()[$state])
                     ->label(__('Allocation Type'))
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('state')
-                    ->formatStateUsing(fn ($state) => State::options()[$state])
+                    ->formatStateUsing(fn($state) => State::options()[$state])
                     ->label(__('Status'))
                     ->badge()
                     ->sortable()
@@ -153,7 +153,7 @@ class AllocationResource extends Resource
                     Tables\Actions\Action::make('approve')
                         ->icon('heroicon-o-check-circle')
                         ->color('success')
-                        ->hidden(fn ($record) => $record->state === State::VALIDATE_TWO->value)
+                        ->hidden(fn($record) => $record->state === State::VALIDATE_TWO->value)
                         ->action(function ($record) {
                             if ($record->state === State::VALIDATE_ONE->value) {
                                 $record->update(['state' => State::VALIDATE_TWO->value]);
@@ -170,7 +170,7 @@ class AllocationResource extends Resource
                         }),
                     Tables\Actions\Action::make('refuse')
                         ->icon('heroicon-o-x-circle')
-                        ->hidden(fn ($record) => $record->state === State::REFUSE->value)
+                        ->hidden(fn($record) => $record->state === State::REFUSE->value)
                         ->color('danger')
                         ->action(function ($record) {
                             $record->update(['state' => State::REFUSE->value]);
@@ -183,13 +183,6 @@ class AllocationResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array

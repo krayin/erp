@@ -11,6 +11,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Carbon;
 use Webkul\Employee\Models\Employee;
+use Webkul\TimeOff\Enums\RequestDateFromPeriod;
+use Webkul\TimeOff\Enums\State;
 use Webkul\TimeOff\Filament\Clusters\Management;
 use Webkul\TimeOff\Filament\Clusters\Management\Resources\TimeOffResource\Pages;
 use Webkul\TimeOff\Models\Leave;
@@ -79,16 +81,14 @@ class TimeOffResource extends Resource
                                         Forms\Components\DatePicker::make('request_date_to')
                                             ->native(false)
                                             ->default(now())
-                                            ->hidden(fn (Get $get) => $get('request_unit_half'))
+                                            ->hidden(fn(Get $get) => $get('request_unit_half'))
                                             ->required(),
                                         Forms\Components\Select::make('request_date_from_period')
                                             ->label('Period')
-                                            ->options([
-                                                'morning'   => 'Morning',
-                                                'afternoon' => 'Afternoon',
-                                            ])
+                                            ->options(RequestDateFromPeriod::class)
+                                            ->default(RequestDateFromPeriod::MORNING->value)
                                             ->native(false)
-                                            ->visible(fn (Get $get) => $get('request_unit_half'))
+                                            ->visible(fn(Get $get) => $get('request_unit_half'))
                                             ->required(),
                                     ]),
                                 Forms\Components\Toggle::make('request_unit_half')
@@ -100,13 +100,17 @@ class TimeOffResource extends Resource
                                     ->inlineLabel()
                                     ->reactive()
                                     ->content(function ($state, Get $get): string {
+                                        if ($get('request_unit_half')) {
+                                            return '0.5 day';
+                                        }
+
                                         $startDate = Carbon::parse($get('request_date_from'));
                                         $endDate = $get('request_date_to') ? Carbon::parse($get('request_date_to')) : $startDate;
 
-                                        return $startDate->diffInDays($endDate) + 1 .' day(s)';
+                                        return $startDate->diffInDays($endDate) + 1 . ' day(s)';
                                     }),
-                                Forms\Components\TextInput::make('private_name')
-                                    ->label('Private Name')
+                                Forms\Components\Textarea::make('private_name')
+                                    ->label('Description')
                                     ->live(),
                                 Forms\Components\FileUpload::make('attachment')
                                     ->label('Attachment')
@@ -129,13 +133,68 @@ class TimeOffResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('employee.name')
+                    ->label(__('Employee Name'))
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('holidayStatus.name')
+                    ->label(__('Time Off Type'))
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('private_name')
+                    ->label(__('Description'))
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('date_from')
+                    ->label(__('Date From'))
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('date_to')
+                    ->label(__('Date To'))
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('duration_display')
+                    ->label(__('Duration'))
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('state')
+                    ->label(__('Status'))
+                    ->formatStateUsing(fn($state) => State::options()[$state])
+                    ->sortable()
+                    ->badge()
+                    ->searchable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('approve')
+                    ->icon('heroicon-o-check-circle')
+                    ->color('success')
+                    ->hidden(fn($record) => $record->state === State::VALIDATE_TWO->value)
+                    ->action(function ($record) {
+                        if ($record->state === State::VALIDATE_ONE->value) {
+                            $record->update(['state' => State::VALIDATE_TWO->value]);
+                        } else {
+                            $record->update(['state' => State::VALIDATE_TWO->value]);
+                        }
+                    })
+                    ->label(function ($record) {
+                        if ($record->state === State::VALIDATE_ONE->value) {
+                            return 'Validate';
+                        } else {
+                            return 'Approve';
+                        }
+                    }),
+                Tables\Actions\Action::make('refuse')
+                    ->icon('heroicon-o-x-circle')
+                    ->hidden(fn($record) => $record->state === State::REFUSE->value)
+                    ->color('danger')
+                    ->action(function ($record) {
+                        $record->update(['state' => State::REFUSE->value]);
+                    })
+                    ->label('Refuse'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
