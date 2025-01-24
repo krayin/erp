@@ -17,11 +17,11 @@ class Configurations extends Cluster
 
     public static function getNavigationLabel(): string
     {
-        return __('Configuration');
+        return __('time_off::filament/clusters/configuration.navigation.title');
     }
 
     public static function getNavigationGroup(): string
     {
-        return __('Time Off');
+        return __('time_off::filament/clusters/configuration.navigation.group');
     }
 }

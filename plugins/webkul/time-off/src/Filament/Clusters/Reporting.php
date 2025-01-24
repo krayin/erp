@@ -17,11 +17,11 @@ class Reporting extends Cluster
 
     public static function getNavigationLabel(): string
     {
-        return __('Reporting');
+        return __('time_off::filament/clusters/reporting.navigation.title');
     }
 
     public static function getNavigationGroup(): string
     {
-        return __('Time Off');
+        return __('time_off::filament/clusters/reporting.navigation.group');
     }
 }

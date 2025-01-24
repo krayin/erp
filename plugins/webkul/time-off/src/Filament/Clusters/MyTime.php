@@ -17,11 +17,11 @@ class MyTime extends Cluster
 
     public static function getNavigationLabel(): string
     {
-        return __('Time Off');
+        return __('time_off::filament/clusters/my-time.navigation.title');
     }
 
     public static function getNavigationGroup(): string
     {
-        return __('Time Off');
+        return __('time_off::filament/clusters/my-time.navigation.group');
     }
 }
