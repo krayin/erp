@@ -10,7 +10,7 @@ class LeaveTypeWidget extends ChartWidget
 {
     public function getHeading(): string|Htmlable|null
     {
-        return __('Time Off Analysis');
+        return __('time_off::filament/widgets/leave-type-widget.heading.title');
     }
 
     protected static ?int $sort = 2;
@@ -55,25 +55,25 @@ class LeaveTypeWidget extends ChartWidget
             'refused'   => ['Refused' => $stats->refused ?? 0],
             'cancelled' => ['Cancelled' => $stats->cancelled ?? 0],
             default     => [
-                'Draft'     => $stats->draft ?? 0,
-                'Confirmed' => $stats->confirmed ?? 0,
-                'Validated' => $stats->validated ?? 0,
-                'Refused'   => $stats->refused ?? 0,
-                'Cancelled' => $stats->cancelled ?? 0,
+                __('time_off::filament/widgets/leave-type-widget.types.draft')     => $stats->draft ?? 0,
+                __('time_off::filament/widgets/leave-type-widget.types.confirmed') => $stats->confirmed ?? 0,
+                __('time_off::filament/widgets/leave-type-widget.types.validated') => $stats->validated ?? 0,
+                __('time_off::filament/widgets/leave-type-widget.types.refused')   => $stats->refused ?? 0,
+                __('time_off::filament/widgets/leave-type-widget.types.cancelled') => $stats->cancelled ?? 0,
             ],
         };
 
         return [
             'datasets' => [
                 [
-                    'label'           => __('time_off::filament/widgets/leave.overview.label'),
+                    'label'           => __('time_off::filament/widgets/leave-type-widget.label'),
                     'data'            => array_values($data),
                     'backgroundColor' => array_map(fn($key) => match ($key) {
-                        'Draft'     => '#94a3b8',
-                        'Confirmed' => '#3b82f6',
-                        'Validated' => '#22c55e',
-                        'Refused'   => '#ef4444',
-                        'Cancelled' => '#f97316',
+                        __('time_off::filament/widgets/leave-type-widget.types.draft')     => '#94a3b8',
+                        __('time_off::filament/widgets/leave-type-widget.types.confirmed') => '#3b82f6',
+                        __('time_off::filament/widgets/leave-type-widget.types.validated') => '#22c55e',
+                        __('time_off::filament/widgets/leave-type-widget.types.refused')   => '#ef4444',
+                        __('time_off::filament/widgets/leave-type-widget.types.cancelled') => '#f97316',
                     }, array_keys($data)),
                 ],
             ],

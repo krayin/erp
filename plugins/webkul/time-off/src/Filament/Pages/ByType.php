@@ -18,7 +18,7 @@ class ByType extends BaseDashboard
 
     public static function getNavigationLabel(): string
     {
-        return __('By Type');
+        return __('time_off::filament/pages/by-type.navigation.title');
     }
 
     public function getWidgets(): array

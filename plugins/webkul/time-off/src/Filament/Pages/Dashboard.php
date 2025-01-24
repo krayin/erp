@@ -19,7 +19,7 @@ class Dashboard extends BaseDashboard
 
     public static function getNavigationLabel(): string
     {
-        return __('Dashboard');
+        return __('time_off::filament/pages/dashboard.navigation.title');
     }
 
     public function getWidgets(): array

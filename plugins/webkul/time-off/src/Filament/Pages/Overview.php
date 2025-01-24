@@ -16,12 +16,12 @@ class Overview extends BaseDashboard
 
     public static function getNavigationLabel(): string
     {
-        return __('Overview');
+        return __('time_off::filament/pages/overview.navigation.title');
     }
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Time Off');
+        return __('time_off::filament/pages/overview.navigation.group');
     }
 
     public function getWidgets(): array
