@@ -34,7 +34,7 @@ class MandatoryDayResource extends Resource
         return [
             'name',
             'company.name',
-            'creator.name',
+            'createdBy.name',
         ];
     }
 

@@ -98,7 +98,7 @@ class Leave extends Model
         return $this->belongsTo(Employee::class, 'second_approver_id');
     }
 
-    public function creator(): BelongsTo
+    public function createdBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'creator_id');
     }
