@@ -62,6 +62,7 @@ class OperationType extends Model
         'warehouse_id',
         'company_id',
         'creator_id',
+        'deleted_at',
     ];
 
     /**

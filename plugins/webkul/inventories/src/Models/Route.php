@@ -40,6 +40,7 @@ class Route extends Model
         'supplier_warehouse_id',
         'company_id',
         'creator_id',
+        'deleted_at',
     ];
 
     /**

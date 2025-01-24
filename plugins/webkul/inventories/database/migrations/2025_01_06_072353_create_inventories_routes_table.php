@@ -31,6 +31,7 @@ return new class extends Migration
                 ->nullOnDelete();
 
             $table->foreignId('company_id')
+                ->nullable()
                 ->constrained('companies')
                 ->restrictOnDelete();
 
