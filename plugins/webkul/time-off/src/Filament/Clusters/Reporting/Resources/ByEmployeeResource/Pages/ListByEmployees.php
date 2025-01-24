@@ -5,15 +5,9 @@ namespace Webkul\TimeOff\Filament\Clusters\Reporting\Resources\ByEmployeeResourc
 use Webkul\TimeOff\Filament\Clusters\Reporting\Resources\ByEmployeeResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Webkul\TimeOff\Filament\Clusters\Management\Resources\TimeOffResource\Pages\ListTimeOffs;
 
-class ListByEmployees extends ListRecords
+class ListByEmployees extends ListTimeOffs
 {
     protected static string $resource = ByEmployeeResource::class;
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make(),
-        ];
-    }
 }

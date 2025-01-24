@@ -73,7 +73,7 @@ class CalendarWidget extends FullCalendarWidget
                     $record->update($data);
                 })
                 ->mountUsing(
-                    function (Forms\Form $form, array $arguments, $livewire, $data) {
+                    function (Forms\Form $form, array $arguments, $livewire) {
                         $leave = $livewire->record;
 
                         $newData = [
