@@ -2,12 +2,11 @@
 
 namespace Webkul\TimeOff\Filament\Clusters\MyTime\Resources\MyTimeOffResource\Pages;
 
+use Filament\Notifications\Notification;
 use Webkul\TimeOff\Filament\Clusters\MyTime\Resources\MyTimeOffResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Employee\Models\Employee;
 use Webkul\TimeOff\Enums\State;
 
 class CreateMyTimeOff extends CreateRecord
@@ -70,5 +69,13 @@ class CreateMyTimeOff extends CreateRecord
         $data['date_to'] = $data['request_date_to'];
 
         return $data;
+    }
+
+    protected function getCreatedNotification(): Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title(__('time_off::filament/clusters/my-time/resources/my-time-off/pages/create-time-off.notification.title'))
+            ->body(__('time_off::filament/clusters/my-time/resources/my-time-off/pages/create-time-off.notification.body'));
     }
 }
