@@ -11,6 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Webkul\TimeOff\Enums\RequestDateFromPeriod;
 use Webkul\TimeOff\Enums\State;
 use Webkul\TimeOff\Models\Leave;
@@ -193,7 +194,7 @@ class MyTimeOffResource extends Resource
                 ]),
             ])
             ->modifyQueryUsing(function ($query) {
-                $query->where('employee_id', auth()->user()->employee->id);
+                $query->where('employee_id', Auth::user()->employee->id);
             });
     }
 
@@ -203,6 +204,7 @@ class MyTimeOffResource extends Resource
             'index'  => Pages\ListMyTimeOffs::route('/'),
             'create' => Pages\CreateMyTimeOff::route('/create'),
             'edit'   => Pages\EditMyTimeOff::route('/{record}/edit'),
+            'view'   => Pages\ViewMyTimeOff::route('/{record}'),
         ];
     }
 }

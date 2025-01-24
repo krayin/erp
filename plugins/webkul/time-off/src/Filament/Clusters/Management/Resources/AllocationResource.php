@@ -22,6 +22,8 @@ class AllocationResource extends Resource
 
     protected static ?string $cluster = Management::class;
 
+    protected static ?int $navigationSort = 2;
+
     public static function form(Form $form): Form
     {
         return $form

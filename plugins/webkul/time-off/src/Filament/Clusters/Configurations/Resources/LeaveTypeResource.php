@@ -28,6 +28,8 @@ class LeaveTypeResource extends Resource
 
     protected static ?string $cluster = Configurations::class;
 
+    protected static ?int $navigationSort = 1;
+
     public static function getModelLabel(): string
     {
         return __('time_off::filament/clusters/configurations/resources/leave-type.title');

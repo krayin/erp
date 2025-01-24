@@ -32,6 +32,8 @@ class AccrualPlanResource extends Resource
 
     protected static ?string $cluster = Configurations::class;
 
+    protected static ?int $navigationSort = 2;
+
     public static function getSubNavigationPosition(): SubNavigationPosition
     {
         if (str_contains(Route::currentRouteName(), 'index')) {

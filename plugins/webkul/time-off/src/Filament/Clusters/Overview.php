@@ -4,20 +4,18 @@ namespace Webkul\TimeOff\Filament\Clusters;
 
 use Filament\Clusters\Cluster;
 
-class Configurations extends Cluster
+class Overview extends Cluster
 {
-    protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
-
-    protected static ?int $navigationSort = 4;
+    protected static ?string $navigationIcon = 'heroicon-o-view-columns';
 
     public static function getSlug(): string
     {
-        return 'time-off/configurations';
+        return 'time-off/overview';
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('Configuration');
+        return __('Overview');
     }
 
     public static function getNavigationGroup(): string

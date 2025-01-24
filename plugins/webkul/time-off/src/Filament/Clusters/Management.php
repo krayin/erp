@@ -8,6 +8,8 @@ class Management extends Cluster
 {
     protected static ?string $navigationIcon = 'heroicon-o-shield-check';
 
+    protected static ?int $navigationSort = 3;
+
     public static function getSlug(): string
     {
         return 'time-off/management';

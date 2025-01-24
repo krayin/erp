@@ -187,9 +187,10 @@ class MyAllocationResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListMyAllocations::route('/'),
+            'index'  => Pages\ListMyAllocations::route('/'),
             'create' => Pages\CreateMyAllocation::route('/create'),
-            'edit' => Pages\EditMyAllocation::route('/{record}/edit'),
+            'edit'   => Pages\EditMyAllocation::route('/{record}/edit'),
+            'view'   => Pages\ViewMyAllocation::route('/{record}'),
         ];
     }
 }

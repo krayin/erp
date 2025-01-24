@@ -21,6 +21,8 @@ class PublicHolidayResource extends Resource
 
     protected static ?string $cluster = Configurations::class;
 
+    protected static ?int $navigationSort = 3;
+
     protected static ?string $modelLabel = 'Public Holiday';
 
     public static function form(Form $form): Form
