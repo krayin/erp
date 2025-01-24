@@ -25,6 +25,8 @@ class MyTimeOffResource extends Resource
 
     protected static ?string $modelLabel = 'My Time Off';
 
+    protected static ?int $navigationSort = 2;
+
     protected static ?string $cluster = MyTime::class;
 
     public static function form(Form $form): Form

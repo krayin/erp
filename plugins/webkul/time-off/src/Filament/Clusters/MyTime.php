@@ -8,6 +8,8 @@ class MyTime extends Cluster
 {
     protected static ?string $navigationIcon = 'heroicon-o-clock';
 
+    protected static ?int $navigationSort = 1;
+
     public static function getSlug(): string
     {
         return 'time-off/dashboard';

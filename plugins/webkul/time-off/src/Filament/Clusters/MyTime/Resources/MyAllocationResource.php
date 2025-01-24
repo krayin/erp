@@ -23,6 +23,8 @@ class MyAllocationResource extends Resource
 
     protected static ?string $cluster = MyTime::class;
 
+    protected static ?int $navigationSort = 3;
+
     protected static ?string $modelLabel = 'My Allocation';
 
     public static function form(Form $form): Form
