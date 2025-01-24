@@ -39,16 +39,6 @@ return new class extends Migration
                 ->constrained('users')
                 ->nullOnDelete();
 
-            $table->foreignId('project_id')
-                ->nullable()
-                ->constrained('projects_projects')
-                ->nullOnDelete();
-
-            $table->foreignId('task_id')
-                ->nullable()
-                ->constrained('projects_tasks')
-                ->nullOnDelete();
-
             $table->timestamps();
         });
     }

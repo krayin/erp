@@ -8,6 +8,8 @@ use Filament\Forms\Form;
 use Filament\Pages\SettingsPage;
 use Webkul\Inventory\Settings\WarehouseSettings;
 use Webkul\Support\Filament\Clusters\Settings;
+use Webkul\Inventory\Models\OperationType;
+use Webkul\Inventory\Models\Warehouse;
 
 class ManageWarehouses extends SettingsPage
 {
@@ -63,5 +65,12 @@ class ManageWarehouses extends SettingsPage
                     })
                     ->live(),
             ]);
+    }
+
+    protected function afterSave(): void
+    {
+        foreach (Warehouse::all() as $key => $warehouse) {
+            OperationType::withTrashed()->whereIn('id', [$warehouse->internal_type_id])->update(['deleted_at' => $this->data['enable_locations'] ? null : now()]);
+        }
     }
 }

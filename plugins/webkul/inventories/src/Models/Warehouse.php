@@ -48,6 +48,7 @@ class Warehouse extends Model
         'output_stock_location_id',
         'pack_stock_location_id',
         'mto_pull_id',
+        'buy_pull_id',
         'pick_type_id',
         'pack_type_id',
         'out_type_id',
@@ -128,6 +129,11 @@ class Warehouse extends Model
     public function mtoPull(): BelongsTo
     {
         return $this->belongsTo(Rule::class, 'mto_pull_id');
+    }
+
+    public function buyPull(): BelongsTo
+    {
+        return $this->belongsTo(Rule::class, 'buy_pull_id');
     }
 
     public function pickType(): BelongsTo
