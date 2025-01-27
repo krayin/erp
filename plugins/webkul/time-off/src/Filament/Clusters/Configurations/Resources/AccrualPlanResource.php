@@ -30,7 +30,7 @@ class AccrualPlanResource extends Resource
 {
     protected static ?string $model = LeaveAccrualPlan::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-paper-airplane';
 
     protected static ?string $cluster = Configurations::class;
 
@@ -241,7 +241,6 @@ class AccrualPlanResource extends Resource
             'view'       => Pages\ViewAccrualPlan::route('/{record}'),
             'edit'       => Pages\EditAccrualPlan::route('/{record}/edit'),
             'milestones' => Pages\ManageMilestone::route('/{record}/milestones'),
-            // 'skills' => Pages\ManageSkill::route('/{record}/skills'),
         ];
     }
 }
