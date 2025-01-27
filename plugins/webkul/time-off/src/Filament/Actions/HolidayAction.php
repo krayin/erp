@@ -22,7 +22,7 @@ class HolidayAction extends Action
 
         $this
             ->hiddenLabel()
-            ->icon('heroicon-s-ellipsis-vertical')
+            ->icon('heroicon-o-lifebuoy')
             ->modalWidth(MaxWidth::TwoExtraLarge)
             ->slideOver()
             ->form([
@@ -98,7 +98,7 @@ class HolidayAction extends Action
                         return new HtmlString($html);
                     }),
             ])
-            ->modalIcon('heroicon-s-ellipsis-vertical')
+            ->modalIcon('heroicon-o-lifebuoy')
             ->label(__('time_off::filament/actions/holiday-action.title'))
             ->modalSubmitAction(false)
             ->modalCancelAction(false);
