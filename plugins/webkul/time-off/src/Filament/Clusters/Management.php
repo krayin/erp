@@ -8,6 +8,8 @@ class Management extends Cluster
 {
     protected static ?string $navigationIcon = 'heroicon-o-shield-check';
 
+    protected static ?int $navigationSort = 3;
+
     public static function getSlug(): string
     {
         return 'time-off/management';
@@ -15,11 +17,11 @@ class Management extends Cluster
 
     public static function getNavigationLabel(): string
     {
-        return __('Management');
+        return __('time_off::filament/clusters/management.navigation.title');
     }
 
     public static function getNavigationGroup(): string
     {
-        return __('Time Off');
+        return __('time_off::filament/clusters/management.navigation.group');
     }
 }

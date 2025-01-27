@@ -15,7 +15,9 @@ class DatabaseSeeder extends Seeder
     public function run($parameters = [])
     {
         $this->call([
+            AccrualPlanSeeder::class,
             LeaveTypeSeeder::class,
+            LeaveMandatoryDay::class,
         ]);
     }
 }

@@ -18,6 +18,6 @@ class ManageMilestone extends ManageRelatedRecords
 
     public static function getNavigationLabel(): string
     {
-        return __('Manage Milestones');
+        return __('time_off::filament/clusters/configurations/resources/accrual-plan/pages/manage-milestone.navigation.label');
     }
 }

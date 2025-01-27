@@ -21,11 +21,11 @@ return new class extends Migration
 
             $table->unsignedBigInteger('company_id')->nullable();
             $table->unsignedBigInteger('calendar_id')->nullable();
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('creator_id')->nullable();
 
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('set null');
             $table->foreign('calendar_id')->references('id')->on('employees_calendars')->onDelete('set null');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('set null');
 
             $table->timestamps();
         });

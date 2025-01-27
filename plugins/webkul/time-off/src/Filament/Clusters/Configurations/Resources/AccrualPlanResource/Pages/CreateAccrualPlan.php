@@ -2,6 +2,7 @@
 
 namespace Webkul\TimeOff\Filament\Clusters\Configurations\Resources\AccrualPlanResource\Pages;
 
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Auth;
 use Webkul\TimeOff\Filament\Clusters\Configurations\Resources\AccrualPlanResource;
@@ -9,6 +10,19 @@ use Webkul\TimeOff\Filament\Clusters\Configurations\Resources\AccrualPlanResourc
 class CreateAccrualPlan extends CreateRecord
 {
     protected static string $resource = AccrualPlanResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('view', ['record' => $this->getRecord()]);
+    }
+
+    protected function getCreatedNotification(): ?Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title(__('time_off::filament/clusters/configurations/resources/accrual-plan/pages/create-accrual-plan.notification.title'))
+            ->body(__('time_off::filament/clusters/configurations/resources/accrual-plan/pages/create-accrual-plan.notification.body'));
+    }
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {

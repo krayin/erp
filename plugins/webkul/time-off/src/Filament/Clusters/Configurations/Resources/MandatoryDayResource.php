@@ -10,6 +10,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Webkul\TimeOff\Filament\Clusters\Configurations;
 use Webkul\TimeOff\Filament\Clusters\Configurations\Resources\MandatoryDayResource\Pages;
 use Webkul\TimeOff\Models\LeaveMandatoryDay;
@@ -22,17 +23,33 @@ class MandatoryDayResource extends Resource
 
     protected static ?string $cluster = Configurations::class;
 
+    protected static ?int $navigationSort = 4;
+
     public static function getModelLabel(): string
     {
         return __('time_off::filament/clusters/configurations/resources/mandatory-days.title');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('time_off::filament/clusters/configurations/resources/mandatory-days.navigation.title');
     }
 
     public static function getGloballySearchableAttributes(): array
     {
         return [
             'name',
-            'company.name',
-            'creator.name',
+            'start_date',
+            'end_date',
+        ];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            __('time_off::filament/clusters/configurations/resources/mandatory-days.global-search.name') => $record->name ?? '—',
+            __('time_off::filament/clusters/configurations/resources/mandatory-days.global-search.start-date') => $record->start_date ?? '—',
+            __('time_off::filament/clusters/configurations/resources/mandatory-days.global-search.end-date') => $record->end_date ?? '—',
         ];
     }
 

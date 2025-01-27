@@ -3,20 +3,178 @@
 namespace Webkul\TimeOff\Filament\Widgets;
 
 use Carbon\Carbon;
+use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Forms\Get;
+use Filament\Infolists;
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Saade\FilamentFullCalendar\Actions;
 use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
+use Webkul\TimeOff\Enums\RequestDateFromPeriod;
+use Webkul\TimeOff\Enums\State;
+use Webkul\TimeOff\Filament\Actions\HolidayAction;
 use Webkul\TimeOff\Models\Leave;
 
 class CalendarWidget extends FullCalendarWidget
 {
     public Model|string|null $model = Leave::class;
 
+    public function config(): array
+    {
+        return [
+            'initialView' => 'multiMonthYear',
+        ];
+    }
+
+    protected function modalActions(): array
+    {
+        return [
+            Actions\EditAction::make()
+                ->label(__('time_off::filament/widgets/calendar-widget.modal-actions.edit.title'))
+                ->action(function ($data, $record) {
+                    $user = Auth::user();
+                    $employee = $user->employee;
+
+                    if ($employee) {
+                        $data['employee_id'] = $employee->id;
+                    }
+
+                    if ($employee->department) {
+                        $data['department_id'] = $employee->department?->id;
+                    } else {
+                        $data['department_id'] = null;
+                    }
+
+                    if ($employee->calendar) {
+                        $data['calendar_id'] = $employee->calendar->id;
+                        $data['number_of_hours'] = $employee->calendar->hours_per_day;
+                    }
+
+                    if ($user) {
+                        $data['user_id'] = $user->id;
+
+                        $data['company_id'] = $user->default_company_id;
+
+                        $data['employee_company_id'] = $user->default_company_id;
+                    }
+
+                    if ($data['request_unit_half']) {
+                        $data['duration_display'] = '0.5 day';
+
+                        $data['number_of_days'] = 0.5;
+                    } else {
+                        $startDate = Carbon::parse($data['request_date_from']);
+                        $endDate = $data['request_date_to'] ? Carbon::parse($data['request_date_to']) : $startDate;
+
+                        $data['duration_display'] = $startDate->diffInDays($endDate) + 1 . ' day(s)';
+
+                        $data['number_of_days'] = $startDate->diffInDays($endDate) + 1;
+                    }
+
+                    $data['creator_id'] = Auth::user()->id;
+
+                    $data['state'] = State::CONFIRM->value;
+
+                    $data['date_from'] = $data['request_date_from'] ?? null;
+                    $data['date_to'] = $data['request_date_to'] ?? null;
+
+                    $record->update($data);
+                })
+                ->mountUsing(
+                    function (Forms\Form $form, array $arguments, $livewire) {
+                        $leave = $livewire->record;
+
+                        $newData = [
+                            ...$leave->toArray(),
+                            'request_date_from' => $arguments['event']['start'] ?? $leave->request_date_from,
+                            'request_date_to' => $arguments['event']['end'] ?? $leave->request_date_to,
+                        ];
+
+                        $form->fill($newData);
+                    }
+                ),
+            Actions\DeleteAction::make()
+                ->label(__('time_off::filament/widgets/calendar-widget.modal-actions.delete.title')),
+        ];
+    }
+
+    protected function viewAction(): Action
+    {
+        return Actions\ViewAction::make()
+            ->modalIcon('heroicon-o-lifebuoy')
+            ->label(__('time_off::filament/widgets/calendar-widget.view-action.title'))
+            ->modalDescription(__('time_off::filament/widgets/calendar-widget.view-action.description'))
+            ->infolist($this->infolist());
+    }
+
     protected function headerActions(): array
     {
         return [
+            HolidayAction::make(),
             Actions\CreateAction::make()
+                ->icon('heroicon-o-plus-circle')
+                ->modalIcon('heroicon-o-lifebuoy')
+                ->label(__('time_off::filament/widgets/calendar-widget.header-actions.create.title'))
+                ->modalDescription(__('time_off::filament/widgets/calendar-widget.header-actions.create.description'))
+                ->action(function ($data) {
+                    $user = Auth::user();
+                    $employee = $user->employee;
+
+                    if ($employee) {
+                        $data['employee_id'] = $employee->id;
+                    } else {
+                        Notification::make()
+                            ->danger()
+                            ->title(__('time_off::filament/widgets/calendar-widget.header-actions.create.employee-not-found.notification.title'))
+                            ->body(__('time_off::filament/widgets/calendar-widget.header-actions.create.employee-not-found.notification.body'))
+                            ->send();
+
+                        return;
+                    }
+
+                    if ($employee?->department) {
+                        $data['department_id'] = $employee->department?->id;
+                    } else {
+                        $data['department_id'] = null;
+                    }
+
+                    if ($employee->calendar) {
+                        $data['calendar_id'] = $employee->calendar->id;
+                        $data['number_of_hours'] = $employee->calendar->hours_per_day;
+                    }
+
+                    if ($user) {
+                        $data['user_id'] = $user->id;
+
+                        $data['company_id'] = $user->default_company_id;
+
+                        $data['employee_company_id'] = $user->default_company_id;
+                    }
+
+                    if ($data['request_unit_half']) {
+                        $data['duration_display'] = '0.5 day';
+
+                        $data['number_of_days'] = 0.5;
+                    } else {
+                        $startDate = Carbon::parse($data['request_date_from']);
+                        $endDate = $data['request_date_to'] ? Carbon::parse($data['request_date_to']) : $startDate;
+
+                        $data['duration_display'] = $startDate->diffInDays($endDate) + 1 . ' day(s)';
+
+                        $data['number_of_days'] = $startDate->diffInDays($endDate) + 1;
+                    }
+
+                    $data['creator_id'] = Auth::user()->id;
+
+                    $data['state'] = State::CONFIRM->value;
+
+                    $data['date_from'] = $data['request_date_from'];
+                    $data['date_to'] = isset($data['request_date_to']) ? $data['request_date_to'] : null;
+
+                    Leave::create($data);
+                })
                 ->mountUsing(
                     function (Forms\Form $form, array $arguments) {
                         $form->fill($arguments);
@@ -28,86 +186,122 @@ class CalendarWidget extends FullCalendarWidget
     public function getFormSchema(): array
     {
         return [
-            Forms\Components\Select::make('time_off_type')
-                ->label('Time Off Type')
+            Forms\Components\Select::make('holiday_status_id')
+                ->label(__('time_off::filament/widgets/calendar-widget.form.fields.time-off-type'))
                 ->relationship('holidayStatus', 'name')
                 ->searchable()
                 ->preload()
                 ->required(),
-            Forms\Components\Grid::make()
+            Forms\Components\Fieldset::make()
+                ->label(function (Get $get) {
+                    if ($get('request_unit_half')) {
+                        return 'Date';
+                    } else {
+                        return 'Dates';
+                    }
+                })
+                ->live()
                 ->schema([
-                    Forms\Components\DatePicker::make('start_date')
-                        ->label('Start Date')
-                        ->required()
+                    Forms\Components\DatePicker::make('request_date_from')
                         ->native(false)
-                        ->closeOnDateSelection()
-                        ->live(),
-                    Forms\Components\DatePicker::make('end_date')
-                        ->label('End Date')
-                        ->required()
+                        ->label(__('time_off::filament/widgets/calendar-widget.form.fields.request-date-from'))
+                        ->default(now())
+                        ->required(),
+                    Forms\Components\DatePicker::make('request_date_to')
                         ->native(false)
-                        ->closeOnDateSelection()
-                        ->live(),
+                        ->label(__('time_off::filament/widgets/calendar-widget.form.fields.request-date-to'))
+                        ->default(now())
+                        ->hidden(fn(Get $get) => $get('request_unit_half'))
+                        ->required(),
+                    Forms\Components\Select::make('request_date_from_period')
+                        ->label(__('time_off::filament/widgets/calendar-widget.form.fields.period'))
+                        ->options(RequestDateFromPeriod::class)
+                        ->default(RequestDateFromPeriod::MORNING->value)
+                        ->native(false)
+                        ->visible(fn(Get $get) => $get('request_unit_half'))
+                        ->required(),
                 ]),
+            Forms\Components\Toggle::make('request_unit_half')
+                ->live()
+                ->label(__('time_off::filament/widgets/calendar-widget.form.fields.half-day')),
             Forms\Components\Placeholder::make('requested_days')
-                ->label('Requested Days')
-                ->content(fn ($state): string => $state),
-            Forms\Components\Textarea::make('reason')
-                ->label('Reason')
-                ->placeholder('Write the reason for your time off')
-                ->rows(3),
+                ->label(__('time_off::filament/widgets/calendar-widget.form.fields.requested-days'))
+                ->live()
+                ->inlineLabel()
+                ->reactive()
+                ->content(function ($state, Get $get): string {
+                    if ($get('request_unit_half')) {
+                        return '0.5 day';
+                    }
+
+                    $startDate = Carbon::parse($get('request_date_from'));
+                    $endDate = $get('request_date_to') ? Carbon::parse($get('request_date_to')) : $startDate;
+
+                    return $startDate->diffInDays($endDate) + 1 . ' day(s)';
+                }),
+            Forms\Components\Textarea::make('private_name')
+                ->label(__('time_off::filament/widgets/calendar-widget.form.fields.description')),
         ];
     }
 
-    public function fetchEvents(array $info): array
+    public function infolist(): array
     {
-        $today = Carbon::now();
-
-        // $events = Leave::all()->map(function ($leave) {
-        //     return [
-        //         'id' => $leave->id,
-        //         'title' => $leave->holidayStatus->name,
-        //         'start' => $leave->request_date_from,
-        //         'end' => $leave->request_date_to,
-        //         'allDay' => true,
-        //         'backgroundColor' => $this->getEventColor('paid'),
-        //         'borderColor' => $this->getEventColor('paid'),
-        //         'textColor' => '#ffffff',
-        //     ];
-        // });
-
         return [
-            [
-                'id'              => 1,
-                'title'           => 'Vacation in Paris',
-                'start'           => $today->subDays(10)->toDateString(),
-                'end'             => $today->subDays(5)->toDateString(),
-                'allDay'          => true,
-                'backgroundColor' => $this->getEventColor('paid'),
-                'borderColor'     => $this->getEventColor('paid'),
-                'textColor'       => '#ffffff',
-            ],
-            [
-                'id'              => 2,
-                'title'           => 'Sick Leave',
-                'start'           => $today->toDateString(),
-                'end'             => $today->addDay()->toDateString(),
-                'allDay'          => true,
-                'backgroundColor' => $this->getEventColor('sick'),
-                'borderColor'     => $this->getEventColor('sick'),
-                'textColor'       => '#ffffff',
-            ],
-            [
-                'id'              => 3,
-                'title'           => 'Family Wedding',
-                'start'           => $today->addDays(5)->toDateString(),
-                'end'             => $today->addDays(7)->toDateString(),
-                'allDay'          => true,
-                'backgroundColor' => $this->getEventColor('paid'),
-                'borderColor'     => $this->getEventColor('paid'),
-                'textColor'       => '#ffffff',
-            ],
+            Infolists\Components\TextEntry::make('holidayStatus.name')
+                ->label(__('time_off::filament/widgets/calendar-widget.infolist.entries.time-off-type'))
+                ->icon('heroicon-o-clock'),
+            Infolists\Components\TextEntry::make('request_date_from')
+                ->label(__('time_off::filament/widgets/calendar-widget.infolist.entries.request-date-from'))
+                ->date()
+                ->icon('heroicon-o-calendar-days'),
+            Infolists\Components\TextEntry::make('request_date_to')
+                ->label(__('time_off::filament/widgets/calendar-widget.infolist.entries.request-date-to'))
+                ->date()
+                ->icon('heroicon-o-calendar-days'),
+            Infolists\Components\TextEntry::make('number_of_days')
+                ->label(__('time_off::filament/widgets/calendar-widget.infolist.entries.duration'))
+                ->formatStateUsing(fn($state) => $state . ' day(s)')
+                ->icon('heroicon-o-clock'),
+            Infolists\Components\TextEntry::make('private_name')
+                ->label(__('time_off::filament/widgets/calendar-widget.infolist.entries.description'))
+                ->icon('heroicon-o-document-text')
+                ->placeholder(__('time_off::filament/widgets/calendar-widget.infolist.entries.description-placeholder')),
+            Infolists\Components\TextEntry::make('state')
+                ->placeholder(__('time_off::filament/widgets/calendar-widget.infolist.entries.status'))
+                ->badge()
+                ->formatStateUsing(fn($state) => State::options()[$state])
+                ->icon('heroicon-o-check-circle')
         ];
+    }
+
+    public function fetchEvents(array $fetchInfo): array
+    {
+        $user = Auth::user();
+
+        return Leave::query()
+            ->where('user_id', $user->id)
+            ->orWhere('employee_id', $user?->employee?->id)
+            ->where('request_date_from', '>=', $fetchInfo['start'])
+            ->where('request_date_to', '<=', $fetchInfo['end'])
+            ->with('holidayStatus')
+            ->get()
+            ->map(function (Leave $leave) {
+                return [
+                    'id'              => $leave->id,
+                    'title'           => __('time_off::filament/widgets/calendar-widget.events.title', [
+                        'name'   => $leave->user->name,
+                        'status' => $leave->holidayStatus->name,
+                        'days'   => $leave->number_of_days,
+                    ]),
+                    'start'           => $leave->request_date_from,
+                    'end'             => $leave->request_date_to,
+                    'allDay'          => true,
+                    'backgroundColor' => $leave->holidayStatus?->color,
+                    'borderColor'     => $leave->holidayStatus?->color,
+                    'textColor'       => '#ffffff',
+                ];
+            })
+            ->all();
     }
 
     public function onDateSelect(string $start, ?string $end, bool $allDay, ?array $view, ?array $resource): void
@@ -115,24 +309,9 @@ class CalendarWidget extends FullCalendarWidget
         $startDate = Carbon::parse($start);
         $endDate = $end ? Carbon::parse($end) : $startDate;
 
-        $numberOfDays = $startDate->diffInDays($endDate) + 1;
-
-        $data = [
-            'start_date'     => $startDate->toDateString(),
-            'end_date'       => $endDate->toDateString(),
-            'requested_days' => $numberOfDays.' Days',
-        ];
-
-        $this->mountAction('create', $data);
-    }
-
-    protected function getEventColor(string $type): string
-    {
-        return match ($type) {
-            'paid'   => '#28a745',
-            'unpaid' => '#dc3545',
-            'sick'   => '#ffc107',
-            default  => '#6c757d',
-        };
+        $this->mountAction('create', [
+            'request_date_from' => $startDate->toDateString(),
+            'request_date_to'   => $endDate->toDateString(),
+        ]);
     }
 }

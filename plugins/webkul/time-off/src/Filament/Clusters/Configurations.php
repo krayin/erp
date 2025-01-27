@@ -8,7 +8,7 @@ class Configurations extends Cluster
 {
     protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 5;
 
     public static function getSlug(): string
     {
@@ -17,11 +17,11 @@ class Configurations extends Cluster
 
     public static function getNavigationLabel(): string
     {
-        return __('Configuration');
+        return __('time_off::filament/clusters/configuration.navigation.title');
     }
 
     public static function getNavigationGroup(): string
     {
-        return __('Time Off');
+        return __('time_off::filament/clusters/configuration.navigation.group');
     }
 }

@@ -30,7 +30,8 @@ class TimeOffPlugin implements Plugin
             ->plugin(
                 FilamentFullCalendarPlugin::make()
                     ->selectable()
-                    ->editable()
+                    ->editable(true)
+                    ->plugins(['multiMonth'])
             );
     }
 
@@ -43,6 +44,6 @@ class TimeOffPlugin implements Plugin
     {
         $reflector = new \ReflectionClass(get_class($this));
 
-        return dirname($reflector->getFileName()).($path ?? '');
+        return dirname($reflector->getFileName()) . ($path ?? '');
     }
 }
