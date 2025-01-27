@@ -4,6 +4,7 @@ namespace Webkul\TimeOff\Filament\Clusters\Management\Resources\AllocationResour
 
 use Filament\Actions;
 use Filament\Actions\Action;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Webkul\TimeOff\Enums\State;
 use Webkul\TimeOff\Filament\Clusters\Management\Resources\AllocationResource;
@@ -17,37 +18,69 @@ class EditAllocation extends EditRecord
         return $this->getResource()::getUrl('view', ['record' => $this->getRecord()]);
     }
 
+    protected function getSavedNotification(): ?Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title(__('time_off::filament/clusters/management/resources/allocation/pages/edit-allocation.notification.title'))
+            ->body(__('time_off::filament/clusters/management/resources/allocation/pages/edit-allocation.notification.body'));
+    }
+
     protected function getHeaderActions(): array
     {
         return [
             Action::make('approved')
-                ->label('Approved')
+                ->label(__('time_off::filament/clusters/management/resources/allocation/pages/edit-allocation.header-actions.approved.title'))
                 ->color('gray')
                 ->hidden(fn($record) => $record->state !== State::CONFIRM->value)
                 ->action(function ($record) {
                     $record->update(['state' => State::VALIDATE_TWO->value]);
 
                     $this->refreshFormData(['state']);
+
+                    Notification::make()
+                        ->success()
+                        ->title(__('time_off::filament/clusters/management/resources/allocation/pages/edit-allocation.header-actions.approved.notification.title'))
+                        ->body(__('time_off::filament/clusters/management/resources/allocation/pages/edit-allocation.header-actions.approved.notification.body'))
+                        ->send();
                 }),
             Action::make('refuse')
-                ->label('Refuse')
+                ->label(__('time_off::filament/clusters/management/resources/allocation/pages/edit-allocation.header-actions.refuse.title'))
                 ->color('gray')
                 ->hidden(fn($record) => $record->state === State::REFUSE->value)
                 ->action(function ($record) {
                     $record->update(['state' => State::REFUSE->value]);
 
                     $this->refreshFormData(['state']);
+
+                    Notification::make()
+                        ->success()
+                        ->title(__('time_off::filament/clusters/management/resources/allocation/pages/edit-allocation.header-actions.refuse.notification.title'))
+                        ->body(__('time_off::filament/clusters/management/resources/allocation/pages/edit-allocation.header-actions.refuse.notification.body'))
+                        ->send();
                 }),
             Action::make('mark_as_ready_to_confirm')
-                ->label('Mark as Ready to Confirm')
+                ->label(__('time_off::filament/clusters/management/resources/allocation/pages/edit-allocation.header-actions.mark-as-ready-to-confirm.title'))
                 ->color('gray')
                 ->visible(fn($record) => $record->state === State::REFUSE->value)
                 ->action(function ($record) {
                     $record->update(['state' => State::CONFIRM->value]);
 
                     $this->refreshFormData(['state']);
+
+                    Notification::make()
+                        ->success()
+                        ->title(__('time_off::filament/clusters/management/resources/allocation/pages/edit-allocation.header-actions.mark-as-ready-to-confirm.notification.title'))
+                        ->body(__('time_off::filament/clusters/management/resources/allocation/pages/edit-allocation.header-actions.mark-as-ready-to-confirm.notification.body'))
+                        ->send();
                 }),
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title(__('time_off::filament/clusters/management/resources/allocation/pages/edit-allocation.header-actions.delete.notification.title'))
+                        ->body(__('time_off::filament/clusters/management/resources/allocation/pages/edit-allocation.header-actions.delete.notification.body'))
+                )
         ];
     }
 }

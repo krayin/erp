@@ -2,6 +2,7 @@
 
 namespace Webkul\TimeOff\Filament\Clusters\MyTime\Resources\MyAllocationResource\Pages;
 
+use Filament\Notifications\Notification;
 use Webkul\TimeOff\Filament\Clusters\MyTime\Resources\MyAllocationResource;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,14 @@ class CreateMyAllocation extends CreateRecord
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('view', ['record' => $this->getRecord()]);
+    }
+
+    protected function getCreatedNotification(): Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title(__('time_off::filament/clusters/my-time/resources/my-allocation/pages/create-allocation.notification.title'))
+            ->body(__('time_off::filament/clusters/my-time/resources/my-allocation/pages/create-allocation.notification.body'));
     }
 
     protected function mutateFormDataBeforeCreate(array $data): array

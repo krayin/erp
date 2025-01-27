@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'title' => 'My Allocation',
+    'title' => 'Allocation',
 
-    'model-label' => 'My Allocation',
+    'model-label' => 'Allocation',
 
     'navigation' => [
-        'title' => 'My Allocation',
+        'title' => 'Allocation',
     ],
 
     'global-search' => [
@@ -20,6 +20,7 @@ return [
             'name' => 'Name',
             'name-placeholder'    => 'Time Off Type (From validity start to validity end/no limit)',
             'time-off-type'       => 'Time Off Type',
+            'employee-name'       => 'Employee Name',
             'allocation-type'     => 'Allocation Type',
             'validity-period'     => 'Validity Period',
             'date-from'           => 'Date From',
@@ -33,6 +34,7 @@ return [
 
     'table' => [
         'columns' => [
+            'employee-name' => 'Employee',
             'time-off-type' => 'Time Off Type',
             'amount' => 'Amount',
             'allocation-type' => 'Allocation Type',

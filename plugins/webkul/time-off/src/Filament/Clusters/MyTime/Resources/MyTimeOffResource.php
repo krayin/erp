@@ -27,8 +27,6 @@ class MyTimeOffResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-lifebuoy';
 
-    protected static ?string $modelLabel = 'My Time Off';
-
     protected static ?int $navigationSort = 2;
 
     protected static ?string $cluster = MyTime::class;
@@ -60,7 +58,6 @@ class MyTimeOffResource extends Resource
             __('time_off::filament/clusters/my-time/resources/my-time-off.global-search.request-date-to')   => $record->request_date_to ?? '—',
         ];
     }
-
 
     public static function form(Form $form): Form
     {
@@ -281,50 +278,43 @@ class MyTimeOffResource extends Resource
                         Infolists\Components\Group::make()
                             ->schema([
                                 Infolists\Components\TextEntry::make('holidayStatus.name')
-                                    ->label(__('time_off::filament/clusters/my-time/resources/my-time-off.infolist.entries.time-off-type'))
+                                    ->label(__('time_off::filament/clusters/management/resources/time-off.infolist.entries.time-off-type'))
                                     ->icon('heroicon-o-calendar'),
-
                                 Infolists\Components\TextEntry::make('request_unit_half')
-                                    ->label(__('time_off::filament/clusters/my-time/resources/my-time-off.infolist.entries.half-day'))
+                                    ->label(__('time_off::filament/clusters/management/resources/time-off.infolist.entries.half-day'))
                                     ->formatStateUsing(fn($record) => $record->request_unit_half ? 'Yes' : 'No')
                                     ->icon('heroicon-o-clock'),
-
                                 Infolists\Components\TextEntry::make('request_date_from')
-                                    ->label(__('time_off::filament/clusters/my-time/resources/my-time-off.infolist.entries.request-date-from'))
+                                    ->label(__('time_off::filament/clusters/management/resources/time-off.infolist.entries.request-date-from'))
                                     ->date()
                                     ->icon('heroicon-o-calendar'),
-
                                 Infolists\Components\TextEntry::make('request_date_to')
-                                    ->label(__('time_off::filament/clusters/my-time/resources/my-time-off.infolist.entries.request-date-to'))
+                                    ->label(__('time_off::filament/clusters/management/resources/time-off.infolist.entries.request-date-to'))
                                     ->date()
                                     ->hidden(fn($record) => $record->request_unit_half)
                                     ->icon('heroicon-o-calendar'),
-
                                 Infolists\Components\TextEntry::make('request_date_from_period')
-                                    ->label(__('time_off::filament/clusters/my-time/resources/my-time-off.infolist.entries.period'))
+                                    ->label(__('time_off::filament/clusters/management/resources/time-off.infolist.entries.period'))
                                     ->visible(fn($record) => $record->request_unit_half)
                                     ->icon('heroicon-o-sun'),
-
                                 Infolists\Components\TextEntry::make('private_name')
-                                    ->label(__('time_off::filament/clusters/my-time/resources/my-time-off.infolist.entries.description'))
+                                    ->label(__('time_off::filament/clusters/management/resources/time-off.infolist.entries.description'))
                                     ->icon('heroicon-o-document-text'),
-
                                 Infolists\Components\TextEntry::make('duration_display')
-                                    ->label(__('time_off::filament/clusters/my-time/resources/my-time-off.infolist.entries.requested-days'))
+                                    ->label(__('time_off::filament/clusters/management/resources/time-off.infolist.entries.requested-days'))
                                     ->formatStateUsing(function ($record) {
                                         if ($record->request_unit_half) {
-                                            return __('time_off::filament/clusters/my-time/resources/my-time-off.infolist.entries.day', ['day' => '0.5']);
+                                            return __('time_off::filament/clusters/management/resources/time-off.infolist.entries.day', ['day' => '0.5']);
                                         }
 
                                         $startDate = Carbon::parse($record->request_date_from);
                                         $endDate = $record->request_date_to ? Carbon::parse($record->request_date_to) : $startDate;
 
-                                        return __('time_off::filament/clusters/my-time/resources/my-time-off.infolist.entries.days', ['days' => ($startDate->diffInDays($endDate) + 1)]);
+                                        return __('time_off::filament/clusters/management/resources/time-off.infolist.entries.days', ['days' => ($startDate->diffInDays($endDate) + 1)]);
                                     })
                                     ->icon('heroicon-o-calendar-days'),
-
                                 Infolists\Components\ImageEntry::make('attachment')
-                                    ->label(__('time_off::filament/clusters/my-time/resources/my-time-off.infolist.entries.attachment'))
+                                    ->label(__('time_off::filament/clusters/management/resources/time-off.infolist.entries.attachment'))
                                     ->visible(fn($record) => $record->holidayStatus?->support_document)
                             ])
                     ])

@@ -2,6 +2,7 @@
 
 namespace Webkul\TimeOff\Filament\Clusters\Management\Resources\TimeOffResource\Pages;
 
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +13,14 @@ use Webkul\TimeOff\Filament\Clusters\Management\Resources\TimeOffResource;
 class CreateTimeOff extends CreateRecord
 {
     protected static string $resource = TimeOffResource::class;
+
+    protected function getCreatedNotification(): Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title(__('time_off::filament/clusters/management/resources/time-off/pages/create-time-off.notification.title'))
+            ->body(__('time_off::filament/clusters/management/resources/time-off/pages/create-time-off.notification.body'));
+    }
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {

@@ -5,7 +5,6 @@ namespace Webkul\TimeOff\Filament\Clusters\MyTime\Resources\MyTimeOffResource\Pa
 use Webkul\TimeOff\Filament\Clusters\MyTime\Resources\MyTimeOffResource;
 use Filament\Actions;
 use Filament\Notifications\Notification;
-use Filament\Resources\Pages\ListRecords;
 use Filament\Resources\Pages\ViewRecord;
 
 class ViewMyTimeOff extends ViewRecord

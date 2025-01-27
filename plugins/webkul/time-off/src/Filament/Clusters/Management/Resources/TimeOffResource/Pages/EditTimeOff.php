@@ -3,6 +3,7 @@
 namespace Webkul\TimeOff\Filament\Clusters\Management\Resources\TimeOffResource\Pages;
 
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -14,10 +15,30 @@ class EditTimeOff extends EditRecord
 {
     protected static string $resource = TimeOffResource::class;
 
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('view', ['record' => $this->getRecord()]);
+    }
+
+    protected function getSavedNotification(): ?Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title(__('time_off::filament/clusters/management/resources/time-off/pages/edit-time-off.notification.title'))
+            ->body(__('time_off::filament/clusters/management/resources/time-off/pages/edit-time-off.notification.body'));
+    }
+
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\ViewAction::make(),
+            Actions\DeleteAction::make()
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title(__('time_off::filament/clusters/management/resources/time-off/pages/edit-time-off.header-actions.delete.notification.title'))
+                        ->body(__('time_off::filament/clusters/management/resources/time-off/pages/edit-time-off.header-actions.delete.notification.body'))
+                ),
         ];
     }
 
