@@ -16,11 +16,6 @@ class ActivityTypeResource extends BaseActivityTypeResource
 
     protected static ?int $navigationSort = 5;
 
-    public static function getModelLabel(): string
-    {
-        return __('Activity Type');
-    }
-
     public static function getPages(): array
     {
         return [

@@ -13,7 +13,9 @@ class ListAccrualPlans extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->label(__('time_off::filament/clusters/configurations/resources/accrual-plan/pages/list-accrual-plan.header-actions.new-accrual-plan'))
+                ->icon('heroicon-o-plus-circle'),
         ];
     }
 }
