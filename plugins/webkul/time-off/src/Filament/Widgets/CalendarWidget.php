@@ -13,6 +13,7 @@ use Saade\FilamentFullCalendar\Actions;
 use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
 use Webkul\TimeOff\Enums\RequestDateFromPeriod;
 use Webkul\TimeOff\Enums\State;
+use Webkul\TimeOff\Filament\Actions\HolidayAction;
 use Webkul\TimeOff\Models\Leave;
 
 class CalendarWidget extends FullCalendarWidget
@@ -103,6 +104,7 @@ class CalendarWidget extends FullCalendarWidget
     protected function headerActions(): array
     {
         return [
+            HolidayAction::make(),
             Actions\CreateAction::make()
                 ->icon('heroicon-o-plus-circle')
                 ->modalIcon('heroicon-o-lifebuoy')
