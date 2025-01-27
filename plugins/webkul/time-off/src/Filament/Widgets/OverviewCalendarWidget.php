@@ -20,6 +20,13 @@ class OverviewCalendarWidget extends FullCalendarWidget
 {
     public Model|string|null $model = Leave::class;
 
+    public function config(): array
+    {
+        return [
+            'initialView' => 'multiMonthYear',
+        ];
+    }
+
     protected function modalActions(): array
     {
         return [

@@ -21,6 +21,13 @@ class CalendarWidget extends FullCalendarWidget
 {
     public Model|string|null $model = Leave::class;
 
+    public function config(): array
+    {
+        return [
+            'initialView' => 'multiMonthYear',
+        ];
+    }
+
     protected function modalActions(): array
     {
         return [
@@ -71,7 +78,7 @@ class CalendarWidget extends FullCalendarWidget
                     $data['state'] = State::CONFIRM->value;
 
                     $data['date_from'] = $data['request_date_from'] ?? null;
-                $data['date_to'] = $data['request_date_to'] ?? null;
+                    $data['date_to'] = $data['request_date_to'] ?? null;
 
                     $record->update($data);
                 })

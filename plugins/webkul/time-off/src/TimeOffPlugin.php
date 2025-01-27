@@ -32,9 +32,6 @@ class TimeOffPlugin implements Plugin
                     ->selectable()
                     ->editable(true)
                     ->plugins(['multiMonth'])
-                    ->config([
-                        'initialView' => 'multiMonthYear',
-                    ])
             );
     }
 
