@@ -34,6 +34,7 @@ return [
             'description'       => 'Description',
         ]
     ],
+
     'infolist' => [
         'entries' => [
             'time-off-type'           => 'Time Off Type',
@@ -44,5 +45,9 @@ return [
             'duration'                => 'Duration',
             'status'                  => 'Status',
         ]
+    ],
+
+    'events' => [
+        'title' => ":name On :status: :days day(s)"
     ]
 ];

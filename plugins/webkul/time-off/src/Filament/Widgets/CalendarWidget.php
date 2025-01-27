@@ -219,7 +219,7 @@ class CalendarWidget extends FullCalendarWidget
                     $startDate = Carbon::parse($get('request_date_from'));
                     $endDate = $get('request_date_to') ? Carbon::parse($get('request_date_to')) : $startDate;
 
-                    return $startDate->diffInDays($endDate) . ' day(s)';
+                    return $startDate->diffInDays($endDate) + 1 . ' day(s)';
                 }),
             Forms\Components\Textarea::make('private_name')
                 ->label(__('time_off::filament/widgets/calendar-widget.form.fields.description')),
@@ -270,7 +270,11 @@ class CalendarWidget extends FullCalendarWidget
             ->map(function (Leave $leave) {
                 return [
                     'id'              => $leave->id,
-                    'title'           => $leave->holidayStatus?->name,
+                    'title'           => __('time_off::filament/widgets/calendar-widget.events.title', [
+                        'name'   => $leave->user->name,
+                        'status' => $leave->holidayStatus->name,
+                        'days'   => $leave->number_of_days,
+                    ]),
                     'start'           => $leave->request_date_from,
                     'end'             => $leave->request_date_to,
                     'allDay'          => true,
