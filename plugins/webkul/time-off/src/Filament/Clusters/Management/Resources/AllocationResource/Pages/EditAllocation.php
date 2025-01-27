@@ -8,6 +8,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Webkul\TimeOff\Enums\State;
 use Webkul\TimeOff\Filament\Clusters\Management\Resources\AllocationResource;
+use Webkul\Chatter\Filament\Actions as ChatterActions;
 
 class EditAllocation extends EditRecord
 {
@@ -29,6 +30,8 @@ class EditAllocation extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            ChatterActions\ChatterAction::make()
+                ->setResource(static::$resource),
             Action::make('approved')
                 ->label(__('time_off::filament/clusters/management/resources/allocation/pages/edit-allocation.header-actions.approved.title'))
                 ->color('gray')

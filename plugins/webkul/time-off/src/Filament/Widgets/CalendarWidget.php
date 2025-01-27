@@ -35,7 +35,7 @@ class CalendarWidget extends FullCalendarWidget
                     }
 
                     if ($employee->department) {
-                        $data['department_id'] = $employee->department->id;
+                        $data['department_id'] = $employee->department?->id;
                     } else {
                         $data['department_id'] = null;
                     }
@@ -128,7 +128,7 @@ class CalendarWidget extends FullCalendarWidget
                     }
 
                     if ($employee?->department) {
-                        $data['department_id'] = $employee->department->id;
+                        $data['department_id'] = $employee->department?->id;
                     } else {
                         $data['department_id'] = null;
                     }

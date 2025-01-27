@@ -7,6 +7,7 @@ use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Chatter\Filament\Actions as ChatterActions;
 
 class EditMyAllocation extends EditRecord
 {
@@ -28,6 +29,8 @@ class EditMyAllocation extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            ChatterActions\ChatterAction::make()
+                ->setResource(static::$resource),
             Actions\ViewAction::make(),
             Actions\DeleteAction::make()
                 ->successNotification(

@@ -26,7 +26,7 @@ class CreateMyTimeOff extends CreateRecord
 
         if ($employee) {
             $data['employee_id'] = $employee->id;
-            $data['department_id'] = $employee->department->id;
+            $data['department_id'] = $employee->department?->id;
         }
 
 

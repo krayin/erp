@@ -6,6 +6,7 @@ use Webkul\TimeOff\Filament\Clusters\MyTime\Resources\MyTimeOffResource;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
+use Webkul\Chatter\Filament\Actions as ChatterActions;
 
 class ViewMyTimeOff extends ViewRecord
 {
@@ -14,6 +15,8 @@ class ViewMyTimeOff extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
+            ChatterActions\ChatterAction::make()
+                ->setResource(static::$resource),
             Actions\EditAction::make(),
             Actions\DeleteAction::make()
                 ->successNotification(

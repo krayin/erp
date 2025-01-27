@@ -28,7 +28,7 @@ class CreateTimeOff extends CreateRecord
             $employee = Employee::find($data['employee_id']);
 
             if ($employee->department) {
-                $data['department_id'] = $employee->department->id;
+                $data['department_id'] = $employee->department?->id;
             } else {
                 $data['department_id'] = null;
             }

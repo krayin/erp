@@ -9,6 +9,7 @@ use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Webkul\TimeOff\Enums\State;
+use Webkul\Chatter\Filament\Actions as ChatterActions;
 
 class EditMyTimeOff extends EditRecord
 {
@@ -30,6 +31,8 @@ class EditMyTimeOff extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            ChatterActions\ChatterAction::make()
+                ->setResource(static::$resource),
             Actions\ViewAction::make(),
             Actions\DeleteAction::make()
                 ->successNotification(
@@ -49,7 +52,7 @@ class EditMyTimeOff extends EditRecord
 
         if ($employee) {
             $data['employee_id'] = $employee->id;
-            $data['department_id'] = $employee->department->id;
+            $data['department_id'] = $employee->department?->id;
         }
 
 
@@ -77,7 +80,7 @@ class EditMyTimeOff extends EditRecord
             $data['number_of_days'] = 0.5;
         } else {
             $startDate = Carbon::parse($data['request_date_from']);
-            $endDate = $data['request_date_to'] ? Carbon::parse($data['request_date_to']) : $startDate;
+            $endDate = isset($data['request_date_to']) ? Carbon::parse($data['request_date_to']) : $startDate;
 
             $data['duration_display'] = $startDate->diffInDays($endDate) + 1 . ' day(s)';
 
@@ -89,7 +92,7 @@ class EditMyTimeOff extends EditRecord
         $data['state'] = State::CONFIRM->value;
 
         $data['date_from'] = $data['request_date_from'];
-        $data['date_to'] = $data['request_date_to'];
+        $data['date_to'] = isset($data['request_date_to']) ? $data['request_date_to'] : null;
 
         return $data;
     }

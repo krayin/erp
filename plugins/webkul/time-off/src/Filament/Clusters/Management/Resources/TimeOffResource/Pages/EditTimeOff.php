@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Webkul\Employee\Models\Employee;
 use Webkul\TimeOff\Enums\State;
 use Webkul\TimeOff\Filament\Clusters\Management\Resources\TimeOffResource;
+use Webkul\Chatter\Filament\Actions as ChatterActions;
 
 class EditTimeOff extends EditRecord
 {
@@ -31,6 +32,8 @@ class EditTimeOff extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            ChatterActions\ChatterAction::make()
+                ->setResource(static::$resource),
             Actions\ViewAction::make(),
             Actions\DeleteAction::make()
                 ->successNotification(
@@ -48,7 +51,7 @@ class EditTimeOff extends EditRecord
             $employee = Employee::find($data['employee_id']);
 
             if ($employee->department) {
-                $data['department_id'] = $employee->department->id;
+                $data['department_id'] = $employee->department?->id;
             } else {
                 $data['department_id'] = null;
             }
