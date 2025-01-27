@@ -20,12 +20,12 @@ class CalendarLeaves extends Model
         'date_to',
         'company_id',
         'calendar_id',
-        'user_id',
+        'creator_id',
     ];
 
-    public function user()
+    public function createdBy()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'creator_id');
     }
 
     public function calendar()

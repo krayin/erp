@@ -8,9 +8,11 @@ use Filament\Forms\Form;
 use Filament\Forms;
 use Filament\Infolists\Infolist;
 use Filament\Infolists;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Webkul\Employee\Models\CalendarLeaves;
 
 class PublicHolidayResource extends Resource
@@ -25,6 +27,34 @@ class PublicHolidayResource extends Resource
 
     protected static ?string $modelLabel = 'Public Holiday';
 
+    public static function getModelLabel(): string
+    {
+        return __('time_off::filament/clusters/configurations/resources/public-holiday.title');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('time_off::filament/clusters/configurations/resources/public-holiday.navigation.title');
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return [
+            'name',
+            'date_from',
+            'date_to',
+        ];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            __('time_off::filament/clusters/configurations/resources/public-holiday.global-search.name') => $record->name ?? '—',
+            __('time_off::filament/clusters/configurations/resources/public-holiday.global-search.date-from') => $record->date_from ?? '—',
+            __('time_off::filament/clusters/configurations/resources/public-holiday.global-search.date-to') => $record->date_to ?? '—',
+        ];
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -35,24 +65,25 @@ class PublicHolidayResource extends Resource
                             Forms\Components\Hidden::make('time_type')
                                 ->default('leave'),
                             Forms\Components\TextInput::make('name')
-                                ->label('Name')
+                                ->label(__('time_off::filament/clusters/configurations/resources/public-holiday.form.fields.name'))
                                 ->required()
-                                ->placeholder('Enter the name of the public holiday'),
+                                ->placeholder(__('time_off::filament/clusters/configurations/resources/public-holiday.form.fields.name-placeholder')),
                         ])->columns(2),
 
                     Forms\Components\Group::make()
                         ->schema([
                             Forms\Components\DatePicker::make('date_from')
-                                ->label('Date From')
+                                ->label(__('time_off::filament/clusters/configurations/resources/public-holiday.form.fields.date-from'))
                                 ->native(false)
                                 ->required(),
                             Forms\Components\DatePicker::make('date_to')
-                                ->label('Date To')
+                                ->label(__('time_off::filament/clusters/configurations/resources/public-holiday.form.fields.date-to'))
                                 ->required()
                                 ->native(false),
                         ])->columns(2),
                     Forms\Components\Select::make('calendar')
                         ->searchable()
+                        ->label(__('time_off::filament/clusters/configurations/resources/public-holiday.form.fields.calendar'))
                         ->preload()
                         ->relationship('calendar', 'name'),
                 ]),
@@ -66,33 +97,83 @@ class PublicHolidayResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->sortable()
-                    ->label('Name'),
+                    ->label(__('time_off::filament/clusters/configurations/resources/public-holiday.table.columns.name')),
                 Tables\Columns\TextColumn::make('date_from')
                     ->sortable()
-                    ->label('Date From'),
+                    ->label(__('time_off::filament/clusters/configurations/resources/public-holiday.table.columns.date-from')),
                 Tables\Columns\TextColumn::make('date_to')
                     ->sortable()
-                    ->label('Date To'),
+                    ->label(__('time_off::filament/clusters/configurations/resources/public-holiday.table.columns.date-to')),
                 Tables\Columns\TextColumn::make('calendar.name')
                     ->sortable()
-                    ->label('Calendar'),
+                    ->label(__('time_off::filament/clusters/configurations/resources/public-holiday.table.columns.calendar')),
             ])
             ->groups([
                 Tables\Grouping\Group::make('date_from')
-                    ->label(__('Date From'))
+                    ->label(__('time_off::filament/clusters/configurations/resources/public-holiday.table.groups.date-from'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('date_to')
-                    ->label(__('Date To'))
+                    ->label(__('time_off::filament/clusters/configurations/resources/public-holiday.table.groups.date-to'))
                     ->collapsible(),
+                Tables\Grouping\Group::make('company.name')
+                    ->label(__('time_off::filament/clusters/configurations/resources/public-holiday.table.groups.company-name'))
+                    ->collapsible(),
+            ])
+            ->filters([
+                Tables\Filters\SelectFilter::make('company_id')
+                    ->relationship('company', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->label(__('time_off::filament/clusters/configurations/resources/public-holiday.table.filters.company-name')),
+                Tables\Filters\SelectFilter::make('creator_id')
+                    ->relationship('createdBy', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->label(__('time_off::filament/clusters/configurations/resources/public-holiday.table.filters.created-by')),
+                Tables\Filters\QueryBuilder::make()
+                    ->constraintPickerColumns(2)
+                    ->constraints([
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('name')
+                            ->label(__('time_off::filament/clusters/configurations/resources/public-holiday.table.filters.name'))
+                            ->icon('heroicon-o-clock'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('date_from')
+                            ->label(__('time_off::filament/clusters/configurations/resources/public-holiday.table.filters.date-from'))
+                            ->icon('heroicon-o-calendar'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('date_to')
+                            ->label(__('time_off::filament/clusters/configurations/resources/public-holiday.table.filters.date-to'))
+                            ->icon('heroicon-o-calendar'),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at')
+                            ->label(__('time_off::filament/clusters/configurations/resources/public-holiday.table.filters.created-at')),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at')
+                            ->label(__('time_off::filament/clusters/configurations/resources/public-holiday.table.filters.updated-at')),
+                    ]),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title(__('time_off::filament/clusters/configurations/resources/public-holiday.table.actions.edit.notification.title'))
+                            ->body(__('time_off::filament/clusters/configurations/resources/public-holiday.table.actions.edit.notification.body')),
+                    ),
+                Tables\Actions\DeleteAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title(__('time_off::filament/clusters/configurations/resources/public-holiday.table.actions.delete.notification.title'))
+                            ->body(__('time_off::filament/clusters/configurations/resources/public-holiday.table.actions.delete.notification.body')),
+                    ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->successNotification(
+                            Notification::make()
+                                ->success()
+                                ->title(__('time_off::filament/clusters/configurations/resources/public-holiday.table.bulk-actions.delete.notification.title'))
+                                ->body(__('time_off::filament/clusters/configurations/resources/public-holiday.table.bulk-actions.delete.notification.body')),
+                        ),
                 ]),
             ]);
     }
@@ -101,22 +182,22 @@ class PublicHolidayResource extends Resource
     {
         return $infolist
             ->schema([
-                Infolists\Components\ColorEntry::make('name')
+                Infolists\Components\ColorEntry::make('color')
                     ->placeholder('—')
-                    ->label(__('Name')),
+                    ->label(__('time_off::filament/clusters/configurations/resources/public-holiday.infolist.entries.color')),
+                Infolists\Components\TextEntry::make('name')
+                    ->placeholder('-')
+                    ->label(__('time_off::filament/clusters/configurations/resources/public-holiday.infolist.entries.name')),
                 Infolists\Components\TextEntry::make('date_from')
+                    ->date()
                     ->placeholder('-')
                     ->icon('heroicon-o-calendar')
-                    ->label(__('Date From')),
+                    ->label(__('time_off::filament/clusters/configurations/resources/public-holiday.infolist.entries.date-from')),
                 Infolists\Components\TextEntry::make('date_to')
                     ->date()
                     ->placeholder('-')
                     ->icon('heroicon-o-calendar')
-                    ->label(__('Date To')),
-                Infolists\Components\TextEntry::make('calendar.name')
-                    ->placeholder('-')
-                    ->icon('heroicon-o-clock')
-                    ->label(__('Working Hours')),
+                    ->label(__('time_off::filament/clusters/configurations/resources/public-holiday.infolist.entries.date-to')),
             ]);
     }
 

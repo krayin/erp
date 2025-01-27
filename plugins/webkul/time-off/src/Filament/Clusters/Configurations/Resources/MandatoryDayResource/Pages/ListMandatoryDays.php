@@ -16,13 +16,13 @@ class ListMandatoryDays extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-                ->label(__('time_off::filament/clusters/configurations/resources/mandatory-days/list-mandatory-days.header-actions.create.title'))
+                ->label(__('time_off::filament/clusters/configurations/resources/mandatory-days/pages/list-mandatory-days.header-actions.create.title'))
                 ->icon('heroicon-o-plus-circle')
                 ->successNotification(
                     Notification::make()
                         ->success()
-                        ->title(__('time_off::filament/clusters/configurations/resources/mandatory-days/list-mandatory-days.header-actions.create.notification.created.title'))
-                        ->body(__('time_off::filament/clusters/configurations/resources/mandatory-days/list-mandatory-days.header-actions.create.notification.created.body'))
+                        ->title(__('time_off::filament/clusters/configurations/resources/mandatory-days/pages/list-mandatory-days.header-actions.create.notification.created.title'))
+                        ->body(__('time_off::filament/clusters/configurations/resources/mandatory-days/pages/list-mandatory-days.header-actions.create.notification.created.body'))
                 )
                 ->mutateFormDataUsing(function ($data) {
                     $user = Auth::user();

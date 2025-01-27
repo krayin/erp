@@ -3,6 +3,18 @@
 return [
     'title' => 'Mandatory Days',
 
+    'model-label' => 'Mandatory Day',
+
+    'navigation' => [
+        'title' => 'Mandatory Days',
+    ],
+
+    'global-search' => [
+        'name'       => 'Name',
+        'start-date' => 'Start Date',
+        'end-date'   => 'End Date',
+    ],
+
     'form' => [
         'fields' => [
             'name'       => 'Name',
