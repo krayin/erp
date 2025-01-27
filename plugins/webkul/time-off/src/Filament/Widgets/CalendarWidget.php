@@ -7,6 +7,7 @@ use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Get;
 use Filament\Infolists;
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Saade\FilamentFullCalendar\Actions;
@@ -116,9 +117,17 @@ class CalendarWidget extends FullCalendarWidget
 
                     if ($employee) {
                         $data['employee_id'] = $employee->id;
+                    } else {
+                        Notification::make()
+                            ->danger()
+                            ->title(__('time_off::filament/widgets/calendar-widget.header-actions.create.employee-not-found.notification.title'))
+                            ->body(__('time_off::filament/widgets/calendar-widget.header-actions.create.employee-not-found.notification.body'))
+                            ->send();
+
+                        return;
                     }
 
-                    if ($employee->department) {
+                    if ($employee?->department) {
                         $data['department_id'] = $employee->department->id;
                     } else {
                         $data['department_id'] = null;
@@ -264,7 +273,7 @@ class CalendarWidget extends FullCalendarWidget
 
         return Leave::query()
             ->where('user_id', $user->id)
-            ->orWhere('employee_id', $user->employee->id)
+            ->orWhere('employee_id', $user?->employee?->id)
             ->where('request_date_from', '>=', $fetchInfo['start'])
             ->where('request_date_to', '<=', $fetchInfo['end'])
             ->with('holidayStatus')

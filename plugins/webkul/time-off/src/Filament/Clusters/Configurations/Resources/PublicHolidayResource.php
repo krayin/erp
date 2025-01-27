@@ -19,7 +19,7 @@ class PublicHolidayResource extends Resource
 {
     protected static ?string $model = CalendarLeaves::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-lifebuoy';
 
     protected static ?string $cluster = Configurations::class;
 

@@ -11,6 +11,7 @@ use Webkul\TimeOff\Models\Leave;
 use Filament\Actions\Action;
 use Filament\Forms\Get;
 use Filament\Infolists;
+use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use Webkul\TimeOff\Enums\RequestDateFromPeriod;
 use Webkul\TimeOff\Enums\State;
@@ -114,15 +115,23 @@ class OverviewCalendarWidget extends FullCalendarWidget
 
                     if ($employee) {
                         $data['employee_id'] = $employee->id;
+                    } else {
+                        Notification::make()
+                            ->danger()
+                            ->title(__('time_off::filament/widgets/overview-calendar-widget.header-actions.create.employee-not-found.notification.title'))
+                            ->body(__('time_off::filament/widgets/overview-calendar-widget.header-actions.create.employee-not-found.notification.body'))
+                            ->send();
+
+                        return;
                     }
 
-                    if ($employee->department) {
+                    if ($employee?->department) {
                         $data['department_id'] = $employee->department->id;
                     } else {
                         $data['department_id'] = null;
                     }
 
-                    if ($employee->calendar) {
+                    if ($employee?->calendar) {
                         $data['calendar_id'] = $employee->calendar->id;
                         $data['number_of_hours'] = $employee->calendar->hours_per_day;
                     }

@@ -15,7 +15,7 @@ class MyTimeOffWidget extends BaseWidget
 {
     protected function getStats(): array
     {
-        $employeeId = Auth::user()->employee->id;
+        $employeeId = Auth::user()?->employee?->id;
         $endOfYear = Carbon::now()->endOfYear();
 
         $leaveTypes = LeaveType::all();

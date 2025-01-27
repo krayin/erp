@@ -20,6 +20,13 @@ return [
         'create' => [
             'title' => 'New Time Off',
             'description' => 'Create Time Off Request',
+
+            'employee-not-found' => [
+                'notification' => [
+                    'title' => 'Employee Not Found',
+                    'body' => 'Please add an employee to your profile before creating a time off request.',
+                ]
+            ]
         ]
     ],
 

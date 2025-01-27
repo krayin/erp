@@ -6,7 +6,7 @@ return [
     'model-label' => 'Mandatory Day',
 
     'navigation' => [
-        'title' => 'Mandatory Days',
+        'title' => 'Mandatory Holidays',
     ],
 
     'global-search' => [

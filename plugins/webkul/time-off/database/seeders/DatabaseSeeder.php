@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AccrualPlanSeeder::class,
             LeaveTypeSeeder::class,
+            LeaveMandatoryDay::class,
         ]);
     }
 }
