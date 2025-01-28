@@ -27,9 +27,7 @@ class ListTeams extends ListRecords
                 ->badge(Team::count()),
             'archived' => Tab::make(__('Archived'))
                 ->badge(Team::onlyTrashed()->count())
-                ->modifyQueryUsing(function ($query) {
-                    return $query->onlyTrashed();
-                }),
+                ->modifyQueryUsing(fn($query) => $query->onlyTrashed()),
         ];
     }
 }

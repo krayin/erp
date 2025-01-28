@@ -4,6 +4,7 @@ namespace Webkul\Sale\Filament\Clusters\Configuration\Resources\TeamResource\Pag
 
 use Webkul\Sale\Filament\Clusters\Configuration\Resources\TeamResource;
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Webkul\Sale\Models\Team;
 
@@ -16,11 +17,25 @@ class EditTeam extends EditRecord
         return $this->getResource()::getUrl('view', ['record' => $this->getRecord()]);
     }
 
+    protected function getSavedNotification(): ?Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title(__('sales::filament/clusters/configurations/resources/team/pages/edit-team.notification.title'))
+            ->body(__('sales::filament/clusters/configurations/resources/team/pages/edit-team.notification.body'));
+    }
+
     protected function getHeaderActions(): array
     {
         return [
             Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title(__('sales::filament/clusters/configurations/resources/team/pages/edit-team.header-actions.delete.notification.title'))
+                        ->body(__('sales::filament/clusters/configurations/resources/team/pages/edit-team.header-actions.delete.notification.body'))
+                )
         ];
     }
 
