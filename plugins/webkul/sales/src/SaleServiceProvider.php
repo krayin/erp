@@ -19,7 +19,8 @@ class SaleServiceProvider extends PackageServiceProvider
             ->hasTranslations()
             ->hasMigrations([
                 '2025_01_28_061110_create_sales_teams_table',
-                '2025_01_28_074033_create_sales_team_members_table'
+                '2025_01_28_074033_create_sales_team_members_table',
+                '2025_01_28_102329_create_sales_product_categories_table',
             ])
             ->runsMigrations()
             ->hasInstallCommand(function (InstallCommand $command) {
