@@ -2,10 +2,11 @@
 
 namespace Webkul\Sale\Filament\Clusters\Configuration\Resources\TeamResource\Pages;
 
-use Webkul\Sale\Filament\Clusters\Configuration\Resources\TeamResource;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Webkul\Chatter\Filament\Actions as ChatterActions;
+use Webkul\Sale\Filament\Clusters\Configuration\Resources\TeamResource;
 use Webkul\Sale\Models\Team;
 
 class EditTeam extends EditRecord
@@ -28,6 +29,8 @@ class EditTeam extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            ChatterActions\ChatterAction::make()
+                ->setResource(static::$resource),
             Actions\ViewAction::make(),
             Actions\DeleteAction::make()
                 ->successNotification(
@@ -35,7 +38,7 @@ class EditTeam extends EditRecord
                         ->success()
                         ->title(__('sales::filament/clusters/configurations/resources/team/pages/edit-team.header-actions.delete.notification.title'))
                         ->body(__('sales::filament/clusters/configurations/resources/team/pages/edit-team.header-actions.delete.notification.body'))
-                )
+                ),
         ];
     }
 
