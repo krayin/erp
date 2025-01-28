@@ -12,5 +12,6 @@ return [
     Webkul\Project\ProjectPlugin::class,
     Webkul\Timesheet\TimesheetPlugin::class,
     Webkul\TimeOff\TimeOffPlugin::class,
+    Webkul\Sale\SalePlugin::class,
     Webkul\Inventory\InventoryPlugin::class,
 ];
