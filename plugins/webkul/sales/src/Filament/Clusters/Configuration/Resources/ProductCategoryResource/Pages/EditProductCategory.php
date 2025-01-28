@@ -6,6 +6,7 @@ use Webkul\Sale\Filament\Clusters\Configuration\Resources\ProductCategoryResourc
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Webkul\Chatter\Filament\Actions as ChatterActions;
 
 class EditProductCategory extends EditRecord
 {
@@ -27,6 +28,8 @@ class EditProductCategory extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            ChatterActions\ChatterAction::make()
+                ->setResource(static::$resource),
             Actions\ViewAction::make(),
             Actions\DeleteAction::make()
                 ->successNotification(

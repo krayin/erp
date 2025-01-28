@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 use Webkul\Security\Models\User;
+use Webkul\Chatter\Traits\HasChatter;
+use Webkul\Chatter\Traits\HasLogActivity;
 
 class ProductCategory extends Model
 {
-    use HasFactory;
+    use HasFactory, HasChatter, HasLogActivity;
 
     protected $table = 'sales_product_categories';
 
@@ -23,6 +25,13 @@ class ProductCategory extends Model
         'property_account_income_category_id',
         'property_account_expense_category_id',
         'property_account_down_payment_category_id',
+    ];
+
+    protected array $logAttributes = [
+        'name'            => 'Name',
+        'completed_name'  => 'Completed Name',
+        'createdBy.name'  => 'Created By',
+        'parent.name'     => 'Parent',
     ];
 
     public function parent()
@@ -96,7 +105,7 @@ class ProductCategory extends Model
             $parent = static::find($productCategory->parent_id);
 
             if ($parent) {
-                $productCategory->parent_path = $parent->parent_path.$parent->id.'/';
+                $productCategory->parent_path = $parent->parent_path . $parent->id . '/';
             } else {
                 $productCategory->parent_path = '/';
                 $productCategory->parent_id = null;
