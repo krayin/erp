@@ -26,7 +26,7 @@ class PaymentTermResource extends Resource
 {
     protected static ?string $model = PaymentTerm::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-banknotes';
+    protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
 
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Start;
 
