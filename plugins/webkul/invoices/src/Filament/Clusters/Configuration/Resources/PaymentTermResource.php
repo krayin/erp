@@ -113,6 +113,10 @@ class PaymentTermResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('name')
+                    ->label(__('Name'))
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('company.name')
                     ->label(__('Company'))
                     ->searchable()
@@ -125,10 +129,6 @@ class PaymentTermResource extends Resource
                     ->label(__('Early Pay Discount'))
                     ->searchable()
                     ->formatStateUsing(fn($state) => EarlyPayDiscount::options()[$state])
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('name')
-                    ->label(__('Name'))
-                    ->searchable()
                     ->sortable(),
                 Tables\Columns\IconColumn::make('is_active')
                     ->boolean()
