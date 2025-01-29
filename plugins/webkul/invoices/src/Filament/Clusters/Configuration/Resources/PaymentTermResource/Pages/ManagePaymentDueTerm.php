@@ -24,6 +24,6 @@ class ManagePaymentDueTerm extends ManageRelatedRecords
 
     public static function getNavigationLabel(): string
     {
-        return __('Manage Due Terms');
+        return __('invoices::filament/clusters/configurations/resources/payment-term/pages/manage-payment-term.navigation.title');
     }
 }

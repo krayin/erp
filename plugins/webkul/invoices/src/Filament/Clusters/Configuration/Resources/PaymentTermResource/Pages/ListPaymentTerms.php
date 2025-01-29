@@ -23,9 +23,9 @@ class ListPaymentTerms extends ListRecords
     public function getTabs(): array
     {
         return [
-            'all' => Tab::make(__('All'))
+            'all' => Tab::make(__('invoices::filament/clusters/configurations/resources/payment-term/pages/list-payment-term.tabs.all'))
                 ->badge(PaymentTerm::count()),
-            'archived' => Tab::make(__('Archived'))
+            'archived' => Tab::make(__('invoices::filament/clusters/configurations/resources/payment-term/pages/list-payment-term.tabs.archived'))
                 ->badge(PaymentTerm::onlyTrashed()->count())
                 ->modifyQueryUsing(fn($query) => $query->onlyTrashed()),
         ];
