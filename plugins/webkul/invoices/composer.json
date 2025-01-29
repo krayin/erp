@@ -1,0 +1,30 @@
+{
+    "name": "webkul/invoices",
+    "description": "",
+    "authors": [
+        {
+            "name": "Jitendra Singh",
+            "email": "jitendra@webkul.in"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webkul\\Invoice\\Providers\\InvoiceServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Webkul\\Invoice\\": "src/",
+            "Webkul\\Invoice\\Database\\Factories\\": "database/factories/",
+            "Webkul\\Invoice\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webkul\\Invoice\\Tests\\": "tests/"
+        }
+    }
+}
