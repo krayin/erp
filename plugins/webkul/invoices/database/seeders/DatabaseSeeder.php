@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PaymentTermSeeder::class,
             PaymentDueTermSeeder::class,
+            IncotermSeeder::class,
         ]);
     }
 }
