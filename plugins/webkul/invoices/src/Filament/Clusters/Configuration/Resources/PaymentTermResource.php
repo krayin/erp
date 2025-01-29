@@ -26,7 +26,7 @@ class PaymentTermResource extends Resource
 {
     protected static ?string $model = PaymentTerm::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-banknotes';
 
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Start;
 
@@ -40,6 +40,11 @@ class PaymentTermResource extends Resource
     public static function getNavigationLabel(): string
     {
         return __('invoices::filament/clusters/configurations/resources/payment-term.navigation.title');
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('invoices::filament/clusters/configurations/resources/payment-term.navigation.group');
     }
 
     public static function getGloballySearchableAttributes(): array

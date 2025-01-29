@@ -5,6 +5,7 @@ return [
 
     'navigation' => [
         'title' => 'Payment Terms',
+        'group' => 'Invoicing'
     ],
 
     'global-search' => [
