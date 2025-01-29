@@ -20,6 +20,7 @@ class InvoiceServiceProvider extends PackageServiceProvider
             ->hasMigrations([
                 '2025_01_29_044430_create_invoices_payment_terms_table',
                 '2025_01_29_064646_create_invoices_payment_due_terms_table',
+                '2025_01_29_134156_create_invoices_incoterms_table'
             ])
             ->runsMigrations()
             ->hasInstallCommand(function (InstallCommand $command) {
