@@ -6,12 +6,16 @@ use Webkul\Invoice\Filament\Clusters\Configuration;
 use Webkul\Invoice\Filament\Clusters\Configuration\Resources\TaxResource\Pages;
 use Webkul\Invoice\Models\Tax;
 use Filament\Forms\Form;
+use Filament\Resources\Pages\Page;
 use Filament\Forms;
+use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\RelationManagers\RelationGroup;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Webkul\Invoice\Enums;
+use Webkul\Invoice\Filament\Clusters\Configuration\Resources\TaxResource\RelationManagers;
 
 class TaxResource extends Resource
 {
@@ -20,6 +24,8 @@ class TaxResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $cluster = Configuration::class;
+
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Start;
 
     public static function getModelLabel(): string
     {
@@ -227,20 +233,35 @@ class TaxResource extends Resource
             ]);
     }
 
+    public static function getRecordSubNavigation(Page $page): array
+    {
+        return $page->generateNavigationItems([
+            Pages\ViewTax::class,
+            Pages\EditTax::class,
+            Pages\ManageTaxPartition::class,
+        ]);
+    }
+
     public static function getRelations(): array
     {
-        return [
-            //
+        $relations = [
+            RelationGroup::make('due_terms', [
+                RelationManagers\TaxPartitionRelationManager::class,
+            ])
+                ->icon('heroicon-o-banknotes'),
         ];
+
+        return $relations;
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTaxes::route('/'),
-            'create' => Pages\CreateTax::route('/create'),
-            'view' => Pages\ViewTax::route('/{record}'),
-            'edit' => Pages\EditTax::route('/{record}/edit'),
+            'index'            => Pages\ListTaxes::route('/'),
+            'create'           => Pages\CreateTax::route('/create'),
+            'view'             => Pages\ViewTax::route('/{record}'),
+            'edit'             => Pages\EditTax::route('/{record}/edit'),
+            'manage-partition' => Pages\ManageTaxPartition::route('/{record}/manage-partition'),
         ];
     }
 }

@@ -4,11 +4,17 @@ namespace Webkul\Invoice\Filament\Clusters\Configuration\Resources\TaxResource\P
 
 use Webkul\Invoice\Filament\Clusters\Configuration\Resources\TaxResource;
 use Filament\Actions;
+use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Pages\EditRecord;
 
 class EditTax extends EditRecord
 {
     protected static string $resource = TaxResource::class;
+
+    public function getSubNavigationPosition(): SubNavigationPosition
+    {
+        return SubNavigationPosition::Top;
+    }
 
     protected function getRedirectUrl(): string
     {

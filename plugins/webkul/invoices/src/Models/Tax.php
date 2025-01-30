@@ -61,4 +61,9 @@ class Tax extends Model
     {
         return $this->belongsTo(User::class, 'creator_id');
     }
+
+    public function taxPartitions()
+    {
+        return $this->hasMany(TaxPartition::class, 'tax_id');
+    }
 }
