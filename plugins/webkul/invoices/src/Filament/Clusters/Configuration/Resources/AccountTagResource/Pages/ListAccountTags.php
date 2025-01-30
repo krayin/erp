@@ -6,6 +6,7 @@ use Webkul\Invoice\Filament\Clusters\Configuration\Resources\AccountTagResource;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Support\Facades\Auth;
 
 class ListAccountTags extends ListRecords
 {
@@ -16,6 +17,11 @@ class ListAccountTags extends ListRecords
         return [
             Actions\CreateAction::make()
                 ->icon('heroicon-o-plus-circle')
+                ->mutateFormDataUsing(function (array $data): array {
+                    $data['creator_id'] = Auth::user()->id;
+
+                    return $data;
+                })
                 ->successNotification(
                     Notification::make()
                         ->success()
