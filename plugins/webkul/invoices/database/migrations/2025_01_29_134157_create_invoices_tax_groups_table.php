@@ -13,8 +13,14 @@ return new class extends Migration
     {
         Schema::create('invoices_tax_groups', function (Blueprint $table) {
             $table->id();
+
             $table->integer('sort')->nullable()->comment('Sort Order');
             $table->foreignId('company_id')->nullable()->comment('Company')->constrained('companies')->restrictOnDelete();
+            $table->foreignId('country_id')->nullable()->comment('Country')->constrained('countries')->nullOnDelete();
+            $table->foreignId('creator_id')->nullable()->comment('Creator')->constrained('users')->nullOnDelete();
+            $table->string('name')->comment('Name');
+            $table->string('preceding_subtotal')->nullable()->comment('Preceding Subtotal');
+
             $table->timestamps();
         });
     }
