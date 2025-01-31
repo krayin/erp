@@ -75,6 +75,11 @@ class Tax extends Model
         return $this->hasMany(TaxPartition::class, 'tax_id');
     }
 
+    public function parentTaxes()
+    {
+        return $this->belongsToMany(self::class, 'invoices_tax_tax_relations', 'child_tax_id', 'parent_tax_id');
+    }
+
     protected static function boot()
     {
         parent::boot();

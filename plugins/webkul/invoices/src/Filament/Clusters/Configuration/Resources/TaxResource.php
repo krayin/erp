@@ -21,7 +21,7 @@ class TaxResource extends Resource
 {
     protected static ?string $model = Tax::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-receipt-percent';
 
     protected static ?string $cluster = Configuration::class;
 

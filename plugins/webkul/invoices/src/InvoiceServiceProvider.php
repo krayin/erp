@@ -26,6 +26,9 @@ class InvoiceServiceProvider extends PackageServiceProvider
                 '2025_01_30_061945_create_invoices_account_tags_table',
                 '2025_01_30_083208_create_invoices_taxes_table',
                 '2025_01_30_123324_create_invoices_tax_partitions_table',
+                '2025_01_31_073645_create_invoices_journals_table',
+                '2025_01_31_095921_create_invoices_journal_accounts_table',
+                '2025_01_31_125419_create_invoices_tax_tax_relations_table'
             ])
             ->runsMigrations()
             ->hasInstallCommand(function (InstallCommand $command) {

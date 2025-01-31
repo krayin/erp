@@ -16,7 +16,7 @@ class TaxGroupResource extends Resource
 {
     protected static ?string $model = TaxGroup::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-credit-card';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-group';
 
     protected static ?string $cluster = Configuration::class;
 
