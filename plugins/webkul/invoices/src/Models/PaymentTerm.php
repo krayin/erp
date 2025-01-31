@@ -45,9 +45,6 @@ class PaymentTerm extends Model
         return $this->hasMany(PaymentDueTerm::class, 'payment_id');
     }
 
-    /**
-     * Bootstrap the model and its traits.
-     */
     protected static function boot()
     {
         parent::boot();

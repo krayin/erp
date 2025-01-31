@@ -4,18 +4,24 @@ namespace Webkul\Invoice\Filament\Clusters\Configuration\Resources\TaxResource\P
 
 use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Pages\ManageRelatedRecords;
+use Webkul\Invoice\Enums;
 use Webkul\Invoice\Filament\Clusters\Configuration\Resources\TaxResource;
 use Webkul\Invoice\Traits\TaxPartition;
 
-class ManageTaxPartition extends ManageRelatedRecords
+class ManageDistributionForInvoice extends ManageRelatedRecords
 {
     use TaxPartition;
 
     protected static string $resource = TaxResource::class;
 
-    protected static string $relationship = 'taxPartitions';
+    protected static string $relationship = 'distributionForInvoice';
 
-    protected static ?string $navigationIcon = 'heroicon-o-banknotes';
+    protected static ?string $navigationIcon = 'heroicon-o-document';
+
+    public function getDocumentType(): string
+    {
+        return Enums\DocumentType::INVOICE->value;
+    }
 
     public function getSubNavigationPosition(): SubNavigationPosition
     {
@@ -24,6 +30,6 @@ class ManageTaxPartition extends ManageRelatedRecords
 
     public static function getNavigationLabel(): string
     {
-        return __('Manage Tax Partition');
+        return __('Distribution for Invoices');
     }
 }

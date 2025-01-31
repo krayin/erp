@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('account_id')->nullable()->comment('Account')->constrained('invoices_accounts')->nullOnDelete();
             $table->foreignId('tax_id')->nullable()->comment('Tax')->constrained('invoices_taxes')->cascadeOnDelete();
             $table->foreignId('company_id')->nullable()->comment('Company')->constrained('companies')->nullOnDelete();
+            $table->foreignId('creator_id')->nullable()->comment('Creator')->constrained('users')->nullOnDelete();
             $table->integer('sort')->nullable()->comment('Sort Order');
             $table->string('repartition_type')->comment('Repartition Type');
             $table->string('document_type')->comment('Document Type');

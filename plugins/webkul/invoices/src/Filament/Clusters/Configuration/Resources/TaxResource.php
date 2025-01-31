@@ -238,15 +238,20 @@ class TaxResource extends Resource
         return $page->generateNavigationItems([
             Pages\ViewTax::class,
             Pages\EditTax::class,
-            Pages\ManageTaxPartition::class,
+            Pages\ManageDistributionForInvoice::class,
+            Pages\ManageDistributionForRefund::class,
         ]);
     }
 
     public static function getRelations(): array
     {
         $relations = [
-            RelationGroup::make('due_terms', [
-                RelationManagers\TaxPartitionRelationManager::class,
+            RelationGroup::make('distribution_for_invoice', [
+                RelationManagers\DistributionForInvoiceRelationManager::class,
+            ])
+                ->icon('heroicon-o-banknotes'),
+            RelationGroup::make('distribution_for_refund', [
+                RelationManagers\DistributionForRefundRelationManager::class,
             ])
                 ->icon('heroicon-o-banknotes'),
         ];
@@ -257,11 +262,12 @@ class TaxResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'            => Pages\ListTaxes::route('/'),
-            'create'           => Pages\CreateTax::route('/create'),
-            'view'             => Pages\ViewTax::route('/{record}'),
-            'edit'             => Pages\EditTax::route('/{record}/edit'),
-            'manage-partition' => Pages\ManageTaxPartition::route('/{record}/manage-partition'),
+            'index'                           => Pages\ListTaxes::route('/'),
+            'create'                          => Pages\CreateTax::route('/create'),
+            'view'                            => Pages\ViewTax::route('/{record}'),
+            'edit'                            => Pages\EditTax::route('/{record}/edit'),
+            'manage-distribution-for-invoice' => Pages\ManageDistributionForInvoice::route('/{record}/manage-distribution-for-invoice'),
+            'manage-distribution-for-refunds' => Pages\ManageDistributionForRefund::route('/{record}/manage-distribution-for-refunds'),
         ];
     }
 }

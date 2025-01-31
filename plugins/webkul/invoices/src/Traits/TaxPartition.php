@@ -22,9 +22,7 @@ trait TaxPartition
                     ->numeric()
                     ->label('Factor Percent')
                     ->live()
-                    ->afterStateUpdated(function (Set $set, $state) {
-                        $set('factor', (float) $state / 100);
-                    }),
+                    ->afterStateUpdated(fn(Set $set, $state) => $set('factor', (float) $state / 100)),
                 Forms\Components\TextInput::make('factor')
                     ->readOnly()
                     ->label('Factor Ratio'),
@@ -95,6 +93,7 @@ trait TaxPartition
                         return $data;
                     }),
             ])
-            ->reorderable('sort');
+            ->reorderable('sort')
+            ->modifyQueryUsing(fn($query) => $query->where('document_type', $this->getDocumentType()));
     }
 }
