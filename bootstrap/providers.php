@@ -20,4 +20,5 @@ return [
     Webkul\Sale\SaleServiceProvider::class,
     Webkul\Invoice\InvoiceServiceProvider::class,
     Webkul\Inventory\InventoryServiceProvider::class,
+    Webkul\Account\AccountServiceProvider::class,
 ];
