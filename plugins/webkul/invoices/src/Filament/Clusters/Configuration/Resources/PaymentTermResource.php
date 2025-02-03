@@ -16,11 +16,11 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use Webkul\Invoice\Enums\EarlyPayDiscount;
+use Webkul\Account\Enums\EarlyPayDiscount;
 use Webkul\Invoice\Filament\Clusters\Configuration\Resources\PaymentTermResource\RelationManagers;
 use Filament\Resources\Pages\Page;
 use Illuminate\Support\HtmlString;
-use Webkul\Invoice\Models\PaymentTerm;
+use Webkul\Account\Models\PaymentTerm;
 
 class PaymentTermResource extends Resource
 {

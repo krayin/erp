@@ -14,7 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Invoice\Models\Incoterm;
+use Webkul\Account\Models\Incoterm;
 
 class IncoTermResource extends Resource
 {

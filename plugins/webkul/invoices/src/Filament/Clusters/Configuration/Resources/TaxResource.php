@@ -4,7 +4,7 @@ namespace Webkul\Invoice\Filament\Clusters\Configuration\Resources;
 
 use Webkul\Invoice\Filament\Clusters\Configuration;
 use Webkul\Invoice\Filament\Clusters\Configuration\Resources\TaxResource\Pages;
-use Webkul\Invoice\Models\Tax;
+use Webkul\Account\Models\Tax;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\Page;
 use Filament\Forms;
@@ -14,7 +14,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use Webkul\Invoice\Enums;
+use Webkul\Account\Enums;
 use Webkul\Invoice\Filament\Clusters\Configuration\Resources\TaxResource\RelationManagers;
 
 class TaxResource extends Resource

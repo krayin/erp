@@ -4,7 +4,7 @@ namespace Webkul\Invoice\Filament\Clusters\Configuration\Resources;
 
 use Webkul\Invoice\Filament\Clusters\Configuration;
 use Webkul\Invoice\Filament\Clusters\Configuration\Resources\TaxGroupResource\Pages;
-use Webkul\Invoice\Models\TaxGroup;
+use Webkul\Account\Models\TaxGroup;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;

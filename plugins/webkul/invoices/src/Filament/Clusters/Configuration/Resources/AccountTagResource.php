@@ -4,7 +4,7 @@ namespace Webkul\Invoice\Filament\Clusters\Configuration\Resources;
 
 use Webkul\Invoice\Filament\Clusters\Configuration;
 use Webkul\Invoice\Filament\Clusters\Configuration\Resources\AccountTagResource\Pages;
-use Webkul\Invoice\Models\AccountTag;
+use Webkul\Account\Models\AccountTag;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
@@ -14,7 +14,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use Webkul\Invoice\Enums\Applicability;
+use Webkul\Account\Enums\Applicability;
 
 class AccountTagResource extends Resource
 {

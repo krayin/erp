@@ -4,7 +4,7 @@ namespace Webkul\Invoice\Filament\Clusters\Configuration\Resources;
 
 use Webkul\Invoice\Filament\Clusters\Configuration;
 use Webkul\Invoice\Filament\Clusters\Configuration\Resources\JournalResource\Pages;
-use Webkul\Invoice\Models\Journal;
+use Webkul\Account\Models\Journal;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -12,9 +12,9 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Invoice\Enums\CommunicationStandard;
-use Webkul\Invoice\Enums\CommunicationType;
-use Webkul\Invoice\Enums\JournalType;
+use Webkul\Account\Enums\CommunicationStandard;
+use Webkul\Account\Enums\CommunicationType;
+use Webkul\Account\Enums\JournalType;
 
 class JournalResource extends Resource
 {
