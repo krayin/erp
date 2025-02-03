@@ -7,8 +7,7 @@ use Filament\Forms;
 use Filament\Notifications\Notification;
 use Filament\Tables\Table;
 use Filament\Tables;
-use Webkul\Invoice\Enums\DelayType;
-use Webkul\Invoice\Enums\DueTermValue;
+use Webkul\Account\Enums;
 
 trait PaymentDueTerm
 {
@@ -17,7 +16,7 @@ trait PaymentDueTerm
         return $form
             ->schema([
                 Forms\Components\Select::make('value')
-                    ->options(DueTermValue::class)
+                    ->options(Enums\DueTermValue::class)
                     ->label(__('invoices::traits/payment-due-term.form.value'))
                     ->required(),
                 Forms\Components\TextInput::make('value_amount')
@@ -25,7 +24,7 @@ trait PaymentDueTerm
                     ->default(100)
                     ->numeric(),
                 Forms\Components\Select::make('delay_type')
-                    ->options(DelayType::class)
+                    ->options(Enums\DelayType::class)
                     ->label(__('invoices::traits/payment-due-term.form.delay-type'))
                     ->required(),
                 Forms\Components\TextInput::make('days_next_month')
@@ -52,7 +51,7 @@ trait PaymentDueTerm
                     ->sortable(),
                 Tables\Columns\TextColumn::make('value')
                     ->label(__('invoices::traits/payment-due-term.table.columns.value'))
-                    ->formatStateUsing(fn($state) => DueTermValue::options()[$state])
+                    ->formatStateUsing(fn($state) => Enums\DueTermValue::options()[$state])
                     ->sortable(),
                 Tables\Columns\TextColumn::make('value_amount')
                     ->label(__('invoices::traits/payment-due-term.table.columns.value-amount'))
@@ -61,7 +60,7 @@ trait PaymentDueTerm
                     ->label(__('invoices::traits/payment-due-term.table.columns.after'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('delay_type')
-                    ->formatStateUsing(fn($state) => DelayType::options()[$state])
+                    ->formatStateUsing(fn($state) => Enums\DelayType::options()[$state])
                     ->label(__('invoices::traits/payment-due-term.table.columns.delay-type'))
                     ->sortable(),
             ])

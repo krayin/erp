@@ -20,8 +20,6 @@ return [
             'delay-type'   => 'Delay Type',
         ],
 
-        'groups' => [],
-
         'actions' => [
             'edit' => [
                 'notification' => [
@@ -47,6 +45,4 @@ return [
             ]
         ]
     ],
-
-    'infolist' => [],
 ];

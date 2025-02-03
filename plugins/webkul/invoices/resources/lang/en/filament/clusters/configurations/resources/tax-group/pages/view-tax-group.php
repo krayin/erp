@@ -4,8 +4,8 @@ return [
     'header-actions' => [
         'delete' => [
             'notification' => [
-                'title' => 'Tax deleted',
-                'body'  => 'The tax has been deleted successfully.',
+                'title' => 'Tax group deleted',
+                'body'  => 'The tax group has been deleted successfully.',
             ],
         ],
     ],
