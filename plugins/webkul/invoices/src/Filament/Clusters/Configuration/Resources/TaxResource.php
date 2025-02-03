@@ -147,12 +147,12 @@ class TaxResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('type_tax_use')
-                    ->label(__('Country'))
+                    ->label(__('Type Tax Use'))
                     ->searchable()
                     ->formatStateUsing(fn($state) => Enums\TypeTaxUse::options()[$state])
                     ->sortable(),
                 Tables\Columns\TextColumn::make('tax_scope')
-                    ->label(__('Country'))
+                    ->label(__('Tax Scope'))
                     ->searchable()
                     ->formatStateUsing(fn($state) => Enums\TaxScope::options()[$state])
                     ->sortable(),

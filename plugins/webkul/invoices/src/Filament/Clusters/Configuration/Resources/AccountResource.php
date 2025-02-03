@@ -7,6 +7,7 @@ use Webkul\Invoice\Filament\Clusters\Configuration\Resources\AccountResource\Pag
 use Webkul\Invoice\Models\Account;
 use Filament\Forms\Form;
 use Filament\Forms;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -74,7 +75,38 @@ class AccountResource extends Resource
                                 Forms\Components\Select::make('account_type')
                                     ->options(AccountType::options())
                                     ->preload()
-                                    ->searchable()
+                                    ->live()
+                                    ->searchable(),
+                                Forms\Components\Select::make('invoices_account_tax')
+                                    ->relationship('taxes', 'name')
+                                    ->label(__('Default Taxes'))
+                                    ->hidden(fn(Get $get) => $get('account_type') === AccountType::OFF_BALANCE->value)
+                                    ->multiple()
+                                    ->preload()
+                                    ->searchable(),
+                                Forms\Components\Select::make('invoices_account_account_tags')
+                                    ->relationship('tags', 'name')
+                                    ->multiple()
+                                    ->preload()
+                                    ->searchable(),
+                                Forms\Components\Select::make('invoices_account_journals')
+                                    ->relationship('journals', 'name')
+                                    ->multiple()
+                                    ->preload()
+                                    ->searchable(),
+                                Forms\Components\Select::make('currency_id')
+                                    ->relationship('currency', 'name')
+                                    ->preload()
+                                    ->searchable(),
+                                Forms\Components\Toggle::make('deprecated')
+                                    ->inline(false)
+                                    ->label('Deprecated'),
+                                Forms\Components\Toggle::make('reconcile')
+                                    ->inline(false)
+                                    ->label('Reconcile'),
+                                Forms\Components\Toggle::make('non_trade')
+                                    ->inline(false)
+                                    ->label('Non Trade'),
                             ])
                     ])->columns(2)
             ]);
@@ -84,7 +116,28 @@ class AccountResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('code')
+                    ->searchable()
+                    ->label(__('Code')),
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable()
+                    ->label(__('Account Name')),
+                Tables\Columns\TextColumn::make('account_type')
+                    ->searchable()
+                    ->label(__('Account Type')),
+
+                Tables\Columns\TextColumn::make('currency.name')
+                    ->searchable()
+                    ->label(__('Currency')),
+                Tables\Columns\IconColumn::make('deprecated')
+                    ->boolean()
+                    ->label('Deprecated'),
+                Tables\Columns\IconColumn::make('reconcile')
+                    ->boolean()
+                    ->label('Reconcile'),
+                Tables\Columns\IconColumn::make('non_trade')
+                    ->boolean()
+                    ->label('Non Trade'),
             ])
             ->filters([
                 //
@@ -92,19 +145,13 @@ class AccountResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array

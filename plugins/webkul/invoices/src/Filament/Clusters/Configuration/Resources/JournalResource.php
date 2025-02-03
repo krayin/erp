@@ -188,14 +188,36 @@ class JournalResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable()
+                    ->sortable()
+                    ->label('Journal Name'),
+                Tables\Columns\TextColumn::make('type')
+                    ->searchable()
+                    ->sortable()
+                    ->label('Type'),
+                Tables\Columns\TextColumn::make('code')
+                    ->searchable()
+                    ->sortable()
+                    ->label('Code'),
+                Tables\Columns\TextColumn::make('currency.name')
+                    ->searchable()
+                    ->sortable()
+                    ->label('Currency'),
+                Tables\Columns\TextColumn::make('createdBy.name')
+                    ->searchable()
+                    ->sortable()
+                    ->label('Created By'),
+                Tables\Columns\IconColumn::make('is_active')
+                    ->sortable()
+                    ->boolean()
+                    ->label('Status'),
             ])
-            ->filters([
-                //
-            ])
+            ->filters([])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -204,20 +226,13 @@ class JournalResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListJournals::route('/'),
+            'index'  => Pages\ListJournals::route('/'),
             'create' => Pages\CreateJournal::route('/create'),
-            'view' => Pages\ViewJournal::route('/{record}'),
-            'edit' => Pages\EditJournal::route('/{record}/edit'),
+            'view'   => Pages\ViewJournal::route('/{record}'),
+            'edit'   => Pages\EditJournal::route('/{record}/edit'),
         ];
     }
 }

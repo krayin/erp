@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignId('creator_id')->nullable()->comment('Creator')->constrained('users')->nullOnDelete();
             $table->string('type_tax_use')->comment('Tax Use');
             $table->string('tax_scope')->comment('Tax Scope')->nullable();
+            $table->string('formula')->comment('Formula')->nullable();
             $table->string('amount_type')->comment('Amount Type');
             $table->string('price_include_override')->comment('Price Include Override')->nullable();
             $table->string('tax_exigibility')->comment('Tax Exigibility')->nullable();

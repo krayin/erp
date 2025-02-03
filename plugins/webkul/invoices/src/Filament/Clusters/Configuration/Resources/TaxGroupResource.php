@@ -78,17 +78,11 @@ class TaxGroupResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('sort')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('company.name')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('company_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('country.name')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('country_id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('creator_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('createdBy.name')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
@@ -109,6 +103,7 @@ class TaxGroupResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -117,20 +112,13 @@ class TaxGroupResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListTaxGroups::route('/'),
+            'index'  => Pages\ListTaxGroups::route('/'),
             'create' => Pages\CreateTaxGroup::route('/create'),
-            'view' => Pages\ViewTaxGroup::route('/{record}'),
-            'edit' => Pages\EditTaxGroup::route('/{record}/edit'),
+            'view'   => Pages\ViewTaxGroup::route('/{record}'),
+            'edit'   => Pages\EditTaxGroup::route('/{record}/edit'),
         ];
     }
 }

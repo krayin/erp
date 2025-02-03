@@ -27,7 +27,26 @@ enum AccountType: string implements HasLabel
 
     public function getLabel(): ?string
     {
-        return __('invoices::enums/account-type.' . $this->value);
+        return match ($this) {
+            self::ASSET_RECEIVABLE => __('invoices::enums/account-type.asset-receivable'),
+            self::ASSET_CASH => __('invoices::enums/account-type.asset-cash'),
+            self::ASSET_CURRENT => __('invoices::enums/account-type.asset-current'),
+            self::ASSET_NON_CURRENT => __('invoices::enums/account-type.asset-non-current'),
+            self::ASSET_PREPAYMENTS => __('invoices::enums/account-type.asset-prepayments'),
+            self::ASSET_FIXED => __('invoices::enums/account-type.asset-fixed'),
+            self::LIABILITY_PAYABLE => __('invoices::enums/account-type.liability-payable'),
+            self::LIABILITY_CREDIT_CARD => __('invoices::enums/account-type.liability-credit-card'),
+            self::LIABILITY_CURRENT => __('invoices::enums/account-type.liability-current'),
+            self::LIABILITY_NON_CURRENT => __('invoices::enums/account-type.liability-non-current'),
+            self::EQUITY => __('invoices::enums/account-type.equity'),
+            self::EQUITY_UNAFFECTED => __('invoices::enums/account-type.equity-unaffected'),
+            self::INCOME => __('invoices::enums/account-type.income'),
+            self::INCOME_OTHER => __('invoices::enums/account-type.income-other'),
+            self::EXPENSE => __('invoices::enums/account-type.expense'),
+            self::EXPENSE_DEPRECIATION => __('invoices::enums/account-type.expense-depreciation'),
+            self::EXPENSE_DIRECT_COST => __('invoices::enums/account-type.expense-direct-cost'),
+            self::OFF_BALANCE => __('invoices::enums/account-type.off-balance'),
+        };
     }
 
     public static function options(): array

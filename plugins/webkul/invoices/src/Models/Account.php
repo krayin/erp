@@ -42,4 +42,19 @@ class Account extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function taxes()
+    {
+        return $this->belongsToMany(Tax::class, 'invoices_account_taxes', 'account_id', 'tax_id');
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(AccountTag::class, 'invoices_account_account_tags', 'account_id', 'account_tag_id');
+    }
+
+    public function journals()
+    {
+        return $this->belongsToMany(Journal::class, 'invoices_account_journals', 'account_id', 'journal_id');
+    }
 }

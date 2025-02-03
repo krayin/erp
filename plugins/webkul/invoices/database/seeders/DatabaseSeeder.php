@@ -16,6 +16,9 @@ class DatabaseSeeder extends Seeder
             PaymentDueTermSeeder::class,
             IncotermSeeder::class,
             AccountTagSeeder::class,
+            JournalSeeder::class,
+            TaxGroupSeeder::class,
+            TaxSeeder::class
         ]);
     }
 }
