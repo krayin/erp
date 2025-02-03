@@ -3,7 +3,7 @@
 namespace Webkul\Invoice\Filament\Clusters\Configuration\Resources\TaxResource\Pages;
 
 use Filament\Pages\SubNavigationPosition;
-use Webkul\Invoice\Enums;
+use Webkul\Account\Enums;
 use Filament\Resources\Pages\ManageRelatedRecords;
 use Webkul\Invoice\Filament\Clusters\Configuration\Resources\TaxResource;
 use Webkul\Invoice\Traits\TaxPartition;
@@ -30,6 +30,6 @@ class ManageDistributionForRefund extends ManageRelatedRecords
 
     public static function getNavigationLabel(): string
     {
-        return __('Distribution for Refunds');
+        return __('invoices::filament/clusters/configurations/resources/tax/pages/manage-distribution-for-refund.navigation.title');
     }
 }

@@ -4,7 +4,7 @@ namespace Webkul\Invoice\Filament\Clusters\Configuration\Resources\TaxResource\P
 
 use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Pages\ManageRelatedRecords;
-use Webkul\Invoice\Enums;
+use Webkul\Account\Enums;
 use Webkul\Invoice\Filament\Clusters\Configuration\Resources\TaxResource;
 use Webkul\Invoice\Traits\TaxPartition;
 
@@ -30,6 +30,6 @@ class ManageDistributionForInvoice extends ManageRelatedRecords
 
     public static function getNavigationLabel(): string
     {
-        return __('Distribution for Invoices');
+        return __('invoices::filament/clusters/configurations/resources/tax/pages/manage-distribution-for-invoice.navigation.title');
     }
 }

@@ -4,6 +4,7 @@ namespace Webkul\Invoice\Filament\Clusters\Configuration\Resources\TaxResource\P
 
 use Webkul\Invoice\Filament\Clusters\Configuration\Resources\TaxResource;
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Pages\EditRecord;
 
@@ -16,6 +17,14 @@ class EditTax extends EditRecord
         return SubNavigationPosition::Top;
     }
 
+    protected function getSavedNotification(): ?Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title(__('invoices::filament/clusters/configurations/resources/tax/pages/edit-tax.notification.title'))
+            ->body(__('invoices::filament/clusters/configurations/resources/tax/pages/edit-tax.notification.body'));
+    }
+
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('view', ['record' => $this->getRecord()]);
@@ -25,7 +34,13 @@ class EditTax extends EditRecord
     {
         return [
             Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title(__('invoices::filament/clusters/configurations/resources/tax/pages/edit-tax.header-actions.delete.notification.title'))
+                        ->body(__('invoices::filament/clusters/configurations/resources/tax/pages/edit-tax.header-actions.delete.notification.body'))
+                )
         ];
     }
 }

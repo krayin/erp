@@ -5,11 +5,11 @@ namespace Webkul\Invoice\Traits;
 use Filament\Forms\Form;
 use Filament\Forms;
 use Filament\Forms\Set;
-use Webkul\Invoice\Enums;
+use Webkul\Account\Enums;
 use Filament\Tables\Table;
 use Filament\Tables;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Invoice\Models\TaxPartition as TaxPartitionModel;
+use Webkul\Account\Models\TaxPartition as TaxPartitionModel;
 
 trait TaxPartition
 {

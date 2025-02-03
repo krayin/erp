@@ -3,7 +3,7 @@
 namespace Webkul\Invoice\Filament\Clusters\Configuration\Resources\TaxResource\RelationManagers;
 
 use Filament\Resources\RelationManagers\RelationManager;
-use Webkul\Invoice\Enums;
+use Webkul\Account\Enums;
 use Webkul\Invoice\Traits\TaxPartition;
 
 class DistributionForInvoiceRelationManager extends RelationManager

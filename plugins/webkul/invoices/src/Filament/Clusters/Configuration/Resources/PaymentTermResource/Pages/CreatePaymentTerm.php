@@ -6,7 +6,7 @@ use Webkul\Invoice\Filament\Clusters\Configuration\Resources\PaymentTermResource
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Invoice\Models\PaymentTerm;
+use Webkul\Account\Models\PaymentTerm;
 
 class CreatePaymentTerm extends CreateRecord
 {
