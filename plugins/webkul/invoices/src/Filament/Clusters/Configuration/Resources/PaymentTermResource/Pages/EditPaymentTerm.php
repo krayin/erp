@@ -8,7 +8,7 @@ use Filament\Notifications\Notification;
 use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Pages\EditRecord;
 use Webkul\Invoice\Filament\Clusters\Configuration\Resources\PaymentTermResource;
-use Webkul\Invoice\Models\PaymentDueTerm;
+use Webkul\Account\Models\PaymentDueTerm;
 
 class EditPaymentTerm extends EditRecord
 {

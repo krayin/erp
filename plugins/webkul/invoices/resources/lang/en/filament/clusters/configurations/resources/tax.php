@@ -75,7 +75,7 @@ return [
             'tax-group'    => 'Tax Group',
             'country'      => 'Country',
             'created-by'   => 'Created By',
-            'type=tax-use' => 'Type Tax Use',
+            'type-tax-use' => 'Type Tax Use',
             'tax-scope'    => 'Tax Scope',
             'amount-type'  => 'Amount Type',
         ],

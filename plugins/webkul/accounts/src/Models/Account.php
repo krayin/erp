@@ -4,7 +4,7 @@ namespace Webkul\Account\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Webkul\Invoice\Enums\AccountType;
+use Webkul\Account\Enums\AccountType;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Currency;
 
@@ -50,7 +50,7 @@ class Account extends Model
 
     public function tags()
     {
-        return $this->belongsToMany(AccountTag::class, 'accounts_account_account_tags', 'account_id', 'account_tag_id');
+        return $this->belongsToMany(Tag::class, 'accounts_account_account_tags', 'account_id', 'account_tag_id');
     }
 
     public function journals()

@@ -22,6 +22,6 @@ class AccountAccountTag extends Model
 
     public function accountTag()
     {
-        return $this->belongsTo(AccountTag::class);
+        return $this->belongsTo(Tag::class);
     }
 }
