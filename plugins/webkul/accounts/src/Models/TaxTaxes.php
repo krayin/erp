@@ -4,9 +4,9 @@ namespace Webkul\Account\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TaxTaxRelation extends Model
+class TaxTaxes extends Model
 {
-    protected $table = 'accounts_tax_tax_relations';
+    protected $table = 'accounts_tax_taxes';
 
     protected $fillable = ['parent_tax_id', 'child_tax_id'];
 

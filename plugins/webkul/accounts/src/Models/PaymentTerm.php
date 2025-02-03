@@ -5,8 +5,8 @@ namespace Webkul\Account\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Webkul\Invoice\Enums\DelayType;
-use Webkul\Invoice\Enums\DueTermValue;
+use Webkul\Account\Enums\DelayType;
+use Webkul\Account\Enums\DueTermValue;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 

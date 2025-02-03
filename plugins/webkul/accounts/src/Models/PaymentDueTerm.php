@@ -10,7 +10,7 @@ class PaymentDueTerm extends Model
 {
     use HasFactory;
 
-    protected $table = 'account_payment_due_terms';
+    protected $table = 'accounts_payment_due_terms';
 
     protected $fillable = [
         'nb_days',

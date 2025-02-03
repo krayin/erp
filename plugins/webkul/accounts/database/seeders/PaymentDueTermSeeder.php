@@ -138,7 +138,7 @@ class PaymentDueTermSeeder extends Seeder
             [
                 'nb_days' => 30,
                 'payment_id' => 6,
-                'creator_id' => 2,
+                'creator_id' => 1,
                 'value' => DueTermValue::FIXED->value,
                 'delay_type' => DelayType::DAYS_AFTER->value,
                 'days_next_month' => 10,
@@ -149,7 +149,7 @@ class PaymentDueTermSeeder extends Seeder
             [
                 'nb_days' => 0,
                 'payment_id' => 1,
-                'creator_id' => 2,
+                'creator_id' => 1,
                 'value' => DueTermValue::FIXED->value,
                 'delay_type' => DelayType::DAYS_AFTER->value,
                 'days_next_month' => 10,
@@ -171,7 +171,7 @@ class PaymentDueTermSeeder extends Seeder
             [
                 'nb_days' => 75,
                 'payment_id' => 2,
-                'creator_id' => 2,
+                'creator_id' => 1,
                 'value' => DueTermValue::FIXED->value,
                 'delay_type' => DelayType::DAYS_AFTER->value,
                 'days_next_month' => 10,
@@ -182,7 +182,7 @@ class PaymentDueTermSeeder extends Seeder
             [
                 'nb_days' => 45,
                 'payment_id' => 2,
-                'creator_id' => 2,
+                'creator_id' => 1,
                 'value' => DueTermValue::FIXED->value,
                 'delay_type' => DelayType::DAYS_AFTER->value,
                 'days_next_month' => 10,

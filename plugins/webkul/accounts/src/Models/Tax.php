@@ -5,8 +5,8 @@ namespace Webkul\Account\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Webkul\Invoice\Enums\DocumentType;
-use Webkul\Invoice\Enums\RepartitionType;
+use Webkul\Account\Enums\DocumentType;
+use Webkul\Account\Enums\RepartitionType;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 use Webkul\Support\Models\Country;
@@ -77,7 +77,7 @@ class Tax extends Model
 
     public function parentTaxes()
     {
-        return $this->belongsToMany(self::class, 'accounts_tax_tax_relations', 'child_tax_id', 'parent_tax_id');
+        return $this->belongsToMany(self::class, 'accounts_tax_taxes', 'child_tax_id', 'parent_tax_id');
     }
 
     protected static function boot()

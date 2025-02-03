@@ -28,7 +28,7 @@ class AccountServiceProvider extends PackageServiceProvider
                 '2025_01_30_123324_create_accounts_tax_partitions_table',
                 '2025_01_31_073645_create_accounts_journals_table',
                 '2025_01_31_095921_create_accounts_journal_accounts_table',
-                '2025_01_31_125419_create_accounts_tax_tax_relations_table',
+                '2025_01_31_125419_create_accounts_tax_taxes_table',
                 '2025_02_03_054613_create_accounts_account_taxes_table',
                 '2025_02_03_055117_create_accounts_account_account_tags_table',
                 '2025_02_03_055709_create_accounts_account_journals_table',

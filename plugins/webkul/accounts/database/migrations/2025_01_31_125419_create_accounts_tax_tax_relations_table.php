@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('accounts_tax_tax_relations', function (Blueprint $table) {
+        Schema::create('accounts_tax_taxes', function (Blueprint $table) {
             $table->foreignId('parent_tax_id')->constrained('accounts_taxes')->onDelete('cascade');
             $table->foreignId('child_tax_id')->constrained('accounts_taxes')->onDelete('cascade');
         });
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('accounts_tax_tax_relations');
+        Schema::dropIfExists('accounts_tax_taxes');
     }
 };

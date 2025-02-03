@@ -4,7 +4,7 @@ namespace Webkul\Invoice\Filament\Clusters\Configuration\Resources;
 
 use Webkul\Invoice\Filament\Clusters\Configuration;
 use Webkul\Invoice\Filament\Clusters\Configuration\Resources\AccountTagResource\Pages;
-use Webkul\Account\Models\AccountTag;
+use Webkul\Account\Models\Tag;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
@@ -18,7 +18,7 @@ use Webkul\Account\Enums\Applicability;
 
 class AccountTagResource extends Resource
 {
-    protected static ?string $model = AccountTag::class;
+    protected static ?string $model = Tag::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
 

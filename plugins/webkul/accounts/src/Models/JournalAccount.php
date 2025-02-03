@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class JournalAccount extends Model
 {
-    protected $table = 'journal_accounts';
+    protected $table = 'accounts_journal_accounts';
 
     protected $timestamps = false;
 
