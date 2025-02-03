@@ -4,6 +4,7 @@ namespace Webkul\Invoice\Filament\Clusters\Configuration\Resources\JournalResour
 
 use Webkul\Invoice\Filament\Clusters\Configuration\Resources\JournalResource;
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
 
 class ViewJournal extends ViewRecord
@@ -14,6 +15,13 @@ class ViewJournal extends ViewRecord
     {
         return [
             Actions\EditAction::make(),
+            Actions\DeleteAction::make()
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title(__('invoices::filament/clusters/configurations/resources/journal/pages/view-journal.notification.title'))
+                        ->body(__('invoices::filament/clusters/configurations/resources/journal/pages/view-journal.notification.body'))
+                ),
         ];
     }
 }

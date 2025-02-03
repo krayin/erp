@@ -4,9 +4,12 @@ namespace Webkul\Invoice\Filament\Clusters\Configuration\Resources\JournalResour
 
 use Webkul\Invoice\Filament\Clusters\Configuration\Resources\JournalResource;
 use Filament\Actions;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Facades\Auth;
-use Webkul\Invoice\Models\Journal;
+use Webkul\Account\Enums\CommunicationStandard;
+use Webkul\Account\Enums\CommunicationType;
+use Webkul\Account\Models\Journal;
 
 class EditJournal extends EditRecord
 {
@@ -20,11 +23,27 @@ class EditJournal extends EditRecord
         ];
     }
 
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('view', ['record' => $this->getRecord()]);
+    }
+
+    protected function getCreatedNotification(): ?Notification
+    {
+        return Notification::make()
+            ->success()
+            ->title(__('invoices::filament/clusters/configurations/resources/journal/pages/edit-journal.notification.title'))
+            ->body(__('invoices::filament/clusters/configurations/resources/journal/pages/edit-journal.notification.body'));
+    }
+
     protected function mutateFormDataBeforeSave(array $data): array
     {
         $data['sort'] = Journal::max('sort') + 1;
 
         $data['creator_id'] = Auth::user()->id;
+
+        $data['invoice_reference_type'] = $data['invoice_reference_type'] ?? CommunicationType::INVOICE->value;
+        $data['invoice_reference_model'] = $data['invoice_reference_model'] ?? CommunicationStandard::AUREUS->value;
 
         return $data;
     }
