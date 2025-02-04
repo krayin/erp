@@ -2,31 +2,12 @@
 
 namespace Webkul\Sale\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 use Webkul\Security\Models\User;
-use Webkul\Chatter\Traits\HasChatter;
-use Webkul\Chatter\Traits\HasLogActivity;
+use Webkul\Product\Models\Category as BaseProductCategory;
 
-class ProductCategory extends Model
+class ProductCategory extends BaseProductCategory
 {
-    use HasFactory, HasChatter, HasLogActivity;
-
-    protected $table = 'sales_product_categories';
-
-    protected $fillable = [
-        'parent_id',
-        'creator_id',
-        'name',
-        'complete_name',
-        'parent_path',
-        'product_properties_definition',
-        'property_account_income_category_id',
-        'property_account_expense_category_id',
-        'property_account_down_payment_category_id',
-    ];
-
     protected array $logAttributes = [
         'name'            => 'Name',
         'completed_name'  => 'Completed Name',
@@ -34,9 +15,16 @@ class ProductCategory extends Model
         'parent.name'     => 'Parent',
     ];
 
-    public function parent()
+    public function __construct(array $attributes = [])
     {
-        return $this->belongsTo(self::class, 'parent_id');
+        $this->mergeFillable([
+            'product_properties_definition',
+            'property_account_income_category_id',
+            'property_account_expense_category_id',
+            'property_account_down_payment_category_id'
+        ]);
+
+        parent::__construct($attributes);
     }
 
     public function createdBy()
@@ -114,7 +102,7 @@ class ProductCategory extends Model
             $productCategory->parent_path = '/';
         }
 
-        $productCategory->complete_name = static::getCompleteName($productCategory);
+        $productCategory->full_name = static::getCompleteName($productCategory);
     }
 
     protected static function getCompleteName($productCategory)

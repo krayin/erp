@@ -12,7 +12,7 @@ class ProductCategorySeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('sales_product_categories')->delete();
+        DB::table('products_categories')->delete();
 
         $categories = [
             [
@@ -20,7 +20,7 @@ class ProductCategorySeeder extends Seeder
                 'parent_id'                                 => null,
                 'creator_id'                                => 1,
                 'name'                                      => 'All',
-                'complete_name'                             => 'All',
+                'full_name'                                 => 'All',
                 'parent_path'                               => '/',
                 'product_properties_definition'             => null,
                 'property_account_income_category_id'       => null,
@@ -34,7 +34,7 @@ class ProductCategorySeeder extends Seeder
                 'parent_id'                                 => 1,
                 'creator_id'                                => 1,
                 'name'                                      => 'Consumable',
-                'complete_name'                             => 'All / Consumable',
+                'full_name'                                 => 'All / Consumable',
                 'parent_path'                               => '/1/',
                 'product_properties_definition'             => null,
                 'property_account_income_category_id'       => null,
@@ -48,7 +48,7 @@ class ProductCategorySeeder extends Seeder
                 'parent_id'                                 => 1,
                 'creator_id'                                => 1,
                 'name'                                      => 'Expenses',
-                'complete_name'                             => 'All / Expenses',
+                'full_name'                                 => 'All / Expenses',
                 'parent_path'                               => '/1/',
                 'product_properties_definition'             => null,
                 'property_account_income_category_id'       => null,
@@ -62,7 +62,7 @@ class ProductCategorySeeder extends Seeder
                 'parent_id'                                 => 1,
                 'creator_id'                                => 1,
                 'name'                                      => 'Home Construction',
-                'complete_name'                             => 'All / Home Construction',
+                'full_name'                                 => 'All / Home Construction',
                 'parent_path'                               => '/1/',
                 'product_properties_definition'             => null,
                 'property_account_income_category_id'       => null,
@@ -76,7 +76,7 @@ class ProductCategorySeeder extends Seeder
                 'parent_id'                                 => 1,
                 'creator_id'                                => 1,
                 'name'                                      => 'Internal',
-                'complete_name'                             => 'All / Internal',
+                'full_name'                                 => 'All / Internal',
                 'parent_path'                               => '/1/',
                 'product_properties_definition'             => null,
                 'property_account_income_category_id'       => null,
@@ -90,7 +90,7 @@ class ProductCategorySeeder extends Seeder
                 'parent_id'                                 => 1,
                 'creator_id'                                => 1,
                 'name'                                      => 'Saleable',
-                'complete_name'                             => 'All / Saleable',
+                'full_name'                                 => 'All / Saleable',
                 'parent_path'                               => '/1/',
                 'product_properties_definition'             => null,
                 'property_account_income_category_id'       => null,
@@ -104,7 +104,7 @@ class ProductCategorySeeder extends Seeder
                 'parent_id'                                 => 6,
                 'creator_id'                                => 1,
                 'name'                                      => 'Office Furniture',
-                'complete_name'                             => 'All / Saleable / Office Furniture',
+                'full_name'                                 => 'All / Saleable / Office Furniture',
                 'parent_path'                               => '/1/6/',
                 'product_properties_definition'             => null,
                 'property_account_income_category_id'       => null,
@@ -118,7 +118,7 @@ class ProductCategorySeeder extends Seeder
                 'parent_id'                                 => 6,
                 'creator_id'                                => 1,
                 'name'                                      => 'Outdoor furniture',
-                'complete_name'                             => 'All / Saleable / Outdoor furniture',
+                'full_name'                                 => 'All / Saleable / Outdoor furniture',
                 'parent_path'                               => '/1/6/',
                 'product_properties_definition'             => null,
                 'property_account_income_category_id'       => null,
@@ -132,7 +132,7 @@ class ProductCategorySeeder extends Seeder
                 'parent_id'                                 => 6,
                 'creator_id'                                => 1,
                 'name'                                      => 'Services',
-                'complete_name'                             => 'All / Saleable / Services',
+                'full_name'                                 => 'All / Saleable / Services',
                 'parent_path'                               => '/1/6/',
                 'product_properties_definition'             => null,
                 'property_account_income_category_id'       => null,
@@ -146,7 +146,7 @@ class ProductCategorySeeder extends Seeder
                 'parent_id'                                 => 9,
                 'creator_id'                                => 1,
                 'name'                                      => 'Saleable',
-                'complete_name'                             => 'All / Saleable / Services / Saleable',
+                'full_name'                                 => 'All / Saleable / Services / Saleable',
                 'parent_path'                               => '/1/6/9/',
                 'product_properties_definition'             => null,
                 'property_account_income_category_id'       => null,
@@ -157,6 +157,6 @@ class ProductCategorySeeder extends Seeder
             ],
         ];
 
-        DB::table('sales_product_categories')->insert($categories);
+        DB::table('products_categories')->insert($categories);
     }
 }
