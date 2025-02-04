@@ -5,13 +5,11 @@ namespace Webkul\Sale\Filament\Clusters\Configuration\Resources\ProductResource\
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
+use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Webkul\Sale\Filament\Clusters\Configuration\Resources\ProductResource;
-
-// use Webkul\Inventory\Filament\Clusters\Products\Resources\ProductResource;
-// use Webkul\Inventory\Settings\ProductSettings;
 
 class ManageVariants extends ManageRelatedRecords
 {
@@ -20,6 +18,11 @@ class ManageVariants extends ManageRelatedRecords
     protected static string $relationship = 'variants';
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
+
+    public function getSubNavigationPosition(): SubNavigationPosition
+    {
+        return SubNavigationPosition::Top;
+    }
 
     /**
      * @param  array<string, mixed>  $parameters

@@ -5,6 +5,7 @@ namespace Webkul\Sale\Filament\Clusters\Configuration\Resources\ProductResource\
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
+use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -20,6 +21,11 @@ class ManageAttributes extends ManageRelatedRecords
     protected static string $relationship = 'attributes';
 
     protected static ?string $navigationIcon = 'heroicon-o-swatch';
+
+    public function getSubNavigationPosition(): SubNavigationPosition
+    {
+        return SubNavigationPosition::Top;
+    }
 
     /**
      * @param  array<string, mixed>  $parameters
@@ -37,7 +43,7 @@ class ManageAttributes extends ManageRelatedRecords
 
     public static function getNavigationLabel(): string
     {
-        return __('inventories::filament/clusters/products/resources/product/pages/manage-attributes.title');
+        return __('sales::filament/clusters/products/resources/product/pages/manage-attributes.title');
     }
 
     public function form(Form $form): Form
@@ -45,13 +51,13 @@ class ManageAttributes extends ManageRelatedRecords
         return $form
             ->schema([
                 Forms\Components\Select::make('attribute_id')
-                    ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-attributes.form.employee'))
+                    ->label(__('sales::filament/clusters/products/resources/product/pages/manage-attributes.form.employee'))
                     ->required()
                     ->relationship('attribute', 'name')
                     ->searchable()
                     ->preload(),
                 Forms\Components\Select::make('options')
-                    ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-attributes.form.employee'))
+                    ->label(__('sales::filament/clusters/products/resources/product/pages/manage-attributes.form.employee'))
                     ->required()
                     ->relationship(
                         name: 'options',
@@ -69,17 +75,17 @@ class ManageAttributes extends ManageRelatedRecords
     {
         return $table
             ->recordTitleAttribute('name')
-            ->description(__('inventories::filament/clusters/products/resources/product/pages/manage-attributes.table.description'))
+            ->description(__('sales::filament/clusters/products/resources/product/pages/manage-attributes.table.description'))
             ->columns([
                 Tables\Columns\TextColumn::make('attribute.name')
-                    ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-attributes.table.columns.attribute')),
+                    ->label(__('sales::filament/clusters/products/resources/product/pages/manage-attributes.table.columns.attribute')),
                 Tables\Columns\TextColumn::make('values.attributeOption.name')
-                    ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-attributes.table.columns.values'))
+                    ->label(__('sales::filament/clusters/products/resources/product/pages/manage-attributes.table.columns.values'))
                     ->badge(),
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                    ->label(__('inventories::filament/clusters/products/resources/product/pages/manage-attributes.table.header-actions.create.label'))
+                    ->label(__('sales::filament/clusters/products/resources/product/pages/manage-attributes.table.header-actions.create.label'))
                     ->icon('heroicon-o-plus-circle')
                     ->mutateFormDataUsing(function (array $data): array {
                         $data['creator_id'] = Auth::id();
@@ -92,8 +98,8 @@ class ManageAttributes extends ManageRelatedRecords
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title(__('inventories::filament/clusters/products/resources/product/pages/manage-attributes.table.header-actions.create.notification.title'))
-                            ->body(__('inventories::filament/clusters/products/resources/product/pages/manage-attributes.table.header-actions.create.notification.body')),
+                            ->title(__('sales::filament/clusters/products/resources/product/pages/manage-attributes.table.header-actions.create.notification.title'))
+                            ->body(__('sales::filament/clusters/products/resources/product/pages/manage-attributes.table.header-actions.create.notification.body')),
                     ),
             ])
             ->actions([
@@ -104,15 +110,15 @@ class ManageAttributes extends ManageRelatedRecords
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title(__('inventories::filament/clusters/products/resources/product/pages/manage-attributes.table.actions.edit.notification.title'))
-                            ->body(__('inventories::filament/clusters/products/resources/product/pages/manage-attributes.table.actions.edit.notification.body')),
+                            ->title(__('sales::filament/clusters/products/resources/product/pages/manage-attributes.table.actions.edit.notification.title'))
+                            ->body(__('sales::filament/clusters/products/resources/product/pages/manage-attributes.table.actions.edit.notification.body')),
                     ),
                 Tables\Actions\DeleteAction::make()
                     ->successNotification(
                         Notification::make()
                             ->success()
-                            ->title(__('inventories::filament/clusters/products/resources/product/pages/manage-attributes.table.actions.delete.notification.title'))
-                            ->body(__('inventories::filament/clusters/products/resources/product/pages/manage-attributes.table.actions.delete.notification.body')),
+                            ->title(__('sales::filament/clusters/products/resources/product/pages/manage-attributes.table.actions.delete.notification.title'))
+                            ->body(__('sales::filament/clusters/products/resources/product/pages/manage-attributes.table.actions.delete.notification.body')),
                     ),
             ])
             ->paginated(false);

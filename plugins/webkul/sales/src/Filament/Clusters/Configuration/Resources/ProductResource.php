@@ -37,7 +37,7 @@ class ProductResource extends Resource
 
     protected static ?string $cluster = Products::class;
 
-    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Start;   
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Start;
 
     public static function getNavigationLabel(): string
     {
