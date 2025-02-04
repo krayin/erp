@@ -62,11 +62,11 @@ class Product extends BaseProduct
 
     public function productTaxes()
     {
-        return $this->belongsToMany(Tax::class, 'accounts_product_taxes', 'tax_id', 'product_id');
+        return $this->belongsToMany(Tax::class, 'accounts_product_taxes', 'product_id', 'tax_id');
     }
 
     public function supplierTaxes()
     {
-        return $this->belongsToMany(Tax::class, 'accounts_product_supplier_taxes', 'tax_id', 'product_id');
+        return $this->belongsToMany(Tax::class, 'accounts_product_supplier_taxes', 'product_id', 'tax_id');
     }
 }
