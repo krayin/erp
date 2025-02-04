@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('strategy')->comment('Rounding Strategy');
             $table->string('rounding_method')->comment('Rounding Method');
             $table->string('name')->comment('Name');
+            $table->double('rounding')->comment('Rounding');
+            $table->foreignId('profit_account_id')->nullable()->comment('Profit Account')->constrained('accounts_accounts')->nullOnDelete();
+            $table->foreignId('loss_account_id')->nullable()->comment('Loss Account')->constrained('accounts_accounts')->nullOnDelete();
             $table->timestamps();
         });
     }
