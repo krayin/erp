@@ -16,6 +16,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Resources\Pages\Page;
+use Filament\Support\Enums\ActionSize;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Account\Enums\TypeTaxUse;
@@ -52,6 +53,16 @@ class ProductResource extends Resource
                     ->schema([
                         Forms\Components\Section::make()
                             ->schema([
+                                Forms\Components\Actions::make([
+                                    Forms\Components\Actions\Action::make('is_favorite')
+                                        ->hiddenLabel()
+                                        ->outlined(false)
+                                        ->icon(fn($record) => $record?->is_favorite >= 1 ? 'heroicon-s-star' : 'heroicon-o-star')
+                                        ->color('warning')
+                                        ->iconButton()
+                                        ->size(ActionSize::Large->value)
+                                        ->action(fn($record) => $record?->update(['is_favorite' => ! $record->is_favorite,])),
+                                ]),
                                 Forms\Components\TextInput::make('name')
                                     ->label(__('sales::filament/clusters/products/resources/product.form.sections.general.fields.name'))
                                     ->required()
