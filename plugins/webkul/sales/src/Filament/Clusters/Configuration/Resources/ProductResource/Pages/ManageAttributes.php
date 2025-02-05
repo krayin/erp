@@ -12,6 +12,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Webkul\Product\Models\ProductAttribute;
+use Webkul\Sale\Filament\Clusters\Configuration\Resources\ProductAttributeResource;
 use Webkul\Sale\Filament\Clusters\Configuration\Resources\ProductResource;
 
 class ManageAttributes extends ManageRelatedRecords
@@ -27,20 +28,6 @@ class ManageAttributes extends ManageRelatedRecords
         return SubNavigationPosition::Top;
     }
 
-    /**
-     * @param  array<string, mixed>  $parameters
-     */
-    public static function canAccess(array $parameters = []): bool
-    {
-        $canAccess = parent::canAccess($parameters);
-
-        if (! $canAccess) {
-            return false;
-        }
-
-        return true;
-    }
-
     public static function getNavigationLabel(): string
     {
         return __('sales::filament/clusters/products/resources/product/pages/manage-attributes.title');
@@ -51,13 +38,14 @@ class ManageAttributes extends ManageRelatedRecords
         return $form
             ->schema([
                 Forms\Components\Select::make('attribute_id')
-                    ->label(__('sales::filament/clusters/products/resources/product/pages/manage-attributes.form.employee'))
+                    ->label(__('sales::filament/clusters/products/resources/product/pages/manage-attributes.form.attribute'))
                     ->required()
                     ->relationship('attribute', 'name')
                     ->searchable()
-                    ->preload(),
+                    ->preload()
+                    ->createOptionForm(fn(Forms\Form $form): Form => ProductAttributeResource::form($form)),
                 Forms\Components\Select::make('options')
-                    ->label(__('sales::filament/clusters/products/resources/product/pages/manage-attributes.form.employee'))
+                    ->label(__('sales::filament/clusters/products/resources/product/pages/manage-attributes.form.values'))
                     ->required()
                     ->relationship(
                         name: 'options',

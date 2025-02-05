@@ -5,9 +5,9 @@ namespace Webkul\Sale\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Webkul\Sale\Models\OrderTemplate>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Order>
  */
-class OrderTemplateFactory extends Factory
+class OrderFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -16,6 +16,8 @@ class OrderTemplateFactory extends Factory
      */
     public function definition(): array
     {
-        return [];
+        return [
+            //
+        ];
     }
 }
