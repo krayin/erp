@@ -10,6 +10,7 @@ use Webkul\Account\Models\PaymentTerm;
 use Webkul\Partner\Models\Partner;
 use Webkul\Recruitment\Models\UTMMedium;
 use Webkul\Recruitment\Models\UTMSource;
+use Webkul\Sale\Enums\OrderDisplayType;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 use Webkul\Support\Models\Currency;
@@ -29,6 +30,7 @@ class Order extends Model
         'partner_invoice_id',
         'partner_shipping_id',
         'fiscal_position_id',
+        'sale_order_template_id',
         'payment_term_id',
         'currency_id',
         'user_id',
@@ -121,5 +123,31 @@ class Order extends Model
     public function medium()
     {
         return $this->belongsTo(UTMMedium::class);
+    }
+
+    public function orderSalesProducts()
+    {
+        return $this
+            ->hasMany(OrderSale::class)
+            ->whereNull('display_type');
+    }
+
+    public function orderSalesSections()
+    {
+        return $this
+            ->hasMany(OrderSale::class)
+            ->where('display_type', OrderDisplayType::SECTION->value);
+    }
+
+    public function orderSalesNotes()
+    {
+        return $this
+            ->hasMany(OrderSale::class)
+            ->where('display_type', OrderDisplayType::NOTE->value);
+    }
+
+    public function quotationTemplate()
+    {
+        return $this->belongsTo(OrderTemplate::class, 'sale_order_template_id');
     }
 }

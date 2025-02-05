@@ -26,6 +26,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->comment('Salesperson')->constrained('users')->nullOnDelete();
             $table->foreignId('team_id')->nullable()->comment('Sales Team')->constrained('sales_teams')->nullOnDelete();
             $table->foreignId('creator_id')->nullable()->comment('Created by')->constrained('users')->nullOnDelete();
+            $table->foreignId('sale_order_template_id')->nullable()->comment('Order Template')->constrained('sales_order_templates')->nullOnDelete();
             $table->string('access_token')->nullable()->comment('Access Token');
             $table->string('name')->comment('Order Reference');
             $table->string('state')->nullable()->comment('Status');
