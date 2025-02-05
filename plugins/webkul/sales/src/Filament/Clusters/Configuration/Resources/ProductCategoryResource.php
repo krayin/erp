@@ -64,7 +64,7 @@ class ProductCategoryResource extends Resource
                             ->label(__('sales::filament/clusters/configurations/resources/product-category.form.sections.fields.name'))
                             ->maxLength(255),
                         Forms\Components\Select::make('parent_id')
-                            ->relationship('parent', 'complete_name')
+                            ->relationship('parent', 'full_name')
                             ->label(__('sales::filament/clusters/configurations/resources/product-category.form.sections.fields.parent-category'))
                     ])->columns(2),
             ]);
@@ -74,7 +74,7 @@ class ProductCategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('complete_name')
+                Tables\Columns\TextColumn::make('full_name')
                     ->label(__('sales::filament/clusters/configurations/resources/product-category.table.columns.complete-name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('createdBy.name')
@@ -99,7 +99,7 @@ class ProductCategoryResource extends Resource
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('name')
                             ->label(__('sales::filament/clusters/configurations/resources/product-category.table.filters.name'))
                             ->icon('heroicon-o-tag'),
-                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('complete_name')
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('full_name')
                             ->label(__('sales::filament/clusters/configurations/resources/product-category.table.filters.complete-name'))
                             ->icon('heroicon-o-tag'),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('parent_id')
@@ -108,7 +108,7 @@ class ProductCategoryResource extends Resource
                             ->multiple()
                             ->selectable(
                                 IsRelatedToOperator::make()
-                                    ->titleAttribute('complete_name')
+                                    ->titleAttribute('full_name')
                                     ->label(__('sales::filament/clusters/configurations/resources/product-category.table.filters.parent-category'))
                                     ->searchable()
                                     ->multiple()
@@ -136,10 +136,10 @@ class ProductCategoryResource extends Resource
                 Tables\Grouping\Group::make('name')
                     ->label(__('sales::filament/clusters/configurations/resources/product-category.table.groups.name'))
                     ->collapsible(),
-                Tables\Grouping\Group::make('complete_name')
+                Tables\Grouping\Group::make('full_name')
                     ->label(__('sales::filament/clusters/configurations/resources/product-category.table.groups.complete-name'))
                     ->collapsible(),
-                Tables\Grouping\Group::make('parent.complete_name')
+                Tables\Grouping\Group::make('parent.full_name')
                     ->label(__('sales::filament/clusters/configurations/resources/product-category.table.groups.parent-complete-name'))
                     ->collapsible(),
                 Tables\Grouping\Group::make('createdBy.name')
@@ -187,7 +187,7 @@ class ProductCategoryResource extends Resource
                         Infolists\Components\TextEntry::make('name')
                             ->icon('heroicon-o-tag')
                             ->label(__('sales::filament/clusters/configurations/resources/product-category.infolist.sections.entries.name')),
-                        Infolists\Components\TextEntry::make('complete_name')
+                        Infolists\Components\TextEntry::make('full_name')
                             ->icon('heroicon-o-folder')
                             ->label(__('sales::filament/clusters/configurations/resources/product-category.infolist.sections.entries.parent-category'))
                     ])->columns(2),

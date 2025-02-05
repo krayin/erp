@@ -24,6 +24,7 @@ class SaleServiceProvider extends PackageServiceProvider
                 '2025_01_28_122700_create_sales_order_templates_table',
                 '2025_02_04_082243_add_sales_fields_to_products_table',
                 '2025_02_05_053212_create_sales_orders_table',
+                '2025_02_05_080609_create_sales_order_template_products_table',
             ])
             ->runsMigrations()
             ->hasInstallCommand(function (InstallCommand $command) {

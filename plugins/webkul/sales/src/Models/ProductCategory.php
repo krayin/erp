@@ -3,11 +3,14 @@
 namespace Webkul\Sale\Models;
 
 use InvalidArgumentException;
+use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Security\Models\User;
 use Webkul\Product\Models\Category as BaseProductCategory;
 
 class ProductCategory extends BaseProductCategory
 {
+    use HasChatter;
+
     protected array $logAttributes = [
         'name'            => 'Name',
         'completed_name'  => 'Completed Name',
