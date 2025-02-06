@@ -2,7 +2,7 @@
 
 namespace Webkul\Sale\Filament\Clusters\Orders\Resources;
 
-use App\Livewire\QuotationSummary;
+use Webkul\Sale\Livewire\QuotationSummary;
 use Webkul\Sale\Filament\Clusters\Orders;
 use Webkul\Sale\Filament\Clusters\Orders\Resources\QuotationResource\Pages;
 use Filament\Forms\Form;

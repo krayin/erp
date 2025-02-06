@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace Webkul\Sale\Livewire;
 
 use Livewire\Attributes\Reactive;
 use Livewire\Component;
@@ -22,7 +22,7 @@ class QuotationSummary extends Component
 
     public function render()
     {
-        return view('livewire.quotation-summary', [
+        return view('sales::livewire.quotation-summary', [
             'products' => $this->products,
         ]);
     }
