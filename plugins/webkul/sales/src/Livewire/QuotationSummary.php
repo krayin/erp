@@ -22,7 +22,7 @@ class QuotationSummary extends Component
 
     public function render()
     {
-        return view('sales::livewire.quotation-summary', [
+        return view('sales::livewire/quotation-summary', [
             'products' => $this->products,
         ]);
     }

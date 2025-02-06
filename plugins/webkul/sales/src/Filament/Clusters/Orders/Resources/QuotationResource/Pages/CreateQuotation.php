@@ -22,6 +22,8 @@ class CreateQuotation extends CreateRecord
 
         $data['state'] = OrderState::DRAFT->value;
 
+        $data['invoice_status'] = 'no';
+
         return $data;
     }
 }

@@ -2,7 +2,9 @@
 
 namespace Webkul\Sale;
 
+use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
+use Webkul\Sale\Livewire\QuotationSummary;
 use Webkul\Support\Package;
 use Webkul\Support\PackageServiceProvider;
 
@@ -43,5 +45,11 @@ class SaleServiceProvider extends PackageServiceProvider
                     })
                     ->askToStarRepoOnGitHub('krayin/sales');
             });
+    }
+
+
+    public function packageBooted(): void
+    {
+        Livewire::component('quotation-summary', QuotationSummary::class);
     }
 }
