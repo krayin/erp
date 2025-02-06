@@ -44,7 +44,6 @@ return new class extends Migration
             $table->boolean('locked')->default(false)->comment('Locked');
             $table->boolean('require_signature')->default(false)->comment('Require Signature');
             $table->boolean('require_payment')->default(false)->comment('Require Payment');
-            $table->date('create_date')->nullable()->comment('Creation Date');
             $table->date('commitment_date')->nullable()->comment('Commitment Date');
             $table->date('date_order')->comment('Order Date');
             $table->date('signed_on')->nullable()->comment('Signed On');

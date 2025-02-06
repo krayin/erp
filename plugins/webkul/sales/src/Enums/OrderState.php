@@ -24,7 +24,7 @@ enum OrderState: string implements HasLabel
         };
     }
 
-    public function options(): array
+    public static function options(): array
     {
         return [
             self::DRAFT->value   => __('sales::enums/order-state.draft'),

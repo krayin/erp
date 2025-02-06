@@ -53,7 +53,6 @@ class Order extends Model
         'locked',
         'require_signature',
         'require_payment',
-        'create_date',
         'commitment_date',
         'date_order',
         'signed_on',
