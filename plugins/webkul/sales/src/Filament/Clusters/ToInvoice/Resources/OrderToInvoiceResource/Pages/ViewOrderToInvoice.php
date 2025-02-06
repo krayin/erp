@@ -3,17 +3,12 @@
 namespace Webkul\Sale\Filament\Clusters\ToInvoice\Resources\OrderToInvoiceResource\Pages;
 
 use Webkul\Sale\Filament\Clusters\ToInvoice\Resources\OrderToInvoiceResource;
-use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
+use Webkul\Sale\Traits\HasQuotationAndOrderActions;
 
 class ViewOrderToInvoice extends ViewRecord
 {
-    protected static string $resource = OrderToInvoiceResource::class;
+    use HasQuotationAndOrderActions;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\EditAction::make(),
-        ];
-    }
+    protected static string $resource = OrderToInvoiceResource::class;
 }

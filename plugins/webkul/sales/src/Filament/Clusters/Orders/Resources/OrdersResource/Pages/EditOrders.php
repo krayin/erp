@@ -3,18 +3,12 @@
 namespace Webkul\Sale\Filament\Clusters\Orders\Resources\OrdersResource\Pages;
 
 use Webkul\Sale\Filament\Clusters\Orders\Resources\OrdersResource;
-use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Webkul\Sale\Traits\HasQuotationAndOrderActions;
 
 class EditOrders extends EditRecord
 {
-    protected static string $resource = OrdersResource::class;
+    use HasQuotationAndOrderActions;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
-        ];
-    }
+    protected static string $resource = OrdersResource::class;
 }

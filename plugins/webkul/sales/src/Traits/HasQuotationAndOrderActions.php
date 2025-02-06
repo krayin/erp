@@ -12,7 +12,7 @@ use Filament\Support\Enums\MaxWidth;
 use Illuminate\Support\Facades\Route;
 use Webkul\Sale\Enums\OrderState;
 
-trait HasQuotationActions
+trait HasQuotationAndOrderActions
 {
     protected function getHeaderActions(): array
     {
