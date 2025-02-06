@@ -28,12 +28,12 @@ class ListQuotations extends ListRecords
     {
         return [
             'my_quotations' => PresetView::make(__('My Quotations'))
-                ->icon('heroicon-s-document')
+                ->icon('heroicon-s-user')
                 ->favorite()
                 ->default()
                 ->modifyQueryUsing(fn(Builder $query) => $query->where('user_id', Auth::id())),
             'quotations' => PresetView::make(__('Quotations'))
-                ->icon('heroicon-s-document')
+                ->icon('heroicon-s-receipt-percent')
                 ->favorite()
                 ->modifyQueryUsing(fn(Builder $query) => $query->whereIn('state', [OrderState::DRAFT->value, OrderState::SENT->value])),
             'sale_orders' => PresetView::make(__('Sales Orders'))

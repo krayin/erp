@@ -28,18 +28,18 @@ class ListOrders extends ListRecords
     {
         return [
             'my_orders' => PresetView::make(__('My Orders'))
-                ->icon('heroicon-s-document')
+                ->icon('heroicon-s-shopping-bag')
                 ->favorite()
                 ->default()
                 ->modifyQueryUsing(fn(Builder $query) => $query->where('user_id', Auth::id())),
             'to_invoice' => PresetView::make(__('To Invoice'))
-                ->icon('heroicon-s-document')
+                ->icon('heroicon-s-receipt-percent')
                 ->favorite()
-                ->modifyQueryUsing(fn(Builder $query) => $query->whereIn('invoice_status', InvoiceStatus::TO_INVOICE->value)),
-            'to_upselling' => PresetView::make(__('To Invoice'))
-                ->icon('heroicon-s-document')
+                ->modifyQueryUsing(fn(Builder $query) => $query->where('invoice_status', InvoiceStatus::TO_INVOICE->value)),
+            'upselling' => PresetView::make(__('Upselling'))
+                ->icon('heroicon-s-receipt-refund')
                 ->favorite()
-                ->modifyQueryUsing(fn(Builder $query) => $query->whereIn('invoice_status', InvoiceStatus::UPSELLING->value)),
+                ->modifyQueryUsing(fn(Builder $query) => $query->where('invoice_status', InvoiceStatus::UPSELLING->value)),
         ];
     }
 }

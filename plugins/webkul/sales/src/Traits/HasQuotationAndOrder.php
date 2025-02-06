@@ -35,6 +35,11 @@ trait HasQuotationAndOrder
         return null;
     }
 
+    public static function getInvoiceStatus(): ?string
+    {
+        return null;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -397,6 +402,10 @@ trait HasQuotationAndOrder
             ->modifyQueryUsing(function ($query) {
                 if (static::getDefaultState()) {
                     $query->where('state', static::getDefaultState());
+                }
+
+                if (static::getInvoiceStatus()) {
+                    $query->where('invoice_status', static::getInvoiceStatus());
                 }
             });
     }

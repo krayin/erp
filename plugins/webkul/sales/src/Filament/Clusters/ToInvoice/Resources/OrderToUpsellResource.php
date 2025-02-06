@@ -8,15 +8,24 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Webkul\Sale\Enums\InvoiceStatus;
 use Webkul\Sale\Models\Order;
+use Webkul\Sale\Traits\HasQuotationAndOrder;
 
 class OrderToUpsellResource extends Resource
 {
+    use HasQuotationAndOrder;
+
     protected static ?string $model = Order::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-arrow-up';
 
     protected static ?string $cluster = ToInvoice::class;
+
+    public static function getInvoiceStatus(): ?string
+    {
+        return InvoiceStatus::UPSELLING->value;
+    }
 
     public static function getModelLabel(): string
     {
@@ -26,42 +35,6 @@ class OrderToUpsellResource extends Resource
     public static function getNavigationLabel(): string
     {
         return __('Orders To Upsell');
-    }
-
-
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                //
-            ]);
-    }
-
-    public static function table(Table $table): Table
-    {
-        return $table
-            ->columns([
-                //
-            ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array

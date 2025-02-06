@@ -19,7 +19,7 @@ enum InvoiceStatus: string implements HasLabel
         return match ($this) {
             self::UPSELLING   => __('sales::enums/invoice-status.upselling'),
             self::INVOICED    => __('sales::enums/invoice-status.invoiced'),
-            self::TO_INVOICE  => __('sales::enums/invoice-status.to_invoice'),
+            self::TO_INVOICE  => __('sales::enums/invoice-status.to-invoice'),
             self::NO          => __('sales::enums/invoice-status.no'),
         };
     }
@@ -29,7 +29,7 @@ enum InvoiceStatus: string implements HasLabel
         return [
             self::UPSELLING->value   => __('sales::enums/invoice-status.upselling'),
             self::INVOICED->value    => __('sales::enums/invoice-status.invoiced'),
-            self::TO_INVOICE->value  => __('sales::enums/invoice-status.to_invoice'),
+            self::TO_INVOICE->value  => __('sales::enums/invoice-status.to-invoice'),
             self::NO->value          => __('sales::enums/invoice-status.no'),
         ];
     }
