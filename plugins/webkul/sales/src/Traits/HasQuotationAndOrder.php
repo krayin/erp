@@ -305,6 +305,27 @@ trait HasQuotationAndOrder
                     ->label('Number')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('state')
+                    ->label('Status')
+                    ->placeholder('-')
+                    ->formatStateUsing(fn($state) => OrderState::options()[$state] ?? $state)
+                    ->badge()
+                    ->color(fn($state) => match ($state) {
+                        OrderState::DRAFT->value => 'gray',
+                        OrderState::SENT->value => 'primary',
+                        OrderState::SALE->value => 'success',
+                        OrderState::CANCEL->value => 'danger',
+                        default => 'gray',
+                    })
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('invoice_status')
+                    ->label('Invoice Status')
+                    ->placeholder('-')
+                    ->formatStateUsing(fn($state) => InvoiceStatus::options()[$state] ?? $state)
+                    ->badge()
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Creation Date')
                     ->placeholder('-')
@@ -355,27 +376,6 @@ trait HasQuotationAndOrder
                     ->placeholder('-')
                     ->searchable()
                     ->summarize(Sum::make()->label('Total Amount'))
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('state')
-                    ->label('Status')
-                    ->placeholder('-')
-                    ->formatStateUsing(fn($state) => OrderState::options()[$state] ?? $state)
-                    ->badge()
-                    ->color(fn($state) => match ($state) {
-                        OrderState::DRAFT->value => 'gray',
-                        OrderState::SENT->value => 'primary',
-                        OrderState::SALE->value => 'success',
-                        OrderState::CANCEL->value => 'danger',
-                        default => 'gray',
-                    })
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('invoice_status')
-                    ->label('Invoice Status')
-                    ->placeholder('-')
-                    ->formatStateUsing(fn($state) => InvoiceStatus::options()[$state] ?? $state)
-                    ->badge()
-                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('client_order_ref')
                     ->label('Customer Reference')

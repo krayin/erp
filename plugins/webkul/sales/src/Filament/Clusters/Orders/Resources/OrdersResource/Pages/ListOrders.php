@@ -36,10 +36,10 @@ class ListOrders extends ListRecords
                 ->icon('heroicon-s-receipt-percent')
                 ->favorite()
                 ->modifyQueryUsing(fn(Builder $query) => $query->where('invoice_status', InvoiceStatus::TO_INVOICE->value)),
-            'upselling' => PresetView::make(__('Upselling'))
+            'up_selling' => PresetView::make(__('Up Selling'))
                 ->icon('heroicon-s-receipt-refund')
                 ->favorite()
-                ->modifyQueryUsing(fn(Builder $query) => $query->where('invoice_status', InvoiceStatus::UPSELLING->value)),
+                ->modifyQueryUsing(fn(Builder $query) => $query->where('invoice_status', InvoiceStatus::UP_SELLING->value)),
         ];
     }
 }

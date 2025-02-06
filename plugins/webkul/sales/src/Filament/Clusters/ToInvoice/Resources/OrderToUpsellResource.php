@@ -24,7 +24,7 @@ class OrderToUpsellResource extends Resource
 
     public static function getInvoiceStatus(): ?string
     {
-        return InvoiceStatus::UPSELLING->value;
+        return InvoiceStatus::UP_SELLING->value;
     }
 
     public static function getModelLabel(): string
