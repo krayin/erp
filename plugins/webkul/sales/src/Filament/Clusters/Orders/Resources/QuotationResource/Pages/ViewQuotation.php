@@ -3,17 +3,12 @@
 namespace Webkul\Sale\Filament\Clusters\Orders\Resources\QuotationResource\Pages;
 
 use Webkul\Sale\Filament\Clusters\Orders\Resources\QuotationResource;
-use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
+use Webkul\Sale\Traits\HasQuotationActions;
 
 class ViewQuotation extends ViewRecord
 {
-    protected static string $resource = QuotationResource::class;
+    use HasQuotationActions;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\EditAction::make(),
-        ];
-    }
+    protected static string $resource = QuotationResource::class;
 }
