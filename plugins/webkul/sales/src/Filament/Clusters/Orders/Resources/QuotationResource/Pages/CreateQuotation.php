@@ -6,6 +6,7 @@ use Webkul\Sale\Filament\Clusters\Orders\Resources\QuotationResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Sale\Enums\OrderState;
 
 class CreateQuotation extends CreateRecord
 {
@@ -18,6 +19,8 @@ class CreateQuotation extends CreateRecord
         $data['company_id'] = $user->default_company_id;
 
         $data['name'] = 'Quotation-' . time();
+
+        $data['state'] = OrderState::DRAFT->value;
 
         return $data;
     }

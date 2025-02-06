@@ -2,6 +2,7 @@
 
 namespace Webkul\Sale\Filament\Clusters\Orders\Resources;
 
+use App\Livewire\QuotationSummary;
 use Webkul\Sale\Filament\Clusters\Orders;
 use Webkul\Sale\Filament\Clusters\Orders\Resources\QuotationResource\Pages;
 use Filament\Forms\Form;
@@ -15,8 +16,11 @@ use Webkul\Partner\Models\Partner;
 use Webkul\Sale\Enums\OrderState;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Set;
-use Filament\Tables\Columns\Summarizers\Sum;
+use Filament\Support\Facades\FilamentView;
+use Webkul\Account\Enums\TypeTaxUse;
+use Webkul\Account\Models\Tax;
 use Webkul\Sale\Enums\OrderDisplayType;
+use Webkul\Sale\Filament\Clusters\Configuration\Resources\ProductResource;
 use Webkul\Sale\Models\Order;
 use Webkul\Sale\Models\OrderSale;
 use Webkul\Sale\Models\OrderTemplate;
@@ -52,7 +56,7 @@ class QuotationResource extends Resource
                     ->schema([
                         Forms\Components\Hidden::make('currency_id')
                             ->default(Currency::first()->id),
-                        ProgressStepper::make('stage_id')
+                        ProgressStepper::make('state')
                             ->hiddenLabel()
                             ->inline()
                             ->options(OrderState::class)
@@ -73,10 +77,13 @@ class QuotationResource extends Resource
                                                 static::getProductRepeater(),
                                                 static::getSectionRepeater(),
                                                 static::getNoteRepeater(),
-                                                Forms\Components\View::make('sales::orders/quotation-totals')
-                                                    ->extraAttributes([
-                                                        'user' => 'Suraj',
-                                                    ]),
+                                                Forms\Components\Livewire::make(QuotationSummary::class, function (Get $get) {
+                                                    return [
+                                                        'products' => $get('products'),
+                                                    ];
+                                                })
+                                                    ->live()
+                                                    ->reactive()
                                             ]),
                                         Forms\Components\Tabs\Tab::make(__('Other Info'))
                                             ->schema([
@@ -324,6 +331,7 @@ class QuotationResource extends Resource
             ->relationship('orderSalesProducts')
             ->hiddenLabel()
             ->live()
+            ->reactive()
             ->reorderable()
             ->collapsible()
             ->defaultItems(0)
@@ -335,30 +343,17 @@ class QuotationResource extends Resource
             ->extraItemActions([
                 Action::make('view')
                     ->icon('heroicon-m-eye')
-                    ->action(function (
-                        array $arguments,
-                        $livewire
-                    ): void {
-                        $recordId = explode('-', $arguments['item'])[1];
+                    ->action(function (array $arguments, $livewire, $state): void {
+                        $redirectUrl = ProductResource::getUrl('edit', ['record' => $state[$arguments['item']]['product_id']]);
 
-                        // $redirectUrl = OrderTemplateProductResource::getUrl('edit', ['record' => $recordId]);
-
-                        // $livewire->redirect($redirectUrl, navigate: FilamentView::hasSpaMode());
+                        $livewire->redirect($redirectUrl, navigate: FilamentView::hasSpaMode());
                     }),
             ])
             ->mutateRelationshipDataBeforeCreateUsing(function ($data) {
                 $data['sort'] = OrderSale::max('sort') + 1;
-
                 $data['company_id'] = $data['company_id'] ?? Company::first()->id;
-
                 $data['product_uom_id'] = $data['product_uom_id'] ?? UOM::first()->id;
-
                 $data['creator_id'] = $data['creator_id'] ?? User::first()->id;
-
-                $data['product_uom_qty'] = $data['product_uom_qty'] ?? 1;
-
-                $data['price_unit'] = $data['price_unit'] ?? 0;
-
                 $data['customer_lead'] = $data['customer_lead'] ?? 0;
 
                 return $data;
@@ -374,49 +369,120 @@ class QuotationResource extends Resource
                                     ->preload()
                                     ->live()
                                     ->label('Product')
+                                    ->afterStateHydrated(function ($state, Set $set, Get $get) {
+                                        if ($state) {
+                                            $product = Product::find($state);
+                                            $quantity = floatval($get('product_uom_qty') ?? 1);
+                                            $priceUnit = floatval($product->price);
+
+                                            $set('name', $product->name);
+                                            $set('price_unit', $priceUnit);
+
+                                            $subtotal = $quantity * $priceUnit;
+                                            $set('price_subtotal', number_format($subtotal, 2, '.', ''));
+                                            $set('price_total', number_format($subtotal, 2, '.', ''));
+
+                                            $set('tax', $product->productTaxes->pluck('id')->toArray());
+                                        }
+                                    })
                                     ->afterStateUpdated(function ($state, Set $set, Get $get) {
                                         if ($state) {
                                             $product = Product::find($state);
+                                            $quantity = floatval($get('product_uom_qty') ?? 1);
+                                            $priceUnit = floatval($product->price);
 
                                             $set('name', $product->name);
+                                            $set('price_unit', $priceUnit);
 
-                                            $set('amount', $product->price * ($get('quantity') ?? 1));
+                                            $subtotal = $quantity * $priceUnit;
+                                            $set('price_subtotal', number_format($subtotal, 2, '.', ''));
+                                            $set('price_total', number_format($subtotal, 2, '.', ''));
 
-                                            $set('unit_price', $product->price);
+                                            $set('tax', $product->productTaxes->pluck('id')->toArray());
                                         }
                                     })
                                     ->required(),
                                 Forms\Components\Hidden::make('name')
                                     ->live(onBlur: true),
-                                Forms\Components\TextInput::make('description')
-                                    ->live(onBlur: true)
-                                    ->placeholder('Product Description'),
-                                Forms\Components\TextInput::make('quantity')
+                                Forms\Components\TextInput::make('product_uom_qty')
                                     ->required()
                                     ->default(1)
                                     ->live()
                                     ->afterStateUpdated(function ($state, Set $set, Get $get) {
-                                        $product = Product::find($get('product_id'));
+                                        if ($get('product_id')) {
+                                            $product = Product::find($get('product_id'));
+                                            $quantity = floatval($state);
+                                            $priceUnit = floatval($get('price_unit') ?? $product->price);
 
-                                        $set('amount', $product->price * $state);
+                                            $subtotal = $quantity * $priceUnit;
+                                            $set('price_subtotal', number_format($subtotal, 2, '.', ''));
+                                            $set('price_total', number_format($subtotal, 2, '.', ''));
+                                        }
                                     })
                                     ->label('Quantity'),
+                                Forms\Components\Select::make('tax')
+                                    ->options(Tax::where('type_tax_use', TypeTaxUse::SALE->value)->pluck('name', 'id')->toArray())
+                                    ->searchable()
+                                    ->label('Taxes')
+                                    ->multiple()
+                                    ->preload()
+                                    ->afterStateUpdated(function (Get $get, Set $set, $state) {
+                                        if ($get('product_id')) {
+                                            $product = Product::find($get('product_id'));
+
+                                            $product->productTaxes()->sync($state);
+                                        }
+                                    })
+                                    ->live(),
                                 Forms\Components\TextInput::make('customer_lead')
                                     ->numeric()
                                     ->default(0)
                                     ->required()
                                     ->label('Lead Time'),
-                                Forms\Components\TextInput::make('unit_price')
+                                Forms\Components\TextInput::make('price_unit')
                                     ->numeric()
                                     ->default(0)
                                     ->required()
+                                    ->live()
+                                    ->afterStateUpdated(function ($state, Set $set, Get $get) {
+                                        if ($get('product_id')) {
+                                            $quantity = floatval($get('product_uom_qty') ?? 1);
+                                            $priceUnit = floatval($state);
+
+                                            $subtotal = $quantity * $priceUnit;
+
+                                            $taxIds = $get('tax') ?? [];
+                                            $taxAmount = 0;
+
+                                            if (!empty($taxIds)) {
+                                                $taxes = \Webkul\Account\Models\Tax::whereIn('id', $taxIds)->get();
+                                                foreach ($taxes as $tax) {
+                                                    $taxValue = floatval($tax->amount);
+                                                    if ($tax->include_base_amount) {
+                                                        $subtotal = $subtotal / (1 + ($taxValue / 100));
+                                                    } else {
+                                                        $taxAmount += $subtotal * ($taxValue / 100);
+                                                    }
+                                                }
+                                            }
+
+                                            $set('price_subtotal', number_format($subtotal, 2, '.', ''));
+                                            $set('price_total', number_format($subtotal + $taxAmount, 2, '.', ''));
+                                        }
+                                    })
                                     ->label('Unit Price'),
-                                Forms\Components\TextInput::make('amount')
+                                Forms\Components\TextInput::make('price_subtotal')
                                     ->numeric()
                                     ->live()
                                     ->required()
                                     ->readOnly()
-                                    ->label('Amount'),
+                                    ->label('Subtotal'),
+                                Forms\Components\TextInput::make('price_total')
+                                    ->numeric()
+                                    ->live()
+                                    ->required()
+                                    ->readOnly()
+                                    ->label('Total'),
                             ]),
                     ])->columns(2)
             ]);
@@ -440,13 +506,12 @@ class QuotationResource extends Resource
                     ->icon('heroicon-m-eye')
                     ->action(function (
                         array $arguments,
-                        $livewire
+                        $livewire,
+                        $state,
                     ): void {
-                        // $recordId = explode('-', $arguments['item'])[1];
+                        $redirectUrl = ProductResource::getUrl('edit', ['record' => $state[$arguments['item']]['product_id']]);
 
-                        // $redirectUrl = OrderTemplateProductResource::getUrl('edit', ['record' => $recordId]);
-
-                        // $livewire->redirect($redirectUrl, navigate: FilamentView::hasSpaMode());
+                        $livewire->redirect($redirectUrl, navigate: FilamentView::hasSpaMode());
                     }),
             ])
             ->schema([
@@ -483,13 +548,12 @@ class QuotationResource extends Resource
                     ->icon('heroicon-m-eye')
                     ->action(function (
                         array $arguments,
-                        $livewire
+                        $livewire,
+                        $state,
                     ): void {
-                        // $recordId = explode('-', $arguments['item'])[1];
+                        $redirectUrl = ProductResource::getUrl('edit', ['record' => $state[$arguments['item']]['product_id']]);
 
-                        // $redirectUrl = OrderTemplateProductResource::getUrl('edit', ['record' => $recordId]);
-
-                        // $livewire->redirect($redirectUrl, navigate: FilamentView::hasSpaMode());
+                        $livewire->redirect($redirectUrl, navigate: FilamentView::hasSpaMode());
                     }),
             ])
             ->schema([
