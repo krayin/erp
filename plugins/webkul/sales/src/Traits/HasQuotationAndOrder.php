@@ -30,7 +30,7 @@ use Webkul\Support\Models\UOM;
 
 trait HasQuotationAndOrder
 {
-    public static function getByState(): ?string
+    public static function getDefaultState(): ?string
     {
         return null;
     }
@@ -395,8 +395,8 @@ trait HasQuotationAndOrder
                 ]),
             ])
             ->modifyQueryUsing(function ($query) {
-                if (static::getByState()) {
-                    $query->where('state', static::getByState());
+                if (static::getDefaultState()) {
+                    $query->where('state', static::getDefaultState());
                 }
             });
     }

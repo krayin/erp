@@ -19,7 +19,7 @@ class OrdersResource extends Resource
 
     protected static ?string $cluster = OrderClusters::class;
 
-    public static function getByState(): ?string
+    public static function getDefaultState(): ?string
     {
         return OrderState::SALE->value;
     }
