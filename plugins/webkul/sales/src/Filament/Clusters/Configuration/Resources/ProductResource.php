@@ -14,6 +14,7 @@ use Filament\Notifications\Notification;
 use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Support\Colors\Color;
 use Filament\Tables\Table;
 use Filament\Resources\Pages\Page;
 use Filament\Support\Enums\ActionSize;
@@ -289,11 +290,15 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('tags.name')
                     ->label(__('sales::filament/clusters/products/resources/product.table.columns.tags'))
                     ->badge()
+                    ->state(function (Product $record): array {
+                        return $record->tags->map(fn($tag) => [
+                            'label' => $tag->name,
+                            'color' => $tag->color ?? 'primary',
+                        ])->toArray();
+                    })
+                    ->formatStateUsing(fn($state) => $state['label'])
+                    ->color(fn($state) => Color::hex($state['color']))
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('responsible.name')
-                    ->label(__('sales::filament/clusters/products/resources/product.table.columns.responsible'))
-                    ->searchable()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('barcode')
                     ->label(__('sales::filament/clusters/products/resources/product.table.columns.barcode'))
                     ->searchable()
@@ -389,17 +394,6 @@ class ProductResource extends Resource
                             ->label(__('sales::filament/clusters/products/resources/product.table.filters.created-at')),
                         Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at')
                             ->label(__('sales::filament/clusters/products/resources/product.table.filters.updated-at')),
-                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('responsible')
-                            ->label(__('sales::filament/clusters/products/resources/product.table.filters.responsible'))
-                            ->multiple()
-                            ->selectable(
-                                IsRelatedToOperator::make()
-                                    ->titleAttribute('name')
-                                    ->searchable()
-                                    ->multiple()
-                                    ->preload(),
-                            )
-                            ->icon('heroicon-o-user'),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('company')
                             ->label(__('sales::filament/clusters/products/resources/product.table.filters.company'))
                             ->multiple()

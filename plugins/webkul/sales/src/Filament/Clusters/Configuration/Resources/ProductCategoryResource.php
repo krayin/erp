@@ -20,7 +20,7 @@ class ProductCategoryResource extends Resource
 {
     protected static ?string $model = ProductCategory::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-tag';
+    protected static ?string $navigationIcon = 'heroicon-o-squares-2x2';
 
     protected static ?string $cluster = Configuration::class;
 
@@ -98,10 +98,10 @@ class ProductCategoryResource extends Resource
                     ->constraints([
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('name')
                             ->label(__('sales::filament/clusters/configurations/resources/product-category.table.filters.name'))
-                            ->icon('heroicon-o-tag'),
+                            ->icon('heroicon-o-squares-2x2'),
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('full_name')
                             ->label(__('sales::filament/clusters/configurations/resources/product-category.table.filters.complete-name'))
-                            ->icon('heroicon-o-tag'),
+                            ->icon('heroicon-o-squares-2x2'),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('parent_id')
                             ->label(__('sales::filament/clusters/configurations/resources/product-category.table.filters.parent-category'))
                             ->icon('heroicon-o-folder')
@@ -185,7 +185,7 @@ class ProductCategoryResource extends Resource
                 Infolists\Components\Section::make()
                     ->schema([
                         Infolists\Components\TextEntry::make('name')
-                            ->icon('heroicon-o-tag')
+                            ->icon('heroicon-o-squares-2x2')
                             ->label(__('sales::filament/clusters/configurations/resources/product-category.infolist.sections.entries.name')),
                         Infolists\Components\TextEntry::make('full_name')
                             ->icon('heroicon-o-folder')
