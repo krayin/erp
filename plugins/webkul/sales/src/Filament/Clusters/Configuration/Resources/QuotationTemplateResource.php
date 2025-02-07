@@ -129,6 +129,11 @@ class QuotationTemplateResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('createdBy.name')
+                    ->placeholder('-')
+                    ->sortable()
+                    ->searchable()
+                    ->label(__('Created By')),
                 Tables\Columns\TextColumn::make('company.name')
                     ->placeholder('-')
                     ->sortable()
@@ -166,6 +171,18 @@ class QuotationTemplateResource extends Resource
                 Tables\Filters\QueryBuilder::make()
                     ->constraintPickerColumns(2)
                     ->constraints([
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('createdBy.name')
+                            ->label(__('Created By'))
+                            ->icon('heroicon-o-user')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->label(__('Created By'))
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('company.name')
                             ->label(__('Company'))
                             ->icon('heroicon-o-user')

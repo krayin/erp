@@ -18,7 +18,8 @@ class EditOrderTemplateProduct extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\ViewAction::make(),
+            Actions\ViewAction::make()
+                ->icon('heroicon-o-pencil-square'),
             Actions\DeleteAction::make(),
         ];
     }
