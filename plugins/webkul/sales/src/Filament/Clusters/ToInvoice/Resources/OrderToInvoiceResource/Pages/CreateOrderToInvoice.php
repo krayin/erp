@@ -3,9 +3,9 @@
 namespace Webkul\Sale\Filament\Clusters\ToInvoice\Resources\OrderToInvoiceResource\Pages;
 
 use Webkul\Sale\Filament\Clusters\ToInvoice\Resources\OrderToInvoiceResource;
-use Filament\Resources\Pages\CreateRecord;
+use Webkul\Sale\Filament\Clusters\Orders\Resources\QuotationResource\Pages\CreateQuotation as BaseCreateOrderToInvoice;
 
-class CreateOrderToInvoice extends CreateRecord
+class CreateOrderToInvoice extends BaseCreateOrderToInvoice
 {
     protected static string $resource = OrderToInvoiceResource::class;
 }

@@ -3,12 +3,9 @@
 namespace Webkul\Sale\Filament\Clusters\ToInvoice\Resources\OrderToInvoiceResource\Pages;
 
 use Webkul\Sale\Filament\Clusters\ToInvoice\Resources\OrderToInvoiceResource;
-use Filament\Resources\Pages\EditRecord;
-use Webkul\Sale\Traits\HasSaleOrderActions;
+use Webkul\Sale\Filament\Clusters\Orders\Resources\QuotationResource\Pages\EditQuotation as BaseEditOrderQuotation;
 
-class EditOrderToInvoice extends EditRecord
+class EditOrderToInvoice extends BaseEditOrderQuotation
 {
-    use HasSaleOrderActions;
-
     protected static string $resource = OrderToInvoiceResource::class;
 }

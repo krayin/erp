@@ -3,10 +3,9 @@
 namespace Webkul\Sale\Filament\Clusters\Orders\Resources\OrdersResource\Pages;
 
 use Webkul\Sale\Filament\Clusters\Orders\Resources\OrdersResource;
-use Filament\Actions;
-use Filament\Resources\Pages\CreateRecord;
+use Webkul\Sale\Filament\Clusters\Orders\Resources\QuotationResource\Pages\CreateQuotation as BaseCreateOrders;
 
-class CreateOrders extends CreateRecord
+class CreateOrders extends BaseCreateOrders
 {
     protected static string $resource = OrdersResource::class;
 }
