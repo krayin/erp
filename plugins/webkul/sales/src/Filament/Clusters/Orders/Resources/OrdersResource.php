@@ -19,6 +19,8 @@ class OrdersResource extends Resource
 
     protected static ?string $cluster = OrderClusters::class;
 
+    protected static ?int $navigationSort = 2;
+
     public static function getDefaultState(): ?string
     {
         return OrderState::SALE->value;
