@@ -6,18 +6,17 @@ use Webkul\Sale\Filament\Clusters\Orders;
 use Webkul\Sale\Filament\Clusters\Orders\Resources\QuotationResource\Pages;
 use Webkul\Sale\Models\Order;
 use Filament\Resources\Resource;
-use Webkul\Sale\Enums\OrderState;
-use Webkul\Sale\Traits\HasQuotationAndOrder;
+use Webkul\Sale\Traits\HasSaleOrders;
 
 class QuotationResource extends Resource
 {
-    use HasQuotationAndOrder;
+    use HasSaleOrders;
 
     protected static ?string $model = Order::class;
 
     protected static ?int $navigationSort = 1;
 
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     protected static ?string $cluster = Orders::class;
 

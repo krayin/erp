@@ -4,11 +4,11 @@ namespace Webkul\Sale\Filament\Clusters\ToInvoice\Resources\OrderToInvoiceResour
 
 use Webkul\Sale\Filament\Clusters\ToInvoice\Resources\OrderToInvoiceResource;
 use Filament\Resources\Pages\ViewRecord;
-use Webkul\Sale\Traits\HasQuotationAndOrderActions;
+use Webkul\Sale\Traits\HasSaleOrderActions;
 
 class ViewOrderToInvoice extends ViewRecord
 {
-    use HasQuotationAndOrderActions;
+    use HasSaleOrderActions;
 
     protected static string $resource = OrderToInvoiceResource::class;
 }

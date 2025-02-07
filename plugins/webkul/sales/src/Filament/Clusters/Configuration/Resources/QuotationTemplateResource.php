@@ -14,13 +14,14 @@ use Illuminate\Database\Eloquent\Model;
 use Webkul\Sale\Models\OrderTemplate;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Support\Facades\FilamentView;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Webkul\Sale\Enums\OrderDisplayType;
 
 class QuotationTemplateResource extends Resource
 {
     protected static ?string $model = OrderTemplate::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document';
 
     protected static ?string $cluster = Configuration::class;
 
@@ -128,14 +129,88 @@ class QuotationTemplateResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('company.name')
+                    ->placeholder('-')
+                    ->sortable()
+                    ->searchable()
+                    ->label(__('Company')),
+                Tables\Columns\TextColumn::make('name')
+                    ->placeholder('-')
+                    ->sortable()
+                    ->searchable()
+                    ->label(__('Name')),
+                Tables\Columns\TextColumn::make('number_of_days')
+                    ->sortable()
+                    ->searchable()
+                    ->placeholder('-')
+                    ->label(__('Quotation Validity')),
+                Tables\Columns\TextColumn::make('journal.name')
+                    ->sortable()
+                    ->searchable()
+                    ->placeholder('-')
+                    ->label(__('Sales Journal')),
+                Tables\Columns\IconColumn::make('require_signature')
+                    ->placeholder('-')
+                    ->boolean()
+                    ->label(__('Online Signature')),
+                Tables\Columns\IconColumn::make('require_payment')
+                    ->placeholder('-')
+                    ->boolean()
+                    ->label(__('Online Payment')),
+                Tables\Columns\TextColumn::make('prepayment_percentage')
+                    ->placeholder('-')
+                    ->label(__('Prepayment Percentage')),
             ])
+            ->filtersFormColumns(2)
             ->filters([
-                //
+                Tables\Filters\QueryBuilder::make()
+                    ->constraintPickerColumns(2)
+                    ->constraints([
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('company.name')
+                            ->label(__('Company'))
+                            ->icon('heroicon-o-user')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->label(__('Company'))
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('name')
+                            ->label(__('Name'))
+                            ->icon('heroicon-o-building-office-2')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->label(__('Name'))
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at')
+                            ->label(__('Created At')),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at')
+                            ->label(__('Updated At')),
+                    ]),
+            ])
+            ->groups([
+                Tables\Grouping\Group::make('company.name')
+                    ->label(__('Company'))
+                    ->collapsible(),
+                Tables\Grouping\Group::make('name')
+                    ->label(__('Name'))
+                    ->collapsible(),
+                Tables\Grouping\Group::make('journal.name')
+                    ->label(__('Journal'))
+                    ->collapsible(),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

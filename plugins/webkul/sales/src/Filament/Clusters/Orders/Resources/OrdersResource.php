@@ -7,15 +7,15 @@ use Webkul\Sale\Filament\Clusters\Orders\Resources\OrdersResource\Pages;
 use Filament\Resources\Resource;
 use Webkul\Sale\Enums\OrderState;
 use Webkul\Sale\Models\Order;
-use Webkul\Sale\Traits\HasQuotationAndOrder;
+use Webkul\Sale\Traits\HasSaleOrders;
 
 class OrdersResource extends Resource
 {
-    use HasQuotationAndOrder;
+    use HasSaleOrders;
 
     protected static ?string $model = Order::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
 
     protected static ?string $cluster = OrderClusters::class;
 

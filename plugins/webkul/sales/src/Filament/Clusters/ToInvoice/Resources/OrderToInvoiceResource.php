@@ -7,11 +7,11 @@ use Webkul\Sale\Filament\Clusters\ToInvoice\Resources\OrderToInvoiceResource\Pag
 use Filament\Resources\Resource;
 use Webkul\Sale\Enums\InvoiceStatus;
 use Webkul\Sale\Models\Order;
-use Webkul\Sale\Traits\HasQuotationAndOrder;
+use Webkul\Sale\Traits\HasSaleOrders;
 
 class OrderToInvoiceResource extends Resource
 {
-    use HasQuotationAndOrder;
+    use HasSaleOrders;
 
     protected static ?string $model = Order::class;
 
@@ -37,10 +37,10 @@ class OrderToInvoiceResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListOrderToInvoices::route('/'),
+            'index'  => Pages\ListOrderToInvoices::route('/'),
             'create' => Pages\CreateOrderToInvoice::route('/create'),
-            'view' => Pages\ViewOrderToInvoice::route('/{record}'),
-            'edit' => Pages\EditOrderToInvoice::route('/{record}/edit'),
+            'view'   => Pages\ViewOrderToInvoice::route('/{record}'),
+            'edit'   => Pages\EditOrderToInvoice::route('/{record}/edit'),
         ];
     }
 }

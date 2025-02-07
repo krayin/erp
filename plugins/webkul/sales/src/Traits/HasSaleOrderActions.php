@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 use Webkul\Sale\Enums\OrderState;
 use Webkul\Chatter\Filament\Actions as ChatterActions;
 
-trait HasQuotationAndOrderActions
+trait HasSaleOrderActions
 {
     protected function getRedirectUrl(): string
     {

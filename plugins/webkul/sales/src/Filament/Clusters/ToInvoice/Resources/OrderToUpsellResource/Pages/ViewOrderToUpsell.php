@@ -4,11 +4,11 @@ namespace Webkul\Sale\Filament\Clusters\ToInvoice\Resources\OrderToUpsellResourc
 
 use Webkul\Sale\Filament\Clusters\ToInvoice\Resources\OrderToUpsellResource;
 use Filament\Resources\Pages\ViewRecord;
-use Webkul\Sale\Traits\HasQuotationAndOrderActions;
+use Webkul\Sale\Traits\HasSaleOrderActions;
 
 class ViewOrderToUpsell extends ViewRecord
 {
-    use HasQuotationAndOrderActions;
+    use HasSaleOrderActions;
 
     protected static string $resource = OrderToUpsellResource::class;
 }

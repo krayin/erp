@@ -14,6 +14,8 @@ use Webkul\Partner\Models\Partner;
 use Webkul\Sale\Enums\OrderState;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Set;
+use Filament\Infolists\Infolist;
+use Filament\Infolists;
 use Filament\Support\Facades\FilamentView;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Webkul\Account\Enums\TypeTaxUse;
@@ -29,7 +31,7 @@ use Webkul\Support\Models\Company;
 use Webkul\Support\Models\Currency;
 use Webkul\Support\Models\UOM;
 
-trait HasQuotationAndOrder
+trait HasSaleOrders
 {
     public static function getDefaultState(): ?string
     {
@@ -572,6 +574,8 @@ trait HasQuotationAndOrder
                 }
             });
     }
+
+
 
     public static function getProductRepeater(): Forms\Components\Repeater
     {

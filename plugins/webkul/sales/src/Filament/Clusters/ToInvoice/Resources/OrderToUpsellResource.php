@@ -10,11 +10,11 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Webkul\Sale\Enums\InvoiceStatus;
 use Webkul\Sale\Models\Order;
-use Webkul\Sale\Traits\HasQuotationAndOrder;
+use Webkul\Sale\Traits\HasSaleOrders;
 
 class OrderToUpsellResource extends Resource
 {
-    use HasQuotationAndOrder;
+    use HasSaleOrders;
 
     protected static ?string $model = Order::class;
 
