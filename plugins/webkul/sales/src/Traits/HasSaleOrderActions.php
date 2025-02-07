@@ -12,7 +12,12 @@ use Filament\Support\Enums\MaxWidth;
 use Illuminate\Support\Facades\Route;
 use Webkul\Sale\Enums\OrderState;
 use Webkul\Chatter\Filament\Actions as ChatterActions;
+use Webkul\Partner\Models\Partner;
 use Webkul\Sale\Enums\InvoiceStatus;
+use Webkul\Sale\Mail\SaleOrderQuotation;
+use Webkul\Support\Services\EmailService;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 trait HasSaleOrderActions
 {
@@ -74,18 +79,51 @@ trait HasSaleOrderActions
                 ->color('gray'),
             Action::make('sendByEmail')
                 ->color('gray')
+                ->beforeFormFilled(function ($record, Action $action) {
+                    $pdf = Pdf::loadView('sales::sales.quotation', compact('record'))
+                        ->setPaper('A4', 'portrait')
+                        ->setOption('defaultFont', 'Arial');
+
+                    $fileName = "$record->name-" . time() . ".pdf";
+                    $filePath = 'sales-orders/' . $fileName;
+
+                    Storage::disk('public')->put($filePath, $pdf->output());
+
+                    $action->fillForm([
+                        'file' => $filePath,
+                        'partners' => [$record->partner_id],
+                        'subject' => $record->partner->name . ' Quotation (Ref ' . $record->name . ')',
+                        'description' => 'Dear ' . $record->partner->name . ', <br/><br/>Your quotation <strong>' . $record->name . '</strong> amounting in <strong>' . $record->currency->symbol . ' ' . $record->amount_total . '</strong> is ready for review.<br/><br/>Should you have any questions or require further assistance, please feel free to reach out to us.',
+                    ]);
+                })
+                ->form(
+                    function (Form $form, $record) {
+                        return $form->schema([
+                            Forms\Components\Select::make('partners')
+                                ->options(Partner::all()->pluck('name', 'id'))
+                                ->multiple()
+                                ->searchable()
+                                ->preload(),
+                            Forms\Components\TextInput::make('subject')
+                                ->placeholder('Subject')
+                                ->hiddenLabel(),
+                            Forms\Components\RichEditor::make('description')
+                                ->placeholder('Description')
+                                ->hiddenLabel(),
+                            Forms\Components\FileUpload::make('file')
+                                ->label('Attachment')
+                                ->downloadable()
+                                ->openable()
+                                ->disk('public')
+                                ->hiddenLabel(),
+                        ]);
+                    }
+                )
+                ->modalIcon('heroicon-s-envelope')
+                ->modalHeading('Send Quotation by Email')
                 ->hidden(fn($record) => !in_array($record->state, [OrderState::SENT->value, OrderState::SALE->value]))
-                ->action(function ($record) {
-                    $record->state = OrderState::SENT->value;
-                    $record->save();
-
-                    $this->refreshFormData(['state']);
-
-                    Notification::make()
-                        ->success()
-                        ->title('Quotation confirmed')
-                        ->body('The quotation has been confirmed and converted to a sale.')
-                        ->send();
+                ->action(function ($record, array $data) {
+                    $this->handleSendByEmail($record, $data);
                 }),
             Action::make('cancelQuotation')
                 ->color('gray')
@@ -129,5 +167,58 @@ trait HasSaleOrderActions
                 ->hidden(fn() => str_contains(Route::currentRouteName(), 'edit')),
             Actions\DeleteAction::make(),
         ];
+    }
+
+    private function preparePayload($record, $partner, $data)
+    {
+        $modalName = match ($record->state) {
+            OrderState::DRAFT->value => 'Quotation',
+            OrderState::SALE->value => 'Sales Order',
+            OrderState::SENT->value => 'Quotation',
+            OrderState::CANCEL->value => 'Quotation',
+            default => 'Quotation',
+        };
+
+        return [
+            'record_url'     => $this->getRedirectUrl() ?? '',
+            'record_name'    => $record->name,
+            'model_name'     => $modalName,
+            'subject'        => $data['subject'],
+            'description'    => $data['description'],
+            'to'             => [
+                'address' => $partner?->email,
+                'name'    => $partner?->name,
+            ],
+        ];
+    }
+
+    private function handleSendByEmail($record, $data)
+    {
+        $partners = Partner::whereIn('id', $data['partners'])->get();
+
+        foreach ($partners as $key => $partner) {
+            app(EmailService::class)->send(
+                mailClass: SaleOrderQuotation::class,
+                view: 'sales::mails.sale-order-quotation',
+                payload: $this->preparePayload($record, $partner, $data),
+                attachments: [
+                    [
+                        'path' => $path = asset(Storage::url($data['file'])),
+                        'name' => basename($data['file']),
+                    ],
+                ]
+            );
+        }
+
+        $record->state = OrderState::SENT->value;
+        $record->save();
+
+        $this->refreshFormData(['state']);
+
+        Notification::make()
+            ->success()
+            ->title('Mail Sent')
+            ->body('The mail has been sent successfully.')
+            ->send();
     }
 }
