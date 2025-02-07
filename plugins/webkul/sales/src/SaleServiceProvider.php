@@ -4,7 +4,7 @@ namespace Webkul\Sale;
 
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
-use Webkul\Sale\Livewire\QuotationSummary;
+use Webkul\Sale\Livewire\Summary;
 use Webkul\Support\Package;
 use Webkul\Support\PackageServiceProvider;
 
@@ -50,6 +50,6 @@ class SaleServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
-        Livewire::component('quotation-summary', QuotationSummary::class);
+        Livewire::component('quotation-summary', Summary::class);
     }
 }

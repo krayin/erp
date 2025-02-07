@@ -40,6 +40,10 @@ class ListOrders extends ListRecords
                 ->icon('heroicon-s-receipt-refund')
                 ->favorite()
                 ->modifyQueryUsing(fn(Builder $query) => $query->where('invoice_status', InvoiceStatus::UP_SELLING->value)),
+            'archived' => PresetView::make(__('Archived'))
+                ->icon('heroicon-s-archive-box')
+                ->favorite()
+                ->modifyQueryUsing(fn($query) => $query->onlyTrashed()),
         ];
     }
 }

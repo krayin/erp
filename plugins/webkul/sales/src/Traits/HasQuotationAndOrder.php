@@ -2,7 +2,7 @@
 
 namespace Webkul\Sale\Traits;
 
-use Webkul\Sale\Livewire\QuotationSummary;
+use Webkul\Sale\Livewire\Summary;
 use Filament\Forms\Form;
 use Filament\Forms;
 use Filament\Forms\Get;
@@ -70,7 +70,7 @@ trait HasQuotationAndOrder
                                                 static::getProductRepeater(),
                                                 static::getSectionRepeater(),
                                                 static::getNoteRepeater(),
-                                                Forms\Components\Livewire::make(QuotationSummary::class, function (Get $get) {
+                                                Forms\Components\Livewire::make(Summary::class, function (Get $get) {
                                                     return [
                                                         'products' => $get('products'),
                                                     ];
@@ -551,11 +551,15 @@ trait HasQuotationAndOrder
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
+                    Tables\Actions\ForceDeleteAction::make(),
+                    Tables\Actions\RestoreAction::make(),
                 ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\ForceDeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ])
             ->modifyQueryUsing(function ($query) {

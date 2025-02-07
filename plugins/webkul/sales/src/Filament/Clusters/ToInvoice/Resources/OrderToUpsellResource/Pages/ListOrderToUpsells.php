@@ -30,6 +30,10 @@ class ListOrderToUpsells extends ListRecords
                 ->icon('heroicon-s-shopping-bag')
                 ->favorite()
                 ->modifyQueryUsing(fn(Builder $query) => $query->where('user_id', Auth::id())),
+            'archived' => PresetView::make(__('Archived'))
+                ->icon('heroicon-s-archive-box')
+                ->favorite()
+                ->modifyQueryUsing(fn($query) => $query->onlyTrashed()),
         ];
     }
 }

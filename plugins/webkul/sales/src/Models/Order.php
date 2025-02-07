@@ -4,6 +4,7 @@ namespace Webkul\Sale\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Webkul\Account\Models\FiscalPosition;
 use Webkul\Account\Models\Journal;
 use Webkul\Account\Models\PaymentTerm;
@@ -20,7 +21,7 @@ use Webkul\Field\Traits\HasCustomFields;
 
 class Order extends Model
 {
-    use HasChatter, HasCustomFields, HasFactory, HasLogActivity;
+    use HasChatter, HasCustomFields, HasFactory, HasLogActivity, SoftDeletes;
 
     protected $table = 'sales_orders';
 

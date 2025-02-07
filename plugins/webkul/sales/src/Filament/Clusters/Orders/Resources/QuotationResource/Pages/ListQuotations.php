@@ -40,6 +40,10 @@ class ListQuotations extends ListRecords
                 ->icon('heroicon-s-shopping-bag')
                 ->favorite()
                 ->modifyQueryUsing(fn(Builder $query) => $query->where('state', OrderState::SALE->value)),
+            'archived' => PresetView::make(__('Archived'))
+                ->icon('heroicon-s-archive-box')
+                ->favorite()
+                ->modifyQueryUsing(fn($query) => $query->onlyTrashed()),
         ];
     }
 }

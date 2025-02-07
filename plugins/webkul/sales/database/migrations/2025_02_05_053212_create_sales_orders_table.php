@@ -48,6 +48,8 @@ return new class extends Migration
             $table->date('date_order')->comment('Order Date');
             $table->date('signed_on')->nullable()->comment('Signed On');
             $table->double('prepayment_percent')->nullable()->comment('Prepayment Percentage');
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }

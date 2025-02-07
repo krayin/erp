@@ -5,7 +5,7 @@ namespace Webkul\Sale\Livewire;
 use Livewire\Attributes\Reactive;
 use Livewire\Component;
 
-class QuotationSummary extends Component
+class Summary extends Component
 {
     #[Reactive]
     public $products = [];
@@ -22,7 +22,7 @@ class QuotationSummary extends Component
 
     public function render()
     {
-        return view('sales::livewire/quotation-summary', [
+        return view('sales::livewire/summary', [
             'products' => $this->products,
         ]);
     }
