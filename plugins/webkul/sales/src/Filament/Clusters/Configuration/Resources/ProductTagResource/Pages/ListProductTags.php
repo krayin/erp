@@ -5,6 +5,7 @@ namespace Webkul\Sale\Filament\Clusters\Configuration\Resources\ProductTagResour
 use Webkul\Sale\Filament\Clusters\Configuration\Resources\ProductTagResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Support\Facades\Auth;
 
 class ListProductTags extends ListRecords
 {
@@ -13,7 +14,13 @@ class ListProductTags extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()
+                ->icon('heroicon-o-plus-circle')
+                ->mutateFormDataUsing(function (array $data) {
+                    $data['creator_id'] = Auth::id();
+
+                    return $data;
+                }),
         ];
     }
 }

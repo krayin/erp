@@ -5,6 +5,7 @@ namespace Webkul\Sale\Filament\Clusters\Configuration\Resources;
 use Webkul\Sale\Filament\Clusters\Configuration;
 use Webkul\Sale\Filament\Clusters\Configuration\Resources\ProductTagResource\Pages;
 use Filament\Forms\Form;
+use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -21,12 +22,12 @@ class ProductTagResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('Product Tags');
+        return __('Tags');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('Product Tags');
+        return __('Tags');
     }
 
     public static function getNavigationGroup(): ?string
@@ -48,11 +49,18 @@ class ProductTagResource extends Resource
         ];
     }
 
-
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
+                Forms\Components\TextInput::make('name')
+                    ->label(__('Name'))
+                    ->required()
+                    ->placeholder(__('Name')),
+                Forms\Components\ColorPicker::make('color')
+                    ->label(__('Color'))
+                    ->required()
+                    ->placeholder(__('Color')),
             ]);
     }
 
@@ -60,13 +68,19 @@ class ProductTagResource extends Resource
     {
         return $table
             ->columns([
-                //
-            ])
-            ->filters([
-                //
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable()
+                    ->sortable()
+                    ->label(__('Name')),
+                Tables\Columns\ColorColumn::make('color')
+                    ->label(__('Color')),
+                Tables\Columns\TextColumn::make('createdBy.name')
+                    ->label(__('Created By')),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -75,19 +89,10 @@ class ProductTagResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListProductTags::route('/'),
-            'create' => Pages\CreateProductTag::route('/create'),
-            'edit' => Pages\EditProductTag::route('/{record}/edit'),
         ];
     }
 }

@@ -43,6 +43,15 @@ return [
                 ],
             ],
 
+            'category-and-tags' => [
+                'title' => 'Category & Tags',
+
+                'fields' => [
+                    'category' => 'Category',
+                    'tags'     => 'Tags',
+                ],
+            ],
+
             'pricing' => [
                 'title' => 'Pricing',
 

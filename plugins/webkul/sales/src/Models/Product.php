@@ -2,12 +2,10 @@
 
 namespace Webkul\Sale\Models;
 
-use Webkul\Account\Models\ProductTaxes;
 use Webkul\Account\Models\Tax;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Field\Traits\HasCustomFields;
-use Webkul\Product\Models\Category;
 use Webkul\Product\Models\Product as BaseProduct;
 
 class Product extends BaseProduct

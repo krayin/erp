@@ -138,6 +138,16 @@ class ProductResource extends Resource
                                 Forms\Components\TextInput::make('barcode')
                                     ->label(__('sales::filament/clusters/products/resources/product.form.sections.settings.fields.barcode'))
                                     ->maxLength(255),
+
+                                Forms\Components\Select::make('company_id')
+                                    ->label(__('sales::filament/clusters/products/resources/product.form.sections.settings.fields.company'))
+                                    ->relationship('company', 'name')
+                                    ->searchable()
+                                    ->preload()
+                                    ->default(Auth::user()->default_company_id),
+                            ]),
+                        Forms\Components\Section::make(__('sales::filament/clusters/products/resources/product.form.sections.category-and-tags.title'))
+                            ->schema([
                                 Forms\Components\Select::make('category_id')
                                     ->label(__('sales::filament/clusters/products/resources/product.form.sections.settings.fields.category'))
                                     ->required()
@@ -146,12 +156,6 @@ class ProductResource extends Resource
                                     ->preload()
                                     ->default(ProductCategory::first()?->id)
                                     ->hiddenOn(ManageProducts::class),
-                                Forms\Components\Select::make('company_id')
-                                    ->label(__('sales::filament/clusters/products/resources/product.form.sections.settings.fields.company'))
-                                    ->relationship('company', 'name')
-                                    ->searchable()
-                                    ->preload()
-                                    ->default(Auth::user()->default_company_id),
                             ]),
                         Forms\Components\Section::make(__('sales::filament/clusters/products/resources/product.form.sections.pricing.title'))
                             ->schema([

@@ -1,10 +1,10 @@
 <?php
 
 return [
-    'title' => 'Product Category',
+    'title' => 'Category',
 
     'navigation' => [
-        'title' => 'Product Categories',
+        'title' => 'Categories',
         'group' => 'Products',
     ],
 
@@ -52,8 +52,8 @@ return [
         'actions' => [
             'delete' => [
                 'notification' => [
-                    'title' => 'Sales Team deleted',
-                    'body'  => 'The sales Team has been deleted successfully.',
+                    'title' => 'Category deleted',
+                    'body'  => 'The category has been deleted successfully.',
                 ],
             ],
         ],
@@ -61,8 +61,8 @@ return [
         'bulk-actions' => [
             'delete' => [
                 'notification' => [
-                    'title' => 'Product Category deleted',
-                    'body'  => 'The product Category has been deleted successfully.',
+                    'title' => 'Category deleted',
+                    'body'  => 'The Category has been deleted successfully.',
                 ],
             ],
         ],
