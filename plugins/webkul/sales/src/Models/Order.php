@@ -50,17 +50,17 @@ class Order extends Model
         'invoice_status',
         'validity_date',
         'note',
+        'locked',
+        'commitment_date',
+        'date_order',
+        'signed_on',
+        'prepayment_percent',
+        'require_signature',
+        'require_payment',
         'currency_rate',
         'amount_untaxed',
         'amount_tax',
         'amount_total',
-        'locked',
-        'require_signature',
-        'require_payment',
-        'commitment_date',
-        'date_order',
-        'signed_on',
-        'prepayment_percent'
     ];
 
     protected array $logAttributes = [
@@ -163,7 +163,7 @@ class Order extends Model
         return $this->belongsTo(UTMMedium::class);
     }
 
-    public function orderSalesProducts()
+    public function orderSales()
     {
         return $this
             ->hasMany(OrderSale::class)

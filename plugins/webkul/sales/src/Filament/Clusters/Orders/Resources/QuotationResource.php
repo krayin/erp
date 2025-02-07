@@ -33,10 +33,10 @@ class QuotationResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListQuotations::route('/'),
+            'index'  => Pages\ListQuotations::route('/'),
             'create' => Pages\CreateQuotation::route('/create'),
-            'view' => Pages\ViewQuotation::route('/{record}'),
-            'edit' => Pages\EditQuotation::route('/{record}/edit'),
+            'view'   => Pages\ViewQuotation::route('/{record}'),
+            'edit'   => Pages\EditQuotation::route('/{record}/edit'),
         ];
     }
 }

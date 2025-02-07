@@ -223,11 +223,21 @@ trait HasSaleOrders
 
                                                 if ($orderTemplate) {
                                                     $initialProducts = collect($orderTemplate->products)
-                                                        ->map(fn($item) => [
-                                                            'product_id' => $item->product_id ?? null,
-                                                            'name' => $item->name,
-                                                            'quantity' => $item->quantity ?? null,
-                                                        ])
+                                                        ->map(function ($item) {
+                                                            $qty = $item->quantity ?? 0;
+                                                            $price = $item->product?->price ?? 0;
+
+                                                            return [
+                                                                'product_id' => $item->product_id ?? null,
+                                                                'name' => $item->name,
+                                                                'product_uom_qty' => $qty,
+                                                                'tax' => $item->product?->productTaxes->pluck('id')->toArray() ?? [],
+                                                                'customer_lead' => 1,
+                                                                'price_unit' => $price,
+                                                                'price_subtotal' => number_format($price * $qty, 2, '.', ''),
+                                                                'price_total' => number_format($price * $qty, 2, '.', '')
+                                                            ];
+                                                        })
                                                         ->toArray();
 
                                                     $set('products', $initialProducts);
@@ -235,8 +245,8 @@ trait HasSaleOrders
                                                     $initialSections = collect($orderTemplate->sections)
                                                         ->map(fn($item) => [
                                                             'product_id' => $item->product_id ?? null,
-                                                            'name' => $item->name,
-                                                            'quantity' => $item->quantity ?? null,
+                                                            'name'       => $item->name,
+                                                            'quantity'   => $item->quantity ?? null,
                                                         ])
                                                         ->toArray();
 
@@ -245,8 +255,8 @@ trait HasSaleOrders
                                                     $initialNotes = collect($orderTemplate->notes)
                                                         ->map(fn($item) => [
                                                             'product_id' => $item->product_id ?? null,
-                                                            'name' => $item->name,
-                                                            'quantity' => $item->quantity ?? null,
+                                                            'name'       => $item->name,
+                                                            'quantity'   => $item->quantity ?? null,
                                                         ])
                                                         ->toArray();
 
@@ -575,12 +585,10 @@ trait HasSaleOrders
             });
     }
 
-
-
     public static function getProductRepeater(): Forms\Components\Repeater
     {
         return Forms\Components\Repeater::make('products')
-            ->relationship('orderSalesProducts')
+            ->relationship('orderSales')
             ->hiddenLabel()
             ->live()
             ->reactive()
