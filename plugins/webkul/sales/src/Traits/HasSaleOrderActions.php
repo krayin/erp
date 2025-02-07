@@ -12,6 +12,7 @@ use Filament\Support\Enums\MaxWidth;
 use Illuminate\Support\Facades\Route;
 use Webkul\Sale\Enums\OrderState;
 use Webkul\Chatter\Filament\Actions as ChatterActions;
+use Webkul\Sale\Enums\InvoiceStatus;
 
 trait HasSaleOrderActions
 {
@@ -29,8 +30,10 @@ trait HasSaleOrderActions
                 ->color('gray')
                 ->hidden(fn($record) => $record->state != OrderState::DRAFT->value)
                 ->action(function ($record) {
-                    $record->state = OrderState::SALE->value;
-                    $record->save();
+                    $record->update([
+                        'state' => OrderState::SALE->value,
+                        'invoice_status' => InvoiceStatus::TO_INVOICE->value,
+                    ]);
 
                     $this->refreshFormData(['state']);
 
@@ -45,8 +48,10 @@ trait HasSaleOrderActions
                 ->color('gray')
                 ->hidden(fn($record) => $record->state != OrderState::CANCEL->value)
                 ->action(function ($record) {
-                    $record->state = OrderState::DRAFT->value;
-                    $record->save();
+                    $record->update([
+                        'state' => OrderState::DRAFT->value,
+                        'invoice_status' => InvoiceStatus::NO->value,
+                    ]);
 
                     $this->refreshFormData(['state']);
 
@@ -71,7 +76,7 @@ trait HasSaleOrderActions
                 ->color('gray')
                 ->hidden(fn($record) => !in_array($record->state, [OrderState::SENT->value, OrderState::SALE->value]))
                 ->action(function ($record) {
-                    $record->state = OrderState::SALE->value;
+                    $record->state = OrderState::SENT->value;
                     $record->save();
 
                     $this->refreshFormData(['state']);
@@ -105,7 +110,10 @@ trait HasSaleOrderActions
                 )
                 ->hidden(fn($record) => ! in_array($record->state, [OrderState::DRAFT->value, OrderState::SENT->value, OrderState::SALE->value]))
                 ->action(function ($record) {
-                    $record->update(['state' => OrderState::CANCEL->value]);
+                    $record->update([
+                        'state' => OrderState::CANCEL->value,
+                        'invoice_status' => InvoiceStatus::NO->value,
+                    ]);
 
                     $this->refreshFormData(['state']);
 

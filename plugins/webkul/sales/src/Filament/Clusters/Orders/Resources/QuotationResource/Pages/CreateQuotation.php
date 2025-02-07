@@ -18,6 +18,8 @@ class CreateQuotation extends CreateRecord
 
         $data['creator_id'] = $user->id;
 
+        $data['user_id'] = $user->id;
+
         $data['company_id'] = $user->default_company_id;
 
         $data['name'] = 'Quotation-' . time();
