@@ -11,12 +11,20 @@ use Filament\Notifications\Notification;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Support\Facades\Route;
 use Webkul\Sale\Enums\OrderState;
+use Webkul\Chatter\Filament\Actions as ChatterActions;
 
 trait HasQuotationAndOrderActions
 {
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('view', ['record' => $this->getRecord()]);
+    }
+
     protected function getHeaderActions(): array
     {
         return [
+            ChatterActions\ChatterAction::make()
+                ->setResource($this->getResource()),
             Action::make('confirm')
                 ->color('gray')
                 ->hidden(fn($record) => $record->state != OrderState::DRAFT->value)

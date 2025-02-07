@@ -15,6 +15,7 @@ use Webkul\Sale\Enums\OrderState;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Set;
 use Filament\Support\Facades\FilamentView;
+use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Webkul\Account\Enums\TypeTaxUse;
 use Webkul\Account\Models\Tax;
 use Webkul\Sale\Enums\InvoiceStatus;
@@ -384,8 +385,166 @@ trait HasQuotationAndOrder
                     ->searchable()
                     ->sortable(),
             ])
+            ->filtersFormColumns(2)
             ->filters([
-                //
+                Tables\Filters\QueryBuilder::make()
+                    ->constraintPickerColumns(2)
+                    ->constraints([
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('user.name')
+                            ->label(__('Sales Person'))
+                            ->icon('heroicon-o-user')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->label(__('Sales Person'))
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('utm_source_id.name')
+                            ->label(__('UTM Source'))
+                            ->icon('heroicon-o-speaker-wave')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->label(__('UTM Source'))
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('company.name')
+                            ->label(__('Company'))
+                            ->icon('heroicon-o-building-office')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->label(__('Company'))
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('partner.name')
+                            ->label(__('Customer'))
+                            ->icon('heroicon-o-user')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->label(__('Customer'))
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('journal.name')
+                            ->label(__('Journal'))
+                            ->icon('heroicon-o-speaker-wave')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->label(__('journal'))
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('partnerInvoice.name')
+                            ->label(__('Invoice Address'))
+                            ->icon('heroicon-o-map')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->label(__('Invoice Address'))
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('partnerShipping.name')
+                            ->label(__('Shipping Address'))
+                            ->icon('heroicon-o-map')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->label(__('Shipping Address'))
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('fiscalPosition.name')
+                            ->label(__('Fiscal Position'))
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->label(__('Fiscal Position'))
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('paymentTerm.name')
+                            ->label(__('Payment Term'))
+                            ->icon('heroicon-o-currency-dollar')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->label(__('Payment Term'))
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('currency.name')
+                            ->label(__('Currency'))
+                            ->icon('heroicon-o-banknotes')
+                            ->multiple()
+                            ->selectable(
+                                IsRelatedToOperator::make()
+                                    ->titleAttribute('name')
+                                    ->label(__('UTM Source'))
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload(),
+                            ),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('created_at')
+                            ->label(__('Created At')),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('updated_at')
+                            ->label(__('Updated At')),
+                    ]),
+            ])
+            ->groups([
+                Tables\Grouping\Group::make('medium.name')
+                    ->label(__('Medium'))
+                    ->collapsible(),
+                Tables\Grouping\Group::make('utmSource.name')
+                    ->label(__('Source'))
+                    ->collapsible(),
+                Tables\Grouping\Group::make('team.name')
+                    ->label(__('Team'))
+                    ->collapsible(),
+                Tables\Grouping\Group::make('user.name')
+                    ->label(__('Sales Person'))
+                    ->collapsible(),
+                Tables\Grouping\Group::make('currency.full_name')
+                    ->label(__('Currency'))
+                    ->collapsible(),
+                Tables\Grouping\Group::make('company.name')
+                    ->label(__('Company'))
+                    ->collapsible(),
+                Tables\Grouping\Group::make('partner.name')
+                    ->label(__('Customer'))
+                    ->collapsible(),
+                Tables\Grouping\Group::make('date_order')
+                    ->label(__('Quotation Date'))
+                    ->date()
+                    ->collapsible(),
+                Tables\Grouping\Group::make('commitment_date')
+                    ->label(__('Commitment Date'))
+                    ->date()
+                    ->collapsible(),
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
