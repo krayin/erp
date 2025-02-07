@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex w-full flex-col">
+            <div class="flex flex-col w-full">
                 <div class="flex justify-end font-bold">
                     <div>
                         <div>
@@ -78,10 +78,10 @@
         </div>
 
         <div>
-            <div class="my-4 rounded-lg border border-gray-200 px-2 dark:border-gray-700">
-                <table class="w-full table-auto border-collapse">
+            <div class="px-2 my-4 border border-gray-200 rounded-lg dark:border-gray-700">
+                <table class="w-full border-collapse table-auto">
                     <thead>
-                        <tr class="border-b border-gray-200 text-start font-bold dark:border-gray-700">
+                        <tr class="font-bold border-b border-gray-200 text-start dark:border-gray-700">
                             <th class="w-1/4 px-4 py-2 text-center">Item</th>
                             <th class="w-1/4 px-4 py-2 text-center">Quantity</th>
                             <th class="w-1/4 px-4 py-2 text-center">Price ({{ $record->currency->symbol }})</th>
@@ -90,85 +90,48 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100 dark:divide-white/5">
-                        @php
-                             $subtotal = 0;
-                            $totalTax = 0;
-                            $grandTotal = 0;
-                        @endphp
-
-                        @foreach($record->orderSalesProducts as $item)
-                            @php
-                                $quantity = floatval($item->product_uom_qty ?? 0);
-                                $price = floatval($item->price_unit ?? 0);
-                                $taxIds = $item->product?->productTaxes->pluck('id')->toArray() ?? [];
-
-                                $lineSubtotal = $quantity * $price;
-                                $adjustedSubtotal = $lineSubtotal;
-                                $lineTax = 0;
-
-                                if (!empty($taxIds)) {
-                                    $taxes = \Webkul\Account\Models\Tax::whereIn('id', $taxIds)->get();
-
-                                    foreach ($taxes as $tax) {
-                                        $taxValue = floatval($tax->amount);
-
-                                        if ($tax->include_base_amount) {
-                                            $baseSubtotal = $adjustedSubtotal / (1 + ($taxValue / 100));
-
-                                            $lineTax += $adjustedSubtotal - $baseSubtotal;
-
-                                            $adjustedSubtotal = $baseSubtotal;
-                                        } else {
-                                            $lineTax += $adjustedSubtotal * ($taxValue / 100);
-                                        }
-                                    }
-                                }
-
-                                $totalTax += $lineTax;
-                                $subtotal += $adjustedSubtotal;
-                            @endphp
-
-                        <tr>
-                            <td class="px-4 py-2 text-center">
-                                <div class="text-lg font-bold">{{ $item->name }}</div>
-                                <div class="text-gray-400">{{ $item->description }}</div>
-                            </td>
-                            <td class="px-4 py-2 text-center">
-                                <div class="flex justify-center">
-                                    <span class="font-bold">
-                                        {{ $item->product_uom_qty }}
-                                    </span>
-                                </div>
-                            </td>
-                            <td class="px-4 py-2 text-center">
-                                <div class="flex justify-center">
-                                    <span class="font-bold">
-                                        {{ number_format($item->price_unit, 2) }}
-                                    </span>
-                                </div>
-                            </td>
-                            <td class="px-4 py-2 text-center">
-                                <div class="flex justify-center">
-                                    <span class="font-bold">
-                                        {{ implode(', ', $item->product?->productTaxes->pluck('name')->toArray() ?? []) }}
-                                    </span>
-                                </div>
-                            </td>
-                            <td class="px-4 py-2 text-center">
-                                <div class="flex justify-center">
-                                    <span class="font-bold">
-                                        {{ number_format($item->price_total, 2) }}
-                                    </span>
-                                </div>
-                            </td>
-                        </tr>
+                        @foreach($record->orderSales as $item)
+                            <tr>
+                                <td class="px-4 py-2 text-center">
+                                    <div class="text-lg font-bold">{{ $item->name }}</div>
+                                    <div class="text-gray-400">{{ $item->description }}</div>
+                                </td>
+                                <td class="px-4 py-2 text-center">
+                                    <div class="flex justify-center">
+                                        <span class="font-bold">
+                                            {{ $item->product_uom_qty }}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-2 text-center">
+                                    <div class="flex justify-center">
+                                        <span class="font-bold">
+                                            {{ number_format($item->price_unit, 2) }}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-2 text-center">
+                                    <div class="flex justify-center">
+                                        <span class="font-bold">
+                                            {{ implode(', ', $item->product?->productTaxes->pluck('name')->toArray() ?? []) }}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-2 text-center">
+                                    <div class="flex justify-center">
+                                        <span class="font-bold">
+                                            {{ number_format($item->price_total, 2) }}
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
 
-            <div class="mt-6 flex justify-between">
-                <div class="flex w-full flex-col justify-end gap-4">
+            <div class="flex justify-between mt-6">
+                <div class="flex flex-col justify-end w-full gap-4">
                     <div>
                         <div class="mb-2 text-xl">
                             Signature
@@ -187,24 +150,21 @@
                     </div>
                 </div>
 
-                @php
-                    $grandTotal = $subtotal + $totalTax;
-                @endphp
-                <div class="mt-4 flex w-full flex-col gap-2">
+                <div class="flex flex-col w-full gap-2 mt-4">
                     <div class="flex justify-between">
                         <div class="font-bold">
                             Subtotal
                         </div>
                         <div>
-                            {{ number_format($subtotal, 2) }}<small class="text-md font-normal">({{ $record->currency->symbol }})</small>
+                            {{ number_format($record?->amount_untaxed, 2) }}<small class="font-normal text-md">({{ $record->currency->symbol }})</small>
                         </div>
                     </div>
-                    <div class="flex justify-between border-b border-gray-200 pb-4 dark:border-gray-700">
+                    <div class="flex justify-between pb-4 border-b border-gray-200 dark:border-gray-700">
                         <div class="font-bold">
                             Tax
                         </div>
                         <div>
-                            {{ number_format($totalTax, 2) }}<small class="text-md font-normal">({{ $record->currency->symbol }})</small>
+                            {{ number_format($record?->amount_tax, 2) }}<small class="font-normal text-md">({{ $record->currency->symbol }})</small>
                         </div>
                     </div>
                     <div class="flex justify-between text-xl font-bold">
@@ -212,7 +172,7 @@
                             Grand Total
                         </div>
                         <div>
-                            {{ number_format($grandTotal, 2) }}<small class="text-md font-normal">({{ $record->currency->symbol }})</small>
+                            {{ number_format($record?->amount_total, 2) }}<small class="font-normal text-md">({{ $record->currency->symbol }})</small>
                         </div>
                     </div>
                 </div>
