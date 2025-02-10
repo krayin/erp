@@ -18,6 +18,7 @@ use Webkul\Sale\Mail\SaleOrderQuotation;
 use Webkul\Support\Services\EmailService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
+use Webkul\Sale\Mail\SaleOrderCancelQuotation;
 
 trait HasSaleOrderActions
 {
@@ -135,40 +136,65 @@ trait HasSaleOrderActions
                 ->label('Cancel')
                 ->modalIcon('heroicon-s-x-circle')
                 ->modalHeading(__('Cancel Quotation'))
-                ->modalFooterActions(fn($record): array => [
-                    Action::make('sendAndCancel')
-                        ->label(__('Cancel and Send Email'))
-                        ->icon('heroicon-o-envelope')
-                        ->modalIcon('heroicon-s-envelope')
-                        ->action(function () use ($record) {})
-                        ->cancelParentActions(),
-                    Action::make('cancel')
-                        ->label('Cancel')
-                        ->icon('heroicon-o-x-circle')
-                        ->modalIcon('heroicon-s-x-circle')
-                        ->action(function () use ($record) {
-                            $record->update([
-                                'state' => OrderState::CANCEL->value,
-                                'invoice_status' => InvoiceStatus::NO->value,
-                            ]);
+                ->modalFooterActions(function ($record, $livewire): array {
+                    return [
+                        Action::make('sendAndCancel')
+                            ->label(__('Cancel and Send Email'))
+                            ->icon('heroicon-o-envelope')
+                            ->modalIcon('heroicon-s-envelope')
+                            ->action(function () use ($record, $livewire) {
+                                $record->update([
+                                    'state' => OrderState::CANCEL->value,
+                                    'invoice_status' => InvoiceStatus::NO->value,
+                                ]);
 
-                            $this->refreshFormData(['state']);
+                                if ($livewire?->mountedActionsData[0]) {
+                                    $this->handleCancelAndSendEmail($record, $livewire?->mountedActionsData[0]);
+                                }
 
-                            Notification::make()
-                                ->success()
-                                ->title('Quotation cancelled')
-                                ->body('The quotation has been cancelled.')
-                                ->send();
-                        })
-                        ->cancelParentActions(),
-                    Action::make('close')
-                        ->color('gray')
-                        ->label('Close')
-                        ->cancelParentActions(),
-                ])
+                                $this->refreshFormData(['state']);
+
+                                Notification::make()
+                                    ->success()
+                                    ->title('Quotation cancelled')
+                                    ->body('The quotation has been cancelled.')
+                                    ->send();
+                            })
+                            ->cancelParentActions(),
+                        Action::make('cancel')
+                            ->label('Cancel')
+                            ->icon('heroicon-o-x-circle')
+                            ->modalIcon('heroicon-s-x-circle')
+                            ->action(function () use ($record) {
+                                $record->update([
+                                    'state' => OrderState::CANCEL->value,
+                                    'invoice_status' => InvoiceStatus::NO->value,
+                                ]);
+
+                                $this->refreshFormData(['state']);
+
+                                Notification::make()
+                                    ->success()
+                                    ->title('Quotation cancelled')
+                                    ->body('The quotation has been cancelled.')
+                                    ->send();
+                            })
+                            ->cancelParentActions(),
+                        Action::make('close')
+                            ->color('gray')
+                            ->label('Close')
+                            ->cancelParentActions(),
+                    ];
+                })
                 ->form(
                     function (Form $form, $record) {
                         return $form->schema([
+                            Forms\Components\Select::make('partners')
+                                ->options(Partner::all()->pluck('name', 'id'))
+                                ->multiple()
+                                ->default([$record->partner_id])
+                                ->searchable()
+                                ->preload(),
                             Forms\Components\TextInput::make('subject')
                                 ->default(fn() => 'Quotation ' . $record->name . ' has been cancelled for Sales Order #' . $record->id)
                                 ->placeholder('Subject')
@@ -191,7 +217,7 @@ trait HasSaleOrderActions
         ];
     }
 
-    private function preparePayload($record, $partner, $data)
+    private function preparePayloadForSendByEmail($record, $partner, $data)
     {
         $modalName = match ($record->state) {
             OrderState::DRAFT->value => 'Quotation',
@@ -222,7 +248,7 @@ trait HasSaleOrderActions
             app(EmailService::class)->send(
                 mailClass: SaleOrderQuotation::class,
                 view: 'sales::mails.sale-order-quotation',
-                payload: $this->preparePayload($record, $partner, $data),
+                payload: $this->preparePayloadForSendByEmail($record, $partner, $data),
                 attachments: [
                     [
                         'path' => $path = asset(Storage::url($data['file'])),
@@ -242,5 +268,33 @@ trait HasSaleOrderActions
             ->title('Mail Sent')
             ->body('The mail has been sent successfully.')
             ->send();
+    }
+
+    private function preparePayloadForCancelAndSendEmail($record, $partner, $data): array
+    {
+        return [
+            'record_url'     => $this->getRedirectUrl() ?? '',
+            'record_name'    => $record->name,
+            'model_name'     => 'Quotation',
+            'subject'        => $data['subject'],
+            'description'    => $data['description'],
+            'to'             => [
+                'address' => $partner?->email,
+                'name'    => $partner?->name,
+            ],
+        ];
+    }
+
+    private function handleCancelAndSendEmail($record, $data)
+    {
+        $partners = Partner::whereIn('id', $data['partners'])->get();
+
+        foreach ($partners as $key => $partner) {
+            app(EmailService::class)->send(
+                mailClass: SaleOrderCancelQuotation::class,
+                view: 'sales::mails.sale-order-cancel-quotation',
+                payload: $this->preparePayloadForCancelAndSendEmail($record, $partner, $data),
+            );
+        }
     }
 }
