@@ -77,8 +77,13 @@ trait HasSaleOrderActions
                     return view('sales::sales.quotation', ['record' => $record]);
                 })
                 ->color('gray'),
+            Action::make('createInvoice')
+                ->modalIcon('heroicon-s-receipt-percent')
+                ->modalHeading(__('Preview Quotation'))
+                ->hidden(fn($record) => $record->invoice_status != InvoiceStatus::TO_INVOICE->value)
+                ->action(function () {})
+                ->modalWidth(MaxWidth::SevenExtraLarge),
             Action::make('sendByEmail')
-                ->color('gray')
                 ->beforeFormFilled(function ($record, Action $action) {
                     $pdf = Pdf::loadView('sales::sales.quotation', compact('record'))
                         ->setPaper('A4', 'portrait')
@@ -121,7 +126,7 @@ trait HasSaleOrderActions
                 )
                 ->modalIcon('heroicon-s-envelope')
                 ->modalHeading('Send Quotation by Email')
-                ->hidden(fn($record) => !in_array($record->state, [OrderState::SENT->value, OrderState::SALE->value]))
+                ->hidden(fn($record) => $record->state != OrderState::DRAFT->value)
                 ->action(function ($record, array $data) {
                     $this->handleSendByEmail($record, $data);
                 }),

@@ -585,6 +585,220 @@ trait HasSaleOrders
             });
     }
 
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\Grid::make(['default' => 3])
+                    ->schema([
+                        Infolists\Components\Group::make()
+                            ->schema([
+                                Infolists\Components\Tabs::make('Tabs')
+                                    ->tabs([
+                                        Infolists\Components\Tabs\Tab::make('Products')
+                                            ->schema([
+                                                Infolists\Components\RepeatableEntry::make('orderSales')
+                                                    ->label('Products')
+                                                    ->schema([
+                                                        Infolists\Components\TextEntry::make('product.name')
+                                                            ->icon('heroicon-o-shopping-bag')
+                                                            ->label('Product'),
+                                                        Infolists\Components\TextEntry::make('name')
+                                                            ->icon('heroicon-o-document')
+                                                            ->label('Description'),
+                                                        Infolists\Components\RepeatableEntry::make('product.productTaxes')
+                                                            ->contained(false)
+                                                            ->hiddenLabel()
+                                                            ->schema([
+                                                                Infolists\Components\TextEntry::make('name')
+                                                                    ->badge()
+                                                                    ->tooltip(fn($state) => $state)
+                                                                    ->icon('heroicon-o-receipt-percent')
+                                                                    ->label('Description'),
+                                                            ])
+                                                            ->label('Tax'),
+                                                        Infolists\Components\TextEntry::make('product_uom_qty')
+                                                            ->label('Quantity')
+                                                            ->numeric(),
+                                                        Infolists\Components\TextEntry::make('price_unit')
+                                                            ->label('Unit Price')
+                                                            ->icon('heroicon-o-banknotes')
+                                                            ->money('USD'),
+                                                        Infolists\Components\TextEntry::make('price_subtotal')
+                                                            ->label('Subtotal')
+                                                            ->icon('heroicon-o-banknotes')
+                                                            ->money('USD'),
+                                                        Infolists\Components\TextEntry::make('price_total')
+                                                            ->label('Total')
+                                                            ->icon('heroicon-o-banknotes')
+                                                            ->money('USD'),
+                                                    ])
+                                                    ->columns(6),
+                                                Infolists\Components\RepeatableEntry::make('orderSalesSections')
+                                                    ->hidden(fn($record) => $record->orderSalesSections->isEmpty())
+                                                    ->schema([
+                                                        Infolists\Components\TextEntry::make('product.name')
+                                                            ->label('Product'),
+                                                        Infolists\Components\TextEntry::make('name')
+                                                            ->label('Description'),
+                                                        Infolists\Components\TextEntry::make('quantity')
+                                                            ->numeric(),
+                                                    ])
+                                                    ->columns(3),
+                                                Infolists\Components\RepeatableEntry::make('orderSalesNotes')
+                                                    ->hidden(fn($record) => $record->orderSalesNotes->isEmpty())
+                                                    ->schema([
+                                                        Infolists\Components\TextEntry::make('product.name')
+                                                            ->label('Product'),
+                                                        Infolists\Components\TextEntry::make('name')
+                                                            ->label('Description'),
+                                                        Infolists\Components\TextEntry::make('quantity')
+                                                            ->numeric(),
+                                                    ])
+                                                    ->columns(3),
+                                                Infolists\Components\Livewire::make(Summary::class, function ($record) {
+                                                    return [
+                                                        'products' => $record->orderSales->map(function ($item) {
+                                                            return [
+                                                                ...$item->toArray(),
+                                                                'tax' => $item->product->productTaxes->pluck('id')->toArray(),
+                                                            ];
+                                                        })->toArray(),
+                                                    ];
+                                                }),
+                                            ]),
+                                        Infolists\Components\Tabs\Tab::make('Other Info')
+                                            ->schema([
+                                                Infolists\Components\Fieldset::make('Sales')
+                                                    ->schema([
+                                                        Infolists\Components\Grid::make()
+                                                            ->schema([
+                                                                Infolists\Components\TextEntry::make('user.name')
+                                                                    ->label('Sales Person')
+                                                                    ->placeholder('—')
+                                                                    ->icon('heroicon-o-user'),
+                                                                Infolists\Components\TextEntry::make('team.name')
+                                                                    ->label('Sales Team')
+                                                                    ->placeholder('—')
+                                                                    ->icon('heroicon-o-users'),
+                                                                Infolists\Components\Fieldset::make('Signature & Payment')
+                                                                    ->schema([
+                                                                        Infolists\Components\IconEntry::make('require_signature')
+                                                                            ->boolean()
+                                                                            ->label('Online Signature')
+                                                                            ->placeholder('—'),
+                                                                        Infolists\Components\IconEntry::make('require_payment')
+                                                                            ->boolean()
+                                                                            ->label('Online Payment')
+                                                                            ->placeholder('—'),
+                                                                        Infolists\Components\IconEntry::make('prepayment_percentage')
+                                                                            ->boolean()
+                                                                            ->label('Online Payment')
+                                                                            ->placeholder('—'),
+                                                                    ]),
+                                                                Infolists\Components\TextEntry::make('client_order_ref')
+                                                                    ->label('Customer Reference')
+                                                                    ->placeholder('—')
+                                                                    ->icon('heroicon-o-document'),
+                                                            ])->columns(2),
+                                                    ]),
+                                                Infolists\Components\Fieldset::make('Invoicing')
+                                                    ->schema([
+                                                        Infolists\Components\TextEntry::make('fiscalPosition.name')
+                                                            ->label('Fiscal Position')
+                                                            ->placeholder('—')
+                                                            ->icon('heroicon-o-receipt-percent'),
+                                                        Infolists\Components\TextEntry::make('journal.name')
+                                                            ->label('Invoicing Journal')
+                                                            ->placeholder('—')
+                                                            ->icon('heroicon-o-book-open'),
+                                                    ]),
+                                                Infolists\Components\Fieldset::make('Shipping')
+                                                    ->schema([
+                                                        Infolists\Components\TextEntry::make('commitment_date')
+                                                            ->label('Delivery date')
+                                                            ->placeholder('—')
+                                                            ->icon('heroicon-o-calendar'),
+                                                    ]),
+                                                Infolists\Components\Fieldset::make('Tracking')
+                                                    ->schema([
+                                                        Infolists\Components\TextEntry::make('origin')
+                                                            ->label('Origin')
+                                                            ->placeholder('—')
+                                                            ->icon('heroicon-o-globe-alt'),
+                                                        Infolists\Components\TextEntry::make('medium.name')
+                                                            ->label('Medium')
+                                                            ->placeholder('—'),
+                                                        Infolists\Components\TextEntry::make('source.name')
+                                                            ->label('Source')
+                                                            ->placeholder('—'),
+                                                    ]),
+                                            ]),
+                                        Infolists\Components\Tabs\Tab::make('Terms & Conditions')
+                                            ->schema([
+                                                Infolists\Components\TextEntry::make('note')
+                                                    ->markdown()
+                                                    ->columnSpanFull()
+                                                    ->icon('heroicon-o-information-circle'),
+                                            ]),
+                                    ])->persistTabInQueryString(),
+                            ])->columnSpan(2),
+                        Infolists\Components\Group::make()
+                            ->schema([
+                                Infolists\Components\Section::make()
+                                    ->schema([
+                                        Infolists\Components\TextEntry::make('partner.name')
+                                            ->label('Customer')
+                                            ->placeholder('—')
+                                            ->icon('heroicon-o-user-circle'),
+                                        Infolists\Components\TextEntry::make('partner_address')
+                                            ->placeholder('—')
+                                            ->icon('heroicon-o-map'),
+                                        Infolists\Components\TextEntry::make('paymentTerm.name')
+                                            ->label('Payment Terms')
+                                            ->placeholder('—')
+                                            ->icon('heroicon-o-credit-card'),
+                                        Infolists\Components\TextEntry::make('quotationTemplate.name')
+                                            ->label('Quotation Template')
+                                            ->placeholder('—')
+                                            ->icon('heroicon-o-document-duplicate'),
+                                    ]),
+                                Infolists\Components\Section::make()
+                                    ->schema([
+                                        Infolists\Components\Fieldset::make('Invoice & Delivery Addresses')
+                                            ->schema([
+                                                Infolists\Components\TextEntry::make('partnerInvoice.name')
+                                                    ->label('Invoice Address')
+                                                    ->placeholder('—')
+                                                    ->icon('heroicon-o-home'),
+                                                Infolists\Components\TextEntry::make('partnerShipping.name')
+                                                    ->label('Delivery Address')
+                                                    ->placeholder('—')
+                                                    ->icon('heroicon-o-truck'),
+                                            ]),
+                                    ]),
+                                Infolists\Components\Section::make()
+                                    ->schema([
+                                        Infolists\Components\Fieldset::make('Invoice & Delivery Addresses')
+                                            ->schema([
+                                                Infolists\Components\TextEntry::make('validity_date')
+                                                    ->label('Expiration')
+                                                    ->date()
+                                                    ->placeholder('—')
+                                                    ->icon('heroicon-o-clock'),
+                                                Infolists\Components\TextEntry::make('date_order')
+                                                    ->label('Quotation Date')
+                                                    ->date()
+                                                    ->placeholder('—')
+                                                    ->icon('heroicon-o-calendar'),
+                                            ]),
+                                    ]),
+                            ])
+                            ->columnSpan(['lg' => 1]),
+                    ]),
+            ]);
+    }
+
     public static function getProductRepeater(): Forms\Components\Repeater
     {
         return Forms\Components\Repeater::make('products')
