@@ -16,4 +16,5 @@ return [
     Webkul\Invoice\InvoicePlugin::class,
     Webkul\Inventory\InventoryPlugin::class,
     Webkul\Account\AccountPlugin::class,
+    Webkul\Payment\PaymentPlugin::class,
 ];

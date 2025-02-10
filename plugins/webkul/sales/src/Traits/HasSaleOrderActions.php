@@ -17,6 +17,7 @@ use Webkul\Sale\Enums\InvoiceStatus;
 use Webkul\Sale\Mail\SaleOrderQuotation;
 use Webkul\Support\Services\EmailService;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Webkul\Sale\Mail\SaleOrderCancelQuotation;
 
@@ -202,7 +203,7 @@ trait HasSaleOrderActions
                             Forms\Components\RichEditor::make('description')
                                 ->placeholder('Description')
                                 ->default(function () use ($record) {
-                                    return 'Dear ' . $record->partner->name . ', <br/><br/>We would like to inform you that your Sales Order ' . $record->id . ' has been cancelled. As a result, no further charges will apply to this order. If a refund is required, it will be processed at the earliest convenience.<br/><br/>Should you have any questions or require further assistance, please feel free to reach out to us.';
+                                    return 'Dear ' . $record->partner->name . ', <br/><br/>We would like to inform you that your Sales Order ' . $record->name . ' has been cancelled. As a result, no further charges will apply to this order. If a refund is required, it will be processed at the earliest convenience.<br/><br/>Should you have any questions or require further assistance, please feel free to reach out to us.';
                                 })
                                 ->hiddenLabel(),
                         ]);
@@ -247,7 +248,7 @@ trait HasSaleOrderActions
         foreach ($partners as $key => $partner) {
             app(EmailService::class)->send(
                 mailClass: SaleOrderQuotation::class,
-                view: 'sales::mails.sale-order-quotation',
+                view: $viewName = 'sales::mails.sale-order-quotation',
                 payload: $this->preparePayloadForSendByEmail($record, $partner, $data),
                 attachments: [
                     [
@@ -260,6 +261,18 @@ trait HasSaleOrderActions
 
         $record->state = OrderState::SENT->value;
         $record->save();
+
+        $messageData = [
+            'from' => [
+                'company' => Auth::user()->defaultCompany->toArray(),
+            ],
+            'body' => view($viewName, [
+                'payload' => $this->preparePayloadForSendByEmail($record, $partner, $data),
+            ])->render(),
+            'type' => 'comment',
+        ];
+
+        $record->addMessage($messageData, Auth::user()->id);
 
         $this->refreshFormData(['state']);
 
@@ -292,9 +305,21 @@ trait HasSaleOrderActions
         foreach ($partners as $key => $partner) {
             app(EmailService::class)->send(
                 mailClass: SaleOrderCancelQuotation::class,
-                view: 'sales::mails.sale-order-cancel-quotation',
+                view: $viewName = 'sales::mails.sale-order-cancel-quotation',
                 payload: $this->preparePayloadForCancelAndSendEmail($record, $partner, $data),
             );
         }
+
+        $messageData = [
+            'from' => [
+                'company' => Auth::user()->defaultCompany->toArray(),
+            ],
+            'body' => view($viewName, [
+                'payload' => $this->preparePayloadForCancelAndSendEmail($record, $partner, $data),
+            ])->render(),
+            'type' => 'comment',
+        ];
+
+        $record->addMessage($messageData, Auth::user()->id);
     }
 }
