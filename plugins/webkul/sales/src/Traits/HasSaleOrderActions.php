@@ -135,6 +135,37 @@ trait HasSaleOrderActions
                 ->label('Cancel')
                 ->modalIcon('heroicon-s-x-circle')
                 ->modalHeading(__('Cancel Quotation'))
+                ->modalFooterActions(fn($record): array => [
+                    Action::make('sendAndCancel')
+                        ->label(__('Cancel and Send Email'))
+                        ->icon('heroicon-o-envelope')
+                        ->modalIcon('heroicon-s-envelope')
+                        ->action(function () use ($record) {})
+                        ->cancelParentActions(),
+                    Action::make('cancel')
+                        ->label('Cancel')
+                        ->icon('heroicon-o-x-circle')
+                        ->modalIcon('heroicon-s-x-circle')
+                        ->action(function () use ($record) {
+                            $record->update([
+                                'state' => OrderState::CANCEL->value,
+                                'invoice_status' => InvoiceStatus::NO->value,
+                            ]);
+
+                            $this->refreshFormData(['state']);
+
+                            Notification::make()
+                                ->success()
+                                ->title('Quotation cancelled')
+                                ->body('The quotation has been cancelled.')
+                                ->send();
+                        })
+                        ->cancelParentActions(),
+                    Action::make('close')
+                        ->color('gray')
+                        ->label('Close')
+                        ->cancelParentActions(),
+                ])
                 ->form(
                     function (Form $form, $record) {
                         return $form->schema([
@@ -151,21 +182,7 @@ trait HasSaleOrderActions
                         ]);
                     }
                 )
-                ->hidden(fn($record) => ! in_array($record->state, [OrderState::DRAFT->value, OrderState::SENT->value, OrderState::SALE->value]))
-                ->action(function ($record) {
-                    $record->update([
-                        'state' => OrderState::CANCEL->value,
-                        'invoice_status' => InvoiceStatus::NO->value,
-                    ]);
-
-                    $this->refreshFormData(['state']);
-
-                    Notification::make()
-                        ->success()
-                        ->title('Quotation cancelled')
-                        ->body('The quotation has been cancelled.')
-                        ->send();
-                }),
+                ->hidden(fn($record) => ! in_array($record->state, [OrderState::DRAFT->value, OrderState::SENT->value, OrderState::SALE->value])),
             Actions\ViewAction::make()
                 ->hidden(fn() => str_contains(Route::currentRouteName(), 'view')),
             Actions\EditAction::make()
