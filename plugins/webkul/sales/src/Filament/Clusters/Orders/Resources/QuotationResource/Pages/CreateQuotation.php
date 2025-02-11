@@ -35,16 +35,16 @@ class CreateQuotation extends CreateRecord
     protected function afterCreate(): void
     {
         $record = $this->getRecord();
-        $orderSales = $record->orderSales;
+        $salesOrderLines = $record->salesOrderLines;
 
-        if ($orderSales->isEmpty()) {
+        if ($salesOrderLines->isEmpty()) {
             return;
         }
 
-        $taxIds = $orderSales->flatMap(fn($sale) => $sale->product?->productTaxes->pluck('id') ?? [])->unique()->toArray();
+        $taxIds = $salesOrderLines->flatMap(fn($sale) => $sale->product?->productTaxes->pluck('id') ?? [])->unique()->toArray();
         $taxData = Tax::whereIn('id', $taxIds)->get()->keyBy('id');
 
-        $totals = $orderSales->reduce(function ($carry, $orderSale) use ($taxData) {
+        $totals = $salesOrderLines->reduce(function ($carry, $orderSale) use ($taxData) {
             $quantity = (float) ($orderSale->product_uom_qty ?? 0);
             $price = (float) ($orderSale->price_unit ?? 0);
             $taxIds = $orderSale->product?->productTaxes->pluck('id')->toArray() ?? [];

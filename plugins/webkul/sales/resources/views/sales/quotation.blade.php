@@ -211,7 +211,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($record->orderSales as $item)
+                @foreach($record->salesOrderLines as $item)
                     <tr>
                         <td class="table-cell">
                             <div class="item-name">{{ $item->name }}</div>

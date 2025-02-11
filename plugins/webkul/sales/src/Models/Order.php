@@ -163,24 +163,24 @@ class Order extends Model
         return $this->belongsTo(UTMMedium::class);
     }
 
-    public function orderSales()
+    public function salesOrderLines()
     {
         return $this
-            ->hasMany(OrderSale::class)
+            ->hasMany(SaleOrderLine::class)
             ->whereNull('display_type');
     }
 
-    public function orderSalesSections()
+    public function salesOrderSectionLines()
     {
         return $this
-            ->hasMany(OrderSale::class)
+            ->hasMany(SaleOrderLine::class)
             ->where('display_type', OrderDisplayType::SECTION->value);
     }
 
-    public function orderSalesNotes()
+    public function salesOrderNoteLines()
     {
         return $this
-            ->hasMany(OrderSale::class)
+            ->hasMany(SaleOrderLine::class)
             ->where('display_type', OrderDisplayType::NOTE->value);
     }
 

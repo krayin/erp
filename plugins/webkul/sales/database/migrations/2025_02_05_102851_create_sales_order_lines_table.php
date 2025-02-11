@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sales_order_sales', function (Blueprint $table) {
+        Schema::create('sales_order_lines', function (Blueprint $table) {
             $table->id();
             $table->integer('sort')->nullable()->comment('Sort Order');
             $table->foreignId('order_id')->comment('Order Reference')->constrained('sales_orders')->cascadeOnDelete();
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreignId('salesman_id')->nullable()->comment('Salesman Reference')->constrained('users')->nullOnDelete();
             $table->foreignId('product_id')->nullable()->comment('Product Reference')->constrained('products_products')->nullOnDelete();
             $table->foreignId('product_uom_id')->nullable()->comment('Product UOM Reference')->constrained('unit_of_measures')->nullOnDelete();
-            $table->foreignId('linked_sale_order_sale_id')->nullable()->comment('Linked Sale Order Sale Reference')->constrained('sales_order_sales')->nullOnDelete();
+            $table->foreignId('linked_sale_order_sale_id')->nullable()->comment('Linked Sale Order Sale Reference')->constrained('sales_order_lines')->nullOnDelete();
             $table->foreignId('creator_id')->nullable()->comment('Creator Reference')->constrained('users')->nullOnDelete();
             $table->string('state')->nullable()->comment('Order State');
             $table->string('display_type')->nullable()->comment('Display Type');
@@ -60,6 +60,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sales_order_sales');
+        Schema::dropIfExists('sales_order_lines');
     }
 };

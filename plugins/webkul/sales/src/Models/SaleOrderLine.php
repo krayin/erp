@@ -9,9 +9,9 @@ use Webkul\Support\Models\Company;
 use Webkul\Support\Models\Currency;
 use Webkul\Support\Models\UOM;
 
-class OrderSale extends Model
+class SaleOrderLine extends Model
 {
-    protected $table = 'sales_order_sales';
+    protected $table = 'sales_order_lines';
 
     protected $fillable = [
         'sort',
@@ -91,7 +91,7 @@ class OrderSale extends Model
 
     public function linkedSaleOrderSale()
     {
-        return $this->belongsTo(OrderSale::class, 'linked_sale_order_sale_id');
+        return $this->belongsTo(SaleOrderLine::class, 'linked_sale_order_sale_id');
     }
 
     public function createdBy()

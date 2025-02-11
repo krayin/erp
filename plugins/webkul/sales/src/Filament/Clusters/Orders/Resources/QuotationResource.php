@@ -27,7 +27,7 @@ use Webkul\Account\Models\Tax;
 use Webkul\Sale\Enums\InvoiceStatus;
 use Webkul\Sale\Enums\OrderDisplayType;
 use Webkul\Sale\Filament\Clusters\Configuration\Resources\ProductResource;
-use Webkul\Sale\Models\OrderSale;
+use Webkul\Sale\Models\SaleOrderLine;
 use Webkul\Sale\Models\OrderTemplate;
 use Webkul\Sale\Models\Product;
 use Webkul\Security\Models\User;
@@ -600,7 +600,7 @@ class QuotationResource extends Resource
                                     ->tabs([
                                         Infolists\Components\Tabs\Tab::make('Products')
                                             ->schema([
-                                                Infolists\Components\RepeatableEntry::make('orderSales')
+                                                Infolists\Components\RepeatableEntry::make('salesOrderLines')
                                                     ->label('Products')
                                                     ->schema([
                                                         Infolists\Components\TextEntry::make('product.name')
@@ -637,8 +637,8 @@ class QuotationResource extends Resource
                                                             ->money('USD'),
                                                     ])
                                                     ->columns(6),
-                                                Infolists\Components\RepeatableEntry::make('orderSalesSections')
-                                                    ->hidden(fn($record) => $record->orderSalesSections->isEmpty())
+                                                Infolists\Components\RepeatableEntry::make('salesOrderSectionLines')
+                                                    ->hidden(fn($record) => $record->salesOrderSectionLines->isEmpty())
                                                     ->schema([
                                                         Infolists\Components\TextEntry::make('product.name')
                                                             ->label('Product'),
@@ -648,8 +648,8 @@ class QuotationResource extends Resource
                                                             ->numeric(),
                                                     ])
                                                     ->columns(3),
-                                                Infolists\Components\RepeatableEntry::make('orderSalesNotes')
-                                                    ->hidden(fn($record) => $record->orderSalesNotes->isEmpty())
+                                                Infolists\Components\RepeatableEntry::make('salesOrderNoteLines')
+                                                    ->hidden(fn($record) => $record->salesOrderNoteLines->isEmpty())
                                                     ->schema([
                                                         Infolists\Components\TextEntry::make('product.name')
                                                             ->label('Product'),
@@ -661,7 +661,7 @@ class QuotationResource extends Resource
                                                     ->columns(3),
                                                 Infolists\Components\Livewire::make(Summary::class, function ($record) {
                                                     return [
-                                                        'products' => $record->orderSales->map(function ($item) {
+                                                        'products' => $record->salesOrderLines->map(function ($item) {
                                                             return [
                                                                 ...$item->toArray(),
                                                                 'tax' => $item->product->productTaxes->pluck('id')->toArray(),
@@ -805,7 +805,7 @@ class QuotationResource extends Resource
     public static function getProductRepeater(): Forms\Components\Repeater
     {
         return Forms\Components\Repeater::make('products')
-            ->relationship('orderSales')
+            ->relationship('salesOrderLines')
             ->hiddenLabel()
             ->live()
             ->reactive()
@@ -827,7 +827,7 @@ class QuotationResource extends Resource
                     }),
             ])
             ->mutateRelationshipDataBeforeCreateUsing(function ($data) {
-                $data['sort'] = OrderSale::max('sort') + 1;
+                $data['sort'] = SaleOrderLine::max('sort') + 1;
                 $data['company_id'] = $data['company_id'] ?? Company::first()->id;
                 $data['product_uom_id'] = $data['product_uom_id'] ?? UOM::first()->id;
                 $data['creator_id'] = $data['creator_id'] ?? User::first()->id;
@@ -968,7 +968,7 @@ class QuotationResource extends Resource
     public static function getSectionRepeater(): Forms\Components\Repeater
     {
         return Forms\Components\Repeater::make('sections')
-            ->relationship('orderSalesSections')
+            ->relationship('salesOrderSectionLines')
             ->hiddenLabel()
             ->reorderable()
             ->collapsible()
@@ -1010,7 +1010,7 @@ class QuotationResource extends Resource
     public static function getNoteRepeater(): Forms\Components\Repeater
     {
         return Forms\Components\Repeater::make('notes')
-            ->relationship('orderSalesNotes')
+            ->relationship('salesOrderNoteLines')
             ->hiddenLabel()
             ->reorderable()
             ->defaultItems(0)
