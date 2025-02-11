@@ -214,7 +214,10 @@ trait HasSaleOrderActions
         ];
 
         if (method_exists($this, 'getAdditionalHeaderActions')) {
-            $actions = array_merge($actions, $this->getAdditionalHeaderActions());
+            $actions = [
+                ...$actions,
+                ...$this->getAdditionalHeaderActions(),
+            ];
         }
 
         return $actions;
