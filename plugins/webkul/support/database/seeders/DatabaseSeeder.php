@@ -15,14 +15,16 @@ class DatabaseSeeder extends Seeder
     public function run($parameters = [])
     {
         $this->call([
-            CurrencySeeder::class,
-            CountrySeeder::class,
-            StateSeeder::class,
-            CompanySeeder::class,
-            ActivityTypeSeeder::class,
-            ActivityPlanSeeder::class,
-            UOMCategorySeeder::class,
-            UOMSeeder::class,
+            // CurrencySeeder::class,
+            // CountrySeeder::class,
+            // StateSeeder::class,
+            // CompanySeeder::class,
+            // ActivityTypeSeeder::class,
+            // ActivityPlanSeeder::class,
+            // UOMCategorySeeder::class,
+            // UOMSeeder::class,
+            UtmStageSeeder::class,
+            UtmCampaignSeeder::class,
         ]);
     }
 }

@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         // $table->foreignId('payment_id')->nullable()->constrained('accounts_payments')->nullOnDelete();
-        // $table->foreignId('statement_id')->nullable()->constrained('account_bank_statements')->nullOnDelete();
-        // $table->foreignId('statement_line_id')->nullable()->constrained('account_bank_statement_lines')->nullOnDelete();
+
         // $table->foreignId('tax_repartition_line_id')->nullable()->constrained('account_tax_repartition_lines')->restrictOnDelete();\
         // $table->foreignId('full_reconcile_id')->nullable()->constrained('account_full_reconciles')->nullOnDelete();
 
@@ -31,6 +30,8 @@ return new class extends Migration
             $table->foreignId('group_tax_id')->comment('Originator Group of Taxes')->nullable()->constrained('accounts_taxes')->nullOnDelete();
             $table->foreignId('tax_line_id')->comment('Originator Tax')->nullable()->constrained('accounts_taxes')->restrictOnDelete();
             $table->foreignId('tax_group_id')->comment('Originator tax group')->nullable()->constrained('accounts_tax_groups')->nullOnDelete();
+            $table->foreignId('statement_id')->nullable()->constrained('accounts_bank_statements')->nullOnDelete();
+            $table->foreignId('statement_line_id')->nullable()->constrained('accounts_bank_statement_lines')->nullOnDelete();
 
             $table->foreignId('product_id')->comment('Product')->nullable()->constrained('products_products')->restrictOnDelete();
             $table->foreignId('product_uom_id')->comment('Unit of Measure')->nullable()->constrained('unit_of_measures')->restrictOnDelete();
