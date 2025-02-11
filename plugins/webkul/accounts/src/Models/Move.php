@@ -37,6 +37,7 @@ class Move extends Model
         'invoice_user_id',
         'invoice_incoterm_id',
         'invoice_cash_rounding_id',
+        'preferred_payment_method_line_id',
         'created_by',
         'sequence_prefix',
         'access_token',
@@ -177,5 +178,10 @@ class Move extends Model
     public function team()
     {
         return $this->belongsTo(SaleTeam::class);
+    }
+
+    public function paymentMethodLine()
+    {
+        return $this->belongsTo(PaymentMethodLine::class, 'preferred_payment_method_line_id');
     }
 }

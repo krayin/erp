@@ -15,7 +15,6 @@ return new class extends Migration
         // $table->foreignId('statement_line_id')->nullable()->comment('Statement Line')->constrained('accounts_statement_lines')->nullOnDelete();
         // $table->foreignId('tax_cash_basis_reconcile_id')->comment('Tax Cash Basis Entry of')->nullable()->constrained('accounts_partial_reconcile')->nullOnDelete();
         // $table->foreignId('campaign_id')->nullable()->comment('Campaign')->constrained('marketing_campaigns')->nullOnDelete();
-        // $table->foreignId('preferred_payment_method_line_id')->nullable()->comment('Payment Method')->constrained('accounts_payment_method_lines')->nullOnDelete();
 
         Schema::create('accounts_account_moves', function (Blueprint $table) {
             $table->id();
@@ -36,6 +35,7 @@ return new class extends Migration
             $table->foreignId('reversed_entry_id')->nullable()->comment('Reversed Entry')->constrained('accounts_account_moves')->nullOnDelete();
             $table->foreignId('invoice_user_id')->nullable()->comment('Invoice User')->constrained('users')->nullOnDelete();
             $table->foreignId('invoice_incoterm_id')->nullable()->comment('Incoterm')->constrained('accounts_incoterms')->nullOnDelete();
+            $table->foreignId('preferred_payment_method_line_id')->nullable()->comment('Payment Method')->constrained('accounts_payment_method_lines')->nullOnDelete();
             $table->foreignId('invoice_cash_rounding_id')->nullable()->comment('Cash Rounding')->constrained('accounts_cash_roundings')->nullOnDelete();
             $table->foreignId('created_by')->nullable()->comment('Created By')->constrained('users')->nullOnDelete();
             $table->string('sequence_prefix')->nullable()->comment('Sequence Prefix');

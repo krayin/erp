@@ -1,11 +1,11 @@
 <?php
 
-namespace Webkul\Account\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AccountMoveLine extends Model
+class MoveLine extends Model
 {
     use HasFactory;
 }

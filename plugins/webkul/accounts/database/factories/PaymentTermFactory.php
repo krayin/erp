@@ -3,7 +3,7 @@
 namespace Webkul\Account\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Webkul\Invoice\Models\PaymentTerm;
+use Webkul\Account\Models\PaymentTerm;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 
