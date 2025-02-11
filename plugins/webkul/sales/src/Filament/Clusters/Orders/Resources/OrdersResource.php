@@ -3,6 +3,7 @@
 namespace Webkul\Sale\Filament\Clusters\Orders\Resources;
 
 use Filament\Forms\Form;
+use Filament\Infolists\Infolist;
 use Webkul\Sale\Filament\Clusters\Orders;
 use Webkul\Sale\Filament\Clusters\Orders\Resources\OrdersResource\Pages;
 use Filament\Resources\Resource;
@@ -41,6 +42,11 @@ class OrdersResource extends Resource
             ->modifyQueryUsing(function ($query) {
                 $query->where('state', OrderState::SALE->value);
             });
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return QuotationResource::infolist($infolist);
     }
 
     public static function getPages(): array

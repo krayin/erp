@@ -3,6 +3,7 @@
 namespace Webkul\Sale\Filament\Clusters\ToInvoice\Resources;
 
 use Filament\Forms\Form;
+use Filament\Infolists\Infolist;
 use Webkul\Sale\Filament\Clusters\ToInvoice;
 use Webkul\Sale\Filament\Clusters\ToInvoice\Resources\OrderToInvoiceResource\Pages;
 use Filament\Resources\Resource;
@@ -40,6 +41,11 @@ class OrderToInvoiceResource extends Resource
             ->modifyQueryUsing(function ($query) {
                 $query->where('invoice_status', InvoiceStatus::TO_INVOICE->value);
             });
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return QuotationResource::infolist($infolist);
     }
 
     public static function getPages(): array
