@@ -169,6 +169,11 @@ class InvoiceResource extends Resource
                                                             ->label('Checked'),
                                                     ]),
                                             ]),
+                                        Forms\Components\Tabs\Tab::make(__('Terms & Conditions'))
+                                            ->schema([
+                                                Forms\Components\RichEditor::make('narration')
+                                                    ->placeholder('Terms & Conditions')
+                                            ]),
                                     ])
                                     ->persistTabInQueryString(),
                             ])
