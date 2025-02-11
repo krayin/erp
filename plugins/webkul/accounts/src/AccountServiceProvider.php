@@ -25,7 +25,7 @@ class AccountServiceProvider extends PackageServiceProvider
                 '2025_01_30_054952_create_accounts_accounts_table',
                 '2025_01_30_061945_create_accounts_account_tags_table',
                 '2025_01_30_083208_create_accounts_taxes_table',
-                '2025_01_30_123324_create_accounts_tax_partitions_table',
+                '2025_01_30_123324_create_accounts_tax_partition_lines_table',
                 '2025_01_31_073645_create_accounts_journals_table',
                 '2025_01_31_095921_create_accounts_journal_accounts_table',
                 '2025_01_31_125419_create_accounts_tax_taxes_table',
@@ -44,8 +44,13 @@ class AccountServiceProvider extends PackageServiceProvider
                 '2025_02_10_073440_create_accounts_reconciles_table',
                 '2025_02_11_041318_create_accounts_bank_statements_table',
                 '2025_02_11_055302_create_accounts_bank_statement_lines_table',
+                '2025_02_11_120712_create_accounts_partial_reconciles_table',
                 '2025_02_10_075607_create_accounts_payment_method_lines_table',
-                '2025_02_11_100912_add_move_id_column_to_accounts_bank_statement_lines_table'
+                '2025_02_11_100912_add_move_id_column_to_accounts_bank_statement_lines_table',
+                '2025_02_11_112154_create_accounts_account_payments_table',
+                '2025_02_11_115401_create_accounts_full_reconciles_table',
+                '2025_02_11_121630_add_columns_to_accounts_moves_table',
+                '2025_02_11_121635_add_columns_to_accounts_moves_lines_table'
             ])
             ->runsMigrations()
             ->hasInstallCommand(function (InstallCommand $command) {

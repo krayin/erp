@@ -17,6 +17,8 @@ class PaymentServiceProvider extends PackageServiceProvider
             ->hasTranslations()
             ->hasMigrations([
                 '2025_02_10_131418_create_payments_payments_table',
+                '2025_02_11_103602_create_payments_payment_transactions_table',
+                '2025_02_11_101123_create_payments_payment_tokens_table'
             ])
             ->runsMigrations()
             ->hasInstallCommand(function (InstallCommand $command) {

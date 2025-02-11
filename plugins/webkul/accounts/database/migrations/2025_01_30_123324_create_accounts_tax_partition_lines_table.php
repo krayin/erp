@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('accounts_tax_partitions', function (Blueprint $table) {
+        Schema::create('accounts_tax_partition_lines', function (Blueprint $table) {
             $table->id();
             $table->foreignId('account_id')->nullable()->comment('Account')->constrained('accounts_accounts')->nullOnDelete();
             $table->foreignId('tax_id')->nullable()->comment('Tax')->constrained('accounts_taxes')->cascadeOnDelete();
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('accounts_tax_partitions');
+        Schema::dropIfExists('accounts_tax_partition_lines');
     }
 };

@@ -11,10 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // $table->foreignId('origin_payment_id')->nullable()->comment('Payment')->constrained('accounts_payments')->nullOnDelete();
-        // $table->foreignId('tax_cash_basis_reconcile_id')->comment('Tax Cash Basis Entry of')->nullable()->constrained('accounts_partial_reconcile')->nullOnDelete();
-        // $table->foreignId('campaign_id')->nullable()->comment('Campaign')->constrained('marketing_campaigns')->nullOnDelete();
-
         Schema::create('accounts_account_moves', function (Blueprint $table) {
             $table->id();
 
@@ -23,6 +19,7 @@ return new class extends Migration
             $table->foreignId('company_id')->nullable()->comment('Company')->constrained('companies')->nullOnDelete();
             $table->foreignId('tax_cash_basis_origin_move_id')->nullable()->comment('Cash Basis Origin')->constrained('accounts_account_moves')->nullOnDelete();
             $table->foreignId('auto_post_origin_id')->nullable()->comment('Auto Post Origin')->constrained('accounts_account_moves')->nullOnDelete();
+            $table->foreignId('origin_payment_id')->nullable()->comment('Payment')->constrained('accounts_account_payments')->nullOnDelete();
             $table->integer('secure_sequence_number')->nullable()->comment('Secure Sequence Number');
             $table->foreignId('invoice_payment_term_id')->nullable()->comment('Payment Term')->constrained('accounts_payment_terms')->nullOnDelete();
             $table->foreignId('partner_id')->nullable()->comment('Partner')->constrained('partners_partners')->nullOnDelete();
@@ -32,6 +29,7 @@ return new class extends Migration
             $table->foreignId('fiscal_position_id')->nullable()->comment('Fiscal Position')->constrained('accounts_fiscal_positions')->nullOnDelete();
             $table->foreignId('currency_id')->nullable()->comment('Currency')->constrained('currencies')->restrictOnDelete();
             $table->foreignId('reversed_entry_id')->nullable()->comment('Reversed Entry')->constrained('accounts_account_moves')->nullOnDelete();
+            $table->foreignId('campaign_id')->nullable()->comment('Campaign')->constrained('utm_campaigns')->nullOnDelete();
             $table->foreignId('invoice_user_id')->nullable()->comment('Invoice User')->constrained('users')->nullOnDelete();
             $table->foreignId('statement_line_id')->nullable()->constrained('accounts_bank_statement_lines')->nullOnDelete();
             $table->foreignId('invoice_incoterm_id')->nullable()->comment('Incoterm')->constrained('accounts_incoterms')->nullOnDelete();

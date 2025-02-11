@@ -13,7 +13,7 @@ class TaxPartition extends Model
 {
     use HasFactory;
 
-    protected $table = 'accounts_tax_partitions';
+    protected $table = 'accounts_tax_partition_lines';
 
     protected $fillable = [
         'account_id',

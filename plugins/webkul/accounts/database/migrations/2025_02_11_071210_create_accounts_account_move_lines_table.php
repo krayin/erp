@@ -11,19 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // $table->foreignId('payment_id')->nullable()->constrained('accounts_payments')->nullOnDelete();
-
-        // $table->foreignId('tax_repartition_line_id')->nullable()->constrained('account_tax_repartition_lines')->restrictOnDelete();\
-        // $table->foreignId('full_reconcile_id')->nullable()->constrained('account_full_reconciles')->nullOnDelete();
-
         Schema::create('accounts_account_move_lines', function (Blueprint $table) {
             $table->id();
+            $table->integer('sort')->nullable();
             $table->foreignId('move_id')->comment('Journal Entry')->constrained('accounts_account_moves')->cascadeOnDelete();
             $table->foreignId('journal_id')->nullable()->comment('Journal')->constrained('accounts_journals')->nullOnDelete();
             $table->foreignId('company_id')->nullable()->comment('Company')->constrained('companies')->nullOnDelete();
             $table->foreignId('company_currency_id')->nullable()->comment('Company Currency')->constrained('currencies')->nullOnDelete();
             $table->foreignId('reconcile_id')->nullable()->constrained('accounts_reconciles')->nullOnDelete();
-            $table->integer('sort')->nullable();
+            $table->foreignId('payment_id')->nullable()->comment('Payment')->constrained('accounts_account_payments')->nullOnDelete();
+            $table->foreignId('tax_repartition_line_id')->nullable()->constrained('accounts_tax_partition_lines')->restrictOnDelete();
             $table->foreignId('account_id')->nullable()->comment('Account')->constrained('accounts_accounts')->cascadeOnDelete();
             $table->foreignId('currency_id')->comment('Currency')->constrained('currencies')->restrictOnDelete();
             $table->foreignId('partner_id')->comment('Partner')->nullable()->constrained('partners_partners')->restrictOnDelete();

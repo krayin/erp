@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payment_methods', function (Blueprint $table) {
+        Schema::create('accounts_full_reconciles', function (Blueprint $table) {
             $table->id();
+
+            $table->foreignId('exchange_move_id')->nullable()->constrained('accounts_account_moves')->nullOnDelete();
+            $table->foreignId('created_id')->nullable()->constrained('users')->nullOnDelete();
+
             $table->timestamps();
         });
     }
@@ -22,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payment_methods');
+        Schema::dropIfExists('accounts_full_reconciles');
     }
 };

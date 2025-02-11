@@ -121,7 +121,7 @@ class Tax extends Model
             ],
         ];
 
-        DB::table('accounts_tax_partitions')->insert($distributionForInvoices);
+        DB::table('accounts_tax_partition_lines')->insert($distributionForInvoices);
     }
 
     private function attachDistributionForRefund(self $tax)
@@ -155,6 +155,6 @@ class Tax extends Model
             ],
         ];
 
-        DB::table('accounts_tax_partitions')->insert($distributionForRefunds);
+        DB::table('accounts_tax_partition_lines')->insert($distributionForRefunds);
     }
 }
