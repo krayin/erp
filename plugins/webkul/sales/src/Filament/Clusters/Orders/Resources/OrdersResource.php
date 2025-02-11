@@ -3,7 +3,7 @@
 namespace Webkul\Sale\Filament\Clusters\Orders\Resources;
 
 use Filament\Forms\Form;
-use Webkul\Sale\Filament\Clusters\Orders as OrderClusters;
+use Webkul\Sale\Filament\Clusters\Orders;
 use Webkul\Sale\Filament\Clusters\Orders\Resources\OrdersResource\Pages;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
@@ -16,7 +16,7 @@ class OrdersResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
 
-    protected static ?string $cluster = OrderClusters::class;
+    protected static ?string $cluster = Orders::class;
 
     protected static ?int $navigationSort = 2;
 

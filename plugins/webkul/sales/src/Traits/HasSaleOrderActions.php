@@ -30,7 +30,7 @@ trait HasSaleOrderActions
 
     protected function getHeaderActions(): array
     {
-        return [
+        $actions = [
             ChatterActions\ChatterAction::make()
                 ->setResource($this->getResource()),
             Action::make('confirm')
@@ -210,12 +210,14 @@ trait HasSaleOrderActions
                     }
                 )
                 ->hidden(fn($record) => ! in_array($record->state, [OrderState::DRAFT->value, OrderState::SENT->value, OrderState::SALE->value])),
-            Actions\ViewAction::make()
-                ->hidden(fn() => str_contains(Route::currentRouteName(), 'view')),
-            Actions\EditAction::make()
-                ->hidden(fn() => str_contains(Route::currentRouteName(), 'edit')),
             Actions\DeleteAction::make(),
         ];
+
+        if (method_exists($this, 'getAdditionalHeaderActions')) {
+            $actions = array_merge($actions, $this->getAdditionalHeaderActions());
+        }
+
+        return $actions;
     }
 
     private function preparePayloadForSendByEmail($record, $partner, $data)
