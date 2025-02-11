@@ -8,10 +8,11 @@ use Webkul\Partner\Models\BankAccount;
 use Webkul\Partner\Models\Partner;
 use Webkul\Recruitment\Models\UTMMedium;
 use Webkul\Recruitment\Models\UTMSource;
-use Webkul\Sale\Filament\Pages\SaleTeam;
+use Webkul\Sale\Models\Team;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 use Webkul\Support\Models\Currency;
+use Webkul\Support\Models\UtmCampaign;
 
 class Move extends Model
 {
@@ -23,6 +24,7 @@ class Move extends Model
         'sort',
         'journal_id',
         'company_id',
+        'campaign_id',
         'tax_cash_basis_origin_move_id',
         'auto_post_origin_id',
         'secure_sequence_number',
@@ -84,6 +86,11 @@ class Move extends Model
         'medium_id',
         'team_id',
     ];
+
+    public function campaign()
+    {
+        return $this->belongsTo(UtmCampaign::class);
+    }
 
     public function journal()
     {
@@ -177,11 +184,16 @@ class Move extends Model
 
     public function team()
     {
-        return $this->belongsTo(SaleTeam::class);
+        return $this->belongsTo(Team::class);
     }
 
     public function paymentMethodLine()
     {
         return $this->belongsTo(PaymentMethodLine::class, 'preferred_payment_method_line_id');
+    }
+
+    public function moveLines()
+    {
+        return $this->hasMany(MoveLine::class);
     }
 }

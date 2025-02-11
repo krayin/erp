@@ -15,22 +15,22 @@ use Webkul\Sale\Livewire\Summary;
 use Filament\Forms\Get;
 use Webkul\Field\Filament\Forms\Components\ProgressStepper;
 use Webkul\Partner\Models\Partner;
-use Webkul\Sale\Enums\OrderState;
 use Filament\Forms\Set;
-use Webkul\Sale\Models\OrderTemplate;
 use Webkul\Support\Models\Currency;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Support\Facades\FilamentView;
+use Webkul\Account\Enums\AutoPost;
+use Webkul\Account\Enums\MoveState;
 use Webkul\Account\Enums\TypeTaxUse;
 use Webkul\Account\Models\Tax;
-use Webkul\Sale\Enums\OrderDisplayType;
 use Webkul\Sale\Filament\Clusters\Configuration\Resources\ProductResource;
+use Webkul\Sale\Filament\Clusters\Configuration\Resources\TeamResource;
 use Webkul\Sale\Models\SaleOrderLine;
 use Webkul\Sale\Models\Product;
+use Webkul\Security\Filament\Resources\UserResource;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 use Webkul\Support\Models\UOM;
-
 
 class InvoiceResource extends Resource
 {
@@ -86,8 +86,8 @@ class InvoiceResource extends Resource
                         ProgressStepper::make('state')
                             ->hiddenLabel()
                             ->inline()
-                            ->options(OrderState::class)
-                            ->default(OrderState::DRAFT->value)
+                            ->options(MoveState::class)
+                            ->default(MoveState::DRAFT->value)
                             ->columnSpan('full')
                             ->disabled()
                             ->live()
@@ -102,8 +102,6 @@ class InvoiceResource extends Resource
                                         Forms\Components\Tabs\Tab::make(__('Products'))
                                             ->schema([
                                                 static::getProductRepeater(),
-                                                static::getSectionRepeater(),
-                                                static::getNoteRepeater(),
                                                 Forms\Components\Livewire::make(Summary::class, function (Get $get) {
                                                     return [
                                                         'products' => $get('products'),
@@ -114,76 +112,62 @@ class InvoiceResource extends Resource
                                             ]),
                                         Forms\Components\Tabs\Tab::make(__('Other Info'))
                                             ->schema([
-                                                Forms\Components\Fieldset::make('Sales')
+                                                Forms\Components\Fieldset::make('Invoice')
                                                     ->schema([
-                                                        Forms\Components\Grid::make(2)
-                                                            ->schema([
-                                                                Forms\Components\Select::make('user_id')
-                                                                    ->relationship('user', 'name')
-                                                                    ->searchable()
-                                                                    ->preload()
-                                                                    ->label('Sales Person'),
-                                                                Forms\Components\Select::make('team_id')
-                                                                    ->relationship('team', 'name')
-                                                                    ->searchable()
-                                                                    ->preload()
-                                                                    ->label('Sales Team'),
-                                                                Forms\Components\Fieldset::make('Signature & Payment')
-                                                                    ->schema([
-                                                                        Forms\Components\Toggle::make('require_signature')
-                                                                            ->label('Online Signature'),
-                                                                        Forms\Components\Toggle::make('require_payment')
-                                                                            ->live()
-                                                                            ->label('Online Payment'),
-                                                                        Forms\Components\TextInput::make('prepayment_percentage')
-                                                                            ->prefix('of')
-                                                                            ->suffix('%')
-                                                                            ->visible(fn(Get $get) => $get('require_payment') === true),
-                                                                    ])->columns(1),
-                                                                Forms\Components\TextInput::make('client_order_ref')
-                                                                    ->label('Customer Reference'),
-                                                            ])
-                                                    ]),
-                                                Forms\Components\Fieldset::make('Invoicing')
-                                                    ->schema([
-                                                        Forms\Components\Select::make('fiscal_position_id')
-                                                            ->relationship('fiscalPosition', 'name')
+                                                        Forms\Components\TextInput::make('reference')
+                                                            ->label('Customer Reference'),
+                                                        Forms\Components\Select::make('invoice_user_id')
+                                                            ->relationship('invoiceUser', 'name')
+                                                            ->searchable()
+                                                            ->createOptionForm(fn(Form $form) => UserResource::form($form))
+                                                            ->preload()
+                                                            ->label('Sales Person'),
+                                                        Forms\Components\Select::make('team_id')
+                                                            ->relationship('team', 'name')
+                                                            ->createOptionForm(fn(Form $form) => TeamResource::form($form))
                                                             ->searchable()
                                                             ->preload()
-                                                            ->label('Fiscal Position'),
-                                                        Forms\Components\Select::make('journal_id')
-                                                            ->relationship('journal', 'name')
+                                                            ->label('Sales Team'),
+                                                        Forms\Components\Select::make('partner_bank_id')
+                                                            ->relationship('partnerBank', 'account_holder_name')
                                                             ->searchable()
                                                             ->preload()
-                                                            ->label('Invoicing Journal'),
-                                                    ]),
-                                                Forms\Components\Fieldset::make('Shipping')
-                                                    ->schema([
-                                                        Forms\Components\DateTimePicker::make('commitment_date')
+                                                            ->label('Recipient Bank'),
+                                                        Forms\Components\TextInput::make('payment_reference')
+                                                            ->label('Payment Reference'),
+                                                        Forms\Components\DatePicker::make('delivery_date')
                                                             ->native(false)
-                                                            ->suffixIcon('heroicon-o-calendar')
+                                                            ->default(now())
                                                             ->label('Delivery Date'),
                                                     ]),
-                                                Forms\Components\Fieldset::make('Tracking')
+                                                Forms\Components\Fieldset::make('Accounting')
                                                     ->schema([
-                                                        Forms\Components\TextInput::make('origin')
-                                                            ->label('Source Document'),
-                                                        Forms\Components\Select::make('medium_id')
-                                                            ->relationship('medium', 'name')
+                                                        Forms\Components\Select::make('invoice_incoterm_id')
+                                                            ->relationship('invoiceIncoterm', 'name')
                                                             ->searchable()
                                                             ->preload()
-                                                            ->label('Medium'),
-                                                        Forms\Components\Select::make('source_id')
-                                                            ->relationship('utmSource', 'name')
-                                                            ->searchable()
+                                                            ->label('Incoterm'),
+                                                        Forms\Components\TextInput::make('incoterm_location')
+                                                            ->label('Incoterm Location'),
+                                                        Forms\Components\Select::make('fiscal_position_id')
+                                                            ->relationship('fiscalPosition', 'name')
                                                             ->preload()
-                                                            ->label('Source'),
+                                                            ->searchable()
+                                                            ->label('Fiscal Position'),
+                                                        Forms\Components\Select::make('preferred_payment_method_line_id')
+                                                            ->relationship('paymentMethodLine', 'name')
+                                                            ->preload()
+                                                            ->searchable()
+                                                            ->label('Payment Method'),
+                                                        Forms\Components\Select::make('auto_post')
+                                                            ->options(AutoPost::class)
+                                                            ->default(AutoPost::NO->value)
+                                                            ->label('Auto Post'),
+                                                        Forms\Components\Toggle::make('checked')
+                                                            ->default(false)
+                                                            ->inline(false)
+                                                            ->label('Checked'),
                                                     ]),
-                                            ]),
-                                        Forms\Components\Tabs\Tab::make(__('Terms & Conditions'))
-                                            ->schema([
-                                                Forms\Components\RichEditor::make('note')
-                                                    ->hiddenLabel()
                                             ]),
                                     ])
                                     ->persistTabInQueryString(),
@@ -193,147 +177,87 @@ class InvoiceResource extends Resource
                             ->schema([
                                 Forms\Components\Section::make()
                                     ->schema([
-                                        Forms\Components\Select::make('partner_id')
-                                            ->relationship('partner', 'name')
-                                            ->searchable()
-                                            ->preload()
-                                            ->required()
-                                            ->live()
-                                            ->afterStateUpdated(function (Get $get, Set $set, $state) {
-                                                if ($state) {
-                                                    if ($get('partner_invoice_id') === null) {
-                                                        $set('partner_invoice_id', $state);
-                                                    }
-
-                                                    if ($get('partner_shipping_id') === null) {
-                                                        $set('partner_shipping_id', $state);
-                                                    }
-                                                }
-                                            })
-                                            ->label('Customer'),
-                                        Forms\Components\Placeholder::make('partner_address')
-                                            ->hiddenLabel()
-                                            ->visible(
-                                                fn(Get $get) =>
-                                                Partner::with('addresses')->find($get('partner_id'))?->addresses->isNotEmpty()
-                                            )
-                                            ->content(function (Get $get) {
-                                                $partner = Partner::with('addresses.state', 'addresses.country')->find($get('partner_id'));
-
-                                                if (
-                                                    ! $partner
-                                                    || $partner->addresses->isEmpty()
-                                                ) {
-                                                    return null;
-                                                }
-
-                                                $address = $partner->addresses->first();
-
-                                                return sprintf(
-                                                    "%s\n%s%s\n%s, %s %s\n%s",
-                                                    $address->name ?? '',
-                                                    $address->street1 ?? '',
-                                                    $address->street2 ? ', ' . $address->street2 : '',
-                                                    $address->city ?? '',
-                                                    $address->state ? $address->state->name : '',
-                                                    $address->zip ?? '',
-                                                    $address->country ? $address->country->name : ''
-                                                );
-                                            }),
-                                        Forms\Components\Select::make('payment_term_id')
-                                            ->relationship('paymentTerm', 'name')
-                                            ->searchable()
-                                            ->preload()
-                                            ->label('Payment Terms'),
-                                        Forms\Components\Select::make('sale_order_template_id')
-                                            ->relationship('quotationTemplate', 'name')
-                                            ->searchable()
-                                            ->live()
-                                            ->preload()
-                                            ->afterStateUpdated(function (Set $set, $state) {
-                                                $orderTemplate = OrderTemplate::find($state);
-
-                                                if ($orderTemplate) {
-                                                    $initialProducts = collect($orderTemplate->products)
-                                                        ->map(function ($item) {
-                                                            $qty = $item->quantity ?? 0;
-                                                            $price = $item->product?->price ?? 0;
-
-                                                            return [
-                                                                'product_id' => $item->product_id ?? null,
-                                                                'name' => $item->name,
-                                                                'product_uom_qty' => $qty,
-                                                                'tax' => $item->product?->productTaxes->pluck('id')->toArray() ?? [],
-                                                                'customer_lead' => 1,
-                                                                'price_unit' => $price,
-                                                                'price_subtotal' => number_format($price * $qty, 2, '.', ''),
-                                                                'price_total' => number_format($price * $qty, 2, '.', '')
-                                                            ];
-                                                        })
-                                                        ->toArray();
-
-                                                    $set('products', $initialProducts);
-
-                                                    $initialSections = collect($orderTemplate->sections)
-                                                        ->map(fn($item) => [
-                                                            'product_id' => $item->product_id ?? null,
-                                                            'name'       => $item->name,
-                                                            'quantity'   => $item->quantity ?? null,
-                                                        ])
-                                                        ->toArray();
-
-                                                    $set('sections', $initialSections);
-
-                                                    $initialNotes = collect($orderTemplate->notes)
-                                                        ->map(fn($item) => [
-                                                            'product_id' => $item->product_id ?? null,
-                                                            'name'       => $item->name,
-                                                            'quantity'   => $item->quantity ?? null,
-                                                        ])
-                                                        ->toArray();
-
-                                                    $set('notes', $initialNotes);
-                                                }
-                                            })
-                                            ->label('Quotation Template'),
-                                    ]),
-                                Forms\Components\Section::make()
-                                    ->schema([
-                                        Forms\Components\Fieldset::make('Invoice & Delivery Addresses')
+                                        Forms\Components\Fieldset::make('General')
                                             ->schema([
-                                                Forms\Components\Select::make('partner_invoice_id')
-                                                    ->relationship('partnerInvoice', 'name')
-                                                    ->searchable()
+                                                Forms\Components\TextInput::make('name')
                                                     ->required()
-                                                    ->preload()
-                                                    ->live()
-                                                    ->label('Invoice Address'),
-                                                Forms\Components\Select::make('partner_shipping_id')
-                                                    ->relationship('partnerShipping', 'name')
+                                                    ->label('Customer Invoice'),
+                                                Forms\Components\Select::make('partner_id')
+                                                    ->relationship('partner', 'name')
                                                     ->searchable()
                                                     ->preload()
                                                     ->live()
-                                                    ->label('Delivery Address'),
-                                            ])->columns(1)
-                                    ]),
-                                Forms\Components\Section::make()
-                                    ->schema([
-                                        Forms\Components\Fieldset::make('Expiration & Quotation Date')
-                                            ->schema([
-                                                Forms\Components\DatePicker::make('validity_date')
-                                                    ->live()
-                                                    ->native(false)
-                                                    ->suffixIcon('heroicon-o-calendar')
-                                                    ->default(now()->addDays(30)->format('Y-m-d'))
-                                                    ->label('Expiration'),
-                                                Forms\Components\DatePicker::make('date_order')
-                                                    ->live()
-                                                    ->native(false)
-                                                    ->suffixIcon('heroicon-o-calendar')
-                                                    ->default(now())
-                                                    ->label('Quotation Date'),
+                                                    ->required()
+                                                    ->label('Customer'),
+                                                Forms\Components\Placeholder::make('partner_address')
+                                                    ->hiddenLabel()
+                                                    ->visible(
+                                                        fn(Get $get) =>
+                                                        Partner::with('addresses')->find($get('partner_id'))?->addresses->isNotEmpty()
+                                                    )
+                                                    ->content(function (Get $get) {
+                                                        $partner = Partner::with('addresses.state', 'addresses.country')->find($get('partner_id'));
+
+                                                        if (
+                                                            ! $partner
+                                                            || $partner->addresses->isEmpty()
+                                                        ) {
+                                                            return null;
+                                                        }
+
+                                                        $address = $partner->addresses->first();
+
+                                                        return sprintf(
+                                                            "%s\n%s%s\n%s, %s %s\n%s",
+                                                            $address->name ?? '',
+                                                            $address->street1 ?? '',
+                                                            $address->street2 ? ', ' . $address->street2 : '',
+                                                            $address->city ?? '',
+                                                            $address->state ? $address->state->name : '',
+                                                            $address->zip ?? '',
+                                                            $address->country ? $address->country->name : ''
+                                                        );
+                                                    }),
                                             ])->columns(1),
                                     ]),
+                                Forms\Components\Section::make()
+                                    ->schema([
+                                        Forms\Components\Fieldset::make('Invoice Date & Payment Term')
+                                            ->schema([
+                                                Forms\Components\DatePicker::make('invoice_date')
+                                                    ->required()
+                                                    ->default(now())
+                                                    ->native(false)
+                                                    ->label('Invoice Date'),
+                                                Forms\Components\Select::make('invoice_payment_term_id')
+                                                    ->relationship('invoicePaymentTerm', 'name')
+                                                    ->required()
+                                                    ->searchable()
+                                                    ->preload()
+                                                    ->label('Payment Terms'),
+                                            ])->columns(1),
+                                    ]),
+                                Forms\Components\Section::make()
+                                    ->schema([
+                                        Forms\Components\Fieldset::make('Marketing')
+                                            ->schema([
+                                                Forms\Components\Select::make('campaign_id')
+                                                    ->relationship('campaign', 'name')
+                                                    ->searchable()
+                                                    ->preload()
+                                                    ->label('Campaign'),
+                                                Forms\Components\Select::make('medium_id')
+                                                    ->relationship('medium', 'name')
+                                                    ->searchable()
+                                                    ->preload()
+                                                    ->label('Medium'),
+                                                Forms\Components\Select::make('source_id')
+                                                    ->relationship('source', 'name')
+                                                    ->searchable()
+                                                    ->preload()
+                                                    ->label('Source'),
+                                            ])->columns(1)
+                                    ])
                             ])
                             ->columnSpan(['lg' => 1]),
                     ])
@@ -382,11 +306,12 @@ class InvoiceResource extends Resource
     public static function getProductRepeater(): Forms\Components\Repeater
     {
         return Forms\Components\Repeater::make('products')
-            ->relationship('salesOrderLines')
+            ->relationship('moveLines')
             ->hiddenLabel()
             ->live()
             ->reactive()
             ->reorderable()
+            ->addActionLabel('Add a line')
             ->collapsible()
             ->defaultItems(0)
             ->cloneable()
@@ -539,90 +464,6 @@ class InvoiceResource extends Resource
                                     ->label('Total'),
                             ]),
                     ])->columns(2)
-            ]);
-    }
-
-    public static function getSectionRepeater(): Forms\Components\Repeater
-    {
-        return Forms\Components\Repeater::make('sections')
-            ->relationship('salesOrderSectionLines')
-            ->hiddenLabel()
-            ->reorderable()
-            ->collapsible()
-            ->defaultItems(0)
-            ->cloneable()
-            ->itemLabel(fn(array $state): ?string => $state['name'] ?? null)
-            ->deleteAction(
-                fn(Action $action) => $action->requiresConfirmation(),
-            )
-            ->extraItemActions([
-                Action::make('view')
-                    ->icon('heroicon-m-eye')
-                    ->action(function (
-                        array $arguments,
-                        $livewire,
-                        $state,
-                    ): void {
-                        $redirectUrl = ProductResource::getUrl('edit', ['record' => $state[$arguments['item']]['product_id']]);
-
-                        $livewire->redirect($redirectUrl, navigate: FilamentView::hasSpaMode());
-                    }),
-            ])
-            ->schema([
-                Forms\Components\Group::make()
-                    ->schema([
-                        Forms\Components\TextInput::make('name')
-                            ->live(onBlur: true)
-                            ->label('Name'),
-                        Forms\Components\Hidden::make('quantity')
-                            ->required()
-                            ->default(0),
-                        Forms\Components\Hidden::make('display_type')
-                            ->required()
-                            ->default(OrderDisplayType::SECTION->value)
-                    ]),
-            ]);
-    }
-
-    public static function getNoteRepeater(): Forms\Components\Repeater
-    {
-        return Forms\Components\Repeater::make('notes')
-            ->relationship('salesOrderNoteLines')
-            ->hiddenLabel()
-            ->reorderable()
-            ->defaultItems(0)
-            ->collapsible()
-            ->cloneable()
-            ->itemLabel(fn(array $state): ?string => $state['name'] ?? null)
-            ->deleteAction(
-                fn(Action $action) => $action->requiresConfirmation(),
-            )
-            ->extraItemActions([
-                Action::make('view')
-                    ->icon('heroicon-m-eye')
-                    ->action(function (
-                        array $arguments,
-                        $livewire,
-                        $state,
-                    ): void {
-                        $redirectUrl = ProductResource::getUrl('edit', ['record' => $state[$arguments['item']]['product_id']]);
-
-                        $livewire->redirect($redirectUrl, navigate: FilamentView::hasSpaMode());
-                    }),
-            ])
-            ->schema([
-                Forms\Components\Group::make()
-                    ->schema([
-                        Forms\Components\TextInput::make('name')
-                            ->live(onBlur: true)
-                            ->label('Name'),
-                        Forms\Components\Hidden::make('quantity')
-                            ->required()
-                            ->default(0),
-                        Forms\Components\Hidden::make('display_type')
-                            ->required()
-                            ->default(OrderDisplayType::NOTE->value)
-                    ]),
             ]);
     }
 }

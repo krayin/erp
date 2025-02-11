@@ -12,7 +12,7 @@ class UtmCampaignSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('utm_campaigns')->truncate();
+        DB::table('utm_campaigns')->delete();
 
         $now = now();
 

@@ -79,6 +79,7 @@ return new class extends Migration
             $table->boolean('is_move_sent')->nullable()->comment('Is Move Sent');
             $table->foreignId('source_id')->nullable()->comment('Source')->constrained('recruitments_utm_sources')->nullOnDelete();
             $table->foreignId('medium_id')->nullable()->comment('Medium')->constrained('recruitments_utm_mediums')->nullOnDelete();
+            $table->foreignId('campaign_id')->nullable()->comment('Campaign')->constrained('utm_campaigns')->nullOnDelete();
             $table->foreignId('team_id')->nullable()->comment('Team')->constrained('sales_teams')->nullOnDelete();
 
             $table->timestamps();
