@@ -38,6 +38,7 @@ class AccountServiceProvider extends PackageServiceProvider
                 '2025_02_04_104958_create_accounts_product_taxes_table',
                 '2025_02_04_111337_create_product_supplier_taxes_table',
                 '2025_02_04_111337_create_accounts_product_supplier_taxes_table',
+                '2025_02_11_055303_create_accounts_account_moves_table',
             ])
             ->runsMigrations()
             ->hasInstallCommand(function (InstallCommand $command) {
