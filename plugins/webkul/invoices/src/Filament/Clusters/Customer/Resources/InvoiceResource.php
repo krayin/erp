@@ -29,9 +29,17 @@ use Webkul\Sale\Filament\Clusters\Configuration\Resources\ProductResource;
 use Webkul\Sale\Filament\Clusters\Configuration\Resources\TeamResource;
 use Webkul\Sale\Models\Product;
 use Webkul\Security\Filament\Resources\UserResource;
+
 class InvoiceResource extends Resource
 {
-use Webkul\Sale\Models\SaleOrderLine;
+    protected static ?string $model = AccountMove::class;
+
+    protected static ?string $navigationIcon = 'heroicon-o-receipt-percent';
+
+    protected static ?string $cluster = Customer::class;
+
+    public static function getModelLabel(): string
+    {
         return __('Invoices');
     }
 
