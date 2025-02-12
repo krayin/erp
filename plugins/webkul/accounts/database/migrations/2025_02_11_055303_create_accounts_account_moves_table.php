@@ -35,7 +35,7 @@ return new class extends Migration
             $table->foreignId('invoice_incoterm_id')->nullable()->comment('Incoterm')->constrained('accounts_incoterms')->nullOnDelete();
             $table->foreignId('preferred_payment_method_line_id')->nullable()->comment('Payment Method Line')->constrained('accounts_payment_method_lines')->nullOnDelete();
             $table->foreignId('invoice_cash_rounding_id')->nullable()->comment('Cash Rounding')->constrained('accounts_cash_roundings')->nullOnDelete();
-            $table->foreignId('created_by')->nullable()->comment('Created By')->constrained('users')->nullOnDelete();
+            $table->foreignId('creator_id')->nullable()->comment('Created By')->constrained('users')->nullOnDelete();
             $table->string('sequence_prefix')->nullable()->comment('Sequence Prefix');
             $table->string('access_token')->nullable()->comment('Access Token');
             $table->string('name')->nullable()->comment('Name');

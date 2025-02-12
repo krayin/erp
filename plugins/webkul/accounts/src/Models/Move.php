@@ -40,7 +40,7 @@ class Move extends Model
         'invoice_incoterm_id',
         'invoice_cash_rounding_id',
         'preferred_payment_method_line_id',
-        'created_by',
+        'creator_id',
         'sequence_prefix',
         'access_token',
         'name',
@@ -169,7 +169,7 @@ class Move extends Model
 
     public function createdBy()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'creator_id');
     }
 
     public function source()

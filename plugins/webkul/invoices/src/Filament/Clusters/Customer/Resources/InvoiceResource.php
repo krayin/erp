@@ -19,8 +19,8 @@ use Filament\Forms\Set;
 use Webkul\Support\Models\Currency;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Support\Facades\FilamentView;
-use Webkul\Account\Enums\AutoPost;
-use Webkul\Account\Enums\MoveState;
+use Webkul\Invoice\Enums\AutoPost;
+use Webkul\Invoice\Enums\MoveState;
 use Webkul\Account\Enums\TypeTaxUse;
 use Webkul\Account\Models\Tax;
 use Webkul\Sale\Filament\Clusters\Configuration\Resources\ProductResource;
@@ -172,6 +172,7 @@ class InvoiceResource extends Resource
                                         Forms\Components\Tabs\Tab::make(__('Terms & Conditions'))
                                             ->schema([
                                                 Forms\Components\RichEditor::make('narration')
+                                                    ->hiddenLabel()
                                                     ->placeholder('Terms & Conditions')
                                             ]),
                                     ])
@@ -186,9 +187,14 @@ class InvoiceResource extends Resource
                                             ->schema([
                                                 Forms\Components\TextInput::make('name')
                                                     ->required()
+                                                    ->placeholder('INV/2025/1')
                                                     ->label('Customer Invoice'),
                                                 Forms\Components\Select::make('partner_id')
-                                                    ->relationship('partner', 'name')
+                                                    ->relationship(
+                                                        'partner',
+                                                        'name',
+                                                        fn($query) => $query->where('sub_type', 'company'),
+                                                    )
                                                     ->searchable()
                                                     ->preload()
                                                     ->live()
@@ -223,6 +229,7 @@ class InvoiceResource extends Resource
                                                             $address->country ? $address->country->name : ''
                                                         );
                                                     }),
+
                                             ])->columns(1),
                                     ]),
                                 Forms\Components\Section::make()
@@ -234,9 +241,17 @@ class InvoiceResource extends Resource
                                                     ->default(now())
                                                     ->native(false)
                                                     ->label('Invoice Date'),
+                                                Forms\Components\DatePicker::make('invoice_date_due')
+                                                    ->required()
+                                                    ->default(now())
+                                                    ->native(false)
+                                                    ->live()
+                                                    ->hidden(fn(Get $get) => $get('invoice_payment_term_id') !== null)
+                                                    ->label('Due Date'),
                                                 Forms\Components\Select::make('invoice_payment_term_id')
                                                     ->relationship('invoicePaymentTerm', 'name')
-                                                    ->required()
+                                                    ->required(fn(Get $get) => $get('invoice_date_due') === null)
+                                                    ->live()
                                                     ->searchable()
                                                     ->preload()
                                                     ->label('Payment Terms'),
@@ -347,6 +362,8 @@ class InvoiceResource extends Resource
                     ->schema([
                         Forms\Components\Grid::make(4)
                             ->schema([
+                                Forms\Components\Hidden::make('currency_id')
+                                    ->default(Currency::first()->id),
                                 Forms\Components\Select::make('product_id')
                                     ->relationship('product', 'name')
                                     ->searchable()
