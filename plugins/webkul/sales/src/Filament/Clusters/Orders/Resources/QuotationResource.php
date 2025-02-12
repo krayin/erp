@@ -20,6 +20,7 @@ use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Set;
 use Filament\Infolists\Infolist;
 use Filament\Infolists;
+use Filament\Infolists\Components\TextEntry\TextEntrySize;
 use Filament\Support\Facades\FilamentView;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Webkul\Account\Enums\TypeTaxUse;
@@ -508,6 +509,7 @@ class QuotationResource extends Resource
                                     ->searchable()
                                     ->multiple()
                                     ->preload(),
+                                OrderState::DRAFT->value
                             ),
                         Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint::make('paymentTerm.name')
                             ->label(__('Payment Term'))
@@ -750,6 +752,11 @@ class QuotationResource extends Resource
                             ->schema([
                                 Infolists\Components\Section::make()
                                     ->schema([
+                                        Infolists\Components\TextEntry::make('name')
+                                            ->label('Number')
+                                            ->placeholder('—')
+                                            ->size(TextEntrySize::Large)
+                                            ->icon('heroicon-o-identification'),
                                         Infolists\Components\TextEntry::make('partner.name')
                                             ->label('Customer')
                                             ->placeholder('—')

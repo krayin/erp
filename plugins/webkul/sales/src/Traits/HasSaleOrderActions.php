@@ -17,8 +17,10 @@ use Webkul\Sale\Enums\InvoiceStatus;
 use Webkul\Sale\Mail\SaleOrderQuotation;
 use Webkul\Support\Services\EmailService;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Filament\Support\Facades\FilamentView;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Webkul\Sale\Filament\Clusters\Orders\Resources\OrdersResource;
 use Webkul\Sale\Mail\SaleOrderCancelQuotation;
 
 trait HasSaleOrderActions
@@ -36,13 +38,15 @@ trait HasSaleOrderActions
             Action::make('confirm')
                 ->color('gray')
                 ->hidden(fn($record) => $record->state != OrderState::DRAFT->value)
-                ->action(function ($record) {
+                ->action(function ($record, $livewire) {
                     $record->update([
                         'state' => OrderState::SALE->value,
                         'invoice_status' => InvoiceStatus::TO_INVOICE->value,
                     ]);
 
                     $this->refreshFormData(['state']);
+
+                    $livewire->redirect(OrdersResource::getUrl('view', ['record' => $record]), navigate: FilamentView::hasSpaMode());
 
                     Notification::make()
                         ->success()
@@ -128,7 +132,7 @@ trait HasSaleOrderActions
                 )
                 ->modalIcon('heroicon-s-envelope')
                 ->modalHeading('Send Quotation by Email')
-                ->hidden(fn($record) => $record->state != OrderState::DRAFT->value)
+                ->visible(fn($record) => $record->state != OrderState::DRAFT->value)
                 ->action(function ($record, array $data) {
                     $this->handleSendByEmail($record, $data);
                 }),

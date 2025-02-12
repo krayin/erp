@@ -18,6 +18,8 @@ use Webkul\Support\Models\Currency;
 use Webkul\Chatter\Traits\HasChatter;
 use Webkul\Chatter\Traits\HasLogActivity;
 use Webkul\Field\Traits\HasCustomFields;
+use Webkul\Sale\Enums\InvoiceStatus;
+use Webkul\Sale\Enums\OrderState;
 
 class Order extends Model
 {
@@ -187,5 +189,39 @@ class Order extends Model
     public function quotationTemplate()
     {
         return $this->belongsTo(OrderTemplate::class, 'sale_order_template_id');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($order) {
+            if ($order->state === 'sale') {
+                $order->name = 'ORD-TMP-' . time();
+            } else {
+                $order->name = 'QT-TMP-' . time();
+            }
+        });
+
+        static::created(function ($order) {
+            $order->updateName();
+            $order->saveQuietly();
+        });
+
+        static::updating(function ($order) {
+            $order->updateName();
+        });
+    }
+
+    /**
+     * Update the name based on the state without trigger any additional events.
+     */
+    public function updateName()
+    {
+        if ($this->state === OrderState::SALE->value) {
+            $this->name = 'ORD-' . $this->id;
+        } else {
+            $this->name = 'QT-' . $this->id;
+        }
     }
 }

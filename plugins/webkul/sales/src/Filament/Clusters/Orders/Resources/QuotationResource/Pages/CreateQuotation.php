@@ -26,7 +26,6 @@ class CreateQuotation extends CreateRecord
             'creator_id'     => $user->id,
             'user_id'        => $user->id,
             'company_id'     => $user->default_company_id,
-            'name'           => 'Quotation-' . time(),
             'state'          => OrderState::DRAFT->value,
             'invoice_status' => InvoiceStatus::NO->value,
         ]);
