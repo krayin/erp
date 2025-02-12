@@ -47,14 +47,13 @@ class CreateInvoice extends CreateRecord
         $partner = Partner::find($data['partner_id']);
 
         if ($partner) {
-            $data['commercial_partner_id'] = $data['partner_id'];
             $data['partner_shipping_id'] = $data['partner_id'];
-        }
 
-        if ($partner->sub_type == 'company' || ! $partner->parent_id) {
-            $data['commercial_partner_id'] = $data['partner_id'];
-        } else {
-            $data['commercial_partner_id'] = $partner->parent_id->commercial_partner_id;
+            if ($partner->sub_type == 'company' || ! $partner->parent_id) {
+                $data['commercial_partner_id'] = $data['partner_id'];
+            } else {
+                $data['commercial_partner_id'] = $partner->parent_id->commercial_partner_id;
+            }
         }
 
         $data['partner_bank_id'] = $partner->bankAccounts

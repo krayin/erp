@@ -19,9 +19,11 @@ use Filament\Forms\Set;
 use Webkul\Support\Models\Currency;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Support\Facades\FilamentView;
+use Illuminate\Support\Facades\Auth;
 use Webkul\Invoice\Enums\AutoPost;
 use Webkul\Invoice\Enums\MoveState;
 use Webkul\Account\Enums\TypeTaxUse;
+use Webkul\Account\Models\MoveLine;
 use Webkul\Account\Models\Tax;
 use Webkul\Sale\Filament\Clusters\Configuration\Resources\ProductResource;
 use Webkul\Sale\Filament\Clusters\Configuration\Resources\TeamResource;
@@ -326,7 +328,10 @@ class InvoiceResource extends Resource
     public static function getProductRepeater(): Forms\Components\Repeater
     {
         return Forms\Components\Repeater::make('products')
-            ->relationship('moveLines')
+            ->relationship(
+                'moveLines',
+                fn($query) => $query->where('display_type', 'product'),
+            )
             ->hiddenLabel()
             ->live()
             ->reactive()
@@ -336,27 +341,15 @@ class InvoiceResource extends Resource
             ->defaultItems(0)
             ->cloneable()
             ->itemLabel(fn(array $state): ?string => $state['name'] ?? null)
-            ->deleteAction(
-                fn(Action $action) => $action->requiresConfirmation(),
-            )
+            ->deleteAction(fn(Action $action) => $action->requiresConfirmation())
             ->extraItemActions([
                 Action::make('view')
                     ->icon('heroicon-m-eye')
                     ->action(function (array $arguments, $livewire, $state): void {
                         $redirectUrl = ProductResource::getUrl('edit', ['record' => $state[$arguments['item']]['product_id']]);
-
                         $livewire->redirect($redirectUrl, navigate: FilamentView::hasSpaMode());
                     }),
             ])
-            ->mutateRelationshipDataBeforeCreateUsing(function ($data) {
-                $data['sort'] = SaleOrderLine::max('sort') + 1;
-                $data['company_id'] = $data['company_id'] ?? Company::first()->id;
-                $data['product_uom_id'] = $data['product_uom_id'] ?? UOM::first()->id;
-                $data['creator_id'] = $data['creator_id'] ?? User::first()->id;
-                $data['customer_lead'] = $data['customer_lead'] ?? 0;
-
-                return $data;
-            })
             ->schema([
                 Forms\Components\Group::make()
                     ->schema([
@@ -372,52 +365,24 @@ class InvoiceResource extends Resource
                                     ->label('Product')
                                     ->afterStateHydrated(function ($state, Set $set, Get $get) {
                                         if ($state) {
-                                            $product = Product::find($state);
-                                            $quantity = floatval($get('product_uom_qty') ?? 1);
-                                            $priceUnit = floatval($product->price);
-
-                                            $set('name', $product->name);
-                                            $set('price_unit', $priceUnit);
-
-                                            $subtotal = $quantity * $priceUnit;
-                                            $set('price_subtotal', number_format($subtotal, 2, '.', ''));
-                                            $set('price_total', number_format($subtotal, 2, '.', ''));
-
-                                            $set('tax', $product->productTaxes->pluck('id')->toArray());
+                                            self::updateProductCalculations($state, $set, $get);
                                         }
                                     })
                                     ->afterStateUpdated(function ($state, Set $set, Get $get) {
                                         if ($state) {
-                                            $product = Product::find($state);
-                                            $quantity = floatval($get('product_uom_qty') ?? 1);
-                                            $priceUnit = floatval($product->price);
-
-                                            $set('name', $product->name);
-                                            $set('price_unit', $priceUnit);
-
-                                            $subtotal = $quantity * $priceUnit;
-                                            $set('price_subtotal', number_format($subtotal, 2, '.', ''));
-                                            $set('price_total', number_format($subtotal, 2, '.', ''));
-
-                                            $set('tax', $product->productTaxes->pluck('id')->toArray());
+                                            self::updateProductCalculations($state, $set, $get);
                                         }
                                     })
                                     ->required(),
                                 Forms\Components\Hidden::make('name')
                                     ->live(onBlur: true),
-                                Forms\Components\TextInput::make('product_uom_qty')
+                                Forms\Components\TextInput::make('quantity')
                                     ->required()
                                     ->default(1)
                                     ->live()
                                     ->afterStateUpdated(function ($state, Set $set, Get $get) {
                                         if ($get('product_id')) {
-                                            $product = Product::find($get('product_id'));
-                                            $quantity = floatval($state);
-                                            $priceUnit = floatval($get('price_unit') ?? $product->price);
-
-                                            $subtotal = $quantity * $priceUnit;
-                                            $set('price_subtotal', number_format($subtotal, 2, '.', ''));
-                                            $set('price_total', number_format($subtotal, 2, '.', ''));
+                                            self::updateLineCalculations($set, $get);
                                         }
                                     })
                                     ->label('Quantity'),
@@ -430,16 +395,22 @@ class InvoiceResource extends Resource
                                     ->afterStateUpdated(function (Get $get, Set $set, $state) {
                                         if ($get('product_id')) {
                                             $product = Product::find($get('product_id'));
-
                                             $product->productTaxes()->sync($state);
+                                            self::updateLineCalculations($set, $get);
                                         }
                                     })
                                     ->live(),
-                                Forms\Components\TextInput::make('customer_lead')
+                                Forms\Components\TextInput::make('discount')
                                     ->numeric()
                                     ->default(0)
                                     ->required()
-                                    ->label('Lead Time'),
+                                    ->live()
+                                    ->afterStateUpdated(function ($state, Set $set, Get $get) {
+                                        if ($get('product_id')) {
+                                            self::updateLineCalculations($set, $get);
+                                        }
+                                    })
+                                    ->label('Discount (%)'),
                                 Forms\Components\TextInput::make('price_unit')
                                     ->numeric()
                                     ->default(0)
@@ -447,28 +418,7 @@ class InvoiceResource extends Resource
                                     ->live()
                                     ->afterStateUpdated(function ($state, Set $set, Get $get) {
                                         if ($get('product_id')) {
-                                            $quantity = floatval($get('product_uom_qty') ?? 1);
-                                            $priceUnit = floatval($state);
-
-                                            $subtotal = $quantity * $priceUnit;
-
-                                            $taxIds = $get('tax') ?? [];
-                                            $taxAmount = 0;
-
-                                            if (!empty($taxIds)) {
-                                                $taxes = \Webkul\Account\Models\Tax::whereIn('id', $taxIds)->get();
-                                                foreach ($taxes as $tax) {
-                                                    $taxValue = floatval($tax->amount);
-                                                    if ($tax->include_base_amount) {
-                                                        $subtotal = $subtotal / (1 + ($taxValue / 100));
-                                                    } else {
-                                                        $taxAmount += $subtotal * ($taxValue / 100);
-                                                    }
-                                                }
-                                            }
-
-                                            $set('price_subtotal', number_format($subtotal, 2, '.', ''));
-                                            $set('price_total', number_format($subtotal + $taxAmount, 2, '.', ''));
+                                            self::updateLineCalculations($set, $get);
                                         }
                                     })
                                     ->label('Unit Price'),
@@ -486,6 +436,82 @@ class InvoiceResource extends Resource
                                     ->label('Total'),
                             ]),
                     ])->columns(2)
-            ]);
+            ])
+            ->saveRelationshipsUsing(function (Model $record, $state): void {
+                $record->moveLines()->delete();
+
+                foreach ($state as $data) {
+                    MoveLine::createOrUpdateProductLine([
+                        'move_id'     => $record->id,
+                        'company_id'  => $record->company_id,
+                        'product_id'  => $data['product_id'],
+                        'currency_id' => $data['currency_id'],
+                        'name'        => $data['name'],
+                        'quantity'    => $data['quantity'],
+                        'price_unit'  => $data['price_unit'],
+                        'discount'    => $data['discount'],
+                        'tax'         => $data['tax'],
+                        'created_by'  => Auth::id(),
+                    ]);
+                }
+            });
+    }
+
+    private static function updateProductCalculations($productId, Set $set, Get $get): void
+    {
+        $product = Product::find($productId);
+        $quantity = floatval($get('quantity') ?? 1);
+        $priceUnit = floatval($product->price);
+
+        $set('name', $product->name);
+        $set('price_unit', $priceUnit);
+        $set('tax', $product->productTaxes->pluck('id')->toArray());
+
+        self::calculateTotals($quantity, $priceUnit, floatval($get('discount')), $product->productTaxes->pluck('id')->toArray(), $set);
+    }
+
+    private static function updateLineCalculations(Set $set, Get $get): void
+    {
+        $quantity = floatval($get('quantity') ?? 1);
+        $priceUnit = floatval($get('price_unit') ?? 0);
+        $discount = floatval($get('discount') ?? 0);
+        $taxIds = $get('tax') ?? [];
+
+        self::calculateTotals($quantity, $priceUnit, $discount, $taxIds, $set);
+    }
+
+    private static function calculateTotals(float $quantity, float $priceUnit, float $discount, array $taxIds, Set $set): void
+    {
+        $baseAmount = $quantity * $priceUnit;
+
+        $discountAmount = $baseAmount * ($discount / 100);
+        $subtotalBeforeTax = $baseAmount - $discountAmount;
+
+        $taxAmount = 0;
+        $includedTaxAmount = 0;
+
+        if (! empty($taxIds)) {
+            $taxes = Tax::whereIn('id', $taxIds)->get();
+
+            foreach ($taxes as $tax) {
+                $taxValue = floatval($tax->amount);
+                if ($tax->include_base_amount) {
+                    $includedTaxRate = $taxValue / 100;
+                    $includedTaxAmount += $subtotalBeforeTax - ($subtotalBeforeTax / (1 + $includedTaxRate));
+                }
+            }
+
+            $subtotalExcludingIncludedTax = $subtotalBeforeTax - $includedTaxAmount;
+
+            foreach ($taxes as $tax) {
+                $taxValue = floatval($tax->amount);
+                if (!$tax->include_base_amount) {
+                    $taxAmount += $subtotalExcludingIncludedTax * ($taxValue / 100);
+                }
+            }
+        }
+
+        $set('price_subtotal', number_format($subtotalBeforeTax, 2, '.', ''));
+        $set('price_total', number_format($subtotalBeforeTax + $taxAmount, 2, '.', ''));
     }
 }
