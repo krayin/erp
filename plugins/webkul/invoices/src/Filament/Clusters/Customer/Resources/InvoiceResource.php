@@ -27,23 +27,11 @@ use Webkul\Account\Models\MoveLine;
 use Webkul\Account\Models\Tax;
 use Webkul\Sale\Filament\Clusters\Configuration\Resources\ProductResource;
 use Webkul\Sale\Filament\Clusters\Configuration\Resources\TeamResource;
-use Webkul\Sale\Models\SaleOrderLine;
 use Webkul\Sale\Models\Product;
 use Webkul\Security\Filament\Resources\UserResource;
-use Webkul\Security\Models\User;
-use Webkul\Support\Models\Company;
-use Webkul\Support\Models\UOM;
-
 class InvoiceResource extends Resource
 {
-    protected static ?string $model = AccountMove::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-receipt-percent';
-
-    protected static ?string $cluster = Customer::class;
-
-    public static function getModelLabel(): string
-    {
+use Webkul\Sale\Models\SaleOrderLine;
         return __('Invoices');
     }
 
