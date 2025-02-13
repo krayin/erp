@@ -156,28 +156,52 @@ class MoveLine extends Model
         return $this->belongsTo(FullReconcile::class);
     }
 
-    /**
-     * Create product line with associated tax and payment term lines
-     */
     public static function createOrUpdateProductLine(array $data): Collection
     {
         return DB::transaction(function () use ($data) {
             $lines = new Collection();
 
-            $productLine = new self();
-            $productLine->fill(array_merge($data, [
-                'display_type' => 'product',
-                'name' => $data['name'] ?? Product::find($data['product_id'])?->name,
-            ]));
+            if (!empty($data['id'])) {
+                $productLine = self::find($data['id']);
+                $productLine->fill(array_merge($data, [
+                    'display_type' => 'product',
+                    'name' => $data['name'] ?? Product::find($data['product_id'])?->name,
+                ]));
+            } else {
+                $productLine = new self();
+                $productLine->fill(array_merge($data, [
+                    'display_type' => 'product',
+                    'name' => $data['name'] ?? Product::find($data['product_id'])?->name,
+                ]));
+            }
 
+            $productLine->calculateAmounts($data);
             $productLine->save();
             $lines->push($productLine);
 
             if (!empty($data['tax'])) {
+                $existingTaxLines = self::where('move_id', $data['move_id'])
+                    ->where('display_type', 'tax')
+                    ->get();
+
                 $taxes = Tax::whereIn('id', $data['tax'])->get();
+
+                $existingTaxLines->each(function ($taxLine) use ($data) {
+                    if (!in_array($taxLine->tax_line_id, $data['tax'])) {
+                        $taxLine->delete();
+                    }
+                });
+
                 foreach ($taxes as $tax) {
-                    $taxLine = new self();
-                    $taxLine->fill(array_merge($data, [
+                    $taxLine = $existingTaxLines->first(function ($line) use ($tax) {
+                        return $line->tax_line_id === $tax->id;
+                    });
+
+                    if (!$taxLine) {
+                        $taxLine = new self();
+                    }
+
+                    $taxLineData = array_merge($data, [
                         'display_type' => 'tax',
                         'name' => $tax->name,
                         'product_id' => null,
@@ -185,22 +209,34 @@ class MoveLine extends Model
                         'quantity' => null,
                         'price_unit' => null,
                         'tax_line_id' => $tax->id,
-                    ]));
+                    ]);
+
+                    $taxLine->fill($taxLineData);
+                    $taxLine->calculateAmounts($taxLineData);
                     $taxLine->save();
                     $lines->push($taxLine);
                 }
             }
 
-            $paymentLine = new self();
-            $paymentLine->fill(array_merge($data, [
+            $paymentLine = self::where('move_id', $data['move_id'])
+                ->where('display_type', 'payment_term')
+                ->first();
+
+            if (!$paymentLine) {
+                $paymentLine = new self();
+            }
+
+            $paymentLineData = array_merge($data, [
                 'display_type' => 'payment_term',
                 'name' => null,
                 'product_id' => null,
                 'product_uom_id' => null,
                 'quantity' => null,
                 'price_unit' => null,
-            ]));
+            ]);
 
+            $paymentLine->fill($paymentLineData);
+            $paymentLine->calculateAmounts($paymentLineData);
             $paymentLine->save();
             $lines->push($paymentLine);
 
@@ -211,25 +247,25 @@ class MoveLine extends Model
     /**
      * Calculate amounts based on display type
      */
-    public function calculateAmounts(): void
+    public function calculateAmounts(array $data): void
     {
         if ($this->display_type === 'product') {
-            $this->calculateProductAmounts();
+            $this->calculateProductAmounts($data);
         } elseif ($this->display_type === 'tax') {
-            $this->calculateTaxAmounts();
+            $this->calculateTaxAmounts($data);
         } elseif ($this->display_type === 'payment_term') {
-            $this->calculatePaymentTermAmounts();
+            $this->calculatePaymentTermAmounts($data);
         }
     }
 
     /**
      * Calculate product line amounts
      */
-    protected function calculateProductAmounts(): void
+    protected function calculateProductAmounts(array $data): void
     {
-        $quantity = floatval($this->quantity ?? 0);
-        $priceUnit = floatval($this->price_unit ?? 0);
-        $discount = floatval($this->discount ?? 0);
+        $quantity = floatval($data['quantity'] ?? 0);
+        $priceUnit = floatval($data['price_unit'] ?? 0);
+        $discount = floatval($data['discount'] ?? 0);
 
         $baseSubtotal = $quantity * $priceUnit;
         $discountAmount = $baseSubtotal * ($discount / 100);
@@ -238,8 +274,8 @@ class MoveLine extends Model
         $taxAmount = 0;
         $includedTaxAmount = 0;
 
-        if (! empty($this->tax)) {
-            $taxes = Tax::whereIn('id', $this->tax)->get();
+        if (!empty($data['tax'])) {
+            $taxes = Tax::whereIn('id', $data['tax'])->get();
 
             foreach ($taxes as $tax) {
                 if ($tax->include_base_amount) {
@@ -271,19 +307,18 @@ class MoveLine extends Model
     /**
      * Calculate tax line amounts
      */
-    protected function calculateTaxAmounts(): void
+    protected function calculateTaxAmounts(array $data): void
     {
-        if (! $this->tax_line_id) {
+        if (empty($this->tax_line_id)) {
             return;
         }
 
         $tax = $this->taxLine;
-
-        $productLine = self::where('move_id', $this->move_id)
+        $productLine = self::where('move_id', $data['move_id'])
             ->where('display_type', 'product')
             ->first();
 
-        if (! $productLine) {
+        if (!$productLine) {
             return;
         }
 
@@ -302,9 +337,9 @@ class MoveLine extends Model
     /**
      * Calculate payment term line amounts
      */
-    protected function calculatePaymentTermAmounts(): void
+    protected function calculatePaymentTermAmounts(array $data): void
     {
-        $totalAmount = self::where('move_id', $this->move_id)
+        $totalAmount = self::where('move_id', $data['move_id'])
             ->whereIn('display_type', ['product', 'tax'])
             ->sum('credit');
 
@@ -321,21 +356,7 @@ class MoveLine extends Model
      */
     public function save(array $options = [])
     {
-        if ($this->shouldCalculateAmounts()) {
-            $this->calculateAmounts();
-        }
-
         return parent::save($options);
-    }
-
-    /**
-     * Determine if amounts should be calculated
-     */
-    protected function shouldCalculateAmounts(): bool
-    {
-        return !empty($this->display_type) &&
-            in_array($this->display_type, ['product', 'tax', 'payment_term']) &&
-            !$this->is_imported;
     }
 
     protected static function boot()

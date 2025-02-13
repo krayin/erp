@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Auth;
 use Webkul\Invoice\Enums\AutoPost;
 use Webkul\Invoice\Enums\MoveState;
 use Webkul\Account\Enums\TypeTaxUse;
+use Webkul\Account\Models\Journal;
 use Webkul\Account\Models\MoveLine;
 use Webkul\Account\Models\Tax;
 use Webkul\Sale\Filament\Clusters\Configuration\Resources\ProductResource;
@@ -351,6 +352,7 @@ class InvoiceResource extends Resource
                     ->schema([
                         Forms\Components\Grid::make(4)
                             ->schema([
+                                Forms\Components\Hidden::make('id'),
                                 Forms\Components\Hidden::make('currency_id')
                                     ->default(Currency::first()->id),
                                 Forms\Components\Select::make('product_id')
@@ -434,21 +436,49 @@ class InvoiceResource extends Resource
                     ])->columns(2)
             ])
             ->saveRelationshipsUsing(function (Model $record, $state): void {
-                $record->moveLines()->delete();
+                $existingProductIds = $record->moveLines()
+                    ->where('display_type', 'product')
+                    ->pluck('id')
+                    ->toArray();
+
+                $processedIds = [];
 
                 foreach ($state as $data) {
+                    if (! empty($data['id'])) {
+                        $processedIds[] = $data['id'];
+                    }
+
+                    $user = Auth::user();
+
+                    $data['date'] = now();
+
+                    $journal = Journal::where('code', 'INV')->first();
+
                     MoveLine::createOrUpdateProductLine([
-                        'move_id'     => $record->id,
-                        'company_id'  => $record->company_id,
-                        'product_id'  => $data['product_id'],
+                        'id' => $data['id'] ?? null,
+                        'move_id' => $record->id,
+                        'company_id' => $record->company_id,
+                        'product_id' => $data['product_id'],
                         'currency_id' => $data['currency_id'],
-                        'name'        => $data['name'],
-                        'quantity'    => $data['quantity'],
-                        'price_unit'  => $data['price_unit'],
-                        'discount'    => $data['discount'],
-                        'tax'         => $data['tax'],
-                        'created_by'  => Auth::id(),
+                        'name' => $data['name'],
+                        'quantity' => $data['quantity'],
+                        'price_unit' => $data['price_unit'],
+                        'discount' => $data['discount'],
+                        'tax' => $data['tax'],
+                        'created_by' => Auth::id(),
+                        'move_name' => $record->name ?? 'INV/' . date('Y/m'),
+                        'parent_state' => MoveState::DRAFT->value,
+                        'date' => now(),
+                        'journal_id' => $journal->id,
+                        'account_id' => $journal->default_account_id,
                     ]);
+                }
+
+                if (! empty($existingProductIds)) {
+                    $record->moveLines()
+                        ->where('display_type', 'product')
+                        ->whereIn('id', array_diff($existingProductIds, $processedIds))
+                        ->delete();
                 }
             });
     }

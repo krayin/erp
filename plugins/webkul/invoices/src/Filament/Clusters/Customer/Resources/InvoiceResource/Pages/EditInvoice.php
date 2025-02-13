@@ -35,7 +35,10 @@ class EditInvoice extends EditRecord
 
         $journal = Journal::where('code', 'INV')->first();
 
-        $data['journal_id'] = $journal->id;
+        if ($journal) {
+            $data['journal_id'] = $journal->id;
+            $data['account_id'] = $journal->default_account_id;
+        }
 
         $data['currency_id'] = $journal?->currency_id
             ?? $journal?->company?->currency_id
