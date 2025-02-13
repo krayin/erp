@@ -456,8 +456,8 @@ class InvoiceResource extends Resource
 
                     MoveLine::createOrUpdateProductLine([
                         'id' => $data['id'] ?? null,
-                        'move_id' => $record->id,
-                        'company_id' => $record->company_id,
+                        'move_id' => $record?->id,
+                        'company_id' => $record?->company_id,
                         'product_id' => $data['product_id'],
                         'currency_id' => $data['currency_id'],
                         'name' => $data['name'],
@@ -466,11 +466,11 @@ class InvoiceResource extends Resource
                         'discount' => $data['discount'],
                         'tax' => $data['tax'],
                         'created_by' => Auth::id(),
-                        'move_name' => $record->name ?? 'INV/' . date('Y/m'),
+                        'move_name' => $record?->name ?? 'INV/' . date('Y/m'),
                         'parent_state' => MoveState::DRAFT->value,
                         'date' => now(),
-                        'journal_id' => $journal->id,
-                        'account_id' => $journal->default_account_id,
+                        'journal_id' => $journal?->id,
+                        'account_id' => $journal?->default_account_id,
                     ]);
                 }
 

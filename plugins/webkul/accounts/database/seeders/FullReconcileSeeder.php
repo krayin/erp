@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Webkul\Account\Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;

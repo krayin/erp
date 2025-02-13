@@ -17,7 +17,7 @@ class JournalSeeder extends Seeder
 
         $journals = [
             [
-                'default_account_id' => null,
+                'default_account_id' => 27,
                 'suspense_account_id' => null,
                 'sort' => 5,
                 'currency_id' => null,
@@ -43,7 +43,7 @@ class JournalSeeder extends Seeder
                 'show_on_dashboard' => true,
             ],
             [
-                'default_account_id' => null,
+                'default_account_id' => 33,
                 'suspense_account_id' => null,
                 'sort' => 6,
                 'currency_id' => null,
@@ -121,8 +121,8 @@ class JournalSeeder extends Seeder
                 'show_on_dashboard' => false,
             ],
             [
-                'default_account_id' => null,
-                'suspense_account_id' => null,
+                'default_account_id' => 46,
+                'suspense_account_id' => 47,
                 'sort' => null,
                 'currency_id' => null,
                 'company_id' => 1,
@@ -146,7 +146,7 @@ class JournalSeeder extends Seeder
                 'payment_order' => false,
                 'show_on_dashboard' => false,
             ],
-            // Template for remaining entries
+
             [
                 'default_account_id' => null,
                 'suspense_account_id' => null,
@@ -174,44 +174,6 @@ class JournalSeeder extends Seeder
                 'show_on_dashboard' => false,
             ],
         ];
-
-        // Add remaining entries using the same structure
-        $remainingEntries = [
-            ['code' => 'EXP', 'name' => 'Expenses', 'type' => 'expense'],
-            ['code' => 'REV', 'name' => 'Revenue', 'type' => 'revenue'],
-            ['code' => 'PAY', 'name' => 'Payments', 'type' => 'payment'],
-            ['code' => 'SAL', 'name' => 'Salaries', 'type' => 'salary'],
-            ['code' => 'TAX', 'name' => 'Taxes', 'type' => 'tax'],
-            ['code' => 'LOAN', 'name' => 'Loans', 'type' => 'loan'],
-            ['code' => 'DIV', 'name' => 'Dividends', 'type' => 'dividend'],
-            ['code' => 'ADJ', 'name' => 'Adjustments', 'type' => 'adjustment'],
-        ];
-
-        foreach ($remainingEntries as $entry) {
-            $journals[] = array_merge([
-                'default_account_id' => null,
-                'suspense_account_id' => null,
-                'sort' => null,
-                'currency_id' => null,
-                'company_id' => 1,
-                'profit_account_id' => null,
-                'loss_account_id' => null,
-                'bank_account_id' => null,
-                'creator_id' => null,
-                'color' => null,
-                'access_token' => null,
-                'invoice_reference_type' => 'invoice',
-                'invoice_reference_model' => 'aureus',
-                'bank_statements_source' => null,
-                'order_override_regex' => null,
-                'is_active' => true,
-                'auto_check_on_post' => true,
-                'restrict_mode_hash_table' => false,
-                'refund_order' => false,
-                'payment_order' => false,
-                'show_on_dashboard' => false,
-            ], $entry);
-        }
 
         DB::table('accounts_journals')->insert($journals);
     }

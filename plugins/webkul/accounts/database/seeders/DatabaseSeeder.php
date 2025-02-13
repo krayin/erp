@@ -13,13 +13,27 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             AccountSeeder::class,
-            PaymentTermSeeder::class,
-            PaymentDueTermSeeder::class,
-            IncotermSeeder::class,
             AccountTagSeeder::class,
+            BankStatementLineSeeder::class,
+            BankStatementSeeder::class,
+            CashRoundingSeeder::class,
+            FiscalPositionSeeder::class,
+            FiscalPositionTaxSeeder::class,
+            FullReconcileSeeder::class,
+            IncotermSeeder::class,
             JournalSeeder::class,
+            MoveLineSeeder::class,
+            MoveSeeder::class,
+            PartialReconcileSeeder::class,
+            PaymentDueTermSeeder::class,
+            PaymentMethodLineSeeder::class,
+            PaymentMethodSeeder::class,
+            PaymentSeeder::class,
+            PaymentTermSeeder::class,
+            ReconcileSeeder::class,
             TaxGroupSeeder::class,
-            TaxSeeder::class
+            TaxPartitionSeeder::class,
+            TaxSeeder::class,
         ]);
     }
 }
