@@ -448,8 +448,6 @@ class InvoiceResource extends Resource
                         $processedIds[] = $data['id'];
                     }
 
-                    $user = Auth::user();
-
                     $data['date'] = now();
 
                     $journal = Journal::where('code', 'INV')->first();
