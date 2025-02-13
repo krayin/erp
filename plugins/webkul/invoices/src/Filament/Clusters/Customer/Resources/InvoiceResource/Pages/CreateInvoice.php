@@ -48,6 +48,7 @@ class CreateInvoice extends CreateRecord
 
         if ($partner) {
             $data['partner_shipping_id'] = $data['partner_id'];
+            $data['invoice_partner_display_name'] = $partner?->name;
 
             if ($partner->sub_type == 'company' || ! $partner->parent_id) {
                 $data['commercial_partner_id'] = $data['partner_id'];

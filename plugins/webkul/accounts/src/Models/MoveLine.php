@@ -12,6 +12,7 @@ use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
 use Webkul\Support\Models\Currency;
 use Webkul\Support\Models\UOM;
+use Webkul\Account\Enums;
 
 class MoveLine extends Model
 {
@@ -164,13 +165,13 @@ class MoveLine extends Model
             if (!empty($data['id'])) {
                 $productLine = self::find($data['id']);
                 $productLine->fill(array_merge($data, [
-                    'display_type' => 'product',
+                    'display_type' => Enums\DisplayType::PRODUCT->value,
                     'name' => $data['name'] ?? Product::find($data['product_id'])?->name,
                 ]));
             } else {
                 $productLine = new self();
                 $productLine->fill(array_merge($data, [
-                    'display_type' => 'product',
+                    'display_type' => Enums\DisplayType::PRODUCT->value,
                     'name' => $data['name'] ?? Product::find($data['product_id'])?->name,
                 ]));
             }
@@ -181,7 +182,7 @@ class MoveLine extends Model
 
             if (!empty($data['tax'])) {
                 $existingTaxLines = self::where('move_id', $data['move_id'])
-                    ->where('display_type', 'tax')
+                    ->where('display_type', Enums\DisplayType::TAX->value)
                     ->get();
 
                 $taxes = Tax::whereIn('id', $data['tax'])->get();
@@ -219,7 +220,7 @@ class MoveLine extends Model
             }
 
             $paymentLine = self::where('move_id', $data['move_id'])
-                ->where('display_type', 'payment_term')
+                ->where('display_type', Enums\DisplayType::PAYMENT_TERM->value)
                 ->first();
 
             if (!$paymentLine) {
@@ -227,7 +228,7 @@ class MoveLine extends Model
             }
 
             $paymentLineData = array_merge($data, [
-                'display_type' => 'payment_term',
+                'display_type' => Enums\DisplayType::PAYMENT_TERM->value,
                 'name' => null,
                 'product_id' => null,
                 'product_uom_id' => null,
@@ -249,11 +250,11 @@ class MoveLine extends Model
      */
     public function calculateAmounts(array $data): void
     {
-        if ($this->display_type === 'product') {
+        if ($this->display_type === Enums\DisplayType::PRODUCT->value) {
             $this->calculateProductAmounts($data);
-        } elseif ($this->display_type === 'tax') {
+        } elseif ($this->display_type === Enums\DisplayType::TAX->value) {
             $this->calculateTaxAmounts($data);
-        } elseif ($this->display_type === 'payment_term') {
+        } elseif ($this->display_type === Enums\DisplayType::PAYMENT_TERM->value) {
             $this->calculatePaymentTermAmounts($data);
         }
     }
@@ -340,7 +341,7 @@ class MoveLine extends Model
     protected function calculatePaymentTermAmounts(array $data): void
     {
         $totalAmount = self::where('move_id', $data['move_id'])
-            ->whereIn('display_type', ['product', 'tax'])
+            ->whereIn('display_type', [Enums\DisplayType::PRODUCT->value, Enums\DisplayType::TAX->value])
             ->sum('credit');
 
         $this->debit = $totalAmount;

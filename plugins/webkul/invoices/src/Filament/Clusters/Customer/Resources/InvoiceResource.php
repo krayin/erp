@@ -30,6 +30,7 @@ use Webkul\Sale\Filament\Clusters\Configuration\Resources\ProductResource;
 use Webkul\Sale\Filament\Clusters\Configuration\Resources\TeamResource;
 use Webkul\Sale\Models\Product;
 use Webkul\Security\Filament\Resources\UserResource;
+use Webkul\Account\Enums\DisplayType;
 
 class InvoiceResource extends Resource
 {
@@ -101,6 +102,8 @@ class InvoiceResource extends Resource
                                         Forms\Components\Tabs\Tab::make(__('Products'))
                                             ->schema([
                                                 static::getProductRepeater(),
+                                                static::getSectionRepeater(DisplayType::LINE_SECTION->value),
+                                                static::getSectionRepeater(DisplayType::LINE_NOTE->value),
                                                 Forms\Components\Livewire::make(Summary::class, function (Get $get) {
                                                     return [
                                                         'products' => $get('products'),
@@ -184,10 +187,6 @@ class InvoiceResource extends Resource
                                     ->schema([
                                         Forms\Components\Fieldset::make('General')
                                             ->schema([
-                                                Forms\Components\TextInput::make('name')
-                                                    ->required()
-                                                    ->placeholder('INV/2025/1')
-                                                    ->label('Customer Invoice'),
                                                 Forms\Components\Select::make('partner_id')
                                                     ->relationship(
                                                         'partner',
@@ -289,27 +288,105 @@ class InvoiceResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name')
+                    ->placeholder('-')
+                    ->label('Number')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('invoice_partner_display_name')
+                    ->label('Customer')
+                    ->placeholder('-')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('invoice_date')
+                    ->date()
+                    ->placeholder('-')
+                    ->label('Invoice Date')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('date')
+                    ->date()
+                    ->placeholder('-')
+                    ->label('Accounting Date')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('invoice_date_due')
+                    ->date()
+                    ->placeholder('-')
+                    ->label('Due Date')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('invoice_origin')
+                    ->date()
+                    ->placeholder('-')
+                    ->label('Source Document')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('reference')
+                    ->label('Reference')
+                    ->searchable()
+                    ->placeholder('-')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('invoiceUser.name')
+                    ->label('Sales Person')
+                    ->searchable()
+                    ->placeholder('-')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('team.name')
+                    ->label('Sales Team')
+                    ->searchable()
+                    ->placeholder('-')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('amount_untaxed_in_currency_signed')
+                    ->label('Tax Excluded')
+                    ->searchable()
+                    ->placeholder('-')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('amount_tax_signed')
+                    ->label('Tax')
+                    ->searchable()
+                    ->placeholder('-')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('amount_total_in_currency_signed')
+                    ->label('Total')
+                    ->searchable()
+                    ->placeholder('-')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('amount_residual_signed')
+                    ->label('Amount Due')
+                    ->searchable()
+                    ->placeholder('-')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('currency.id')
+                    ->label('Invoice Currency')
+                    ->searchable()
+                    ->placeholder('-')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array
@@ -437,7 +514,7 @@ class InvoiceResource extends Resource
             ])
             ->saveRelationshipsUsing(function (Model $record, $state): void {
                 $existingProductIds = $record->moveLines()
-                    ->where('display_type', 'product')
+                    ->where('display_type', DisplayType::PRODUCT->value)
                     ->pluck('id')
                     ->toArray();
 
@@ -474,8 +551,79 @@ class InvoiceResource extends Resource
 
                 if (! empty($existingProductIds)) {
                     $record->moveLines()
-                        ->where('display_type', 'product')
+                        ->where('display_type', DisplayType::PRODUCT->value)
                         ->whereIn('id', array_diff($existingProductIds, $processedIds))
+                        ->delete();
+                }
+            });
+    }
+
+    public static function getSectionRepeater($displayType): Forms\Components\Repeater
+    {
+
+        return Forms\Components\Repeater::make($displayType)
+            ->relationship(
+                'moveLines',
+                fn($query) => $query->where('display_type', $displayType),
+            )
+            ->hiddenLabel()
+            ->live()
+            ->reactive()
+            ->reorderable()
+            ->addActionLabel(function () use ($displayType) {
+                return match ($displayType) {
+                    DisplayType::LINE_SECTION->value => 'Add a section',
+                    DisplayType::LINE_NOTE->value => 'Add a note',
+                    default => null,
+                };
+            })
+            ->collapsible()
+            ->defaultItems(0)
+            ->cloneable()
+            ->itemLabel(fn(array $state): ?string => $state['name'] ?? null)
+            ->deleteAction(fn(Action $action) => $action->requiresConfirmation())
+            ->schema([
+                Forms\Components\Textarea::make('name')
+                    ->hiddenLabel()
+                    ->required()
+            ])
+            ->saveRelationshipsUsing(function (Model $record, $state) use ($displayType) {
+                $existingLineIds = $record->moveLines()
+                    ->where('display_type', $displayType)
+                    ->pluck('id')
+                    ->toArray();
+
+                $processedIds = [];
+
+                $journal = Journal::where('code', 'INV')->first();
+
+                foreach ($state as $data) {
+                    $data['date'] = now();
+
+                    $moveLine = MoveLine::updateOrCreate(
+                        ['id' => $data['id'] ?? null],
+                        [
+                            'move_id' => $record?->id,
+                            'company_id' => $record?->company_id,
+                            'currency_id' => $data['currency_id'],
+                            'display_type' => $displayType,
+                            'name' => $data['name'],
+                            'created_by' => Auth::id(),
+                            'move_name' => $record?->name ?? 'INV/' . date('Y/m'),
+                            'parent_state' => MoveState::DRAFT->value,
+                            'date' => now(),
+                            'journal_id' => $journal?->id,
+                            'account_id' => $journal?->default_account_id,
+                        ]
+                    );
+
+                    $processedIds[] = $moveLine->id;
+                }
+
+                if (!empty($existingLineIds)) {
+                    $record->moveLines()
+                        ->where('display_type', $displayType)
+                        ->whereIn('id', array_diff($existingLineIds, $processedIds))
                         ->delete();
                 }
             });

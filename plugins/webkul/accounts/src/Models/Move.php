@@ -196,4 +196,30 @@ class Move extends Model
     {
         return $this->hasMany(MoveLine::class);
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($invoice) {
+            $invoice->name = 'ORD-TMP-' . time();
+        });
+
+        static::created(function ($invoice) {
+            $invoice->updateName();
+            $invoice->saveQuietly();
+        });
+
+        static::updating(function ($invoice) {
+            $invoice->updateName();
+        });
+    }
+
+    /**
+     * Update the name based on the state without trigger any additional events.
+     */
+    public function updateName()
+    {
+        $this->name = 'INV-' . $this->id;
+    }
 }
