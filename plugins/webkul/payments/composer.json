@@ -1,0 +1,30 @@
+{
+    "name": "webkul/payments",
+    "description": "",
+    "authors": [
+        {
+            "name": "Jitendra Singh",
+            "email": "jitendra@webkul.in"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webkul\\Payment\\Providers\\PaymentServiceProvider"
+            ],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Webkul\\Payment\\": "src/",
+            "Webkul\\Payment\\Database\\Factories\\": "database/factories/",
+            "Webkul\\Payment\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webkul\\Payment\\Tests\\": "tests/"
+        }
+    }
+}

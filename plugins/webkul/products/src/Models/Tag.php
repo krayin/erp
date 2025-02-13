@@ -31,9 +31,9 @@ class Tag extends Model
         'creator_id',
     ];
 
-    public function creator(): BelongsTo
+    public function createdBy(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'creator_id');
     }
 
     protected static function newFactory(): TagFactory

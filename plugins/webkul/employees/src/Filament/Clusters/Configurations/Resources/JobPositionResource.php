@@ -99,7 +99,7 @@ class JobPositionResource extends Resource
                                                     $set('company_id', $department->company_id);
                                                 }
                                             })
-                                            ->createOptionForm(fn (Form $form) => DepartmentResource::form($form))
+                                            ->createOptionForm(fn(Form $form) => DepartmentResource::form($form))
                                             ->createOptionAction(function (Action $action) {
                                                 return $action
                                                     ->modalHeading(__('employees::filament/clusters/configurations/resources/job-position.form.sections.employment-information.fields.department-modal-title'));
@@ -110,7 +110,7 @@ class JobPositionResource extends Resource
                                             ->searchable()
                                             ->preload()
                                             ->live()
-                                            ->createOptionForm(fn (Form $form) => CompanyResource::form($form))
+                                            ->createOptionForm(fn(Form $form) => CompanyResource::form($form))
                                             ->createOptionAction(function (Action $action) {
                                                 return $action
                                                     ->modalIcon('heroicon-o-building-office')
