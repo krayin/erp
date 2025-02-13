@@ -211,6 +211,7 @@ class JournalResource extends Resource
                     ->label(__('invoices::filament/clusters/configurations/resources/journal.table.columns.name')),
                 Tables\Columns\TextColumn::make('type')
                     ->searchable()
+                    ->formatStateUsing(fn($state) => JournalType::options()[$state] ?? $state)
                     ->sortable()
                     ->label(__('invoices::filament/clusters/configurations/resources/journal.table.columns.type')),
                 Tables\Columns\TextColumn::make('code')

@@ -16,6 +16,7 @@ use Webkul\Invoice\Filament\Clusters\Customer\Resources\InvoiceResource\Actions\
 use Webkul\Invoice\Filament\Clusters\Customer\Resources\InvoiceResource\Actions\ResetToDraftAction;
 use Webkul\Invoice\Filament\Clusters\Customer\Resources\InvoiceResource\Actions\SetAsCheckedAction;
 use Webkul\Invoice\Filament\Clusters\Customer\Resources\InvoiceResource\Actions\ConfirmAction;
+use Webkul\Invoice\Filament\Clusters\Customer\Resources\InvoiceResource\Actions\PayAction;
 
 class EditInvoice extends EditRecord
 {
@@ -26,6 +27,7 @@ class EditInvoice extends EditRecord
         return [
             Actions\ViewAction::make(),
             Actions\DeleteAction::make(),
+            PayAction::make(),
             ConfirmAction::make(),
             CancelAction::make(),
             ResetToDraftAction::make(),
@@ -37,8 +39,6 @@ class EditInvoice extends EditRecord
     {
         $user = Auth::user();
 
-        $data['state'] = Enums\MoveState::DRAFT->value;
-        $data['move_type'] = Enums\MoveType::OUT_INVOICE->value;
         $data['date'] = now();
 
         $journal = Journal::where('code', 'INV')->first();

@@ -5,6 +5,7 @@ namespace Webkul\Invoice\Filament\Clusters\Customer\Resources\InvoiceResource\Pa
 use Webkul\Invoice\Filament\Clusters\Customer\Resources\InvoiceResource;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Auth;
+use Webkul\Account\Enums\PaymentState;
 use Webkul\Account\Models\Journal;
 use Webkul\Account\Models\Move;
 use Webkul\Account\Models\PaymentTerm;
@@ -28,6 +29,7 @@ class CreateInvoice extends CreateRecord
         $journal = Journal::where('code', 'INV')->first();
 
         $data['journal_id'] = $journal->id;
+        $data['payment_state'] = PaymentState::NOT_PAID->value;
 
         $data['currency_id'] = $journal?->currency_id
             ?? $journal?->company?->currency_id

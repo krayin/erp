@@ -4,6 +4,7 @@ namespace Webkul\Account\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Webkul\Security\Models\User;
 
 class PaymentMethodLine extends Model
 {
@@ -17,7 +18,13 @@ class PaymentMethodLine extends Model
         'payment_account_id',
         'journal_id',
         'name',
+        'creator_id',
     ];
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'creator_id');
+    }
 
     public function paymentMethod()
     {

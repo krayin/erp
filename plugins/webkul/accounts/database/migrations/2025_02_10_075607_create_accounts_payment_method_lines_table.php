@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('payment_method_id')->nullable()->comment('Payment Method')->constrained('accounts_payment_methods')->restrictOnDelete();
             $table->foreignId('payment_account_id')->nullable()->comment('Payment Account')->constrained('accounts_accounts')->restrictOnDelete();
             $table->foreignId('journal_id')->nullable()->comment('Journal')->constrained('accounts_journals')->restrictOnDelete();
+            $table->foreignId('creator_id')->nullable()->comment('Users')->constrained('users')->nullOnDelete();
             $table->string('name')->nullable()->comment('Name');
 
             $table->timestamps();

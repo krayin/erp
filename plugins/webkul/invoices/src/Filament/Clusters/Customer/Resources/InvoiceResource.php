@@ -415,7 +415,6 @@ class InvoiceResource extends Resource
             ->hiddenLabel()
             ->live()
             ->reactive()
-            ->reorderable()
             ->addActionLabel('Add a line')
             ->collapsible()
             ->defaultItems(0)
@@ -575,7 +574,6 @@ class InvoiceResource extends Resource
             ->hiddenLabel()
             ->live()
             ->reactive()
-            ->reorderable()
             ->addActionLabel(function () use ($displayType) {
                 return match ($displayType) {
                     DisplayType::LINE_SECTION->value => 'Add a section',
@@ -591,7 +589,9 @@ class InvoiceResource extends Resource
             ->schema([
                 Forms\Components\Textarea::make('name')
                     ->hiddenLabel()
-                    ->required()
+                    ->required(),
+                Forms\Components\Hidden::make('currency_id')
+                    ->default(Currency::first()->id),
             ])
             ->saveRelationshipsUsing(function (Model $record, $state) use ($displayType) {
                 $existingLineIds = $record->moveLines()
