@@ -4,6 +4,8 @@ namespace Webkul\Account\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 use Webkul\Partner\Models\BankAccount;
 use Webkul\Security\Models\User;
 use Webkul\Support\Models\Company;
@@ -85,5 +87,58 @@ class Journal extends Model
     public function allowedAccounts()
     {
         return $this->belongsToMany(Account::class, 'accounts_journal_accounts', 'journal_id', 'account_id');
+    }
+
+    public function getAvailablePaymentMethodLines(string $paymentType): mixed
+    {
+        if (!$this->exists) {
+            return PaymentMethodLine::query()->whereNull('id')->get();
+        }
+
+        return match ($paymentType) {
+            'inbound' => $this->inboundPaymentMethodLines,
+            'outbound' => $this->outboundPaymentMethodLines,
+            default => throw new \InvalidArgumentException('Invalid payment type'),
+        };
+    }
+
+    public function inboundPaymentMethodLines(): HasMany
+    {
+        return $this->hasMany(PaymentMethodLine::class)->where('type', 'inbound');
+    }
+
+    public function outboundPaymentMethodLines(): HasMany
+    {
+        return $this->hasMany(PaymentMethodLine::class)->where('type', 'outbound');
+    }
+
+    public function computeInboundPaymentMethodLines(): void
+    {
+        if (!in_array($this->type, ['bank', 'cash', 'credit'])) {
+            $this->inboundPaymentMethodLines()->delete();
+
+            return;
+        }
+
+        DB::transaction(function () {
+            $this->inboundPaymentMethodLines()->delete();
+
+            $defaultMethods = $this->getDefaultInboundPaymentMethods();
+
+            foreach ($defaultMethods as $method) {
+                $this->inboundPaymentMethodLines()->create([
+                    'name' => $method->name,
+                    'payment_method_id' => $method->id,
+                    'type' => 'inbound',
+                ]);
+            }
+        });
+    }
+
+    protected function getDefaultInboundPaymentMethods(): mixed
+    {
+        return PaymentMethod::where('type', 'inbound')
+            ->where('active', true)
+            ->get();
     }
 }

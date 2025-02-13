@@ -38,6 +38,28 @@ class PayAction extends Action
                                 ->searchable()
                                 ->preload()
                                 ->required(),
+                            Forms\Components\Select::make('payment_method_line_id')
+                                ->relationship('paymentMethodLine', 'name')
+                                ->options(function ($record) {
+                                    $availablePaymentMethods = $record->journal?->getAvailablePaymentMethodLines($record->payment_type);
+                                    $toExclude = $record->getPaymentMethodCodesToExclude();
+
+                                    return $availablePaymentMethods
+                                        ->reject(fn($method) => in_array($method->code, $toExclude))
+                                        ->pluck('name', 'id');
+                                })
+                                ->searchable()
+                                ->preload()
+                                ->required(),
+                            // Forms\Components\Select::make('payment_method_line_id')
+                            //     ->relationship(
+                            //         'paymentMethodLine',
+                            //         'name',
+                            //         fn($query) => $query->whereIn('type', ['bank', 'cash'])
+                            //     )
+                            //     ->searchable()
+                            //     ->preload()
+                            //     ->required(),
                             Forms\Components\TextInput::make('amount')
                                 ->prefix(fn($record) => $record->currency->symbol ?? '')
                                 ->formatStateUsing(fn($record) => number_format($record->moveLines->sum('price_total'), 2))
