@@ -304,6 +304,12 @@ class InvoiceResource extends Resource
                     ->label('Invoice Date')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\IconColumn::make('checked')
+                    ->boolean()
+                    ->placeholder('-')
+                    ->label('Checked')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('date')
                     ->date()
                     ->placeholder('-')

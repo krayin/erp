@@ -12,6 +12,10 @@ use Webkul\Account\Models\PaymentTerm;
 use Webkul\Invoice\Enums;
 use Webkul\Partner\Models\Partner;
 use Webkul\Support\Models\Currency;
+use Webkul\Invoice\Filament\Clusters\Customer\Resources\InvoiceResource\Actions\CancelAction;
+use Webkul\Invoice\Filament\Clusters\Customer\Resources\InvoiceResource\Actions\ResetToDraftAction;
+use Webkul\Invoice\Filament\Clusters\Customer\Resources\InvoiceResource\Actions\SetAsCheckedAction;
+use Webkul\Invoice\Filament\Clusters\Customer\Resources\InvoiceResource\Actions\ConfirmAction;
 
 class EditInvoice extends EditRecord
 {
@@ -21,7 +25,11 @@ class EditInvoice extends EditRecord
     {
         return [
             Actions\ViewAction::make(),
-            Actions\DeleteAction::make()
+            Actions\DeleteAction::make(),
+            ConfirmAction::make(),
+            CancelAction::make(),
+            ResetToDraftAction::make(),
+            SetAsCheckedAction::make(),
         ];
     }
 
